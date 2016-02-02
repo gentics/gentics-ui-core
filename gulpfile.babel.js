@@ -1,6 +1,12 @@
+"use strict";
+
 const gulp = require('gulp');
+const gutil = require('gulp-util');
+const path = require('path');
+const rename = require('gulp-rename');
 const source = require('vinyl-source-stream');
 const browserify = require('browserify');
+const watchify = require('watchify');
 const tsify = require('tsify');
 const sass = require('gulp-sass');
 
@@ -12,23 +18,7 @@ const paths = {
 };
 
 gulp.task('typescript', () => {
-    var config = {
-        debug: true
-    };
-    var tsConfig = {
-        "module": "commonjs",
-        "moduleResolution": "node",
-        "target": "es5",
-        "sourceMap": true,
-        "experimentalDecorators": true
-    };
-    var b = browserify(config)
-        .plugin(tsify, tsConfig)
-        .add('./src/demo/bootstrap.ts');
-
-    return b.bundle()
-        .pipe(source('app.js'))
-        .pipe(gulp.dest(paths.build));
+    compileAndBundleTypeScript();
 });
 
 gulp.task('index', () => {
@@ -37,8 +27,66 @@ gulp.task('index', () => {
 });
 
 gulp.task('scripts', () => {
+    const outPath = path.join(paths.build, 'js');
     gulp.src(vendorScripts)
-    .pipe(gulp.dest(paths.build))
+        .pipe(gulp.dest(outPath))
 });
 
-gulp.task('build:demo', ['typescript', 'scripts', 'index']);
+gulp.task('styles', function() {
+    const outPath = path.join(paths.build, 'css');
+    gulp.src('./styles/core.scss')
+        .pipe(sass())
+        .pipe(rename('app.css'))
+        .pipe(gulp.dest(outPath));
+});
+
+gulp.task('build:demo', ['typescript', 'scripts', 'index', 'styles']);
+
+gulp.task('watch', ['scripts', 'index', 'styles'], () => {
+    compileAndBundleTypeScript(false);
+    gulp.watch(['./styles/**/*.scss', './src/**/*.scss'], ['styles']);
+    gulp.watch(['./src/demo/index.html'], ['index']);
+});
+
+/**
+ * Compiles the TypeScript source and bundles it with Browserify.
+ * @param _runOnce {boolean} - When set to false, Watchify will be used to watch the TS source files.
+ */
+function compileAndBundleTypeScript(_runOnce) {
+    const runOnce = _runOnce === undefined ? true : _runOnce;
+    const tsConfig = {
+        "module": "commonjs",
+        "moduleResolution": "node",
+        "target": "es5",
+        "sourceMap": false,
+        "experimentalDecorators": true
+    };
+
+    let b = browserify({
+        cache: {},
+        packageCache: {},
+        debug: true
+    })
+        .plugin(tsify, tsConfig)
+        .add('./src/demo/bootstrap.ts');
+
+    if (!runOnce) {
+        b = watchify(b);
+        b.on('update', bundle);
+        b.on('log', gutil.log);
+    }
+
+    function bundle() {
+        return b.bundle()
+            // log errors if they happen
+            .on('error', gutil.log.bind(gutil, 'Browserify Error'))
+            .pipe(source('app.js'))
+            // optional, remove if you dont want sourcemaps
+            //.pipe(sourcemaps.init({loadMaps: true})) // loads map from browserify file
+            // Add transformation tasks to the pipeline here.
+            //.pipe(sourcemaps.write('./')) // writes .map file
+            .pipe(gulp.dest(path.join(paths.build, 'js')));
+    }
+
+    return bundle();
+}
