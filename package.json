@@ -1,0 +1,32 @@
+{
+  "name": "gentics-ui-core",
+  "version": "1.0.0",
+  "description": "Gentics UI Core Framework",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git@git.gentics.com:psc/gentics-ui-core.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "babel-core": "^6.4.5",
+    "browserify": "^13.0.0",
+    "gulp": "^3.9.0",
+    "gulp-sass": "^2.1.1",
+    "tsify": "^0.13.2",
+    "vinyl-source-stream": "^1.1.0"
+  },
+  "dependencies": {
+    "angular2": "^2.0.0-beta.2",
+    "es6-promise": "^3.0.2",
+    "es6-shim": "^0.33.13",
+    "materialize-css": "^0.97.5",
+    "reflect-metadata": "^0.1.2",
+    "rxjs": "^5.0.0-beta.0",
+    "zone.js": "^0.5.10"
+  }
+}
