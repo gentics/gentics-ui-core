@@ -2,6 +2,7 @@
 
 const gulp = require('gulp');
 const gutil = require('gulp-util');
+const concat = require('gulp-concat');
 const path = require('path');
 const rename = require('gulp-rename');
 const source = require('vinyl-source-stream');
@@ -11,7 +12,9 @@ const tsify = require('tsify');
 const sass = require('gulp-sass');
 
 const vendorScripts = [
-    'node_modules/angular2/bundles/angular2-polyfills.js'
+    'node_modules/angular2/bundles/angular2-polyfills.js',
+    'node_modules/jquery/dist/jquery.js',
+    'node_modules/materialize-css/bin/materialize.js'
 ];
 const paths = {
     build: 'demo'
@@ -26,9 +29,10 @@ gulp.task('index', () => {
         .pipe(gulp.dest(paths.build));
 });
 
-gulp.task('scripts', () => {
+gulp.task('vendor-scripts', () => {
     const outPath = path.join(paths.build, 'js');
     gulp.src(vendorScripts)
+        .pipe(concat('vendor.js'))
         .pipe(gulp.dest(outPath))
 });
 
@@ -40,9 +44,9 @@ gulp.task('styles', function() {
         .pipe(gulp.dest(outPath));
 });
 
-gulp.task('build:demo', ['typescript', 'scripts', 'index', 'styles']);
+gulp.task('build:demo', ['typescript', 'vendor-scripts', 'index', 'styles']);
 
-gulp.task('watch', ['scripts', 'index', 'styles'], () => {
+gulp.task('watch', ['vendor-scripts', 'index', 'styles'], () => {
     compileAndBundleTypeScript(false);
     gulp.watch(['./styles/**/*.scss', './src/**/*.scss'], ['styles']);
     gulp.watch(['./src/demo/index.html'], ['index']);
