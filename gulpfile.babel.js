@@ -9,14 +9,17 @@ import gulpFilter from 'gulp-filter';
 import gutil from 'gulp-util';
 import jscs from 'gulp-jscs';
 import jscsStylish from 'gulp-jscs-stylish';
+import livereload from 'gulp-livereload';
 import path from 'path';
 import rename from 'gulp-rename';
 import sass from 'gulp-sass';
 import source from 'vinyl-source-stream';
+import sourcemaps from 'gulp-sourcemaps';
 import tsify from 'tsify';
 import tslint from 'gulp-tslint';
 import tslintStylish from 'tslint-stylish';
 import watchify from 'watchify';
+import webserver from 'gulp-webserver';
 
 const paths = {
     src: {
@@ -91,6 +94,23 @@ gulp.task('lint', () => {
         tslintRunner,
         err => tslintRunner.then(() => Promise.reject(err))
     );
+});
+
+gulp.task('serve', ['build:demo'], () => {
+    gulp.start('watch');
+
+    // LiveReload on file change
+    livereload.listen({ quiet: true });
+    gulp.watch([paths.out.demo + '/**', '!**/*.map', '!**/*.d.ts'])
+        .on('change', file => livereload.changed(file.path));
+
+    // Serve files from build/demo
+    gulp.src(paths.out.demo, { base: '.' })
+        .pipe(webserver({
+            index: 'index.html',
+            open: true,
+            port: process.env.PORT || 8000
+        }));
 });
 
 gulp.task('static-files', () => {
