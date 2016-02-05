@@ -3,6 +3,7 @@
 import browserify from 'browserify';
 import buffer from 'vinyl-buffer';
 import concat from 'gulp-concat';
+import del from 'del';
 import gulp from 'gulp';
 import gulpFilter from 'gulp-filter';
 import gutil from 'gulp-util';
@@ -48,6 +49,13 @@ gulp.task('build:demo', [
     'styles',
     'static-files'
 ]);
+
+gulp.task('clean', () => {
+    return del([
+        paths.out.demo + '/**',
+        '!' + paths.out.demo
+    ]);
+});
 
 gulp.task('html', () => {
     return gulp.src(paths.src.html)
