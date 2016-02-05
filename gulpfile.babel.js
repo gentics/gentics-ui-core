@@ -1,8 +1,10 @@
 'use strict';
 
 import browserify from 'browserify';
+import buffer from 'vinyl-buffer';
 import concat from 'gulp-concat';
 import gulp from 'gulp';
+import gulpFilter from 'gulp-filter';
 import gutil from 'gulp-util';
 import path from 'path';
 import rename from 'gulp-rename';
@@ -11,86 +13,139 @@ import source from 'vinyl-source-stream';
 import tsify from 'tsify';
 import watchify from 'watchify';
 
-const vendorScripts = [
-    'node_modules/angular2/bundles/angular2-polyfills.js',
-    'node_modules/jquery/dist/jquery.js',
-    'node_modules/materialize-css/bin/materialize.js'
-];
 const paths = {
-    build: 'demo'
+    src: {
+        scss: ['src/**/*.scss', '!src/**/_*.scss'],
+        html: 'src/demo/index.html',
+        typescriptMain: 'src/demo/bootstrap.ts',
+        typescript: 'src/**/*.ts'
+    },
+    out: {
+        css: 'build/demo/css',
+        demo: 'build/demo',
+        fonts: 'build/demo/font/roboto',
+        html: 'build/demo',
+        js: 'build/demo/js'
+    },
+    vendorJS: [
+        'node_modules/angular2/bundles/angular2-polyfills.js',
+        'node_modules/jquery/dist/jquery.js',
+        'node_modules/materialize-css/bin/materialize.js'
+    ],
+    vendorStatics: [
+        'node_modules/materialize-css/font/roboto/Roboto-Regular.*'
+    ]
 };
 
-gulp.task('typescript', () => {
-    compileAndBundleTypeScript();
+gulp.task('build:demo', [
+    'typescript',
+    'vendor-scripts',
+    'html',
+    'styles',
+    'static-files'
+]);
+
+gulp.task('html', () => {
+    return gulp.src(paths.src.html)
+        .pipe(gulp.dest(paths.out.html));
 });
 
-gulp.task('index', () => {
-    return gulp.src('./src/demo/index.html')
-        .pipe(gulp.dest(paths.build));
+gulp.task('static-files', () => {
+    gulp.src(paths.vendorStatics)
+        .pipe(gulpFilter([
+            '*.eot',
+            '*.ttf',
+            '*.woff',
+            '*.woff2'
+        ]))
+        .pipe(gulp.dest(paths.out.fonts));
+});
+
+gulp.task('styles', () => {
+    return gulp.src(paths.src.scss, { base: '.' })
+        .pipe(sourcemaps.init())
+        .pipe(sass({ includePaths: ['node_modules'] }))
+        .pipe(rename('app.css'))
+        .pipe(sourcemaps.write('.', {
+            includeContent: true,
+            sourceRoot: relativeRoot(paths.out.css)
+        }))
+        .pipe(gulp.dest(paths.out.css));
+});
+
+gulp.task('typescript', () => {
+    return compileAndBundleTypeScript();
 });
 
 gulp.task('vendor-scripts', () => {
-    const outPath = path.join(paths.build, 'js');
-    gulp.src(vendorScripts)
+    return gulp.src(paths.vendorJS, { base: '.' })
+        .pipe(sourcemaps.init())
         .pipe(concat('vendor.js'))
-        .pipe(gulp.dest(outPath))
+        .pipe(sourcemaps.write('.', {
+            includeContent: true,
+            sourceRoot: relativeRoot(paths.out.js)
+        }))
+        .pipe(gulp.dest(paths.out.js));
 });
 
-gulp.task('styles', function() {
-    const outPath = path.join(paths.build, 'css');
-    gulp.src('./styles/core.scss')
-        .pipe(sass())
-        .pipe(rename('app.css'))
-        .pipe(gulp.dest(outPath));
-});
-
-gulp.task('build:demo', ['typescript', 'vendor-scripts', 'index', 'styles']);
-
-gulp.task('watch', ['vendor-scripts', 'index', 'styles'], () => {
-    compileAndBundleTypeScript(false);
-    gulp.watch(['./styles/**/*.scss', './src/**/*.scss'], ['styles']);
-    gulp.watch(['./src/demo/index.html'], ['index']);
+gulp.task('watch', ['vendor-scripts', 'html', 'styles'], () => {
+    compileAndBundleTypeScript(true);
+    gulp.watch(paths.src.scss, ['styles']);
+    gulp.watch(paths.src.html, ['html']);
+    gulp.watch(paths.src.vendorStatics, ['static-files']);
 });
 
 /**
  * Compiles the TypeScript source and bundles it with Browserify.
- * @param _runOnce {boolean} - When set to false, Watchify will be used to watch the TS source files.
+ * @param watch {boolean} - When true, recompile the TS source files on change.
  */
-function compileAndBundleTypeScript(_runOnce) {
-    const runOnce = _runOnce === undefined ? true : _runOnce;
+function compileAndBundleTypeScript(watch) {
     const tsConfig = {
-        "module": "commonjs",
-        "moduleResolution": "node",
-        "target": "es5",
-        "sourceMap": false,
-        "experimentalDecorators": true
+        module: 'commonjs',
+        moduleResolution: 'node',
+        target: 'es5',
+        sourceMap: true,
+        experimentalDecorators: true
     };
 
-    let b = browserify({
+    let bundler = browserify({
         cache: {},
         packageCache: {},
         debug: true
     })
         .plugin(tsify, tsConfig)
-        .add('./src/demo/bootstrap.ts');
+        .add(paths.src.typescriptMain);
 
-    if (!runOnce) {
-        b = watchify(b);
-        b.on('update', bundle);
-        b.on('log', gutil.log);
+    if (watch) {
+        bundler = watchify(bundler);
+        bundler.on('update', bundle);
+        bundler.on('log', gutil.log);
     }
 
     function bundle() {
-        return b.bundle()
-            // log errors if they happen
-            .on('error', gutil.log.bind(gutil, 'Browserify Error'))
+        return bundler.bundle()
+            .on('error', error => gutil.log(gutil, 'Browserify Error', error))
             .pipe(source('app.js'))
-            // optional, remove if you dont want sourcemaps
-            //.pipe(sourcemaps.init({loadMaps: true})) // loads map from browserify file
-            // Add transformation tasks to the pipeline here.
-            //.pipe(sourcemaps.write('./')) // writes .map file
-            .pipe(gulp.dest(path.join(paths.build, 'js')));
+            .pipe(buffer())
+            .pipe(sourcemaps.init({ loadMaps: true }))
+            .pipe(sourcemaps.write('.', {
+                includeContent: true,
+                sourceRoot: relativeRoot(paths.out.js)
+            }))
+            .pipe(gulp.dest(paths.out.js));
     }
 
     return bundle();
+}
+
+/**
+ * Helper function to get correct sourceRoot in sourcemaps on Windows with forward-slash
+ * @param filepath {string} - Path relative to the project root
+ * @returns {string} - Returns the path of the project root relative to filepath
+ * @example
+ *    relativeRoot("build/demo/app.js") // returns "../../.."
+ *    relativeRoot("src/components/example/example.js") // returns "../../../.."
+ */
+function relativeRoot(filepath) {
+    return path.relative(filepath, '.').replace(/\\/g, '/');
 }

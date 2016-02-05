@@ -31,3 +31,4 @@ node_modules
 
 .idea
 /demo
+/build/demo
