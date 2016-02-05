@@ -6,11 +6,15 @@ import concat from 'gulp-concat';
 import gulp from 'gulp';
 import gulpFilter from 'gulp-filter';
 import gutil from 'gulp-util';
+import jscs from 'gulp-jscs';
+import jscsStylish from 'gulp-jscs-stylish';
 import path from 'path';
 import rename from 'gulp-rename';
 import sass from 'gulp-sass';
 import source from 'vinyl-source-stream';
 import tsify from 'tsify';
+import tslint from 'gulp-tslint';
+import tslintStylish from 'tslint-stylish';
 import watchify from 'watchify';
 
 const paths = {
@@ -48,6 +52,37 @@ gulp.task('build:demo', [
 gulp.task('html', () => {
     return gulp.src(paths.src.html)
         .pipe(gulp.dest(paths.out.html));
+});
+
+gulp.task('lint', () => {
+    const tsPaths = paths.src.typescript;
+    const jsPaths = ['gulpfile.babel.js'];
+
+    const jscsRunner = new Promise((resolve, reject) => {
+        gulp.src(jsPaths, { base: '.' })
+            .pipe(jscs())
+            .pipe(jscsStylish())
+            .on('error', reject)
+            .on('end', resolve)
+            .pipe(jscs.reporter('fail'));
+    });
+
+    const tslintRunner = new Promise((resolve, reject) => {
+        gulp.src(tsPaths, { base: '.' })
+            .pipe(tslint())
+            .on('error', reject)
+            .on('end', resolve)
+            .pipe(tslint.report(tslintStylish, {
+                emitError: true,
+                summarizeFailureOutput: true
+            }));
+    });
+
+    // Run jscs and tslint in series, pass jscs error if tslint succeeds
+    return jscsRunner.then(
+        tslintRunner,
+        err => tslintRunner.then(() => Promise.reject(err))
+    );
 });
 
 gulp.task('static-files', () => {

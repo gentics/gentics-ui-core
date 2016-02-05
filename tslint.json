@@ -1,0 +1,99 @@
+{
+    "rulesDirectory": "node_modules/tslint-eslint-rules/dist/rules",
+    "rules": {
+        "ban": false,
+        "class-name": true,
+        "comment-format": [
+            true,
+            "check-space"
+        ],
+        "curly": true,
+        "eofline": true,
+        "indent": [
+            true,
+            "spaces"
+        ],
+        "interface-name": true,
+        "jsdoc-format": true,
+        "label-position": true,
+        "label-undefined": true,
+        "max-line-length": [
+            true,
+            140
+        ],
+        "member-ordering": [
+            true,
+            "public-before-private",
+            "static-before-instance",
+            "variables-before-functions"
+        ],
+        "no-any": false,
+        "no-arg": true,
+        "no-bitwise": true,
+        "no-console": false,
+        "no-construct": true,
+        "no-duplicate-case": true,
+        "no-duplicate-key": true,
+        "no-duplicate-variable": true,
+        "no-empty": true,
+        "no-empty-character-class": true,
+        "no-extra-boolean-cast": true,
+        "no-eval": true,
+        "no-extra-semi": true,
+        "no-internal-module": true,
+        "no-invalid-regexp": true,
+        "no-switch-case-fall-through": true,
+        "no-unreachable": true,
+        "no-use-before-declare": true,
+        "no-var-keyword": true,
+        "no-var-requires": true,
+        "one-line": [
+            true,
+            "check-catch",
+            "check-else",
+            "check-open-brace",
+            "check-whitespace"
+        ],
+        "quotemark": [
+            true,
+            "single"
+        ],
+        "semicolon": true,
+        "space-return-throw-case": true,
+        "trailing-comma": [
+            true,
+            {
+                "multiline": "never",
+                "singleline": "never"
+            }
+        ],
+        "triple-equals": [
+            false
+        ],
+        "typedef": [
+            true,
+            "call-signature",
+            "parameter",
+            "property-declaration",
+            "variable-declaration",
+            "member-variable-declaration"
+        ],
+        "use-isnan": true,
+        "valid-typeof": true,
+        "variable-name": [
+            true,
+            "check-format",
+            "ban-keywords"
+        ],
+        "whitespace": [
+            true,
+            "check-branch",
+            "check-decl",
+            "check-operator",
+            "check-module",
+            "check-separator",
+            "check-type",
+            "check-typecast"
+        ]
+    }
+}
