@@ -1,16 +1,32 @@
 {
   "name": "gentics-ui-core",
-  "version": "1.0.0",
+  "version": "0.0.1",
   "description": "Gentics UI Core Framework",
+  "private": true,
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "build": "gulp build:demo",
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "watch": "gulp watch"
   },
   "repository": {
     "type": "git",
     "url": "git@git.gentics.com:psc/gentics-ui-core.git"
   },
-  "author": "",
+  "bugs": {
+    "url": "http://git.office/psc/gentics-ui-core/issues"
+  },
+  "author": "Gentics PSC",
+  "contributors": [
+    {
+      "name": "Leon Adler",
+      "email": "l.adler@gentics.com"
+    },
+    {
+      "name": "Michael Bromley",
+      "email": "m.bromley@gentics.com"
+    }
+  ],
   "license": "ISC",
   "devDependencies": {
     "babel-core": "^6.4.5",
