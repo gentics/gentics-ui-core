@@ -1,15 +1,15 @@
-"use strict";
+'use strict';
 
-const gulp = require('gulp');
-const gutil = require('gulp-util');
-const concat = require('gulp-concat');
-const path = require('path');
-const rename = require('gulp-rename');
-const source = require('vinyl-source-stream');
-const browserify = require('browserify');
-const watchify = require('watchify');
-const tsify = require('tsify');
-const sass = require('gulp-sass');
+import browserify from 'browserify';
+import concat from 'gulp-concat';
+import gulp from 'gulp';
+import gutil from 'gulp-util';
+import path from 'path';
+import rename from 'gulp-rename';
+import sass from 'gulp-sass';
+import source from 'vinyl-source-stream';
+import tsify from 'tsify';
+import watchify from 'watchify';
 
 const vendorScripts = [
     'node_modules/angular2/bundles/angular2-polyfills.js',
