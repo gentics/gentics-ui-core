@@ -10,4 +10,4 @@ as well as a way to manually test each of the core components.
 
 1. `npm install`
 2. `gulp watch`
-3. Serve the contents of the `./demo` folder
+3. Serve the contents of the `build/demo` folder
