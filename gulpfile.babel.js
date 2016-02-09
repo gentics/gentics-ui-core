@@ -1,7 +1,5 @@
 'use strict';
 
-import browserify from 'browserify';
-import buffer from 'vinyl-buffer';
 import concat from 'gulp-concat';
 import del from 'del';
 import gulp from 'gulp';
@@ -13,12 +11,9 @@ import livereload from 'gulp-livereload';
 import path from 'path';
 import rename from 'gulp-rename';
 import sass from 'gulp-sass';
-import source from 'vinyl-source-stream';
 import sourcemaps from 'gulp-sourcemaps';
-import tsify from 'tsify';
 import tslint from 'gulp-tslint';
 import tslintStylish from 'tslint-stylish';
-import watchify from 'watchify';
 import webserver from 'gulp-webserver';
 import webpack from 'webpack';
 
@@ -27,7 +22,6 @@ const webpackConfig = require('./webpack.config.js');
 const paths = {
     src: {
         scss: ['src/**/*.scss', '!src/**/_*.scss'],
-        html: 'src/demo/index.html',
         typescriptMain: 'src/demo/bootstrap.ts',
         typescript: 'src/**/*.ts'
     },
@@ -35,7 +29,6 @@ const paths = {
         css: 'build/demo/css',
         demo: 'build/demo',
         fonts: 'build/demo/font/roboto',
-        html: 'build/demo',
         js: 'build/demo/js'
     },
     vendorJS: [
@@ -49,7 +42,7 @@ const paths = {
 };
 
 gulp.task('build:demo', [
-    'typescript',
+    'webpack:run',
     'styles',
     'static-files'
 ]);
@@ -92,7 +85,8 @@ gulp.task('lint', () => {
     );
 });
 
-gulp.task('serve', ['static-files'], () => {
+gulp.task('serve', ['clean'], () => {
+    gulp.start('static-files');
     gulp.start('watch');
 
     // LiveReload on file change
@@ -136,75 +130,50 @@ gulp.task('typescript', () => {
     return compileAndBundleTypeScript();
 });
 
-gulp.task('watch', ['styles', 'webpack:build-dev'], () => {
+gulp.task('watch', ['styles', 'webpack:watch'], () => {
     gulp.watch(paths.src.scss, ['styles']);
     gulp.watch(paths.src.vendorStatics, ['static-files']);
 });
 
-// modify some webpack config options
 let myDevConfig = Object.create(webpackConfig);
 myDevConfig.entry.common = paths.vendorJS.map(p => p.replace('node_modules/', ''));
 // create a single instance of the compiler to allow caching
 let devCompiler = webpack(myDevConfig);
 
-gulp.task('webpack:build-dev', function(callback) {
-    // run webpack
-    devCompiler.watch({}, function(err, stats) {
+/**
+ * Returns a function which will be invoked upon completion of Webpack build.
+ * @param callback - Gulp callback function to signify completion of the task.
+ * @returns {Function}
+ */
+function webpackOnCompleted (callback) {
+    let hasRun = false;
+    return (err, stats) => {
         if (err) {
             throw new gutil.PluginError('webpack:build-dev', err);
         }
-        gutil.log('[webpack:build-dev]', stats.toString({
-            colors: true
-        }));
-        let duration = stats.toJson({ timings: true }).time / 1000;
-        gutil.log(`Webpack bundle completed after ${duration} seconds`);
-    });
-    callback();
-});
+        if (stats.hasErrors) {
+            stats.toJson().errors.map(e => {
+                throw new gutil.PluginError('webpack:build-dev', e)
+            });
+        }
 
-/**
- * Compiles the TypeScript source and bundles it with Browserify.
- * @param watch {boolean} - When true, recompile the TS source files on change.
- */
-function compileAndBundleTypeScript(watch) {
-    const tsConfig = {
-        module: 'commonjs',
-        moduleResolution: 'node',
-        target: 'es5',
-        sourceMap: true,
-        experimentalDecorators: true
+        let duration = stats.toJson({timings: true}).time / 1000;
+        gutil.log(`[webpack:build-dev] Webpack bundle completed after ${duration} seconds`);
+
+        if (!hasRun) {
+            callback();
+            hasRun = true;
+        }
     };
-
-    let bundler = browserify({
-        cache: {},
-        packageCache: {},
-        debug: true
-    })
-        .plugin(tsify, tsConfig)
-        .add(paths.src.typescriptMain);
-
-    if (watch) {
-        bundler = watchify(bundler);
-        bundler.on('update', bundle);
-        bundler.on('log', gutil.log);
-    }
-
-    function bundle() {
-        return bundler.bundle()
-            .on('error', error => gutil.log(gutil, 'Browserify Error', error))
-            .pipe(source('app.js'))
-            .pipe(buffer())
-            .pipe(sourcemaps.init({ loadMaps: true }))
-            .pipe(sourcemaps.write('.', {
-                includeContent: true,
-                sourceRoot: relativeRoot(paths.out.js)
-            }))
-            .pipe(gulp.dest(paths.out.js));
-    }
-
-    return bundle();
 }
 
+gulp.task('webpack:watch', callback => {
+    devCompiler.watch({}, webpackOnCompleted(callback));
+});
+
+gulp.task('webpack:run', callback => {
+    devCompiler.run(webpackOnCompleted(callback));
+});
 /**
  * Helper function to get correct sourceRoot in sourcemaps on Windows with forward-slash
  * @param filepath {string} - Path relative to the project root

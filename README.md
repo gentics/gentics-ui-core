@@ -9,5 +9,6 @@ under `./src/demo` which will serve as a ["living style guide"](https://uxmag.co
 as well as a way to manually test each of the core components.
 
 1. `npm install`
-2. `gulp watch`
-3. Serve the contents of the `build/demo` folder
+2. `typings install`
+3. `gulp watch`
+4. Serve the contents of the `build/demo` folder

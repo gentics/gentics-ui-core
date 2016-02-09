@@ -14,11 +14,14 @@
 
 - node >= 4.0
 - gulp: `npm install -g gulp`
+- typings: `npm install -g typings`
 
 ## Dependencies
 
 - Install the current dependencies with `npm install`
+- Install the current TypeScript definitions with `typings install`
 - Add new dependencies with `--save` or `--save-dev`
+- Add new TypeScript definitions with `--save`
 - Use reasonable [semver](http://semver.org/) version dependencies
   in package.json like `^0.8.1`, `~1.4.2`, *never* `"*"`
 
