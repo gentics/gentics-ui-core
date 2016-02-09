@@ -20,6 +20,9 @@ import tslint from 'gulp-tslint';
 import tslintStylish from 'tslint-stylish';
 import watchify from 'watchify';
 import webserver from 'gulp-webserver';
+import webpack from 'webpack';
+
+const webpackConfig = require('./webpack.config.js');
 
 const paths = {
     src: {
@@ -47,8 +50,6 @@ const paths = {
 
 gulp.task('build:demo', [
     'typescript',
-    'vendor-scripts',
-    'html',
     'styles',
     'static-files'
 ]);
@@ -58,11 +59,6 @@ gulp.task('clean', () => {
         paths.out.demo + '/**',
         '!' + paths.out.demo
     ]);
-});
-
-gulp.task('html', () => {
-    return gulp.src(paths.src.html)
-        .pipe(gulp.dest(paths.out.html));
 });
 
 gulp.task('lint', () => {
@@ -96,7 +92,7 @@ gulp.task('lint', () => {
     );
 });
 
-gulp.task('serve', ['build:demo'], () => {
+gulp.task('serve', ['static-files'], () => {
     gulp.start('watch');
 
     // LiveReload on file change
@@ -105,7 +101,7 @@ gulp.task('serve', ['build:demo'], () => {
         .on('change', file => livereload.changed(file.path));
 
     // Serve files from build/demo
-    gulp.src(paths.out.demo, { base: '.' })
+    return gulp.src(paths.out.demo, { base: '.' })
         .pipe(webserver({
             index: 'index.html',
             open: true,
@@ -140,22 +136,30 @@ gulp.task('typescript', () => {
     return compileAndBundleTypeScript();
 });
 
-gulp.task('vendor-scripts', () => {
-    return gulp.src(paths.vendorJS, { base: '.' })
-        .pipe(sourcemaps.init())
-        .pipe(concat('vendor.js'))
-        .pipe(sourcemaps.write('.', {
-            includeContent: true,
-            sourceRoot: relativeRoot(paths.out.js)
-        }))
-        .pipe(gulp.dest(paths.out.js));
+gulp.task('watch', ['styles', 'webpack:build-dev'], () => {
+    gulp.watch(paths.src.scss, ['styles']);
+    gulp.watch(paths.src.vendorStatics, ['static-files']);
 });
 
-gulp.task('watch', ['vendor-scripts', 'html', 'styles'], () => {
-    compileAndBundleTypeScript(true);
-    gulp.watch(paths.src.scss, ['styles']);
-    gulp.watch(paths.src.html, ['html']);
-    gulp.watch(paths.src.vendorStatics, ['static-files']);
+// modify some webpack config options
+let myDevConfig = Object.create(webpackConfig);
+myDevConfig.entry.common = paths.vendorJS.map(p => p.replace('node_modules/', ''));
+// create a single instance of the compiler to allow caching
+let devCompiler = webpack(myDevConfig);
+
+gulp.task('webpack:build-dev', function(callback) {
+    // run webpack
+    devCompiler.watch({}, function(err, stats) {
+        if (err) {
+            throw new gutil.PluginError('webpack:build-dev', err);
+        }
+        gutil.log('[webpack:build-dev]', stats.toString({
+            colors: true
+        }));
+        let duration = stats.toJson({ timings: true }).time / 1000;
+        gutil.log(`Webpack bundle completed after ${duration} seconds`);
+    });
+    callback();
 });
 
 /**
