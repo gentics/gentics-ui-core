@@ -1,14 +1,15 @@
 import {Component} from 'angular2/core';
-import {InputField} from '../components/input/input.component';
+import {SearchBar} from '../components/search-bar/search-bar.component';
 
 @Component({
     selector: 'app',
-    template: `
-    <h1>Gentics UI Core Demo</h1>
-    <gtx-input-field placeholder="test input" type="number" label="An Input Label"></gtx-input-field>
-    `,
-    directives: [InputField]
+    template: require('./app.tpl.html'),
+    directives: [SearchBar]
 })
 export class App {
+
+    onSearch(query : string) : void {
+        console.log('searching for', query);
+    }
 
 }
