@@ -72,6 +72,7 @@ gulp.task('serve', ['clean'], () => {
     // LiveReload on file change
     livereload.listen({ quiet: true });
     gulp.watch([paths.out.demo + '/**', '!**/*.map', '!**/*.d.ts'])
+        .on('change', console.log.bind(console))
         .on('change', file => livereload.changed(file.path));
 
     // Serve files from build/demo
@@ -95,10 +96,10 @@ gulp.task('static-files', () => {
 });
 
 gulp.task('styles', () => {
-    return gulp.src(paths.src.scss, { base: '.' })
+    return gulp.src(paths.src.scssMain, { base: '.' })
         .pipe(sourcemaps.init())
         .pipe(sass({ includePaths: ['node_modules'] }))
-        .pipe(rename('app.css'))
+        .pipe(concat('app.css'))
         .pipe(sourcemaps.write('.', {
             includeContent: true,
             sourceRoot: relativeRoot(paths.out.css)

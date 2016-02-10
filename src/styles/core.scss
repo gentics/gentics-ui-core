@@ -1,1 +1,6 @@
-@import "materialize-css/sass/materialize";
+$icons-font-path: '../font/';
+$roboto-font-path: '../font/';
+@import "../../node_modules/materialize-css/sass/materialize";
+@import "icons";
+@import "colors";
+@import "../components/search-bar/search-bar";
