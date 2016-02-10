@@ -16,30 +16,10 @@ import tslint from 'gulp-tslint';
 import tslintStylish from 'tslint-stylish';
 import webserver from 'gulp-webserver';
 import webpack from 'webpack';
+import karma from 'karma';
 
 const webpackConfig = require('./webpack.config.js');
-
-const paths = {
-    src: {
-        scss: ['src/**/*.scss', '!src/**/_*.scss'],
-        typescriptMain: 'src/demo/bootstrap.ts',
-        typescript: 'src/**/*.ts'
-    },
-    out: {
-        css: 'build/demo/css',
-        demo: 'build/demo',
-        fonts: 'build/demo/font/roboto',
-        js: 'build/demo/js'
-    },
-    vendorJS: [
-        'node_modules/angular2/bundles/angular2-polyfills.js',
-        'node_modules/jquery/dist/jquery.js',
-        'node_modules/materialize-css/bin/materialize.js'
-    ],
-    vendorStatics: [
-        'node_modules/materialize-css/font/roboto/Roboto-Regular.*'
-    ]
-};
+import {paths} from './build.config';
 
 gulp.task('build:demo', [
     'webpack:run',
@@ -126,38 +106,51 @@ gulp.task('styles', () => {
         .pipe(gulp.dest(paths.out.css));
 });
 
-gulp.task('typescript', () => {
-    return compileAndBundleTypeScript();
-});
-
 gulp.task('watch', ['styles', 'webpack:watch'], () => {
     gulp.watch(paths.src.scss, ['styles']);
     gulp.watch(paths.src.vendorStatics, ['static-files']);
 });
 
-let myDevConfig = Object.create(webpackConfig);
-myDevConfig.entry.common = paths.vendorJS.map(p => p.replace('node_modules/', ''));
+gulp.task('test:run', callback => {
+    const server = new karma.Server({
+            configFile: __dirname + '/karma.conf.js',
+            singleRun: true
+        }, () => callback());
+
+    server.start();
+});
+
+gulp.task('test:watch', callback => {
+    const server = new karma.Server({
+        configFile: __dirname + '/karma.conf.js',
+        singleRun: false
+    }, () => callback());
+
+    server.start();
+});
+
 // create a single instance of the compiler to allow caching
-let devCompiler = webpack(myDevConfig);
+let devCompiler = webpack(webpackConfig);
 
 /**
  * Returns a function which will be invoked upon completion of Webpack build.
  * @param callback - Gulp callback function to signify completion of the task.
  * @returns {Function}
  */
-function webpackOnCompleted (callback) {
+function webpackOnCompleted(callback) {
     let hasRun = false;
     return (err, stats) => {
         if (err) {
             throw new gutil.PluginError('webpack:build-dev', err);
         }
+
         if (stats.hasErrors) {
             stats.toJson().errors.map(e => {
-                throw new gutil.PluginError('webpack:build-dev', e)
+                throw new gutil.PluginError('webpack:build-dev', e);
             });
         }
 
-        let duration = stats.toJson({timings: true}).time / 1000;
+        let duration = stats.toJson({ timings: true }).time / 1000;
         gutil.log(`[webpack:build-dev] Webpack bundle completed after ${duration} seconds`);
 
         if (!hasRun) {
@@ -174,6 +167,7 @@ gulp.task('webpack:watch', callback => {
 gulp.task('webpack:run', callback => {
     devCompiler.run(webpackOnCompleted(callback));
 });
+
 /**
  * Helper function to get correct sourceRoot in sourcemaps on Windows with forward-slash
  * @param filepath {string} - Path relative to the project root

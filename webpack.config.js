@@ -1,15 +1,17 @@
 'use strict';
 
-var webpack = require('webpack'),
-    HtmlWebpackPlugin = require('html-webpack-plugin'),
-    path = require('path'),
-    srcPath = path.join(__dirname, 'src', 'demo');
+const webpack = require('webpack');
+const HtmlWebpackPlugin = require('html-webpack-plugin');
+const path = require('path');
+const srcPath = path.join(__dirname, 'src', 'demo');
+const paths = require('./build.config.js').paths;
 
 module.exports = {
     target: 'web',
     cache: true,
     entry: {
-        app: path.join(srcPath, 'bootstrap.ts')
+        app: path.join(srcPath, 'bootstrap.ts'),
+        common: paths.vendorJS.map(p => p.replace('node_modules/', ''))
     },
     resolve: {
         root: srcPath,
@@ -29,7 +31,8 @@ module.exports = {
                 test: /\.ts$/,
                 loader: 'ts',
                 query: {
-                    'ignoreDiagnostics': [
+                    ignoreDiagnostics: [
+
                         // There are several TS compiler errors that seem to be related to the way Angular2 incorporates
                         // its own ambient type definition files. The following list squashes those errors, but should be
                         // reviewed and eventually removed. See https://github.com/angular/angular/issues/5807
@@ -46,9 +49,9 @@ module.exports = {
                     noEmitOnError: false
                 }
             },
-            {test: /\.css$/, loader: "style!raw!autoprefixer" },
-            {test: /\.scss$/, loader: "style!raw!autoprefixer!sass"},
-            {test: /\.html/, loader: "html"}
+            { test: /\.css$/, loader: 'style!raw!autoprefixer' },
+            { test: /\.scss$/, loader: 'style!raw!autoprefixer!sass' },
+            { test: /\.html/, loader: 'html' }
         ]
     },
     plugins: [
