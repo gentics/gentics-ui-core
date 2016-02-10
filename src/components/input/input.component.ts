@@ -6,9 +6,10 @@ import {Component, Input} from 'angular2/core';
 })
 export class InputField {
 
-    @Input() label: string = '';
-    @Input() placeholder: string = '';
-    @Input() id: string = '';
-    @Input() type: string = 'text';
-    @Input() value: string = '';
+    @Input() label : string = '';
+    @Input() placeholder : string = '';
+    @Input() id : string = '';
+    @Input() type : string = 'text';
+    @Input() value : string = '';
+
 }
