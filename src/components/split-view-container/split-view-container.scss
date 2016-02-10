@@ -1,0 +1,39 @@
+gtx-split-view-container {
+    display: block;
+    box-sizing: border-box;
+    overflow-x: hidden;
+
+    > .slideable {
+        width: 190%;
+        transition: transform 300ms;
+
+        > * {
+            width: 45%;
+            display: inline-block;
+            border: 10px solid red;
+        }
+
+        > :last-child {
+            opacity: 0;
+            transition: opacity 300ms;
+        }
+
+        &.hasContent {
+            > * {
+                // TODO width: 45%;
+            }
+
+            > :last-child {
+                opacity: 0.75;
+            }
+
+            &.contentFocused {
+                transform: translateX(-35%);
+
+                :last-child {
+                    opacity: 1;
+                }
+            }
+        }
+    }
+}

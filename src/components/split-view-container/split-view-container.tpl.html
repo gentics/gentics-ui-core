@@ -1,0 +1,8 @@
+<p>Hi my name is split view</p>
+<div>
+    <button (click)="toggleHasContent()">Has content: {{ hasContent }}</button>
+    <button (click)="toggleFocused()">Content focused: {{ contentFocused }}</button>
+</div>
+<div class="slideable" [class.hasContent]="hasContent" [class.contentFocused]="contentFocused">
+    <ng-content></ng-content>
+</div>

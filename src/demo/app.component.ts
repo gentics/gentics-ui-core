@@ -1,10 +1,10 @@
 import {Component} from 'angular2/core';
-import {SearchBar} from '../components/search-bar/search-bar.component';
+import {SearchBar, ListPane, ContentPane, SplitViewContainer} from '../index';
 
 @Component({
     selector: 'app',
     template: require('./app.tpl.html'),
-    directives: [SearchBar]
+    directives: [SearchBar, ListPane, ContentPane, SplitViewContainer]
 })
 export class App {
 
