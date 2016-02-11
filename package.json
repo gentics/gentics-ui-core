@@ -7,6 +7,7 @@
   "scripts": {
     "build": "gulp build:demo",
     "clean": "gulp clean",
+    "install": "typings install --no-insight",
     "lint": "gulp lint",
     "serve": "gulp serve",
     "test": "echo \"Error: no test specified\" && exit 1",
@@ -64,6 +65,8 @@
     "ts-loader": "^0.8.0",
     "tslint-eslint-rules": "^1.0.1",
     "tslint-stylish": "^2.1.0-beta",
+    "typescript": ">=1.7.5 <1.8.0",
+    "typings": "^0.6.8",
     "webpack": "^1.12.13"
   },
   "dependencies": {
