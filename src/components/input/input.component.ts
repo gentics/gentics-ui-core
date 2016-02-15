@@ -1,7 +1,7 @@
 import {Component, Input} from 'angular2/core';
 
 @Component({
-    selector: 'gtx-input-field',
+    selector: 'gtx-input',
     template: require('./input.tpl.html')
 })
 export class InputField {
