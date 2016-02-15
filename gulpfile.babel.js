@@ -3,11 +3,13 @@
 import concat from 'gulp-concat';
 import del from 'del';
 import gulp from 'gulp';
-import gulpFilter from 'gulp-filter';
+import filter from 'gulp-filter';
 import gutil from 'gulp-util';
 import jscs from 'gulp-jscs';
 import jscsStylish from 'gulp-jscs-stylish';
+import jsonlint from 'gulp-jsonlint';
 import livereload from 'gulp-livereload';
+import merge from 'merge-stream';
 import path from 'path';
 import rename from 'gulp-rename';
 import sass from 'gulp-sass';
@@ -34,35 +36,27 @@ gulp.task('clean', () => {
     ]);
 });
 
-gulp.task('lint', () => {
-    const tsPaths = paths.src.typescript;
-    const jsPaths = ['gulpfile.babel.js'];
-
-    const jscsRunner = new Promise((resolve, reject) => {
-        gulp.src(jsPaths, { base: '.' })
+gulp.task('lint', (done) => {
+    const files = gulp.src(paths.src.lint, { base: '.' });
+    const linters = merge(
+        files.pipe(filter('**/*.js'))
             .pipe(jscs())
             .pipe(jscsStylish())
-            .on('error', reject)
-            .on('end', resolve)
-            .pipe(jscs.reporter('fail'));
-    });
-
-    const tslintRunner = new Promise((resolve, reject) => {
-        gulp.src(tsPaths, { base: '.' })
+            .pipe(jscs.reporter('fail')),
+        files.pipe(filter('**/*.json'))
+            .pipe(jsonlint())
+            .pipe(jsonlint.reporter()),
+        files.pipe(filter('**/*.ts'))
             .pipe(tslint())
-            .on('error', reject)
-            .on('end', resolve)
             .pipe(tslint.report(tslintStylish, {
                 emitError: true,
                 summarizeFailureOutput: true
-            }));
-    });
-
-    // Run jscs and tslint in series, pass jscs error if tslint succeeds
-    return jscsRunner.then(
-        tslintRunner,
-        err => tslintRunner.then(() => Promise.reject(err))
+            }))
     );
+
+    let errors = [];
+    linters.on('error', error => errors.push(error))
+        .on('end', () => done(errors.length ? errors : null));
 });
 
 gulp.task('serve', ['clean'], () => {
@@ -86,7 +80,7 @@ gulp.task('serve', ['clean'], () => {
 
 gulp.task('static-files', () => {
     gulp.src(paths.vendorStatics)
-        .pipe(gulpFilter([
+        .pipe(filter([
             '*.eot',
             '*.ttf',
             '*.woff',
