@@ -9,7 +9,8 @@ const paths = {
         scssMain: 'src/styles/core.scss',
         typescript: ['src/**/*.ts', '!**/*.spec.ts'],
         typescriptMain: 'src/demo/bootstrap.ts',
-        tests: 'src/**/*.spec.ts'
+        tests: 'src/**/*.spec.ts',
+        fonts: 'src/assets/fonts/**.*'
     },
     out: {
         css: 'build/demo/css',
@@ -23,8 +24,7 @@ const paths = {
         'materialize-css/bin/materialize.js'
     ],
     vendorStatics: [
-        'node_modules/materialize-css/font/roboto/Roboto-Regular.*',
-        'node_modules/materialize-css/font/material-design-icons/*'
+        'node_modules/materialize-css/font/roboto/Roboto-Regular.*'
     ]
 };
 

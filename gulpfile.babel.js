@@ -82,7 +82,7 @@ gulp.task('serve', ['clean'], () => {
 });
 
 gulp.task('static-files', () => {
-    gulp.src(paths.vendorStatics)
+    gulp.src(paths.vendorStatics.concat(paths.src.fonts))
         .pipe(filter([
             '*.eot',
             '*.ttf',
