@@ -61,6 +61,7 @@ gulp.task('lint', (done) => {
         .on('end', () => done(errors.length ? errors : null));
 });
 
+// Use "gulp serve --open" to open the default browser
 gulp.task('serve', ['clean'], () => {
     gulp.start('static-files');
     gulp.start('watch');
@@ -75,7 +76,7 @@ gulp.task('serve', ['clean'], () => {
     return gulp.src(paths.out.demo, { base: '.' })
         .pipe(webserver({
             index: 'index.html',
-            open: true,
+            open: process.argv.indexOf('--open') >= 0,
             port: process.env.PORT || 8000
         }));
 });
