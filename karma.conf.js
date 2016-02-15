@@ -18,7 +18,7 @@ module.exports = function (config) {
         // list of files / patterns to load in the browser
         files: [
             ...paths.vendorJS.map(addModulePath),
-            paths.src.tests,
+            './testing-bootstrap.js',
             { pattern: paths.src.typescript[0], watched: true, served: false, included: false }
         ],
 
@@ -29,7 +29,7 @@ module.exports = function (config) {
         // preprocess matching files before serving them to the browser
         // available preprocessors: https://npmjs.org/browse/keyword/karma-preprocessor
         preprocessors: {
-            [paths.src.tests]: ['webpack']
+            'testing-bootstrap.js': ['webpack']
         },
 
         webpack: {
