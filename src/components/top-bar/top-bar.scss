@@ -1,0 +1,24 @@
+gtx-top-bar {
+    display: block;
+
+    > .gtx-top-bar__content {
+        @extend .container;
+        display: flex;
+        align-items: center;
+        justify-content: flex-start;
+
+        > * {
+            display: inline-block;
+        }
+    }
+
+    .gtx-top-bar__content--right {
+        flex: 1 1 auto;
+        display: flex;
+        align-items: center;
+        justify-content: flex-end;
+        > * {
+            display: inline-block;
+        }
+    }
+}

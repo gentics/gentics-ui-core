@@ -1,7 +1,11 @@
-<div class="container">
-    <h1>Gentics UI Core Demo</h1>
+<gtx-top-bar class="top-bar">
+    <i class="material-icons">menu</i>
+    <h5>Gentics UI Core Demo</h5>
+    <i class="material-icons gtx-top-bar-right">person</i>
+</gtx-top-bar>
 
-    <gtx-search-bar (search)="onSearch($event)" query="foo"></gtx-search-bar>
+<div class="container">
+    <gtx-search-bar (search)="onSearch($event)" query=""></gtx-search-bar>
     <gtx-split-view-container>
         <gtx-list-pane>
             <p>List here</p>
