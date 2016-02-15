@@ -1,7 +1,9 @@
 // Karma configuration
 // Generated on Thu Dec 03 2015 13:23:31 GMT+0100 (W. Europe Standard Time)
-
+const path = require('path');
 const paths = require('./build.config.js').paths;
+
+const addModulePath = s => path.join('node_modules', s);
 
 module.exports = function (config) {
     config.set({
@@ -15,9 +17,9 @@ module.exports = function (config) {
 
         // list of files / patterns to load in the browser
         files: [
-            ...paths.vendorJS,
+            ...paths.vendorJS.map(addModulePath),
             paths.src.tests,
-            { pattern: paths.src.typescript, watched: true, served: false, included: false }
+            { pattern: paths.src.typescript[0], watched: true, served: false, included: false }
         ],
 
         // list of files to exclude
@@ -37,7 +39,7 @@ module.exports = function (config) {
 
             // webpack configuration
             resolve: {
-                root: './src/demo/app',
+                root: './src',
                 extensions: ['', '.js', '.ts'],
                 modulesDirectories: ['node_modules', 'src']
             },
