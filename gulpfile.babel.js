@@ -156,17 +156,17 @@ function webpackOnCompleted(callback) {
     let hasRun = false;
     return (err, stats) => {
         if (err) {
-            throw new gutil.PluginError('webpack:build-dev', err);
+            throw new gutil.PluginError('[webpack]', err);
         }
 
         if (stats.hasErrors) {
             stats.toJson().errors.map(e => {
-                throw new gutil.PluginError('webpack:build-dev', e);
+                gutil.log(gutil.colors.red(e));
             });
         }
 
         let duration = stats.toJson({ timings: true }).time / 1000;
-        gutil.log(`[webpack:build-dev] Webpack bundle completed after ${duration} seconds`);
+        gutil.log('[webpack] bundle completed after', gutil.colors.magenta(`${duration} seconds`));
 
         if (!hasRun) {
             callback();
