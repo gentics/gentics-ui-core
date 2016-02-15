@@ -10,8 +10,8 @@ module.exports = {
     target: 'web',
     cache: true,
     entry: {
-        app: path.join(srcPath, 'bootstrap.ts'),
-        common: paths.vendorJS.map(p => p.replace('node_modules/', ''))
+        app: paths.typescriptMain,
+        common: paths.vendorJS
     },
     resolve: {
         root: srcPath,

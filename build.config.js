@@ -7,7 +7,7 @@ const paths = {
         lint: ['./*.js', 'src/**/*.js', './*.json', 'src/**/*.json', 'src/**/*.ts', 'src/**/*.spec.ts'],
         scss: ['src/**/*.scss', '!src/**/_*.scss'],
         scssMain: 'src/styles/core.scss',
-        typescript: 'src/**/!(*.spec).ts',
+        typescript: ['src/**/*.ts', '!**/*.spec.ts'],
         typescriptMain: 'src/demo/bootstrap.ts',
         tests: 'src/**/*.spec.ts'
     },
@@ -18,9 +18,9 @@ const paths = {
         js: 'build/demo/js'
     },
     vendorJS: [
-        'node_modules/angular2/bundles/angular2-polyfills.js',
-        'node_modules/jquery/dist/jquery.js',
-        'node_modules/materialize-css/bin/materialize.js'
+        'angular2/bundles/angular2-polyfills.js',
+        'jquery/dist/jquery.js',
+        'materialize-css/bin/materialize.js'
     ],
     vendorStatics: [
         'node_modules/materialize-css/font/roboto/Roboto-Regular.*',

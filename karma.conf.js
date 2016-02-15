@@ -37,13 +37,14 @@ module.exports = function (config) {
 
             // webpack configuration
             resolve: {
-                root: './src/app',
+                root: './src/demo/app',
                 extensions: ['', '.js', '.ts'],
                 modulesDirectories: ['node_modules', 'src']
             },
             module: {
                 loaders: [
-                    { test: /\.ts$/, loader: 'ts?transpileOnly=true' }
+                    { test: /\.ts$/, loader: 'ts?transpileOnly=true' },
+                    { test: /\.html/, loader: 'html' }
                 ]
             }
         },
@@ -58,7 +59,8 @@ module.exports = function (config) {
             require('karma-webpack'),
             'karma-jasmine',
             'karma-phantomjs-launcher',
-            'karma-chrome-launcher'
+            'karma-chrome-launcher',
+            'karma-firefox-launcher'
         ],
 
         // test results reporter to use

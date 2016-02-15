@@ -9,5 +9,8 @@
     "isolatedModules": true,
     "noEmit": true
   },
-  "exclude": ["node_modules"]
+  "exclude": [
+      "dist",
+      "node_modules"
+  ]
 }

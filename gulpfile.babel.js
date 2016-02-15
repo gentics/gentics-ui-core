@@ -9,6 +9,7 @@ import gutil from 'gulp-util';
 import jscs from 'gulp-jscs';
 import jscsStylish from 'gulp-jscs-stylish';
 import jsonlint from 'gulp-jsonlint';
+import karma from 'karma';
 import livereload from 'gulp-livereload';
 import merge from 'merge-stream';
 import path from 'path';
@@ -19,7 +20,6 @@ import tslint from 'gulp-tslint';
 import tslintStylish from 'tslint-stylish';
 import webserver from 'gulp-webserver';
 import webpack from 'webpack';
-import karma from 'karma';
 
 const webpackConfig = require('./webpack.config.js');
 const buildConfig = require('./build.config').config;
@@ -110,23 +110,39 @@ gulp.task('watch', ['styles', 'static-files', 'webpack:watch'], () => {
     gulp.watch(paths.src.vendorStatics, ['static-files']);
 });
 
-gulp.task('test:run', callback => {
-    const server = new karma.Server({
-            configFile: __dirname + '/karma.conf.js',
-            singleRun: true
-        }, () => callback());
+gulp.task('test:run', callback => runKarmaServer(false, callback));
 
-    server.start();
-});
+gulp.task('test:watch', callback => runKarmaServer(true, callback));
 
-gulp.task('test:watch', callback => {
+// Pass a command line argument to gulp to change browsers
+// e.g. gulp test:watch --browsers=Chrome,Firefox,PhantomJS
+function runKarmaServer(watch, callback) {
+    let testBrowsers = ['Chrome'];
+    process.argv.forEach(arg => {
+        if (arg.length > 13 && arg.substr(0, 11) == '--browsers=') {
+            testBrowsers = arg.substr(11).split(',');
+        }
+    });
+
     const server = new karma.Server({
         configFile: __dirname + '/karma.conf.js',
-        singleRun: false
-    }, () => callback());
-
+        singleRun: !watch,
+        browsers: testBrowsers
+    }, callback);
     server.start();
-});
+}
+
+// Pass a command line argument to gulp to change browsers
+// e.g. gulp test:watch --browsers=Chrome,Firefox,PhantomJS
+function browsersToTestWith() {
+    for (let arg of process.argv) {
+        if (arg.length > 13 && arg.substr(0, 11) == '--browsers=') {
+            return arg.substr(11).split(',');
+        }
+    }
+
+    return ['Chrome'];
+}
 
 // create a single instance of the compiler to allow caching
 let devCompiler = webpack(webpackConfig);
