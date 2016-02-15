@@ -95,7 +95,10 @@ gulp.task('static-files', () => {
 gulp.task('styles', () => {
     return gulp.src(paths.src.scssMain, { base: '.' })
         .pipe(sourcemaps.init())
-        .pipe(sass())
+        .pipe(sass({
+            errLogToConsole: true,
+            outputStyle: 'expanded'
+        }).on('error', sass.logError))
         .pipe(autoprefixer(buildConfig.autoprefixer))
         .pipe(concat('app.css'))
         .pipe(sourcemaps.write('.', {
