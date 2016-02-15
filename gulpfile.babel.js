@@ -1,5 +1,6 @@
 'use strict';
 
+import autoprefixer from 'gulp-autoprefixer';
 import concat from 'gulp-concat';
 import del from 'del';
 import gulp from 'gulp';
@@ -21,7 +22,8 @@ import webpack from 'webpack';
 import karma from 'karma';
 
 const webpackConfig = require('./webpack.config.js');
-import {paths} from './build.config';
+const buildConfig = require('./build.config').config;
+const paths = require('./build.config').paths;
 
 gulp.task('build:demo', [
     'webpack:run',
@@ -92,7 +94,8 @@ gulp.task('static-files', () => {
 gulp.task('styles', () => {
     return gulp.src(paths.src.scssMain, { base: '.' })
         .pipe(sourcemaps.init())
-        .pipe(sass({ includePaths: ['node_modules'] }))
+        .pipe(sass())
+        .pipe(autoprefixer(buildConfig.autoprefixer))
         .pipe(concat('app.css'))
         .pipe(sourcemaps.write('.', {
             includeContent: true,
@@ -101,7 +104,7 @@ gulp.task('styles', () => {
         .pipe(gulp.dest(paths.out.css));
 });
 
-gulp.task('watch', ['styles', 'webpack:watch'], () => {
+gulp.task('watch', ['styles', 'static-files', 'webpack:watch'], () => {
     gulp.watch(paths.src.scss, ['styles']);
     gulp.watch(paths.src.vendorStatics, ['static-files']);
 });

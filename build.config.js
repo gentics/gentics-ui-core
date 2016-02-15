@@ -14,7 +14,7 @@ const paths = {
     out: {
         css: 'build/demo/css',
         demo: 'build/demo',
-        fonts: 'build/demo/font/roboto',
+        fonts: 'build/demo/font',
         js: 'build/demo/js'
     },
     vendorJS: [
@@ -24,10 +24,24 @@ const paths = {
     ],
     vendorStatics: [
         'node_modules/materialize-css/font/roboto/Roboto-Regular.*',
-        'node_modules/materialize-css/font/material-design-icons/.*'
+        'node_modules/materialize-css/font/material-design-icons/*'
     ]
 };
 
+const config = {
+    autoprefixer: {
+        browsers: [
+            'last 2 Chrome versions',
+            'last 2 Edge versions',
+            'Firefox ESR',
+            'IE 11',
+            '> 3%'
+        ],
+        cascade: false
+    }
+};
+
 module.exports = {
-    paths
+    paths,
+    config
 };
