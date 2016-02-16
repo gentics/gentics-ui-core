@@ -1,11 +1,23 @@
 <gtx-top-bar class="top-bar">
-    <i class="material-icons">menu</i>
     <h5>Gentics UI Core Demo</h5>
     <i class="material-icons gtx-top-bar-right">person</i>
 </gtx-top-bar>
 
+<gtx-side-menu [opened]="displayMenu">
+    <div class="menu-content">
+        <ul>
+            <li>Menu item 1</li>
+            <li>Menu item 2</li>
+            <li>Menu item 3</li>
+            <li>Menu item 4</li>
+            <li>Menu item 5</li>
+        </ul>
+    </div>
+</gtx-side-menu>
+
 <div class="container">
     <gtx-search-bar (search)="onSearch($event)" query=""></gtx-search-bar>
+
     <gtx-split-view-container>
         <gtx-list-pane>
             <p>List here</p>
@@ -15,3 +27,5 @@
         </gtx-content-pane>
     </gtx-split-view-container>
 </div>
+
+

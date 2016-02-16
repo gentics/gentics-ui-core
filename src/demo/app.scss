@@ -5,3 +5,15 @@
         color: gray;
     }
 }
+
+.menu-button {
+    cursor: pointer;
+}
+
+.menu-content {
+    background-color: white;
+    > ul {
+        margin: 50px 30px;
+        font-size: 2em;
+    }
+}
