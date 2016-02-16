@@ -1,15 +1,12 @@
-<div class="row">
-    <div class="col s9">
-        <gtx-input-field placeholder="Search" #searchInput [value]="query"></gtx-input-field>
-    </div>
-    <div class="col s3">
-        <button class="btn waves-effect waves-light"
-                type="submit"
-                (click)="doSearch(searchInput.value)"
-                name="action">Search
-            <i class="material-icons right">send</i>
-        </button>
-    </div>
+<div class="input">
+    <gtx-input placeholder="Search" #searchInput [value]="query" (keydown)="onKeyDown($event, searchInput.value)"></gtx-input>
+</div>
+<div class="submit-button">
+    <button class="btn"
+            type="submit"
+            (click)="doSearch(searchInput.value)"
+            name="action"><i class="material-icons">search</i>
+    </button>
 </div>
 
 

@@ -1,3 +1,11 @@
 gtx-search-bar {
+    display: flex;
 
+    > .input {
+        flex-grow: 1;
+    }
+
+    > .submit-button {
+        align-self: center;
+    }
 }
