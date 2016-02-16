@@ -21,7 +21,4 @@ import {Component} from 'angular2/core';
     selector: 'gtx-top-bar',
     template: require('./top-bar.tpl.html')
 })
-export class TopBar {
-    constructor() {
-    }
-}
+export class TopBar {}
