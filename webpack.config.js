@@ -16,7 +16,7 @@ module.exports = {
     resolve: {
         root: srcPath,
         extensions: ['', '.js', '.ts'],
-        modulesDirectories: ['node_modules', 'src']
+        modulesDirectories: ['node_modules']
     },
     output: {
         path: path.join(__dirname, 'build', 'demo'),
@@ -52,7 +52,8 @@ module.exports = {
             { test: /\.css$/, loader: 'style!raw!autoprefixer' },
             { test: /\.scss$/, loader: 'style!raw!autoprefixer!sass' },
             { test: /\.html/, loader: 'html' }
-        ]
+        ],
+        noParse: paths.vendorJS
     },
     plugins: [
         new webpack.optimize.CommonsChunkPlugin('common', 'common.js'),
