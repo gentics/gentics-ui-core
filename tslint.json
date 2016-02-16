@@ -77,13 +77,6 @@
             "variable-declaration",
             "member-variable-declaration"
         ],
-        "typedef-whitespace": [true, {
-            "call-signature": "space",
-            "index-signature": "space",
-            "parameter": "space",
-            "property-declaration": "space",
-            "variable-declaration": "space"
-        }],
         "use-isnan": true,
         "valid-typeof": true,
         "variable-name": [
