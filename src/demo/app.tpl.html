@@ -3,18 +3,6 @@
     <i class="material-icons gtx-top-bar-right">person</i>
 </gtx-top-bar>
 
-<gtx-side-menu [opened]="displayMenu">
-    <div class="menu-content">
-        <ul>
-            <li>Menu item 1</li>
-            <li>Menu item 2</li>
-            <li>Menu item 3</li>
-            <li>Menu item 4</li>
-            <li>Menu item 5</li>
-        </ul>
-    </div>
-</gtx-side-menu>
-
 <div class="container">
     <gtx-search-bar (search)="onSearch($event)" query=""></gtx-search-bar>
 
@@ -27,5 +15,17 @@
         </gtx-content-pane>
     </gtx-split-view-container>
 </div>
+
+<gtx-side-menu [opened]="displayMenu" (toggle)="toggleMenu($event)">
+    <div class="menu-content">
+        <ul>
+            <li>Menu item 1</li>
+            <li>Menu item 2</li>
+            <li>Menu item 3</li>
+            <li>Menu item 4</li>
+            <li>Menu item 5</li>
+        </ul>
+    </div>
+</gtx-side-menu>
 
 

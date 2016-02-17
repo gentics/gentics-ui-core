@@ -15,8 +15,7 @@ export class App {
         console.log('searching for', query);
     }
 
-    toggleMenu(): void {
-        this.displayMenu = !this.displayMenu;
+    toggleMenu(newState: boolean): void {
+        this.displayMenu = newState;
     }
-
 }
