@@ -6,13 +6,19 @@ gtx-top-bar {
         display: flex;
         align-items: center;
         justify-content: flex-start;
+        @media #{$medium-and-down} {
+            justify-content: flex-end;
+        }
 
-        > * {
+        > *:not(.content-right) {
             display: inline-block;
+            flex: 1;
+            @media #{$medium-and-down} {
+                text-align: center;
+            }
         }
 
         > .content-right {
-            flex: 1 1 auto;
             display: flex;
             align-items: center;
             justify-content: flex-end;
