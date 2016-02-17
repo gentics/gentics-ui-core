@@ -1,3 +1,4 @@
 gtx-content-pane {
-    @extend .container;
+    display: block;
+    overflow-y: auto;
 }

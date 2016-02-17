@@ -5,9 +5,11 @@
 
 <div class="container">
     <gtx-search-bar (search)="onSearch($event)" query=""></gtx-search-bar>
-
-    <gtx-split-view-container>
-
+    <gtx-split-view-container
+        class="split-view-container"
+        [hasContent]="currentOpenedContent != null"
+        [contentFocused]="false"
+    >
         <gtx-list-pane>
 
             <gtx-contents-list-item *ngFor="#item of listItems">
@@ -37,5 +39,3 @@
         </ul>
     </div>
 </gtx-side-menu>
-
-

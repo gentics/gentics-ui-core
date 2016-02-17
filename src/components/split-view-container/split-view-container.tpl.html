@@ -1,8 +1,12 @@
-<p>Hi my name is split view</p>
-<div>
-    <button (click)="toggleHasContent()">Has content: {{ hasContent }}</button>
-    <button (click)="toggleFocused()">Content focused: {{ contentFocused }}</button>
-</div>
-<div class="slideable" [class.hasContent]="hasContent" [class.contentFocused]="contentFocused">
-    <ng-content></ng-content>
+<div class="slideable">
+    <div class="left-panel">
+        <div class="fullheight" (click)="contentFocused = false">
+            <ng-content select="gtx-list-pane"></ng-content>
+        </div>
+    </div>
+    <div class="right-panel">
+        <div class="fullheight" (click)="contentFocused = true">
+            <ng-content select="gtx-content-pane"></ng-content>
+        </div>
+    </div>
 </div>

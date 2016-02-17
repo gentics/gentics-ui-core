@@ -1,38 +1,101 @@
+$gtx-split-view-container-spacing: 30px !default;
+$gtx-split-view-container-peek-size: 5% !default;
+
 gtx-split-view-container {
-    display: block;
     box-sizing: border-box;
+    display: block;
     overflow-x: hidden;
+    width: 100%;
+    white-space: nowrap;
 
     > .slideable {
-        width: 190%;
-        transition: transform 300ms;
+        height: 100%;
+        transition: width $gtx-animation-duration;
+        width: 100%;
 
-        > * {
-            width: 45%;
+        > .left-panel,
+        > .right-panel {
             display: inline-block;
             border: 1px solid #eee;
+            float: left; // please don't kill me
+            height: 100%;
+            transition: opacity $gtx-animation-duration,
+                        padding $gtx-animation-duration,
+                        transform $gtx-animation-duration,
+                        width $gtx-animation-duration;
+            white-space: normal;
         }
 
-        > :last-child {
+        > .right-panel {
             opacity: 0;
-            transition: opacity 300ms;
+        }
+    }
+
+    &.hasContent > .slideable > .right-panel,
+    &.contentFocused > .slideable > .left-panel {
+        opacity: 0.66;
+    }
+
+    &.contentFocused > .slideable > .right-panel {
+        opacity: 1;
+    }
+
+    > * > * > .fullheight,
+    > * > * > .fullheight > * {
+        height: 100%;
+    }
+
+    // Definitions for "small", sliding breakpoint
+    @media only screen and (max-width : $large-screen) {
+        > .slideable {
+            width: 200%;
+
+            > .left-panel,
+            > .right-panel {
+                width: 50%;
+            }
         }
 
-        &.hasContent {
-            > * {
-                // TODO width: 45%;
+        &.hasContent > .slideable {
+            > .left-panel {
+                width: 50% - ($gtx-split-view-container-peek-size);
+                // padding-right: $gtx-split-view-container-peek-size;
+                transform: translateX(0);
+            }
+            > .right-panel {
+                width: 50% - ($gtx-split-view-container-peek-size);
+            }
+        }
+
+        &.contentFocused > .slideable {
+            > .left-panel,
+            > .right-panel {
+                transform: translateX(-100% + $gtx-split-view-container-peek-size*2);
+            }
+        }
+    }
+
+    // Definitions for "large", non-sliding breakpoint
+    @media only screen and (min-width : $large-screen-up) {
+        > .slideable {
+            > .left-panel {
+                width: 100%;
             }
 
-            > :last-child {
-                opacity: 0.75;
+            > .right-panel {
+                width: 0%;
+            }
+        }
+
+        &.hasContent > .slideable {
+            > .left-panel {
+                padding-right: $gtx-split-view-container-spacing / 2;
+                width: 50%;
             }
 
-            &.contentFocused {
-                transform: translateX(-42%);
-
-                :last-child {
-                    opacity: 1;
-                }
+            > .right-panel {
+                padding-left: $gtx-split-view-container-spacing / 2;
+                width: 50%;
             }
         }
     }

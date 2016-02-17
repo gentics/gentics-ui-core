@@ -28,7 +28,6 @@ import {UiComponents} from './components/ui-components/ui-components.component';
     { path: '/ui-components', name: 'UiComponents', component: UiComponents }
 ])
 export class App {
-
     displayMenu: boolean = false;
     listItems: any[] = [
         {
@@ -53,8 +52,22 @@ export class App {
         }
     ];
 
+    private currentOpenedContent: string = null;
+
+    closeContent(): void {
+        this.currentOpenedContent = null;
+    }
+
     onSearch(query: string): void {
         console.log('searching for', query);
+    }
+
+    toggleContent(content: string): void {
+        if (content != this.currentOpenedContent) {
+            this.currentOpenedContent = content;
+        } else {
+            this.currentOpenedContent = null;
+        }
     }
 
     toggleMenu(newState: boolean): void {
