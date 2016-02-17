@@ -8,10 +8,15 @@
 
     <gtx-split-view-container>
         <gtx-list-pane>
-            <p>List here</p>
+            <ul>
+                <li><a [routerLink]="['Colors']">Colors</a></li>
+                <li><a [routerLink]="['Typography']">Typography</a></li>
+                <li><a [routerLink]="['FormComponents']">Form Components</a></li>
+                <li><a [routerLink]="['UiComponents']">Other UI Components</a></li>
+            </ul>
         </gtx-list-pane>
         <gtx-content-pane>
-            <p>Content here</p>
+            <router-outlet></router-outlet>
         </gtx-content-pane>
     </gtx-split-view-container>
 </div>
