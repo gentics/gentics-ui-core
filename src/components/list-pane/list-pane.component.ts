@@ -5,5 +5,5 @@ import {Component, Input} from 'angular2/core';
     template: require('./list-pane.tpl.html')
 })
 export class ListPane {
-    weirdExample : number[] = [1, 2, 3, 4, 5, 6, 7];
+    weirdExample: number[] = [1, 2, 3, 4, 5, 6, 7];
 }

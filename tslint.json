@@ -79,12 +79,20 @@
             "property-declaration",
             "variable-declaration"
         ],
+        "typedef-whitespace": [true, {
+            "call-signature": "nospace",
+            "index-signature": "nospace",
+            "parameter": "nospace",
+            "property-declaration": "nospace",
+            "variable-declaration": "nospace"
+        }],
         "use-isnan": true,
         "valid-typeof": true,
         "variable-name": [
             true,
-            "check-format",
-            "ban-keywords"
+            "allow-leading-underscore",
+            "ban-keywords",
+            "check-format"
         ],
         "whitespace": [
             true,

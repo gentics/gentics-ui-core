@@ -5,5 +5,5 @@ import {Component, Input} from 'angular2/core';
     template: require('./content-pane.tpl.html')
 })
 export class ContentPane {
-    weirdExample : number[] = [1, 2, 3, 4, 5, 6];
+    weirdExample: number[] = [1, 2, 3, 4, 5, 6];
 }

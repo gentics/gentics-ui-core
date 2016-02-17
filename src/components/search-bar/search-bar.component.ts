@@ -22,17 +22,17 @@ import {InputField} from '../input/input.component';
 })
 export class SearchBar {
 
-    @Input() query : string;
-    @Output() search : EventEmitter<string> = new EventEmitter();
-    @Output() change : EventEmitter<string> = new EventEmitter();
+    @Input() query: string;
+    @Output() search: EventEmitter<string> = new EventEmitter();
+    @Output() change: EventEmitter<string> = new EventEmitter();
 
     constructor() {}
 
-    doSearch(value : string) : void {
+    doSearch(value: string): void {
         this.search.emit(value);
     }
 
-    onKeyDown(event : KeyboardEvent, value : string) : void {
+    onKeyDown(event: KeyboardEvent, value: string): void {
         if (event.keyCode === 13) {
             this.search.emit(value);
         } else {

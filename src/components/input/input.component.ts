@@ -26,6 +26,8 @@ export class InputField implements ControlValueAccessor {
 
     // native attributes
     @Input() disabled: boolean = false;
+    @Input() id: string;
+    @Input() label: string = '';
     @Input() max: number;
     @Input() min: number;
     @Input() maxlength: number;
@@ -37,9 +39,6 @@ export class InputField implements ControlValueAccessor {
     @Input() step: number;
     @Input() type: string = 'text';
     @Input() value: string|number = '';
-
-    @Input() label: string = '';
-    @Input() id: string;
 
     // events
     @Output() blur: EventEmitter<string|number> = new EventEmitter();

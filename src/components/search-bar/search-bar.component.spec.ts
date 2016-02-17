@@ -86,6 +86,6 @@ describe('SearchBar', () => {
     directives: [SearchBar]
 })
 class TestComponent {
-    onSearch() : void {}
-    onChange() : void {}
+    onSearch(): void {}
+    onChange(): void {}
 }
