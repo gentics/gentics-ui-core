@@ -135,18 +135,6 @@ function runKarmaServer(watch, callback) {
     server.start();
 }
 
-// Pass a command line argument to gulp to change browsers
-// e.g. gulp test:watch --browsers=Chrome,Firefox,PhantomJS
-function browsersToTestWith() {
-    for (let arg of process.argv) {
-        if (arg.length > 13 && arg.substr(0, 11) == '--browsers=') {
-            return arg.substr(11).split(',');
-        }
-    }
-
-    return ['Chrome'];
-}
-
 // create a single instance of the compiler to allow caching
 let devCompiler = webpack(webpackConfig);
 
