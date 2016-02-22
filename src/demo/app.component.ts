@@ -1,6 +1,6 @@
 import {Component} from 'angular2/core';
 import {RouteConfig, ROUTER_DIRECTIVES} from 'angular2/router';
-import {TopBar, SearchBar, ListPane, ContentPane, SideMenu, SplitViewContainer} from '../index';
+import {TopBar, SearchBar, ListPane, ContentPane, SideMenu, SplitViewContainer, ContentsListItem} from '../index';
 import {Colors} from './components/colors/colors.component';
 import {Typography} from './components/typography/typography.component';
 import {FormComponents} from './components/form-components/form-components.component';
@@ -9,7 +9,7 @@ import {UiComponents} from './components/ui-components/ui-components.component';
 @Component({
     selector: 'app',
     template: require('./app.tpl.html'),
-    directives: [ROUTER_DIRECTIVES, TopBar, SearchBar, ListPane, ContentPane, SplitViewContainer, SideMenu],
+    directives: [ROUTER_DIRECTIVES, TopBar, SearchBar, ListPane, ContentPane, SplitViewContainer, SideMenu, ContentsListItem],
     styles: [require('./app.scss').toString()]
 })
 @RouteConfig([
@@ -21,6 +21,28 @@ import {UiComponents} from './components/ui-components/ui-components.component';
 export class App {
 
     displayMenu: boolean = false;
+    listItems: any[] = [
+        {
+            title: 'Colors',
+            route: 'Colors',
+            icon: 'color_lens'
+        },
+        {
+            title: 'Typography',
+            route: 'Typography',
+            icon: 'text_format'
+        },
+        {
+            title: 'Form Components',
+            route: 'FormComponents',
+            icon: 'check_box'
+        },
+        {
+            title: 'Other UI Components',
+            route: 'UiComponents',
+            icon: 'view_quilt'
+        }
+    ];
 
     onSearch(query: string): void {
         console.log('searching for', query);

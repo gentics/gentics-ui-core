@@ -7,17 +7,22 @@
     <gtx-search-bar (search)="onSearch($event)" query=""></gtx-search-bar>
 
     <gtx-split-view-container>
+
         <gtx-list-pane>
-            <ul>
-                <li><a [routerLink]="['Colors']">Colors</a></li>
-                <li><a [routerLink]="['Typography']">Typography</a></li>
-                <li><a [routerLink]="['FormComponents']">Form Components</a></li>
-                <li><a [routerLink]="['UiComponents']">Other UI Components</a></li>
-            </ul>
+
+            <gtx-contents-list-item *ngFor="#item of listItems">
+                <div class="item-avatar"><i class="material-icons">{{ item.icon }}</i></div>
+                <div class="item-primary"><a [routerLink]="[item.route]">{{ item.title }}</a></div>
+                <i class="material-icons">edit</i>
+                <i class="material-icons">star</i>
+            </gtx-contents-list-item>
+
         </gtx-list-pane>
+
         <gtx-content-pane>
             <router-outlet></router-outlet>
         </gtx-content-pane>
+
     </gtx-split-view-container>
 </div>
 
