@@ -13,6 +13,10 @@ import {
 import {CONST_EXPR, isBlank} from 'angular2/src/facade/lang';
 import {NG_VALUE_ACCESSOR, ControlValueAccessor} from 'angular2/common';
 
+/**
+ * The InputField wraps the native <input> form element but should only be used for
+ * text, number or password types. Other types (date, range, file) should have dedicated components.
+ */
 @Component({
     selector: 'gtx-input',
     template: require('./input.tpl.html')
@@ -75,7 +79,6 @@ export class GtxInputValueAccessor implements ControlValueAccessor {
     writeValue(value: any): void {
         let normalizedValue: string = isBlank(value) ? '' : value;
         let input: HTMLInputElement = this.elementRef.nativeElement.querySelector('input');
-        console.log('normalizedValue', normalizedValue);
         this.renderer.setElementProperty(input, 'value', normalizedValue);
     }
 

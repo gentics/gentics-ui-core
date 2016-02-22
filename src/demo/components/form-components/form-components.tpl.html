@@ -1,1 +1,30 @@
-<h1>Form Components</h1>
+<h3>Form Components</h3>
+
+<h4>InputField</h4>
+<p>
+    InputFields can be of type <code>text</code>, <code>number</code> or <code>password</code>. If no
+    type is specified, it will default to <code>text</code>.
+</p>
+<p>
+    An InputField may have a label and/or a placeholder. If there is a label and no placeholder, the
+    label will shift on focus. If there is both a label <em>and</em> a placeholder, the label will
+    always be above the input.
+</p>
+<div class="row">
+    <div class="col s4">
+        <gtx-input label="Text Input Label"></gtx-input>
+    </div>
+    <div class="col s4">
+        <gtx-input placeholder="Number Input Placeholder"
+                   type="number" min="0" max="100" step="5"></gtx-input>
+    </div>
+    <div class="col s4">
+        <gtx-input placeholder="Password Input Placeholder"
+                   label="Password Input Label"
+                   type="password"></gtx-input>
+    </div>
+</div>
+
+<hr>
+
+

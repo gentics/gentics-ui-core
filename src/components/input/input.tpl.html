@@ -21,6 +21,5 @@
 
         #input
     >
-    value: {{ value }}
-    <label [attr.for]="id">{{ label }}</label>
+    <label [attr.for]="id" (click)="input.focus()">{{ label }}</label>
 </div>
