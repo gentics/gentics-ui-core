@@ -3,9 +3,12 @@ $roboto-font-path: '../font/';
 @import "../../node_modules/materialize-css/sass/materialize";
 @import "icons";
 @import "colors";
-@import "../components/search-bar/search-bar";
-@import "../components/split-view-container/split-view-container";
+
+/* Components */
 @import "../components/content-pane/content-pane";
-@import "../components/side-menu/side-menu";
+@import "../components/contents-list-item/contents-list-item";
 @import "../components/list-pane/list-pane";
+@import "../components/search-bar/search-bar";
+@import "../components/side-menu/side-menu";
+@import "../components/split-view-container/split-view-container";
 @import "../components/top-bar/top-bar";
