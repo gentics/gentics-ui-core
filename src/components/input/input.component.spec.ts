@@ -52,7 +52,6 @@ describe('InputField', () => {
                     fixture.detectChanges();
 
                     expect(nativeInput.disabled).toBe(false);
-                    expect(nativeInput.name).toBe('');
                     expect(nativeInput.readOnly).toBe(false);
                     expect(nativeInput.required).toBe(false);
                     expect(nativeInput.type).toBe('text');
@@ -68,9 +67,11 @@ describe('InputField', () => {
                 const getAttr: Function = (name: string) => nativeInput.attributes.getNamedItem(name);
                 fixture.detectChanges();
 
+                expect(getAttr('id')).toBe(null);
                 expect(getAttr('max')).toBe(null);
                 expect(getAttr('min')).toBe(null);
                 expect(getAttr('maxLength')).toBe(null);
+                expect(getAttr('name')).toBe(null);
                 expect(getAttr('pattern')).toBe(null);
                 expect(getAttr('placeholder')).toBe(null);
                 expect(getAttr('step')).toBe(null);

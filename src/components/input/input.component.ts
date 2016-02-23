@@ -28,17 +28,17 @@ export class InputField {
     @Input() max: number;
     @Input() min: number;
     @Input() maxlength: number;
-    @Input() name: string = '';
+    @Input() name: string;
     @Input() pattern: string;
     @Input() placeholder: string;
     @Input() readonly: boolean = false;
     @Input() required: boolean = false;
     @Input() step: number;
-    @Input() type : string = 'text';
+    @Input() type: string = 'text';
     @Input() value: string = '';
 
-    @Input() label : string = '';
-    @Input() id : string = '';
+    @Input() label: string = '';
+    @Input() id: string;
 
     // events
     @Output() blur: EventEmitter<string> = new EventEmitter();
