@@ -65,7 +65,8 @@ const GTX_INPUT_VALUE_ACCESSOR: Provider = CONST_EXPR(new Provider(
     NG_VALUE_ACCESSOR, {useExisting: forwardRef(() => GtxInputValueAccessor), multi: true}));
 
 @Directive({
-    selector: 'gtx-input[ngControl], gtx-input[ngModel], gtx-input[ngFormControl]',
+    selector: 'gtx-input[ngControl], gtx-textarea[ngControl], gtx-input[ngModel], gtx-textarea[ngModel], ' +
+                'gtx-input[ngFormControl], gtx-textarea[ngFormControl]',
     host: {'(input)': 'onChange($event.target.value)', '(blur)': 'onTouched()'},
     bindings: [GTX_INPUT_VALUE_ACCESSOR]
 })
@@ -78,7 +79,7 @@ export class GtxInputValueAccessor implements ControlValueAccessor {
 
     writeValue(value: any): void {
         let normalizedValue: string = isBlank(value) ? '' : value;
-        let input: HTMLInputElement = this.elementRef.nativeElement.querySelector('input');
+        let input: HTMLInputElement = this.elementRef.nativeElement.querySelector('input, textarea');
         this.renderer.setElementProperty(input, 'value', normalizedValue);
     }
 
