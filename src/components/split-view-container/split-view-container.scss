@@ -3,100 +3,163 @@ $gtx-split-view-container-peek-size: 5% !default;
 
 gtx-split-view-container {
     box-sizing: border-box;
-    display: block;
-    overflow-x: hidden;
-    width: 100%;
-    white-space: nowrap;
 
-    > .slideable {
+    & > .slideable {
+        @extend .container;
+        display: flex;
+        position: relative;
         height: 100%;
-        transition: width $gtx-animation-duration;
-        width: 100%;
 
-        > .left-panel,
-        > .right-panel {
-            display: inline-block;
-            border: 1px solid #eee;
-            float: left; // please don't kill me
+        & > .left-panel,
+        & > .right-panel {
+            //align-items: stretch;
+            flex: auto;
+            border: 1px solid #e00;
             height: 100%;
+            min-width: 20px;
             transition: opacity $gtx-animation-duration,
                         padding $gtx-animation-duration,
                         transform $gtx-animation-duration,
-                        width $gtx-animation-duration;
+                        width $gtx-animation-duration,
+                        min-width $gtx-animation-duration,
+                        max-width $gtx-animation-duration;
             white-space: normal;
-        }
-
-        > .right-panel {
-            opacity: 0;
         }
     }
 
-    &.hasContent > .slideable > .right-panel,
-    &.contentFocused > .slideable > .left-panel {
+    & > .hasNoRightPanel > .right-panel {
+        opacity: 0;
+    }
+
+    & > .hasRightPanel > .right-panel,
+    & > .focusedRight > .left-panel {
         opacity: 0.66;
     }
 
-    &.contentFocused > .slideable > .right-panel {
+    & > .focusedRight > .right-panel {
         opacity: 1;
-    }
-
-    > * > * > .fullheight,
-    > * > * > .fullheight > * {
-        height: 100%;
     }
 
     // Definitions for "small", sliding breakpoint
     @media only screen and (max-width : $large-screen) {
-        > .slideable {
-            width: 200%;
-
-            > .left-panel,
-            > .right-panel {
-                width: 50%;
-            }
+        & > .slideable {
+            overflow-x: hidden;
         }
 
-        &.hasContent > .slideable {
-            > .left-panel {
-                width: 50% - ($gtx-split-view-container-peek-size);
-                // padding-right: $gtx-split-view-container-peek-size;
-                transform: translateX(0);
-            }
-            > .right-panel {
-                width: 50% - ($gtx-split-view-container-peek-size);
-            }
+        & > .hasRightPanel > .left-panel {
+            min-width: 90%;
+            max-width: 90%;
+            transform: translateX(0);
         }
 
-        &.contentFocused > .slideable {
-            > .left-panel,
-            > .right-panel {
-                transform: translateX(-100% + $gtx-split-view-container-peek-size*2);
-            }
+        & > .hasNoRightPanel > .right-panel {
+            min-width: 90%;
+            max-width: 90%;
+            transform: translateX(0);
+        }
+
+        & > .hasRightPanel > .right-panel {
+            min-width: 90%;
+            max-width: 90%;
+            transform: translateX(1%);
+        }
+
+        & > .focusedRight > .left-panel {
+            min-width: 90%;
+            max-width: 90%;
+            transform: translateX(-90%);
+        }
+
+        & > .focusedRight > .right-panel {
+            min-width: 90%;
+            max-width: 90%;
+            transform: translateX(-89%);
+        }
+
+        & > .hasNoRightPanel > .left-panel {
+            min-width: 100%;
+            max-width: 100%;
+            transform: translateX(0);
+        }
+
+
+
+        // & > .slideable {
+        //     width: 200%;
+        //     margin-left: -50%;
+
+        //     > .left-panel,
+        //     > .right-panel {
+        //         width: 50%;
+        //     }
+        // }
+
+        // &.hasContent > .slideable {
+        //     > .left-panel {
+        //         width: 50% - ($gtx-split-view-container-peek-size);
+        //         // padding-right: $gtx-split-view-container-peek-size;
+        //         transform: translateX(0);
+        //     }
+        //     > .right-panel {
+        //         width: 50% - ($gtx-split-view-container-peek-size);
+        //     }
+        // }
+
+        // &.contentFocused > .slideable {
+        //     > .left-panel,
+        //     > .right-panel {
+        //         transform: translateX(-100% + $gtx-split-view-container-peek-size*2);
+        //     }
+        // }
+
+        & > * > .focus-switcher-left,
+        & > * > .focus-switcher-right {
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            // Fixes clicking in IE
+            background: rgba(0,0,0,0.00001);
+            width: 9%;
+            z-index: 1;
+            outline: 1px solid blue;
+        }
+
+        & > .focusedRight > .focus-switcher-left {
+            display: block;
+            left: 0;
+        }
+
+        & > .focusedLeft.hasRightPanel > .focus-switcher-right {
+            display: block;
+            right: 0;
         }
     }
 
     // Definitions for "large", non-sliding breakpoint
     @media only screen and (min-width : $large-screen-up) {
-        > .slideable {
-            > .left-panel {
-                width: 100%;
-            }
 
-            > .right-panel {
-                width: 0%;
-            }
-        }
 
-        &.hasContent > .slideable {
-            > .left-panel {
-                padding-right: $gtx-split-view-container-spacing / 2;
-                width: 50%;
-            }
 
-            > .right-panel {
-                padding-left: $gtx-split-view-container-spacing / 2;
-                width: 50%;
-            }
+        // > .right-panel {
+        //         width: 0%;
+        //     }
+        // }
+
+        // &.hasContent > .slideable {
+        //     > .left-panel {
+        //         padding-right: $gtx-split-view-container-spacing / 2;
+        //         width: 50%;
+        //     }
+
+        //     > .right-panel {
+        //         padding-left: $gtx-split-view-container-spacing / 2;
+        //         width: 50%;
+        //     }
+        // }
+
+        & > .focus-switcher-left,
+        & > .focus-switcher-right {
+            display: none;
         }
     }
 }

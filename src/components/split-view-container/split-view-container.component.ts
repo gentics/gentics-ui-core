@@ -3,10 +3,14 @@ import {
     Component,
     ElementRef,
     EventEmitter,
-    HostBinding,
     Input,
     Output
 } from 'angular2/core';
+
+export class FocusType {
+    static LEFT = <FocusType> (<any> 'left');
+    static RIGHT = <FocusType> (<any> 'right');
+}
 
 @Component({
     selector: 'gtx-split-view-container',
@@ -14,86 +18,108 @@ import {
 })
 export class SplitViewContainer implements AfterViewInit {
     /**
-     * Tells if a content panel is opened on the right side in the split view.
-     * Setting to false will also change [contentFocused]{@link SplitViewContainer#contentFocused}.
+     * Tells if a panel is opened on the right side in the split view.
+     * Setting to false will also change {@link focusedPanel}.
      */
-    @Input()
-    @HostBinding('class.hasContent')
-    set hasContent(content: boolean) {
-        if (content != this._hasContentPanel) {
-            this._hasContentPanel = content;
-            if (content) {
-                this.contentPanelOpened.emit(null);
+    @Input() get rightPanelVisible(): boolean {
+        return this._rightPanelVisible;
+    }
+    set rightPanelVisible(visible: boolean) {
+        console.log('set rightPanelVisible(', visible, ')');
+        if (visible != this._rightPanelVisible) {
+            this._rightPanelVisible = visible;
+            if (visible) {
+                this.rightPanelOpened.emit(null);
             } else {
-                this.contentPanelClosed.emit(null);
-                if (!content && this._contentFocused) {
-                    this._contentFocused = false;
-                    this.listPanelFocused.emit(null);
+                this.rightPanelClosed.emit(null);
+                if (this._focusedPanel == 'right') {
+                    this._focusedPanel = 'left';
+                    this.leftPanelFocused.emit(null);
+                    this.focusedPanelChange.emit('left');
                 }
             }
+            this.rightPanelVisibleChange.emit(visible);
         }
-    }
-    get hasContent(): boolean {
-        return this._hasContentPanel;
     }
 
     /**
-     * Brings the content panel to the foreground or background.
+     * Tells the SplitViewContainer which side is focused.
+     * Valid values are "left" and "right".
      */
     @Input()
-    @HostBinding('class.contentFocused')
-    set contentFocused(focused: boolean) {
-        focused = focused && this._hasContentPanel;
-        if (focused != this._contentFocused) {
-            this._contentFocused = focused;
-            if (focused) {
-                this.contentPanelFocused.emit(null);
+    get focusedPanel(): FocusType {
+        return this._focusedPanel;
+    }
+    set focusedPanel(panel: FocusType) {
+        console.log('set focusedPanel(', panel, ')');
+        let newFocus: FocusType;
+        if (panel == 'right' && this._rightPanelVisible) {
+            newFocus = FocusType.RIGHT;
+        } else {
+            newFocus = FocusType.LEFT;
+        }
+
+        if (newFocus != this._focusedPanel) {
+            this._focusedPanel = newFocus;
+
+            if (newFocus == 'right') {
+                this.rightPanelFocused.emit(null);
             } else {
-                this.listPanelFocused.emit(null);
+                this.leftPanelFocused.emit(null);
             }
+            this.focusedPanelChange.emit(newFocus);
+        } else if (newFocus != panel) {
+            this.focusedPanelChange.emit(newFocus);
         }
     }
-    get contentFocused(): boolean {
-        return this._contentFocused;
-    }
 
     /**
-     * Triggers when the content panel is closed.
+     * Triggers when the right panel is closed.
      */
     @Output()
-    contentPanelClosed: EventEmitter<void> = new EventEmitter<void>();
+    rightPanelClosed: EventEmitter<void> = new EventEmitter<void>();
 
     /**
-     * Triggers when the content panel is closed.
+     * Triggers when the right panel is closed.
      */
     @Output()
-    contentPanelOpened: EventEmitter<void> = new EventEmitter<void>();
+    rightPanelOpened: EventEmitter<void> = new EventEmitter<void>();
 
     /**
-     * Triggers when the list panel is focused.
+     * Triggers when the value of {@link rightPanelVisible} changes.
+     * Allows to double-bind the property.
+     * @example
+     *     <split-view-container [(rightPanelVisible)]="property">
      */
     @Output()
-    listPanelFocused: EventEmitter<void> = new EventEmitter<void>();
+    rightPanelVisibleChange: EventEmitter<boolean> = new EventEmitter<boolean>();
 
     /**
-     * Triggers when the content panel is focused.
+     * Triggers when the left panel is focused.
      */
     @Output()
-    contentPanelFocused: EventEmitter<void> = new EventEmitter<void>();
+    leftPanelFocused: EventEmitter<void> = new EventEmitter<void>();
+
+    /**
+     * Triggers when the right panel is focused.
+     */
+    @Output()
+    rightPanelFocused: EventEmitter<void> = new EventEmitter<void>();
+
+    /**
+     * Triggers when the value of {@link focusedPanel} changes.
+     * Allows to double-bind the property.
+     * @example
+     *     <split-view-container [(focusedPanel)]="property">
+     */
+    @Output()
+    focusedPanelChange: EventEmitter<FocusType> = new EventEmitter<FocusType>();
 
 
-    private _hasContentPanel: boolean = false;
-    private _contentFocused: boolean = false;
+    private _rightPanelVisible: boolean = false;
+    private _focusedPanel: FocusType = 'left';
 
     constructor(private ownElement: ElementRef) {
-    }
-
-    toggleContentPanel(): void {
-        this.hasContent = !this.hasContent;
-    }
-
-    toggleFocus(): void {
-        this.contentFocused = !this.contentFocused;
     }
 
     // (hacky) After initializing the view, make this component fill the height of the viewport
@@ -104,7 +130,19 @@ export class SplitViewContainer implements AfterViewInit {
         let element: HTMLElement = this.ownElement.nativeElement;
         let css: CSSStyleDeclaration = element.style;
         css.top = element.offsetTop + 'px';
+        css.bottom = css.left = css.right = '0';
         css.position = 'absolute';
-        css.bottom = '0';
+    }
+
+    private leftPanelClicked() {
+        if (this._focusedPanel == FocusType.RIGHT) {
+            this.focusedPanel = FocusType.LEFT;
+        }
+    }
+
+    private rightPanelClicked() {
+        if (this._focusedPanel == FocusType.LEFT) {
+            this.focusedPanel = FocusType.RIGHT;
+        }
     }
 }

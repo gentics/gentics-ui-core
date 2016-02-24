@@ -5,28 +5,33 @@
 
 <div class="container">
     <gtx-search-bar (search)="onSearch($event)" query=""></gtx-search-bar>
-    <gtx-split-view-container
-        class="split-view-container"
-        [hasContent]="currentOpenedContent != null"
-        [contentFocused]="false"
-    >
-        <gtx-list-pane>
 
-            <gtx-contents-list-item *ngFor="#item of listItems">
-                <div class="item-avatar"><i class="material-icons">{{ item.icon }}</i></div>
-                <div class="item-primary"><a [routerLink]="[item.route]">{{ item.title }}</a></div>
-                <i class="material-icons">edit</i>
-                <i class="material-icons">star</i>
-            </gtx-contents-list-item>
-
-        </gtx-list-pane>
-
-        <gtx-content-pane>
-            <router-outlet></router-outlet>
-        </gtx-content-pane>
-
-    </gtx-split-view-container>
+    <div class="debug-container">
+        <h3>Debug: visible: {{rightPanel ? 'T' : 'F'}}, focus = {{focusedPanel}}</h3>
+        <p><button (click)="rightPanel = !rightPanel">Toggle right panel</button></p>
+        <p><button (click)="focusedPanel = 'right'">Focus right panel</button></p>
+        <p><button (click)="focusedPanel = 'left'">Focus left panel</button></p>
+    </div>
 </div>
+
+<gtx-split-view-container class="split-view-container"
+    [(rightPanelVisible)]="rightPanel" [(focusedPanel)]="focusedPanel">
+
+    <gtx-list-pane left>
+
+        <gtx-contents-list-item *ngFor="#item of listItems">
+            <div class="item-avatar"><i class="material-icons">{{ item.icon }}</i></div>
+            <div class="item-primary"><a [routerLink]="[item.route]">{{ item.title }}</a></div>
+            <i class="material-icons">edit</i>
+            <i class="material-icons">star</i>
+        </gtx-contents-list-item>
+    </gtx-list-pane>
+
+    <gtx-content-pane right>
+        <router-outlet></router-outlet>
+    </gtx-content-pane>
+
+</gtx-split-view-container>
 
 <gtx-side-menu [opened]="displayMenu" (toggle)="toggleMenu($event)">
     <div class="menu-content">

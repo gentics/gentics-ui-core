@@ -11,6 +11,7 @@
     "noEmit": true
   },
   "exclude": [
+      "build",
       "dist",
       "node_modules",
       "karma.conf.js",
