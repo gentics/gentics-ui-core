@@ -45,7 +45,7 @@
         "no-unreachable": true,
         "no-use-before-declare": true,
         "no-var-keyword": true,
-        "no-var-requires": true,
+        "no-var-requires": false,
         "one-line": [
             true,
             "check-catch",

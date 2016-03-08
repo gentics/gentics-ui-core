@@ -29,7 +29,7 @@ module.exports = {
         loaders: [
             {
                 test: /\.ts$/,
-                loader: 'ts',
+                loader: 'ts?transpileOnly=true',
                 query: {
                     ignoreDiagnostics: [
 

@@ -19,9 +19,7 @@ const paths = {
         js: 'build/demo/js'
     },
     vendorJS: [
-        'angular2/bundles/angular2-polyfills.js',
-        'jquery/dist/jquery.js',
-        'materialize-css/bin/materialize.js'
+        'angular2/bundles/angular2-polyfills.js'
     ],
     vendorStatics: [
         'node_modules/materialize-css/font/roboto/Roboto-Regular.*'
