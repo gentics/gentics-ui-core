@@ -2,8 +2,6 @@ import {
     Type,
     forwardRef,
     Provider,
-    Directive,
-    Renderer,
     ElementRef,
     Component,
     ContentChildren,
@@ -15,10 +13,14 @@ import {
 } from 'angular2/core';
 import {CONST_EXPR, isBlank} from 'angular2/src/facade/lang';
 import {ObservableWrapper} from 'angular2/src/facade/async';
-import {NG_VALUE_ACCESSOR, ControlValueAccessor, NgSelectOption} from 'angular2/common';
+import {NG_VALUE_ACCESSOR, ControlValueAccessor, NgSelectOption, NgControl} from 'angular2/common';
 import {Subscription} from 'rxjs';
 
 declare var $: JQueryStatic;
+
+const GTX_SELECT_VALUE_ACCESSOR: Provider = CONST_EXPR(new Provider(
+    NG_VALUE_ACCESSOR, {useExisting: forwardRef(() => Select), multi: true}));
+
 
 /**
  * The Select wraps the Materialize <select> element, which dynamically generates a styled list rather than use
@@ -32,9 +34,10 @@ declare var $: JQueryStatic;
  */
 @Component({
     selector: 'gtx-select',
-    template: require('./select.tpl.html')
+    template: require('./select.tpl.html'),
+    providers: [GTX_SELECT_VALUE_ACCESSOR]
 })
-export class Select {
+export class Select implements ControlValueAccessor {
 
     // native attributes
     @Input() disabled: boolean = false;
@@ -53,6 +56,10 @@ export class Select {
 
     @ContentChildren(NgSelectOption, { descendants: true }) selectOptions: QueryList<NgSelectOption>;
 
+    // ValueAccessor members
+    onChange: any = () => {};
+    onTouched: any = () => {};
+
     $nativeSelect: any;
     subscription: Subscription;
 
@@ -61,9 +68,9 @@ export class Select {
      */
     selectItemClick: (e: Event) => void = (e: Event) => {
         const fakeInput: HTMLInputElement = this.elementRef.nativeElement.querySelector('input.select-dropdown');
-        const stringToArray: any = (str: string) => str.split(',').map((s: string) => s.trim());
-        this.value = this.multiple ? stringToArray(fakeInput.value) : fakeInput.value;
+        this.value = this.normalizeValue(fakeInput.value);
         this.change.emit(this.value);
+        this.onChange();
     };
 
     inputBlur: (e: Event) => void = (e: Event) => {
@@ -72,7 +79,11 @@ export class Select {
         this.blur.emit(this.value);
     };
 
-    constructor(private elementRef: ElementRef) {}
+    constructor(private elementRef: ElementRef,
+                @Query(NgSelectOption, {descendants: true}) query: QueryList<NgSelectOption>) {
+
+        this._updateValueWhenListOfOptionsChanges(query);
+    }
 
     /**
      * If a `value` has been passed in, we mark the corresponding option as "selected".
@@ -111,7 +122,7 @@ export class Select {
 
         this.subscription = this.selectOptions.changes.subscribe(() => {
             this.unregisterHandlers();
-            nativeSelect.value = <string>this.value;
+            nativeSelect.value = <string> this.value;
             this.$nativeSelect.material_select();
             this.registerHandlers();
         });
@@ -158,6 +169,31 @@ export class Select {
         }
     }
 
+    // ValueAccessor members
+    writeValue(value: any): void {
+        this.updateValue(value);
+    }
+    registerOnChange(fn: (_: any) => any): void {
+        this.onChange = () => {
+            fn(this.value);
+        };
+    }
+    registerOnTouched(fn: () => any): void { this.onTouched = fn; }
+
+
+    /**
+     * If this is a multiple select, turn the string value of the input into an array
+     * of strings.
+     */
+    private normalizeValue(value: string): string|string[] {
+        const stringToArray: Function = (str: string) => {
+            return str.split(',')
+                .map((s: string) => s.trim())
+                .filter((s: string) => s !== '');
+        };
+        return this.multiple ? stringToArray(value) : value;
+    }
+
     private registerHandlers(): void {
         $(this.elementRef.nativeElement).find('li').on('click', this.selectItemClick);
         $(this.elementRef.nativeElement).find('input.select-dropdown').on('blur', this.inputBlur);
@@ -167,38 +203,6 @@ export class Select {
         $(this.elementRef.nativeElement).find('li').off('click', this.selectItemClick);
         $(this.elementRef.nativeElement).find('input.select-dropdown').off('blur', this.inputBlur);
     }
-}
-
-
-
-const GTX_SELECT_VALUE_ACCESSOR: Provider = CONST_EXPR(new Provider(
-    NG_VALUE_ACCESSOR, {useExisting: forwardRef(() => GtxSelectValueAccessor), multi: true}));
-
-@Directive({
-    selector: 'gtx-select[ngModel], gtx-select[ngControl], gtx-select[ngFormControl]',
-    host: {'(change)': 'onChange($event)', '(blur)': 'onTouched()'},
-    bindings: [GTX_SELECT_VALUE_ACCESSOR]
-})
-export class GtxSelectValueAccessor implements ControlValueAccessor {
-    value: string;
-    onChange: any = (_: any) => {};
-    onTouched: any = () => {};
-
-    constructor(private selectInstance: Select,
-                @Query(NgSelectOption, {descendants: true}) query: QueryList<NgSelectOption>) {
-        this._updateValueWhenListOfOptionsChanges(query);
-    }
-
-    writeValue(value: any): void {
-        this.selectInstance.updateValue(value);
-    }
-
-    registerOnChange(fn: (_: any) => any): void {
-        this.onChange = () => {
-            fn(this.selectInstance.value);
-        };
-    }
-    registerOnTouched(fn: () => any): void { this.onTouched = fn; }
 
     private _updateValueWhenListOfOptionsChanges(query: QueryList<NgSelectOption>): void {
         ObservableWrapper.subscribe(query.changes, (_: any) => this.writeValue(this.value));

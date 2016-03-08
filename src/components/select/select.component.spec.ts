@@ -14,12 +14,9 @@ import {
     tick,
     TestComponentBuilder
 } from 'angular2/testing';
-import {Select, GtxSelectValueAccessor} from './select.component';
-import {GtxInputValueAccessor} from '../input/input.component';
+import {Select} from './select.component';
 
-
-
-describe('Select', () => {
+describe('Select:', () => {
 
     it('should bind the label', injectAsync([TestComponentBuilder], (tcb: TestComponentBuilder) => {
         return tcb.overrideTemplate(TestComponent, `<gtx-select label="testLabel"></gtx-select>`)
@@ -190,9 +187,7 @@ describe('Select', () => {
     it('should emit "change" when a list item is clicked (multiple select)', injectAsync([TestComponentBuilder],
         fakeAsync((tcb: TestComponentBuilder) => {
             return tcb.overrideTemplate(TestComponent,
-                `<gtx-select multiple="true"
-                             [value]="value"
-                             (change)="onChange($event)">
+                `<gtx-select multiple="true" [value]="value" (change)="onChange($event)">
                       <option *ngFor="#option of options" [value]="option">{{ option }}</option>
                  </gtx-select>`)
                 .createAsync(TestComponent)
@@ -214,13 +209,35 @@ describe('Select', () => {
                 });
         })));
 
+    it('should emit "change" with an empty array when multiple select has no selected options', injectAsync([TestComponentBuilder],
+        fakeAsync((tcb: TestComponentBuilder) => {
+            return tcb.overrideTemplate(TestComponent,
+                `<gtx-select multiple="true" [value]="value" (change)="onChange($event)">
+                      <option *ngFor="#option of options" [value]="option">{{ option }}</option>
+                 </gtx-select>`)
+                .createAsync(TestComponent)
+                .then((fixture: ComponentFixture) => {
+                    fixture.detectChanges();
+                    tick();
+
+                    let optionLIs: NodeListOf<HTMLLIElement> = fixture.nativeElement.querySelectorAll('li');
+                    let instance: TestComponent = fixture.componentInstance;
+                    spyOn(instance, 'onChange');
+
+                    optionLIs[1].click();
+                    tick();
+                    expect((<any> instance.onChange).calls.argsFor(0)[0]).toEqual([]);
+                });
+        })));
+
     describe('ValueAccessor:', () => {
 
         it('should bind the value with NgModel (outbound)', injectAsync([TestComponentBuilder],
             fakeAsync((tcb: TestComponentBuilder) => {
-                return tcb.overrideTemplate(TestComponent, `<gtx-select [(ngModel)]="ngModelValue">
-                                                                <option *ngFor="#option of options" [value]="option">{{ option }}</option>
-                                                            </gtx-select>`)
+                return tcb.overrideTemplate(TestComponent,
+                    `<gtx-select [(ngModel)]="ngModelValue">
+                         <option *ngFor="#option of options" [value]="option">{{ option }}</option>
+                     </gtx-select>`)
                     .createAsync(TestComponent)
                     .then((fixture: ComponentFixture) => {
                         fixture.detectChanges();
@@ -276,14 +293,13 @@ describe('Select', () => {
 
 });
 
-
 @Component({
     template: `<gtx-select [value]="value"
                            (blur)="onBlur($event)"
                            (change)="onChange($event)">
                     <option *ngFor="#option of options" [value]="option">{{ option }}</option>
                </gtx-select>`,
-    directives: [Select, GtxSelectValueAccessor]
+    directives: [Select]
 })
 class TestComponent {
 
