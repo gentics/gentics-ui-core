@@ -10,7 +10,7 @@ gtx-split-view-container {
         > * {
             width: 45%;
             display: inline-block;
-            border: 10px solid red;
+            border: 1px solid #eee;
         }
 
         > :last-child {
@@ -28,7 +28,7 @@ gtx-split-view-container {
             }
 
             &.contentFocused {
-                transform: translateX(-35%);
+                transform: translateX(-42%);
 
                 :last-child {
                     opacity: 1;
