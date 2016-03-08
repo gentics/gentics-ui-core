@@ -1,26 +1,19 @@
 import {
-    Type,
-    forwardRef,
-    Provider,
     ElementRef,
     Component,
     ContentChildren,
+    Optional,
     Query,
     QueryList,
     Input,
     Output,
     EventEmitter
 } from 'angular2/core';
-import {CONST_EXPR, isBlank} from 'angular2/src/facade/lang';
 import {ObservableWrapper} from 'angular2/src/facade/async';
-import {NG_VALUE_ACCESSOR, ControlValueAccessor, NgSelectOption, NgControl} from 'angular2/common';
+import {ControlValueAccessor, NgSelectOption, NgControl} from 'angular2/common';
 import {Subscription} from 'rxjs';
 
 declare var $: JQueryStatic;
-
-const GTX_SELECT_VALUE_ACCESSOR: Provider = CONST_EXPR(new Provider(
-    NG_VALUE_ACCESSOR, {useExisting: forwardRef(() => Select), multi: true}));
-
 
 /**
  * The Select wraps the Materialize <select> element, which dynamically generates a styled list rather than use
@@ -34,8 +27,7 @@ const GTX_SELECT_VALUE_ACCESSOR: Provider = CONST_EXPR(new Provider(
  */
 @Component({
     selector: 'gtx-select',
-    template: require('./select.tpl.html'),
-    providers: [GTX_SELECT_VALUE_ACCESSOR]
+    template: require('./select.tpl.html')
 })
 export class Select implements ControlValueAccessor {
 
@@ -80,8 +72,11 @@ export class Select implements ControlValueAccessor {
     };
 
     constructor(private elementRef: ElementRef,
+                @Optional() ngControl: NgControl,
                 @Query(NgSelectOption, {descendants: true}) query: QueryList<NgSelectOption>) {
-
+        if (ngControl) {
+            ngControl.valueAccessor = this;
+        }
         this._updateValueWhenListOfOptionsChanges(query);
     }
 
