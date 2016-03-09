@@ -23,6 +23,8 @@ testing.setBaseTestProviders(
   browser.TEST_BROWSER_PLATFORM_PROVIDERS,
   browser.TEST_BROWSER_APPLICATION_PROVIDERS);
 
+require('./src/index.ts');
+
 /*
   Ok, this is kinda crazy. We can use the the context method on
   require that webpack created in order to tell webpack
