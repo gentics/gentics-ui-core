@@ -9,14 +9,23 @@ import {UiComponents} from './components/ui-components/ui-components.component';
 @Component({
     selector: 'app',
     template: require('./app.tpl.html'),
-    directives: [ROUTER_DIRECTIVES, TopBar, SearchBar, ListPane, ContentPane, SplitViewContainer, SideMenu, ContentsListItem],
+    directives: [
+        ROUTER_DIRECTIVES,
+        TopBar,
+        SearchBar,
+        ListPane,
+        ContentPane,
+        SplitViewContainer,
+        SideMenu,
+        ContentsListItem
+    ],
     styles: [require('./app.scss').toString()]
 })
 @RouteConfig([
-  { path: '/colors', name: 'Colors', component: Colors },
-  { path: '/typography', name: 'Typography', component: Typography },
-  { path: '/form-components', name: 'FormComponents', component: FormComponents },
-  { path: '/ui-components', name: 'UiComponents', component: UiComponents }
+    { path: '/colors', name: 'Colors', component: Colors },
+    { path: '/typography', name: 'Typography', component: Typography },
+    { path: '/form-components', name: 'FormComponents', component: FormComponents },
+    { path: '/ui-components', name: 'UiComponents', component: UiComponents }
 ])
 export class App {
 
@@ -52,3 +61,8 @@ export class App {
         this.displayMenu = newState;
     }
 }
+
+@Component({
+    template: ''
+})
+class EmptyComponent {}

@@ -1,0 +1,20 @@
+<div class="input-field">
+    <input type="radio"
+        [attr.id]="id"
+        [attr.name]="name"
+        [checked]="checked"
+        [disabled]="disabled"
+        [readonly]="readonly"
+        [required]="required"
+        [value]="value"
+
+        [class.with-gap]="materialGap"
+
+        (blur)="onBlur()"
+        (focus)="onFocus()"
+        (change)="onInputChecked()"
+
+        #input
+    >
+    <label [attr.for]="id" (click)="input.focus()">{{ label }}</label>
+</div>
