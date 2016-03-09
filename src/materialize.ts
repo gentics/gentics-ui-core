@@ -12,11 +12,14 @@
 'use strict';
 
 /* Required dependencies for the Materialize scripts */
-let $: JQueryStatic = window['jQuery'] = require('jquery');
+let $: JQueryStatic = require('jquery');
+window['$'] = $;
+window['jQuery'] = $;
 require('jquery-easing');
 require('materialize-css/js/animation.js');
 require('velocity-animate');
 require('materialize-css/js/jquery.hammer.js');
+require('materialize-css/js/global.js');
 
 /* Uncomment the components that we want to include */
 // require('materialize-css/js/collapsible.js');
