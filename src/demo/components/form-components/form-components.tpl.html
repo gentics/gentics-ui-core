@@ -81,6 +81,30 @@
     </div>
 </div>
 
+<h4>Range</h4>
+<p>
+    The range input can have <code>min, max, step</code> attributes. In the example below,
+    min="-180"; max="180"; step="5".
+</p>
+<div class="row">
+    <div class="col s8">
+        <gtx-range [(ngModel)]="rangeVal" step="5" min="-180" max="180"></gtx-range>
+    </div>
+    <div class="col s4">
+        Value: {{ rangeVal | json }}
+    </div>
+</div>
+<p>
+    A readonly or disabled range input will not be draggable, but the value can be set dynamically.
+</p>
+<div class="row">
+    <div class="col s8">
+        <gtx-range [(ngModel)]="rangeValDynamic" readonly="true"></gtx-range>
+    </div>
+    <div class="col s4">
+        <gtx-input [(ngModel)]="rangeValDynamic" type="number" min="0" max="100" step="1"></gtx-input>
+    </div>
+</div>
 <br>
 <br>
 <br>

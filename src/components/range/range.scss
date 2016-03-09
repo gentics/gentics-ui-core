@@ -1,0 +1,21 @@
+gtx-range {
+    > .range-field label {
+        left: 0;
+    }
+
+    &[readonly], &[disabled] {
+        > .range-field .thumb {
+            display: none;
+        }
+        input {
+            cursor: default;
+        }
+        input::-webkit-slider-thumb,  input::-webkit-slider-runnable-track {
+            cursor: default;
+        }
+    }
+
+    &[disabled] input::-webkit-slider-thumb {
+        background-color: gray;
+    }
+}
