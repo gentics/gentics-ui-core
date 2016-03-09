@@ -6,6 +6,7 @@
     "experimentalDecorators": true,
     "sourceMap": true,
     "moduleResolution": "node",
+    "noImplicitAny": true,
     "isolatedModules": true,
     "noEmit": true
   },
