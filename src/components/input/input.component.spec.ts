@@ -225,11 +225,7 @@ describe('InputField', () => {
 
     describe('ValueAccessor:', () => {
 
-        /**
-         * Can't get the test to pass, event though manual testing shows that this works fine.
-         * TODO: Find out why and fix the test.
-         */
-        xit('should bind the value with NgModel (inbound)', injectAsync([TestComponentBuilder],
+        it('should bind the value with NgModel (inbound)', injectAsync([TestComponentBuilder],
             fakeAsync((tcb: TestComponentBuilder) => {
                 return tcb.overrideTemplate(TestComponent, `<gtx-input [(ngModel)]="value"></gtx-input>`)
                     .createAsync(TestComponent)
@@ -258,11 +254,7 @@ describe('InputField', () => {
                     });
             })));
 
-        /**
-         * Can't get the test to pass, event though manual testing shows that this works fine.
-         * TODO: Find out why and fix the test.
-         */
-        xit('should bind the value with NgControl (inbound)', injectAsync([TestComponentBuilder],
+        it('should bind the value with NgControl (inbound)', injectAsync([TestComponentBuilder],
             fakeAsync((tcb: TestComponentBuilder) => {
                 return tcb.overrideTemplate(TestComponent, `<form [ngFormModel]="testForm">
                                                                 <gtx-input ngControl="test"></gtx-input>

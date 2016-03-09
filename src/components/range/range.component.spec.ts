@@ -147,11 +147,7 @@ describe('Range:', () => {
 
     describe('ValueAccessor:', () => {
 
-        /**
-         * Can't get the test to pass, event though manual testing shows that this works fine.
-         * TODO: Find out why and fix the test.
-         */
-        xit('should bind the value with NgModel (inbound)', injectAsync([TestComponentBuilder],
+        it('should bind the value with NgModel (inbound)', injectAsync([TestComponentBuilder],
             fakeAsync((tcb: TestComponentBuilder) => {
                 return tcb.overrideTemplate(TestComponent, `<gtx-range [(ngModel)]="value"></gtx-range>`)
                     .createAsync(TestComponent)
@@ -159,7 +155,7 @@ describe('Range:', () => {
                         fixture.detectChanges();
                         tick();
                         let nativeInput: HTMLInputElement = fixture.nativeElement.querySelector('input');
-                        expect(nativeInput.value).toBe('testValue');
+                        expect(nativeInput.value).toBe('75');
                     });
             })));
 
@@ -180,11 +176,7 @@ describe('Range:', () => {
                     });
             })));
 
-        /**
-         * Can't get the test to pass, event though manual testing shows that this works fine.
-         * TODO: Find out why and fix the test.
-         */
-        xit('should bind the value with NgControl (inbound)', injectAsync([TestComponentBuilder],
+        it('should bind the value with NgControl (inbound)', injectAsync([TestComponentBuilder],
             fakeAsync((tcb: TestComponentBuilder) => {
                 return tcb.overrideTemplate(TestComponent, `<form [ngFormModel]="testForm">
                                                                 <gtx-range ngControl="test"></gtx-range>
@@ -194,7 +186,7 @@ describe('Range:', () => {
                         fixture.detectChanges();
                         tick();
                         let nativeInput: HTMLInputElement = fixture.nativeElement.querySelector('input');
-                        expect(nativeInput.value).toBe('controlValue');
+                        expect(nativeInput.value).toBe('75');
                     });
             })));
 
@@ -220,7 +212,6 @@ describe('Range:', () => {
     });
 });
 
-
 @Component({
     template: `<gtx-range></gtx-range>`,
     directives: [Range]
@@ -232,7 +223,7 @@ class TestComponent {
 
     constructor() {
         this.testForm = new ControlGroup({
-            test: new Control('controlValue')
+            test: new Control(75)
         });
     }
 

@@ -172,11 +172,7 @@ describe('Textarea', () => {
 
     describe('ValueAccessor:', () => {
 
-        /**
-         * Can't get the test to pass, event though manual testing shows that this works fine.
-         * TODO: Find out why and fix the test.
-         */
-        xit('should bind the value with NgModel (inbound)', injectAsync([TestComponentBuilder],
+        it('should bind the value with NgModel (inbound)', injectAsync([TestComponentBuilder],
             fakeAsync((tcb: TestComponentBuilder) => {
                 return tcb.overrideTemplate(TestComponent, `<gtx-textarea [(ngModel)]="value"></gtx-textarea>`)
                     .createAsync(TestComponent)
@@ -205,11 +201,7 @@ describe('Textarea', () => {
                     });
             })));
 
-        /**
-         * Can't get the test to pass, event though manual testing shows that this works fine.
-         * TODO: Find out why and fix the test.
-         */
-        xit('should bind the value with NgControl (inbound)', injectAsync([TestComponentBuilder],
+        it('should bind the value with NgControl (inbound)', injectAsync([TestComponentBuilder],
             fakeAsync((tcb: TestComponentBuilder) => {
                 return tcb.overrideTemplate(TestComponent, `<form [ngFormModel]="testForm">
                                                                 <gtx-textarea ngControl="test"></gtx-textarea>
