@@ -2,8 +2,11 @@ import {
     Component,
     Input,
     Output,
+    Optional,
     EventEmitter
 } from 'angular2/core';
+import {isBlank} from 'angular2/src/facade/lang';
+import {ControlValueAccessor, NgControl} from 'angular2/common';
 
 /**
  * The Textarea wraps the native <textarea> form element.
@@ -12,7 +15,7 @@ import {
     selector: 'gtx-textarea',
     template: require('./textarea.tpl.html')
 })
-export class Textarea {
+export class Textarea implements ControlValueAccessor {
 
     // native attributes
     @Input() disabled: boolean = false;
@@ -31,6 +34,17 @@ export class Textarea {
     @Output() focus: EventEmitter<string> = new EventEmitter();
     @Output() change: EventEmitter<string> = new EventEmitter();
 
+    // ValueAccessor members
+    onChange: any = (_: any) => {};
+    onTouched: any = () => {};
+
+    constructor(@Optional() ngControl: NgControl) {
+        if (ngControl) {
+            ngControl.valueAccessor = this;
+        }
+    }
+
+
     onBlur(): void {
         this.blur.emit(this.value);
         this.change.emit(this.value);
@@ -40,8 +54,16 @@ export class Textarea {
         this.focus.emit(this.value);
     }
 
-    onChange(e: Event): void {
+    onInput(e: Event): void {
         const target: HTMLInputElement = <HTMLInputElement> e.target;
         this.change.emit(target.value);
+        this.onChange(target.value);
     }
+
+    writeValue(value: any): void {
+        this.value = isBlank(value) ? '' : value;
+    }
+
+    registerOnChange(fn: Function): void { this.onChange = fn; }
+    registerOnTouched(fn: Function): void { this.onTouched = fn; }
 }

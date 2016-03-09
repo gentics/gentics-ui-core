@@ -13,11 +13,11 @@
         [type]="type"
 
         [attr.id]="id"
-        [(ngModel)]="value"
+        [value]="value"
 
         (blur)="onBlur($event)"
         (focus)="onFocus($event)"
-        (input)="onChange($event)"
+        (input)="onInput($event)"
 
         #input
     >

@@ -8,11 +8,11 @@
         [required]="required"
 
         [attr.id]="id"
-        [(ngModel)]="value"
+        [value]="value"
 
         (blur)="onBlur($event)"
         (focus)="onFocus($event)"
-        (input)="onChange($event)"
+        (input)="onInput($event)"
     >{{ value }}</textarea>
     <label [attr.for]="id">{{ label }}</label>
 </div>

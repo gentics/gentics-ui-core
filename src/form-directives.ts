@@ -1,7 +1,8 @@
 import {CONST_EXPR} from 'angular2/src/facade/lang';
 import {Type} from 'angular2/core';
-import {InputField, GtxInputValueAccessor} from './components/input/input.component';
+import {InputField} from './components/input/input.component';
 import {Textarea} from './components/textarea/textarea.component';
+import {Range} from './components/range/range.component';
 import {Select} from './components/select/select.component';
 
 /**
@@ -10,7 +11,7 @@ import {Select} from './components/select/select.component';
  */
 export const GTX_FORM_DIRECTIVES : Type[] = CONST_EXPR([
     InputField,
+    Range,
     Select,
-    Textarea,
-    GtxInputValueAccessor
+    Textarea
 ]);

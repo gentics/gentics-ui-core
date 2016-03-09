@@ -12,7 +12,7 @@ import {
     tick,
     TestComponentBuilder
 } from 'angular2/testing';
-import {InputField, GtxInputValueAccessor} from './input.component';
+import {InputField} from './input.component';
 
 
 
@@ -113,6 +113,30 @@ describe('InputField', () => {
             });
     }));
 
+    it('should bind a string value', injectAsync([TestComponentBuilder],
+        fakeAsync((tcb: TestComponentBuilder) => {
+            return tcb.overrideTemplate(TestComponent, `<gtx-input [value]="value"></gtx-input>`)
+                .createAsync(TestComponent)
+                .then((fixture: ComponentFixture) => {
+                    let nativeInput: HTMLInputElement = fixture.nativeElement.querySelector('input');
+                    fixture.detectChanges();
+
+                    expect(nativeInput.value).toEqual('testValue');
+                });
+        })));
+
+    it('should bind a number value', injectAsync([TestComponentBuilder],
+        fakeAsync((tcb: TestComponentBuilder) => {
+            return tcb.overrideTemplate(TestComponent, `<gtx-input type="number" [value]="numberVal"></gtx-input>`)
+                .createAsync(TestComponent)
+                .then((fixture: ComponentFixture) => {
+                    let nativeInput: HTMLInputElement = fixture.nativeElement.querySelector('input');
+                    fixture.detectChanges();
+
+                    expect(nativeInput.value).toEqual('42');
+                });
+        })));
+
     it('should emit "blur" when native input blurs, with current value', injectAsync([TestComponentBuilder],
         fakeAsync((tcb: TestComponentBuilder) => {
             return tcb.overrideTemplate(TestComponent, `<gtx-input (blur)="onBlur($event)" value="foo"></gtx-input>`)
@@ -147,7 +171,7 @@ describe('InputField', () => {
                 });
         })));
 
-    it('should emit "change" when native input value is changed', injectAsync([TestComponentBuilder],
+    it('should emit "change" when native input value is changed (string)', injectAsync([TestComponentBuilder],
         fakeAsync((tcb: TestComponentBuilder) => {
             return tcb.overrideTemplate(TestComponent, `<gtx-input (change)="onChange($event)" value="foo"></gtx-input>`)
                 .createAsync(TestComponent)
@@ -161,6 +185,24 @@ describe('InputField', () => {
                     tick();
 
                     expect(instance.onChange).toHaveBeenCalledWith('foo');
+                });
+        })));
+
+    it('should emit "change" when native input value is changed (number)', injectAsync([TestComponentBuilder],
+        fakeAsync((tcb: TestComponentBuilder) => {
+            return tcb.overrideTemplate(TestComponent,
+                    `<gtx-input (change)="onChange($event)" type="number" [value]="numberVal"></gtx-input>`)
+                .createAsync(TestComponent)
+                .then((fixture: ComponentFixture) => {
+                    let nativeInput: HTMLInputElement = fixture.nativeElement.querySelector('input');
+                    let instance: TestComponent = fixture.componentInstance;
+                    fixture.detectChanges();
+                    spyOn(instance, 'onChange');
+
+                    triggerInputEvent(nativeInput);
+                    tick();
+
+                    expect(instance.onChange).toHaveBeenCalledWith(42);
                 });
         })));
 
@@ -259,11 +301,12 @@ describe('InputField', () => {
 
 @Component({
     template: `<gtx-input></gtx-input>`,
-    directives: [InputField, GtxInputValueAccessor]
+    directives: [InputField]
 })
 class TestComponent {
 
     value: string = 'testValue';
+    numberVal: number = 42;
     testForm: ControlGroup;
 
     constructor() {

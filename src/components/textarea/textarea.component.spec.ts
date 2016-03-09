@@ -13,7 +13,6 @@ import {
     TestComponentBuilder
 } from 'angular2/testing';
 import {Textarea} from './textarea.component';
-import {GtxInputValueAccessor} from '../input/input.component';
 
 
 
@@ -249,7 +248,7 @@ describe('Textarea', () => {
 
 @Component({
     template: `<gtx-textarea></gtx-textarea>`,
-    directives: [Textarea, GtxInputValueAccessor]
+    directives: [Textarea]
 })
 class TestComponent {
 
