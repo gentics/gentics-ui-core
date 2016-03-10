@@ -26,16 +26,16 @@ gtx-split-view-container {
     }
 
     > .hasNoRightPanel > .right-panel {
-        opacity: 0;
+        opacity: $gtx-split-view-container-opacity-hidden;
     }
 
     > .hasRightPanel > .right-panel,
     > .focusedRight > .left-panel {
-        opacity: 0.66;
+        opacity: $gtx-split-view-container-opacity-inactive;
     }
 
     > .focusedRight > .right-panel {
-        opacity: 1;
+        opacity: $gtx-split-view-container-opacity-focused;
     }
 
     > .resizing {
@@ -47,7 +47,7 @@ gtx-split-view-container {
             top: 0;
             bottom: 0;
             width: 10px;
-            background-color: rgba(0,64,192,0.25);
+            background-color: $gtx-split-view-container-resize-drag-color;
             -webkit-user-select: none;
             -moz-user-select: none;
             -ms-user-select: none;
@@ -149,18 +149,12 @@ gtx-split-view-container {
             display: none;
         }
     }
+}
 
-    // DEBUG ---
-    // & > .slideable {
-    //     & > .left-panel,
-    //     & > .right-panel {
-    //         border: 1px solid #e00;
-    //     }
-
-    //     & > .focus-switcher-left,
-    //     & > .focus-switcher-right {
-    //         outline: 1px solid blue;
-    //     }
-    // }
-
+@if ($gtx-split-view-container-global-resize-cursor) {
+    body.gtx-split-view-container-resizing {
+        &, & * {
+            cursor: ew-resize !important;
+        }
+    }
 }

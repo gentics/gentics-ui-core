@@ -4,9 +4,11 @@ import {
     ElementRef,
     EventEmitter,
     Input,
+    OnDestroy,
     Output,
     ViewChild
 } from 'angular2/core';
+import { DOM } from 'angular2/src/platform/dom/dom_adapter';
 
 // HACK: workaround for enum type. With TypeScript >= 1.8.0, use:
 //   type FocusType: 'left' | 'right';
@@ -19,7 +21,7 @@ export class FocusType {
     selector: 'gtx-split-view-container',
     template: require('./split-view-container.tpl.html')
 })
-export class SplitViewContainer implements AfterViewInit {
+export class SplitViewContainer implements AfterViewInit, OnDestroy {
     /**
      * Tells if a panel is opened on the right side in the split view.
      * Setting to false will also change {@link focusedPanel}.
@@ -140,6 +142,8 @@ export class SplitViewContainer implements AfterViewInit {
     private resizing: boolean = false;
     private resizeMouseOffset: number;
     private resizerXPosition: number;
+    private boundBodyMouseUp: EventListener;
+    private boundBodyMouseMove: EventListener;
 
     @ViewChild('resizeContainer') private resizeContainer: ElementRef;
     @ViewChild('leftPanel') private leftPanel: ElementRef;
@@ -158,6 +162,10 @@ export class SplitViewContainer implements AfterViewInit {
         css.top = element.offsetTop + 'px';
         css.bottom = css.left = css.right = '0';
         css.position = 'absolute';
+    }
+
+    ngOnDestroy(): void {
+        this.unbindBodyEvents();
     }
 
     private leftPanelClicked() {
@@ -180,6 +188,14 @@ export class SplitViewContainer implements AfterViewInit {
         const mouseXOffset: number = event.clientX - resizeHandle.getBoundingClientRect().left;
         this.resizeMouseOffset = mouseXOffset;
 
+        // Bind mousemove and mouseup on body (the Angular2 way)
+        this.boundBodyMouseMove = this.moveResizer.bind(this);
+        this.boundBodyMouseUp = this.endResizing.bind(this);
+        const body: HTMLBodyElement = DOM.query('body');
+        DOM.addClass(body, 'gtx-split-view-container-resizing');
+        body.addEventListener('mousemove', this.boundBodyMouseMove);
+        body.addEventListener('mouseup', this.boundBodyMouseUp);
+
         // Start resizing
         this.resizerXPosition = this.getAdjustedPosition(event.clientX);
         this.resizing = true;
@@ -192,6 +208,18 @@ export class SplitViewContainer implements AfterViewInit {
     private endResizing(event: MouseEvent) {
         this.leftContainerWidthPercent = this.getAdjustedPosition(event.clientX);
         this.resizing = false;
+        this.unbindBodyEvents();
+    }
+
+    private unbindBodyEvents(): void {
+        if (this.boundBodyMouseMove) {
+            const body: HTMLBodyElement = DOM.query('body');
+            DOM.removeClass(body, 'gtx-split-view-container-resizing');
+            body.removeEventListener('mousemove', this.boundBodyMouseMove);
+            body.removeEventListener('mouseup', this.boundBodyMouseUp);
+            this.boundBodyMouseMove = null;
+            this.boundBodyMouseUp = null;
+        }
     }
 
     /**

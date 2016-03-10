@@ -5,8 +5,6 @@
     [class.focusedLeft]="focusedPanel == 'left'"
 
     [class.resizing]="resizing"
-    (mousemove)="resizing && moveResizer($event)"
-    (mouseup)="resizing && endResizing($event)"
     #resizeContainer
 >
 
