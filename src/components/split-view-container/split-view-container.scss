@@ -1,5 +1,4 @@
-$gtx-split-view-container-spacing: 30px !default;
-$gtx-split-view-container-peek-size: 5% !default;
+$gtx-split-view-container-peek-size: 10% !default;
 
 gtx-split-view-container {
     box-sizing: border-box;
@@ -44,80 +43,37 @@ gtx-split-view-container {
     @media only screen and (max-width : $large-screen) {
         & > .slideable {
             overflow-x: hidden;
-        }
 
-        & > .hasRightPanel > .left-panel {
-            min-width: 90%;
-            max-width: 90%;
-            transform: translateX(0);
-        }
-
-        & > .hasNoRightPanel > .right-panel {
-            min-width: 90%;
-            max-width: 90%;
-            transform: translateX(0);
+            > .left-panel,
+            > .right-panel {
+                min-width: 90%;
+                max-width: 90%;
+            }
         }
 
         & > .hasRightPanel > .right-panel {
-            min-width: 90%;
-            max-width: 90%;
             transform: translateX(1%);
         }
 
         & > .focusedRight > .left-panel {
-            min-width: 90%;
-            max-width: 90%;
             transform: translateX(-90%);
         }
 
         & > .focusedRight > .right-panel {
-            min-width: 90%;
-            max-width: 90%;
             transform: translateX(-89%);
         }
 
         & > .hasNoRightPanel > .left-panel {
             min-width: 100%;
             max-width: 100%;
-            transform: translateX(0);
         }
-
-
-
-        // & > .slideable {
-        //     width: 200%;
-        //     margin-left: -50%;
-
-        //     > .left-panel,
-        //     > .right-panel {
-        //         width: 50%;
-        //     }
-        // }
-
-        // &.hasContent > .slideable {
-        //     > .left-panel {
-        //         width: 50% - ($gtx-split-view-container-peek-size);
-        //         // padding-right: $gtx-split-view-container-peek-size;
-        //         transform: translateX(0);
-        //     }
-        //     > .right-panel {
-        //         width: 50% - ($gtx-split-view-container-peek-size);
-        //     }
-        // }
-
-        // &.contentFocused > .slideable {
-        //     > .left-panel,
-        //     > .right-panel {
-        //         transform: translateX(-100% + $gtx-split-view-container-peek-size*2);
-        //     }
-        // }
 
         & > * > .focus-switcher-left,
         & > * > .focus-switcher-right {
             position: absolute;
             top: 0;
             bottom: 0;
-            // Fixes clicking in IE
+            // Fix click events in IE
             background: rgba(0,0,0,0.00001);
             width: 9%;
             z-index: 1;
