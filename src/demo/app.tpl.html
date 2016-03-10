@@ -7,10 +7,9 @@
     <gtx-search-bar (search)="onSearch($event)" query=""></gtx-search-bar>
 
     <div class="debug-container">
-        <h3>Debug: visible: {{rightPanel ? 'T' : 'F'}}, focus = {{focusedPanel}}</h3>
-        <p><button (click)="rightPanel = !rightPanel">Toggle right panel</button></p>
-        <p><button (click)="focusedPanel = 'right'">Focus right panel</button></p>
-        <p><button (click)="focusedPanel = 'left'">Focus left panel</button></p>
+        <p>Debug: visible: {{rightPanel ? 'y' : 'n'}}, focus = {{focusedPanel}}
+            <button (click)="rightPanel = !rightPanel">Toggle right panel</button>
+        </p>
     </div>
 </div>
 

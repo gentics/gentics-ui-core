@@ -4,9 +4,12 @@ import {
     ElementRef,
     EventEmitter,
     Input,
-    Output
+    Output,
+    ViewChild
 } from 'angular2/core';
 
+// HACK: workaround for enum type. With TypeScript >= 1.8.0, use:
+//   type FocusType: 'left' | 'right';
 export class FocusType {
     static LEFT = <FocusType> (<any> 'left');
     static RIGHT = <FocusType> (<any> 'right');
@@ -25,7 +28,6 @@ export class SplitViewContainer implements AfterViewInit {
         return this._rightPanelVisible;
     }
     set rightPanelVisible(visible: boolean) {
-        console.log('set rightPanelVisible(', visible, ')');
         if (visible != this._rightPanelVisible) {
             this._rightPanelVisible = visible;
             if (visible) {
@@ -51,7 +53,6 @@ export class SplitViewContainer implements AfterViewInit {
         return this._focusedPanel;
     }
     set focusedPanel(panel: FocusType) {
-        console.log('set focusedPanel(', panel, ')');
         let newFocus: FocusType;
         if (panel == 'right' && this._rightPanelVisible) {
             newFocus = FocusType.RIGHT;
@@ -72,6 +73,24 @@ export class SplitViewContainer implements AfterViewInit {
             this.focusedPanelChange.emit(newFocus);
         }
     }
+
+    /**
+     * Changes the container split in "large" layout.
+     */
+    leftContainerWidthPercent: number = 50;
+
+    /**
+     * The smallest panel size in percent the left
+     * and right panels will shrink to when resizing.
+     */
+    @Input() minPanelSizePercent: number = 5;
+
+    /**
+     * The smallest panel size in pixels the left
+     * and right panels will shrink to when resizing.
+     */
+    @Input() minPanelSizePixels: number = 20;
+
 
     /**
      * Triggers when the right panel is closed.
@@ -118,6 +137,13 @@ export class SplitViewContainer implements AfterViewInit {
 
     private _rightPanelVisible: boolean = false;
     private _focusedPanel: FocusType = 'left';
+    private resizing: boolean = false;
+    private resizeMouseOffset: number;
+    private resizerXPosition: number;
+
+    @ViewChild('resizeContainer') private resizeContainer: ElementRef;
+    @ViewChild('leftPanel') private leftPanel: ElementRef;
+    @ViewChild('resizer') private resizer: ElementRef;
 
     constructor(private ownElement: ElementRef) {
     }
@@ -127,8 +153,8 @@ export class SplitViewContainer implements AfterViewInit {
         if (!this.ownElement || !this.ownElement.nativeElement) {
             return;
         }
-        let element: HTMLElement = this.ownElement.nativeElement;
-        let css: CSSStyleDeclaration = element.style;
+        const element: HTMLElement = this.ownElement.nativeElement;
+        const css: CSSStyleDeclaration = element.style;
         css.top = element.offsetTop + 'px';
         css.bottom = css.left = css.right = '0';
         css.position = 'absolute';
@@ -141,8 +167,60 @@ export class SplitViewContainer implements AfterViewInit {
     }
 
     private rightPanelClicked() {
-        if (this._focusedPanel == FocusType.LEFT) {
+        if (this._focusedPanel == FocusType.LEFT && this._rightPanelVisible) {
             this.focusedPanel = FocusType.RIGHT;
         }
+    }
+
+    private startResizer(event: MouseEvent) {
+        if (event.which != 1 || !this.leftPanel.nativeElement) { return; };
+        event.preventDefault();
+
+        const resizeHandle: HTMLElement = <HTMLElement> this.resizer.nativeElement;
+        const mouseXOffset: number = event.clientX - resizeHandle.getBoundingClientRect().left;
+        this.resizeMouseOffset = mouseXOffset;
+
+        // Start resizing
+        this.resizerXPosition = this.getAdjustedPosition(event.clientX);
+        this.resizing = true;
+    }
+
+    private moveResizer(event: MouseEvent) {
+        this.resizerXPosition = this.getAdjustedPosition(event.clientX);
+    }
+
+    private endResizing(event: MouseEvent) {
+        this.leftContainerWidthPercent = this.getAdjustedPosition(event.clientX);
+        this.resizing = false;
+    }
+
+    /**
+     * Helper function to keep the resize functionality
+     * within its limits (minPanelSizePixels & minPanelSizePercent).
+     * @return {number} Returns the adjusted X postition in % of the container width.
+     */
+    private getAdjustedPosition(mouseClientX: number): number {
+        const container: HTMLElement = <HTMLElement> this.resizeContainer.nativeElement;
+        const containerOffset: number = container.getBoundingClientRect().left;
+        const containerWidth: number = container.offsetWidth;
+        const resizerWidth: number = (<HTMLElement> this.resizer.nativeElement).offsetWidth;
+        const maxXPixels: number = containerWidth - resizerWidth - this.minPanelSizePixels;
+        const maxXPercent: number = 100 * (1 - resizerWidth / containerWidth) - this.minPanelSizePercent;
+
+        let relativeX: number = mouseClientX - this.resizeMouseOffset - containerOffset;
+        if (relativeX < this.minPanelSizePixels) {
+            relativeX = this.minPanelSizePixels;
+        } else if (relativeX > maxXPixels) {
+            relativeX = maxXPixels;
+        }
+
+        let percentX: number = 100 * (relativeX / containerWidth);
+        if (percentX < this.minPanelSizePercent) {
+            percentX = this.minPanelSizePercent;
+        } else if (percentX > maxXPercent) {
+            percentX = maxXPercent;
+        }
+
+        return percentX;
     }
 }

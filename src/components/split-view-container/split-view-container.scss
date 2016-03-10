@@ -1,56 +1,61 @@
-$gtx-split-view-container-peek-size: 10% !default;
-
 gtx-split-view-container {
     box-sizing: border-box;
 
-    & > .slideable {
+    > .slideable {
         @extend .container;
         display: flex;
         position: relative;
         height: 100%;
+        overflow-x: hidden;
 
-        & > .left-panel,
-        & > .right-panel {
-            //align-items: stretch;
+        > .left-panel,
+        > .right-panel {
             flex: auto;
-            border: 1px solid #e00;
             height: 100%;
-            min-width: 20px;
             transition: opacity $gtx-animation-duration,
-                        padding $gtx-animation-duration,
                         transform $gtx-animation-duration,
-                        width $gtx-animation-duration,
                         min-width $gtx-animation-duration,
                         max-width $gtx-animation-duration;
             white-space: normal;
         }
+
+        & > .resizer,
+        & > .visible-resizer {
+            display: none;
+        }
     }
 
-    & > .hasNoRightPanel > .right-panel {
+    > .hasNoRightPanel > .right-panel {
         opacity: 0;
     }
 
-    & > .hasRightPanel > .right-panel,
-    & > .focusedRight > .left-panel {
+    > .hasRightPanel > .right-panel,
+    > .focusedRight > .left-panel {
         opacity: 0.66;
     }
 
-    & > .focusedRight > .right-panel {
+    > .focusedRight > .right-panel {
         opacity: 1;
+    }
+
+    > .resizing {
+        cursor: ew-resize;
+
+        > .visible-resizer {
+            display: block;
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            width: 10px;
+            background-color: rgba(0,64,192,0.25);
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+        }
     }
 
     // Definitions for "small", sliding breakpoint
     @media only screen and (max-width : $large-screen) {
-        & > .slideable {
-            overflow-x: hidden;
-
-            > .left-panel,
-            > .right-panel {
-                min-width: 90%;
-                max-width: 90%;
-            }
-        }
-
         & > .hasRightPanel > .right-panel {
             transform: translateX(1%);
         }
@@ -63,9 +68,16 @@ gtx-split-view-container {
             transform: translateX(-89%);
         }
 
+        // !important to overwrite inline styles - is there a better way?
+        & > .slideable > .left-panel,
+        & > .slideable > .right-panel {
+            min-width: 90% !important;
+            max-width: 90% !important;
+        }
+
         & > .hasNoRightPanel > .left-panel {
-            min-width: 100%;
-            max-width: 100%;
+            min-width: 100% !important;
+            max-width: 100% !important;
         }
 
         & > * > .focus-switcher-left,
@@ -73,11 +85,10 @@ gtx-split-view-container {
             position: absolute;
             top: 0;
             bottom: 0;
-            // Fix click events in IE
-            background: rgba(0,0,0,0.00001);
             width: 9%;
             z-index: 1;
-            outline: 1px solid blue;
+            // Fix click events in IE
+            background: rgba(0,0,0,0.00001);
         }
 
         & > .focusedRight > .focus-switcher-left {
@@ -94,28 +105,62 @@ gtx-split-view-container {
     // Definitions for "large", non-sliding breakpoint
     @media only screen and (min-width : $large-screen-up) {
 
+        & > .slideable {
+            width: 90%;
 
+        }
 
-        // > .right-panel {
-        //         width: 0%;
-        //     }
-        // }
+        // !important to overwrite inline styles - is there a better way?
+        & > .hasNoRightPanel {
+            > .left-panel {
+                min-width: 100% !important;
+                max-width: 100% !important;
+            }
 
-        // &.hasContent > .slideable {
-        //     > .left-panel {
-        //         padding-right: $gtx-split-view-container-spacing / 2;
-        //         width: 50%;
-        //     }
+            > .right-panel {
+                min-width: 100% !important;
+                min-width: 100% !important;
+                transform: translateX(100%);
+            }
+        }
 
-        //     > .right-panel {
-        //         padding-left: $gtx-split-view-container-spacing / 2;
-        //         width: 50%;
-        //     }
-        // }
+        & > .hasRightPanel {
+            & > .left-panel {
+                min-width: 50%;
+                max-width: 50%;
+            }
+
+            & > .resizer {
+                min-width: 10px;
+                max-width: 10px;
+                cursor: ew-resize;
+                display: flex;
+
+                i {
+                    margin-left: -7px;
+                    color: lightgray;
+                    align-self: center;
+                }
+            }
+        }
 
         & > .focus-switcher-left,
         & > .focus-switcher-right {
             display: none;
         }
     }
+
+    // DEBUG ---
+    // & > .slideable {
+    //     & > .left-panel,
+    //     & > .right-panel {
+    //         border: 1px solid #e00;
+    //     }
+
+    //     & > .focus-switcher-left,
+    //     & > .focus-switcher-right {
+    //         outline: 1px solid blue;
+    //     }
+    // }
+
 }
