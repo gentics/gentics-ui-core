@@ -30,7 +30,9 @@
         "no-any": false,
         "no-arg": true,
         "no-bitwise": true,
-        "no-console": false,
+        "no-console": [
+            false
+        ],
         "no-construct": true,
         "no-duplicate-case": true,
         "no-duplicate-key": true,
@@ -57,7 +59,10 @@
             true,
             "single"
         ],
-        "semicolon": true,
+        "semicolon": [
+            true,
+            "always"
+        ],
         "space-return-throw-case": true,
         "trailing-comma": [
             true,
@@ -71,18 +76,23 @@
         ],
         "typedef": [
             true,
-            "call-signature",
-            "parameter",
             "property-declaration",
-            "variable-declaration",
-            "member-variable-declaration"
+            "variable-declaration"
         ],
+        "typedef-whitespace": [true, {
+            "call-signature": "nospace",
+            "index-signature": "nospace",
+            "parameter": "nospace",
+            "property-declaration": "nospace",
+            "variable-declaration": "nospace"
+        }],
         "use-isnan": true,
         "valid-typeof": true,
         "variable-name": [
             true,
-            "check-format",
-            "ban-keywords"
+            "allow-leading-underscore",
+            "ban-keywords",
+            "check-format"
         ],
         "whitespace": [
             true,

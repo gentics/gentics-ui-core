@@ -48,7 +48,10 @@ module.exports = function (config) {
                     { test: /\.ts$/, loader: 'ts?transpileOnly=true' },
                     { test: /\.html/, loader: 'html' }
                 ]
-            }
+            },
+            
+            debug: true,
+            devtool: 'eval-source-map'
         },
 
         webpackMiddleware: {

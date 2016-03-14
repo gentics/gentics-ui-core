@@ -5,14 +5,14 @@ import {Component, Input} from 'angular2/core';
     template: require('./split-view-container.tpl.html')
 })
 export class SplitViewContainer {
-    @Input() hasContent : boolean = false;
-    @Input() contentFocused : boolean = false;
+    @Input() hasContent: boolean = false;
+    @Input() contentFocused: boolean = false;
 
-    toggleHasContent() : void {
+    toggleHasContent(): void {
         this.hasContent = !this.hasContent;
     }
 
-    toggleFocused() : void {
+    toggleFocused(): void {
         this.contentFocused = !this.contentFocused;
     }
 }
