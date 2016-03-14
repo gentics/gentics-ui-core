@@ -29,7 +29,6 @@
         ],
         "no-any": false,
         "no-arg": true,
-        "no-bitwise": true,
         "no-console": [
             false
         ],

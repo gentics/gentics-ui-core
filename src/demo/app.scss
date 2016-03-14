@@ -34,3 +34,17 @@ code, kbd, pre, samp {
     background-color: #FBFBFB;
     padding: 2px 3px;
 }
+
+.split-view-container {
+    gtx-list-pane,
+    gtx-content-pane {
+        background-color: #eee;
+        border: 1px solid #ccc;
+        height: 100%;
+        width: 100%;
+
+        a {
+            cursor: pointer;
+        }
+    }
+}
