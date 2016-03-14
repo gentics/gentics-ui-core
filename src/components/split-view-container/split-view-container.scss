@@ -2,20 +2,21 @@ gtx-split-view-container {
     box-sizing: border-box;
 
     > .slideable {
-        @extend .container;
         display: flex;
-        position: relative;
         height: 100%;
+        margin: 0 auto;
         overflow-x: hidden;
+        position: relative;
+        width: 90%;
 
         > .left-panel,
         > .right-panel {
             flex: auto;
             height: 100%;
-            transition: opacity $gtx-animation-duration,
-                        transform $gtx-animation-duration,
-                        min-width $gtx-animation-duration,
-                        max-width $gtx-animation-duration;
+            transition: opacity $gtx-split-view-container-animation-duration,
+                        transform $gtx-split-view-container-animation-duration,
+                        min-width $gtx-split-view-container-animation-duration,
+                        max-width $gtx-split-view-container-animation-duration;
             white-space: normal;
         }
 
@@ -46,7 +47,7 @@ gtx-split-view-container {
             position: absolute;
             top: 0;
             bottom: 0;
-            width: 10px;
+            width: $gtx-split-view-container-resize-handle-width;
             background-color: $gtx-split-view-container-resize-drag-color;
             -webkit-user-select: none;
             -moz-user-select: none;
@@ -54,7 +55,7 @@ gtx-split-view-container {
         }
     }
 
-    // Definitions for "small", sliding breakpoint
+    // Definitions for "small" and "medium", sliding breakpoint
     @media only screen and (max-width : $large-screen) {
         & > .hasRightPanel > .right-panel {
             transform: translateX(1%);
@@ -105,11 +106,6 @@ gtx-split-view-container {
     // Definitions for "large", non-sliding breakpoint
     @media only screen and (min-width : $large-screen-up) {
 
-        & > .slideable {
-            width: 90%;
-
-        }
-
         // !important to overwrite inline styles - is there a better way?
         & > .hasNoRightPanel {
             > .left-panel {
@@ -131,8 +127,8 @@ gtx-split-view-container {
             }
 
             & > .resizer {
-                min-width: 10px;
-                max-width: 10px;
+                min-width: $gtx-split-view-container-resize-handle-width;
+                max-width: $gtx-split-view-container-resize-handle-width;
                 cursor: ew-resize;
                 display: flex;
 

@@ -1,7 +1,9 @@
 $gtx-animation-duration: 300ms !default;
+$gtx-split-view-container-animation-duration: $gtx-animation-duration !default;
 $gtx-split-view-container-opacity-focused: 1 !default;
 $gtx-split-view-container-opacity-inactive: 0.66 !default;
 $gtx-split-view-container-opacity-hidden: 0 !default;
 $gtx-split-view-container-resize-drag-color: rgba(0,64,192,0.25) !default;
 $gtx-split-view-container-resize-handle-color: lightgray !default;
-$gtx-split-view-container-resize-global-cursor: true !default;
+$gtx-split-view-container-resize-handle-width: 10px !default;
+$gtx-split-view-container-global-resize-cursor: true !default;
