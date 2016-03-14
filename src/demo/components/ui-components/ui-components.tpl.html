@@ -1,1 +1,14 @@
 <h1>UI Components</h1>
+
+<h4>Modal</h4>
+
+<button (click)="showModal = !showModal" class="btn">Open Modal</button>
+opened: {{ showModal }}
+<gtx-modal [opened]="showModal" (close)="showModal = false" #modal>
+    <h4>I'm a modal!</h4>
+    <p>Here is my content</p>
+    <p>Is this modal open? {{ showModal }}</p>
+    <gtx-modal-footer>
+        <button class="btn" (click)="modal.closeModal()">Close</button>
+    </gtx-modal-footer>
+</gtx-modal>
