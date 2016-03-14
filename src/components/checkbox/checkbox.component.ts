@@ -99,12 +99,12 @@ export class Checkbox implements ControlValueAccessor {
     }
 
     onBlur(): void {
-        this.blur.emit(this.checked);
+        this.blur.emit(this.checkState);
         this.onTouched();
     }
 
     onFocus(): void {
-        this.focus.emit(this.checked);
+        this.focus.emit(this.checkState);
     }
 
     registerOnChange(fn: Function): void { this.onChange = fn; }
