@@ -29,6 +29,14 @@ export class Modal {
     private modal: ModalInstance;
     private subscription: Subscription;
     private isClosing: boolean = false;
+    /**
+     * Close the modal when the ESC key is pressed.
+     */
+    private keyHandler = (e: JQueryEventObject): void => {
+        if (e.keyCode === 27) {
+            this.closeModal();
+        }
+    };
 
     constructor(private elementRef: ElementRef,
                 private modalService: ModalService) {
@@ -48,6 +56,8 @@ export class Modal {
                 this.closeModal();
             }
         });
+
+        this.registerKeyHandler();
     }
 
     ngOnChanges(): void {
@@ -64,6 +74,7 @@ export class Modal {
     ngOnDestroy(): void {
         this.modal.destroy();
         this.subscription.unsubscribe();
+        this.unRegisterKeyHandler();
     }
 
     /**
@@ -79,5 +90,13 @@ export class Modal {
             this.isClosing = true;
             this.modal.close();
         }
+    }
+
+    private registerKeyHandler(): void {
+        $(document).on('keyup', this.keyHandler);
+    }
+
+    private unRegisterKeyHandler(): void {
+        $(document).off('keyup', this.keyHandler);
     }
 }

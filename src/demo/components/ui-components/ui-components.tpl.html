@@ -2,12 +2,15 @@
 
 <h4>Modal</h4>
 
+<p>
+    The modal component reacts to the value of <code>opened</code> to control whether or not the modal is displayed.
+    When the modal is closed, the <code>close</code> event will fire.
+</p>
+
 <button (click)="showModal = !showModal" class="btn">Open Modal</button>
-opened: {{ showModal }}
 <gtx-modal [opened]="showModal" (close)="showModal = false" #modal>
     <h4>I'm a modal!</h4>
     <p>Here is my content</p>
-    <p>Is this modal open? {{ showModal }}</p>
     <gtx-modal-footer>
         <button class="btn" (click)="modal.closeModal()">Close</button>
     </gtx-modal-footer>
