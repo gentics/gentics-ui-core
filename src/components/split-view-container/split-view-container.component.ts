@@ -79,19 +79,22 @@ export class SplitViewContainer implements AfterViewInit, OnDestroy {
     /**
      * Changes the container split in "large" layout.
      */
+    @Input()
     leftContainerWidthPercent: number = 50;
 
     /**
      * The smallest panel size in percent the left
      * and right panels will shrink to when resizing.
      */
-    @Input() minPanelSizePercent: number = 5;
+    @Input()
+    minPanelSizePercent: number = 5;
 
     /**
      * The smallest panel size in pixels the left
      * and right panels will shrink to when resizing.
      */
-    @Input() minPanelSizePixels: number = 20;
+    @Input()
+    minPanelSizePixels: number = 20;
 
 
     /**
@@ -135,6 +138,20 @@ export class SplitViewContainer implements AfterViewInit, OnDestroy {
      */
     @Output()
     focusedPanelChange: EventEmitter<FocusType> = new EventEmitter<FocusType>();
+
+    /**
+     * Triggers when the user starts resizing the split amount between the panels.
+     * Receives the size of the left panel in % of the container width as argument.
+     */
+    @Output()
+    splitDragStart: EventEmitter<number> = new EventEmitter<number>();
+
+    /**
+     * Triggers when the user resizes the split amount between the panels.
+     * Receives the size of the left panel in % of the container width as argument.
+     */
+    @Output()
+    splitDragEnd: EventEmitter<number> = new EventEmitter<number>();
 
 
     private _rightPanelVisible: boolean = false;
@@ -185,8 +202,7 @@ export class SplitViewContainer implements AfterViewInit, OnDestroy {
         event.preventDefault();
 
         const resizeHandle: HTMLElement = <HTMLElement> this.resizer.nativeElement;
-        const mouseXOffset: number = event.clientX - resizeHandle.getBoundingClientRect().left;
-        this.resizeMouseOffset = mouseXOffset;
+        this.resizeMouseOffset = event.clientX - resizeHandle.getBoundingClientRect().left;
 
         // Bind mousemove and mouseup on body (the Angular2 way)
         this.boundBodyMouseMove = this.moveResizer.bind(this);
@@ -199,6 +215,7 @@ export class SplitViewContainer implements AfterViewInit, OnDestroy {
         // Start resizing
         this.resizerXPosition = this.getAdjustedPosition(event.clientX);
         this.resizing = true;
+        this.splitDragStart.emit(this.resizerXPosition);
     }
 
     private moveResizer(event: MouseEvent) {
@@ -209,6 +226,7 @@ export class SplitViewContainer implements AfterViewInit, OnDestroy {
         this.leftContainerWidthPercent = this.getAdjustedPosition(event.clientX);
         this.resizing = false;
         this.unbindBodyEvents();
+        this.splitDragEnd.emit(this.leftContainerWidthPercent);
     }
 
     private unbindBodyEvents(): void {
