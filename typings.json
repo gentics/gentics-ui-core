@@ -4,6 +4,7 @@
     "jasmine": "github:DefinitelyTyped/DefinitelyTyped/jasmine/jasmine.d.ts#bc92442c075929849ec41d28ab618892ba493504",
     "jquery": "github:DefinitelyTyped/DefinitelyTyped/jquery/jquery.d.ts#470954c4f427e0805a2d633636a7c6aa7170def8",
     "materialize-css": "github:DefinitelyTyped/DefinitelyTyped/materialize-css/materialize-css.d.ts#8afecce0007ec4576178db1bbb3dc80743de0048",
-    "node": "github:DefinitelyTyped/DefinitelyTyped/node/node.d.ts#aee0039a2d6686ec78352125010ebb38a7a7d743"
+    "node": "github:DefinitelyTyped/DefinitelyTyped/node/node.d.ts#aee0039a2d6686ec78352125010ebb38a7a7d743",
+    "velocity-animate": "github:DefinitelyTyped/DefinitelyTyped/velocity-animate/velocity-animate.d.ts#b92c8228f6ba925212e7744dfcb955964393ecc4"
   }
 }
