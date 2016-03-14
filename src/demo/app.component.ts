@@ -1,5 +1,5 @@
 import {Component} from 'angular2/core';
-import {RouteConfig, ROUTER_DIRECTIVES} from 'angular2/router';
+import {Router, RouteConfig, ROUTER_DIRECTIVES} from 'angular2/router';
 import {TopBar, SearchBar, ListPane, ContentPane, SideMenu, SplitViewContainer, ContentsListItem} from '../index';
 import {Colors} from './components/colors/colors.component';
 import {Typography} from './components/typography/typography.component';
@@ -52,22 +52,22 @@ export class App {
         }
     ];
 
-    private currentOpenedContent: string = null;
+    private hasContent: boolean = false;
+    private splitFocus: string = 'left';
+
+    constructor(private router: Router) {
+        router.subscribe(route => {
+            this.hasContent = !!route;
+            this.splitFocus = 'right';
+        });
+    }
 
     closeContent(): void {
-        this.currentOpenedContent = null;
+        this.hasContent = false;
     }
 
     onSearch(query: string): void {
         console.log('searching for', query);
-    }
-
-    toggleContent(content: string): void {
-        if (content != this.currentOpenedContent) {
-            this.currentOpenedContent = content;
-        } else {
-            this.currentOpenedContent = null;
-        }
     }
 
     toggleMenu(newState: boolean): void {

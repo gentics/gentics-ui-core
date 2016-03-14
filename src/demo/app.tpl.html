@@ -5,19 +5,13 @@
 
 <div class="container">
     <gtx-search-bar (search)="onSearch($event)" query=""></gtx-search-bar>
-
-    <div class="debug-container">
-        <p>Debug: visible: {{rightPanel ? 'y' : 'n'}}, focus = {{focusedPanel}}
-            <button (click)="rightPanel = !rightPanel">Toggle right panel</button>
-        </p>
-    </div>
 </div>
 
 <gtx-split-view-container class="split-view-container"
-    [(rightPanelVisible)]="rightPanel" [(focusedPanel)]="focusedPanel">
+    [rightPanelVisible]="hasContent"
+    [(focusedPanel)]="splitFocus">
 
     <gtx-list-pane left>
-
         <gtx-contents-list-item *ngFor="#item of listItems">
             <div class="item-avatar"><i class="material-icons">{{ item.icon }}</i></div>
             <div class="item-primary"><a [routerLink]="[item.route]">{{ item.title }}</a></div>
