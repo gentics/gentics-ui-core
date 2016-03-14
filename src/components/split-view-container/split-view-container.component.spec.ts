@@ -1,53 +1,264 @@
-import {expect, describe, it, beforeEachProviders, inject} from 'angular2/testing';
-import {TestComponentBuilder, ComponentFixture} from 'angular2/testing';
-import {DebugElement} from 'angular2/core';
+import {Component, DebugElement} from 'angular2/core';
+import {
+    beforeEachProviders,
+    ComponentFixture,
+    describe,
+    expect,
+    fakeAsync,
+    inject,
+    injectAsync,
+    it,
+    TestComponentBuilder,
+    tick,
+    xit
+} from 'angular2/testing';
 import {By} from 'angular2/platform/browser';
 
 import {SplitViewContainer} from './split-view-container.component';
 
-export function main(): void {
-    describe('SplitViewContainer', () => {
-        let builder: TestComponentBuilder;
-        beforeEach(<any> inject([TestComponentBuilder], (tcb: TestComponentBuilder): void => {
-            builder = tcb;
-        }));
+describe('SplitViewContainer', () => {
 
-        it('has properties for "hasContent" and "contentFocused"', (done: () => void) => {
-            return builder.createAsync(SplitViewContainer).then((fixture: ComponentFixture): void => {
-                const container: SplitViewContainer = fixture.debugElement.componentInstance;
-                expect(container.hasContent).toBeDefined();
-                expect(container.contentFocused).toBeDefined();
-                done();
-            });
-        });
+    it('should have a "rightPanelVisible" property that allows double-binding',
+        injectAsync([TestComponentBuilder], fakeAsync((tcb: TestComponentBuilder) => {
+            return tcb.overrideTemplate(TestComponent, `
+                <gtx-split-view-container
+                    [rightPanelVisible]="hasRight"
+                    (rightPanelVisibleChange)="testHandler($event)">
+                </gtx-split-view-container>
+            `)
+            .createAsync(TestComponent)
+            .then((fixture: ComponentFixture) => {
+                const instance: TestComponent = fixture.componentInstance;
+                instance.hasRight = false;
 
-        describe('#toggleContentPanel', () => {
-            it('inverts the current value of the "hasContent" property', (done: () => void) => {
-                return builder.createAsync(SplitViewContainer).then((fixture: ComponentFixture): void => {
-                    const container: SplitViewContainer = fixture.debugElement.componentInstance;
-                    container.hasContent = false;
-                    expect(container.hasContent).toBe(false);
-                    container.toggleContentPanel();
-                    expect(container.hasContent).toBe(true);
-                    container.toggleContentPanel();
-                    expect(container.hasContent).toBe(false);
-                    done();
-                });
-            });
+                fixture.detectChanges();
+                tick();
 
-            it('changes focus when no content is available', (done: () => void) => {
-                return builder.createAsync(SplitViewContainer).then((fixture: ComponentFixture): void => {
-                    const container: SplitViewContainer = fixture.debugElement.componentInstance;
-                    container.hasContent = true;
-                    container.contentFocused = true;
-                    expect(container.contentFocused).toBe(true);
-                    container.toggleContentPanel();
-                    expect(container.contentFocused).toBe(false);
-                    container.toggleContentPanel();
-                    expect(container.contentFocused).toBe(false);
-                    done();
-                });
+                instance.testHandler = jasmine.createSpy('rightPanelVisibleChange');
+                instance.hasRight = true;
+                fixture.detectChanges();
+                tick();
+                expect(instance.testHandler).toHaveBeenCalledWith(true);
+
+                instance.testHandler = jasmine.createSpy('rightPanelVisibleChange');
+                instance.hasRight = false;
+                fixture.detectChanges();
+                tick();
+                expect(instance.testHandler).toHaveBeenCalledWith(false);
             });
-        });
-    });
+        }))
+    );
+
+    it('should have a "focusedPanel" property that allows double-binding',
+        injectAsync([TestComponentBuilder], fakeAsync((tcb: TestComponentBuilder) => {
+            return tcb.overrideTemplate(TestComponent, `
+                <gtx-split-view-container
+                    [rightPanelVisible]="true"
+                    [focusedPanel]="focusedSide"
+                    (focusedPanelChange)="testHandler($event)">
+                </gtx-split-view-container>
+            `)
+            .createAsync(TestComponent)
+            .then((fixture: ComponentFixture) => {
+                const instance: TestComponent = fixture.componentInstance;
+                instance.focusedSide = 'left';
+
+                fixture.detectChanges();
+                tick();
+
+                instance.testHandler = jasmine.createSpy('focusedPanelChange');
+                instance.focusedSide = 'right';
+                fixture.detectChanges();
+                tick();
+                expect(instance.testHandler).toHaveBeenCalledWith('right');
+
+                instance.testHandler = jasmine.createSpy('focusedPanelChange');
+                instance.focusedSide = 'left';
+                fixture.detectChanges();
+                tick();
+                expect(instance.testHandler).toHaveBeenCalledWith('left');
+            });
+        }))
+    );
+
+    it('should transclude elements with "left" and "right" attribute to the container on their side',
+        injectAsync([TestComponentBuilder], fakeAsync((tcb: TestComponentBuilder) => {
+            return tcb.overrideTemplate(TestComponent, `
+                <gtx-split-view-container>
+                    <div right class="should-be-right"></div>
+                    <div left class="should-be-left"></div>
+                </gtx-split-view-container>
+            `)
+            .createAsync(TestComponent)
+            .then((fixture: ComponentFixture) => {
+                fixture.detectChanges();
+
+                const left: HTMLParagraphElement = fixture.nativeElement.querySelector('.should-be-left');
+                const right: HTMLParagraphElement = fixture.nativeElement.querySelector('.should-be-right');
+
+                // Helper function that compares the order of HTML elements
+                function comesFirstInDOM(nodeA: HTMLElement, nodeB: HTMLElement): boolean {
+                    while (nodeA.parentElement && nodeB.parentElement) {
+                        if (nodeA.parentElement == nodeB.parentElement) {
+                            let indexA: number = [].indexOf.call(nodeA.parentElement.children, nodeA);
+                            let indexB: number = [].indexOf.call(nodeB.parentElement.children, nodeB);
+                            return (indexA < indexB);
+                        }
+                        nodeA = nodeA.parentElement;
+                        nodeB = nodeB.parentElement;
+                    }
+                    return false;
+                }
+
+                expect(comesFirstInDOM(left, right)).toBe(true);
+            });
+        }))
+    );
+
+    it('should change "focusedPanel" to "left" when the right panel is hidden/closed',
+        injectAsync([TestComponentBuilder], fakeAsync((tcb: TestComponentBuilder) => {
+            return tcb.overrideTemplate(TestComponent, `
+                <gtx-split-view-container
+                    [(focusedPanel)]="focusedSide"
+                    [rightPanelVisible]="hasRight">
+                </gtx-split-view-container>
+            `)
+            .createAsync(TestComponent)
+            .then((fixture: ComponentFixture) => {
+                const instance: TestComponent = fixture.componentInstance;
+                instance.hasRight = true;
+                fixture.detectChanges();
+                tick();
+
+                expect(instance.focusedSide).toBe('left');
+
+                instance.focusedSide = 'right';
+                fixture.detectChanges();
+                tick();
+                expect(instance.focusedSide).toBe('right');
+
+                instance.hasRight = false;
+                fixture.detectChanges();
+                tick();
+                expect(instance.hasRight).toBe(false);
+                expect(instance.focusedSide).toBe('left');
+            });
+        }))
+    );
+
+    it('should emit "rightPanelOpened" when "rightPanelVisible" is changed to true',
+        injectAsync([TestComponentBuilder], fakeAsync((tcb: TestComponentBuilder) => {
+            return tcb.overrideTemplate(TestComponent, `
+                <gtx-split-view-container
+                    [rightPanelVisible]="hasRight"
+                    (rightPanelOpened)="testHandler($event)">
+                </gtx-split-view-container>
+            `)
+            .createAsync(TestComponent)
+            .then((fixture: ComponentFixture) => {
+                const instance: TestComponent = fixture.componentInstance;
+                instance.hasRight = false;
+                fixture.detectChanges();
+                tick();
+                expect(instance.hasRight).toBe(false);
+
+                instance.testHandler = jasmine.createSpy('rightPanelOpened');
+                instance.hasRight = true;
+                fixture.detectChanges();
+                tick();
+                expect(instance.testHandler).toHaveBeenCalled();
+            });
+        }))
+    );
+
+    it('should emit "rightPanelClosed" when "rightPanelVisible" is changed to false',
+        injectAsync([TestComponentBuilder], fakeAsync((tcb: TestComponentBuilder) => {
+            return tcb.overrideTemplate(TestComponent, `
+                <gtx-split-view-container
+                    [rightPanelVisible]="hasRight"
+                    (rightPanelClosed)="testHandler($event)">
+                </gtx-split-view-container>
+            `)
+            .createAsync(TestComponent)
+            .then((fixture: ComponentFixture) => {
+                const instance: TestComponent = fixture.componentInstance;
+                instance.hasRight = true;
+                fixture.detectChanges();
+                tick();
+                expect(instance.hasRight).toBe(true);
+
+                instance.testHandler = jasmine.createSpy('rightPanelClosed');
+                instance.hasRight = false;
+                fixture.detectChanges();
+                tick();
+                expect(instance.testHandler).toHaveBeenCalled();
+            });
+        }))
+    );
+
+    it('should emit "leftPanelFocused" when "focusedPanel" is changed to "left"',
+        injectAsync([TestComponentBuilder], fakeAsync((tcb: TestComponentBuilder) => {
+            return tcb.overrideTemplate(TestComponent, `
+                <gtx-split-view-container
+                    [rightPanelVisible]="true"
+                    [focusedPanel]="focusedSide"
+                    (leftPanelFocused)="testHandler($event)">
+                </gtx-split-view-container>
+            `)
+            .createAsync(TestComponent)
+            .then((fixture: ComponentFixture) => {
+                fixture.detectChanges();
+
+                const instance: TestComponent = fixture.componentInstance;
+                instance.focusedSide = 'right';
+                fixture.detectChanges();
+                tick();
+
+                instance.testHandler = jasmine.createSpy('leftPanelFocused');
+                instance.focusedSide = 'left';
+                fixture.detectChanges();
+                tick();
+                expect(instance.testHandler).toHaveBeenCalled();
+            });
+        }))
+    );
+
+    it('should emit "rightPanelFocused" when "focusedPanel" is changed to "right"',
+        injectAsync([TestComponentBuilder], fakeAsync((tcb: TestComponentBuilder) => {
+            return tcb.overrideTemplate(TestComponent, `
+                <gtx-split-view-container
+                    [rightPanelVisible]="true"
+                    [focusedPanel]="focusedSide"
+                    (rightPanelFocused)="testHandler($event)">
+                </gtx-split-view-container>
+            `)
+            .createAsync(TestComponent)
+            .then((fixture: ComponentFixture) => {
+                fixture.detectChanges();
+
+                const instance: TestComponent = fixture.componentInstance;
+                instance.focusedSide = 'left';
+                fixture.detectChanges();
+                tick();
+
+                instance.testHandler = jasmine.createSpy('rightPanelFocused');
+                instance.focusedSide = 'right';
+                fixture.detectChanges();
+                tick();
+                expect(instance.testHandler).toHaveBeenCalled();
+            });
+        }))
+    );
+});
+
+
+
+@Component({
+    template: `<gtx-split-view-container></gtx-split-view-container>`,
+    directives: [SplitViewContainer]
+})
+class TestComponent {
+    hasRight: boolean = false;
+    focusedSide: string = '';
+    testHandler(): void {}
 }
