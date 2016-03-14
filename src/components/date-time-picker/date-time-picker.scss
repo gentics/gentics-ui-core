@@ -1,0 +1,125 @@
+gtx-date-time-picker {
+
+}
+
+.gtx-date-time-picker-modal {
+
+    .header {
+        text-align: center;
+        background-color: $secondary-color;
+        font-weight: 300;
+        margin-bottom: 10px;
+
+        .day {
+            color: white;
+            padding: 5px;
+            background-color: darken($secondary-color, 10%);
+        }
+        .month {
+            text-transform: uppercase;
+            color: white;
+            font-size: 24px;
+        }
+        .date {
+            color: white;
+            font-size: 48px;
+            line-height: 48px;
+        }
+        .year {
+            color: lighten($secondary-color, 30%);
+            font-size: 24px;
+        }
+    }
+
+    .calendar-container {
+        text-align: center;
+    }
+
+    .rd-container {
+
+        .rd-back, .rd-next {
+            background-color: transparent;
+            color: $secondary-color;
+            font-size: 24px;
+            border: none;
+            width: 40px;
+            line-height: 30px;
+            transition: background 0.2s;
+            &:hover {
+                background-color: transparentize($secondary-color, 0.5);
+            }
+        }
+        .rd-back {
+            float: left;
+            &:before {
+                content: '◀'
+            }
+        }
+
+        .rd-next {
+            float: right;
+            &:before {
+                content: '▶'
+            }
+        }
+
+        .rd-month-label {
+            text-align: center;
+            line-height: 30px;
+            padding-top: 3px;
+        }
+
+        td, th {
+            padding: 5px 6px;
+            text-align: center;
+        }
+
+        .rd-days-row td {
+            color: #555;
+            cursor: pointer;
+
+            &:not(.rd-day-selected):hover {
+                color: #111;
+            }
+        }
+
+        td.rd-day-selected {
+            border-radius: 50%;
+            transform: scale(0.9);
+            background-color: $secondary-color;
+            color: #ffffff;
+        }
+
+        td.rd-day-prev-month, td.rd-day-next-month {
+            color: #9a9a9a;
+        }
+
+    }
+
+    .time-picker {
+        margin-top: 20px;
+        .input-field {
+            height: 44px;
+            margin-top: 8px;
+        }
+        input[type=number] {
+            text-align: center;
+            font-size: 24px;
+        }
+    }
+
+    .increment-button {
+        width: 100%;
+        text-align: center;
+        border: none;
+        background: transparent;
+        font-size: 24px;
+        color: $secondary-color;
+        line-height: 16px;
+        transition: background 0.2s;
+        &:hover {
+            background-color: transparentize($secondary-color, 0.5);
+        }
+    }
+
+}

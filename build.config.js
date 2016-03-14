@@ -22,7 +22,7 @@ const paths = {
         'angular2/bundles/angular2-polyfills.js'
     ],
     vendorStatics: [
-        'node_modules/materialize-css/font/roboto/Roboto-Regular.*'
+        'node_modules/materialize-css/font/roboto/Roboto-*'
     ]
 };
 
