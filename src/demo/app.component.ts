@@ -56,10 +56,7 @@ export class App {
     private splitFocus: string = 'left';
 
     constructor(private router: Router) {
-        router.subscribe(route => {
-            this.hasContent = !!route;
-            this.splitFocus = 'right';
-        });
+        router.subscribe(route => { this.hasContent = !!route; });
     }
 
     closeContent(): void {
