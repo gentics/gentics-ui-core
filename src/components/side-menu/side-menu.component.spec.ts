@@ -5,6 +5,7 @@ import {
     describe,
     expect,
     fakeAsync,
+    flushMicrotasks,
     injectAsync,
     it,
     tick,
@@ -91,7 +92,9 @@ describe('SideMenu', () => {
                     overlay.click();
                     tick();
 
+
                     expect(testInstance.menuChanged).toHaveBeenCalledWith(false);
+                    tick(500);
                 });
         }))
     );
@@ -108,6 +111,7 @@ describe('SideMenu', () => {
                     tick();
 
                     expect(testInstance.menuChanged).not.toHaveBeenCalled();
+                    tick(500);
                 });
         }))
     );
