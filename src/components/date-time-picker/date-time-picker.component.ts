@@ -1,4 +1,4 @@
-import {Component, Input, Output, EventEmitter, ElementRef, Optional} from 'angular2/core';
+import {Component, Input, Output, EventEmitter, ElementRef, Optional, Self} from 'angular2/core';
 import {ControlValueAccessor, NgControl} from 'angular2/common';
 import {InputField} from '../input/input.component';
 import {Modal} from '../modal/modal.component';
@@ -24,16 +24,18 @@ export class DateTimePicker implements ControlValueAccessor {
         this._displayTime = val === true || val === 'true';
     }
     @Output() change: EventEmitter<number> = new EventEmitter();
+    value: moment.Moment = momentjs();
+
     // ValueAccessor members
-    onChange: any = (_: any) => {};
+    onChange: any = () => {};
     onTouched: any = () => {};
 
     /**
      * cal is an instance of a Rome calendar, for the API see https://github.com/bevacqua/rome#rome-api
      */
     private cal: any;
+    private showModal: boolean = false;
     private uid: string = 'calendar_' + Math.random().toString(16).slice(2);
-    private value: moment.Moment = momentjs();
     private _displayTime: boolean = true;
     private displayValue: string = ' ';
     private time: any = {
@@ -42,7 +44,7 @@ export class DateTimePicker implements ControlValueAccessor {
         s: 0
     };
 
-    constructor(@Optional() ngControl: NgControl) {
+    constructor(@Self() @Optional() ngControl: NgControl) {
         if (ngControl) {
             ngControl.valueAccessor = this;
         }
@@ -64,7 +66,7 @@ export class DateTimePicker implements ControlValueAccessor {
      */
     ngAfterViewInit(): void {
         let calendarEl: Element = document.querySelector('#' + this.uid);
-        this.cal = rome(calendarEl, { time: false })
+        this.cal = rome(calendarEl, { time: false, initialValue: this.value })
             .on('data', () => this.value = this.cal.getMoment());
     }
 
@@ -92,6 +94,17 @@ export class DateTimePicker implements ControlValueAccessor {
 
         this.updateTimeObject(this.value);
         this.updateCalendar(this.value);
+    }
+
+    /**
+     * If the input is focused and the Enter key is pressed, we want this to
+     * open the picker modal.
+     */
+    inputKeyHandler(e: KeyboardEvent): void {
+        // Enter key
+        if (e.keyCode === 13) {
+            this.showModal = true;
+        }
     }
 
     /**
@@ -124,6 +137,7 @@ export class DateTimePicker implements ControlValueAccessor {
     confirm(modal: Modal) {
         this.displayValue = this.getTimeString(this.value, this._displayTime);
         this.change.emit(this.value.unix());
+        this.onChange();
         modal.closeModal();
     }
 
@@ -136,7 +150,7 @@ export class DateTimePicker implements ControlValueAccessor {
 
     writeValue(value: number): void {
         if (value) {
-            this.value = momentjs.unix(Number(this.timestamp));
+            this.value = momentjs.unix(Number(value));
             this.displayValue = this.getTimeString(this.value, this._displayTime);
             this.updateTimeObject(this.value);
             this.updateCalendar(this.value);
@@ -170,7 +184,9 @@ export class DateTimePicker implements ControlValueAccessor {
      * Update the Rome calendar widget with the current value.
      */
     private updateCalendar(value: moment.Moment): void {
-        this.cal.setValue(value);
+        if (this.cal) {
+            this.cal.setValue(value);
+        }
     }
 
     /**
@@ -185,4 +201,3 @@ export class DateTimePicker implements ControlValueAccessor {
         return date.format(formatString);
     }
 }
-

@@ -1,6 +1,7 @@
 <gtx-input [value]="displayValue"
            [label]="label"
            (click)="showModal = true"
+           (keydown)="inputKeyHandler($event)"
            readonly="true"></gtx-input>
 <gtx-modal [opened]="showModal"
            (close)="showModal = false"
