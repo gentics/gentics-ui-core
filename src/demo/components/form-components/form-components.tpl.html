@@ -81,6 +81,32 @@
     </div>
 </div>
 
+<h4>Checkbox</h4>
+<p>
+    A Checkbox may have a label that is rendered right of the check box.<br>
+    It can be mapped to boolean values or the value <code>"indeterminate"</code>
+    with <code>ngModel</code> / <code>ngControl</code> / <code>ngFormControl</code>.
+</p>
+<div class="row">
+    <div class="col s3">
+        <gtx-checkbox [(ngModel)]="checkStates.A" value="A" label="A"></gtx-checkbox>
+    </div>
+    <div class="col s3">
+        <gtx-checkbox [(ngModel)]="checkStates.B" value="B" label="B"></gtx-checkbox>
+    </div>
+    <div class="col s3">
+        <gtx-checkbox [(ngModel)]="checkStates.C" value="C" label="C"></gtx-checkbox>
+    </div>
+    <div class="col s3">
+        <gtx-checkbox filledIn [(ngModel)]="checkStates.D" value="D" label="D"></gtx-checkbox>
+    </div>
+</div>
+<div class="row">
+    <div class="col s12">
+        Check States: <code class="col s12">{{checkStates | json}}</code>
+    </div>
+</div>
+
 <h4>RadioButton</h4>
 <p>
     A RadioButton may have a label that is rendered right of the radio input.<br>
@@ -100,7 +126,7 @@
 </div>
 <p>
     You can group muliple RadioButtons together by wrapping them in a <code>RadioGroup</code>.<br>
-    The group can be wrapped to a form via the <code>ngControl</code> directive.
+    The group can be attached to a form via the <code>ngControl</code> directive.
 </p>
 <div class="row" gtx-radio-group [(ngModel)]="selectedColor">
     <div class="col s2">
@@ -113,7 +139,7 @@
         <gtx-radio-button label="Blue" [value]="{name: 'blue', hex: '#00f'}"></gtx-radio-button>
     </div>
     <div class="col s6">
-        <pre [style.color]="selectedColor?.hex">{{selectedColor}}</pre>
+        <pre *ngIf="selectedColor" [style.color]="selectedColor?.hex">{{selectedColor}}</pre>
     </div>
 </div>
 

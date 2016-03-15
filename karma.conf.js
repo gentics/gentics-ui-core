@@ -49,7 +49,7 @@ module.exports = function (config) {
                     { test: /\.html/, loader: 'html' }
                 ]
             },
-            
+
             debug: true,
             devtool: 'eval-source-map'
         },

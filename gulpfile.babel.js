@@ -12,7 +12,7 @@ import jsonlint from 'gulp-jsonlint';
 import karma from 'karma';
 import livereload from 'gulp-livereload';
 import merge from 'merge-stream';
-import path from 'path';
+import * as path from 'path';
 import rename from 'gulp-rename';
 import sass from 'gulp-sass';
 import sourcemaps from 'gulp-sourcemaps';

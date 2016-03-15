@@ -9,6 +9,12 @@ export class FormComponents {
     options: string[] = ['foo', 'bar', 'baz'];
     selectMultiVal: string[] = ['bar', 'baz'];
     selectVal: string = 'bar';
+    checkStates: any = {
+        A: true,
+        B: false,
+        C: 'indeterminate',
+        D: true
+    };
 
     rangeValDynamic: number = 35;
 

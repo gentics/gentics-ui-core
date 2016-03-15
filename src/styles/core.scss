@@ -5,6 +5,7 @@ $roboto-font-path: '../font/';
 @import "colors";
 
 /* Components */
+@import "variables";
 @import "../components/content-pane/content-pane";
 @import "../components/contents-list-item/contents-list-item";
 @import "../components/date-time-picker/date-time-picker";
