@@ -2,7 +2,6 @@ import {CONST_EXPR} from 'angular2/src/facade/lang';
 import {Type} from 'angular2/core';
 import {Checkbox} from './components/checkbox/checkbox.component';
 import {DateTimePicker} from './components/date-time-picker/date-time-picker.component';
-import {Checkbox} from './components/checkbox/checkbox.component';
 import {InputField} from './components/input/input.component';
 import {RadioButton, RadioGroup} from './components/radio-button/radio-button.component';
 import {Range} from './components/range/range.component';
@@ -14,7 +13,7 @@ import {Textarea} from './components/textarea/textarea.component';
  * variable, to simplify their consumption.
  */
 export const GTX_FORM_DIRECTIVES: Type[] = CONST_EXPR([
-    Checkbox
+    Checkbox,
     DateTimePicker,
     InputField,
     RadioButton,
