@@ -6,6 +6,7 @@ import {
     describe,
     expect,
     fakeAsync,
+    flushMicrotasks,
     injectAsync,
     it,
     xit,
@@ -342,15 +343,18 @@ describe('Checkbox', () => {
 
                     control.updateValue(true);
                     fixture.detectChanges();
+                    tick();
                     expect(nativeInput.checked).toBe(true);
                     expect(nativeInput.indeterminate).toBe(false);
 
                     control.updateValue('indeterminate');
                     fixture.detectChanges();
+                    tick();
                     expect(nativeInput.indeterminate).toBe(true);
 
                     control.updateValue(false);
                     fixture.detectChanges();
+                    tick();
                     expect(nativeInput.checked).toBe(false);
                     expect(nativeInput.indeterminate).toBe(false);
                 });
