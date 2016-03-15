@@ -35,7 +35,7 @@ export class RadioGroup implements ControlValueAccessor {
 
     private static instanceCounter: number = 0;
 
-    private onChange: Function = () => {};
+    private onChange: Function = (_: any) => {};
     private onTouched: Function = () => {};
 
     private radioButtons: RadioButton[] = [];
@@ -45,7 +45,7 @@ export class RadioGroup implements ControlValueAccessor {
         return 'group-' + this.groupID;
     }
 
-    constructor(@Optional() private ngControl: NgControl) {
+    constructor(@Self() @Optional() private ngControl: NgControl) {
         this.groupID = RadioGroup.instanceCounter++;
         if (ngControl) {
             ngControl.valueAccessor = this;
@@ -132,10 +132,10 @@ export class RadioButton implements ControlValueAccessor, OnInit, OnDestroy {
     private materialGap: boolean = false;
     private inputChecked: boolean = false;
 
-    private onChange: Function = () => {};
+    private onChange: Function = (_: any) => {};
     private onTouched: Function = () => {};
 
-    constructor(@Optional() control: NgControl,
+    constructor(@Self() @Optional() control: NgControl,
                 @Optional() private group: RadioGroup,
                 @Attribute('ngModel') modelAttrib: string) {
 

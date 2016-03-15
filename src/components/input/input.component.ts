@@ -1,14 +1,9 @@
 import {
-    Type,
-    forwardRef,
-    Provider,
-    Directive,
-    Renderer,
-    ElementRef,
     Component,
     Input,
     Output,
     Optional,
+    Self,
     EventEmitter
 } from 'angular2/core';
 import {isBlank} from 'angular2/src/facade/lang';
@@ -49,7 +44,7 @@ export class InputField implements ControlValueAccessor {
     onChange: any = (_: any) => {};
     onTouched: any = () => {};
 
-    constructor(@Optional() ngControl: NgControl) {
+    constructor(@Self() @Optional() ngControl: NgControl) {
         if (ngControl) {
             ngControl.valueAccessor = this;
         }

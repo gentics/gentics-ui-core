@@ -3,6 +3,7 @@ import {
     Component,
     ContentChildren,
     Optional,
+    Self,
     Query,
     QueryList,
     Input,
@@ -72,7 +73,7 @@ export class Select implements ControlValueAccessor {
     };
 
     constructor(private elementRef: ElementRef,
-                @Optional() ngControl: NgControl,
+                @Self() @Optional() ngControl: NgControl,
                 @Query(NgSelectOption, {descendants: true}) query: QueryList<NgSelectOption>) {
         if (ngControl) {
             ngControl.valueAccessor = this;

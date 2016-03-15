@@ -4,6 +4,7 @@ import {
     Component,
     Input,
     Optional,
+    Self,
     Output,
     EventEmitter
 } from 'angular2/core';
@@ -42,7 +43,7 @@ export class Range implements ControlValueAccessor {
     onTouched: any = () => {};
 
     constructor(private elementRef: ElementRef,
-                @Optional() ngControl: NgControl) {
+                @Self() @Optional() ngControl: NgControl) {
         if (ngControl) {
             ngControl.valueAccessor = this;
         }
