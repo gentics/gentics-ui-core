@@ -11,4 +11,6 @@ export class FormComponents {
     selectVal: string = 'bar';
 
     rangeValDynamic: number = 35;
+
+    timestamp: number = 1457971763;
 }
