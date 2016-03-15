@@ -5,4 +5,8 @@ gtx-modal {
 
 .gtx-modal-dialog {
     z-index: 1000;
+
+    .modal-content.nopad {
+        padding: 0;
+    }
 }

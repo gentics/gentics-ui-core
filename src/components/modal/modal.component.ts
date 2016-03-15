@@ -24,8 +24,13 @@ declare var $: JQueryStatic;
 })
 export class Modal {
     @Input() opened: boolean = false;
+    @Input() maxWidth: string;
+    @Input('padding') set padding(val) {
+        this._padding = val === true || val === 'true';
+    }
     @Output() close: EventEmitter<any> = new EventEmitter();
 
+    private _padding: boolean = false;
     private modal: ModalInstance;
     private subscription: Subscription;
     private isClosing: boolean = false;
@@ -45,6 +50,7 @@ export class Modal {
     ngAfterViewInit(): void {
         const modalElement: HTMLElement = this.elementRef.nativeElement.querySelector('.modal');
         this.modal = this.modalService.create(modalElement, {
+            maxWidth: this.maxWidth,
             onClose: (): void => {
                 this.close.emit(null);
                 setTimeout(() => this.isClosing = false);

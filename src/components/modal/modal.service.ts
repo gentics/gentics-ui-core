@@ -6,6 +6,7 @@ export interface IModalOptions {
     onClose?: Function;
     closeOnOverlayClick?: boolean;
     closeOnEscape?: boolean;
+    maxWidth?: string;
 }
 
 @Injectable()
@@ -42,11 +43,16 @@ export class ModalInstance {
         this.$overlay = $('<div class="lean-overlay gtx-modal-overlay"></div>').css('display', 'none');
         this.$modal = $(this.element).css('display', 'none');
         this.$modal.remove();
+
         if (this.options.closeOnOverlayClick) {
             this.$overlay.click(() => {
                 this.changes.emit('close');
             });
         }
+        if (this.options.maxWidth) {
+            this.$modal.css('max-width', this.options.maxWidth);
+        }
+
         $body.append(this.$overlay);
         $body.append(this.$modal);
 
