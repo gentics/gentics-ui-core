@@ -1,23 +1,17 @@
 {
-  "compilerOptions": {
-    "module": "commonjs",
-    "target": "es5",
-    "emitDecoratorMetadata": true,
-    "experimentalDecorators": true,
-    "sourceMap": true,
-    "moduleResolution": "node",
-    "noImplicitAny": true,
-    "isolatedModules": true,
-    "noEmit": true
-  },
-  "exclude": [
-      "build",
-      "dist",
-      "node_modules",
-      "karma.conf.js",
-      "gulpfile.babel.js",
-      "build.config.js",
-      "testing-bootstrap.js",
-      "webpack.config.js"
-  ]
+    "compilerOptions": {
+        "module": "commonjs",
+        "target": "es5",
+        "emitDecoratorMetadata": true,
+        "experimentalDecorators": true,
+        "sourceMap": true,
+        "moduleResolution": "node",
+        "noImplicitAny": true,
+        "noEmit": true
+    },
+    "files": [
+        "src/index.ts",
+        "src/demo/bootstrap.ts",
+        "typings/main.d.ts"
+    ]
 }

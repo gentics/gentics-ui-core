@@ -25,14 +25,14 @@ declare var $: JQueryStatic;
 export class Modal {
     @Input() opened: boolean = false;
     @Input() maxWidth: string;
-    @Input('padding') set padding(val) {
+    @Input('padding') set padding(val: any) {
         this._padding = val === true || val === 'true';
     }
     @Output() close: EventEmitter<any> = new EventEmitter();
 
     private _padding: boolean = false;
     private modal: ModalInstance;
-    private subscription: Subscription;
+    private subscription: Subscription<any>; 
     private isClosing: boolean = false;
     /**
      * Close the modal when the ESC key is pressed.

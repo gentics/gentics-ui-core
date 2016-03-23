@@ -12,9 +12,9 @@
 'use strict';
 
 /* Required dependencies for the Materialize scripts */
-let $: JQueryStatic = require('jquery');
-window['$'] = $;
-window['jQuery'] = $;
+import * as $ from 'jquery';
+(<any> window)['$'] = $;
+(<any> window)['jQuery'] = $;
 require('jquery-easing');
 require('materialize-css/js/animation.js');
 require('velocity-animate');

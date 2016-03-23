@@ -49,12 +49,12 @@ export class Select implements ControlValueAccessor {
 
     @ContentChildren(NgSelectOption, { descendants: true }) selectOptions: QueryList<NgSelectOption>;
 
-    // ValueAccessor members
+    // ValueAccessor members 
     onChange: any = () => {};
     onTouched: any = () => {};
 
     $nativeSelect: any;
-    subscription: Subscription;
+    subscription: Subscription<any>;
 
     /**
      * Event handler for when one of the Materialize-generated LI elements is clicked.
