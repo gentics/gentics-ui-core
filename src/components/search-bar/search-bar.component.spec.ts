@@ -28,57 +28,57 @@ describe('SearchBar', () => {
 
     it('should emit the "search" event when button clicked',
         injectAsync([TestComponentBuilder], fakeAsync((tcb: TestComponentBuilder) => {
-        return tcb.createAsync(TestComponent)
-            .then((fixture: ComponentFixture) => {
-                fixture.detectChanges();
-                let testInstance: TestComponent = fixture.componentInstance;
-                let searchButtonDel: DebugElement = fixture.debugElement.query(By.css('button'));
+            return tcb.createAsync(TestComponent)
+                .then((fixture: ComponentFixture) => {
+                    fixture.detectChanges();
+                    let testInstance: TestComponent = fixture.componentInstance;
+                    let searchButtonDel: DebugElement = fixture.debugElement.query(By.css('button'));
 
-                spyOn(testInstance, 'onSearch');
-                searchButtonDel.triggerEventHandler('click', null);
+                    spyOn(testInstance, 'onSearch');
+                    searchButtonDel.triggerEventHandler('click', null);
 
-                tick();
-                expect(testInstance.onSearch).toHaveBeenCalledWith('foo');
-            });
-    })));
+                    tick();
+                    expect(testInstance.onSearch).toHaveBeenCalledWith('foo');
+                });
+        })));
 
     it('should emit the "search" event when enter key pressed in input',
         injectAsync([TestComponentBuilder], fakeAsync((tcb: TestComponentBuilder) => {
-        return tcb.createAsync(TestComponent)
-            .then((fixture: ComponentFixture) => {
-                fixture.detectChanges();
-                let testInstance: TestComponent = fixture.componentInstance;
-                let searchBar: SearchBar = fixture.debugElement.query(By.css('gtx-search-bar')).componentInstance;
-                spyOn(testInstance, 'onSearch');
+            return tcb.createAsync(TestComponent)
+                .then((fixture: ComponentFixture) => {
+                    fixture.detectChanges();
+                    let testInstance: TestComponent = fixture.componentInstance;
+                    let searchBar: SearchBar = fixture.debugElement.query(By.css('gtx-search-bar')).componentInstance;
+                    spyOn(testInstance, 'onSearch');
 
-                // Unable to test keyboard events directly - tried several approaches from
-                // http://stackoverflow.com/questions/596481/simulate-javascript-key-events,
-                // so we just directly invoke the class method.
-                searchBar.onKeyDown(<KeyboardEvent> { keyCode: 13 }, 'foo');
-                tick();
+                    // Unable to test keyboard events directly - tried several approaches from
+                    // http://stackoverflow.com/questions/596481/simulate-javascript-key-events,
+                    // so we just directly invoke the class method.
+                    searchBar.onKeyDown(<KeyboardEvent> { keyCode: 13 }, 'foo');
+                    tick();
 
-                expect(testInstance.onSearch).toHaveBeenCalledWith('foo');
-            });
-    })));
+                    expect(testInstance.onSearch).toHaveBeenCalledWith('foo');
+                });
+        })));
 
-    it('should emit the "change" event when key pressed in input',
+    it('should emit the "change" event when input changed with "input" event',
         injectAsync([TestComponentBuilder], fakeAsync((tcb: TestComponentBuilder) => {
-        return tcb.createAsync(TestComponent)
-            .then((fixture: ComponentFixture) => {
-                fixture.detectChanges();
-                let testInstance: TestComponent = fixture.componentInstance;
-                let searchBar: SearchBar = fixture.debugElement.query(By.css('gtx-search-bar')).componentInstance;
-                spyOn(testInstance, 'onChange');
+            return tcb.createAsync(TestComponent)
+                .then((fixture: ComponentFixture) => {
+                    fixture.detectChanges();
+                    let testInstance: TestComponent = fixture.componentInstance;
+                    let input: HTMLInputElement = fixture.nativeElement.querySelector('input');
+                    spyOn(testInstance, 'onChange');
 
-                // Unable to test keyboard events directly - tried several approaches from
-                // http://stackoverflow.com/questions/596481/simulate-javascript-key-events,
-                // so we just directly invoke the class method.
-                searchBar.onKeyDown(<KeyboardEvent> { keyCode: 79 }, 'foo');
-                tick();
+                    let event: Event = document.createEvent('Event');
+                    event.initEvent('input', true, true);
+                    input.dispatchEvent(event);
+                    tick();
+                    tick();
 
-                expect(testInstance.onChange).toHaveBeenCalledWith('foo');
-            });
-    })));
+                    expect(testInstance.onChange).toHaveBeenCalledWith('foo');
+                }); 
+        })));
 });
 
 @Component({

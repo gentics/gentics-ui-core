@@ -28,15 +28,20 @@ export class SearchBar {
 
     constructor() {}
 
-    doSearch(value: string): void {
-        this.search.emit(value);
+    doSearch(): void {
+        this.search.emit(this.query);
     }
 
-    onKeyDown(event: KeyboardEvent, value: string): void {
+    /**
+     * Handler for pressing "enter" key.
+     */
+    onKeyDown(event: KeyboardEvent): void {
         if (event.keyCode === 13) {
-            this.search.emit(value);
-        } else {
-            this.change.emit(value);
+            this.doSearch();
         }
+    }
+
+    onChange(event: string) {
+        this.change.emit(event);
     }
 }

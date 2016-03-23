@@ -1,12 +1,13 @@
 <div class="input">
-    <gtx-input placeholder="Search" #searchInput [value]="query" (keydown)="onKeyDown($event, searchInput.value)"></gtx-input>
+    <gtx-input placeholder="Search"
+               [(ngModel)]="query"
+               (keydown)="onKeyDown($event)"
+               (change)="onChange($event)"></gtx-input>
 </div>
 <div class="submit-button">
     <button class="btn"
             type="submit"
-            (click)="doSearch(searchInput.value)"
+            (click)="doSearch()"
             name="action"><i class="material-icons">search</i>
     </button>
 </div>
-
-
