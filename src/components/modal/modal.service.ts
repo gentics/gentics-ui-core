@@ -72,7 +72,7 @@ export class ModalInstance {
             opacity: 0
         });
 
-        this.$overlay.velocity({opacity: 0.5}, {duration: 350, queue: false, ease: 'easeOutCubic'});
+        this.$overlay.velocity({ opacity: 0.5 }, { duration: 350, queue: false, easing: 'easeOutCubic' });
         this.$modal.data('associated-overlay', this.$overlay[0]);
 
         $.Velocity.hook(this.$modal, 'scaleX', '0.7');
@@ -81,7 +81,7 @@ export class ModalInstance {
             {
                 duration: 350,
                 queue: false,
-                ease: 'easeOutCubic',
+                easing: 'easeOutCubic',
                 complete: (): void => {
                     if (typeof(this.options.onOpen) === 'function') {
                         this.options.onOpen();
@@ -101,8 +101,8 @@ export class ModalInstance {
             {
                 duration: 250,
                 queue: false,
-                ease: 'easeOutQuart',
-                complete: (): void => this.$overlay.css('display', 'none')
+                easing: 'easeOutQuart',
+                complete: (): void => { this.$overlay.css('display', 'none'); }
             }
         );
 
