@@ -1,5 +1,6 @@
 import {
     Component,
+    ElementRef,
     Input,
     Output,
     Optional,
@@ -44,9 +45,31 @@ export class InputField implements ControlValueAccessor {
     onChange: any = (_: any) => {};
     onTouched: any = () => {};
 
-    constructor(@Self() @Optional() ngControl: NgControl) {
+    constructor(@Self() @Optional() ngControl: NgControl,
+                private elementRef: ElementRef) {
         if (ngControl) {
             ngControl.valueAccessor = this;
+        }
+    }
+
+    /**
+     * The Materialize input includes a dynamic label that changes position depending on the state of the input.
+     * When the label has the "active" class, it moves above the input, otherwise it resides inside the input
+     * itself.
+     *
+     * The Materialize "forms.js" script normally takes care of adding/removing the active class on page load,
+     * but this does not work in a SPA setting where new views with inputs can be created without a page load
+     * event to trigger the `Materialize.updateTextFields()` method. Therefore we need to handle it ourselves
+     * when the input component is created.
+     */
+    ngAfterViewInit() {
+        let input: HTMLInputElement = this.elementRef.nativeElement.querySelector('input');
+        let label: HTMLLabelElement = this.elementRef.nativeElement.querySelector('label');
+
+        if (String(this.value).length > 0 || this.placeholder) {
+            label.classList.add('active');
+        } else {
+            label.classList.remove('active');
         }
     }
 
@@ -55,7 +78,7 @@ export class InputField implements ControlValueAccessor {
         this.change.emit(this.normalizeValue(this.value));
     }
 
-    onFocus(): void { 
+    onFocus(): void {
         this.focus.emit(this.normalizeValue(this.value));
     }
 

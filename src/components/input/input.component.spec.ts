@@ -29,6 +29,42 @@ describe('InputField', () => {
             });
     }));
 
+    it('should not add the "active" class to label if input is empty', injectAsync([TestComponentBuilder],
+        (tcb: TestComponentBuilder) => {
+            return tcb.overrideTemplate(TestComponent, `<gtx-input label="testLabel"></gtx-input>`)
+                .createAsync(TestComponent)
+                .then((fixture: ComponentFixture) => {
+                    let label: HTMLElement = fixture.nativeElement.querySelector('label');
+                    fixture.detectChanges();
+
+                    expect(label.classList.contains('active')).toBe(false);
+                });
+        }));
+
+    it('should add the "active" class to label if input not empty', injectAsync([TestComponentBuilder],
+        (tcb: TestComponentBuilder) => {
+            return tcb.overrideTemplate(TestComponent, `<gtx-input label="testLabel" value="foo"></gtx-input>`)
+                .createAsync(TestComponent)
+                .then((fixture: ComponentFixture) => {
+                    let label: HTMLElement = fixture.nativeElement.querySelector('label');
+                    fixture.detectChanges();
+
+                    expect(label.classList.contains('active')).toBe(true);
+                });
+        }));
+
+    it('should add the "active" class to label if placeholder is set', injectAsync([TestComponentBuilder],
+        (tcb: TestComponentBuilder) => {
+            return tcb.overrideTemplate(TestComponent, `<gtx-input label="testLabel" placeholder="foo"></gtx-input>`)
+                .createAsync(TestComponent)
+                .then((fixture: ComponentFixture) => {
+                    let label: HTMLElement = fixture.nativeElement.querySelector('label');
+                    fixture.detectChanges();
+
+                    expect(label.classList.contains('active')).toBe(true);
+                });
+        }));
+
     it('should bind the id to the label and input', injectAsync([TestComponentBuilder], (tcb: TestComponentBuilder) => {
         return tcb.overrideTemplate(TestComponent, `<gtx-input label="testLabel" id="testId"></gtx-input>`)
             .createAsync(TestComponent)
