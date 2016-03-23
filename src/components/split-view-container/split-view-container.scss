@@ -5,6 +5,7 @@ gtx-split-view-container {
         display: flex;
         height: 100%;
         margin: 0 auto;
+        padding: 0;
         overflow-x: hidden;
         position: relative;
         width: 90%;
@@ -67,6 +68,10 @@ gtx-split-view-container {
 
         & > .focusedRight > .right-panel {
             transform: translateX(-89%);
+        }
+
+        & > .slideable {
+            width: 100%;
         }
 
         // !important to overwrite inline styles - is there a better way?
