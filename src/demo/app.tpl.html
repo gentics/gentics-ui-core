@@ -11,18 +11,18 @@
     [rightPanelVisible]="hasContent"
     [(focusedPanel)]="splitFocus">
 
-    <gtx-list-pane left>
+    <div class="list-pane" left>
         <gtx-contents-list-item *ngFor="#item of listItems">
             <div class="item-avatar"><i class="material-icons">{{ item.icon }}</i></div>
             <div class="item-primary"><a [routerLink]="[item.route]">{{ item.title }}</a></div>
             <i class="material-icons">edit</i>
             <i class="material-icons">star</i>
         </gtx-contents-list-item>
-    </gtx-list-pane>
+    </div>
 
-    <gtx-content-pane right>
+    <div class="content-pane" right>
         <router-outlet></router-outlet>
-    </gtx-content-pane>
+    </div>
 
 </gtx-split-view-container>
 

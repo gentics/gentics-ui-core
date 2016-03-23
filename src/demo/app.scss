@@ -36,8 +36,8 @@ code, kbd, pre, samp {
 }
 
 .split-view-container {
-    gtx-list-pane,
-    gtx-content-pane {
+    .list-pane,
+    .content-pane {
         border: 1px solid #ccc;
         height: 100%;
         width: 100%;
@@ -46,7 +46,7 @@ code, kbd, pre, samp {
             cursor: pointer;
         }
     }
-    gtx-content-pane {
+    .content-pane {
         padding: 20px;
     }
 }

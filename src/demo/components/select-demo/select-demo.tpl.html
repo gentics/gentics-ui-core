@@ -1,0 +1,48 @@
+<h4>Select</h4>
+<p>
+    The select component also supports multiple select and option groups.
+</p>
+
+<div class="row">
+    <div class="col s8">
+        <gtx-select label="Basic Select" [(ngModel)]="selectVal">
+            <option *ngFor="#item of options" [value]="item">{{ item }}</option>
+        </gtx-select>
+    </div>
+    <div class="col s4">
+        Value: {{ selectVal | json }}
+    </div>
+</div>
+
+<p>
+    When working with multiple selects, the inputs and outputs are of type <code>string[]</code>:
+</p>
+
+<div class="row">
+    <div class="col s8">
+        <gtx-select label="Multiple Select" [(ngModel)]="selectMultiVal" multiple="true">
+            <option *ngFor="#item of options" [value]="item">{{ item }}</option>
+        </gtx-select>
+    </div>
+    <div class="col s4">
+        Value: {{ selectMultiVal | json }}
+    </div>
+</div>
+
+<div class="row">
+    <div class="col s8">
+        <gtx-select label="Select With Option Groups" [(ngModel)]="selectGroup" >
+            <optgroup label="Foos">
+                <option value="foo1">Foo 1</option>
+                <option value="foo2">Foo 2</option>
+            </optgroup>
+            <optgroup label="Bars">
+                <option value="bar1">Bar 1</option>
+                <option value="bar2">Bar 2</option>
+            </optgroup>
+        </gtx-select>
+    </div>
+    <div class="col s4">
+        Value: {{ selectGroup | json }}
+    </div>
+</div>
