@@ -55,7 +55,7 @@ export class InputField implements ControlValueAccessor {
         this.change.emit(this.normalizeValue(this.value));
     }
 
-    onFocus(): void {
+    onFocus(): void { 
         this.focus.emit(this.normalizeValue(this.value));
     }
 
