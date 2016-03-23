@@ -4,7 +4,7 @@
 </gtx-top-bar>
 
 <div class="container">
-    <gtx-search-bar (search)="onSearch($event)" query=""></gtx-search-bar>
+    <gtx-search-bar (change)="filterContentItems($event)" query=""></gtx-search-bar>
 </div>
 
 <gtx-split-view-container class="split-view-container"
@@ -12,8 +12,8 @@
     [(focusedPanel)]="splitFocus">
 
     <div class="list-pane" left>
-        <gtx-contents-list-item *ngFor="#item of listItems">
-            <div class="item-avatar"><i class="material-icons">{{ item.icon }}</i></div>
+        <gtx-contents-list-item *ngFor="#item of filteredContentItems">
+            <div class="item-avatar"></div>
             <div class="item-primary"><a [routerLink]="[item.route]">{{ item.title }}</a></div>
             <i class="material-icons">edit</i>
             <i class="material-icons">star</i>
