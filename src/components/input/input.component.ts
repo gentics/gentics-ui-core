@@ -73,9 +73,11 @@ export class InputField implements ControlValueAccessor {
         }
     }
 
-    onBlur(): void {
-        this.blur.emit(this.normalizeValue(this.value));
-        this.change.emit(this.normalizeValue(this.value));
+    onBlur(e: Event): void {
+        e.stopPropagation();
+        const target: HTMLInputElement = <HTMLInputElement> e.target;
+        this.blur.emit(this.normalizeValue(target.value));
+        this.change.emit(this.normalizeValue(target.value));
     }
 
     onFocus(): void {

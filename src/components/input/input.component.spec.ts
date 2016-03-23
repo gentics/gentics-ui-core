@@ -178,12 +178,12 @@ describe('InputField', () => {
             return tcb.overrideTemplate(TestComponent, `<gtx-input (blur)="onBlur($event)" value="foo"></gtx-input>`)
                 .createAsync(TestComponent)
                 .then((fixture: ComponentFixture) => {
-                    let inputDel: DebugElement = fixture.debugElement.query(By.css('input'));
+                    let nativeInput: HTMLInputElement = fixture.nativeElement.querySelector('input');
                     let instance: TestComponent = fixture.componentInstance;
                     fixture.detectChanges();
                     spyOn(instance, 'onBlur');
 
-                    inputDel.triggerEventHandler('blur', null);
+                    triggerEvent(nativeInput, 'blur');
                     tick();
 
                     expect(instance.onBlur).toHaveBeenCalledWith('foo');
@@ -195,12 +195,12 @@ describe('InputField', () => {
             return tcb.overrideTemplate(TestComponent, `<gtx-input (focus)="onFocus($event)" value="foo"></gtx-input>`)
                 .createAsync(TestComponent)
                 .then((fixture: ComponentFixture) => {
-                    let inputDel: DebugElement = fixture.debugElement.query(By.css('input'));
+                    let nativeInput: HTMLInputElement = fixture.nativeElement.querySelector('input');
                     let instance: TestComponent = fixture.componentInstance;
                     fixture.detectChanges();
                     spyOn(instance, 'onFocus');
 
-                    inputDel.triggerEventHandler('focus', null);
+                    triggerEvent(nativeInput, 'focus');
                     tick();
 
                     expect(instance.onFocus).toHaveBeenCalledWith('foo');
@@ -217,7 +217,7 @@ describe('InputField', () => {
                     fixture.detectChanges();
                     spyOn(instance, 'onChange');
 
-                    triggerInputEvent(nativeInput);
+                    triggerEvent(nativeInput, 'input');
                     tick();
 
                     expect(instance.onChange).toHaveBeenCalledWith('foo');
@@ -235,7 +235,7 @@ describe('InputField', () => {
                     fixture.detectChanges();
                     spyOn(instance, 'onChange');
 
-                    triggerInputEvent(nativeInput);
+                    triggerEvent(nativeInput, 'input');
                     tick();
 
                     expect(instance.onChange).toHaveBeenCalledWith(42);
@@ -247,15 +247,16 @@ describe('InputField', () => {
             return tcb.overrideTemplate(TestComponent, `<gtx-input (change)="onChange($event)" value="foo"></gtx-input>`)
                 .createAsync(TestComponent)
                 .then((fixture: ComponentFixture) => {
-                    let inputDel: DebugElement = fixture.debugElement.query(By.css('input'));
+                    let nativeInput: HTMLInputElement = fixture.nativeElement.querySelector('input');
                     let instance: TestComponent = fixture.componentInstance;
                     fixture.detectChanges();
                     spyOn(instance, 'onChange');
 
-                    inputDel.triggerEventHandler('blur', null);
+                    triggerEvent(nativeInput, 'blur');
                     tick();
 
                     expect(instance.onChange).toHaveBeenCalledWith('foo');
+                    expect(instance.onChange.calls.count()).toBe(1);
                 });
         })));
 
@@ -283,7 +284,7 @@ describe('InputField', () => {
                         let nativeInput: HTMLInputElement = fixture.nativeElement.querySelector('input');
 
                         nativeInput.value = 'bar';
-                        triggerInputEvent(nativeInput);
+                        triggerEvent(nativeInput, 'input');
                         tick();
 
                         expect(instance.value).toBe('bar');
@@ -316,7 +317,7 @@ describe('InputField', () => {
                         let nativeInput: HTMLInputElement = fixture.nativeElement.querySelector('input');
 
                         nativeInput.value = 'bar';
-                        triggerInputEvent(nativeInput);
+                        triggerEvent(nativeInput, 'input');
                         tick();
 
                         expect(instance.testForm.controls['test'].value).toBe('bar');
@@ -351,8 +352,8 @@ class TestComponent {
 /**
  * Create an dispatch an 'input' event on the <input> element
  */
-function triggerInputEvent(el: HTMLInputElement): void {
+function triggerEvent(el: HTMLInputElement, eventName: string): void {
     let event: Event = document.createEvent('Event');
-    event.initEvent('input', true, true);
+    event.initEvent(eventName, true, true);
     el.dispatchEvent(event);
 }
