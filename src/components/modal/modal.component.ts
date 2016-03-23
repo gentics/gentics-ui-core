@@ -32,7 +32,7 @@ export class Modal {
 
     private _padding: boolean = false;
     private modal: ModalInstance;
-    private subscription: Subscription<any>; 
+    private subscription: Subscription; 
     private isClosing: boolean = false;
     /**
      * Close the modal when the ESC key is pressed.

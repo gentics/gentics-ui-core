@@ -66,26 +66,26 @@
     "raw-loader": "^0.5.1",
     "sass-loader": "^3.1.2",
     "style-loader": "^0.13.0",
-    "ts-loader": "^0.8.0",
+    "ts-loader": "^0.8.1",
     "tslint": "3.3.0",
     "tslint-eslint-rules": "^1.0.1",
     "tslint-stylish": "^2.1.0-beta",
-    "typescript": ">=1.7.5 <1.8.0",
+    "typescript": "1.7.5",
     "typings": "^0.6.8",
     "webpack": "^1.12.13"
   },
   "dependencies": {
-    "angular2": "2.0.0-beta.6",
+    "angular2": "2.0.0-beta.11",
     "es6-promise": "^3.0.2",
-    "es6-shim": "^0.33.13",
+    "es6-shim": "^0.35.0",
     "hammerjs": "^2.0.6",
     "jquery": "^2.2.0",
     "jquery-easing": "0.0.1",
     "materialize-css": "^0.97.5",
     "reflect-metadata": "0.1.2",
     "rome": "^2.1.22",
-    "rxjs": "5.0.0-beta.0",
+    "rxjs": "5.0.0-beta.2",
     "velocity-animate": "^1.2.3",
-    "zone.js": "0.5.14"
+    "zone.js": "0.6.4"
   }
 }

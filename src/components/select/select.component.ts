@@ -54,7 +54,7 @@ export class Select implements ControlValueAccessor {
     onTouched: any = () => {};
 
     $nativeSelect: any;
-    subscription: Subscription<any>;
+    subscription: Subscription;
 
     /**
      * Event handler for when one of the Materialize-generated LI elements is clicked.
