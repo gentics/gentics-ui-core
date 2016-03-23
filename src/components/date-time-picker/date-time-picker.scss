@@ -105,6 +105,14 @@ gtx-date-time-picker {
         input[type=number] {
             text-align: center;
             font-size: 24px;
+
+            /* remove the spinner arrows */
+            &::-webkit-outer-spin-button,
+            &::-webkit-inner-spin-button {
+                -webkit-appearance: none;
+                margin: 0;
+            }
+            -moz-appearance:textfield;
         }
     }
 
