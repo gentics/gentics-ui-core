@@ -1,4 +1,27 @@
+/* Typography */
+$gtx-font-size-regular: 16px !default;
+$gtx-font-size-small: $gtx-font-size-regular * 0.8 !default;
+
+/* Colors */
+$gtx-color-off-white: #f5f5f5 !default;
+$gtx-color-very-light-gray: #efefef !default;
+$gtx-color-light-gray: #d6d6d6 !default;
+$gtx-color-mid-gray: #b5b5b5 !default;
+$gtx-color-dark-gray: #797979 !default;
+$gtx-color-very-dark-gray: #3d3d3d !default;
+$gtx-color-off-black: #222 !default;
+
+$gtx-color-primary: #0096DC !default;
+$gtx-color-secondary: $gtx-color-light-gray !default;
+$gtx-color-success: #449d44 !default;
+$gtx-color-warning: #ec971f !default;
+$gtx-color-alert: #c9302c !default;
+
+/* Other */
 $gtx-animation-duration: 300ms !default;
+
+
+/* Component-specific variables */
 $gtx-split-view-container-animation-duration: $gtx-animation-duration !default;
 $gtx-split-view-container-opacity-focused: 1 !default;
 $gtx-split-view-container-opacity-inactive: 0.66 !default;
@@ -7,3 +30,4 @@ $gtx-split-view-container-resize-drag-color: rgba(0,64,192,0.25) !default;
 $gtx-split-view-container-resize-handle-color: lightgray !default;
 $gtx-split-view-container-resize-handle-width: 10px !default;
 $gtx-split-view-container-global-resize-cursor: true !default;
+

@@ -1,7 +1,7 @@
 import {Component} from 'angular2/core';
 import {Router, RouteConfig, RouteDefinition, ROUTER_DIRECTIVES} from 'angular2/router';
 import {TopBar, SearchBar, SideMenu, SplitViewContainer, ContentsListItem} from '../index';
-import {demos, kebabToPascal} from './demos';
+import {demos, kebabToPascal, IDemoItem} from './demos';
 
 
 const routes: RouteDefinition[] = demos.map((demo: IDemoItem) => {
@@ -64,7 +64,7 @@ export class App {
         this.subscription.unsubscribe();
     }
 
-    filterContentItems(query: string): any[] {
+    filterContentItems(query: string): void {
         if (query && 0 < query.length) {
             this.filteredContentItems = this.contentItems.filter((item: any) => {
                 return -1 < item.title.toLowerCase().indexOf(query.toLowerCase());

@@ -1,4 +1,5 @@
 // Demo pages
+import {ButtonDemo} from './components/button-demo/button-demo';
 import {CheckboxDemo} from './components/checkbox-demo/checkbox-demo';
 import {ColorsDemo} from './components/colors-demo/colors-demo';
 import {ContentsListItemDemo} from './components/contents-list-item-demo/contents-list-item-demo';
@@ -15,12 +16,16 @@ import {TextareaDemo} from './components/textarea-demo/textarea-demo';
 import {TopBarDemo} from './components/top-bar-demo/top-bar-demo';
 import {TypographyDemo} from './components/typography-demo/typography-demo';
 
-interface IDemoItem {
+export interface IDemoItem {
     name: string;
     component: FunctionConstructor;
 }
 
 export const demos: IDemoItem[] = [
+    {
+        name: 'button',
+        component: ButtonDemo
+    },
     {
         name: 'checkbox',
         component: CheckboxDemo
@@ -82,6 +87,7 @@ export const demos: IDemoItem[] = [
         component: TypographyDemo
     }
 ];
+
 /**
  * Convert "my-best-string" to "MyBestString"
  */

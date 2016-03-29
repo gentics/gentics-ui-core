@@ -2,10 +2,10 @@ $icons-font-path: '../font/';
 $roboto-font-path: '../font/';
 @import "../../node_modules/materialize-css/sass/materialize";
 @import "icons";
-@import "colors";
 
 /* Components */
 @import "variables";
+@import "../components/button/button";
 @import "../components/contents-list-item/contents-list-item";
 @import "../components/date-time-picker/date-time-picker";
 @import "../components/input/input";
@@ -17,3 +17,21 @@ $roboto-font-path: '../font/';
 @import "../components/split-view-container/split-view-container";
 @import "../components/textarea/textarea";
 @import "../components/top-bar/top-bar";
+
+html{
+  @media only screen and (min-width: 0) {
+    font-size: $gtx-font-size-regular - 2;
+  }
+
+  @media only screen and (min-width: $medium-screen) {
+    font-size: $gtx-font-size-regular - 1;
+  }
+
+  @media only screen and (min-width: $large-screen) {
+    font-size: $gtx-font-size-regular;
+  }
+
+  font-family: "Roboto", sans-serif;
+  font-weight: normal;
+  color: $off-black;
+}

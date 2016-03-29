@@ -1,0 +1,30 @@
+<h4>Button</h4>
+
+<h5>Sizes</h5>
+<p>
+    Buttons come in 3 sizes:
+</p>
+<gtx-button size="small">Small</gtx-button>
+<gtx-button size="regular">Regular (Default)</gtx-button>
+<gtx-button size="large">Large</gtx-button>
+
+<h5>Colors</h5>
+<p>Buttons can take a "color" attribute:</p>
+<p><gtx-button color="primary">Primary (Default)</gtx-button></p>
+<p><gtx-button color="secondary">Secondary</gtx-button></p>
+<p><gtx-button color="success">Success</gtx-button></p>
+<p><gtx-button color="warning">Warning</gtx-button></p>
+<p><gtx-button color="alert">Alert</gtx-button></p>
+
+<h5>Disabled State</h5>
+<p>The <code>disabled</code> attribute can be bound to:</p>
+<gtx-checkbox [(ngModel)]="buttonIsDisabled" label="Disable Button"></gtx-checkbox>
+<p><gtx-button [disabled]="buttonIsDisabled">Click Me</gtx-button></p>
+
+<h5>Events</h5>
+<p>
+    The Button component does not implement any custom events. Therefore, all of the
+    standard events which apply regular HTML button elements will bubble up and can
+    be bound to.
+</p>
+

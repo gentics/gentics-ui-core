@@ -1,5 +1,6 @@
 require('./materialize');
 
+export * from './components/button/button.component';
 export * from './components/contents-list-item/contents-list-item.component';
 export * from './components/modal/modal.component';
 export * from './components/modal/modal.service';
