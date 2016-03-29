@@ -7,7 +7,6 @@ import {
     Self,
     EventEmitter
 } from 'angular2/core';
-import {isBlank} from 'angular2/src/facade/lang';
 import {ControlValueAccessor, NgControl} from 'angular2/common';
 
 /**

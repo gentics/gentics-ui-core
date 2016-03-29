@@ -31,12 +31,10 @@ gulp.task('build:demo', [
     'static-files'
 ]);
 
-gulp.task('clean', () => {
-    return del([
-        paths.out.demo + '/**',
-        '!' + paths.out.demo
-    ]);
-});
+gulp.task('clean', () => del([
+    paths.out.demo + '/**',
+    '!' + paths.out.demo
+]));
 
 gulp.task('lint', (done) => {
     const files = gulp.src(paths.src.lint, { base: '.' });
@@ -92,21 +90,19 @@ gulp.task('static-files', () => {
         .pipe(gulp.dest(paths.out.fonts));
 });
 
-gulp.task('styles', () => {
-    return gulp.src(paths.src.scssMain, { base: '.' })
-        .pipe(sourcemaps.init())
-        .pipe(sass({
-            errLogToConsole: true,
-            outputStyle: 'expanded'
-        }).on('error', sass.logError))
-        .pipe(autoprefixer(buildConfig.autoprefixer))
-        .pipe(concat('app.css'))
-        .pipe(sourcemaps.write('.', {
-            includeContent: true,
-            sourceRoot: relativeRoot(paths.out.css)
-        }))
-        .pipe(gulp.dest(paths.out.css));
-});
+gulp.task('styles', () => gulp.src(paths.src.scssMain, { base: '.' })
+    .pipe(sourcemaps.init())
+    .pipe(sass({
+        errLogToConsole: true,
+        outputStyle: 'expanded'
+    }).on('error', sass.logError))
+    .pipe(autoprefixer(buildConfig.autoprefixer))
+    .pipe(concat('app.css'))
+    .pipe(sourcemaps.write('.', {
+        includeContent: true,
+        sourceRoot: relativeRoot(paths.out.css)
+    }))
+    .pipe(gulp.dest(paths.out.css)));
 
 gulp.task('watch', ['styles', 'static-files', 'webpack:watch'], () => {
     gulp.watch(paths.src.scss, ['styles']);
