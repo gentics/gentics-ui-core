@@ -1,10 +1,10 @@
 $icons-font-path: '../font/';
 $roboto-font-path: '../font/';
+@import "variables";
 @import "../../node_modules/materialize-css/sass/materialize";
 @import "icons";
 
 /* Components */
-@import "variables";
 @import "../components/button/button";
 @import "../components/contents-list-item/contents-list-item";
 @import "../components/date-time-picker/date-time-picker";

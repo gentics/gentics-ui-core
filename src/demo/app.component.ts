@@ -35,8 +35,7 @@ routes.push({
         SplitViewContainer,
         SideMenu,
         ContentsListItem
-    ],
-    styles: [require('./app.scss').toString()]
+    ]
 })
 @RouteConfig(routes)
 export class App {

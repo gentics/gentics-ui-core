@@ -17,6 +17,16 @@ $gtx-color-success: #449d44 !default;
 $gtx-color-warning: #ec971f !default;
 $gtx-color-alert: #c9302c !default;
 
+// Now we use our colors defined above to override the Materialize variables
+$primary-color: $gtx-color-light-gray;
+$primary-color-light: lighten($primary-color, 15%);
+$primary-color-dark: darken($primary-color, 15%);
+
+$secondary-color: $gtx-color-primary;
+$success-color: $gtx-color-success;
+$error-color: $gtx-color-alert;
+$link-color: $gtx-color-primary;
+
 /* Other */
 $gtx-animation-duration: 300ms !default;
 

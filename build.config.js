@@ -6,7 +6,7 @@ const paths = {
     src: {
         lint: ['./*.js', 'src/**/*.js', './*.json', 'src/**/*.json', 'src/**/*.ts', 'src/**/*.spec.ts'],
         scss: ['src/**/*.scss', '!src/**/_*.scss'],
-        scssMain: 'src/styles/core.scss',
+        scssMain: 'src/demo/app.scss',
         typescript: ['src/**/*.ts', '!**/*.spec.ts'],
         typescriptMain: 'src/demo/bootstrap.ts',
         tests: 'src/**/*.spec.ts',

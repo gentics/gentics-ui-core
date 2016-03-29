@@ -1,0 +1,21 @@
+
+.color-palette {
+    > .well {
+        height: 80px;
+        padding: 10px;
+    }
+
+    > .off-white { background-color: $gtx-color-off-white;}
+    > .very-light-gray { background-color: $gtx-color-very-light-gray;}
+    > .light-gray { background-color: $gtx-color-light-gray;}
+    > .mid-gray { background-color: $gtx-color-mid-gray;}
+    > .dark-gray { background-color: $gtx-color-dark-gray;}
+    > .very-dark-gray { background-color: $gtx-color-very-dark-gray; color: $gtx-color-off-white; }
+    > .off-black { background-color: $gtx-color-off-black; color: $gtx-color-off-white; }
+
+    > .primary { background-color: $gtx-color-primary; color: $gtx-color-off-white;}
+    > .secondary { background-color: $gtx-color-secondary;}
+    > .success { background-color: $gtx-color-success; color: $gtx-color-off-white;}
+    > .warning { background-color: $gtx-color-warning; color: $gtx-color-off-white;}
+    > .alert { background-color: $gtx-color-alert; color: $gtx-color-off-white;}
+}
