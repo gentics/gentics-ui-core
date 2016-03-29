@@ -19,26 +19,26 @@ gtx-button {
         line-height: 56px;
     }
 
-    &[color="secondary"] > button {
+    &[type="secondary"] > button {
         background-color: $gtx-color-off-white;
         color: $gtx-color-very-dark-gray;
         &:hover {
             background-color: lighten($gtx-color-off-white, 2%);
         }
     }
-    &[color="success"] > button {
+    &[type="success"] > button {
         background-color: $gtx-color-success;
         &:hover {
             background-color: lighten($gtx-color-success, 7%);
         }
     }
-    &[color="warning"] > button {
+    &[type="warning"] > button {
         background-color: $gtx-color-warning;
         &:hover {
             background-color: lighten($gtx-color-warning, 10%);
         }
     }
-    &[color="alert"] > button {
+    &[type="alert"] > button {
         background-color: $gtx-color-alert;
         &:hover {
             background-color: lighten($gtx-color-alert, 10%);
