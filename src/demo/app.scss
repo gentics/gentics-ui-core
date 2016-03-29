@@ -39,8 +39,7 @@ code, kbd, pre, samp {
     .list-pane,
     .content-pane {
         border: 1px solid #ccc;
-        height: 100%;
-        width: 100%;
+        min-height: 100%;
 
         a {
             cursor: pointer;

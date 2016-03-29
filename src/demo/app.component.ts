@@ -55,7 +55,6 @@ export class App {
 
     constructor(private router: Router) {
         this.subscription = router.subscribe(route => {
-            console.log('route', route);
             this.hasContent = !!route;
         });
         this.filteredContentItems = this.contentItems.slice(0);
