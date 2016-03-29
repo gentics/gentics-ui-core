@@ -42,6 +42,8 @@ export class SearchBar {
     }
 
     onChange(event: string) {
-        this.change.emit(event);
+        if (typeof event === 'string') {
+            this.change.emit(event);
+        }
     }
 }
