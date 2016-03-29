@@ -1,9 +1,9 @@
 import {Component} from 'angular2/core';
-import {Modal} from '../../../index';
+import {Modal, Button} from '../../../index';
 
 @Component({
     template: require('./modal-demo.tpl.html'),
-    directives: [Modal]
+    directives: [Modal, Button]
 })
-export class ModalDemo {
+export class ModalDemo { 
 }

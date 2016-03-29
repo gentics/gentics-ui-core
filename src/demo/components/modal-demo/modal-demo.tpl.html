@@ -5,11 +5,12 @@
     When the modal is closed, the <code>close</code> event will fire.
 </p>
 
-<button (click)="showModal = !showModal" class="btn">Open Modal</button>
+<gtx-button (click)="showModal = !showModal">Open Modal</gtx-button>
+
 <gtx-modal [opened]="showModal" (close)="showModal = false" #modal>
     <h4>I'm a modal!</h4>
     <p>Here is my content</p>
     <gtx-modal-footer>
-        <button class="btn" (click)="modal.closeModal()">Close</button>
+        <gtx-button (click)="modal.closeModal()">Close</gtx-button>
     </gtx-modal-footer>
 </gtx-modal>

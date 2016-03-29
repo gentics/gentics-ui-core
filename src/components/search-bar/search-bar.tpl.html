@@ -5,9 +5,7 @@
                (change)="onChange($event)"></gtx-input>
 </div>
 <div class="submit-button">
-    <button class="btn"
-            type="submit"
-            (click)="doSearch()"
-            name="action"><i class="material-icons">search</i>
-    </button>
+    <gtx-button (click)="doSearch()"
+                name="action"><i class="material-icons">search</i>
+    </gtx-button>
 </div>

@@ -9,4 +9,8 @@ gtx-modal {
     .modal-content.nopad {
         padding: 0;
     }
+
+    > .modal-footer button.btn {
+        margin: 5px;
+    }
 }

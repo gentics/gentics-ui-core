@@ -30,9 +30,9 @@ export class Modal {
     }
     @Output() close: EventEmitter<any> = new EventEmitter();
 
-    private _padding: boolean = false;
+    private _padding: boolean = true;
     private modal: ModalInstance;
-    private subscription: Subscription; 
+    private subscription: Subscription;
     private isClosing: boolean = false;
     /**
      * Close the modal when the ESC key is pressed.

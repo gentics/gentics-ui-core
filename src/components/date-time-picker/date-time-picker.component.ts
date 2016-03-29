@@ -2,6 +2,7 @@ import {Component, Input, Output, EventEmitter, ElementRef, Optional, Self} from
 import {ControlValueAccessor, NgControl} from 'angular2/common';
 import {InputField} from '../input/input.component';
 import {Modal} from '../modal/modal.component';
+import {Button} from '../button/button.component';
 
 /**
  * Rome is a date picker widget: https://github.com/bevacqua/rome
@@ -13,7 +14,7 @@ const momentjs: moment.MomentStatic = rome.moment;
 @Component({
     selector: 'gtx-date-time-picker',
     template: require('./date-time-picker.tpl.html'),
-    directives: [InputField, Modal]
+    directives: [InputField, Modal, Button]
 })
 export class DateTimePicker implements ControlValueAccessor {
 

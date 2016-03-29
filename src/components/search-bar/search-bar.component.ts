@@ -1,5 +1,6 @@
 import {Component, Input, Output, EventEmitter} from 'angular2/core';
 import {InputField} from '../input/input.component';
+import {Button} from '../button/button.component';
 
 /**
  * The SearchBar component has the following API:
@@ -18,7 +19,7 @@ import {InputField} from '../input/input.component';
 @Component({
     selector: 'gtx-search-bar',
     template: require('./search-bar.tpl.html'),
-    directives: [InputField]
+    directives: [InputField, Button]
 })
 export class SearchBar {
 
