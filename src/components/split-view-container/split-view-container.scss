@@ -9,7 +9,9 @@ gtx-split-view-container {
         overflow-x: hidden;
         position: relative;
         width: 90%;
-        transition: width $gtx-split-view-container-animation-duration;
+        max-width: 5000px;
+        transition: width $gtx-split-view-container-animation-duration ease-in-out,
+            max-width $gtx-split-view-container-animation-duration ease-in-out;
 
         > .left-panel,
         > .right-panel {
@@ -115,6 +117,7 @@ gtx-split-view-container {
 
         > .slideable.hasNoRightPanel {
             width: 70%;
+            max-width: 1280px;
         }
 
         // !important to overwrite inline styles - is there a better way?
