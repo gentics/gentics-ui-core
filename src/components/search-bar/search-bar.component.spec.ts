@@ -32,12 +32,12 @@ describe('SearchBar', () => {
                 .then((fixture: ComponentFixture) => {
                     fixture.detectChanges();
                     let testInstance: TestComponent = fixture.componentInstance;
-                    let searchButtonDel: DebugElement = fixture.debugElement.query(By.css('button'));
+                    let button: HTMLButtonElement = fixture.nativeElement.querySelector('button');
 
-                    spyOn(testInstance, 'onSearch');
-                    searchButtonDel.triggerEventHandler('click', null);
-
+                    spyOn(testInstance, 'onSearch'); 
+                    button.click();
                     tick();
+
                     expect(testInstance.onSearch).toHaveBeenCalledWith('foo');
                 });
         })));
@@ -77,7 +77,7 @@ describe('SearchBar', () => {
                     tick();
 
                     expect(testInstance.onChange).toHaveBeenCalledWith('foo');
-                }); 
+                });
         })));
 });
 
