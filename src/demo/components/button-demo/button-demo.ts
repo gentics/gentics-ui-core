@@ -6,6 +6,6 @@ import {GTX_FORM_DIRECTIVES, Button} from '../../../index';
     directives: [GTX_FORM_DIRECTIVES, Button]
 })
 export class ButtonDemo {
-    
+    clickCount: number = 0;
     constructor() {}
 }
