@@ -19,6 +19,7 @@ gtx-split-view-container {
                         min-width $gtx-split-view-container-animation-duration,
                         max-width $gtx-split-view-container-animation-duration;
             white-space: normal;
+            overflow-y: auto;
         }
 
         & > .resizer,

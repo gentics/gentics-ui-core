@@ -1,6 +1,7 @@
 {
   "ambientDependencies": {
     "es6-shim": "github:DefinitelyTyped/DefinitelyTyped/es6-shim/es6-shim.d.ts#4de74cb527395c13ba20b438c3a7a419ad931f1c",
+    "hammerjs": "registry:dt/hammerjs#2.0.4+20160316155526",
     "jasmine": "github:DefinitelyTyped/DefinitelyTyped/jasmine/jasmine.d.ts#bc92442c075929849ec41d28ab618892ba493504",
     "jquery": "github:DefinitelyTyped/DefinitelyTyped/jquery/jquery.d.ts#470954c4f427e0805a2d633636a7c6aa7170def8",
     "materialize-css": "github:DefinitelyTyped/DefinitelyTyped/materialize-css/materialize-css.d.ts#8afecce0007ec4576178db1bbb3dc80743de0048",

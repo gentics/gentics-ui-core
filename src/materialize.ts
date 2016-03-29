@@ -18,6 +18,7 @@ import * as $ from 'jquery';
 require('jquery-easing');
 require('materialize-css/js/animation.js');
 require('velocity-animate');
+require('hammerjs');
 require('materialize-css/js/jquery.hammer.js');
 require('materialize-css/js/global.js');
 

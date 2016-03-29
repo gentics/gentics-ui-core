@@ -104,7 +104,7 @@ export class SplitViewContainer implements AfterViewInit, OnDestroy {
     rightPanelClosed: EventEmitter<void> = new EventEmitter<void>();
 
     /**
-     * Triggers when the right panel is closed.
+     * Triggers when the right panel is opened.
      */
     @Output()
     rightPanelOpened: EventEmitter<void> = new EventEmitter<void>();
@@ -161,6 +161,7 @@ export class SplitViewContainer implements AfterViewInit, OnDestroy {
     private resizerXPosition: number;
     private boundBodyMouseUp: EventListener;
     private boundBodyMouseMove: EventListener;
+    private hammerManager: HammerManager;
 
     @ViewChild('resizeContainer') private resizeContainer: ElementRef;
     @ViewChild('leftPanel') private leftPanel: ElementRef;
@@ -179,10 +180,37 @@ export class SplitViewContainer implements AfterViewInit, OnDestroy {
         css.top = element.offsetTop + 'px';
         css.bottom = css.left = css.right = '0';
         css.position = 'absolute';
+
+        this.initSwipeHandler();
     }
 
     ngOnDestroy(): void {
         this.unbindBodyEvents();
+        this.destroySwipeHandler();
+    }
+
+    /**
+     * Set up a Hammerjs-based swipe gesture handler to allow swiping between two panes.
+     */
+    private initSwipeHandler() {
+        // set up swipe gesture handler
+        this.hammerManager = new Hammer(this.ownElement.nativeElement);
+        this.hammerManager.on('swipe', (e: HammerInput) => {
+            if (e.pointerType === 'touch') {
+                // Hammerjs represents directions with an enum,
+                // 2 = left, 4 = right.
+                if (e.direction === 4) {
+                    this.leftPanelClicked();
+                }
+                if (e.direction === 2) {
+                    this.rightPanelClicked();
+                }
+            }
+        });
+    }
+
+    private destroySwipeHandler() {
+        this.hammerManager.destroy();
     }
 
     private leftPanelClicked() {
