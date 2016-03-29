@@ -9,6 +9,7 @@ gtx-split-view-container {
         overflow-x: hidden;
         position: relative;
         width: 90%;
+        transition: width $gtx-split-view-container-animation-duration;
 
         > .left-panel,
         > .right-panel {
@@ -26,19 +27,6 @@ gtx-split-view-container {
         & > .visible-resizer {
             display: none;
         }
-    }
-
-    > .hasNoRightPanel > .right-panel {
-        opacity: $gtx-split-view-container-opacity-hidden;
-    }
-
-    > .hasRightPanel > .right-panel,
-    > .focusedRight > .left-panel {
-        opacity: $gtx-split-view-container-opacity-inactive;
-    }
-
-    > .focusedRight > .right-panel {
-        opacity: $gtx-split-view-container-opacity-focused;
     }
 
     > .resizing {
@@ -73,6 +61,19 @@ gtx-split-view-container {
 
         & > .slideable {
             width: 100%;
+        }
+
+        > .hasNoRightPanel > .right-panel {
+            opacity: $gtx-split-view-container-opacity-hidden;
+        }
+
+        > .hasRightPanel > .right-panel,
+        > .focusedRight > .left-panel {
+            opacity: $gtx-split-view-container-opacity-inactive;
+        }
+
+        > .focusedRight > .right-panel {
+            opacity: $gtx-split-view-container-opacity-focused;
         }
 
         // !important to overwrite inline styles - is there a better way?
@@ -111,6 +112,10 @@ gtx-split-view-container {
 
     // Definitions for "large", non-sliding breakpoint
     @media only screen and (min-width : $large-screen-up) {
+
+        > .slideable.hasNoRightPanel {
+            width: 70%;
+        }
 
         // !important to overwrite inline styles - is there a better way?
         & > .hasNoRightPanel {
