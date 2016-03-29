@@ -1,4 +1,4 @@
-import {Component, Type} from 'angular2/core';
+import {Component} from 'angular2/core';
 import {Router, RouteConfig, RouteDefinition, ROUTER_DIRECTIVES} from 'angular2/router';
 import {TopBar, SearchBar, SideMenu, SplitViewContainer, ContentsListItem} from '../index';
 import {demos, kebabToPascal} from './demos';
@@ -10,6 +10,19 @@ const routes: RouteDefinition[] = demos.map((demo: IDemoItem) => {
        name: kebabToPascal(demo.name),
        component: demo.component
    };
+});
+
+
+@Component({
+    selector: 'default',
+    template: ''
+})
+class DefaultRoute {}
+
+routes.push({
+    path: '/',
+    name: 'DefaultRoute',
+    component: DefaultRoute
 });
 
 @Component({
@@ -38,10 +51,18 @@ export class App {
     hasContent: boolean = false;
     splitFocus: string = 'left';
     searchQuery: string;
+    subscription: any;
 
     constructor(private router: Router) {
-        router.subscribe(route => { this.hasContent = !!route; });
+        this.subscription = router.subscribe(route => {
+            console.log('route', route);
+            this.hasContent = !!route;
+        });
         this.filteredContentItems = this.contentItems.slice(0);
+    }
+
+    ngOnDestroy(): void {
+        this.subscription.unsubscribe();
     }
 
     filterContentItems(query: string): any[] {
