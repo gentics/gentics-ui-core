@@ -24,14 +24,14 @@ require('materialize-css/js/global.js');
 
 /* Uncomment the components that we want to include */
 // require('materialize-css/js/collapsible.js');
-require('materialize-css/js/dropdown.js');
+// require('materialize-css/js/dropdown.js');
 require('materialize-css/js/forms.js');
 // require('materialize-css/js/leanModal.js');
 // require('materialize-css/js/materialbox.js');
 // require('materialize-css/js/parallax.js');
 // require('materialize-css/js/tabs.js');
 // require('materialize-css/js/tooltip.js');
-require('materialize-css/js/waves.js');
+// require('materialize-css/js/waves.js');
 // require('materialize-css/js/toasts.js');
 
 // require('materialize-css/js/sideNav.js');

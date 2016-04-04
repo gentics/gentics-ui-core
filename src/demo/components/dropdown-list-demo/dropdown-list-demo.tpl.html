@@ -1,0 +1,55 @@
+<h4>DropdownList</h4>
+
+<p>A DropdownList can be attached to any element, which acts as a trigger for the dropdown.</p>
+
+<p>
+    <gtx-dropdown-list>
+        <gtx-button class="dropdown-trigger">
+            Button trigger
+        </gtx-button>
+        <ul class="dropdown-content">
+            <li><a>First</a></li>
+            <li><a>Second</a></li>
+            <li><a>Third</a></li>
+        </ul>
+    </gtx-dropdown-list>
+</p>
+<p>
+    Icon trigger: <gtx-dropdown-list>
+        <div class="dropdown-trigger">
+            <a><i class="material-icons">language</i></a>
+        </div>
+        <ul class="dropdown-content">
+            <li><a>English</a></li>
+            <li><a>Deutsch</a></li>
+            <li><a>Suomi</a></li>
+        </ul>
+    </gtx-dropdown-list>
+</p>
+<h5>Alignment</h5>
+The alignment can be specified by setting the <code>align</code> attribute to either <code>left</code>
+or <code>right</code>. Default is <code>left</code>.
+<p>
+    Left aligned: <gtx-dropdown-list align="left">
+    <div class="dropdown-trigger">
+        <a><i class="material-icons">more_vert</i></a>
+    </div>
+    <ul class="dropdown-content">
+        <li><a>First</a></li>
+        <li><a>Second</a></li>
+        <li><a>Third</a></li>
+    </ul>
+</gtx-dropdown-list>
+</p>
+<p>
+    Right aligned: <gtx-dropdown-list align="right">
+    <div class="dropdown-trigger">
+        <a><i class="material-icons">more_vert</i></a>
+    </div>
+    <ul class="dropdown-content">
+        <li><a>First</a></li>
+        <li><a>Second</a></li>
+        <li><a>Third</a></li>
+    </ul>
+</gtx-dropdown-list>
+</p>

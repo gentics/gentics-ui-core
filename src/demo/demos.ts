@@ -4,6 +4,7 @@ import {CheckboxDemo} from './components/checkbox-demo/checkbox-demo';
 import {ColorsDemo} from './components/colors-demo/colors-demo';
 import {ContentsListItemDemo} from './components/contents-list-item-demo/contents-list-item-demo';
 import {DateTimePickerDemo} from './components/date-time-picker-demo/date-time-picker-demo';
+import {DropdownListDemo} from './components/dropdown-list-demo/dropdown-list-demo';
 import {InputDemo} from './components/input-demo/input-demo';
 import {ModalDemo} from './components/modal-demo/modal-demo';
 import {RadioButtonDemo} from './components/radio-button-demo/radio-button-demo';
@@ -41,6 +42,10 @@ export const demos: IDemoItem[] = [
     {
         name: 'date-time-picker',
         component: DateTimePickerDemo
+    },
+    {
+        name: 'dropdown-list',
+        component: DropdownListDemo
     },
     {
         name: 'input',
