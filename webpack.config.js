@@ -27,19 +27,18 @@ module.exports = {
 
     module: {
         loaders: [
-            {
-                test: /\.ts$/,
-                loader: 'ts?transpileOnly=true',
-                compilerOptions: {
-                    noEmit: false,
-                    noEmitOnError: false
-                }
-            },
+            { test: /\.ts$/, loader: 'ts?transpileOnly=true' },
             { test: /\.css$/, loader: 'style!raw!autoprefixer' },
             { test: /\.scss$/, loader: 'style!raw!autoprefixer!sass' },
             { test: /\.html/, loader: 'html' }
         ],
         noParse: paths.vendorJS
+    },
+    ts: {
+        compilerOptions: {
+            noEmit: false,
+            noEmitOnError: false
+        }
     },
     plugins: [
         new webpack.optimize.CommonsChunkPlugin('common', 'common.js'),

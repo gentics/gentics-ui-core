@@ -49,7 +49,12 @@ module.exports = function (config) {
                     { test: /\.html/, loader: 'html' }
                 ]
             },
-
+            ts: {
+                compilerOptions: {
+                    noEmit: false,
+                    noEmitOnError: false
+                }
+            },
             debug: true,
             devtool: 'eval-source-map'
         },
