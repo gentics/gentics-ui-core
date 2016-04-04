@@ -6,6 +6,7 @@ import {GTX_FORM_DIRECTIVES} from '../../../index';
     directives: [GTX_FORM_DIRECTIVES]
 })
 export class SelectDemo {
+    options: string[] = ['foo', 'bar', 'baz', 'quux'];
     selectMultiVal: string[] = ['bar', 'baz'];
     selectVal: string = 'bar';
 }
