@@ -12,6 +12,9 @@ gtx-split-view-container {
         max-width: 5000px;
         transition: width $gtx-split-view-container-animation-duration ease-in-out,
             max-width $gtx-split-view-container-animation-duration ease-in-out;
+        -webkit-user-select: text;
+        -ms-user-select: text;
+        -moz-user-select: text;
 
         > .left-panel,
         > .right-panel {
@@ -41,9 +44,7 @@ gtx-split-view-container {
             bottom: 0;
             width: $gtx-split-view-container-resize-handle-width;
             background-color: $gtx-split-view-container-resize-drag-color;
-            -webkit-user-select: none;
-            -moz-user-select: none;
-            -ms-user-select: none;
+            @include noselect;
         }
     }
 
