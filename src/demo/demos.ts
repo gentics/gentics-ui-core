@@ -13,6 +13,7 @@ import {SearchBarDemo} from './components/search-bar-demo/search-bar-demo';
 import {SelectDemo} from './components/select-demo/select-demo';
 import {SideMenuDemo} from './components/side-menu-demo/side-menu-demo';
 import {SplitViewContainerDemo} from './components/split-view-container-demo/split-view-container-demo';
+import {SortableListDemo} from './components/sortable-list-demo/sortable-list-demo';
 import {TextareaDemo} from './components/textarea-demo/textarea-demo';
 import {TopBarDemo} from './components/top-bar-demo/top-bar-demo';
 import {TypographyDemo} from './components/typography-demo/typography-demo';
@@ -78,6 +79,10 @@ export const demos: IDemoItem[] = [
     {
         name: 'split-view-container',
         component: SplitViewContainerDemo
+    },
+    {
+        name: 'sortable-list',
+        component: SortableListDemo
     },
     {
         name: 'textarea',

@@ -1,0 +1,86 @@
+<h4>SortableList</h4>
+<p>
+    This component provides the ability to draw-and-drop sort a list of items. Sorting logic must be
+    implemented by the consumer, but the events provide a convenience <code>sort()</code> function
+    which takes an array and will return a new array, with the items sorted according to the last
+    drag event.
+</p>
+
+<gtx-sortable-list (dragEnd)="sortList($event)">
+    <gtx-sortable-item *ngFor="#person of items">
+        <gtx-contents-list-item>
+            <div class="item-avatar">
+                <i class="material-icons">person</i>
+            </div>
+            <div class="item-primary">
+                <strong>{{ person.name }}</strong>
+                Age: {{ person.age }}
+            </div>
+            <gtx-drag-handle></gtx-drag-handle>
+        </gtx-contents-list-item>
+    </gtx-sortable-item>
+</gtx-sortable-list>
+
+<h6>Result:</h6>
+<pre>{{ items | json }}</pre>
+
+<h5>Drag handles</h5>
+<p>
+    Optional drag handles are provided by the <code>&lt;gtx-drag-handle&gt;</code> component, but if a list item
+    does not have a drag handle, the entire item will be draggable:
+</p>
+<gtx-sortable-list (dragEnd)="sortList($event)">
+    <gtx-sortable-item *ngFor="#person of items">
+        <gtx-contents-list-item>
+            <div class="item-avatar">
+                <i class="material-icons">person</i>
+            </div>
+            <div class="item-primary">
+                <strong>{{ person.name }}</strong>
+                Age: {{ person.age }}
+            </div>
+        </gtx-contents-list-item>
+    </gtx-sortable-item>
+</gtx-sortable-list>
+
+<h5>Disabling</h5>
+<p>
+    Sorting can be disabled by setting the <code>disabled</code> attribute to true:
+</p>
+
+<gtx-checkbox [(ngModel)]="disabled" label="Disable sorting"></gtx-checkbox>
+<gtx-sortable-list [disabled]="disabled">
+    <gtx-sortable-item *ngFor="#person of items">
+        <gtx-contents-list-item>
+            <div class="item-avatar">
+                <i class="material-icons">person</i>
+            </div>
+            <div class="item-primary">
+                <strong>{{ person.name }}</strong>
+                Age: {{ person.age }}
+            </div>
+            <gtx-drag-handle></gtx-drag-handle>
+        </gtx-contents-list-item>
+    </gtx-sortable-item>
+</gtx-sortable-list>
+
+
+<h5>Auto Scrolling</h5>
+<p>
+    Sometimes the list height is greater than the viewport height. In this case, dragging to the edge of the
+    scrollable area will trigger auto scrolling.
+</p>
+<div class="auto-scroll-demo">
+    <gtx-sortable-list (dragEnd)="sortList($event)">
+        <gtx-sortable-item *ngFor="#item of longList">
+            <gtx-contents-list-item>
+                <div class="item-avatar">
+                    <i class="material-icons">person</i>
+                </div>
+                <div class="item-primary">
+                    <strong>{{ item }}</strong>
+                </div>
+            </gtx-contents-list-item>
+        </gtx-sortable-item>
+    </gtx-sortable-list>
+</div>
