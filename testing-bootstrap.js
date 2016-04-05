@@ -5,6 +5,8 @@
  * The idea is to use Webpack to dynanically require each of the `.spec.ts` files and also set the
  * test providers in a single place, allowing the testing of DOM in component tests.
  */
+require('zone.js');
+require('reflect-metadata');
 
 // @AngularClass
 /*

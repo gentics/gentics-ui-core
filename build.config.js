@@ -19,7 +19,8 @@ const paths = {
         js: 'build/demo/js'
     },
     vendorJS: [
-        'angular2/bundles/angular2-polyfills.js'
+       /* 'node_modules/reflect-metadata/Reflect.js',
+        'node_modules/zone.js/dist/zone.js'*/
     ],
     vendorStatics: [
         'node_modules/materialize-css/font/roboto/Roboto-*'
