@@ -7,6 +7,7 @@ import {DateTimePickerDemo} from './components/date-time-picker-demo/date-time-p
 import {DropdownListDemo} from './components/dropdown-list-demo/dropdown-list-demo';
 import {InputDemo} from './components/input-demo/input-demo';
 import {ModalDemo} from './components/modal-demo/modal-demo';
+import {NotificationDemo} from './components/notification-demo/notification-demo';
 import {RadioButtonDemo} from './components/radio-button-demo/radio-button-demo';
 import {RangeDemo} from './components/range-demo/range-demo';
 import {SearchBarDemo} from './components/search-bar-demo/search-bar-demo';
@@ -55,6 +56,10 @@ export const demos: IDemoItem[] = [
     {
         name: 'modal',
         component: ModalDemo
+    },
+    {
+        name: 'notification',
+        component: NotificationDemo
     },
     {
         name: 'radio-button',

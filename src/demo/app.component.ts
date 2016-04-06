@@ -1,6 +1,6 @@
 import {Component} from 'angular2/core';
 import {Router, RouteConfig, RouteDefinition, ROUTER_DIRECTIVES} from 'angular2/router';
-import {TopBar, SearchBar, SideMenu, SplitViewContainer, ContentsListItem} from '../index';
+import {TopBar, SearchBar, SideMenu, SplitViewContainer, ContentsListItem, Notification, NotificationHost} from '../index';
 import {demos, kebabToPascal, IDemoItem} from './demos';
 
 
@@ -16,7 +16,7 @@ const routes: RouteDefinition[] = demos.map((demo: IDemoItem) => {
 @Component({
     selector: 'default',
     template: ''
-})
+}) 
 class DefaultRoute {}
 
 routes.push({
@@ -34,8 +34,10 @@ routes.push({
         SearchBar,
         SplitViewContainer,
         SideMenu,
-        ContentsListItem
-    ]
+        ContentsListItem,
+        NotificationHost
+    ],
+    providers: [Notification]
 })
 @RouteConfig(routes)
 export class App {
