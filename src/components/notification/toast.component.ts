@@ -22,10 +22,35 @@ export class Toast {
     dismissFn: Function;
     dismissOnClick: boolean = true;
     dismissing: boolean = false;
+    hammerManager: HammerManager;
 
     @ViewChild('toast') toastRef: ElementRef;
 
-    constructor() {}
+    constructor(private elementRef: ElementRef) {}
+
+    ngAfterViewInit(): void {
+        this.initSwipeHandler();
+    }
+
+    ngOnDestroy() {
+        this.hammerManager.destroy();
+    }
+
+    /**
+     * Set up a Hammerjs-based swipe gesture handler to allow swiping between two panes.
+     */
+    private initSwipeHandler(): void {
+        // set up swipe gesture handler
+        this.hammerManager = new Hammer(this.elementRef.nativeElement);
+        this.hammerManager.on('swipe', (e: HammerInput) => {
+            if (e.pointerType === 'touch') {
+                // Hammerjs represents directions with an enum; 4 = right.
+                if (e.direction === 4) {
+                    this.dismiss();
+                }
+            }
+        });
+    }
 
     /**
      * Returns the height of the toast div.
