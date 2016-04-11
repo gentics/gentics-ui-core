@@ -1,9 +1,31 @@
 <h4>Notifications</h4>
 
 <p>
-   Toast notifications
+    Toast notifications.
 </p>
 
-<gtx-input [(ngModel)]="message"></gtx-input>
-<gtx-button (click)="show()">show default</gtx-button>
+<div class="row">
+    <div class="col s4">
+        <gtx-input label="Message" [(ngModel)]="message"></gtx-input>
+    </div>
+    <div class="col s4">
+        <gtx-select label="Toast Type" [(ngModel)]="type">
+            <option value="default">default</option>
+            <option value="success">success</option>
+            <option value="error">error</option>
+        </gtx-select>
+    </div>
+    <div class="col s4">
+        <gtx-input label="Delay" [(ngModel)]="delay" type="number" min="0" max="10000" step="500"></gtx-input>
+    </div>
+</div>
+<gtx-button (click)="showBasic()">show</gtx-button>
 
+
+<h5>Toast Actions</h5>
+<p>
+    A Toast notification can be configured with and action, which can then trigger an onClick callback when
+    it is clicked:
+</p>
+
+<gtx-button (click)="showWithAction()">Send regrettable email</gtx-button>

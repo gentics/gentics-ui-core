@@ -8,14 +8,31 @@ import {Notification, Button, GTX_FORM_DIRECTIVES} from '../../../index';
 export class NotificationDemo {
 
     message: string = 'Hello, this is Toast.';
+    delay: number = 3000;
+    type: string = 'default';
 
     constructor(private notification: Notification) {}
 
 
-    show(): void {
+    showBasic(): void {
         this.notification.show({
             message: this.message,
-            delay: 0
+            type: this.type,
+            delay: this.delay
         });
     }
+
+    showWithAction(): void {
+        this.notification.show({
+            message: 'Email sent',
+            action: {
+                label: 'Undo',
+                onClick: (): any =>  this.notification.show({
+                    message: 'Cancelled sending',
+                    type: 'success'
+                })
+            }
+        });
+    }
+
 }
