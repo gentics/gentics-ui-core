@@ -1,6 +1,6 @@
 import {Component} from 'angular2/core';
 import {Router, RouteConfig, RouteDefinition, ROUTER_DIRECTIVES} from 'angular2/router';
-import {TopBar, SearchBar, SideMenu, SplitViewContainer, ContentsListItem, Notification, NotificationHost} from '../index';
+import {TopBar, SearchBar, SideMenu, SplitViewContainer, ContentsListItem, Notification, OverlayHost} from '../index';
 import {demos, kebabToPascal, IDemoItem} from './demos';
 
 
@@ -35,7 +35,7 @@ routes.push({
         SplitViewContainer,
         SideMenu,
         ContentsListItem,
-        NotificationHost
+        OverlayHost
     ],
     providers: [Notification]
 })

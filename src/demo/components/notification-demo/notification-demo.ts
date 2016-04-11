@@ -14,7 +14,8 @@ export class NotificationDemo {
 
     show(): void {
         this.notification.show({
-            message: this.message
+            message: this.message,
+            delay: 0
         });
     }
 }
