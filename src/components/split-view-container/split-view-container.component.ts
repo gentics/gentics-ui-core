@@ -192,7 +192,7 @@ export class SplitViewContainer implements AfterViewInit, OnDestroy {
     /**
      * Set up a Hammerjs-based swipe gesture handler to allow swiping between two panes.
      */
-    private initSwipeHandler() {
+    private initSwipeHandler(): void {
         // set up swipe gesture handler
         this.hammerManager = new Hammer(this.ownElement.nativeElement);
         this.hammerManager.on('swipe', (e: HammerInput) => {
@@ -209,7 +209,7 @@ export class SplitViewContainer implements AfterViewInit, OnDestroy {
         });
     }
 
-    private destroySwipeHandler() {
+    private destroySwipeHandler(): void {
         this.hammerManager.destroy();
     }
 

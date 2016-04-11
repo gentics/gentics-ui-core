@@ -32,24 +32,8 @@ export class Toast {
         this.initSwipeHandler();
     }
 
-    ngOnDestroy() {
+    ngOnDestroy(): void {
         this.hammerManager.destroy();
-    }
-
-    /**
-     * Set up a Hammerjs-based swipe gesture handler to allow swiping between two panes.
-     */
-    private initSwipeHandler(): void {
-        // set up swipe gesture handler
-        this.hammerManager = new Hammer(this.elementRef.nativeElement);
-        this.hammerManager.on('swipe', (e: HammerInput) => {
-            if (e.pointerType === 'touch') {
-                // Hammerjs represents directions with an enum; 4 = right.
-                if (e.direction === 4) {
-                    this.dismiss();
-                }
-            }
-        });
     }
 
     /**
@@ -70,6 +54,9 @@ export class Toast {
         }
     }
 
+    /**
+     * Begin the dismiss animation
+     */
     startDismiss(): void {
         this.dismissing = true;
     }
@@ -91,5 +78,20 @@ export class Toast {
         if (this.dismissOnClick && typeof this.dismissFn === 'function') {
             this.dismissFn();
         }
+    }
+
+    /**
+     * Set up a Hammerjs-based swipe gesture handler to dismiss toasts.
+     */
+    private initSwipeHandler(): void {
+        this.hammerManager = new Hammer(this.elementRef.nativeElement);
+        this.hammerManager.on('swipe', (e: HammerInput) => {
+            if (e.pointerType === 'touch') {
+                // Hammerjs represents directions with an enum; 4 = right.
+                if (e.direction === 4) {
+                    this.dismiss();
+                }
+            }
+        });
     }
 }

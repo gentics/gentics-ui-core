@@ -1,6 +1,10 @@
 @import '../styles/core';
 @import 'components/colors-demo/colors-demo';
 
+body {
+    overflow-x: hidden;
+}
+
 .top-bar {
     background-color: #eee;
     i {
