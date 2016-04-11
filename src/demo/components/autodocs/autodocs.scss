@@ -1,0 +1,19 @@
+gtx-autodocs {
+    // reset the overridden list styles
+    ul {
+        list-style-type: disc;
+        padding-left: 26px;
+        li {
+            list-style-type: inherit;
+        }
+    }
+}
+
+gtx-autodoc-table {
+    .block-body *:first-child {
+       margin-top: 0;
+    }
+    .block-body *:last-child {
+       margin-bottom: 0;
+    }
+}

@@ -1,0 +1,13 @@
+gtx-demo-block {
+    display: block;
+    border-left: 2px solid $gtx-color-light-gray;
+    padding-left: 20px;
+    padding-bottom: 30px;
+    margin-bottom: 20px;
+
+    .code-wrapper {
+        overflow: hidden;
+        max-height: 0;
+        transition: max-height 0.3s;
+    }
+}

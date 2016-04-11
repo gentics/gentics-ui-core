@@ -1,0 +1,13 @@
+<table class="bordered autodoc-table highlight">
+    <tr *ngFor="#block of docBlocks">
+        <td>
+            <strong>{{ block.identifier }}</strong>
+        </td>
+        <td>
+            <code>{{ block.type }}</code>
+        </td>
+        <td>
+            <div class="block-body" [innerHTML]="block.body"></div>
+        </td>
+    </tr>
+</table>

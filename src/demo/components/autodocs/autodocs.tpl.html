@@ -1,0 +1,11 @@
+<div [innerHTML]="getComponentBody()"></div>
+
+<div *ngIf="0 < inputs.length">
+    <h5>Inputs</h5>
+    <gtx-autodoc-table [docBlocks]="inputs"></gtx-autodoc-table>
+</div>
+
+<div *ngIf="0 < outputs.length">
+    <h5>Outputs</h5>
+    <gtx-autodoc-table [docBlocks]="outputs"></gtx-autodoc-table>
+</div>
