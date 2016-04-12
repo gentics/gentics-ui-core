@@ -25,15 +25,15 @@ const webpackConfig = require('./webpack.config.js');
 const buildConfig = require('./build.config').config;
 const paths = require('./build.config').paths;
 
-gulp.task('build:demo', [
+gulp.task('build:docs', [
     'webpack:run',
     'styles',
     'static-files'
 ]);
 
 gulp.task('clean', () => del([
-    paths.out.demo + '/**',
-    '!' + paths.out.demo
+    paths.out.docs + '/**',
+    '!' + paths.out.docs
 ]));
 
 gulp.task('lint', (done) => {
@@ -66,12 +66,12 @@ gulp.task('serve', ['clean'], () => {
 
     // LiveReload on file change
     livereload.listen({ quiet: true });
-    gulp.watch([paths.out.demo + '/**', '!**/*.map', '!**/*.d.ts'])
+    gulp.watch([paths.out.docs + '/**', '!**/*.map', '!**/*.d.ts'])
         .on('change', console.log.bind(console))
         .on('change', file => livereload.changed(file.path));
 
-    // Serve files from build/demo
-    return gulp.src(paths.out.demo, { base: '.' })
+    // Serve files from build/docs
+    return gulp.src(paths.out.docs, { base: '.' })
         .pipe(webserver({
             index: 'index.html',
             open: process.argv.indexOf('--open') >= 0,
@@ -175,7 +175,7 @@ gulp.task('webpack:run', callback => {
  * @param filepath {string} - Path relative to the project root
  * @returns {string} - Returns the path of the project root relative to filepath
  * @example
- *    relativeRoot("build/demo/app.js") // returns "../../.."
+ *    relativeRoot("build/docs/app.js") // returns "../../.."
  *    relativeRoot("src/components/example/example.js") // returns "../../../.."
  */
 function relativeRoot(filepath) {

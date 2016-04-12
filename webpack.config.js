@@ -3,7 +3,7 @@
 const webpack = require('webpack');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const path = require('path');
-const srcPath = path.join(__dirname, 'src', 'demo');
+const srcPath = path.join(__dirname, 'src', 'docs');
 const paths = require('./build.config.js').paths;
 
 module.exports = {
@@ -19,7 +19,7 @@ module.exports = {
         modulesDirectories: ['node_modules']
     },
     output: {
-        path: path.join(__dirname, 'build', 'demo'),
+        path: path.join(__dirname, 'build', 'docs'),
         publicPath: '',
         filename: '[name].js',
         pathInfo: true

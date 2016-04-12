@@ -1,0 +1,28 @@
+<table class="bordered autodoc-table highlight">
+    <thead>
+        <tr>
+            <th>{{ identifierLabel }}</th>
+            <th>Type</th>
+            <th>Default Value</th>
+            <th>Comments</th>
+        </tr>
+    </thead>
+    <tbody>
+    <tr *ngFor="#block of docBlocks">
+        <td>
+            <strong>{{ block.identifier }}</strong>
+        </td>
+        <td>
+            <code>{{ block.type }}</code>
+        </td>
+        <td>
+            <code class="default-value"
+                  *ngIf="block.defaultValue"
+                  [title]="block.defaultValue">{{ block.defaultValue }}</code>
+        </td>
+        <td>
+            <div class="block-body" [innerHTML]="block.body"></div>
+        </td>
+    </tr>
+    </tbody>
+</table>

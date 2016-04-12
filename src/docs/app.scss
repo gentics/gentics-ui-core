@@ -1,7 +1,7 @@
 @import '../styles/core';
 @import './components/autodocs/autodocs';
 @import './components/demo-block/demo-block';
-@import './components/colors-demo/colors-demo';
+@import 'pages/colors-demo/colors-demo';
 
 body {
     overflow-x: hidden;

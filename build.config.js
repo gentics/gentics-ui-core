@@ -6,17 +6,17 @@ const paths = {
     src: {
         lint: ['./*.js', 'src/**/*.js', './*.json', 'src/**/*.json', 'src/**/*.ts', 'src/**/*.spec.ts'],
         scss: ['src/**/*.scss', '!src/**/_*.scss'],
-        scssMain: 'src/demo/app.scss',
+        scssMain: 'src/docs/app.scss',
         typescript: ['src/**/*.ts', '!**/*.spec.ts'],
-        typescriptMain: 'src/demo/bootstrap.ts',
+        typescriptMain: 'src/docs/bootstrap.ts',
         tests: 'src/**/*.spec.ts',
         fonts: 'src/assets/fonts/**.*'
     },
     out: {
-        css: 'build/demo/css',
-        demo: 'build/demo',
-        fonts: 'build/demo/font',
-        js: 'build/demo/js'
+        css: 'build/docs/css',
+        docs: 'build/docs',
+        fonts: 'build/docs/font',
+        js: 'build/docs/js'
     },
     vendorJS: [
        /* 'node_modules/reflect-metadata/Reflect.js',

@@ -16,4 +16,11 @@ gtx-autodoc-table {
     .block-body *:last-child {
        margin-bottom: 0;
     }
+
+    .default-value {
+        max-width: 200px;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        overflow: hidden;
+    }
 }
