@@ -2,35 +2,89 @@
 
 <gtx-autodocs [source]="componentSource"></gtx-autodocs>
 
-<h4>Sizes</h4>
-<gtx-button size="small">Small</gtx-button>
-<gtx-button size="regular">Regular (Default)</gtx-button>
-<gtx-button size="large">Large</gtx-button>
+<h4>Demos</h4>
 
-<h5>Types</h5>
-<p><gtx-button type="primary">Primary (Default)</gtx-button></p>
-<p><gtx-button type="secondary">Secondary</gtx-button></p>
-<p><gtx-button type="success">Success</gtx-button></p>
-<p><gtx-button type="warning">Warning</gtx-button></p>
-<p><gtx-button type="alert">Alert</gtx-button></p>
+<gtx-demo-block title="Sizes">
+    <div class="demo-result">
+        <gtx-button size="small">Small</gtx-button>
+        <gtx-button size="regular">Regular (Default)</gtx-button>
+        <gtx-button size="large">Large</gtx-button>
+    </div>
+    <div class="demo-code">
+        <gtx-highlighted-code language="HTML" code='
+                <gtx-button size="small">Small</gtx-button>
+                <gtx-button size="regular">Regular (Default)</gtx-button>
+                <gtx-button size="large">Large</gtx-button>
+           '></gtx-highlighted-code>
+    </div>
+</gtx-demo-block>
 
-<h5>Flat Buttons</h5>
-<p><gtx-button flat type="primary">Primary (Default)</gtx-button></p>
-<p><gtx-button flat type="secondary">Secondary</gtx-button></p>
-<p><gtx-button flat type="success">Success</gtx-button></p>
-<p><gtx-button flat type="warning">Warning</gtx-button></p>
-<p><gtx-button flat type="alert">Alert</gtx-button></p>
+<gtx-demo-block title="Types">
+    <div class="demo-result">
+        <gtx-button type="primary">Primary (Default)</gtx-button>
+        <gtx-button type="secondary">Secondary</gtx-button>
+        <gtx-button type="success">Success</gtx-button>
+        <gtx-button type="warning">Warning</gtx-button>
+        <gtx-button type="alert">Alert</gtx-button>
+    </div>
+    <div class="demo-code">
+        <gtx-highlighted-code language="HTML" code='
+                <gtx-button type="primary">Primary (Default)</gtx-button>
+                <gtx-button type="secondary">Secondary</gtx-button>
+                <gtx-button type="success">Success</gtx-button>
+                <gtx-button type="warning">Warning</gtx-button>
+                <gtx-button type="alert">Alert</gtx-button>
+           '></gtx-highlighted-code>
+    </div>
+</gtx-demo-block>
 
-<h5>Disabled State</h5>
-<p>The <code>disabled</code> attribute can be bound to:</p>
-<gtx-checkbox [(ngModel)]="buttonIsDisabled" label="Disable Button"></gtx-checkbox>
-<p><gtx-button [disabled]="buttonIsDisabled">Button</gtx-button></p>
+<gtx-demo-block title="Flat Buttons">
+    <div class="demo-result">
+        <gtx-button flat type="primary">Flat</gtx-button>
+        <gtx-button flat type="secondary">Button</gtx-button>
+        <gtx-button flat type="success" size="large">Got it!</gtx-button>
+        <gtx-button flat type="warning" size="small">undo</gtx-button>
+        <gtx-button flat type="alert" size="small"><i class="material-icons">delete</i></gtx-button>
+    </div>
+    <div class="demo-code">
+        <gtx-highlighted-code language="HTML" code='
+                 <gtx-button flat type="primary">Flat</gtx-button>
+                 <gtx-button flat type="secondary">Button</gtx-button>
+                 <gtx-button flat type="success" size="large">Got it!</gtx-button>
+                 <gtx-button flat type="warning" size="small">undo</gtx-button>
+                 <gtx-button flat type="alert" size="small"><i class="material-icons">delete</i></gtx-button>
+           '></gtx-highlighted-code>
+    </div>
+</gtx-demo-block>
 
-<h5>Events</h5>
-<p>
-    The Button component does not implement any custom events. Therefore, all of the
-    standard events which apply regular HTML button elements will bubble up and can
-    be bound to.
-</p>
-<p><gtx-button (click)="clickCount = clickCount + 1">Click Me</gtx-button></p>
-Click count: {{ clickCount }}
+
+<gtx-demo-block title="Disabled State">
+    <div class="demo-result">
+        <p>The <code>disabled</code> attribute can be bound to:</p>
+        <gtx-checkbox [(ngModel)]="buttonIsDisabled" label="Disable Button"></gtx-checkbox>
+        <p><gtx-button [disabled]="buttonIsDisabled">Button</gtx-button></p>
+    </div>
+    <div class="demo-code">
+        <gtx-highlighted-code language="HTML" code='
+                <gtx-checkbox [(ngModel)]="buttonIsDisabled" label="Disable Button"></gtx-checkbox>
+                <gtx-button [disabled]="buttonIsDisabled">Button</gtx-button>
+           '></gtx-highlighted-code>
+    </div>
+</gtx-demo-block>
+
+<gtx-demo-block title="Events">
+    <div class="demo-result">
+        <p>
+            The Button component does not implement any custom events. Therefore, all of the
+            standard events which apply regular HTML button elements will bubble up and can
+            be bound to.
+        </p>
+        <p><gtx-button (click)="clickCount = clickCount + 1">Click Me</gtx-button></p>
+        Click count: {{ clickCount }}
+    </div>
+    <div class="demo-code">
+        <gtx-highlighted-code language="HTML" code='
+                <gtx-button (click)="clickCount = clickCount + 1">Click Me</gtx-button>
+           '></gtx-highlighted-code>
+    </div>
+</gtx-demo-block>

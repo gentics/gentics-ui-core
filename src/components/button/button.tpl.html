@@ -1,5 +1,6 @@
 <button class="btn"
         type="button"
         [disabled]="disabled"
+        [ngClass]="getButtonClasses()"
 ><ng-content></ng-content>
 </button>
