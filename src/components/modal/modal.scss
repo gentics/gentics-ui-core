@@ -5,9 +5,19 @@ gtx-modal {
 
 .gtx-modal-dialog {
     z-index: 1000;
+    @media #{$small-and-down} {
+        max-height: 85%;
+    }
 
     .modal-content.nopad {
         padding: 0;
+    }
+
+    > .modal-footer {
+        text-align: right;
+        gtx-button {
+            float: right;
+        }
     }
 
     > .modal-footer button.btn {

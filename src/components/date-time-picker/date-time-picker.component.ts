@@ -10,7 +10,17 @@ import {Button} from '../button/button.component';
 const rome: any = require('rome');
 const momentjs: moment.MomentStatic = rome.moment;
 
-
+/**
+ * A form control for selecting a date and (optionally) a time.
+ *
+ * ```
+ * <gtx-date-time-picker [(ngModel)]="dateOfBirth"
+ *                         label="Date of Birth"
+ *                         displayTime="false"
+ *                         format="Do MMMM YYYY">
+ * </gtx-date-time-picker>
+ * ```
+ */
 @Component({
     selector: 'gtx-date-time-picker',
     template: require('./date-time-picker.tpl.html'),
@@ -18,13 +28,35 @@ const momentjs: moment.MomentStatic = rome.moment;
 })
 export class DateTimePicker implements ControlValueAccessor {
 
+    /**
+     * The date/time value as a unix timestamp (in seconds)
+     */
     @Input() timestamp: number;
+
+    /**
+     * A label for the control
+     */
     @Input() label: string = '';
+
+    /**
+     * A [moment.js](http://momentjs.com/)-compatible format string which determines how the
+     * date/time will be displayed in the input field.
+     * See [the moment docs](http://momentjs.com/docs/#/displaying/format/) for valid strings.
+     */
     @Input() format: string;
-    @Input() set displayTime(val: any) {
+
+    /**
+     * Set to `false` to omit the time picker part of the component. Defaults to `true`
+     */
+    @Input() set displayTime(val: any): boolean {
         this._displayTime = val === true || val === 'true';
     }
+
+    /**
+     * Fires when the "okay" button is clicked to close the picker.
+     */
     @Output() change: EventEmitter<number> = new EventEmitter();
+
     value: moment.Moment = momentjs();
 
     // ValueAccessor members
@@ -111,7 +143,7 @@ export class DateTimePicker implements ControlValueAccessor {
     /**
      * Handler for the incrementing the time values when up or down arrows are pressed.
      */
-    timeKeyHandler(segment: string, e: KeyboardEvent) {
+    timeKeyHandler(segment: string, e: KeyboardEvent): void {
         // UP arrow key
         if (e.keyCode === 38) {
             e.preventDefault();
@@ -124,18 +156,18 @@ export class DateTimePicker implements ControlValueAccessor {
         }
     }
 
-    incrementTime(segment: string) {
+    incrementTime(segment: string): void {
         this.addToTime(segment, 1);
     }
 
-    decrementTime(segment: string) {
+    decrementTime(segment: string): void {
         this.addToTime(segment, -1);
     }
 
     /**
      * Update the displayed value and close the modal.
      */
-    confirm(modal: Modal) {
+    confirm(modal: Modal): void {
         this.displayValue = this.getTimeString(this.value, this._displayTime);
         this.change.emit(this.value.unix());
         this.onChange();
@@ -145,7 +177,7 @@ export class DateTimePicker implements ControlValueAccessor {
     /**
      * Close the picker widget without updating the displayed value or emitting a change event.
      */
-    cancel(modal: Modal) {
+    cancel(modal: Modal): void {
         modal.closeModal();
     }
 

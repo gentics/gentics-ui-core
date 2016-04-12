@@ -29,6 +29,14 @@ gtx-date-time-picker {
             color: lighten($secondary-color, 30%);
             font-size: 24px;
         }
+
+        @media #{$small-and-down} {
+            .month, .date, .year {
+                display: inline-block;
+                font-size: $gtx-font-size-regular;
+                margin: 0 2px;
+            }
+        }
     }
 
     .calendar-container {
@@ -97,7 +105,12 @@ gtx-date-time-picker {
     }
 
     .time-picker {
-        margin-top: 20px;
+        @media #{$medium-and-up} {
+            margin-top: 20px;
+        }
+        @media #{$small-and-down} {
+            margin-bottom: -20px;
+        }
         .input-field {
             height: 44px;
             margin-top: 8px;
