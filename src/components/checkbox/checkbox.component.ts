@@ -1,46 +1,17 @@
 import {
-    Attribute,
     Component,
-    Directive,
-    ElementRef,
     EventEmitter,
     Input,
-    OnInit,
-    OnDestroy,
     Optional,
-    Output,
-    Provider,
-    Renderer,
-    Self,
-    forwardRef
+    Output
 } from 'angular2/core';
-import {
-    NgControl,
-    ControlValueAccessor
-} from 'angular2/common';
-import {
-    CONST_EXPR,
-    isPresent
-} from 'angular2/src/facade/lang';
+import {ControlValueAccessor, NgControl} from 'angular2/common';
+import {isPresent} from 'angular2/src/facade/lang';
 
-
-// HACK: workaround for enum type. With TypeScript >= 1.8.0, use:
-//   type CheckState: boolean | 'indeterminate';
-class CheckState {
-    static CHECKED = <CheckState> (<any> true);
-    static UNCHECKED = <CheckState> (<any> false);
-    static INDETERMINATE = <CheckState> (<any> 'indeterminate');
-}
+type CheckState = boolean | 'indeterminate';
 
 /**
- * Checkbox wraps the native <input type=checkbox> form element.
- * It provides a ControlValueAccessor to connect its check state
- * with a form via ngControl / ngFormControl / ngModel.
- *
- * Checkbox allows to set three states:
- *     true (= "checked")
- *     false (= "unchecked")
- *     "indeterminate"
+ * Checkbox wraps the native `<input type=checkbox>` form element.
  */
 @Component({
     selector: 'gtx-checkbox',
@@ -48,6 +19,9 @@ class CheckState {
 })
 export class Checkbox implements ControlValueAccessor {
 
+    /**
+     * Checked state of the checkbox
+     */
     @Input() get checked(): boolean {
         return this.checkState === true;
     }
@@ -58,6 +32,10 @@ export class Checkbox implements ControlValueAccessor {
             this.onChange(val);
         }
     }
+
+    /**
+     * Set to "indeterminate" for an indeterminate state (-)
+     */
     @Input() get indeterminate(): boolean {
         return this.checkState === 'indeterminate';
     }
@@ -68,13 +46,39 @@ export class Checkbox implements ControlValueAccessor {
             this.onChange(this.checkState);
         }
     }
+
+    /**
+     * Set the checkbox to its disabled state.
+     */
     @Input() disabled: boolean = false;
+    /**
+     * Checkbox ID
+     */
     @Input() id: string = 'checkbox-' + Math.random().toString(36).substr(2);
+    /**
+     * Label for the checkbox
+     */
     @Input() label: string = '';
+    /**
+     * Form name for the checkbox
+     */
     @Input() name: string;
+    /**
+     * Sets the readonly property
+     */
     @Input() readonly: boolean = false;
+    /**
+     * Sets the required property
+     */
     @Input() required: boolean = false;
+    /**
+     * The value of the checkbox
+     */
     @Input() value: any = '';
+
+    /**
+     * Set to true to change the visual style to "filled in" style.
+     */
     @Input() get filledIn(): any {
         return this.materialFilledIn;
     }
@@ -82,8 +86,17 @@ export class Checkbox implements ControlValueAccessor {
         this.materialFilledIn = isPresent(filledIn) && filledIn !== false;
     }
 
+    /**
+     * Blur event
+     */
     @Output() blur: EventEmitter<CheckState> = new EventEmitter();
+    /**
+     * Focus event
+     */
     @Output() focus: EventEmitter<CheckState> = new EventEmitter();
+    /**
+     * Change event
+     */
     @Output() change: EventEmitter<CheckState> = new EventEmitter();
 
     private materialFilledIn: boolean = false;
