@@ -1,9 +1,21 @@
 import {Component} from 'angular2/core';
-import {Modal, Button} from '../../../index';
+import {GTX_FORM_DIRECTIVES, Modal, Button} from '../../../index';
+import {Autodocs, DemoBlock, HighlightedCode} from '../../components';
 
 @Component({
     template: require('./modal-demo.tpl.html'),
-    directives: [Modal, Button]
+    directives: [GTX_FORM_DIRECTIVES, Modal, Button, Autodocs, DemoBlock, HighlightedCode]
 })
-export class ModalDemo { 
+export class ModalDemo {
+    componentSource: string = require('!!raw!../../../components/modal/modal.component.ts');
+
+    showConfirm: boolean = false;
+    confirmResult: boolean;
+    padding: boolean = true;
+    maxWidth: string = '400px';
+
+    onConfirmClose(result: boolean): void {
+        this.showConfirm = false;
+        this.confirmResult = result;
+    }
 }

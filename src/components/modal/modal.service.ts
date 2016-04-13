@@ -93,7 +93,7 @@ export class ModalInstance {
     /**
      * Close the modal and hide the overlay.
      */
-    close(): void {
+    close(val: any): void {
         // Disable scrolling
         $('body').css('overflow', '');
 
@@ -112,7 +112,7 @@ export class ModalInstance {
                 complete: (): void => {
                     this.$modal.css('display', 'none');
                     if (typeof(this.options.onClose) === 'function') {
-                        this.options.onClose();
+                        this.options.onClose(val);
                     }
                 }
             }
@@ -126,5 +126,13 @@ export class ModalInstance {
     destroy(): void {
         this.$modal.remove();
         this.$overlay.remove();
+    }
+
+    /**
+     * Set or update the maxWidth value. Val should be a valid CSS max-width value.
+     */
+    setMaxWidth(val: string): void {
+        this.options.maxWidth = val;
+        this.$modal.css('max-width', this.options.maxWidth);
     }
 }

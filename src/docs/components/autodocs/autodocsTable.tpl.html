@@ -1,27 +1,27 @@
 <table class="bordered autodoc-table highlight">
     <thead>
-        <tr>
-            <th>{{ identifierLabel }}</th>
-            <th>Type</th>
-            <th>Default Value</th>
-            <th>Comments</th>
-        </tr>
+    <tr>
+        <th>{{ headers[0] }}</th>
+        <th>{{ headers[1] }}</th>
+        <th>{{ headers[2] }}</th>
+        <th>{{ headers[3] }}</th>
+    </tr>
     </thead>
     <tbody>
     <tr *ngFor="#block of docBlocks">
         <td>
-            <strong>{{ block.identifier }}</strong>
+            <strong class="identifier">{{ block[props[0]] }}</strong>
         </td>
         <td>
-            <code>{{ block.type }}</code>
-        </td>
+            <code class="type"
+                  *ngIf="block[props[1]]"
+                  [title]="block[props[1]]">{{  block[props[1]] }}</code></td>
         <td>
             <code class="default-value"
-                  *ngIf="block.defaultValue"
-                  [title]="block.defaultValue">{{ block.defaultValue }}</code>
-        </td>
+                  *ngIf="block[props[2]]"
+                  [title]="block[props[2]]">{{  block[props[2]] }}</code></td>
         <td>
-            <div class="block-body" [innerHTML]="block.body"></div>
+            <div class="block-body" [innerHTML]="block[props[3]]"></div>
         </td>
     </tr>
     </tbody>

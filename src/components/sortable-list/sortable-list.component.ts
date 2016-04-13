@@ -1,7 +1,7 @@
 import {Component, ElementRef, EventEmitter, Input, Output} from 'angular2/core';
 const sortable: Sortablejs.Sortable = require('sortablejs');
 
-type sortFn = (source: T[], byReference: boolean) => T[];
+type sortFn<T> = (source: T[], byReference: boolean) => T[];
 
 /**
  * The event object returned by each of the Sortablejs callbacks, which can then be emitted up
@@ -27,14 +27,7 @@ export interface ISortableEvent {
     timeStamp: number;
     to: Element;
     type: 'start' | 'move' | 'sort' | 'update' | 'end' | 'add' | 'remove' | 'filter';
-    /**
-     * The sort function is a convenience method for sorting an array, so that the consumer
-     * of this component does not have to re-implement array sorting each time the component is used.
-     *
-     * The sort function expects and array, and returns a new copy of that array, unless
-     * `byReference === true`, in which case the array is mutated.
-     */
-    sort: sortFn;
+    sort: sortFn<any>;
 }
 
 export interface ISortableMoveEvent extends ISortableEvent {
@@ -44,14 +37,73 @@ export interface ISortableMoveEvent extends ISortableEvent {
     relatedRect: ClientRect;
 }
 
+/**
+ * Enables the creation of lists which can be re-ordered by dragging the items. Built on top of
+ * [sortablejs](https://github.com/RubaXa/Sortable). Note that this component does not do the actual
+ * sorting of the list data - this logic must be implemented by the consumer of the component. However,
+ * this component provides a convenience `sort()` function which considerably simplifies this process - see below.
+ *
+ * ```
+ * <gtx-sortable-list (dragEnd)="sortList($event)">
+ *     <gtx-sortable-item *ngFor="#item of items">
+ *         <div>{{ item }}</div>
+ *     </gtx-sortable-item>
+ * </gtx-sortable-list>
+ * ```
+ *
+ * ```
+ * items = ['foo', 'bar', 'baz'];
+ * sortList(e: ISortableEvent): void {
+ *     this.items = e.sort(this.items);
+ * }
+ * ```
+ *
+ * ##### `ISortableEvent`
+ *
+ * The `dragEnd` event emits an `ISortableEvent` object. For a full listing of its properties, see the source. Below
+ * are the more important properties:
+ *
+ * | Property       | Type         | Description |
+ * | --------       | ------------ | ----------- |
+ * | **oldIndex**   | `number`     | The index in the list that the item started from |
+ * | **newIndex**   | `number`     | The index in the list that the item was dropped |
+ * | **sort()**     | `Function`   | A pre-configured sort function - see below |
+ *
+ * ##### `ISortableEvent.sort()`
+ *
+ * When the `dragEnd` event is fired, the event object exposes a `sort(array, byReference)` method. This is a convenience method for
+ * sorting an array, so that the consumer of this component does not have to re-implement array sorting
+ * each time the component is used.
+ *
+ * The sort function expects an array, and returns a new copy of that array, unless
+ * `byReference === true`, in which case the original array is mutated and returned.
+ *
+ * ```
+ * items = [1, 2, 3, 4, 5];
+ *
+ * sortList(e: ISortableEvent): void {
+ *     // assume that the 2nd item was dragged and dropped in the last place.
+ *     this.items = e.sort(this.items);
+ *     // this.items = [1, 3, 4, 5, 2]
+ * }
+ * ```
+ */
 @Component({
     selector: 'gtx-sortable-list',
     template: require('./sortable-list.tpl.html')
 })
 export class SortableList {
 
+    /**
+     * Set to true to disable sorting. i.e. items will no longer be draggable.
+     */
     @Input() disabled: boolean = false;
+
+    /**
+     * Fired when an item has been dragged and dropped to a new position in the list.
+     */
     @Output() dragEnd: EventEmitter<ISortableEvent> = new EventEmitter();
+
     sortable: Sortablejs.Sortable;
 
     constructor(private elementRef: ElementRef) {}
@@ -65,28 +117,28 @@ export class SortableList {
     ngOnInit(): void {
         this.sortable = (<any> sortable).create(this.elementRef.nativeElement, {
             animation: 150,
-            setData: (dataTransfer: any, dragEl: Element) => {
+            setData: (dataTransfer: any, dragEl: Element): void => {
                 this.setInvisibleDragImage(dataTransfer);
             },
             // dragging started
-            onStart: (e: ISortableEvent) => {},
+            onStart: (e: ISortableEvent): void => {},
             // dragging ended
-            onEnd: (e: ISortableEvent) => {
+            onEnd: (e: ISortableEvent): void => {
                 e.sort = this.sortFactory(e);
                 this.dragEnd.emit(e);
             },
             // Element is dropped into the list from another list
-            onAdd: (e: ISortableEvent) => {},
+            onAdd: (e: ISortableEvent): void => {},
             // Changed sorting within list
-            onUpdate: (e: ISortableEvent) => {},
+            onUpdate: (e: ISortableEvent): void => {},
             // Called by any change to the list (add / update / remove)
-            onSort: (e: ISortableEvent) => {},
+            onSort: (e: ISortableEvent): void => {},
             // Element is removed from the list into another list
-            onRemove: (e: ISortableEvent) => {},
+            onRemove: (e: ISortableEvent): void => {},
             // Attempt to drag a filtered element
-            onFilter: (e: ISortableEvent) => {},
+            onFilter: (e: ISortableEvent): void => {},
             // Event when you move an item in the list or between lists
-            onMove: (e: ISortableMoveEvent) => {
+            onMove: (e: ISortableMoveEvent): void => {
                 // Example: http://jsbin.com/tuyafe/1/edit?js,output
                 e.dragged; // dragged HTMLElement
                 e.draggedRect; // TextRectangle {left, top, right и bottom}
@@ -107,10 +159,11 @@ export class SortableList {
     /**
      * Returns a pre-configured sort function which uses the indexes of the sort operation.
      */
-    sortFactory(e: ISortableEvent): sortFn {
+    sortFactory(e: ISortableEvent): sortFn<any> {
         return (source: any[], byReference: boolean = false) => {
             let result: any[] = byReference ? source : source.slice();
-            let {oldIndex, newIndex}: number = e;
+            let oldIndex: number = e.oldIndex;
+            let newIndex: number = e.newIndex;
 
             // Check that index i is an integer
             const isInt = (i: any): boolean => Number(i) === i && i % 1 === 0;

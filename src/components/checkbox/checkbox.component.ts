@@ -11,7 +11,12 @@ import {isPresent} from 'angular2/src/facade/lang';
 type CheckState = boolean | 'indeterminate';
 
 /**
- * Checkbox wraps the native `<input type=checkbox>` form element.
+ * Checkbox wraps the native `<input type="checkbox">` form element.
+ *
+ * ```
+ * <gtx-checkbox [(ngModel)]="isOkay" label="Is it okay?"></gtx-checkbox>
+ * <gtx-checkbox [(ngModel)]="checkStates.B" value="B" label="B"></gtx-checkbox>
+ * ```
  */
 @Component({
     selector: 'gtx-checkbox',
@@ -77,7 +82,7 @@ export class Checkbox implements ControlValueAccessor {
     @Input() value: any = '';
 
     /**
-     * Set to true to change the visual style to "filled in" style.
+     * When attribute is present, change the visual style to "filled in" style.
      */
     @Input() get filledIn(): any {
         return this.materialFilledIn;

@@ -17,14 +17,20 @@ import {Subscription} from 'rxjs';
 declare var $: JQueryStatic;
 
 /**
- * The Select wraps the Materialize <select> element, which dynamically generates a styled list rather than use
- * the native <select> element.
+ * The Select wraps the Materialize `<select>` element, which dynamically generates a styled list rather than use
+ * the native HTML `<select>`.
  *
  * The value of the component (as specified by the `value` attribute or via ngModel etc.) should be a string, or in
- * the case of a multiple select (multiple="true), it should be an array of strings.
+ * the case of a multiple select (multiple="true"), it should be an array of strings.
  *
  * Likewise the outputs passed to the event handlers will be a string or an array of strings, depending on whether
  * multiple === true.
+ *
+ * ```
+ * <gtx-select label="Choose an option" [(ngModel)]="selectVal">
+ *     <option *ngFor="#item of options" [value]="item">{{ item }}</option>
+ * </gtx-select>
+ * ```
  */
 @Component({
     selector: 'gtx-select',
@@ -32,24 +38,58 @@ declare var $: JQueryStatic;
 })
 export class Select implements ControlValueAccessor {
 
-    // native attributes
+    /**
+     * Sets the disabled state.
+     */
     @Input() disabled: boolean = false;
+
+    /**
+     * When set to true, allows multiple options to be selected. In this case, the input value should be
+     * an array of strings; events will emit an array of strings.
+     */
     @Input() multiple: boolean = false;
+
+    /**
+     * Name of the input.
+     */
     @Input() name: string;
+
+    /**
+     * Sets the required state.
+     */
     @Input() required: boolean = false;
 
+    /**
+     * The value determines which of the options are selected.
+     */
     @Input() value: string|string[];
+
+    /**
+     * A text label for the input.
+     */
     @Input() label: string = '';
+
+    /**
+     * Sets the id for the input.
+     */
     @Input() id: string;
 
-    // events
+    /**
+     * Blur event. Output depends on the "multiple" attribute.
+     */
     @Output() blur: EventEmitter<string|string[]> = new EventEmitter();
+    /**
+     * Focus event. Output depends on the "multiple" attribute.
+     */
     @Output() focus: EventEmitter<string|string[]> = new EventEmitter();
+    /**
+     * Change event. Output depends on the "multiple" attribute.
+     */
     @Output() change: EventEmitter<string|string[]> = new EventEmitter();
 
     @ContentChildren(NgSelectOption, { descendants: true }) selectOptions: QueryList<NgSelectOption>;
 
-    // ValueAccessor members 
+    // ValueAccessor members
     onChange: any = () => {};
     onTouched: any = () => {};
 

@@ -10,6 +10,7 @@ export class CheckboxDemo {
 
     componentSource: string = require('!!raw!../../../components/checkbox/checkbox.component.ts');
 
+    someBoolean: boolean = false;
     checkStates: any = {
         A: true,
         B: false,

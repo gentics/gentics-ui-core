@@ -5,8 +5,25 @@ import {
 } from 'angular2/core';
 
 /**
- * A Dropdown List component. Based on the Materialize implementation, but translated into a native Angular2
- * version.
+ * A Dropdown List component based on the [Materialize implementation](http://materializecss.com/dropdown.html),
+ * but translated into a native Angular2 version.
+ *
+ * The component expects two child elements with the following classes:
+ *
+ * * `.dropdown-trigger` - this element is the button/label which the user will click to open the dropdown.
+ * * `.dropdown-content` - this should be a `<ul>` list with the contents of the dropdown.
+ *
+ * 
+ * ```
+ * <gtx-dropdown-list>
+ *     <a class="dropdown-trigger">Show List</a>
+ *     <ul class="dropdown-content">
+ *         <li><a>First</a></li>
+ *         <li><a>Second</a></li>
+ *         <li><a>Third</a></li>
+ *     </ul>
+ * </gtx-dropdown-list>
+ * ```
  */
 @Component({
     selector: 'gtx-dropdown-list',
@@ -83,7 +100,7 @@ export class DropdownList {
     /**
      * Open the dropdown contents in the correct position.
      */
-    openDropdown() {
+    openDropdown(): void {
         // Constrain width
         if (this.options.constrain_width === true) {
             this.contentStyles.width = this.$trigger.outerWidth();

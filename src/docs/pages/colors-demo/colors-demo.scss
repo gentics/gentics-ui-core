@@ -3,6 +3,9 @@
     > .well {
         height: 80px;
         padding: 10px;
+        code {
+            background: none;
+        }
     }
 
     > .off-white { background-color: $gtx-color-off-white;}

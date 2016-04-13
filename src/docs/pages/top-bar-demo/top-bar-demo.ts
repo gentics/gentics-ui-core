@@ -1,9 +1,10 @@
 import {Component} from 'angular2/core';
-import {GTX_FORM_DIRECTIVES} from '../../../index';
+import {Autodocs, DemoBlock, HighlightedCode} from '../../components';
 
 @Component({
     template: require('./top-bar-demo.tpl.html'),
-    directives: [GTX_FORM_DIRECTIVES]
+    directives: [Autodocs, DemoBlock, HighlightedCode]
 })
 export class TopBarDemo {
+    componentSource: string = require('!!raw!../../../components/top-bar/top-bar.component.ts');
 }

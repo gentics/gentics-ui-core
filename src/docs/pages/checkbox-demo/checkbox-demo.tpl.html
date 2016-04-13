@@ -4,32 +4,44 @@
 
 <h4>Demos</h4>
 
+
+<gtx-demo-block title="Simple Boolean Value">
+    <div class="demo-result">
+        <gtx-checkbox [(ngModel)]="someBoolean" label="Is it true?"></gtx-checkbox>
+        <p>someBoolean: <code>{{ someBoolean | json }}</code></p>
+    </div>
+    <div class="demo-code">
+        <gtx-highlighted-code language="HTML" code='
+                <gtx-checkbox [(ngModel)]="someBoolean" label="Is it true?"></gtx-checkbox>
+           '></gtx-highlighted-code>
+    </div>
+</gtx-demo-block>
+
 <gtx-demo-block title="Checked States">
     <div class="demo-result">
         <p>
-            A Checkbox may have a label that is rendered right of the check box.<br>
-            It can be mapped to boolean values or the value <code>"indeterminate"</code>
+           A checkbox can be mapped to boolean values or the value <code>"indeterminate"</code>
             with <code>ngModel</code> / <code>ngControl</code> / <code>ngFormControl</code>.
         </p>
         <div class="row">
             <div class="col s3">
-                <gtx-checkbox [(ngModel)]="checkStates.A" value="A" label="A"></gtx-checkbox>
+                <gtx-checkbox [(ngModel)]="checkStates.A" label="A"></gtx-checkbox>
             </div>
             <div class="col s3">
-                <gtx-checkbox [(ngModel)]="checkStates.B" value="B" label="B"></gtx-checkbox>
+                <gtx-checkbox [(ngModel)]="checkStates.B" label="B"></gtx-checkbox>
             </div>
             <div class="col s3">
-                <gtx-checkbox [(ngModel)]="checkStates.C" value="C" label="C"></gtx-checkbox>
+                <gtx-checkbox [(ngModel)]="checkStates.C" label="C"></gtx-checkbox>
             </div>
         </div>
 
-        Check States: <code class="col s12">{{checkStates | json}}</code>
+        <p>Check States: <code>{{checkStates | json}}</code></p>
     </div>
     <div class="demo-code">
         <gtx-highlighted-code language="HTML" code='
-            <gtx-checkbox [(ngModel)]="checkStates.A" value="A" label="A"></gtx-checkbox>
-            <gtx-checkbox [(ngModel)]="checkStates.B" value="B" label="B"></gtx-checkbox>
-            <gtx-checkbox [(ngModel)]="checkStates.C" value="C" label="C"></gtx-checkbox>
+            <gtx-checkbox [(ngModel)]="checkStates.A" label="A"></gtx-checkbox>
+            <gtx-checkbox [(ngModel)]="checkStates.B" label="B"></gtx-checkbox>
+            <gtx-checkbox [(ngModel)]="checkStates.C" label="C"></gtx-checkbox>
         '></gtx-highlighted-code>
 
         <gtx-highlighted-code language="typescript" code="

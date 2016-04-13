@@ -17,6 +17,29 @@ export class FocusType {
     static RIGHT = <FocusType> (<any> 'right');
 }
 
+/**
+ * A container that provides a ["master-detail" interface](https://en.wikipedia.org/wiki/Master%E2%80%93detail_interface)
+ * with two resizable panels denoted by the `left` and `right` attributes on its children.
+ *
+ * There should only be a single instance of SplitViewContainer used at a time, and it is intended to be the
+ * main structural container of the "master/detail" part of the app - i.e. the content listing and editing view.
+ *
+ * ```
+ * <gtx-split-view-container class="split-view-container"
+ *     [rightPanelVisible]="hasContent"
+ *     [(focusedPanel)]="splitFocus">
+ *
+ *     <div class="list-pane" left>
+ *         <!-- Left panel contents -->
+ *     </div>
+ *
+ *     <div class="content-pane" right>
+ *         <!-- Right panel contents -->
+ *     </div>
+ *
+ * </gtx-split-view-container>
+ * ```
+ */
 @Component({
     selector: 'gtx-split-view-container',
     template: require('./split-view-container.tpl.html')
@@ -112,8 +135,7 @@ export class SplitViewContainer implements AfterViewInit, OnDestroy {
     /**
      * Triggers when the value of {@link rightPanelVisible} changes.
      * Allows to double-bind the property.
-     * @example
-     *     <split-view-container [(rightPanelVisible)]="property">
+     * `<split-view-container [(rightPanelVisible)]="property">`
      */
     @Output()
     rightPanelVisibleChange: EventEmitter<boolean> = new EventEmitter<boolean>();
@@ -133,8 +155,7 @@ export class SplitViewContainer implements AfterViewInit, OnDestroy {
     /**
      * Triggers when the value of {@link focusedPanel} changes.
      * Allows to double-bind the property.
-     * @example
-     *     <split-view-container [(focusedPanel)]="property">
+     * `<split-view-container [(focusedPanel)]="property">`
      */
     @Output()
     focusedPanelChange: EventEmitter<FocusType> = new EventEmitter<FocusType>();

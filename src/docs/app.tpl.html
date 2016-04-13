@@ -8,8 +8,9 @@
 </div>
 
 <gtx-split-view-container class="split-view-container"
-    [rightPanelVisible]="hasContent"
-    [(focusedPanel)]="splitFocus">
+                          leftContainerWidthPercent="35"
+                          [rightPanelVisible]="hasContent"
+                          [(focusedPanel)]="splitFocus">
 
     <div class="list-pane" left>
         <gtx-contents-list-item *ngFor="#item of filteredContentItems">

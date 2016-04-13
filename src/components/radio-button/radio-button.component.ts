@@ -86,9 +86,15 @@ export class RadioGroup implements ControlValueAccessor {
 
 
 /**
- * RadioButton wraps the native <input type=radio> form element.
+ * RadioButton wraps the native `<input type="radio">` form element.
  * To connect multiple radio buttons with a form via ngControl,
- * wrap them in a {@link RadioGroup} (<gtx-radio-group>).
+ * wrap them in a {@link RadioGroup} (`<gtx-radio-group>`).
+ *
+ * ```
+ * <gtx-radio-button [(ngModel)]="val" value="A" label="A"></gtx-radio-button>
+ * <gtx-radio-button [(ngModel)]="val" value="B" label="B"></gtx-radio-button>
+ * <gtx-radio-button [(ngModel)]="val" value="C" label="C"></gtx-radio-button>
+ * ```
  */
 @Component({
     selector: 'gtx-radio-button',
@@ -96,6 +102,9 @@ export class RadioGroup implements ControlValueAccessor {
 })
 export class RadioButton implements ControlValueAccessor, OnInit, OnDestroy {
 
+    /**
+     * The checked state of the control
+     */
     @Input() get checked(): boolean {
         return this.inputChecked;
     }
@@ -111,13 +120,45 @@ export class RadioButton implements ControlValueAccessor, OnInit, OnDestroy {
             }
         }
     }
+
+    /**
+     * The disabled state of the control
+     */
     @Input() disabled: boolean = false;
+
+    /**
+     * ID of the control
+     */
     @Input() id: string = 'radio-' + Math.random().toString(36).substr(2);
+
+    /**
+     * Label for the radio button
+     */
     @Input() label: string = '';
+
+    /**
+     * Name of the input
+     */
     @Input() name: string;
+
+    /**
+     * Sets the readonly state
+     */
     @Input() readonly: boolean = false;
+
+    /**
+     * Sets the required state
+     */
     @Input() required: boolean = false;
+
+    /**
+     * Value associated with this input
+     */
     @Input() value: any = '';
+
+    /**
+     * When attribute present, styles the radio button with a gap in the color.
+     */
     @Input() get withGap(): any {
         return this.materialGap;
     }
@@ -125,8 +166,19 @@ export class RadioButton implements ControlValueAccessor, OnInit, OnDestroy {
         this.materialGap = isPresent(gap) && gap !== false;
     }
 
+    /**
+     * Blur event
+     */
     @Output() blur: EventEmitter<boolean> = new EventEmitter();
+
+    /**
+     * Focus event
+     */
     @Output() focus: EventEmitter<boolean> = new EventEmitter();
+
+    /**
+     * Change event
+     */
     @Output() change: EventEmitter<any> = new EventEmitter();
 
     private materialGap: boolean = false;

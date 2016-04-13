@@ -1,3 +1,31 @@
-<h4>Search Bar</h4>
+<h3>Search Bar</h3>
 
-<gtx-search-bar></gtx-search-bar>
+<gtx-autodocs [source]="componentSource" type="component"></gtx-autodocs>
+
+<h4>Demos</h4>
+
+
+<gtx-demo-block title="Events">
+    <div class="demo-result">
+        <p>
+            The <code>change</code> event will fire whenever the key is pressed, whereas <code>search</code>
+            if only fired when the button or the enter key is pressed.
+        </p>
+        <gtx-search-bar query="cats"
+                        (change)="changeCount = changeCount + 1"
+                        (search)="searchCount = searchCount + 1">
+        </gtx-search-bar>
+        <code>change</code> fired {{ changeCount }} times.<br>
+        <code>search</code> fired {{ searchCount }} times.
+    </div>
+    <div class="demo-code">
+        <gtx-highlighted-code language="HTML" code='
+                 <gtx-search-bar query="cats"
+                        (change)="changeCount = changeCount + 1"
+                        (search)="searchCount = searchCount + 1">
+                 </gtx-search-bar>
+                 <code>change</code> fired (( changeCount )) times.<br>
+                 <code>search</code> fired (( searchCount )) times.
+        '></gtx-highlighted-code>
+    </div>
+</gtx-demo-block>

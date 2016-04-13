@@ -8,13 +8,27 @@ import {IDocBlock} from './doc-parser';
 export class AutodocTable {
     @Input() docBlocks: IDocBlock[];
     identifierLabel: string = 'Name';
+    headers: string[];
+    props: string[];
 
     ngOnInit(): void {
-        let decorator = this.docBlocks[0].decorator;
-        if (decorator === 'Input') {
-            this.identifierLabel = 'Attribute';
-        } else if (decorator === 'Output') {
-            this.identifierLabel = 'Event';
+        let firstBlock = this.docBlocks[0];
+        if (firstBlock.decorator === 'Input') {
+            // Inputs
+            this.headers = ['Attribute', 'Type', 'Default Value', 'Comments'];
+            this.props = ['identifier', 'type', 'defaultValue', 'body'];
+        } else if (firstBlock.decorator === 'Output') {
+            // Outputs
+            this.headers = ['Event', 'Type', 'Default Value', 'Comments'];
+            this.props = ['identifier', 'type', 'defaultValue', 'body'];
+        } else if (firstBlock.methodArgs) {
+            // Methods
+            this.headers = ['Method', 'Args', 'Return Value', 'Comments'];
+            this.props = ['identifier', 'methodArgs', 'type', 'body'];
+        } else {
+            // Properties
+            this.headers = ['Property', 'Type', 'Default Value', 'Comments'];
+            this.props = ['identifier', 'type', 'defaultValue', 'body'];
         }
-    }
+    } 
 }

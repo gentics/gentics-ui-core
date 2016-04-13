@@ -8,6 +8,7 @@ import {DropdownListDemo} from 'pages/dropdown-list-demo/dropdown-list-demo';
 import {InputDemo} from 'pages/input-demo/input-demo';
 import {ModalDemo} from 'pages/modal-demo/modal-demo';
 import {NotificationDemo} from 'pages/notification-demo/notification-demo';
+import {OverlayHostDemo} from 'pages/overlay-host-demo/overlay-host-demo';
 import {RadioButtonDemo} from 'pages/radio-button-demo/radio-button-demo';
 import {RangeDemo} from 'pages/range-demo/range-demo';
 import {SearchBarDemo} from 'pages/search-bar-demo/search-bar-demo';
@@ -62,6 +63,10 @@ export const demos: IDemoItem[] = [
         component: NotificationDemo
     },
     {
+        name: 'overlay-host',
+        component: OverlayHostDemo
+    },
+    {
         name: 'radio-button',
         component: RadioButtonDemo
     },
@@ -82,12 +87,12 @@ export const demos: IDemoItem[] = [
         component: SideMenuDemo
     },
     {
-        name: 'split-view-container',
-        component: SplitViewContainerDemo
-    },
-    {
         name: 'sortable-list',
         component: SortableListDemo
+    },
+    {
+        name: 'split-view-container',
+        component: SplitViewContainerDemo
     },
     {
         name: 'textarea',

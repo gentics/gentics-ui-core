@@ -29,6 +29,35 @@ interface IOpenToast {
     dismissTimer: number;
 }
 
+/**
+ * A toast notification service. Depends on the `<gtx-overlay-host>` being present in the app
+ * (see `registerHostElement`).
+ *
+ * ```
+ * let dismiss = this.notification.show({
+ *     message: 'Content Saved',
+ *     type: 'success',
+ *     delay: 3000
+ * });
+ *
+ * // to manually dismiss the toast
+ * dismiss();
+ * ```
+ *
+ * ##### `INotificationOptions`
+ *
+ * The `show()` method takes an `INotificationOptions` object as its argument:
+ *
+ * | Property           | Type                                | Default   | Description |
+ * | --------           | ------------------------------      | -------   | ----------- |
+ * | **message**        | `string`                            | ''        | The message to display |
+ * | **type**           | `'default'`, `'error'`, `'success'` | 'default' | The style of toast |
+ * | **delay**          | `number`                            | 3000      | ms before toast is dismissed. 0 == no dismiss |
+ * | **dismissOnClick** | `boolean`                           | true      | If true, the toast can be dismissed by click or swipe |
+ * | **action.label**   | `string`                            |           | Optional action label |
+ * | **action.onClick** | `Function`                          |           | Callback if action label is clicked |
+ *
+ */
 @Injectable()
 export class Notification {
 
@@ -42,7 +71,10 @@ export class Notification {
 
     constructor(private loader: DynamicComponentLoader) {}
 
-    registerHostElement(elementRef: ElementRef): void {
+    /**
+     * Used internally to register the service with the [OverlayHost](#/overlay-host) component.
+     */
+    public registerHostElement(elementRef: ElementRef): void {
         this.hostElementRef = elementRef;
     }
 
@@ -50,7 +82,7 @@ export class Notification {
      * Show a toast notification. Returns an object with a dismiss() method, which will
      * dismiss the toast when invoked.
      */
-    show(options: INotificationOptions): { dismiss: () => void } {
+    public show(options: INotificationOptions): { dismiss: () => void } {
         // TODO: add check that hostElementRef is set.
         let mergedOptions: INotificationOptions = Object.assign({}, defaultOptions, options);
         let toast: Toast;
@@ -63,10 +95,44 @@ export class Notification {
     }
 
     /**
+     * Used internally by the [OverlayHost](#/overlay-host) to clean up.
+     */
+    public destroyAllToasts(): void {
+        this.openToasts.forEach((o: IOpenToast) => {
+            if (typeof o.toast.dismissFn === 'function') {
+                o.toast.dismissFn();
+            }
+        });
+        this.openToasts = [];
+    }
+
+    /**
+     * Dispose of the Toast component and remove its reference from the
+     * openToasts array.
+     */
+    private destroyToast(componentRef: ComponentRef): void {
+        let toast: Toast = componentRef.instance;
+        let index = this.getToastIndex(toast);
+        if (-1 < index) {
+            let timer: number = this.openToasts[index].dismissTimer;
+            if (timer) {
+                clearTimeout(timer);
+            }
+            this.openToasts.splice(index, 1);
+        }
+        toast.startDismiss();
+        setTimeout(() => {
+            componentRef.dispose();
+            this.positionOpenToasts();
+        }, 200);
+
+    }
+
+    /**
      * Dynamically create and load a new Toast component next to the
      * NotificationHost component in the DOM.
      */
-    createToast(options: INotificationOptions): Promise<Toast> {
+    private createToast(options: INotificationOptions): Promise<Toast> {
         return this.loader.loadNextToLocation(Toast, this.hostElementRef)
             .then((componentRef: ComponentRef) => {
                 let toast: Toast = componentRef.instance;
@@ -96,37 +162,6 @@ export class Notification {
             });
     }
 
-    /**
-     * Dispose of the Toast component and remove its reference from the
-     * openToasts array.
-     */
-    destroyToast(componentRef: ComponentRef): void {
-        let toast: Toast = componentRef.instance;
-        let index = this.getToastIndex(toast);
-        if (-1 < index) {
-            let timer: number = this.openToasts[index].dismissTimer;
-            if (timer) {
-                clearTimeout(timer);
-            }
-            this.openToasts.splice(index, 1);
-        }
-        toast.startDismiss();
-        setTimeout(() => {
-            componentRef.dispose();
-            this.positionOpenToasts();
-        }, 200);
-
-    }
-
-    destroyAllToasts(): void {
-        this.openToasts.forEach((o: IOpenToast) => {
-            if (typeof o.toast.dismissFn === 'function') {
-                o.toast.dismissFn();
-            }
-        });
-        this.openToasts = [];
-    }
-
     private positionOpenToasts(): void {
         setTimeout(() => {
             this.openToasts.forEach((o: IOpenToast) => {
@@ -143,10 +178,10 @@ export class Notification {
         let index = this.getToastIndex(toast);
 
         return this.openToasts
-                .filter((o: IOpenToast, i: number) => i < index)
-                .reduce((top: number, o: IOpenToast) => {
-                    return top += o.toast.getHeight() + this.verticalMargin;
-                }, 0);
+            .filter((o: IOpenToast, i: number) => i < index)
+            .reduce((top: number, o: IOpenToast) => {
+                return top += o.toast.getHeight() + this.verticalMargin;
+            }, 0);
     }
 
     /**

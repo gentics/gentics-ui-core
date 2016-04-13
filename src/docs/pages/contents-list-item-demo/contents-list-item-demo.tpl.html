@@ -1,1 +1,37 @@
-<h4>ContentsListItem</h4>
+<h3>ContentsListItem</h3>
+
+<gtx-autodocs [source]="componentSource"></gtx-autodocs>
+
+<h4>Demos</h4>
+
+<gtx-demo-block title="Basic Example">
+    <div class="demo-result">
+        <gtx-contents-list-item *ngFor="#item of listItems">
+            {{ item }}
+        </gtx-contents-list-item>
+    </div>
+    <div class="demo-code">
+        <gtx-highlighted-code language="HTML" code='
+                <gtx-contents-list-item *ngFor="#item of listItems">
+                    (( item ))
+                </gtx-contents-list-item>
+           '></gtx-highlighted-code>
+    </div>
+</gtx-demo-block>
+
+<gtx-demo-block title="With helper classes">
+    <div class="demo-result">
+        <gtx-contents-list-item *ngFor="#item of listItems">
+            <div class="item-avatar"><i class="material-icons">person</i></div>
+            <div class="item-primary">{{ item }}</div>
+        </gtx-contents-list-item>
+    </div>
+    <div class="demo-code">
+        <gtx-highlighted-code language="HTML" code='
+                  <gtx-contents-list-item *ngFor="#item of listItems">
+                      <div class="item-avatar"><i class="material-icons">person</i></div>
+                      <div class="item-primary">{{ item }}</div>
+                  </gtx-contents-list-item>
+           '></gtx-highlighted-code>
+    </div>
+</gtx-demo-block>

@@ -7,20 +7,43 @@ gtx-autodocs {
             list-style-type: inherit;
         }
     }
+
+    display: block;
+    margin-bottom: 60px;
+
+    table td {
+        padding: 5px 3px;
+    }
 }
 
 gtx-autodoc-table {
-    .block-body *:first-child {
-       margin-top: 0;
-    }
-    .block-body *:last-child {
-       margin-bottom: 0;
+    display: block;
+    margin-bottom: 40px;
+
+    th {
+        min-width: 110px;
     }
 
-    .default-value {
-        max-width: 200px;
+    .identifier {
+
+    }
+
+    .block-body *:first-child {
+        margin-top: 0;
+    }
+    .block-body *:last-child {
+        margin-bottom: 0;
+    }
+
+    .type, .default-value {
+        display: inline-block;
+        max-width: 150px;
         text-overflow: ellipsis;
         white-space: nowrap;
         overflow: hidden;
+    }
+
+    .type {
+        background-color: lighten($gtx-color-primary, 50%);
     }
 }

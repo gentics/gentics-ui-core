@@ -1,35 +1,100 @@
-<h4>RadioButton</h4>
-<p>
-    A RadioButton may have a label that is rendered right of the radio input.<br>
-    It can be mapped to values of any type (<code>string</code>, <code>Object</code>, <code>number</code>)
-    with <code>ngModel</code>.
-</p>
-<div class="row">
-    <div class="col s4">
-        <gtx-radio-button [(ngModel)]="radioValue" value="A" label="Option A"></gtx-radio-button>
+<h3>RadioButton</h3>
+
+<gtx-autodocs [source]="componentSource" type="component"></gtx-autodocs>
+
+<h4>Demos</h4>
+
+<gtx-demo-block title="Basic Binding">
+    <div class="demo-result">
+        <p>
+            A RadioButton may have a label that is rendered right of the radio input.<br>
+            It can be mapped to values of any type (<code>string</code>, <code>Object</code>, <code>number</code>)
+            with <code>ngModel</code>.
+        </p>
+        <div class="row">
+            <div class="col s4">
+                <gtx-radio-button [(ngModel)]="radioValue" value="A" label="Option A"></gtx-radio-button>
+            </div>
+            <div class="col s4">
+                <gtx-radio-button [(ngModel)]="radioValue" value="B" label="Option B"></gtx-radio-button>
+            </div>
+            <div class="col s4">
+                <gtx-radio-button [(ngModel)]="radioValue" value="C" label="Option C"></gtx-radio-button>
+            </div>
+        </div>
+        radioValue: <code>{{ radioValue | json }}</code>
     </div>
-    <div class="col s4">
-        <gtx-radio-button [(ngModel)]="radioValue" value="B" label="Option B"></gtx-radio-button>
+    <div class="demo-code">
+        <gtx-highlighted-code language="HTML" code='
+                <gtx-radio-button [(ngModel)]="radioValue" value="A" label="Option A"></gtx-radio-button>
+                <gtx-radio-button [(ngModel)]="radioValue" value="B" label="Option B"></gtx-radio-button>
+                <gtx-radio-button [(ngModel)]="radioValue" value="C" label="Option C"></gtx-radio-button>
+                radioValue: <code>(( radioValue | json ))</code>
+        '></gtx-highlighted-code>
+
     </div>
-    <div class="col s4">
-        <gtx-radio-button [(ngModel)]="radioValue" value="C" label="Option C"></gtx-radio-button>
+</gtx-demo-block>
+
+<gtx-demo-block title="RadioGroup">
+    <div class="demo-result">
+        <p>
+            You can group muliple RadioButtons together by wrapping them in a <code>RadioGroup</code>.<br>
+            The group can be attached to a form via the <code>ngControl</code> directive.
+        </p>
+        <div class="row" gtx-radio-group [(ngModel)]="selectedColor">
+            <div class="col s2">
+                <gtx-radio-button label="Red" [value]="{name: 'red', hex: '#f00'}"></gtx-radio-button>
+            </div>
+            <div class="col s2">
+                <gtx-radio-button label="Green" [value]="{name: 'green', hex: '#0f0'}"></gtx-radio-button>
+            </div>
+            <div class="col s2">
+                <gtx-radio-button label="Blue" [value]="{name: 'blue', hex: '#00f'}"></gtx-radio-button>
+            </div>
+            <div class="col s6">
+                <pre *ngIf="selectedColor" [style.color]="selectedColor?.hex">{{ selectedColor | json }}</pre>
+            </div>
+        </div>
     </div>
-</div>
-<p>
-    You can group muliple RadioButtons together by wrapping them in a <code>RadioGroup</code>.<br>
-    The group can be attached to a form via the <code>ngControl</code> directive.
-</p>
-<div class="row" gtx-radio-group [(ngModel)]="selectedColor">
-    <div class="col s2">
-        <gtx-radio-button label="Red" [value]="{name: 'red', hex: '#f00'}"></gtx-radio-button>
+    <div class="demo-code">
+        <gtx-highlighted-code language="HTML" code='
+               <div gtx-radio-group [(ngModel)]="selectedColor">
+                    <gtx-radio-button label="Red" [value]="{name: \"red\", hex: \"#f00\"}"></gtx-radio-button>
+                    <gtx-radio-button label="Green" [value]="{name: \"green\", hex: \"#0f0\"}"></gtx-radio-button>
+                    <gtx-radio-button label="Blue" [value]="{name: \"blue\", hex: \"#00f\"}"></gtx-radio-button>
+               </div>
+               <pre *ngIf="selectedColor" [style.color]="selectedColor?.hex">(( selectedColor | json ))</pre>
+        '></gtx-highlighted-code>
+
     </div>
-    <div class="col s2">
-        <gtx-radio-button label="Green" [value]="{name: 'green', hex: '#0f0'}"></gtx-radio-button>
+</gtx-demo-block>
+
+<gtx-demo-block title="withGap Style">
+    <div class="demo-result">
+        <p>
+            A radio button with the <code>withGap</code> attribute is styled differently.
+        </p>
+        <div class="row">
+            <div class="col s4">
+                <gtx-radio-button withGap name="test" value="A" label="Option A"></gtx-radio-button>
+            </div>
+            <div class="col s4">
+                <gtx-radio-button withGap name="test"  value="B" label="Option B"></gtx-radio-button>
+            </div>
+            <div class="col s4">
+                <gtx-radio-button withGap name="test"  value="C" label="Option C"></gtx-radio-button>
+            </div>
+        </div>
     </div>
-    <div class="col s2">
-        <gtx-radio-button label="Blue" [value]="{name: 'blue', hex: '#00f'}"></gtx-radio-button>
+    <div class="demo-code">
+        <gtx-highlighted-code language="HTML" code='
+               <gtx-radio-button withGap name="test" value="A" label="Option A"></gtx-radio-button>
+               <gtx-radio-button withGap name="test" value="B" label="Option B"></gtx-radio-button>
+               <gtx-radio-button withGap name="test" value="C" label="Option C"></gtx-radio-button>
+        '></gtx-highlighted-code>
+
     </div>
-    <div class="col s6">
-        <pre *ngIf="selectedColor" [style.color]="selectedColor?.hex">{{ selectedColor | json }}</pre>
-    </div>
-</div>
+</gtx-demo-block>
+
+
+

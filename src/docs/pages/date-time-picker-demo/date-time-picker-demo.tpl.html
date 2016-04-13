@@ -1,10 +1,46 @@
-<h4>DateTimePicker</h4>
+<h3>DateTimePicker</h3>
+
+<gtx-autodocs [source]="componentSource"></gtx-autodocs>
+
+<h4>Demos</h4>
 
 <div class="row">
-    <div class="col s8">
-        <gtx-date-time-picker [(ngModel)]="timestamp" label="DatePicker"></gtx-date-time-picker>
-    </div>
-    <div class="col s4">
-        timestamp: {{ timestamp }}
-    </div>
+
 </div>
+
+<gtx-demo-block title="Date And Time">
+    <div class="demo-result">
+        <gtx-date-time-picker [(ngModel)]="timestamp" label="Pick a time"></gtx-date-time-picker>
+        timestamp: <code>{{ timestamp }}</code>
+    </div>
+    <div class="demo-code">
+        <gtx-highlighted-code language="HTML" code='
+                  <gtx-date-time-picker [(ngModel)]="timestamp" label="Pick a date"></gtx-date-time-picker>
+                  timestamp: <code>(( timestamp ))</code>
+           '></gtx-highlighted-code>
+    </div>
+</gtx-demo-block>
+
+<gtx-demo-block title="Date Only">
+    <div class="demo-result">
+        <gtx-date-time-picker [(ngModel)]="timestamp" label="Pick a date" displayTime="false"></gtx-date-time-picker>
+        timestamp: <code>{{ timestamp }}</code>
+    </div>
+    <div class="demo-code">
+        <gtx-highlighted-code language="HTML" code='
+                 <gtx-date-time-picker [(ngModel)]="timestamp" label="Pick a date" displayTime="false"></gtx-date-time-picker>
+                 timestamp: <code>(( timestamp ))</code>
+           '></gtx-highlighted-code>
+    </div>
+</gtx-demo-block>
+
+<gtx-demo-block title="Custom Format">
+    <div class="demo-result">
+        <gtx-date-time-picker [timestamp]="timestamp" format="Do MMM YY @ h:mm a"></gtx-date-time-picker>
+    </div>
+    <div class="demo-code">
+        <gtx-highlighted-code language="HTML" code='
+                 <gtx-date-time-picker [timestamp]="timestamp" format="Do MMM YY @ h:mm a"></gtx-date-time-picker>
+           '></gtx-highlighted-code>
+    </div>
+</gtx-demo-block>

@@ -1,25 +1,12 @@
 import {Component, Input, Output, HostBinding, EventEmitter} from 'angular2/core';
+import {SideMenuToggleButton} from './side-menu-toggle.component';
 
 /**
- * An animated CSS hamburger menu icon, used by the SideMenu component to trigger the
- * "toggle" event. Not exported as it is only used internally.
- */
-@Component({
-    selector: 'gtx-side-menu-toggle-button',
-    template: `<div class="bar top"></div>
-               <div class="bar middle"></div>
-               <div class="bar bottom"></div>`
-})
-class SideMenuToggleButton {
-    @Input() @HostBinding('class.active') active: boolean = false;
-}
-
-/**
- * The SideMenu componponent is an off-canvas menu that features a hamburger toggle button which can be
+ * The SideMenu component is an off-canvas menu that features a hamburger toggle button which can be
  * used to toggle the state. The component itself is stateless, and relies on the value passed in as
  * the `opened` prop to set its state. Toggling must also be handled by the host component.
  *
- * @example
+ * ```
  * <gtx-side-menu [opened]="displayMenu" (toggle)="toggleMenu($event)">
  *    <div class="my-menu-content">
  *        <ul>
@@ -31,6 +18,7 @@ class SideMenuToggleButton {
  *        </ul>
  *    </div>
  * </gtx-side-menu>
+ * ```
  */
 @Component({
     selector: 'gtx-side-menu',
@@ -38,7 +26,20 @@ class SideMenuToggleButton {
     directives: [SideMenuToggleButton]
 })
 export class SideMenu {
-    @Input() @HostBinding('class.opened') opened: boolean = false;
+
+    /**
+     * Sets the state of the menu: true = opened, false = closed. 
+     */
+    @Input() opened: boolean = false;
+
+    @HostBinding('class.opened') get hostIsOpen(): boolean {
+        return this.opened;
+    }
+
+    /**
+     * Fired when the toggle button is clicked. The value is equal to
+     * the value of the `opened`
+     */
     @Output() toggle: EventEmitter<boolean> = new EventEmitter();
 
     toggleState(): void {

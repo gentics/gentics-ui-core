@@ -1,31 +1,71 @@
-<h4>Notifications</h4>
+<h3>Notifications</h3>
 
-<p>
-    Toast notifications.
-</p>
+<gtx-autodocs [source]="componentSource" type="service"></gtx-autodocs>
 
-<div class="row">
-    <div class="col s4">
-        <gtx-input label="Message" [(ngModel)]="message"></gtx-input>
+
+<h4>Demos</h4>
+
+<gtx-demo-block title="Basic options">
+    <div class="demo-result">
+        <div class="row">
+            <div class="col s4">
+                <gtx-input label="Message" [(ngModel)]="message"></gtx-input>
+            </div>
+            <div class="col s4">
+                <gtx-select label="Toast Type" [(ngModel)]="type">
+                    <option value="default">default</option>
+                    <option value="success">success</option>
+                    <option value="error">error</option>
+                </gtx-select>
+            </div>
+            <div class="col s4">
+                <gtx-input label="Delay" [(ngModel)]="delay" type="number" min="0" max="10000" step="500"></gtx-input>
+            </div>
+        </div>
+        <gtx-button (click)="showBasic()">show</gtx-button>
     </div>
-    <div class="col s4">
-        <gtx-select label="Toast Type" [(ngModel)]="type">
-            <option value="default">default</option>
-            <option value="success">success</option>
-            <option value="error">error</option>
-        </gtx-select>
+    <div class="demo-code">
+        <gtx-highlighted-code language="HTML" code='
+               <gtx-button (click)="showBasic()">show</gtx-button>
+                 '></gtx-highlighted-code>
+        <gtx-highlighted-code language="typescript" code='
+               showBasic(): void {
+                   this.notification.show({
+                       message: this.message,
+                       type: this.type,
+                       delay: this.delay
+                   });
+               }
+           '></gtx-highlighted-code>
     </div>
-    <div class="col s4">
-        <gtx-input label="Delay" [(ngModel)]="delay" type="number" min="0" max="10000" step="500"></gtx-input>
+</gtx-demo-block>
+
+
+<gtx-demo-block title="Actions">
+    <div class="demo-result">
+        <p>
+            A Toast notification can be configured with and action, which can then trigger an onClick callback when
+            it is clicked:
+        </p>
+        <gtx-button (click)="showWithAction()">Send regrettable email</gtx-button>
     </div>
-</div>
-<gtx-button (click)="showBasic()">show</gtx-button>
-
-
-<h5>Toast Actions</h5>
-<p>
-    A Toast notification can be configured with and action, which can then trigger an onClick callback when
-    it is clicked:
-</p>
-
-<gtx-button (click)="showWithAction()">Send regrettable email</gtx-button>
+    <div class="demo-code">
+        <gtx-highlighted-code language="HTML" code='
+               <gtx-button (click)="showWithAction()">Send regrettable email</gtx-button>
+                 '></gtx-highlighted-code>
+        <gtx-highlighted-code language="typescript" code='
+               showWithAction(): void {
+                   this.notification.show({
+                       message: "Email sent",
+                       action: {
+                           label: "Undo",
+                           onClick: (): any =>  this.notification.show({
+                               message: "Cancelled sending",
+                               type: "success"
+                           })
+                       }
+                   });
+               }
+           '></gtx-highlighted-code>
+    </div>
+</gtx-demo-block>

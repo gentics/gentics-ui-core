@@ -1,6 +1,43 @@
-<h4>Textarea</h4>
-<p>
-    Like InputFields, Textareas can have a label and/or a placeholder, which interact in the same was as with InputFields.
-    Textareas will also automatically grow to accommodate their content.
-</p>
-<gtx-textarea label="Textarea Label"></gtx-textarea>
+<h3>Textarea</h3>
+
+<gtx-autodocs [source]="componentSource" type="component"></gtx-autodocs>
+
+<h4>Demos</h4>
+
+<gtx-demo-block title="Binding & Attributes">
+    <div class="demo-result">
+        <div class="row">
+            <div class="col s4">
+                <gtx-checkbox [(ngModel)]="readonly" label="readonly"></gtx-checkbox>
+            </div>
+            <div class="col s4">
+                <gtx-checkbox [(ngModel)]="disabled" label="disabled"></gtx-checkbox>
+            </div>
+            <div class="col s4">
+                <gtx-checkbox [(ngModel)]="required" label="required"></gtx-checkbox>
+            </div>
+        </div>
+        <gtx-textarea label="Message"
+                      [readonly]="readonly"
+                      [disabled]="disabled"
+                      [required]="required"
+                      [(ngModel)]="message"
+        ></gtx-textarea>
+        message: <code>{{ message | json }}</code>
+    </div>
+    <div class="demo-code">
+        <gtx-highlighted-code language="HTML" code='
+                <gtx-checkbox [(ngModel)]="readonly" label="readonly"></gtx-checkbox>
+                <gtx-checkbox [(ngModel)]="disabled" label="disabled"></gtx-checkbox>
+                <gtx-checkbox [(ngModel)]="required" label="required"></gtx-checkbox>
+
+                <gtx-textarea label="Message"
+                              [readonly]="readonly"
+                              [disabled]="disabled"
+                              [required]="required"
+                              [(ngModel)]="message"
+                ></gtx-textarea>
+                message: <code>(( message | json ))</code>
+        '></gtx-highlighted-code>
+    </div>
+</gtx-demo-block>

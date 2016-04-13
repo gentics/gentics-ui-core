@@ -11,7 +11,7 @@ const rome: any = require('rome');
 const momentjs: moment.MomentStatic = rome.moment;
 
 /**
- * A form control for selecting a date and (optionally) a time.
+ * A form control for selecting a date and (optionally) a time. Depends on [Modal](#/modal).
  *
  * ```
  * <gtx-date-time-picker [(ngModel)]="dateOfBirth"

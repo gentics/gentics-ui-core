@@ -6,9 +6,9 @@ import {Component} from 'angular2/core';
  * Its immediate children will be displayed horizontally, vertically center-aligned, starting from the
  * left-hand-side.
  *
- * Items can be explicitly right-aligned by giving them the class `gtx-top-bar-right`.
+ * Items can be explicitly right-aligned by giving them the class `.gtx-top-bar-right`.
  *
- * @example
+ * ```
  * <gtx-top-bar>
  *     <i class="material-icons">menu</i>
  *     <h5>Title</h5>
@@ -16,6 +16,7 @@ import {Component} from 'angular2/core';
  *     <!-- this icon will be right-aligned -->
  *     <i class="material-icons gtx-top-bar-right">person</i>
  * </gtx-top-bar>
+ * ```
  */
 @Component({
     selector: 'gtx-top-bar',

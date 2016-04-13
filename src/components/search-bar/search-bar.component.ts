@@ -3,18 +3,15 @@ import {InputField} from '../input/input.component';
 import {Button} from '../button/button.component';
 
 /**
- * The SearchBar component has the following API:
+ * The SearchBar component should be the primary search input for the app. It should be
+ * located near the top of the screen, below the [TopBar](#/top-bar).
  *
- * - `query`: string - Value that pre-fills the search input with a string value.
- * - `change`: Event - emitted whenever the value of the input changes
- * - `search`: Event - emitted when either the search button is clicked, or
- *                     the "enter" key is pressed while the input is focused.
- *
- * @example
+ * ```
  * <gtx-search-bar [query]="searchQuery"
  *                 (change)="onChange($event)"
  *                 (search)="search($event)">
  * </gtx-search-bar>
+ * ```
  */
 @Component({
     selector: 'gtx-search-bar',
@@ -23,8 +20,20 @@ import {Button} from '../button/button.component';
 })
 export class SearchBar {
 
+    /**
+     * Value that pre-fills the search input with a string value.
+     */
     @Input() query: string;
+
+    /**
+     * Fired when either the search button is clicked, or
+     * the "enter" key is pressed while the input has focus.
+     */
     @Output() search: EventEmitter<string> = new EventEmitter();
+
+    /**
+     * Fired whenever the value of the input changes.
+     */
     @Output() change: EventEmitter<string> = new EventEmitter();
 
     constructor() {}

@@ -10,8 +10,18 @@ import {
 import {ControlValueAccessor, NgControl} from 'angular2/common';
 
 /**
- * The InputField wraps the native <input> form element but should only be used for
+ * The InputField wraps the native `<input>` form element but should only be used for
  * text, number or password types. Other types (date, range, file) should have dedicated components.
+ *
+ * 
+ * Note that the class is named `InputField` since `Input` is used by the Angular framework to denote
+ * component inputs.
+ *
+ * ```
+ * <gtx-input label="Text Input Label"></gtx-input>
+ * <gtx-input placeholder="Number Input Placeholder"
+ *            type="number" min="0" max="100" step="5"></gtx-input>
+ * ```
  */
 @Component({
     selector: 'gtx-input',
@@ -19,25 +29,89 @@ import {ControlValueAccessor, NgControl} from 'angular2/common';
 })
 export class InputField implements ControlValueAccessor {
 
-    // native attributes
+    /**
+     * Sets the disabled state
+     */
     @Input() disabled: boolean = false;
+
+    /**
+     * Input field id
+     */
     @Input() id: string;
+
+    /**
+     * A label for the input
+     */
     @Input() label: string = '';
+
+    /**
+     * Max allowed value (applies when type = "number")
+     */
     @Input() max: number;
+
+    /**
+     * Min allowed value (applies when type = "number")
+     */
     @Input() min: number;
+
+    /**
+     * Max allowed length in characters
+     */
     @Input() maxlength: number;
+
+    /**
+     * Input field name
+     */
     @Input() name: string;
+
+    /**
+     * Regex pattern for complex validation
+     */
     @Input() pattern: string;
+
+    /**
+     * Placeholder text to display when the field is empty
+     */
     @Input() placeholder: string;
+
+    /**
+     * Sets the readonly state of the input
+     */
     @Input() readonly: boolean = false;
+
+    /**
+     * Sets the required state of the input
+     */
     @Input() required: boolean = false;
+
+    /**
+     * Increment step (applies when type = "number")
+     */
     @Input() step: number;
+
+    /**
+     * Can be "text", "number" or "password".
+     */
     @Input() type: string = 'text';
+
+    /**
+     * Sets the value of the input.
+     */
     @Input() value: string|number = '';
 
-    // events
+    /**
+     * Fires when the input loses focus.
+     */
     @Output() blur: EventEmitter<string|number> = new EventEmitter();
+
+    /**
+     * Fires when the input gains focus.
+     */
     @Output() focus: EventEmitter<string|number> = new EventEmitter();
+
+    /**
+     * Fires whenever a char is entered into the field.
+     */
     @Output() change: EventEmitter<string|number> = new EventEmitter();
 
     // ValueAccessor members
@@ -61,7 +135,7 @@ export class InputField implements ControlValueAccessor {
      * event to trigger the `Materialize.updateTextFields()` method. Therefore we need to handle it ourselves
      * when the input component is created.
      */
-    ngAfterViewInit() {
+    ngAfterViewInit(): void {
         let input: HTMLInputElement = this.elementRef.nativeElement.querySelector('input');
         let label: HTMLLabelElement = this.elementRef.nativeElement.querySelector('label');
 

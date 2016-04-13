@@ -102,6 +102,39 @@ describe('Textarea', () => {
             });
     }));
 
+    it('should ignore maxLength if not positive integer [0]', injectAsync([TestComponentBuilder], (tcb: TestComponentBuilder) => {
+        return tcb.overrideTemplate(TestComponent, `<gtx-textarea [maxlength]="0"></gtx-textarea>`)
+            .createAsync(TestComponent)
+            .then((fixture: ComponentFixture) => {
+                let nativeTextarea: HTMLTextAreaElement = fixture.nativeElement.querySelector('textarea');
+                fixture.detectChanges();
+
+                expect(nativeTextarea.attributes.getNamedItem('maxLength')).toBe(null);
+            });
+    }));
+
+    it('should ignore maxLength if not positive integer [-1]', injectAsync([TestComponentBuilder], (tcb: TestComponentBuilder) => {
+        return tcb.overrideTemplate(TestComponent, `<gtx-textarea [maxlength]="-1"></gtx-textarea>`)
+            .createAsync(TestComponent)
+            .then((fixture: ComponentFixture) => {
+                let nativeTextarea: HTMLTextAreaElement = fixture.nativeElement.querySelector('textarea');
+                fixture.detectChanges();
+
+                expect(nativeTextarea.attributes.getNamedItem('maxLength')).toBe(null);
+            });
+    }));
+
+    it('should ignore maxLength if not positive integer [null]', injectAsync([TestComponentBuilder], (tcb: TestComponentBuilder) => {
+        return tcb.overrideTemplate(TestComponent, `<gtx-textarea [maxlength]="null"></gtx-textarea>`)
+            .createAsync(TestComponent)
+            .then((fixture: ComponentFixture) => {
+                let nativeTextarea: HTMLTextAreaElement = fixture.nativeElement.querySelector('textarea');
+                fixture.detectChanges();
+
+                expect(nativeTextarea.attributes.getNamedItem('maxLength')).toBe(null);
+            });
+    }));
+
     it('should emit "blur" when native input blurs, with current value', injectAsync([TestComponentBuilder],
         fakeAsync((tcb: TestComponentBuilder) => {
             return tcb.overrideTemplate(TestComponent, `<gtx-textarea (blur)="onBlur($event)" value="foo"></gtx-textarea>`)

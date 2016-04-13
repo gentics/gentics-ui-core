@@ -1,5 +1,5 @@
 import {Component, Input} from 'angular2/core';
-import {parseDocs, IDocBlock} from './doc-parser';
+import {parseDocs, IDocumentation} from './doc-parser';
 import {AutodocTable} from './autodoc-table.component';
 
 /**
@@ -14,15 +14,11 @@ import {AutodocTable} from './autodoc-table.component';
 export class Autodocs {
 
     @Input() source: string;
-    componentBody: string;
-    inputs: IDocBlock[];
-    outputs: IDocBlock[];
+    @Input() type: 'component' | 'service' = 'component';
+
+    docs: IDocumentation;
 
     ngOnInit(): void {
-        let blocks = parseDocs(this.source);
-        let componentBlock = blocks.filter((d: IDocBlock) => d.decorator === 'Component')[0];
-        this.componentBody = componentBlock ? componentBlock.body : '';
-        this.inputs = blocks.filter((d: IDocBlock) => d.decorator === 'Input');
-        this.outputs = blocks.filter((d: IDocBlock) => d.decorator === 'Output');
+        this.docs = parseDocs(this.source, this.type);
     }
 }

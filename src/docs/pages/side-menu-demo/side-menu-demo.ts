@@ -1,9 +1,11 @@
 import {Component} from 'angular2/core';
-import {GTX_FORM_DIRECTIVES} from '../../../index';
+import {SideMenu} from '../../../index';
+import {Autodocs, DemoBlock, HighlightedCode} from '../../components';
 
 @Component({
     template: require('./side-menu-demo.tpl.html'),
-    directives: [GTX_FORM_DIRECTIVES]
+    directives: [SideMenu, Autodocs, DemoBlock, HighlightedCode]
 })
 export class SideMenuDemo {
-}
+    componentSource: string = require('!!raw!../../../components/side-menu/side-menu.component.ts');
+} 

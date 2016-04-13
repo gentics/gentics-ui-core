@@ -1,11 +1,21 @@
-<div [innerHTML]="componentBody"></div>
+<div [innerHTML]="docs.main"></div>
 
-<div *ngIf="0 < inputs.length">
+<div *ngIf="0 < docs.inputs.length">
     <h5>Inputs</h5>
-    <gtx-autodoc-table [docBlocks]="inputs"></gtx-autodoc-table>
+    <gtx-autodoc-table [docBlocks]="docs.inputs"></gtx-autodoc-table>
 </div>
 
-<div *ngIf="0 < outputs.length">
+<div *ngIf="0 < docs.outputs.length">
     <h5>Outputs</h5>
-    <gtx-autodoc-table [docBlocks]="outputs"></gtx-autodoc-table>
+    <gtx-autodoc-table [docBlocks]="docs.outputs"></gtx-autodoc-table>
+</div>
+
+<div *ngIf="0 < docs.properties.length">
+    <h5>Properties</h5>
+    <gtx-autodoc-table [docBlocks]="docs.properties"></gtx-autodoc-table>
+</div>
+
+<div *ngIf="0 < docs.methods.length">
+    <h5>Methods</h5>
+    <gtx-autodoc-table [docBlocks]="docs.methods"></gtx-autodoc-table>
 </div>

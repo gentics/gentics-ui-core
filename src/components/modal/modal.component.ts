@@ -5,17 +5,24 @@ import {ModalService, ModalInstance} from './modal.service';
 declare var $: JQueryStatic;
 
 /**
- * A modal dialog component. Can wrap generic content and display / hide it based on the `opened` attribute.
+ * A declarative modal dialog component. Can wrap generic content and display / hide it based on the `opened` attribute.
+ * Note that the modal itself is designed to be stateless - the `opened` state must be set from the parent. See
+ * the example below for the simple "wiring" required to get the modal to work as expected.
  *
- * @example
+ *
+ * An optional `<gtx-modal-footer>` element can be used to contain any action buttons for the modal. They will be
+ * floated and aligned to the right of the dialog.
+ *
+ *
+ * ```
  * <gtx-modal [opened]="showModal" (close)="showModal = false" #modal>
  *     <h4>I'm a modal!</h4>
  *     <p>Here is my content</p>
- *     <p>Is this modal open? {{ showModal }}</p>
  *     <gtx-modal-footer>
  *         <button class="btn" (click)="modal.closeModal()">Close</button>
  *     </gtx-modal-footer>
  * </gtx-modal>
+ * ```
  */
 @Component({
     selector: 'gtx-modal',
@@ -23,11 +30,27 @@ declare var $: JQueryStatic;
     providers: [ModalService]
 })
 export class Modal {
+    /**
+     * When true, the modal will be opened.
+     */
     @Input() opened: boolean = false;
+
+    /**
+     * Specify a CSS max-width value for the modal.
+     */
     @Input() maxWidth: string;
-    @Input('padding') set padding(val: any) {
+
+    /**
+     * When true, the contents of the modal will padded. When false, the contents
+     * will reach to the edge of the modal. Defaults to `true`.
+     */
+    @Input() set padding(val: any): boolean {
         this._padding = val === true || val === 'true';
     }
+
+    /**
+     * Fires when the modal.closeModal() method is invoked.
+     */
     @Output() close: EventEmitter<any> = new EventEmitter();
 
     private _padding: boolean = true;
@@ -51,8 +74,8 @@ export class Modal {
         const modalElement: HTMLElement = this.elementRef.nativeElement.querySelector('.modal');
         this.modal = this.modalService.create(modalElement, {
             maxWidth: this.maxWidth,
-            onClose: (): void => {
-                this.close.emit(null);
+            onClose: (val: any): void => {
+                this.close.emit(val);
                 setTimeout(() => this.isClosing = false);
             }
         });
@@ -75,6 +98,10 @@ export class Modal {
         } else {
             this.closeModal();
         }
+
+        if (this.maxWidth) {
+            this.modal.setMaxWidth(this.maxWidth);
+        }
     }
 
     ngOnDestroy(): void {
@@ -91,10 +118,10 @@ export class Modal {
      *     <button class="btn" (click)="modal.closeModal()">Close</button>
      * </gtx-modal>
      */
-    closeModal(): void {
+    closeModal(val: any): void {
         if (!this.isClosing) {
             this.isClosing = true;
-            this.modal.close();
+            this.modal.close(val);
         }
     }
 

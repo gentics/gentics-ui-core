@@ -1,14 +1,30 @@
 import {Component} from 'angular2/core';
-import {GTX_FORM_DIRECTIVES, SortableList, SortableListDragHandle, ISortableEvent, ContentsListItem} from '../../../index';
+import {
+    GTX_FORM_DIRECTIVES, 
+    SortableList, 
+    SortableListDragHandle, 
+    ISortableEvent, 
+    ContentsListItem
+} from '../../../index';
+import {Autodocs, DemoBlock, HighlightedCode} from '../../components';
 
 @Component({
     template: require('./sortable-list-demo.tpl.html'),
-    directives: [GTX_FORM_DIRECTIVES, SortableList, SortableListDragHandle, ContentsListItem],
+    directives: [
+        GTX_FORM_DIRECTIVES, 
+        SortableList, 
+        SortableListDragHandle, 
+        ContentsListItem, 
+        Autodocs, 
+        DemoBlock, 
+        HighlightedCode
+    ],
     styles: [
         `.auto-scroll-demo { max-height: 300px; overflow-y: scroll; }`
     ]
 })
 export class SortableListDemo {
+    componentSource: string = require('!!raw!../../../components/sortable-list/sortable-list.component.ts');
 
     items: any[] = [
         {

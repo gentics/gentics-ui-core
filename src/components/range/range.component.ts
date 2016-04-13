@@ -1,5 +1,4 @@
 import {
-    Renderer,
     ElementRef,
     Component,
     Input,
@@ -8,12 +7,16 @@ import {
     Output,
     EventEmitter
 } from 'angular2/core';
-import {NG_VALUE_ACCESSOR, ControlValueAccessor, NgControl} from 'angular2/common';
+import {ControlValueAccessor, NgControl} from 'angular2/common';
 
 declare var $: JQueryStatic;
 
 /**
- * The Range wraps the native <input type="range"> form element.
+ * The Range wraps the native `<input type="range">` form element.
+ *
+ * ```
+ * <gtx-range [(ngModel)]="latitude" step="5" min="-180" max="180"></gtx-range>
+ * ```
  */
 @Component({
     selector: 'gtx-range',
@@ -21,29 +24,71 @@ declare var $: JQueryStatic;
 })
 export class Range implements ControlValueAccessor {
 
-    // native attributes
+    /**
+     * Sets the disabled state of the input.
+     */
     @Input() disabled: boolean = false;
+
+    /**
+     * Maximum allowed value.
+     */
     @Input() max: number;
+
+    /**
+     * Minimum allowed value.
+     */
     @Input() min: number;
+
+    /**
+     * Name of the input.
+     */
     @Input() name: string;
+
+    /**
+     * Sets the readonly state.
+     */
     @Input() readonly: boolean = false;
+
+    /**
+     * Sets the required state.
+     */
     @Input() required: boolean = false;
+
+    /**
+     * Amount to increment by when sliding.
+     */
     @Input() step: number;
+
+    /**
+     * Sets the value of the slider.
+     */
     @Input() value: number;
 
+    /**
+     * Sets an id for the slider.
+     */
     @Input() id: string;
 
-    // events
+    /**
+     * Blur event
+     */
     @Output() blur: EventEmitter<number> = new EventEmitter();
+
+    /**
+     * Focus event
+     */
     @Output() focus: EventEmitter<number> = new EventEmitter();
+
+    /**
+     * Change event
+     */
     @Output() change: EventEmitter<number> = new EventEmitter();
 
     // ValueAccessor members
     onChange: any = (_: any) => {};
     onTouched: any = () => {};
 
-    constructor(private elementRef: ElementRef,
-                @Self() @Optional() ngControl: NgControl) {
+    constructor(@Self() @Optional() ngControl: NgControl) {
         if (ngControl) {
             ngControl.valueAccessor = this;
         }
