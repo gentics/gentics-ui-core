@@ -1,10 +1,10 @@
 import {Component} from 'angular2/core';
 import {Router, RouteConfig, RouteDefinition, ROUTER_DIRECTIVES} from 'angular2/router';
 import {TopBar, SearchBar, SideMenu, SplitViewContainer, ContentsListItem, Notification, OverlayHost} from '../index';
-import {demos, kebabToPascal, IDemoItem} from './demos';
+import {pages, kebabToPascal, IPageInfo} from './pageList';
 
 
-const routes: RouteDefinition[] = demos.map((demo: IDemoItem) => {
+const routes: RouteDefinition[] = pages.map((demo: IPageInfo) => {
    return {
        path: '/' + demo.name,
        name: kebabToPascal(demo.name),
@@ -16,7 +16,7 @@ const routes: RouteDefinition[] = demos.map((demo: IDemoItem) => {
 @Component({
     selector: 'default',
     template: ''
-}) 
+})
 class DefaultRoute {}
 
 routes.push({
@@ -42,10 +42,12 @@ routes.push({
 @RouteConfig(routes)
 export class App {
     displayMenu: boolean = false;
-    contentItems: any[] = demos.map((demo: IDemoItem) => {
+    contentItems: any[] = pages.map((page: IPageInfo) => {
         return {
-            title: kebabToPascal(demo.name),
-            route: kebabToPascal(demo.name)
+            title: kebabToPascal(page.name),
+            route: kebabToPascal(page.name),
+            keywords: page.keywords || [],
+            type: page.type
         };
     });
     filteredContentItems: any[];
@@ -66,9 +68,17 @@ export class App {
     }
 
     filterContentItems(query: string): void {
+        const match = (needle: string, haystack: string): boolean => {
+            return -1 < haystack.toLowerCase().indexOf(needle.toLowerCase());
+        };
+
         if (query && 0 < query.length) {
             this.filteredContentItems = this.contentItems.filter((item: any) => {
-                return -1 < item.title.toLowerCase().indexOf(query.toLowerCase());
+                let titleMatch = match(query, item.title);
+                let keywordMatch = item.keywords.reduce((res: boolean, keyword: string) => {
+                    return res || match(query, keyword);
+                }, false);
+                return titleMatch || keywordMatch;
             });
         } else {
             this.filteredContentItems = this.contentItems.slice(0);

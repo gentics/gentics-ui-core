@@ -1,6 +1,13 @@
 /* Typography */
-$gtx-font-size-regular: 16px !default;
+@font-face {
+	font-family: 'Univers LT W01_45 Light';
+	src:url('../font/Univers_LT_W01_45_Light.woff');
+	font-weight: normal;
+	font-style: normal;
+}
+$gtx-font-size-regular: 18px !default;
 $gtx-font-size-small: $gtx-font-size-regular * 0.8 !default;
+
 
 /* Colors */
 $gtx-color-off-white: #f5f5f5 !default;

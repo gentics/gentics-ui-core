@@ -14,6 +14,16 @@ gtx-button {
             height: 54px;
             line-height: 56px;
         }
+
+        i.left {
+            margin-right: 5px;
+            float: left;
+        }
+
+        i.right {
+            margin-left: 5px;
+            float: right;
+        }
     }
 
     > button:not(.btn-flat) {

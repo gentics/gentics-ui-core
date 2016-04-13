@@ -13,7 +13,7 @@ import {
  * * `.dropdown-trigger` - this element is the button/label which the user will click to open the dropdown.
  * * `.dropdown-content` - this should be a `<ul>` list with the contents of the dropdown.
  *
- * 
+ *
  * ```
  * <gtx-dropdown-list>
  *     <a class="dropdown-trigger">Show List</a>
@@ -103,7 +103,7 @@ export class DropdownList {
     openDropdown(): void {
         // Constrain width
         if (this.options.constrain_width === true) {
-            this.contentStyles.width = this.$trigger.outerWidth();
+            this.contentStyles.width = this.$trigger.outerWidth() + 'px';
         } else {
             this.contentStyles.whiteSpace = 'nowrap';
         }

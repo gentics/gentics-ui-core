@@ -1,8 +1,11 @@
 <div class="demo-block">
-    <h5>{{ title }} <gtx-button size="small" flat (click)="toggleCode()">View Code</gtx-button></h5>
-
-    <div class="code-wrapper" [style.max-height.px]="wrapperMaxHeight">
-        <ng-content select=".demo-code"></ng-content>
+    <h5 class="demo-title">{{ title }}
+        <gtx-button size="small" type="secondary" flat (click)="toggleCode()">View Code</gtx-button>
+    </h5>
+    <div class="demo-body">
+        <div class="code-wrapper" [style.max-height.px]="wrapperMaxHeight">
+            <ng-content select=".demo-code"></ng-content>
+        </div>
+        <ng-content select=".demo-result"></ng-content>
     </div>
-    <ng-content select=".demo-result"></ng-content>
 </div>

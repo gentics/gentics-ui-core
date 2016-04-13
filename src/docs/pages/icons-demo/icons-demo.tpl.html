@@ -1,0 +1,52 @@
+<h3>Icons</h3>
+
+<p>
+    The UI Core uses the <a href="https://design.google.com/icons/">Material Icons</a> set. To use them, add an
+    <code>i</code> element with the class <code>.material-icons</code> and then name the desired icon inside the
+    <code>i</code> tag:
+</p>
+
+<pre><code>&lt;i class="material-icons"&gt;add&lt;/i&gt;</code></pre>
+
+<p>Often we need the icon to align to the left or the right of some text or other content. In this case the
+<code>.left</code> or <code>.right</code> class should be added to the <code>i</code> element.</p>
+
+<h4>Demos</h4>
+
+
+<gtx-demo-block title="Combining Icons With Components">
+    <div class="demo-result">
+        <p>Icons can be used in conjunction with other components. Here are some examples:</p>
+        <gtx-button type="alert"><i class="material-icons left">delete</i> Delete</gtx-button>
+        <gtx-button flat type="success"><i class="material-icons left">done</i> Mark as Done</gtx-button>
+        <gtx-button>Send <i class="material-icons right">send</i></gtx-button>
+
+        <br>
+        <br>
+
+        <gtx-dropdown-list>
+            <a class="dropdown-trigger">Pick a mode of transport</a>
+            <ul class="dropdown-content">
+                <li><a><i class="material-icons left">directions_car</i> Car</a></li>
+                <li><a><i class="material-icons left">directions_boat</i> Boat</a></li>
+                <li><a><i class="material-icons left">airplanemode_active</i> Plane</a></li>
+            </ul>
+        </gtx-dropdown-list>
+    </div>
+    <div class="demo-code">
+        <gtx-highlighted-code language="HTML" code='
+                <gtx-button type="alert"><i class="material-icons left">delete</i> Delete</gtx-button>
+                <gtx-button flat type="success"><i class="material-icons left">done</i> Mark as Done</gtx-button>
+                <gtx-button>Send <i class="material-icons right">send</i></gtx-button>
+
+                <gtx-dropdown-list>
+                    <a class="dropdown-trigger">Pick a mode of transport</a>
+                    <ul class="dropdown-content">
+                        <li><a><i class="material-icons left">directions_car</i> Car</a></li>
+                        <li><a><i class="material-icons left">directions_boat</i> Boat</a></li>
+                        <li><a><i class="material-icons left">airplanemode_active</i> Plane</a></li>
+                    </ul>
+                </gtx-dropdown-list>
+        '></gtx-highlighted-code>
+    </div>
+</gtx-demo-block>

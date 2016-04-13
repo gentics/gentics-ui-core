@@ -1,5 +1,5 @@
 <gtx-top-bar class="top-bar">
-    <h5><a [routerLink]="['DefaultRoute']">Gentics UI Core Demo</a></h5>
+    <h5><a [routerLink]="['DefaultRoute']">Gentics UI Core</a></h5>
     <i class="material-icons gtx-top-bar-right">person</i>
 </gtx-top-bar>
 
@@ -14,10 +14,13 @@
 
     <div class="list-pane" left>
         <gtx-contents-list-item *ngFor="#item of filteredContentItems">
-            <div class="item-avatar"></div>
-            <div class="item-primary"><a [routerLink]="[item.route]">{{ item.title }}</a></div>
-            <i class="material-icons">edit</i>
-            <i class="material-icons">star</i>
+            <div class="item-avatar">
+                <i class="material-icons" *ngIf="item.type === 'css'">style</i>
+                <i class="material-icons" *ngIf="item.type === 'component'">code</i>
+                <i class="material-icons" *ngIf="item.type === 'service'">share</i>
+            </div>
+            <div class="item-primary"><a [routerLink]="[item.route]"><strong>{{ item.title }}</strong></a></div>
+            <div class="type-label" [ngClass]="item.type">{{ item.type }}</div>
         </gtx-contents-list-item>
     </div>
 

@@ -1,7 +1,8 @@
 @import '../styles/core';
 @import './components/autodocs/autodocs';
 @import './components/demo-block/demo-block';
-@import 'pages/colors-demo/colors-demo';
+@import './pages/colors-demo/colors-demo';
+@import './pages/typography-demo/typography-demo';
 
 body {
     overflow-x: hidden;
@@ -35,6 +36,22 @@ gtx-contents-list-item {
         color: #ccc;
 
     }
+
+    .type-label {
+        padding: 3px 5px;
+        font-size: $gtx-font-size-small;
+        border-radius: 3px;
+        color: white;
+        &.css {
+            background-color: #d8d1b5;
+        }
+        &.component {
+            background-color: #99bdd0;
+        }
+        &.service {
+            background-color: #bc9f9f;
+        }
+    }
 }
 
 code, kbd, pre, samp {
@@ -47,6 +64,7 @@ code, kbd, pre, samp {
     .list-pane,
     .content-pane {
         border: 1px solid #ccc;
+
         min-height: 100%;
 
         a {
