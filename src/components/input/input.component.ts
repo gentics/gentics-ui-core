@@ -17,7 +17,7 @@ import {ControlValueAccessor, NgControl} from 'angular2/common';
  * Note that the class is named `InputField` since `Input` is used by the Angular framework to denote
  * component inputs.
  *
- * ```
+ * ```html
  * <gtx-input label="Text Input Label"></gtx-input>
  * <gtx-input placeholder="Number Input Placeholder"
  *            type="number" min="0" max="100" step="5"></gtx-input>

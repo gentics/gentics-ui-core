@@ -24,7 +24,7 @@ export class FocusType {
  * There should only be a single instance of SplitViewContainer used at a time, and it is intended to be the
  * main structural container of the "master/detail" part of the app - i.e. the content listing and editing view.
  *
- * ```
+ * ```html
  * <gtx-split-view-container class="split-view-container"
  *     [rightPanelVisible]="hasContent"
  *     [(focusedPanel)]="splitFocus">

@@ -1,4 +1,4 @@
-import {Component, Input} from 'angular2/core';
+import {Component, Input, ElementRef} from 'angular2/core';
 import {parseDocs, IDocumentation} from './doc-parser';
 import {AutodocTable} from './autodoc-table.component';
 
@@ -18,7 +18,10 @@ export class Autodocs {
 
     docs: IDocumentation;
 
+    constructor(private elementRef: ElementRef) {}
+
     ngOnInit(): void {
         this.docs = parseDocs(this.source, this.type);
+        setTimeout(() => $(this.elementRef.nativeElement).find('pre>code').addClass('hljs'));
     }
 }

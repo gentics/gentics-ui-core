@@ -26,7 +26,7 @@ declare var $: JQueryStatic;
  * Likewise the outputs passed to the event handlers will be a string or an array of strings, depending on whether
  * multiple === true.
  *
- * ```
+ * ```html
  * <gtx-select label="Choose an option" [(ngModel)]="selectVal">
  *     <option *ngFor="#item of options" [value]="item">{{ item }}</option>
  * </gtx-select>

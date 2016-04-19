@@ -33,7 +33,7 @@ interface IOpenToast {
  * A toast notification service. Depends on the `<gtx-overlay-host>` being present in the app
  * (see `registerHostElement`).
  *
- * ```
+ * ```typescript
  * let dismiss = this.notification.show({
  *     message: 'Content Saved',
  *     type: 'success',

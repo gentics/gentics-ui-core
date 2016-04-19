@@ -13,7 +13,7 @@ type CheckState = boolean | 'indeterminate';
 /**
  * Checkbox wraps the native `<input type="checkbox">` form element.
  *
- * ```
+ * ```html
  * <gtx-checkbox [(ngModel)]="isOkay" label="Is it okay?"></gtx-checkbox>
  * <gtx-checkbox [(ngModel)]="checkStates.B" value="B" label="B"></gtx-checkbox>
  * ```

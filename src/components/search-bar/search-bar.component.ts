@@ -6,7 +6,7 @@ import {Button} from '../button/button.component';
  * The SearchBar component should be the primary search input for the app. It should be
  * located near the top of the screen, below the [TopBar](#/top-bar).
  *
- * ```
+ * ```html
  * <gtx-search-bar [query]="searchQuery"
  *                 (change)="onChange($event)"
  *                 (search)="search($event)">

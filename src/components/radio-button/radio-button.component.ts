@@ -90,7 +90,7 @@ export class RadioGroup implements ControlValueAccessor {
  * To connect multiple radio buttons with a form via ngControl,
  * wrap them in a {@link RadioGroup} (`<gtx-radio-group>`).
  *
- * ```
+ * ```html
  * <gtx-radio-button [(ngModel)]="val" value="A" label="A"></gtx-radio-button>
  * <gtx-radio-button [(ngModel)]="val" value="B" label="B"></gtx-radio-button>
  * <gtx-radio-button [(ngModel)]="val" value="C" label="C"></gtx-radio-button>

@@ -9,7 +9,7 @@ import {Component} from 'angular2/core';
  * * `.item-primary`: The primary content of the item, which will take up all the remaining space via `flex: 1`.
  *
  *
- * ```
+ * ```html
  * <gtx-contents-list-item *ngFor="#item of listItems">
  *     <!-- this will be styled as a circular icon -->
  *     <div class="item-avatar"><i class="material-icons">{{ item.icon }}</i></div>

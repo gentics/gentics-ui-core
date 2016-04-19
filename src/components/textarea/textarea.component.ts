@@ -12,7 +12,7 @@ import {ControlValueAccessor, NgControl} from 'angular2/common';
 /**
  * The Textarea wraps the native `<textarea>` form element. Textareas automatically grow to accommodate their content.
  *
- * ```
+ * ```html
  * <gtx-textarea label="Message" [(ngModel)]="message"></gtx-textarea>
  * ```
  */

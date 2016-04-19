@@ -1,7 +1,7 @@
 require('zone.js');
 require('reflect-metadata');
 require('es6-shim');
-require('highlight.js/styles/default.css');
+require('highlight.js/styles/zenburn.css');
 
 import {provide} from 'angular2/core';
 import {bootstrap} from 'angular2/platform/browser';

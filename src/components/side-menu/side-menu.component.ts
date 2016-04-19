@@ -6,7 +6,7 @@ import {SideMenuToggleButton} from './side-menu-toggle.component';
  * used to toggle the state. The component itself is stateless, and relies on the value passed in as
  * the `opened` prop to set its state. Toggling must also be handled by the host component.
  *
- * ```
+ * ```html
  * <gtx-side-menu [opened]="displayMenu" (toggle)="toggleMenu($event)">
  *    <div class="my-menu-content">
  *        <ul>

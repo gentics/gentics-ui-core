@@ -14,7 +14,7 @@ declare var $: JQueryStatic;
 /**
  * The Range wraps the native `<input type="range">` form element.
  *
- * ```
+ * ```html
  * <gtx-range [(ngModel)]="latitude" step="5" min="-180" max="180"></gtx-range>
  * ```
  */

@@ -4,7 +4,7 @@ import {isPresent} from 'angular2/src/facade/lang';
 /**
  * A Button component.
  *
- * ```
+ * ```html
  * <gtx-button>Click me</gtx-button>
  * <gtx-button size="large">Buy Now!</gtx-button>
  * <gtx-button type="alert">Delete all stuff</gtx-button>

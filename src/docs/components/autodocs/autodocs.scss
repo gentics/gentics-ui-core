@@ -11,17 +11,43 @@ gtx-autodocs {
     display: block;
     margin-bottom: 60px;
 
-    table td {
+    table td, table th {
         padding: 5px 3px;
+    }
+
+    .autodoc-section {
+        border: 1px solid $gtx-color-light-gray;
+        margin-top: 20px;
+        margin-bottom: 40px;
+        h6 {
+            background-color: $gtx-color-primary;
+            color: white;
+            padding: 10px;
+            margin-top: 0;
+            border-bottom: 1px solid $gtx-color-light-gray;
+        }
     }
 }
 
 gtx-autodoc-table {
     display: block;
-    margin-bottom: 40px;
+    overflow-x: auto;
 
     th {
         min-width: 110px;
+    }
+
+    tr {
+        td:first-child, th:first-child {
+            padding-left: 10px;
+        }
+        td:last-child, th:last-child {
+            padding-right: 10px;
+        }
+    }
+
+    table.highlight > tbody > tr:last-child {
+        border-bottom: none;
     }
 
     .identifier {

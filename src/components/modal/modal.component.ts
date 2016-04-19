@@ -14,7 +14,7 @@ declare var $: JQueryStatic;
  * floated and aligned to the right of the dialog.
  *
  *
- * ```
+ * ```html
  * <gtx-modal [opened]="showModal" (close)="showModal = false" #modal>
  *     <h4>I'm a modal!</h4>
  *     <p>Here is my content</p>

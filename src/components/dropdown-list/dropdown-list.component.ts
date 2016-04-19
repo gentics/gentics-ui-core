@@ -14,7 +14,7 @@ import {
  * * `.dropdown-content` - this should be a `<ul>` list with the contents of the dropdown.
  *
  *
- * ```
+ * ```html
  * <gtx-dropdown-list>
  *     <a class="dropdown-trigger">Show List</a>
  *     <ul class="dropdown-content">

@@ -8,7 +8,7 @@ import {Component} from 'angular2/core';
  *
  * Items can be explicitly right-aligned by giving them the class `.gtx-top-bar-right`.
  *
- * ```
+ * ```html
  * <gtx-top-bar>
  *     <i class="material-icons">menu</i>
  *     <h5>Title</h5>

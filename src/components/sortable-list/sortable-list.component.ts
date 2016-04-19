@@ -43,7 +43,7 @@ export interface ISortableMoveEvent extends ISortableEvent {
  * sorting of the list data - this logic must be implemented by the consumer of the component. However,
  * this component provides a convenience `sort()` function which considerably simplifies this process - see below.
  *
- * ```
+ * ```html
  * <gtx-sortable-list (dragEnd)="sortList($event)">
  *     <gtx-sortable-item *ngFor="#item of items">
  *         <div>{{ item }}</div>
@@ -51,7 +51,7 @@ export interface ISortableMoveEvent extends ISortableEvent {
  * </gtx-sortable-list>
  * ```
  *
- * ```
+ * ```typescript
  * items = ['foo', 'bar', 'baz'];
  * sortList(e: ISortableEvent): void {
  *     this.items = e.sort(this.items);
@@ -78,7 +78,7 @@ export interface ISortableMoveEvent extends ISortableEvent {
  * The sort function expects an array, and returns a new copy of that array, unless
  * `byReference === true`, in which case the original array is mutated and returned.
  *
- * ```
+ * ```typescript
  * items = [1, 2, 3, 4, 5];
  *
  * sortList(e: ISortableEvent): void {
