@@ -55,7 +55,6 @@ export class ModalInstance {
 
         $body.append(this.$overlay);
         $body.append(this.$modal);
-
     }
 
     /**

@@ -44,7 +44,7 @@ export class Modal {
      * When true, the contents of the modal will padded. When false, the contents
      * will reach to the edge of the modal. Defaults to `true`.
      */
-    @Input() set padding(val: any): boolean {
+    @Input() set padding(val: any) {
         this._padding = val === true || val === 'true';
     }
 
@@ -118,7 +118,7 @@ export class Modal {
      *     <button class="btn" (click)="modal.closeModal()">Close</button>
      * </gtx-modal>
      */
-    closeModal(val: any): void {
+    closeModal(val?: any): void {
         if (!this.isClosing) {
             this.isClosing = true;
             this.modal.close(val);

@@ -4,11 +4,6 @@
 
 <h4>Demos</h4>
 
-
-
-
-
-
 <gtx-demo-block title="Basic Wiring">
     <div class="demo-result">
         <p>
@@ -16,11 +11,11 @@
             is displayed. When the modal is closed, the <code>close</code> event will fire.
         </p>
         <gtx-button (click)="showModal = !showModal">Open Modal</gtx-button>
-        <gtx-modal [opened]="showModal" (close)="showModal = false" #modal>
+        <gtx-modal [opened]="showModal" (close)="showModal = false" #modal1>
             <h4>I am a modal!</h4>
             <p>Here is my content</p>
             <gtx-modal-footer>
-                <gtx-button (click)="modal.closeModal()">Close</gtx-button>
+                <gtx-button (click)="modal1.closeModal()">Close</gtx-button>
             </gtx-modal-footer>
         </gtx-modal>
     </div>
@@ -28,11 +23,11 @@
         <gtx-highlighted-code language="HTML" code='
                 <gtx-button (click)="showModal = !showModal">Open Modal</gtx-button>
 
-                <gtx-modal [opened]="showModal" (close)="showModal = false" #modal>
+                <gtx-modal [opened]="showModal" (close)="showModal = false" #modal1>
                     <h4>I am a modal!</h4>
                     <p>Here is my content</p>
                     <gtx-modal-footer>
-                        <gtx-button (click)="modal.closeModal()">Close</gtx-button>
+                        <gtx-button (click)="modal1.closeModal()">Close</gtx-button>
                     </gtx-modal-footer>
                 </gtx-modal>
            '></gtx-highlighted-code>
@@ -46,11 +41,11 @@
             <code>close</code> event.
         </p>
         <gtx-button (click)="showConfirm = true">Confirm</gtx-button>
-        <gtx-modal [opened]="showConfirm" (close)="onConfirmClose($event)" #modal>
+        <gtx-modal [opened]="showConfirm" (close)="onConfirmClose($event)" #modal2>
             <h3>Do you agree?</h3>
             <gtx-modal-footer>
-                <gtx-button (click)="modal.closeModal(true)">Yes</gtx-button>
-                <gtx-button type="secondary" (click)="modal.closeModal(false)">No</gtx-button>
+                <gtx-button (click)="modal2.closeModal(true)">Yes</gtx-button>
+                <gtx-button type="secondary" (click)="modal2.closeModal(false)">No</gtx-button>
             </gtx-modal-footer>
         </gtx-modal>
         <p *ngIf="confirmResult === true">You clicked "Yes"!</p>
@@ -59,11 +54,11 @@
     <div class="demo-code">
         <gtx-highlighted-code language="HTML" code='
                 <gtx-button (click)="showConfirm = true">Confirm</gtx-button>
-                <gtx-modal [opened]="showConfirm" (close)="onConfirmClose($event)" #modal>
+                <gtx-modal [opened]="showConfirm" (close)="onConfirmClose($event)" #modal3>
                     <h3>Do you agree?</h3>
                     <gtx-modal-footer>
-                        <gtx-button (click)="modal.closeModal(true)">Yes</gtx-button>
-                        <gtx-button type="secondary" (click)="modal.closeModal(false)">No</gtx-button>
+                        <gtx-button (click)="modal2.closeModal(true)">Yes</gtx-button>
+                        <gtx-button type="secondary" (click)="modal2.closeModal(false)">No</gtx-button>
                     </gtx-modal-footer>
                 </gtx-modal>
                 <p *ngIf="confirmResult === true">You clicked "Yes"!</p>
@@ -86,11 +81,11 @@
         <gtx-modal [opened]="showMaxWidthPadding"
                    (close)="showMaxWidthPadding = false"
                    [padding]="padding"
-                   [maxWidth]="maxWidth" #modal>
+                   [maxWidth]="maxWidth" #modal3>
             <h3>A Modal</h3>
             <p>With <span [hidden]="padding">no</span> padding and a maxWidth of {{ maxWidth }}</p>
             <gtx-modal-footer>
-                <gtx-button (click)="modal.closeModal()">Close</gtx-button>
+                <gtx-button (click)="modal3.closeModal()">Close</gtx-button>
             </gtx-modal-footer>
         </gtx-modal>
     </div>
@@ -105,11 +100,11 @@
                 <gtx-modal [opened]="showMaxWidthPadding"
                            (close)="showMaxWidthPadding = false"
                            [padding]="padding"
-                           [maxWidth]="maxWidth" #modal>
+                           [maxWidth]="maxWidth" #modal3>
                     <h3>A Modal</h3>
                     <p>With <span [hidden]="padding">no</span> padding and a maxWidth of {{ maxWidth }}</p>
                     <gtx-modal-footer>
-                        <gtx-button (click)="modal.closeModal()">Close</gtx-button>
+                        <gtx-button (click)="modal3.closeModal()">Close</gtx-button>
                     </gtx-modal-footer>
                 </gtx-modal>
            '></gtx-highlighted-code>

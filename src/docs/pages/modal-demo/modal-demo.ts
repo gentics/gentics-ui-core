@@ -9,6 +9,7 @@ import {Autodocs, DemoBlock, HighlightedCode} from '../../components';
 export class ModalDemo {
     componentSource: string = require('!!raw!../../../components/modal/modal.component.ts');
 
+    showModal: boolean = false;
     showConfirm: boolean = false;
     confirmResult: boolean;
     padding: boolean = true;
