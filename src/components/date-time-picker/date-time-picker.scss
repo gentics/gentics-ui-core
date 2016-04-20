@@ -141,6 +141,14 @@ gtx-date-time-picker {
         &:hover {
             background-color: transparentize($secondary-color, 0.5);
         }
+
+        margin-top: -1px;
+        @media only screen and (min-width: $medium-screen) {
+            margin-top: 2px;
+        }
+        @media only screen and (min-width: $large-screen) {
+            margin-top: 5px;
+        }
     }
 
 }
