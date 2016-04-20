@@ -20,7 +20,7 @@
         <i class="material-icons">more_vert</i>
     </div>
 
-    <div class="right-panel" (click)="rightPanelClicked()">
+    <div class="right-panel" #rightPanel (click)="rightPanelClicked()">
         <ng-content select="[right]"></ng-content>
     </div>
 

@@ -39,6 +39,29 @@ export class FocusType {
  *
  * </gtx-split-view-container>
  * ```
+ *
+ * ##### Setting Scroll Positions
+ *
+ * The SplitViewContainer instance exposes two public methods which can be used to manually set the `scrollTop`
+ * property of either the right or left panels: `.scrollLeftPanelTo()` and `.scrollRightPanelTo()`.
+ *
+ * This can be used, for example, to scroll the contents pane (right panel) back to the top when the route changes.
+ * An example usage follows:
+ *
+ * ```typescript
+ * export class App {
+ *   @ViewChild(SplitViewContainer)
+ *   private splitViewContainer: SplitViewContainer;
+ *
+ *   constructor(private router: Router) {
+ *       this.subscription = router.subscribe(() => {
+ *           // scroll the right panel to the top whenever
+ *           // the route changes.
+ *           this.splitViewContainer.scrollRightPanelTo(0);
+ *       });
+ *   }
+ * }
+ * ```
  */
 @Component({
     selector: 'gtx-split-view-container',
@@ -186,6 +209,7 @@ export class SplitViewContainer implements AfterViewInit, OnDestroy {
 
     @ViewChild('resizeContainer') private resizeContainer: ElementRef;
     @ViewChild('leftPanel') private leftPanel: ElementRef;
+    @ViewChild('rightPanel') private rightPanel: ElementRef;
     @ViewChild('resizer') private resizer: ElementRef;
 
     constructor(private ownElement: ElementRef) {
@@ -208,6 +232,20 @@ export class SplitViewContainer implements AfterViewInit, OnDestroy {
     ngOnDestroy(): void {
         this.unbindBodyEvents();
         this.destroySwipeHandler();
+    }
+
+    /**
+     * Set the scrollTop of the left panel
+     */
+    public scrollLeftPanelTo(scrollTop: number): void {
+        this.leftPanel.nativeElement.scrollTop = scrollTop;
+    }
+
+    /**
+     * Set the scrollTop of the right panel
+     */
+    public scrollRightPanelTo(scrollTop: number): void {
+        this.rightPanel.nativeElement.scrollTop = scrollTop;
     }
 
     /**
@@ -234,20 +272,20 @@ export class SplitViewContainer implements AfterViewInit, OnDestroy {
         this.hammerManager.destroy();
     }
 
-    private leftPanelClicked() {
+    private leftPanelClicked(): void {
         if (this._focusedPanel == FocusType.RIGHT) {
             this.focusedPanel = FocusType.LEFT;
         }
     }
 
-    private rightPanelClicked() {
+    private rightPanelClicked(): void {
         if (this._focusedPanel == FocusType.LEFT && this._rightPanelVisible) {
             this.focusedPanel = FocusType.RIGHT;
         }
     }
 
-    private startResizer(event: MouseEvent) {
-        if (event.which != 1 || !this.leftPanel.nativeElement) { return; };
+    private startResizer(event: MouseEvent): void {
+        if (event.which != 1 || !this.leftPanel.nativeElement) { return; }
         event.preventDefault();
 
         const resizeHandle: HTMLElement = <HTMLElement> this.resizer.nativeElement;
@@ -267,11 +305,11 @@ export class SplitViewContainer implements AfterViewInit, OnDestroy {
         this.splitDragStart.emit(this.resizerXPosition);
     }
 
-    private moveResizer(event: MouseEvent) {
+    private moveResizer(event: MouseEvent): void {
         this.resizerXPosition = this.getAdjustedPosition(event.clientX);
     }
 
-    private endResizing(event: MouseEvent) {
+    private endResizing(event: MouseEvent): void {
         this.leftContainerWidthPercent = this.getAdjustedPosition(event.clientX);
         this.resizing = false;
         this.unbindBodyEvents();

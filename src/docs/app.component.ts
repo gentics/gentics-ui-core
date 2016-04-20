@@ -1,4 +1,4 @@
-import {Component} from 'angular2/core';
+import {Component, ViewChild} from 'angular2/core';
 import {Router, RouteConfig, RouteDefinition, ROUTER_DIRECTIVES} from 'angular2/router';
 import {TopBar, SearchBar, SideMenu, SplitViewContainer, ContentsListItem, Notification, OverlayHost} from '../index';
 import {pages, kebabToPascal, IPageInfo} from './pageList';
@@ -41,6 +41,7 @@ routes.push({
 })
 @RouteConfig(routes)
 export class App {
+    @ViewChild(SplitViewContainer) splitViewContainer: SplitViewContainer;
     displayMenu: boolean = false;
     contentItems: any[] = pages.map((page: IPageInfo) => {
         return {
@@ -57,8 +58,9 @@ export class App {
     subscription: any;
 
     constructor(private router: Router) {
-        this.subscription = router.subscribe(route => {
+        this.subscription = router.subscribe((route: any) => {
             this.hasContent = !!route;
+            this.splitViewContainer.scrollRightPanelTo(0);
         });
         this.filteredContentItems = this.contentItems.slice(0);
     }
