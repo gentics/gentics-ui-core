@@ -187,10 +187,13 @@ export class SortableList {
      * is locked to the vertical axis.
      */
     private setInvisibleDragImage(dataTransfer: any): void {
-        let canvas: HTMLCanvasElement = <HTMLCanvasElement> document.createElement('canvas');
-        canvas.width = canvas.height = 0;
-        dataTransfer.setData('text/plain', 'Data to Drag');
-        dataTransfer.setDragImage(canvas, 25, 25);
+        // Current IE and Edge do not support .setDragImage()
+        if (dataTransfer.setDragImage !== undefined) {
+            let canvas: HTMLCanvasElement = <HTMLCanvasElement> document.createElement('canvas');
+            canvas.width = canvas.height = 0;
+            dataTransfer.setData('text', 'Data to Drag');
+            dataTransfer.setDragImage(canvas, 25, 25);
+        }
     }
 }
 
