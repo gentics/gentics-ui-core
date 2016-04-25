@@ -2,6 +2,9 @@ gtx-side-menu {
 
     > .menu {
         @extend .z-depth-2;
+        @media #{$small-and-down} {
+            box-shadow: none;
+        }
         background-color: white;
         display: block;
         position: absolute;

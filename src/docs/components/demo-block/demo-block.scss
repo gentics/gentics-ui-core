@@ -2,9 +2,12 @@ gtx-demo-block {
     @extend .z-depth-1;
     display: block;
     margin-bottom: 50px;
+    // border: 1px solid $gtx-color-light-gray;
     .demo-title {
+        margin-top: 0;
         padding: 10px;
         border-bottom: 1px solid $gtx-color-light-gray;
+        background-color: $gtx-color-light-gray;
     }
     .demo-body {
         padding: 10px 20px 30px 20px;
