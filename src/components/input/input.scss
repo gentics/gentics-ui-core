@@ -13,35 +13,6 @@ gtx-input {
     > input[type="text"],
     input[type="number"],
     input[type="password"] {
-        box-sizing: border-box;
-        margin-top: 20px;
-        border: 2px solid $gtx-color-light-gray;
-        border-radius: 3px;
-        height: 2.5rem;
-        padding: 5px;
-        transition: border 0.2s;
-
-        &:focus:not([readonly]) {
-            border: 2px solid $gtx-color-primary;
-            box-shadow: none;
-
-            & + label {
-                color: $gtx-color-primary;
-            }
-        }
-
-        &[readonly] {
-            color: lighten($gtx-color-dark-gray, 10%);
-        }
-
-        &[disabled] {
-            background-color: $gtx-color-off-white;
-            color: $gtx-color-mid-gray;
-            border: 2px solid $gtx-color-light-gray;
-
-            & + label {
-                color: $gtx-color-dark-gray;
-            }
-        }
+        @extend .input-base;
     }
 }
