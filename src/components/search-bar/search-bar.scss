@@ -1,11 +1,29 @@
 gtx-search-bar {
+    @extend .z-depth-1;
     display: flex;
+    margin: 10px 0;
 
     > .input {
         flex-grow: 1;
+
+        input[type="text"] {
+            border: none;
+            height: 35px;
+            padding-left: 15px;
+            margin: 0;
+
+            &:focus {
+                border: none;
+            }
+        }
     }
 
     > .submit-button {
         align-self: center;
+
+        button.btn {
+            border-radius: 0;
+            border: none;
+        }
     }
 }
