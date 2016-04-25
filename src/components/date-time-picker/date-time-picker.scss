@@ -111,14 +111,14 @@ gtx-date-time-picker {
         @media #{$small-and-down} {
             margin-bottom: -20px;
         }
-        .input-field {
-            height: 44px;
-            margin-top: 8px;
-        }
         input[type=number] {
             text-align: center;
             font-size: 24px;
-
+            height: 40px;
+            @media #{$small-and-down} {
+                font-size: 18px;
+                height: 34px;
+            }
             /* remove the spinner arrows */
             &::-webkit-outer-spin-button,
             &::-webkit-inner-spin-button {
@@ -140,14 +140,6 @@ gtx-date-time-picker {
         transition: background 0.2s;
         &:hover {
             background-color: transparentize($secondary-color, 0.5);
-        }
-
-        margin-top: -1px;
-        @media only screen and (min-width: $medium-screen) {
-            margin-top: 2px;
-        }
-        @media only screen and (min-width: $large-screen) {
-            margin-top: 5px;
         }
     }
 
