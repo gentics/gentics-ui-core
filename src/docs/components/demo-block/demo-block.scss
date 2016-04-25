@@ -7,7 +7,7 @@ gtx-demo-block {
         margin-top: 0;
         padding: 10px;
         border-bottom: 1px solid $gtx-color-light-gray;
-        background-color: $gtx-color-light-gray;
+        background-color: lighten($gtx-color-secondary, 10%);
     }
     .demo-body {
         padding: 10px 20px 30px 20px;

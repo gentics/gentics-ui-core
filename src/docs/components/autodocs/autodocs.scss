@@ -15,16 +15,18 @@ gtx-autodocs {
         padding: 5px 3px;
     }
 
+    $bg-color: desaturate(darken($gtx-color-secondary, 20%), 10%);
+
     .autodoc-section {
-        border: 1px solid $gtx-color-light-gray;
+        border: 1px solid $bg-color;
         margin-top: 20px;
         margin-bottom: 40px;
         h6 {
-            background-color: $gtx-color-dark-gray;
+            background-color: $bg-color;
             color: white;
             padding: 10px;
             margin-top: 0;
-            border-bottom: 1px solid $gtx-color-light-gray;
+            border-bottom: 1px solid $bg-color;
         }
     }
 }
