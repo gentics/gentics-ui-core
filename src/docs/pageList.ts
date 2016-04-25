@@ -52,7 +52,8 @@ export const pages: IPageInfo[] = [
     {
         name: 'date-time-picker',
         component: DateTimePickerDemo,
-        type: 'component'
+        type: 'component',
+        keywords: ['calendar']
     },
     {
         name: 'dropdown-list',
@@ -68,7 +69,7 @@ export const pages: IPageInfo[] = [
     {
         name: 'input',
         component: InputDemo,
-        type: 'component', 
+        type: 'component',
         keywords: ['text', 'number']
     },
     {
