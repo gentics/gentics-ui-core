@@ -1,3 +1,8 @@
+/**
+ * This is the entry-point for apps which consume GUIC.
+ * All components are exported from here, so no other internal files
+ * should need to be imported.
+ */
 require('./materialize');
 
 export * from './components/button/button.component';
