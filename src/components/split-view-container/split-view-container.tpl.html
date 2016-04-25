@@ -1,18 +1,16 @@
 <div class="slideable"
-    [class.hasRightPanel]="rightPanelVisible"
-    [class.hasNoRightPanel]="!rightPanelVisible"
-    [class.focusedRight]="focusedPanel == 'right'"
-    [class.focusedLeft]="focusedPanel == 'left'"
+     [class.hasRightPanel]="rightPanelVisible"
+     [class.hasNoRightPanel]="!rightPanelVisible"
+     [class.focusedRight]="focusedPanel == 'right'"
+     [class.focusedLeft]="focusedPanel == 'left'"
 
-    [class.resizing]="resizing"
-    #resizeContainer
->
+     [class.resizing]="resizing"
+     #resizeContainer>
 
     <div class="left-panel" #leftPanel
-        (click)="leftPanelClicked()"
-        [style.minWidth.%]="leftContainerWidthPercent"
-        [style.maxWidth.%]="leftContainerWidthPercent"
-    >
+         (click)="leftPanelClicked()"
+         [style.minWidth.%]="leftContainerWidthPercent"
+         [style.maxWidth.%]="leftContainerWidthPercent">
         <ng-content select="[left]"></ng-content>
     </div>
 
