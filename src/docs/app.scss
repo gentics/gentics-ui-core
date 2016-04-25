@@ -70,17 +70,16 @@ code, kbd, pre, samp {
 }
 
 .split-view-container {
-    .list-pane,
-    .content-pane {
-        border: 1px solid #ccc;
-
-        min-height: 100%;
-
+    .list-pane {
+        background-color: $gtx-color-very-light-gray;
+        .item-avatar {
+            background-color: white;
+        }
         a {
             cursor: pointer;
         }
     }
     .content-pane {
-        padding: 20px;
+        padding: 0 20px 50px 20px;
     }
 }

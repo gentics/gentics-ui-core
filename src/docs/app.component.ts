@@ -56,9 +56,9 @@ export class App {
     splitFocus: string = 'left';
     searchQuery: string;
     subscription: any;
-    
+
     logoSvg: string = require('./assets/gentics-logo.svg');
-    
+
     constructor(private router: Router) {
         this.subscription = router.subscribe((route: any) => {
             this.hasContent = !!route;
@@ -68,7 +68,7 @@ export class App {
     }
 
     ngOnDestroy(): void {
-        this.subscription.unsubscribe();
+        this.subscription.unsubscribe(); 
     }
 
     filterContentItems(query: string): void {
@@ -89,11 +89,20 @@ export class App {
         }
     }
 
+    goToRoute(route: string): void {
+        this.router.navigate([route]);
+        this.focusRightPanel();
+    }
+
     closeContent(): void {
         this.hasContent = false;
     }
 
     toggleMenu(newState: boolean): void {
         this.displayMenu = newState;
+    }
+
+    private focusRightPanel(): void {
+        setTimeout(() => this.splitFocus = 'right');
     }
 }

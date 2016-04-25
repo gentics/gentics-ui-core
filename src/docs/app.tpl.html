@@ -10,6 +10,7 @@
 <gtx-split-view-container class="split-view-container"
                           leftContainerWidthPercent="35"
                           [rightPanelVisible]="hasContent"
+                          (rightPanelOpened)="splitFocus = 'right'"
                           [(focusedPanel)]="splitFocus">
 
     <div class="list-pane" left>
@@ -19,7 +20,11 @@
                 <i class="material-icons" *ngIf="item.type === 'component'">code</i>
                 <i class="material-icons" *ngIf="item.type === 'service'">share</i>
             </div>
-            <div class="item-primary"><a [routerLink]="[item.route]"><strong>{{ item.title }}</strong></a></div>
+            <div class="item-primary">
+                <a (click)="goToRoute(item.route)">
+                    <strong>{{ item.title }}</strong>
+                </a>
+            </div>
             <div class="type-label" [ngClass]="item.type">{{ item.type }}</div>
         </gtx-contents-list-item>
     </div>
