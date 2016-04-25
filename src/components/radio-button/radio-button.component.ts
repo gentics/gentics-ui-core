@@ -157,16 +157,6 @@ export class RadioButton implements ControlValueAccessor, OnInit, OnDestroy {
     @Input() value: any = '';
 
     /**
-     * When attribute present, styles the radio button with a gap in the color.
-     */
-    @Input() get withGap(): any {
-        return this.materialGap;
-    }
-    set withGap(gap: any) {
-        this.materialGap = isPresent(gap) && gap !== false;
-    }
-
-    /**
      * Blur event
      */
     @Output() blur: EventEmitter<boolean> = new EventEmitter();
@@ -181,7 +171,6 @@ export class RadioButton implements ControlValueAccessor, OnInit, OnDestroy {
      */
     @Output() change: EventEmitter<any> = new EventEmitter();
 
-    private materialGap: boolean = false;
     private inputChecked: boolean = false;
 
     private onChange: Function = (_: any) => {};

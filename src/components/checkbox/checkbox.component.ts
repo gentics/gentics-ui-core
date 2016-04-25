@@ -82,16 +82,6 @@ export class Checkbox implements ControlValueAccessor {
     @Input() value: any = '';
 
     /**
-     * When attribute is present, change the visual style to "filled in" style.
-     */
-    @Input() get filledIn(): any {
-        return this.materialFilledIn;
-    }
-    set filledIn(filledIn: any) {
-        this.materialFilledIn = isPresent(filledIn) && filledIn !== false;
-    }
-
-    /**
      * Blur event
      */
     @Output() blur: EventEmitter<CheckState> = new EventEmitter();
@@ -104,7 +94,6 @@ export class Checkbox implements ControlValueAccessor {
      */
     @Output() change: EventEmitter<CheckState> = new EventEmitter();
 
-    private materialFilledIn: boolean = false;
     private checkState: CheckState = false;
 
     private onChange: Function = () => {};
