@@ -9,10 +9,19 @@ body {
 }
 
 .top-bar {
-    background-color: #eee;
-    i {
-        font-size: 48px;
-        color: gray;
+    background-color: $gtx-color-primary;
+    color: white;
+    a.title {
+        &, &:link {
+            color: white;
+        }
+    }
+    .gentics-logo {
+        width: 32px;
+        height: 38px;
+        g {
+            fill: white;
+        }
     }
 }
 

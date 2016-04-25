@@ -56,7 +56,9 @@ export class App {
     splitFocus: string = 'left';
     searchQuery: string;
     subscription: any;
-
+    
+    logoSvg: string = require('./assets/gentics-logo.svg');
+    
     constructor(private router: Router) {
         this.subscription = router.subscribe((route: any) => {
             this.hasContent = !!route;

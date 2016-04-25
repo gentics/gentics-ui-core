@@ -10,12 +10,14 @@ const paths = {
         typescript: ['src/**/*.ts', '!**/*.spec.ts'],
         typescriptMain: 'src/docs/bootstrap.ts',
         tests: 'src/**/*.spec.ts',
-        fonts: 'src/assets/fonts/**.*'
+        fonts: 'src/assets/fonts/*.*',
+        docsAssets: 'src/docs/assets/**/*.*'
     },
     out: {
         css: 'build/docs/css',
         docs: 'build/docs',
         fonts: 'build/docs/font',
+        images: 'build/docs/images',
         js: 'build/docs/js'
     },
     vendorJS: [

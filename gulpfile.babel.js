@@ -59,28 +59,8 @@ gulp.task('lint', (done) => {
         .on('end', () => done(errors.length ? errors : null));
 });
 
-// Use "gulp serve --open" to open the default browser
-gulp.task('serve', ['clean'], () => {
-    gulp.start('static-files');
-    gulp.start('watch');
-
-    // LiveReload on file change
-    livereload.listen({ quiet: true });
-    gulp.watch([paths.out.docs + '/**', '!**/*.map', '!**/*.d.ts'])
-        .on('change', console.log.bind(console))
-        .on('change', file => livereload.changed(file.path));
-
-    // Serve files from build/docs
-    return gulp.src(paths.out.docs, { base: '.' })
-        .pipe(webserver({
-            index: 'index.html',
-            open: process.argv.indexOf('--open') >= 0,
-            port: process.env.PORT || 8000
-        }));
-});
-
 gulp.task('static-files', () => {
-    gulp.src(paths.vendorStatics.concat(paths.src.fonts))
+    let fonts = gulp.src(paths.vendorStatics.concat(paths.src.fonts))
         .pipe(filter([
             '*.eot',
             '*.ttf',
@@ -88,6 +68,11 @@ gulp.task('static-files', () => {
             '*.woff2'
         ]))
         .pipe(gulp.dest(paths.out.fonts));
+
+    let images = gulp.src(paths.src.docsAssets)
+        .pipe(gulp.dest(paths.out.images));
+
+    return merge(fonts, images);
 });
 
 gulp.task('styles', () => gulp.src(paths.src.scssMain, { base: '.' })
