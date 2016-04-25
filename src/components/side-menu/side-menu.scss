@@ -59,21 +59,37 @@ gtx-side-menu-toggle-button {
     display: block;
     cursor: pointer;
     position: absolute;
+    top: 5px;
     right: 10px;
     transform: translateX(76px);
     transition: transform 0.3s;
     $width: 40px;
 
+    @media #{$medium-and-down} {
+        top: 0;
+    }
+
+    &:hover {
+        > .bar {
+            background: white;
+        }
+    }
+
     > .bar {
+        @extend .z-depth-1;
         display: block;
         height: $width / 10;
         width: $width;
-        background: #2b2b2b;
+        background: $gtx-color-very-light-gray;
         margin: $width / 5 auto;
         transition: all .3s ease;
     }
 
     &.active {
+        > .bar {
+            @extend .z-depth-0;
+            background: $gtx-color-primary;
+        }
         transform: translateX(0);
         > .top {
             transform: translateY($width / 3.33) rotateZ(45deg);
