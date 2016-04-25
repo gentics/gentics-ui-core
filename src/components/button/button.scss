@@ -3,6 +3,10 @@ gtx-button {
     display: inline-block;
 
     > button {
+        &.btn:hover {
+            @extend .z-depth-1;
+        }
+
         &.small {
             font-size: $gtx-font-size-small;
             padding: 0 5px;
@@ -30,64 +34,98 @@ gtx-button {
 
         // default (primary)
         background-color: $gtx-color-primary;
+        border: 1px solid transparent;
         &:hover { background-color: lighten($gtx-color-primary, 5%); }
-        &:active { background-color: lighten($gtx-color-primary, 30%); }
+        &:active {
+            @extend .z-depth-0;
+            background-color: darken($gtx-color-primary, 10%);
+        }
+        &:focus {
+            background-color: darken($gtx-color-primary, 2%);
+            border: 1px solid darken($gtx-color-primary, 10%);
+        }
 
         &.secondary {
             background-color: $gtx-color-off-white;
             color: $gtx-color-very-dark-gray;
             &:hover { background-color: lighten($gtx-color-off-white, 2%); }
-            &:active { background-color: lighten($gtx-color-off-white,30%); }
+            &:active { background-color: darken($gtx-color-off-white, 10%); }
+            &:focus {
+                background-color: darken($gtx-color-off-white, 2%);
+                border: 1px solid darken($gtx-color-off-white, 15%);
+            }
         }
         &.success {
             background-color: $gtx-color-success;
             &:hover { background-color: lighten($gtx-color-success, 7%); }
-            &:active { background-color: lighten($gtx-color-success,30%); }
+            &:active { background-color: darken($gtx-color-success, 10%); }
+            &:focus {
+                background-color: darken($gtx-color-success, 2%);
+                border: 1px solid darken($gtx-color-success, 15%);
+            }
         }
         &.warning {
             background-color: $gtx-color-warning;
             &:hover { background-color: lighten($gtx-color-warning, 10%); }
-            &:active { background-color: lighten($gtx-color-warning, 30%); }
+            &:active { background-color: darken($gtx-color-warning, 10%); }
+            &:focus {
+                background-color: darken($gtx-color-warning, 2%);
+                border: 1px solid darken($gtx-color-warning, 15%);
+            }
         }
         &.alert {
             background-color: $gtx-color-alert;
             &:hover { background-color: lighten($gtx-color-alert, 10%); }
-            &:active { background-color: lighten($gtx-color-alert, 30%); }
+            &:active { background-color: darken($gtx-color-alert, 10%); }
+            &:focus {
+                background-color: darken($gtx-color-alert, 2%);
+                border: 1px solid darken($gtx-color-alert, 20%);
+            }
         }
     }
 
     > button.btn-flat {
+        border: 1px solid lighten($gtx-color-primary, 40%);
+
         &:hover, &:active {
             box-shadow: none;
             background-color: lighten($gtx-color-primary, 40%);
         }
 
         &:active { background-color: lighten($gtx-color-primary, 20%); }
+        &:focus { border: 1px solid lighten($gtx-color-primary, 25%); }
 
         &:focus:not(:hover) {
             background: none;
         }
 
-
         &.secondary {
             color: $gtx-color-dark-gray;
+            border-color: $gtx-color-very-light-gray;
             &:hover { background-color: $gtx-color-off-white; }
             &:active { background-color: $gtx-color-light-gray; }
+            &:focus { border: 1px solid darken($gtx-color-very-light-gray, 20%); }
         }
         &.success {
             color: darken($gtx-color-success, 10%);
+            border-color: lighten($gtx-color-success, 40%);
             &:hover { background-color: lighten($gtx-color-success, 40%); }
             &:active { background-color: lighten($gtx-color-success, 20%); }
+            &:focus { border: 1px solid lighten($gtx-color-success, 25%); }
         }
         &.warning {
             color: darken($gtx-color-warning, 10%);
+            border-color: lighten($gtx-color-warning, 40%);
             &:hover { background-color: lighten($gtx-color-warning, 40%); }
             &:active { background-color: lighten($gtx-color-warning, 20%); }
+            &:focus { border: 1px solid lighten($gtx-color-warning, 25%); }
         }
         &.alert {
             color: darken($gtx-color-alert, 10%);
+            border-color: lighten($gtx-color-alert, 40%);
             &:hover { background-color: lighten($gtx-color-alert, 40%); }
             &:active { background-color: lighten($gtx-color-alert, 20%); }
+            &:focus { border: 1px solid lighten($gtx-color-alert, 25%); }
         }
     }
 
