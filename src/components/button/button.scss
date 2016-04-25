@@ -41,18 +41,18 @@ gtx-button {
             background-color: darken($gtx-color-primary, 10%);
         }
         &:focus {
-            background-color: darken($gtx-color-primary, 2%);
+            // background-color: darken($gtx-color-primary, 2%);
             border: 1px solid darken($gtx-color-primary, 10%);
         }
 
         &.secondary {
-            background-color: $gtx-color-off-white;
+            background-color: lighten($gtx-color-secondary, 7%);
             color: $gtx-color-very-dark-gray;
-            &:hover { background-color: lighten($gtx-color-off-white, 2%); }
-            &:active { background-color: darken($gtx-color-off-white, 10%); }
+            &:hover { background-color: lighten($gtx-color-secondary, 10%); }
+            &:active { background-color: darken($gtx-color-secondary, 10%); }
             &:focus {
-                background-color: darken($gtx-color-off-white, 2%);
-                border: 1px solid darken($gtx-color-off-white, 15%);
+                // background-color: lighten($gtx-color-secondary, 2%);
+                border: 1px solid darken($gtx-color-secondary, 8%);
             }
         }
         &.success {
@@ -60,7 +60,7 @@ gtx-button {
             &:hover { background-color: lighten($gtx-color-success, 7%); }
             &:active { background-color: darken($gtx-color-success, 10%); }
             &:focus {
-                background-color: darken($gtx-color-success, 2%);
+                // background-color: darken($gtx-color-success, 2%);
                 border: 1px solid darken($gtx-color-success, 15%);
             }
         }
@@ -69,7 +69,7 @@ gtx-button {
             &:hover { background-color: lighten($gtx-color-warning, 10%); }
             &:active { background-color: darken($gtx-color-warning, 10%); }
             &:focus {
-                background-color: darken($gtx-color-warning, 2%);
+                // background-color: darken($gtx-color-warning, 2%);
                 border: 1px solid darken($gtx-color-warning, 15%);
             }
         }
@@ -78,7 +78,7 @@ gtx-button {
             &:hover { background-color: lighten($gtx-color-alert, 10%); }
             &:active { background-color: darken($gtx-color-alert, 10%); }
             &:focus {
-                background-color: darken($gtx-color-alert, 2%);
+                // background-color: darken($gtx-color-alert, 2%);
                 border: 1px solid darken($gtx-color-alert, 20%);
             }
         }
@@ -102,10 +102,10 @@ gtx-button {
 
         &.secondary {
             color: $gtx-color-dark-gray;
-            border-color: transparentize($gtx-color-light-gray, 0.7);
-            &:hover { background-color: transparentize($gtx-color-off-white, 0.5); }
-            &:active { background-color: transparentize($gtx-color-light-gray, 0.1); }
-            &:focus { border: 1px solid transparentize($gtx-color-light-gray, 0); }
+            border-color: transparentize($gtx-color-secondary, 0.7);
+            &:hover { background-color: transparentize($gtx-color-secondary, 0.5); }
+            &:active { background-color: transparentize($gtx-color-secondary, 0.1); }
+            &:focus { border: 1px solid transparentize($gtx-color-secondary, 0); }
         }
         &.success {
             color: darken($gtx-color-success, 10%);

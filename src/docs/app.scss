@@ -71,7 +71,7 @@ code, kbd, pre, samp {
 
 .split-view-container {
     .list-pane {
-        background-color: #f4f3ec;
+        background-color: lighten($gtx-color-secondary, 15%);
         .item-avatar {
             background-color: white;
         }
