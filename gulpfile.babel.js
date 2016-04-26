@@ -28,6 +28,10 @@ gulp.task('build:docs', [
     'static-files'
 ]);
 
+gulp.task('build:lib', [
+    'lint'
+]);
+
 gulp.task('clean', () => del([
     paths.out.docs + '/**',
     '!' + paths.out.docs

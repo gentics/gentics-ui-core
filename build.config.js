@@ -14,11 +14,11 @@ const paths = {
         docsAssets: 'src/docs/assets/**/*.*'
     },
     out: {
-        css: 'build/docs/css',
-        docs: 'build/docs',
-        fonts: 'build/docs/fonts',
-        images: 'build/docs/images',
-        js: 'build/docs/js'
+        css: 'docs/css',
+        docs: 'docs',
+        fonts: 'docs/fonts',
+        images: 'docs/images',
+        js: 'docs/js'
     },
     vendorJS: [
        /* 'node_modules/reflect-metadata/Reflect.js',

@@ -19,7 +19,7 @@ module.exports = {
         modulesDirectories: ['node_modules']
     },
     output: {
-        path: path.join(__dirname, 'build', 'docs'),
+        path: path.join(__dirname, 'docs'),
         publicPath: '',
         filename: '[name].js',
         pathInfo: true
