@@ -121,32 +121,6 @@ describe('RadioButton', () => {
             });
     }));
 
-    it('should apply a css class "with-gap" when withGap is set', injectAsync([TestComponentBuilder], (tcb: TestComponentBuilder) => {
-        return tcb.overrideTemplate(TestComponent, `
-            <gtx-radio-button withGap></gtx-radio-button>`)
-            .createAsync(TestComponent)
-            .then((fixture: ComponentFixture) => {
-                const nativeInput: HTMLInputElement = fixture.nativeElement.querySelector('input');
-                fixture.detectChanges();
-                const cssClass: string = nativeInput.className;
-                expect(cssClass).toMatch(/\bwith-gap\b/);
-           });
-    }));
-
-    it('should not apply the css class "with-gap" when withGap is not set',
-        injectAsync([TestComponentBuilder], (tcb: TestComponentBuilder) => {
-            return tcb.overrideTemplate(TestComponent, `
-                <gtx-radio-button></gtx-radio-button>`)
-                .createAsync(TestComponent)
-                .then((fixture: ComponentFixture) => {
-                    const nativeInput: HTMLInputElement = fixture.nativeElement.querySelector('input');
-                    fixture.detectChanges();
-                    const cssClass: string = nativeInput.className;
-                    expect(cssClass).not.toMatch(/\bwith-gap\b/);
-            });
-        })
-    );
-
     it('should emit "blur" with current check state when the native input blurs', injectAsync([TestComponentBuilder],
         fakeAsync((tcb: TestComponentBuilder) => {
             return tcb.overrideTemplate(TestComponent, `

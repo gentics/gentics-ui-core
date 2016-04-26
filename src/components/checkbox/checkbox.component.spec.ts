@@ -142,36 +142,6 @@ describe('Checkbox', () => {
         })
     );
 
-    it('should apply a css class "filled-in" when filledIn is set',
-        injectAsync([TestComponentBuilder], (tcb: TestComponentBuilder) => {
-            return tcb.overrideTemplate(TestComponent, `
-                <gtx-checkbox filledIn></gtx-checkbox>
-            `)
-            .createAsync(TestComponent)
-            .then((fixture: ComponentFixture) => {
-                const nativeInput: HTMLInputElement = fixture.nativeElement.querySelector('input');
-                fixture.detectChanges();
-                const cssClass: string = nativeInput.className;
-                expect(cssClass).toMatch(/\bfilled-in\b/);
-            });
-        })
-    );
-
-    it('should not apply the css class "filled-in" when filledIn is not set',
-        injectAsync([TestComponentBuilder], (tcb: TestComponentBuilder) => {
-            return tcb.overrideTemplate(TestComponent, `
-                <gtx-checkbox></gtx-checkbox>
-            `)
-            .createAsync(TestComponent)
-            .then((fixture: ComponentFixture) => {
-                const nativeInput: HTMLInputElement = fixture.nativeElement.querySelector('input');
-                fixture.detectChanges();
-                const cssClass: string = nativeInput.className;
-                expect(cssClass).not.toMatch(/\bfilled-in\b/);
-            });
-        })
-    );
-
     it('should emit "blur" with current check state when the native input blurs',
         injectAsync([TestComponentBuilder], fakeAsync((tcb: TestComponentBuilder) => {
             return tcb.overrideTemplate(TestComponent, `
