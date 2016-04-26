@@ -1,0 +1,16 @@
+gtx-textarea {
+    position: relative;
+    display: block;
+
+    > label {
+        position: absolute;
+        top: 0;
+        display: block;
+        color: $gtx-color-dark-gray;
+        transition: color 0.2s;
+    }
+
+    > textarea.materialize-textarea {
+        @extend .input-base;
+    }
+}

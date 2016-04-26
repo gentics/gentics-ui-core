@@ -1,7 +1,7 @@
 import {Component, ElementRef, EventEmitter, Input, Output} from 'angular2/core';
 const sortable: Sortablejs.Sortable = require('sortablejs');
 
-type sortFn<T> = (source: T[], byReference: boolean) => T[];
+export type sortFn<T> = (source: T[], byReference: boolean) => T[];
 
 /**
  * The event object returned by each of the Sortablejs callbacks, which can then be emitted up

@@ -1,0 +1,23 @@
+gtx-select {
+    position: relative;
+    display: block;
+
+    .select-wrapper input.select-dropdown {
+        @extend .input-base;
+        padding: 0 5px;
+        line-height: 1rem;
+        &[readonly] {
+            color: $gtx-color-very-dark-gray;
+        }
+    }
+    .select-wrapper span.caret {
+        top: 14px;
+        right: 8px;
+    }
+
+    .select-wrapper + label {
+        top: -19px;
+        left: 0;
+        color: $gtx-color-dark-gray;
+    }
+}

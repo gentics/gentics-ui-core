@@ -1,0 +1,23 @@
+<input
+    [disabled]="disabled"
+    [attr.max]="max"
+    [attr.min]="min"
+    [attr.maxlength]="maxlength"
+    [attr.name]="name"
+    [attr.pattern]="pattern"
+    [attr.placeholder]="placeholder"
+    [readonly]="readonly"
+    [required]="required"
+    [attr.step]="step"
+    [type]="type"
+
+    [attr.id]="id"
+    [value]="value"
+
+    (blur)="onBlur($event)"
+    (change)="onBlur($event)"
+    (focus)="onFocus($event)"
+    (input)="onInput($event)"
+
+    #input
+><label [attr.for]="id" (click)="input.focus()">{{ label }}</label>

@@ -1,0 +1,18 @@
+gtx-input {
+    position: relative;
+    display: block;
+
+    > label {
+        position: absolute;
+        top: 0;
+        display: block;
+        color: $gtx-color-dark-gray;
+        transition: color 0.2s;
+    }
+
+    > input[type="text"],
+    input[type="number"],
+    input[type="password"] {
+        @extend .input-base;
+    }
+}

@@ -48,7 +48,7 @@ export class DateTimePicker implements ControlValueAccessor {
     /**
      * Set to `false` to omit the time picker part of the component. Defaults to `true`
      */
-    @Input() set displayTime(val: any): boolean {
+    @Input() set displayTime(val: any) {
         this._displayTime = val === true || val === 'true';
     }
 

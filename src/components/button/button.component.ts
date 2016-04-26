@@ -45,7 +45,7 @@ export class Button {
 
     private isFlat: boolean = false;
 
-    getButtonClasses(): string[] {
+    getButtonClasses(): string {
         let classes = [this.size, this.type];
         if (this.isFlat) {
             classes.push('btn-flat');

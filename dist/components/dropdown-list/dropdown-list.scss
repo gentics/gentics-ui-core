@@ -1,0 +1,10 @@
+gtx-dropdown-list {
+    display: inline-block;
+    //position: relative;
+}
+
+.dropdown-content-wrapper {
+    a {
+        @include noselect;
+    }
+}

@@ -1,0 +1,34 @@
+<div class="slideable"
+     [class.hasRightPanel]="rightPanelVisible"
+     [class.hasNoRightPanel]="!rightPanelVisible"
+     [class.focusedRight]="focusedPanel == 'right'"
+     [class.focusedLeft]="focusedPanel == 'left'"
+
+     [class.resizing]="resizing"
+     #resizeContainer>
+
+    <div class="left-panel" #leftPanel
+         (click)="leftPanelClicked()"
+         [style.minWidth.%]="leftContainerWidthPercent"
+         [style.maxWidth.%]="leftContainerWidthPercent">
+        <ng-content select="[left]"></ng-content>
+    </div>
+
+    <div #resizer class="resizer" (mousedown)="startResizer($event)">
+        <i class="material-icons">more_vert</i>
+    </div>
+
+    <div class="right-panel" #rightPanel (click)="rightPanelClicked()">
+        <ng-content select="[right]"></ng-content>
+    </div>
+
+    <div class="focus-switcher-right" (click)="rightPanelClicked()"></div>
+    <div class="focus-switcher-left" (click)="leftPanelClicked()"></div>
+
+    <div
+        class="visible-resizer"
+        *ngIf="resizing"
+        [style.left.%]="resizerXPosition">
+    </div>
+
+</div>

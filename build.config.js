@@ -4,21 +4,32 @@
 
 const paths = {
     src: {
-        lint: ['./*.js', 'src/**/*.js', './*.json', 'src/**/*.json', 'src/**/*.ts', 'src/**/*.spec.ts'],
-        scss: ['src/**/*.scss', '!src/**/_*.scss'],
-        scssMain: 'src/docs/app.scss',
-        typescript: ['src/**/*.ts', '!**/*.spec.ts'],
-        typescriptMain: 'src/docs/bootstrap.ts',
+        lint: ['./*.js', 'src/**/*.js', './*.json', 'src/**/*.json',
+            'src/**/*.ts', 'src/**/*.spec.ts'],
+        scss: ['src/**/*.scss', '!src/docs/**/*.scss'],
+        typescript: ['src/**/*.ts', '!**/*.spec.ts', '!src/docs/**/*.ts'],
+        typings: 'typings/main.d.ts',
         tests: 'src/**/*.spec.ts',
         fonts: 'src/assets/fonts/*.*',
-        docsAssets: 'src/docs/assets/**/*.*'
+        templates: ['src/**/*.tpl.html', '!src/docs/**/*.tpl.html']
+    },
+    docs: {
+        scss: ['src/**/*.scss'],
+        scssMain: 'src/docs/app.scss',
+        typescriptMain: 'src/docs/bootstrap.ts',
+        assets: 'src/docs/assets/**/*.*'
     },
     out: {
         css: 'docs/css',
         docs: 'docs',
         fonts: 'docs/fonts',
         images: 'docs/images',
-        js: 'docs/js'
+        js: 'docs/js',
+        dist: {
+            root: 'dist',
+            styles: 'dist/styles',
+            fonts: 'dist/fonts'
+        }
     },
     vendorJS: [
        /* 'node_modules/reflect-metadata/Reflect.js',

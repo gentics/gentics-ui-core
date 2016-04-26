@@ -8,7 +8,7 @@ import {
 import {ControlValueAccessor, NgControl} from 'angular2/common';
 import {isPresent} from 'angular2/src/facade/lang';
 
-type CheckState = boolean | 'indeterminate';
+export type CheckState = boolean | 'indeterminate';
 
 /**
  * Checkbox wraps the native `<input type="checkbox">` form element.

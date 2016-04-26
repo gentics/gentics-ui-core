@@ -1,0 +1,11 @@
+<div class="input">
+    <gtx-input placeholder="Search"
+               [(ngModel)]="query"
+               (keydown)="onKeyDown($event)"
+               (change)="onChange($event)"></gtx-input>
+</div>
+<div class="submit-button">
+    <gtx-button flat (click)="doSearch()">
+        <i class="material-icons">search</i>
+    </gtx-button>
+</div>

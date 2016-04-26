@@ -1,0 +1,12 @@
+<div class="gtx-toast z-depth-3" #toast
+     [class.dismissing]="dismissing"
+     [style.transform]="getTransform()"
+     [ngClass]="type"
+     (click)="dismiss()"
+>{{ message }}
+    <button class="action"
+            *ngIf="actionLabel"
+            (click)="actionClick($event)">
+        {{ actionLabel }}
+    </button>
+</div>

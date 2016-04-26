@@ -1,0 +1,20 @@
+<div class="range-field">
+    <input type="range"
+        [disabled]="disabled"
+        [attr.max]="max"
+        [attr.min]="min"
+        [attr.name]="name"
+        [readonly]="readonly"
+        [required]="required"
+        [attr.step]="step"
+
+        [attr.id]="id"
+        [value]="value"
+
+        (blur)="onBlur($event)"
+        (focus)="onFocus($event)"
+        (input)="onInput($event)"
+
+        #input
+    >
+</div>

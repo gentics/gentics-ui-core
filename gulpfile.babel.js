@@ -16,26 +16,72 @@ import sass from 'gulp-sass';
 import sourcemaps from 'gulp-sourcemaps';
 import tslint from 'gulp-tslint';
 import tslintStylish from 'tslint-stylish';
+import ts from 'gulp-typescript';
 import webpack from 'webpack';
 
 const webpackConfig = require('./webpack.config.js');
 const buildConfig = require('./build.config').config;
 const paths = require('./build.config').paths;
 
-gulp.task('build:docs', [
+gulp.task('docs:build', [
     'webpack:run',
-    'styles',
-    'static-files'
+    'docs:styles',
+    'docs:static-files'
 ]);
 
-gulp.task('build:lib', [
-    'lint'
+gulp.task('lib:build', [
+    'lib:typescript',
+    'lib:templates',
+    'lib:styles',
+    'lib:fonts'
 ]);
 
 gulp.task('clean', () => del([
     paths.out.docs + '/**',
     '!' + paths.out.docs
 ]));
+
+gulp.task('lib:typescript', () => {
+    let outDir = path.join(__dirname, paths.out.dist.root);
+    let tsResult = gulp.src(paths.src.typescript.concat(paths.src.typings))
+        .pipe(ts({
+            noImplicitAny: true,
+            outDir: 'dist',
+            module: 'commonjs',
+            target: 'es5',
+            emitDecoratorMetadata: true,
+            experimentalDecorators: true,
+            sourceMap: true,
+            moduleResolution: 'node',
+            declaration: true
+        }));
+
+    return merge([
+        tsResult.dts.pipe(gulp.dest(outDir)),
+        tsResult.js.pipe(gulp.dest(outDir))
+    ]);
+});
+
+gulp.task('lib:templates', () => gulp.src(paths.src.templates)
+    .pipe(gulp.dest(paths.out.dist.root)));
+
+gulp.task('lib:styles', () => {
+    let libStyles = gulp.src(paths.src.scss)
+        .pipe(gulp.dest(paths.out.dist.root));
+    let materializeStyles = gulp.src('node_modules/materialize-css/sass/**/*.scss')
+        .pipe(gulp.dest(path.join(paths.out.dist.styles, 'materialize-css/sass')));
+
+    return merge([libStyles, materializeStyles]);
+});
+
+gulp.task('lib:fonts', () => gulp.src(paths.vendorStatics.concat(paths.src.fonts))
+        .pipe(filter([
+            '*.eot',
+            '*.ttf',
+            '*.woff',
+            '*.woff2'
+        ]))
+        .pipe(gulp.dest(paths.out.dist.fonts)));
 
 gulp.task('lint', (done) => {
     const files = gulp.src(paths.src.lint, { base: '.' });
@@ -60,7 +106,7 @@ gulp.task('lint', (done) => {
         .on('end', () => done(errors.length ? errors : null));
 });
 
-gulp.task('static-files', () => {
+gulp.task('docs:static-files', () => {
     let fonts = gulp.src(paths.vendorStatics.concat(paths.src.fonts))
         .pipe(filter([
             '*.eot',
@@ -70,13 +116,13 @@ gulp.task('static-files', () => {
         ]))
         .pipe(gulp.dest(paths.out.fonts));
 
-    let images = gulp.src(paths.src.docsAssets)
+    let images = gulp.src(paths.docs.assets)
         .pipe(gulp.dest(paths.out.images));
 
     return merge(fonts, images);
 });
 
-gulp.task('styles', () => gulp.src(paths.src.scssMain, { base: '.' })
+gulp.task('docs:styles', () => gulp.src(paths.docs.scssMain, { base: '.' })
     .pipe(sourcemaps.init())
     .pipe(sass({
         errLogToConsole: true,
@@ -91,9 +137,9 @@ gulp.task('styles', () => gulp.src(paths.src.scssMain, { base: '.' })
     }))
     .pipe(gulp.dest(paths.out.css)));
 
-gulp.task('watch', ['styles', 'static-files', 'webpack:watch'], () => {
-    gulp.watch(paths.src.scss, ['styles']);
-    gulp.watch(paths.src.vendorStatics, ['static-files']);
+gulp.task('docs:watch', ['docs:styles', 'docs:static-files', 'webpack:watch'], () => {
+    gulp.watch(paths.docs.scss, ['docs:styles']);
+    gulp.watch(paths.src.vendorStatics, ['docs:static-files']);
 });
 
 gulp.task('test:run', callback => runKarmaServer(false, callback));
