@@ -16,7 +16,7 @@ const paths = {
     out: {
         css: 'build/docs/css',
         docs: 'build/docs',
-        fonts: 'build/docs/font',
+        fonts: 'build/docs/fonts',
         images: 'build/docs/images',
         js: 'build/docs/js'
     },
@@ -25,7 +25,7 @@ const paths = {
         'node_modules/zone.js/dist/zone.js'*/
     ],
     vendorStatics: [
-        'node_modules/materialize-css/font/roboto/Roboto-*'
+        'node_modules/materialize-css/fonts/roboto/Roboto-*'
     ]
 };
 
