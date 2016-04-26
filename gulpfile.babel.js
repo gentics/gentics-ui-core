@@ -10,15 +10,12 @@ import jscs from 'gulp-jscs';
 import jscsStylish from 'gulp-jscs-stylish';
 import jsonlint from 'gulp-jsonlint';
 import karma from 'karma';
-import livereload from 'gulp-livereload';
 import merge from 'merge-stream';
 import * as path from 'path';
-import rename from 'gulp-rename';
 import sass from 'gulp-sass';
 import sourcemaps from 'gulp-sourcemaps';
 import tslint from 'gulp-tslint';
 import tslintStylish from 'tslint-stylish';
-import webserver from 'gulp-webserver';
 import webpack from 'webpack';
 
 const webpackConfig = require('./webpack.config.js');
@@ -79,7 +76,8 @@ gulp.task('styles', () => gulp.src(paths.src.scssMain, { base: '.' })
     .pipe(sourcemaps.init())
     .pipe(sass({
         errLogToConsole: true,
-        outputStyle: 'expanded'
+        outputStyle: 'expanded',
+        includePaths: [path.join(__dirname, 'node_modules')]
     }).on('error', sass.logError))
     .pipe(autoprefixer(buildConfig.autoprefixer))
     .pipe(concat('app.css'))
