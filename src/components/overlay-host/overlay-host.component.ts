@@ -1,5 +1,5 @@
-import {Component, DynamicComponentLoader, ComponentRef, ElementRef} from 'angular2/core';
-import {Notification} from './../notification/notification.service.ts';
+import {Component, ElementRef} from 'angular2/core';
+import {Notification} from './../notification/notification.service';
 
 /**
  * The OverlayHost is required to display any kind of overlay component such as a modal or
@@ -9,7 +9,7 @@ import {Notification} from './../notification/notification.service.ts';
  *
  * There are no attributes to configure nor events to listen to - all interaction with this
  * component happens though the services that register with it.
- * 
+ *
  * ```html
  * <gtx-overlay-host></gtx-overlay-host>
  * ```

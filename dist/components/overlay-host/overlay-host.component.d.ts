@@ -1,5 +1,5 @@
 import { ElementRef } from 'angular2/core';
-import { Notification } from './../notification/notification.service.ts';
+import { Notification } from './../notification/notification.service';
 /**
  * The OverlayHost is required to display any kind of overlay component such as a modal or
  * [toast notification](#/notification). It represents the location in the DOM into which new overlays
