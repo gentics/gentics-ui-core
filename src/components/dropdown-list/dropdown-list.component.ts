@@ -163,7 +163,7 @@ export class DropdownList {
                 queue: false,
                 duration: this.options.inDuration,
                 easing: 'easeOutCubic',
-                complete: () => {
+                complete: (): void => {
                     this.contentStyles.height = '';
                 }
             })

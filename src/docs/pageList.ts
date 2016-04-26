@@ -152,6 +152,6 @@ export const pages: IPageInfo[] = [
  * Convert "my-best-string" to "MyBestString"
  */
 export const kebabToPascal: Function = (str: string): string => {
-    let camel: string = str.replace(/\-([a-z])/g, (m) => m[1].toUpperCase());
+    let camel: string = str.replace(/\-([a-z])/g, (m: string) => m[1].toUpperCase());
     return camel.charAt(0).toUpperCase() + camel.slice(1);
 };

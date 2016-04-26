@@ -211,7 +211,7 @@ describe('DateTimePicker:', () => {
                         firstCalendarCell.click();
                         tick();
 
-                        pickerInstance.confirm(<Modal> { closeModal: () => {} });
+                        pickerInstance.confirm(<Modal> { closeModal: (): void => {} });
                         _fixture.detectChanges();
                         tick();
                     });
@@ -334,7 +334,7 @@ describe('DateTimePicker:', () => {
                         // do not update the model value yet, until we confirm()
                         expect(instance.testModel).toBe(TEST_TIMESTAMP);
 
-                        pickerInstance.confirm(<Modal> { closeModal: () => {} });
+                        pickerInstance.confirm(<Modal> { closeModal: (): void => {} });
                         fixture.detectChanges();
                         tick();
 
