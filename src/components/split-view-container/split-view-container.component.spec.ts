@@ -1,18 +1,14 @@
-import {Component, DebugElement} from 'angular2/core';
+import {Component} from 'angular2/core';
 import {
-    beforeEachProviders,
     ComponentFixture,
     describe,
     expect,
     fakeAsync,
-    inject,
     injectAsync,
     it,
     TestComponentBuilder,
-    tick,
-    xit
+    tick
 } from 'angular2/testing';
-import {By} from 'angular2/platform/browser';
 
 import {SplitViewContainer} from './split-view-container.component';
 
@@ -92,7 +88,7 @@ describe('SplitViewContainer', () => {
             .createAsync(TestComponent)
             .then((fixture: ComponentFixture) => {
                 fixture.detectChanges();
-
+                tick();
                 const left: HTMLParagraphElement = fixture.nativeElement.querySelector('.should-be-left');
                 const right: HTMLParagraphElement = fixture.nativeElement.querySelector('.should-be-right');
 

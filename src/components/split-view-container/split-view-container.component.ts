@@ -220,12 +220,15 @@ export class SplitViewContainer implements AfterViewInit, OnDestroy {
         if (!this.ownElement || !this.ownElement.nativeElement) {
             return;
         }
-        const element: HTMLElement = this.ownElement.nativeElement;
-        const css: CSSStyleDeclaration = element.style;
-        css.top = element.offsetTop + 'px';
-        css.bottom = css.left = css.right = '0';
-        css.position = 'absolute';
-
+        // inside a setTimeout to allow any layout changes to stabilize (e.g. divs with ngIf showing/hiding)
+        // before we calculate the final position of the SplitViewContainer
+        setTimeout(() => {
+            const element: HTMLElement = this.ownElement.nativeElement;
+            const css: CSSStyleDeclaration = element.style;
+            css.top = element.offsetTop + 'px';
+            css.bottom = css.left = css.right = '0';
+            css.position = 'absolute';
+        });
         this.initSwipeHandler();
     }
 
