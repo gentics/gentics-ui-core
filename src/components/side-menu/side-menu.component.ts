@@ -40,7 +40,7 @@ export class SideMenu {
      * Fired when the toggle button is clicked. The value is equal to
      * the value of the `opened`
      */
-    @Output() toggle: EventEmitter<boolean> = new EventEmitter();
+    @Output() toggle = new EventEmitter<boolean>();
 
     toggleState(): void {
         this.toggle.emit(!this.opened);

@@ -84,15 +84,15 @@ export class Checkbox implements ControlValueAccessor {
     /**
      * Blur event
      */
-    @Output() blur: EventEmitter<CheckState> = new EventEmitter();
+    @Output() blur = new EventEmitter<CheckState>();
     /**
      * Focus event
      */
-    @Output() focus: EventEmitter<CheckState> = new EventEmitter();
+    @Output() focus = new EventEmitter<CheckState>();
     /**
      * Change event
      */
-    @Output() change: EventEmitter<CheckState> = new EventEmitter();
+    @Output() change = new EventEmitter<CheckState>();
 
     private checkState: CheckState = false;
 

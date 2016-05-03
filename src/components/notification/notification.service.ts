@@ -67,7 +67,7 @@ interface IOpenToast {
 @Injectable()
 export class Notification {
 
-    open$: EventEmitter<INotificationOptions> = new EventEmitter();
+    open$ = new EventEmitter<INotificationOptions>();
     private hostViewContainer: ViewContainerRef;
     private openToasts: IOpenToast[] = [];
     /*

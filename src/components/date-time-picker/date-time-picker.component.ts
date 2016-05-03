@@ -55,7 +55,7 @@ export class DateTimePicker implements ControlValueAccessor {
     /**
      * Fires when the "okay" button is clicked to close the picker.
      */
-    @Output() change: EventEmitter<number> = new EventEmitter();
+    @Output() change = new EventEmitter<number>();
 
     value: moment.Moment = momentjs();
 

@@ -102,17 +102,17 @@ export class InputField implements ControlValueAccessor {
     /**
      * Fires when the input loses focus.
      */
-    @Output() blur: EventEmitter<string|number> = new EventEmitter();
+    @Output() blur = new EventEmitter<string|number>();
 
     /**
      * Fires when the input gains focus.
      */
-    @Output() focus: EventEmitter<string|number> = new EventEmitter();
+    @Output() focus = new EventEmitter<string|number>();
 
     /**
      * Fires whenever a char is entered into the field.
      */
-    @Output() change: EventEmitter<string|number> = new EventEmitter();
+    @Output() change = new EventEmitter<string|number>();
 
     // ValueAccessor members
     onChange: any = (_: any) => {};

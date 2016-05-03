@@ -51,7 +51,7 @@ export class Modal {
     /**
      * Fires when the modal.closeModal() method is invoked.
      */
-    @Output() close: EventEmitter<any> = new EventEmitter();
+    @Output() close = new EventEmitter<any>();
 
     private _padding: boolean = true;
     private modal: ModalInstance;

@@ -1,7 +1,7 @@
 import {Component, ElementRef, EventEmitter, Input, Output} from '@angular/core';
 const sortable: Sortablejs.Sortable = require('sortablejs');
 
-export type sortFn<T> = (source: T[], byReference: boolean) => T[];
+export type sortFn<T> = (source: T[], byReference?: boolean) => T[];
 
 /**
  * The event object returned by each of the Sortablejs callbacks, which can then be emitted up
@@ -102,7 +102,7 @@ export class SortableList {
     /**
      * Fired when an item has been dragged and dropped to a new position in the list.
      */
-    @Output() dragEnd: EventEmitter<ISortableEvent> = new EventEmitter();
+    @Output() dragEnd = new EventEmitter<ISortableEvent>();
 
     sortable: Sortablejs.Sortable;
 

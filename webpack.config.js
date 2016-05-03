@@ -27,7 +27,7 @@ module.exports = {
 
     module: {
         loaders: [
-            { test: /\.ts$/, loader: 'ts?transpileOnly=true' },
+            { test: /\.ts$/, loader: 'ts?transpileOnly=false' },
             { test: /\.css$/, loader: 'style!raw!autoprefixer' },
             { test: /\.scss$/, loader: 'style!raw!autoprefixer!sass' },
             { test: /\.html/, loader: 'html' },

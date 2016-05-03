@@ -27,7 +27,7 @@ export class ModalService {
  */
 export class ModalInstance {
 
-    changes: EventEmitter<string> = new EventEmitter();
+    changes = new EventEmitter<string>();
 
     private $modal: JQuery;
     private $overlay: JQuery;

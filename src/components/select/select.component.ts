@@ -77,15 +77,15 @@ export class Select implements ControlValueAccessor {
     /**
      * Blur event. Output depends on the "multiple" attribute.
      */
-    @Output() blur: EventEmitter<string|string[]> = new EventEmitter();
+    @Output() blur = new EventEmitter<string|string[]>();
     /**
      * Focus event. Output depends on the "multiple" attribute.
      */
-    @Output() focus: EventEmitter<string|string[]> = new EventEmitter();
+    @Output() focus = new EventEmitter<string|string[]>();
     /**
      * Change event. Output depends on the "multiple" attribute.
      */
-    @Output() change: EventEmitter<string|string[]> = new EventEmitter();
+    @Output() change = new EventEmitter<string|string[]>();
 
     @ContentChildren(NgSelectOption, { descendants: true }) selectOptions: QueryList<NgSelectOption>;
 

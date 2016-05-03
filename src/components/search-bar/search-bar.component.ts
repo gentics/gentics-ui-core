@@ -29,12 +29,12 @@ export class SearchBar {
      * Fired when either the search button is clicked, or
      * the "enter" key is pressed while the input has focus.
      */
-    @Output() search: EventEmitter<string> = new EventEmitter();
+    @Output() search = new EventEmitter<string>();
 
     /**
      * Fired whenever the value of the input changes.
      */
-    @Output() change: EventEmitter<string> = new EventEmitter();
+    @Output() change = new EventEmitter<string>();
 
     constructor() {}
 

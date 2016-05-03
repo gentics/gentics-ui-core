@@ -72,17 +72,17 @@ export class Range implements ControlValueAccessor {
     /**
      * Blur event
      */
-    @Output() blur: EventEmitter<number> = new EventEmitter();
+    @Output() blur = new EventEmitter<number>();
 
     /**
      * Focus event
      */
-    @Output() focus: EventEmitter<number> = new EventEmitter();
+    @Output() focus = new EventEmitter<number>();
 
     /**
      * Change event
      */
-    @Output() change: EventEmitter<number> = new EventEmitter();
+    @Output() change = new EventEmitter<number>();
 
     // ValueAccessor members
     onChange: any = (_: any) => {};

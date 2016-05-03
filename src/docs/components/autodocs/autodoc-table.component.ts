@@ -1,12 +1,12 @@
 import {Component, Input} from '@angular/core';
-import {IDocBlock} from './doc-parser';
+import {DocBlock} from './doc-parser';
 
 @Component({
     selector: 'gtx-autodoc-table',
     template: require('./autodocsTable.tpl.html')
 })
 export class AutodocTable {
-    @Input() docBlocks: IDocBlock[];
+    @Input() docBlocks: DocBlock[];
     identifierLabel: string = 'Name';
     headers: string[];
     props: string[];

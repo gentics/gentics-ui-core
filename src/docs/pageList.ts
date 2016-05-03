@@ -1,29 +1,30 @@
+import {Type} from '@angular/core';
 // Demo pages
-import {ButtonDemo} from 'pages/button-demo/button-demo';
-import {CheckboxDemo} from 'pages/checkbox-demo/checkbox-demo';
-import {ColorsDemo} from 'pages/colors-demo/colors-demo';
-import {ContentsListItemDemo} from 'pages/contents-list-item-demo/contents-list-item-demo';
-import {DateTimePickerDemo} from 'pages/date-time-picker-demo/date-time-picker-demo';
-import {DropdownListDemo} from 'pages/dropdown-list-demo/dropdown-list-demo';
-import {IconsDemo} from 'pages/icons-demo/icons-demo';
-import {InputDemo} from 'pages/input-demo/input-demo';
-import {ModalDemo} from 'pages/modal-demo/modal-demo';
-import {NotificationDemo} from 'pages/notification-demo/notification-demo';
-import {OverlayHostDemo} from 'pages/overlay-host-demo/overlay-host-demo';
-import {RadioButtonDemo} from 'pages/radio-button-demo/radio-button-demo';
-import {RangeDemo} from 'pages/range-demo/range-demo';
-import {SearchBarDemo} from 'pages/search-bar-demo/search-bar-demo';
-import {SelectDemo} from 'pages/select-demo/select-demo';
-import {SideMenuDemo} from 'pages/side-menu-demo/side-menu-demo';
-import {SplitViewContainerDemo} from 'pages/split-view-container-demo/split-view-container-demo';
-import {SortableListDemo} from 'pages/sortable-list-demo/sortable-list-demo';
-import {TextareaDemo} from 'pages/textarea-demo/textarea-demo';
-import {TopBarDemo} from 'pages/top-bar-demo/top-bar-demo';
-import {TypographyDemo} from 'pages/typography-demo/typography-demo';
+import {ButtonDemo} from './pages/button-demo/button-demo';
+import {CheckboxDemo} from './pages/checkbox-demo/checkbox-demo';
+import {ColorsDemo} from './pages/colors-demo/colors-demo';
+import {ContentsListItemDemo} from './pages/contents-list-item-demo/contents-list-item-demo';
+import {DateTimePickerDemo} from './pages/date-time-picker-demo/date-time-picker-demo';
+import {DropdownListDemo} from './pages/dropdown-list-demo/dropdown-list-demo';
+import {IconsDemo} from './pages/icons-demo/icons-demo';
+import {InputDemo} from './pages/input-demo/input-demo';
+import {ModalDemo} from './pages/modal-demo/modal-demo';
+import {NotificationDemo} from './pages/notification-demo/notification-demo';
+import {OverlayHostDemo} from './pages/overlay-host-demo/overlay-host-demo';
+import {RadioButtonDemo} from './pages/radio-button-demo/radio-button-demo';
+import {RangeDemo} from './pages/range-demo/range-demo';
+import {SearchBarDemo} from './pages/search-bar-demo/search-bar-demo';
+import {SelectDemo} from './pages/select-demo/select-demo';
+import {SideMenuDemo} from './pages/side-menu-demo/side-menu-demo';
+import {SplitViewContainerDemo} from './pages/split-view-container-demo/split-view-container-demo';
+import {SortableListDemo} from './pages/sortable-list-demo/sortable-list-demo';
+import {TextareaDemo} from './pages/textarea-demo/textarea-demo';
+import {TopBarDemo} from './pages/top-bar-demo/top-bar-demo';
+import {TypographyDemo} from './pages/typography-demo/typography-demo';
 
 export interface IPageInfo {
-    name: string;
-    component: FunctionConstructor;
+    name: string; 
+    component: Type;
     type: 'component' | 'service' | 'css';
     keywords?: string[];
 }

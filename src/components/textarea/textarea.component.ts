@@ -80,17 +80,17 @@ export class Textarea implements ControlValueAccessor {
     /**
      * Blur event.
      */
-    @Output() blur: EventEmitter<string> = new EventEmitter();
+    @Output() blur = new EventEmitter<string>();
 
     /**
      * Focus event.
      */
-    @Output() focus: EventEmitter<string> = new EventEmitter();
+    @Output() focus = new EventEmitter<string>();
 
     /**
      * Change event.
      */
-    @Output() change: EventEmitter<string> = new EventEmitter();
+    @Output() change = new EventEmitter<string>();
 
     // ValueAccessor members
     onChange: any = (_: any) => {};
