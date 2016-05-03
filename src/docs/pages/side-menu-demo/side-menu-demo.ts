@@ -1,4 +1,4 @@
-import {Component} from 'angular2/core';
+import {Component} from '@angular/core';
 import {SideMenu} from '../../../index';
 import {Autodocs, DemoBlock, HighlightedCode} from '../../components';
 

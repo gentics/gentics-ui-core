@@ -1,4 +1,4 @@
-import {Component, Input, ElementRef} from 'angular2/core';
+import {Component, Input, ElementRef} from '@angular/core';
 import {parseDocs, IDocumentation} from './doc-parser';
 import {AutodocTable} from './autodoc-table.component';
 

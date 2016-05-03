@@ -7,7 +7,7 @@ import {
     OnDestroy,
     Output,
     ViewChild
-} from 'angular2/core';
+} from '@angular/core';
 import { DOM } from 'angular2/src/platform/dom/dom_adapter';
 
 // HACK: workaround for enum type. With TypeScript >= 1.8.0, use:

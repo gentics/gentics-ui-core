@@ -1,16 +1,7 @@
-import {Component, DebugElement} from 'angular2/core';
-import {By} from 'angular2/platform/browser';
-import {
-    ComponentFixture,
-    describe,
-    expect,
-    fakeAsync,
-    flushMicrotasks,
-    injectAsync,
-    it,
-    tick,
-    TestComponentBuilder
-} from 'angular2/testing';
+import {Component, DebugElement} from '@angular/core';
+import {By} from '@angular/platform-browser';
+import {describe, expect, fakeAsync, injectAsync, it, tick} from '@angular/core/testing';
+import {ComponentFixture, TestComponentBuilder} from '@angular/compiler/testing';
 import {SideMenu} from './side-menu.component';
 
 describe('SideMenu', () => {

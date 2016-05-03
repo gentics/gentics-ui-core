@@ -1,15 +1,6 @@
-import {Component} from 'angular2/core';
-import {
-    ComponentFixture,
-    describe,
-    expect,
-    fakeAsync,
-    injectAsync,
-    it,
-    TestComponentBuilder,
-    tick
-} from 'angular2/testing';
-
+import {Component} from '@angular/core';
+import {describe, expect, fakeAsync, injectAsync, it, tick} from '@angular/core/testing';
+import {ComponentFixture, TestComponentBuilder} from '@angular/compiler/testing';
 import {SplitViewContainer} from './split-view-container.component';
 
 describe('SplitViewContainer', () => {

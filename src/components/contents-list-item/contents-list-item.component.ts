@@ -1,4 +1,4 @@
-import {Component} from 'angular2/core';
+import {Component} from '@angular/core';
 
 /**
  * A wrapper around items that appear in the list pane of the SplitViewComponent.

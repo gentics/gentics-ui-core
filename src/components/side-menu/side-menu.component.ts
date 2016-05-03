@@ -1,4 +1,4 @@
-import {Component, Input, Output, HostBinding, EventEmitter} from 'angular2/core';
+import {Component, Input, Output, HostBinding, EventEmitter} from '@angular/core';
 import {SideMenuToggleButton} from './side-menu-toggle.component';
 
 /**

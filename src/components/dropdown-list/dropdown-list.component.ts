@@ -2,7 +2,7 @@ import {
     Component,
     ElementRef,
     Input
-} from 'angular2/core';
+} from '@angular/core';
 
 /**
  * A Dropdown List component based on the [Materialize implementation](http://materializecss.com/dropdown.html),

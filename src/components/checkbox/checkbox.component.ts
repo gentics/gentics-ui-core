@@ -4,8 +4,8 @@ import {
     Input,
     Optional,
     Output
-} from 'angular2/core';
-import {ControlValueAccessor, NgControl} from 'angular2/common';
+} from '@angular/core';
+import {ControlValueAccessor, NgControl} from '@angular/common';
 import {isPresent} from 'angular2/src/facade/lang';
 
 export type CheckState = boolean | 'indeterminate';

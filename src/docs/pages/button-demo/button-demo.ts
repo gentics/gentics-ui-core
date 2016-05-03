@@ -1,4 +1,4 @@
-import {Component} from 'angular2/core';
+import {Component} from '@angular/core';
 import {GTX_FORM_DIRECTIVES, Button} from '../../../index';
 import {Autodocs, DemoBlock, HighlightedCode} from '../../components';
 

@@ -6,8 +6,8 @@ import {
     Optional,
     Self,
     EventEmitter
-} from 'angular2/core';
-import {ControlValueAccessor, NgControl} from 'angular2/common';
+} from '@angular/core';
+import {ControlValueAccessor, NgControl} from '@angular/common';
 
 /**
  * The InputField wraps the native `<input>` form element but should only be used for

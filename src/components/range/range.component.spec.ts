@@ -1,17 +1,8 @@
-import {Component, DebugElement} from 'angular2/core';
-import {ControlGroup, Control} from 'angular2/common';
-import {By} from 'angular2/platform/browser';
-import {
-    ComponentFixture,
-    describe,
-    expect,
-    fakeAsync,
-    injectAsync,
-    it,
-    xit,
-    tick,
-    TestComponentBuilder
-} from 'angular2/testing';
+import {Component, DebugElement} from '@angular/core';
+import {ControlGroup, Control} from '@angular/common';
+import {By} from '@angular/platform-browser';
+import {describe, expect, fakeAsync, injectAsync, it, tick} from '@angular/core/testing';
+import {ComponentFixture, TestComponentBuilder} from '@angular/compiler/testing';
 import {Range} from './range.component';
 
 describe('Range:', () => {

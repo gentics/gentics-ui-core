@@ -1,4 +1,4 @@
-import {Injectable, EventEmitter, ComponentRef, ElementRef, DynamicComponentLoader} from 'angular2/core';
+import {Injectable, EventEmitter, ComponentRef, ElementRef, DynamicComponentLoader, ComponentResolver} from '@angular/core';
 import {Toast, ToastType} from './toast.component';
 
 
@@ -69,7 +69,8 @@ export class Notification {
      */
     private verticalMargin: number = 10;
 
-    constructor(private loader: DynamicComponentLoader) {}
+    constructor(/*private loader: DynamicComponentLoader,*/
+                /*private componentResolver: ComponentResolver*/) {}
 
     /**
      * Used internally to register the service with the [OverlayHost](#/overlay-host) component.
@@ -133,6 +134,7 @@ export class Notification {
      * NotificationHost component in the DOM.
      */
     private createToast(options: INotificationOptions): Promise<Toast> {
+        this.componentResolver.resolveComponent(Toast).then(r => r.create())
         return this.loader.loadNextToLocation(Toast, this.hostElementRef)
             .then((componentRef: ComponentRef) => {
                 let toast: Toast = componentRef.instance;

@@ -1,5 +1,5 @@
 import {CONST_EXPR} from 'angular2/src/facade/lang';
-import {Type} from 'angular2/core';
+import {Type} from '@angular/core';
 import {Checkbox} from './components/checkbox/checkbox.component';
 import {DateTimePicker} from './components/date-time-picker/date-time-picker.component';
 import {InputField} from './components/input/input.component';

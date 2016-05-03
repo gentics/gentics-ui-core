@@ -6,8 +6,8 @@ import {
     Self,
     Output,
     EventEmitter
-} from 'angular2/core';
-import {ControlValueAccessor, NgControl} from 'angular2/common';
+} from '@angular/core';
+import {ControlValueAccessor, NgControl} from '@angular/common';
 
 declare var $: JQueryStatic;
 

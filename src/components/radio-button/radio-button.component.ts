@@ -13,11 +13,11 @@ import {
     Renderer,
     Self,
     forwardRef
-} from 'angular2/core';
+} from '@angular/core';
 import {
     NgControl,
     ControlValueAccessor
-} from 'angular2/common';
+} from '@angular/common';
 import {
     CONST_EXPR,
     isPresent

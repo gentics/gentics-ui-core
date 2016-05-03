@@ -3,8 +3,8 @@ require('reflect-metadata');
 require('es6-shim');
 require('highlight.js/styles/atelier-estuary-light.css');
 
-import {provide} from 'angular2/core';
-import {bootstrap} from 'angular2/platform/browser';
+import {provide} from '@angular/core';
+import {bootstrap} from '@angular/platform-browser';
 import {ROUTER_PROVIDERS, LocationStrategy, HashLocationStrategy} from 'angular2/router';
 import {App} from './app.component';
 

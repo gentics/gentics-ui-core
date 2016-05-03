@@ -1,4 +1,4 @@
-import {Component, Input, Output, ElementRef, EventEmitter} from 'angular2/core';
+import {Component, Input, Output, ElementRef, EventEmitter} from '@angular/core';
 import {Subscription} from 'rxjs';
 import {ModalService, ModalInstance} from './modal.service';
 

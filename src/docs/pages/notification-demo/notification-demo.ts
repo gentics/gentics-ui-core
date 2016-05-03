@@ -1,4 +1,4 @@
-import {Component} from 'angular2/core';
+import {Component} from '@angular/core';
 import {Notification, Button, GTX_FORM_DIRECTIVES} from '../../../index';
 import {Autodocs, DemoBlock, HighlightedCode} from '../../components';
 

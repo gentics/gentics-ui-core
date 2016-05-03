@@ -1,20 +1,7 @@
-import {Component, DebugElement} from 'angular2/core';
-import {ControlGroup, Control} from 'angular2/common';
-import {By} from 'angular2/platform/browser';
-import {
-    ComponentFixture,
-    describe,
-    expect,
-    fakeAsync,
-    injectAsync,
-    it,
-    xit,
-    tick,
-    TestComponentBuilder
-} from 'angular2/testing';
+import {Component} from '@angular/core';
+import {describe, expect, injectAsync, it} from '@angular/core/testing';
+import {ComponentFixture, TestComponentBuilder} from '@angular/compiler/testing';
 import {Button} from './button.component';
-
-
 
 describe('Button:', () => {
 

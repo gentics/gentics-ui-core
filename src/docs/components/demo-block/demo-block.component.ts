@@ -1,4 +1,4 @@
-import {Component, Input, ElementRef} from 'angular2/core';
+import {Component, Input, ElementRef} from '@angular/core';
 import {HighlightedCode} from '../highlighted-code/highlighted-code.component';
 import {Button} from '../../../components/button/button.component';
 

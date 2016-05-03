@@ -5,9 +5,9 @@ import {
     Optional,
     Self,
     EventEmitter
-} from 'angular2/core';
+} from '@angular/core';
 import {isBlank, isNumber} from 'angular2/src/facade/lang';
-import {ControlValueAccessor, NgControl} from 'angular2/common';
+import {ControlValueAccessor, NgControl} from '@angular/common';
 
 /**
  * The Textarea wraps the native `<textarea>` form element. Textareas automatically grow to accommodate their content.

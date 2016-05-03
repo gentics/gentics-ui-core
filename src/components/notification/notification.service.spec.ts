@@ -1,21 +1,17 @@
-import {Component, DebugElement, DynamicComponentLoader, Injector, provide} from 'angular2/core';
+import {Component, provide} from '@angular/core';
 import {
-    ComponentFixture,
-    describe,
-    expect,
-    fakeAsync,
-    injectAsync,
-    it,
-    xit,
-    tick,
-    TestComponentBuilder,
-    beforeEachProviders,
-    TestInjector,
-    getTestInjector
-} from 'angular2/testing';
+    beforeEachProviders, 
+    describe, 
+    expect, 
+    fakeAsync, 
+    getTestInjector, 
+    injectAsync, 
+    it, 
+    tick
+} from '@angular/core/testing';
+import {ComponentFixture, TestComponentBuilder} from '@angular/compiler/testing';
 import {OverlayHost} from './../overlay-host/overlay-host.component';
-import {Notification, INotificationOptions} from './notification.service';
-import {Toast} from './toast.component';
+import {Notification} from './notification.service';
 
 
 let injector = getTestInjector().createInjector().resolveAndCreateChild([Notification]);

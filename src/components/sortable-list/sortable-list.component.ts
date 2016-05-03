@@ -1,4 +1,4 @@
-import {Component, ElementRef, EventEmitter, Input, Output} from 'angular2/core';
+import {Component, ElementRef, EventEmitter, Input, Output} from '@angular/core';
 const sortable: Sortablejs.Sortable = require('sortablejs');
 
 export type sortFn<T> = (source: T[], byReference: boolean) => T[];

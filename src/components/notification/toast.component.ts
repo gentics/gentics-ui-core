@@ -1,4 +1,4 @@
-import {Component, ElementRef, ViewChild} from 'angular2/core';
+import {Component, ElementRef, ViewChild} from '@angular/core';
 
 export type ToastType = 'default' | 'error' | 'success';
 

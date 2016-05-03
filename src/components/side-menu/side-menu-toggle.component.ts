@@ -1,4 +1,4 @@
-import {Component, Input, HostBinding} from 'angular2/core';
+import {Component, Input, HostBinding} from '@angular/core';
 
 /**
  * An animated CSS hamburger menu icon, used by the SideMenu component to trigger the
