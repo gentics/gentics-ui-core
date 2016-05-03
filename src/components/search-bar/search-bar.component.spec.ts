@@ -1,13 +1,13 @@
-import {Component, DebugElement} from '@angular/core';
+import {Component} from '@angular/core';
 import {By} from '@angular/platform-browser';
-import {describe, expect, fakeAsync, injectAsync, it, tick} from '@angular/core/testing';
+import {describe, expect, fakeAsync, inject, it, tick} from '@angular/core/testing';
 import {ComponentFixture, TestComponentBuilder} from '@angular/compiler/testing';
 import {SearchBar} from './search-bar.component';
 
 describe('SearchBar', () => {
 
-    it('should fill input with value of the "query" prop', injectAsync([TestComponentBuilder], (tcb: TestComponentBuilder) => {
-        return tcb.createAsync(TestComponent)
+    it('should fill input with value of the "query" prop', inject([TestComponentBuilder], (tcb: TestComponentBuilder) => {
+        tcb.createAsync(TestComponent)
             .then((fixture: ComponentFixture) => {
                 fixture.detectChanges();
                 let input: HTMLInputElement = fixture.debugElement.query(By.css('input')).nativeElement;
@@ -16,14 +16,14 @@ describe('SearchBar', () => {
     }));
 
     it('should emit the "search" event when button clicked',
-        injectAsync([TestComponentBuilder], fakeAsync((tcb: TestComponentBuilder) => {
-            return tcb.createAsync(TestComponent)
+        inject([TestComponentBuilder], fakeAsync((tcb: TestComponentBuilder) => {
+            tcb.createAsync(TestComponent)
                 .then((fixture: ComponentFixture) => {
                     fixture.detectChanges();
                     let testInstance: TestComponent = fixture.componentInstance;
                     let button: HTMLButtonElement = fixture.nativeElement.querySelector('button');
 
-                    spyOn(testInstance, 'onSearch'); 
+                    spyOn(testInstance, 'onSearch');
                     button.click();
                     tick();
 
@@ -32,8 +32,8 @@ describe('SearchBar', () => {
         })));
 
     it('should emit the "search" event when enter key pressed in input',
-        injectAsync([TestComponentBuilder], fakeAsync((tcb: TestComponentBuilder) => {
-            return tcb.createAsync(TestComponent)
+        inject([TestComponentBuilder], fakeAsync((tcb: TestComponentBuilder) => {
+            tcb.createAsync(TestComponent)
                 .then((fixture: ComponentFixture) => {
                     fixture.detectChanges();
                     let testInstance: TestComponent = fixture.componentInstance;
@@ -51,8 +51,8 @@ describe('SearchBar', () => {
         })));
 
     it('should emit the "change" event when input changed with "input" event',
-        injectAsync([TestComponentBuilder], fakeAsync((tcb: TestComponentBuilder) => {
-            return tcb.createAsync(TestComponent)
+        inject([TestComponentBuilder], fakeAsync((tcb: TestComponentBuilder) => {
+            tcb.createAsync(TestComponent)
                 .then((fixture: ComponentFixture) => {
                     fixture.detectChanges();
                     let testInstance: TestComponent = fixture.componentInstance;

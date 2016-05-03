@@ -1,16 +1,14 @@
 import {Component, DebugElement} from '@angular/core';
 import {ControlGroup, Control} from '@angular/common';
 import {By} from '@angular/platform-browser';
-import {describe, expect, fakeAsync, injectAsync, it, tick} from '@angular/core/testing';
+import {describe, expect, fakeAsync, inject, it, tick} from '@angular/core/testing';
 import {ComponentFixture, TestComponentBuilder} from '@angular/compiler/testing';
 import {RadioButton, RadioGroup} from './radio-button.component';
 
-
-
 describe('RadioButton', () => {
 
-    it('should bind the label', injectAsync([TestComponentBuilder], (tcb: TestComponentBuilder) => {
-        return tcb.overrideTemplate(TestComponent, `<gtx-radio-button label="testLabel"></gtx-radio-button>`)
+    it('should bind the label', inject([TestComponentBuilder], (tcb: TestComponentBuilder) => {
+        tcb.overrideTemplate(TestComponent, `<gtx-radio-button label="testLabel"></gtx-radio-button>`)
             .createAsync(TestComponent)
             .then((fixture: ComponentFixture) => {
                 const label: HTMLLabelElement = fixture.nativeElement.querySelector('label');
@@ -19,8 +17,8 @@ describe('RadioButton', () => {
             });
     }));
 
-    it('should bind the id to the label and input', injectAsync([TestComponentBuilder], (tcb: TestComponentBuilder) => {
-        return tcb.overrideTemplate(TestComponent, `
+    it('should bind the id to the label and input', inject([TestComponentBuilder], (tcb: TestComponentBuilder) => {
+        tcb.overrideTemplate(TestComponent, `
             <gtx-radio-button
                 label="testLabel"
                 id="testId"
@@ -39,8 +37,8 @@ describe('RadioButton', () => {
     }));
 
     it('should use defaults for undefined attributes which have a default',
-        injectAsync([TestComponentBuilder], (tcb: TestComponentBuilder) => {
-            return tcb.overrideTemplate(TestComponent, `<gtx-radio-button></gtx-radio-button>`)
+        inject([TestComponentBuilder], (tcb: TestComponentBuilder) => {
+            tcb.overrideTemplate(TestComponent, `<gtx-radio-button></gtx-radio-button>`)
                 .createAsync(TestComponent)
                 .then((fixture: ComponentFixture) => {
                     const nativeInput: HTMLInputElement = fixture.nativeElement.querySelector('input');
@@ -55,8 +53,8 @@ describe('RadioButton', () => {
         }
     ));
 
-    it('should not display undefined attributes', injectAsync([TestComponentBuilder], (tcb: TestComponentBuilder) => {
-        return tcb.overrideTemplate(TestComponent, `<gtx-radio-button></gtx-radio-button>`)
+    it('should not display undefined attributes', inject([TestComponentBuilder], (tcb: TestComponentBuilder) => {
+        tcb.overrideTemplate(TestComponent, `<gtx-radio-button></gtx-radio-button>`)
             .createAsync(TestComponent)
             .then((fixture: ComponentFixture) => {
                 const nativeInput: HTMLInputElement = fixture.nativeElement.querySelector('input');
@@ -74,8 +72,8 @@ describe('RadioButton', () => {
     }));
 
 
-    it('should prefill a unique "id" if none is passed in', injectAsync([TestComponentBuilder], (tcb: TestComponentBuilder) => {
-        return tcb.overrideTemplate(TestComponent, `<gtx-radio-button></gtx-radio-button>`)
+    it('should prefill a unique "id" if none is passed in', inject([TestComponentBuilder], (tcb: TestComponentBuilder) => {
+        tcb.overrideTemplate(TestComponent, `<gtx-radio-button></gtx-radio-button>`)
             .createAsync(TestComponent)
             .then((fixture: ComponentFixture) => {
                 const nativeInput: HTMLInputElement = fixture.nativeElement.querySelector('input');
@@ -88,8 +86,8 @@ describe('RadioButton', () => {
             });
     }));
 
-    it('should pass through the native attributes', injectAsync([TestComponentBuilder], (tcb: TestComponentBuilder) => {
-        return tcb.overrideTemplate(TestComponent, `
+    it('should pass through the native attributes', inject([TestComponentBuilder], (tcb: TestComponentBuilder) => {
+        tcb.overrideTemplate(TestComponent, `
             <gtx-radio-button
                 disabled="true"
                 checked="true"
@@ -112,9 +110,9 @@ describe('RadioButton', () => {
             });
     }));
 
-    it('should emit "blur" with current check state when the native input blurs', injectAsync([TestComponentBuilder],
+    it('should emit "blur" with current check state when the native input blurs', inject([TestComponentBuilder],
         fakeAsync((tcb: TestComponentBuilder) => {
-            return tcb.overrideTemplate(TestComponent, `
+            tcb.overrideTemplate(TestComponent, `
                 <gtx-radio-button
                     (blur)="onBlur($event)"
                     value="foo"
@@ -135,9 +133,9 @@ describe('RadioButton', () => {
         }))
     );
 
-    it('should emit "focus" with current check state when the native input is focused', injectAsync([TestComponentBuilder],
+    it('should emit "focus" with current check state when the native input is focused', inject([TestComponentBuilder],
         fakeAsync((tcb: TestComponentBuilder) => {
-            return tcb.overrideTemplate(TestComponent, `
+            tcb.overrideTemplate(TestComponent, `
                 <gtx-radio-button
                     (focus)="onFocus($event)"
                     value="foo"
@@ -159,9 +157,9 @@ describe('RadioButton', () => {
 
     describe('ValueAccessor:', () => {
 
-        it('should change a variable bound with ngModel when selected', injectAsync([TestComponentBuilder],
+        it('should change a variable bound with ngModel when selected', inject([TestComponentBuilder],
             fakeAsync((tcb: TestComponentBuilder) => {
-                return tcb.overrideTemplate(TestComponent, `
+                tcb.overrideTemplate(TestComponent, `
                     <gtx-radio-button
                         [(ngModel)]="boundProperty"
                         value="foo"
@@ -187,8 +185,8 @@ describe('RadioButton', () => {
         ));
 
         it('should bind the check state with NgModel (inbound)',
-            injectAsync([TestComponentBuilder], fakeAsync((tcb: TestComponentBuilder) => {
-                return tcb.overrideTemplate(TestComponent, `
+            inject([TestComponentBuilder], fakeAsync((tcb: TestComponentBuilder) => {
+                tcb.overrideTemplate(TestComponent, `
                     <gtx-radio-button
                         [(ngModel)]="boundProperty"
                         value="otherValue">
@@ -214,9 +212,9 @@ describe('RadioButton', () => {
             })
         ));
 
-        it('should update a bound property with NgModel (outbound)', injectAsync([TestComponentBuilder],
+        it('should update a bound property with NgModel (outbound)', inject([TestComponentBuilder],
             fakeAsync((tcb: TestComponentBuilder) => {
-                return tcb.overrideTemplate(TestComponent, `
+                tcb.overrideTemplate(TestComponent, `
                     <gtx-radio-button
                         [(ngModel)]="boundProperty"
                         [checked]="checkState"
@@ -244,8 +242,8 @@ describe('RadioButton', () => {
         ));
 
         it('should update multiple radioButtons bound on one NgModel (inbound)',
-            injectAsync([TestComponentBuilder], fakeAsync((tcb: TestComponentBuilder) => {
-                return tcb.overrideTemplate(TestComponent, `
+            inject([TestComponentBuilder], fakeAsync((tcb: TestComponentBuilder) => {
+                tcb.overrideTemplate(TestComponent, `
                     <gtx-radio-button
                         [(ngModel)]="boundObjectProperty"
                         [value]="objectValues[0]">
@@ -280,8 +278,8 @@ describe('RadioButton', () => {
         ));
 
         it('should update multiple radioButtons bound on one NgModel (outbound)',
-            injectAsync([TestComponentBuilder], fakeAsync((tcb: TestComponentBuilder) => {
-                return tcb.overrideTemplate(TestComponent, `
+            inject([TestComponentBuilder], fakeAsync((tcb: TestComponentBuilder) => {
+                tcb.overrideTemplate(TestComponent, `
                     <gtx-radio-button
                         [(ngModel)]="boundObjectProperty"
                         [value]="objectValues[0]">
@@ -319,9 +317,9 @@ describe('RadioButton', () => {
             })
         ));
 
-        it('should bind the value with NgControl (inbound)', injectAsync([TestComponentBuilder],
+        it('should bind the value with NgControl (inbound)', inject([TestComponentBuilder],
             fakeAsync((tcb: TestComponentBuilder) => {
-                return tcb.overrideTemplate(TestComponent, `
+                tcb.overrideTemplate(TestComponent, `
                     <form [ngFormModel]="testForm">
                         <gtx-radio-button ngControl="testControl" value="radioValue">
                         </gtx-radio-button>
@@ -343,9 +341,9 @@ describe('RadioButton', () => {
             })
         ));
 
-        it('should bind the value with NgControl (outbound)', injectAsync([TestComponentBuilder],
+        it('should bind the value with NgControl (outbound)', inject([TestComponentBuilder],
             fakeAsync((tcb: TestComponentBuilder) => {
-                return tcb.overrideTemplate(TestComponent, `
+                tcb.overrideTemplate(TestComponent, `
                     <form [ngFormModel]="testForm">
                         <gtx-radio-button
                             [checked]="checkState"
@@ -380,8 +378,8 @@ describe('RadioButton', () => {
 describe('RadioGroup', () => {
 
     it('should bind the check state of RadioButton children with NgModel (inbound)',
-        injectAsync([TestComponentBuilder], fakeAsync((tcb: TestComponentBuilder) => {
-            return tcb.overrideTemplate(TestComponent, `
+        inject([TestComponentBuilder], fakeAsync((tcb: TestComponentBuilder) => {
+            tcb.overrideTemplate(TestComponent, `
                 <gtx-radio-group [(ngModel)]="boundProperty">
                     <gtx-radio-button value="A"></gtx-radio-button>
                     <gtx-radio-button value="B"></gtx-radio-button>
@@ -409,8 +407,8 @@ describe('RadioGroup', () => {
     ));
 
     xit('should uncheck all RadioButton children when none of their values match a property bound with NgModel (inbound)',
-        injectAsync([TestComponentBuilder], fakeAsync((tcb: TestComponentBuilder) => {
-            return tcb.overrideTemplate(TestComponent, `
+        inject([TestComponentBuilder], fakeAsync((tcb: TestComponentBuilder) => {
+            tcb.overrideTemplate(TestComponent, `
                 <gtx-radio-group [(ngModel)]="boundProperty">
                     <gtx-radio-button value="A"></gtx-radio-button>
                     <gtx-radio-button value="B"></gtx-radio-button>
@@ -436,8 +434,8 @@ describe('RadioGroup', () => {
     ));
 
     it('should update a NgModel bound property when RadioButton children are checked (outbound)',
-        injectAsync([TestComponentBuilder], fakeAsync((tcb: TestComponentBuilder) => {
-            return tcb.overrideTemplate(TestComponent, `
+        inject([TestComponentBuilder], fakeAsync((tcb: TestComponentBuilder) => {
+            tcb.overrideTemplate(TestComponent, `
                 <gtx-radio-group [(ngModel)]="boundProperty">
                     <gtx-radio-button value="A"></gtx-radio-button>
                     <gtx-radio-button value="B"></gtx-radio-button>
@@ -467,8 +465,8 @@ describe('RadioGroup', () => {
     ));
 
     xit('should set a NgModel bound property to null when no RadioButton children are checked (outbound)',
-        injectAsync([TestComponentBuilder], fakeAsync((tcb: TestComponentBuilder) => {
-            return tcb.overrideTemplate(TestComponent, `
+        inject([TestComponentBuilder], fakeAsync((tcb: TestComponentBuilder) => {
+            tcb.overrideTemplate(TestComponent, `
                 <gtx-radio-group [(ngModel)]="boundProperty">
                     <gtx-radio-button value="A" [checked]="checkState"></gtx-radio-button>
                     <gtx-radio-button value="B"></gtx-radio-button>
@@ -499,8 +497,8 @@ describe('RadioGroup', () => {
     ));
 
     it('should bind the check state of RadioButton children with NgControl (inbound)',
-        injectAsync([TestComponentBuilder], fakeAsync((tcb: TestComponentBuilder) => {
-            return tcb.overrideTemplate(TestComponent, `
+        inject([TestComponentBuilder], fakeAsync((tcb: TestComponentBuilder) => {
+            tcb.overrideTemplate(TestComponent, `
                 <form [ngFormModel]="testForm">
                     <gtx-radio-group ngControl="testControl">
                         <gtx-radio-button value="A"></gtx-radio-button>
@@ -531,8 +529,8 @@ describe('RadioGroup', () => {
     ));
 
     it('should bind the check state of RadioButton children with NgControl (outbound)',
-        injectAsync([TestComponentBuilder], fakeAsync((tcb: TestComponentBuilder) => {
-            return tcb.overrideTemplate(TestComponent, `
+        inject([TestComponentBuilder], fakeAsync((tcb: TestComponentBuilder) => {
+            tcb.overrideTemplate(TestComponent, `
                 <form [ngFormModel]="testForm">
                     <gtx-radio-group ngControl="testControl">
                         <gtx-radio-button value="A"></gtx-radio-button>

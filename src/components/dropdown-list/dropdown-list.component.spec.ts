@@ -1,15 +1,13 @@
 import {Component} from '@angular/core';
-import {describe, expect, injectAsync, it} from '@angular/core/testing';
+import {expect, inject, it} from '@angular/core/testing';
 import {ComponentFixture, TestComponentBuilder} from '@angular/compiler/testing';
 import {DropdownList} from './dropdown-list.component';
 
-
-
 describe('DropdownList:', () => {
 
-    it('should add a matching id to trigger and content', injectAsync([TestComponentBuilder],
+    it('should add a matching id to trigger and content', inject([TestComponentBuilder],
         (tcb: TestComponentBuilder) => {
-            return tcb.createAsync(TestComponent)
+            tcb.createAsync(TestComponent)
                 .then((fixture: ComponentFixture) => {
                     fixture.detectChanges();
                     let trigger: HTMLElement = fixture.nativeElement.querySelector('.dropdown-trigger');
@@ -21,9 +19,9 @@ describe('DropdownList:', () => {
                 });
         }));
 
-    it('content should get attached to body', injectAsync([TestComponentBuilder],
+    it('content should get attached to body', inject([TestComponentBuilder],
         (tcb: TestComponentBuilder) => {
-            return tcb.createAsync(TestComponent)
+            tcb.createAsync(TestComponent)
                 .then((fixture: ComponentFixture) => {
                     fixture.detectChanges();
                     let contentWrapper: HTMLUListElement = document.querySelector('.dropdown-content-wrapper');
@@ -34,9 +32,9 @@ describe('DropdownList:', () => {
                 });
         }));
 
-    it('should clean up the wrapper div from the body', injectAsync([TestComponentBuilder],
+    it('should clean up the wrapper div from the body', inject([TestComponentBuilder],
         (tcb: TestComponentBuilder) => {
-            return tcb.createAsync(TestComponent)
+            tcb.createAsync(TestComponent)
                 .then((fixture: ComponentFixture) => {
                     fixture.detectChanges();
 

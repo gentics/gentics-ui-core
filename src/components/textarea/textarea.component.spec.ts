@@ -1,16 +1,14 @@
 import {Component, DebugElement} from '@angular/core';
 import {ControlGroup, Control} from '@angular/common';
 import {By} from '@angular/platform-browser';
-import {describe, expect, fakeAsync, injectAsync, it, tick} from '@angular/core/testing';
+import {describe, expect, fakeAsync, inject, it, tick} from '@angular/core/testing';
 import {ComponentFixture, TestComponentBuilder} from '@angular/compiler/testing';
 import {Textarea} from './textarea.component';
 
-
-
 describe('Textarea', () => {
 
-    it('should bind the label', injectAsync([TestComponentBuilder], (tcb: TestComponentBuilder) => {
-        return tcb.overrideTemplate(TestComponent, `<gtx-textarea label="testLabel"></gtx-textarea>`)
+    it('should bind the label', inject([TestComponentBuilder], (tcb: TestComponentBuilder) => {
+        tcb.overrideTemplate(TestComponent, `<gtx-textarea label="testLabel"></gtx-textarea>`)
             .createAsync(TestComponent)
             .then((fixture: ComponentFixture) => {
                 let label: HTMLElement = fixture.nativeElement.querySelector('label');
@@ -20,8 +18,8 @@ describe('Textarea', () => {
             });
     }));
 
-    it('should bind the id to the label and input', injectAsync([TestComponentBuilder], (tcb: TestComponentBuilder) => {
-        return tcb.overrideTemplate(TestComponent, `<gtx-textarea label="testLabel" id="testId"></gtx-textarea>`)
+    it('should bind the id to the label and input', inject([TestComponentBuilder], (tcb: TestComponentBuilder) => {
+        tcb.overrideTemplate(TestComponent, `<gtx-textarea label="testLabel" id="testId"></gtx-textarea>`)
             .createAsync(TestComponent)
             .then((fixture: ComponentFixture) => {
                 let label: HTMLLabelElement = fixture.nativeElement.querySelector('label');
@@ -34,9 +32,9 @@ describe('Textarea', () => {
             });
     }));
 
-    it('should use defaults for undefined attributes which have a default', injectAsync([TestComponentBuilder],
+    it('should use defaults for undefined attributes which have a default', inject([TestComponentBuilder],
         (tcb: TestComponentBuilder) => {
-            return tcb.overrideTemplate(TestComponent, `<gtx-textarea></gtx-textarea>`)
+            tcb.overrideTemplate(TestComponent, `<gtx-textarea></gtx-textarea>`)
                 .createAsync(TestComponent)
                 .then((fixture: ComponentFixture) => {
                     let nativeTextarea: HTMLTextAreaElement = fixture.nativeElement.querySelector('textarea');
@@ -49,8 +47,8 @@ describe('Textarea', () => {
                 });
         }));
 
-    it('should not display undefined attributes', injectAsync([TestComponentBuilder], (tcb: TestComponentBuilder) => {
-        return tcb.overrideTemplate(TestComponent, `<gtx-textarea></gtx-textarea>`)
+    it('should not display undefined attributes', inject([TestComponentBuilder], (tcb: TestComponentBuilder) => {
+        tcb.overrideTemplate(TestComponent, `<gtx-textarea></gtx-textarea>`)
             .createAsync(TestComponent)
             .then((fixture: ComponentFixture) => {
                 let nativeTextarea: HTMLTextAreaElement = fixture.nativeElement.querySelector('textarea');
@@ -68,8 +66,8 @@ describe('Textarea', () => {
             });
     }));
 
-    it('should pass through the native attributes', injectAsync([TestComponentBuilder], (tcb: TestComponentBuilder) => {
-        return tcb.overrideTemplate(TestComponent, `<gtx-textarea
+    it('should pass through the native attributes', inject([TestComponentBuilder], (tcb: TestComponentBuilder) => {
+        tcb.overrideTemplate(TestComponent, `<gtx-textarea
                        disabled="true"
                        maxlength="25"
                        name="testName"
@@ -93,8 +91,8 @@ describe('Textarea', () => {
             });
     }));
 
-    it('should ignore maxLength if not positive integer [0]', injectAsync([TestComponentBuilder], (tcb: TestComponentBuilder) => {
-        return tcb.overrideTemplate(TestComponent, `<gtx-textarea [maxlength]="0"></gtx-textarea>`)
+    it('should ignore maxLength if not positive integer [0]', inject([TestComponentBuilder], (tcb: TestComponentBuilder) => {
+        tcb.overrideTemplate(TestComponent, `<gtx-textarea [maxlength]="0"></gtx-textarea>`)
             .createAsync(TestComponent)
             .then((fixture: ComponentFixture) => {
                 let nativeTextarea: HTMLTextAreaElement = fixture.nativeElement.querySelector('textarea');
@@ -104,8 +102,8 @@ describe('Textarea', () => {
             });
     }));
 
-    it('should ignore maxLength if not positive integer [-1]', injectAsync([TestComponentBuilder], (tcb: TestComponentBuilder) => {
-        return tcb.overrideTemplate(TestComponent, `<gtx-textarea [maxlength]="-1"></gtx-textarea>`)
+    it('should ignore maxLength if not positive integer [-1]', inject([TestComponentBuilder], (tcb: TestComponentBuilder) => {
+        tcb.overrideTemplate(TestComponent, `<gtx-textarea [maxlength]="-1"></gtx-textarea>`)
             .createAsync(TestComponent)
             .then((fixture: ComponentFixture) => {
                 let nativeTextarea: HTMLTextAreaElement = fixture.nativeElement.querySelector('textarea');
@@ -115,8 +113,8 @@ describe('Textarea', () => {
             });
     }));
 
-    it('should ignore maxLength if not positive integer [null]', injectAsync([TestComponentBuilder], (tcb: TestComponentBuilder) => {
-        return tcb.overrideTemplate(TestComponent, `<gtx-textarea [maxlength]="null"></gtx-textarea>`)
+    it('should ignore maxLength if not positive integer [null]', inject([TestComponentBuilder], (tcb: TestComponentBuilder) => {
+        tcb.overrideTemplate(TestComponent, `<gtx-textarea [maxlength]="null"></gtx-textarea>`)
             .createAsync(TestComponent)
             .then((fixture: ComponentFixture) => {
                 let nativeTextarea: HTMLTextAreaElement = fixture.nativeElement.querySelector('textarea');
@@ -126,9 +124,9 @@ describe('Textarea', () => {
             });
     }));
 
-    it('should emit "blur" when native input blurs, with current value', injectAsync([TestComponentBuilder],
+    it('should emit "blur" when native input blurs, with current value', inject([TestComponentBuilder],
         fakeAsync((tcb: TestComponentBuilder) => {
-            return tcb.overrideTemplate(TestComponent, `<gtx-textarea (blur)="onBlur($event)" value="foo"></gtx-textarea>`)
+            tcb.overrideTemplate(TestComponent, `<gtx-textarea (blur)="onBlur($event)" value="foo"></gtx-textarea>`)
                 .createAsync(TestComponent)
                 .then((fixture: ComponentFixture) => {
                     let textareaDel: DebugElement = fixture.debugElement.query(By.css('textarea'));
@@ -143,9 +141,9 @@ describe('Textarea', () => {
                 });
         })));
 
-    it('should emit "focus" when native input is focused, with current value', injectAsync([TestComponentBuilder],
+    it('should emit "focus" when native input is focused, with current value', inject([TestComponentBuilder],
         fakeAsync((tcb: TestComponentBuilder) => {
-            return tcb.overrideTemplate(TestComponent, `<gtx-textarea (focus)="onFocus($event)" value="foo"></gtx-textarea>`)
+            tcb.overrideTemplate(TestComponent, `<gtx-textarea (focus)="onFocus($event)" value="foo"></gtx-textarea>`)
                 .createAsync(TestComponent)
                 .then((fixture: ComponentFixture) => {
                     let textareaDel: DebugElement = fixture.debugElement.query(By.css('textarea'));
@@ -160,9 +158,9 @@ describe('Textarea', () => {
                 });
         })));
 
-    it('should emit "change" when native input value is changed', injectAsync([TestComponentBuilder],
+    it('should emit "change" when native input value is changed', inject([TestComponentBuilder],
         fakeAsync((tcb: TestComponentBuilder) => {
-            return tcb.overrideTemplate(TestComponent, `<gtx-textarea (change)="onChange($event)" value="foo"></gtx-textarea>`)
+            tcb.overrideTemplate(TestComponent, `<gtx-textarea (change)="onChange($event)" value="foo"></gtx-textarea>`)
                 .createAsync(TestComponent)
                 .then((fixture: ComponentFixture) => {
                     let nativeTextarea: HTMLTextAreaElement = fixture.nativeElement.querySelector('textarea');
@@ -177,9 +175,9 @@ describe('Textarea', () => {
                 });
         })));
 
-    it('should emit "change" when native input is blurred', injectAsync([TestComponentBuilder],
+    it('should emit "change" when native input is blurred', inject([TestComponentBuilder],
         fakeAsync((tcb: TestComponentBuilder) => {
-            return tcb.overrideTemplate(TestComponent, `<gtx-textarea (change)="onChange($event)" value="foo"></gtx-textarea>`)
+            tcb.overrideTemplate(TestComponent, `<gtx-textarea (change)="onChange($event)" value="foo"></gtx-textarea>`)
                 .createAsync(TestComponent)
                 .then((fixture: ComponentFixture) => {
                     let textareaDel: DebugElement = fixture.debugElement.query(By.css('textarea'));
@@ -196,9 +194,9 @@ describe('Textarea', () => {
 
     describe('ValueAccessor:', () => {
 
-        it('should bind the value with NgModel (inbound)', injectAsync([TestComponentBuilder],
+        it('should bind the value with NgModel (inbound)', inject([TestComponentBuilder],
             fakeAsync((tcb: TestComponentBuilder) => {
-                return tcb.overrideTemplate(TestComponent, `<gtx-textarea [(ngModel)]="value"></gtx-textarea>`)
+                tcb.overrideTemplate(TestComponent, `<gtx-textarea [(ngModel)]="value"></gtx-textarea>`)
                     .createAsync(TestComponent)
                     .then((fixture: ComponentFixture) => {
                         fixture.detectChanges();
@@ -208,9 +206,9 @@ describe('Textarea', () => {
                     });
             })));
 
-        it('should bind the value with NgModel (outbound)', injectAsync([TestComponentBuilder],
+        it('should bind the value with NgModel (outbound)', inject([TestComponentBuilder],
             fakeAsync((tcb: TestComponentBuilder) => {
-                return tcb.overrideTemplate(TestComponent, `<gtx-textarea [(ngModel)]="value"></gtx-textarea>`)
+                tcb.overrideTemplate(TestComponent, `<gtx-textarea [(ngModel)]="value"></gtx-textarea>`)
                     .createAsync(TestComponent)
                     .then((fixture: ComponentFixture) => {
                         fixture.detectChanges();
@@ -225,9 +223,9 @@ describe('Textarea', () => {
                     });
             })));
 
-        it('should bind the value with NgControl (inbound)', injectAsync([TestComponentBuilder],
+        it('should bind the value with NgControl (inbound)', inject([TestComponentBuilder],
             fakeAsync((tcb: TestComponentBuilder) => {
-                return tcb.overrideTemplate(TestComponent, `<form [ngFormModel]="testForm">
+                tcb.overrideTemplate(TestComponent, `<form [ngFormModel]="testForm">
                                                                 <gtx-textarea ngControl="test"></gtx-textarea>
                                                             </form>`)
                     .createAsync(TestComponent)
@@ -239,9 +237,9 @@ describe('Textarea', () => {
                     });
             })));
 
-        it('should bind the value with NgControl (outbound)', injectAsync([TestComponentBuilder],
+        it('should bind the value with NgControl (outbound)', inject([TestComponentBuilder],
             fakeAsync((tcb: TestComponentBuilder) => {
-                return tcb.overrideTemplate(TestComponent, `<form [ngFormModel]="testForm">
+                tcb.overrideTemplate(TestComponent, `<form [ngFormModel]="testForm">
                                                             <gtx-textarea ngControl="test"></gtx-textarea>
                                                         </form>`)
                     .createAsync(TestComponent)

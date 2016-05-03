@@ -1,13 +1,13 @@
 import {Component} from '@angular/core';
 import {ControlGroup, Control} from '@angular/common';
-import {describe, expect, fakeAsync, injectAsync, it, tick} from '@angular/core/testing';
+import {describe, expect, fakeAsync, inject, it, tick} from '@angular/core/testing';
 import {ComponentFixture, TestComponentBuilder} from '@angular/compiler/testing';
 import {InputField} from './input.component';
 
 describe('InputField', () => {
 
-    it('should bind the label', injectAsync([TestComponentBuilder], (tcb: TestComponentBuilder) => {
-        return tcb.overrideTemplate(TestComponent, `<gtx-input label="testLabel"></gtx-input>`)
+    it('should bind the label', inject([TestComponentBuilder], (tcb: TestComponentBuilder) => {
+        tcb.overrideTemplate(TestComponent, `<gtx-input label="testLabel"></gtx-input>`)
             .createAsync(TestComponent)
             .then((fixture: ComponentFixture) => {
                 let label: HTMLElement = fixture.nativeElement.querySelector('label');
@@ -17,9 +17,9 @@ describe('InputField', () => {
             });
     }));
 
-    it('should not add the "active" class to label if input is empty', injectAsync([TestComponentBuilder],
+    it('should not add the "active" class to label if input is empty', inject([TestComponentBuilder],
         (tcb: TestComponentBuilder) => {
-            return tcb.overrideTemplate(TestComponent, `<gtx-input label="testLabel"></gtx-input>`)
+            tcb.overrideTemplate(TestComponent, `<gtx-input label="testLabel"></gtx-input>`)
                 .createAsync(TestComponent)
                 .then((fixture: ComponentFixture) => {
                     let label: HTMLElement = fixture.nativeElement.querySelector('label');
@@ -29,9 +29,9 @@ describe('InputField', () => {
                 });
         }));
 
-    it('should add the "active" class to label if input not empty', injectAsync([TestComponentBuilder],
+    it('should add the "active" class to label if input not empty', inject([TestComponentBuilder],
         (tcb: TestComponentBuilder) => {
-            return tcb.overrideTemplate(TestComponent, `<gtx-input label="testLabel" value="foo"></gtx-input>`)
+            tcb.overrideTemplate(TestComponent, `<gtx-input label="testLabel" value="foo"></gtx-input>`)
                 .createAsync(TestComponent)
                 .then((fixture: ComponentFixture) => {
                     let label: HTMLElement = fixture.nativeElement.querySelector('label');
@@ -41,9 +41,9 @@ describe('InputField', () => {
                 });
         }));
 
-    it('should add the "active" class to label if placeholder is set', injectAsync([TestComponentBuilder],
+    it('should add the "active" class to label if placeholder is set', inject([TestComponentBuilder],
         (tcb: TestComponentBuilder) => {
-            return tcb.overrideTemplate(TestComponent, `<gtx-input label="testLabel" placeholder="foo"></gtx-input>`)
+            tcb.overrideTemplate(TestComponent, `<gtx-input label="testLabel" placeholder="foo"></gtx-input>`)
                 .createAsync(TestComponent)
                 .then((fixture: ComponentFixture) => {
                     let label: HTMLElement = fixture.nativeElement.querySelector('label');
@@ -53,8 +53,8 @@ describe('InputField', () => {
                 });
         }));
 
-    it('should bind the id to the label and input', injectAsync([TestComponentBuilder], (tcb: TestComponentBuilder) => {
-        return tcb.overrideTemplate(TestComponent, `<gtx-input label="testLabel" id="testId"></gtx-input>`)
+    it('should bind the id to the label and input', inject([TestComponentBuilder], (tcb: TestComponentBuilder) => {
+        tcb.overrideTemplate(TestComponent, `<gtx-input label="testLabel" id="testId"></gtx-input>`)
             .createAsync(TestComponent)
             .then((fixture: ComponentFixture) => {
                 let label: HTMLLabelElement = fixture.nativeElement.querySelector('label');
@@ -67,9 +67,9 @@ describe('InputField', () => {
             });
     }));
 
-    it('should use defaults for undefined attributes which have a default', injectAsync([TestComponentBuilder],
+    it('should use defaults for undefined attributes which have a default', inject([TestComponentBuilder],
         (tcb: TestComponentBuilder) => {
-            return tcb.overrideTemplate(TestComponent, `<gtx-input></gtx-input>`)
+            tcb.overrideTemplate(TestComponent, `<gtx-input></gtx-input>`)
                 .createAsync(TestComponent)
                 .then((fixture: ComponentFixture) => {
                     let nativeInput: HTMLInputElement = fixture.nativeElement.querySelector('input');
@@ -83,8 +83,8 @@ describe('InputField', () => {
                 });
         }));
 
-    it('should not display undefined attributes', injectAsync([TestComponentBuilder], (tcb: TestComponentBuilder) => {
-        return tcb.overrideTemplate(TestComponent, `<gtx-input></gtx-input>`)
+    it('should not display undefined attributes', inject([TestComponentBuilder], (tcb: TestComponentBuilder) => {
+        tcb.overrideTemplate(TestComponent, `<gtx-input></gtx-input>`)
             .createAsync(TestComponent)
             .then((fixture: ComponentFixture) => {
                 let nativeInput: HTMLInputElement = fixture.nativeElement.querySelector('input');
@@ -102,8 +102,8 @@ describe('InputField', () => {
             });
     }));
 
-    it('should pass through the native attributes', injectAsync([TestComponentBuilder], (tcb: TestComponentBuilder) => {
-        return tcb.overrideTemplate(TestComponent, `<gtx-input
+    it('should pass through the native attributes', inject([TestComponentBuilder], (tcb: TestComponentBuilder) => {
+        tcb.overrideTemplate(TestComponent, `<gtx-input
                        disabled="true"
                        max="100"
                        min="5"
@@ -137,9 +137,9 @@ describe('InputField', () => {
             });
     }));
 
-    it('should bind a string value', injectAsync([TestComponentBuilder],
+    it('should bind a string value', inject([TestComponentBuilder],
         fakeAsync((tcb: TestComponentBuilder) => {
-            return tcb.overrideTemplate(TestComponent, `<gtx-input [value]="value"></gtx-input>`)
+            tcb.overrideTemplate(TestComponent, `<gtx-input [value]="value"></gtx-input>`)
                 .createAsync(TestComponent)
                 .then((fixture: ComponentFixture) => {
                     let nativeInput: HTMLInputElement = fixture.nativeElement.querySelector('input');
@@ -149,9 +149,9 @@ describe('InputField', () => {
                 });
         })));
 
-    it('should bind a number value', injectAsync([TestComponentBuilder],
+    it('should bind a number value', inject([TestComponentBuilder],
         fakeAsync((tcb: TestComponentBuilder) => {
-            return tcb.overrideTemplate(TestComponent, `<gtx-input type="number" [value]="numberVal"></gtx-input>`)
+            tcb.overrideTemplate(TestComponent, `<gtx-input type="number" [value]="numberVal"></gtx-input>`)
                 .createAsync(TestComponent)
                 .then((fixture: ComponentFixture) => {
                     let nativeInput: HTMLInputElement = fixture.nativeElement.querySelector('input');
@@ -161,9 +161,9 @@ describe('InputField', () => {
                 });
         })));
 
-    it('should emit "blur" when native input blurs, with current value', injectAsync([TestComponentBuilder],
+    it('should emit "blur" when native input blurs, with current value', inject([TestComponentBuilder],
         fakeAsync((tcb: TestComponentBuilder) => {
-            return tcb.overrideTemplate(TestComponent, `<gtx-input (blur)="onBlur($event)" value="foo"></gtx-input>`)
+            tcb.overrideTemplate(TestComponent, `<gtx-input (blur)="onBlur($event)" value="foo"></gtx-input>`)
                 .createAsync(TestComponent)
                 .then((fixture: ComponentFixture) => {
                     let nativeInput: HTMLInputElement = fixture.nativeElement.querySelector('input');
@@ -178,9 +178,9 @@ describe('InputField', () => {
                 });
         })));
 
-    it('should emit "focus" when native input is focused, with current value', injectAsync([TestComponentBuilder],
+    it('should emit "focus" when native input is focused, with current value', inject([TestComponentBuilder],
         fakeAsync((tcb: TestComponentBuilder) => {
-            return tcb.overrideTemplate(TestComponent, `<gtx-input (focus)="onFocus($event)" value="foo"></gtx-input>`)
+            tcb.overrideTemplate(TestComponent, `<gtx-input (focus)="onFocus($event)" value="foo"></gtx-input>`)
                 .createAsync(TestComponent)
                 .then((fixture: ComponentFixture) => {
                     let nativeInput: HTMLInputElement = fixture.nativeElement.querySelector('input');
@@ -195,9 +195,9 @@ describe('InputField', () => {
                 });
         })));
 
-    it('should emit "change" when native input value is changed (string)', injectAsync([TestComponentBuilder],
+    it('should emit "change" when native input value is changed (string)', inject([TestComponentBuilder],
         fakeAsync((tcb: TestComponentBuilder) => {
-            return tcb.overrideTemplate(TestComponent, `<gtx-input (change)="onChange($event)" value="foo"></gtx-input>`)
+            tcb.overrideTemplate(TestComponent, `<gtx-input (change)="onChange($event)" value="foo"></gtx-input>`)
                 .createAsync(TestComponent)
                 .then((fixture: ComponentFixture) => {
                     let nativeInput: HTMLInputElement = fixture.nativeElement.querySelector('input');
@@ -212,10 +212,10 @@ describe('InputField', () => {
                 });
         })));
 
-    it('should emit "change" when native input value is changed (number)', injectAsync([TestComponentBuilder],
+    it('should emit "change" when native input value is changed (number)', inject([TestComponentBuilder],
         fakeAsync((tcb: TestComponentBuilder) => {
-            return tcb.overrideTemplate(TestComponent,
-                    `<gtx-input (change)="onChange($event)" type="number" [value]="numberVal"></gtx-input>`)
+            tcb.overrideTemplate(TestComponent,
+                `<gtx-input (change)="onChange($event)" type="number" [value]="numberVal"></gtx-input>`)
                 .createAsync(TestComponent)
                 .then((fixture: ComponentFixture) => {
                     let nativeInput: HTMLInputElement = fixture.nativeElement.querySelector('input');
@@ -230,9 +230,9 @@ describe('InputField', () => {
                 });
         })));
 
-    it('should emit "change" when native input is blurred', injectAsync([TestComponentBuilder],
+    it('should emit "change" when native input is blurred', inject([TestComponentBuilder],
         fakeAsync((tcb: TestComponentBuilder) => {
-            return tcb.overrideTemplate(TestComponent, `<gtx-input (change)="onChange($event)" value="foo"></gtx-input>`)
+            tcb.overrideTemplate(TestComponent, `<gtx-input (change)="onChange($event)" value="foo"></gtx-input>`)
                 .createAsync(TestComponent)
                 .then((fixture: ComponentFixture) => {
                     let nativeInput: HTMLInputElement = fixture.nativeElement.querySelector('input');
@@ -250,9 +250,9 @@ describe('InputField', () => {
 
     describe('ValueAccessor:', () => {
 
-        it('should bind the value with NgModel (inbound)', injectAsync([TestComponentBuilder],
+        it('should bind the value with NgModel (inbound)', inject([TestComponentBuilder],
             fakeAsync((tcb: TestComponentBuilder) => {
-                return tcb.overrideTemplate(TestComponent, `<gtx-input [(ngModel)]="value"></gtx-input>`)
+                tcb.overrideTemplate(TestComponent, `<gtx-input [(ngModel)]="value"></gtx-input>`)
                     .createAsync(TestComponent)
                     .then((fixture: ComponentFixture) => {
                         fixture.detectChanges();
@@ -262,9 +262,9 @@ describe('InputField', () => {
                     });
             })));
 
-        it('should bind the value with NgModel (outbound)', injectAsync([TestComponentBuilder],
+        it('should bind the value with NgModel (outbound)', inject([TestComponentBuilder],
             fakeAsync((tcb: TestComponentBuilder) => {
-                return tcb.overrideTemplate(TestComponent, `<gtx-input [(ngModel)]="value"></gtx-input>`)
+                tcb.overrideTemplate(TestComponent, `<gtx-input [(ngModel)]="value"></gtx-input>`)
                     .createAsync(TestComponent)
                     .then((fixture: ComponentFixture) => {
                         fixture.detectChanges();
@@ -279,9 +279,9 @@ describe('InputField', () => {
                     });
             })));
 
-        it('should bind the value with NgControl (inbound)', injectAsync([TestComponentBuilder],
+        it('should bind the value with NgControl (inbound)', inject([TestComponentBuilder],
             fakeAsync((tcb: TestComponentBuilder) => {
-                return tcb.overrideTemplate(TestComponent, `<form [ngFormModel]="testForm">
+                tcb.overrideTemplate(TestComponent, `<form [ngFormModel]="testForm">
                                                                 <gtx-input ngControl="test"></gtx-input>
                                                             </form>`)
                     .createAsync(TestComponent)
@@ -293,9 +293,9 @@ describe('InputField', () => {
                     });
             })));
 
-        it('should bind the value with NgControl (outbound)', injectAsync([TestComponentBuilder],
+        it('should bind the value with NgControl (outbound)', inject([TestComponentBuilder],
             fakeAsync((tcb: TestComponentBuilder) => {
-                return tcb.overrideTemplate(TestComponent, `<form [ngFormModel]="testForm">
+                tcb.overrideTemplate(TestComponent, `<form [ngFormModel]="testForm">
                                                             <gtx-input ngControl="test"></gtx-input>
                                                         </form>`)
                     .createAsync(TestComponent)

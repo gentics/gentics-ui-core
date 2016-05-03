@@ -1,15 +1,15 @@
 import {Component, DebugElement} from '@angular/core';
 import {ControlGroup, Control} from '@angular/common';
 import {By} from '@angular/platform-browser';
-import {describe, expect, fakeAsync, injectAsync, it, tick} from '@angular/core/testing';
+import {describe, expect, fakeAsync, inject, it, tick} from '@angular/core/testing';
 import {ComponentFixture, TestComponentBuilder} from '@angular/compiler/testing';
 import {Range} from './range.component';
 
 describe('Range:', () => {
 
-    it('should use defaults for undefined attributes which have a default', injectAsync([TestComponentBuilder],
+    it('should use defaults for undefined attributes which have a default', inject([TestComponentBuilder],
         (tcb: TestComponentBuilder) => {
-            return tcb.overrideTemplate(TestComponent, `<gtx-range></gtx-range>`)
+            tcb.overrideTemplate(TestComponent, `<gtx-range></gtx-range>`)
                 .createAsync(TestComponent)
                 .then((fixture: ComponentFixture) => {
                     let nativeInput: HTMLInputElement = fixture.nativeElement.querySelector('input');
@@ -22,8 +22,8 @@ describe('Range:', () => {
                 });
         }));
 
-    it('should not display undefined attributes', injectAsync([TestComponentBuilder], (tcb: TestComponentBuilder) => {
-        return tcb.overrideTemplate(TestComponent, `<gtx-range></gtx-range>`)
+    it('should not display undefined attributes', inject([TestComponentBuilder], (tcb: TestComponentBuilder) => {
+        tcb.overrideTemplate(TestComponent, `<gtx-range></gtx-range>`)
             .createAsync(TestComponent)
             .then((fixture: ComponentFixture) => {
                 let nativeInput: HTMLInputElement = fixture.nativeElement.querySelector('input');
@@ -41,8 +41,8 @@ describe('Range:', () => {
             });
     }));
 
-    it('should pass through the native attributes', injectAsync([TestComponentBuilder], (tcb: TestComponentBuilder) => {
-        return tcb.overrideTemplate(TestComponent, `<gtx-range
+    it('should pass through the native attributes', inject([TestComponentBuilder], (tcb: TestComponentBuilder) => {
+        tcb.overrideTemplate(TestComponent, `<gtx-range
                        disabled="true"
                        max="100"
                        min="5"
@@ -68,9 +68,9 @@ describe('Range:', () => {
             });
     }));
 
-    it('should emit "blur" when native input blurs, with current value', injectAsync([TestComponentBuilder],
+    it('should emit "blur" when native input blurs, with current value', inject([TestComponentBuilder],
         fakeAsync((tcb: TestComponentBuilder) => {
-            return tcb.overrideTemplate(TestComponent, `<gtx-range (blur)="onBlur($event)" [value]="value"></gtx-range>`)
+            tcb.overrideTemplate(TestComponent, `<gtx-range (blur)="onBlur($event)" [value]="value"></gtx-range>`)
                 .createAsync(TestComponent)
                 .then((fixture: ComponentFixture) => {
                     let inputDel: DebugElement = fixture.debugElement.query(By.css('input'));
@@ -85,9 +85,9 @@ describe('Range:', () => {
                 });
         })));
 
-    it('should emit "focus" when native input is focused, with current value', injectAsync([TestComponentBuilder],
+    it('should emit "focus" when native input is focused, with current value', inject([TestComponentBuilder],
         fakeAsync((tcb: TestComponentBuilder) => {
-            return tcb.overrideTemplate(TestComponent, `<gtx-range (focus)="onFocus($event)" [value]="value"></gtx-range>`)
+            tcb.overrideTemplate(TestComponent, `<gtx-range (focus)="onFocus($event)" [value]="value"></gtx-range>`)
                 .createAsync(TestComponent)
                 .then((fixture: ComponentFixture) => {
                     let inputDel: DebugElement = fixture.debugElement.query(By.css('input'));
@@ -102,9 +102,9 @@ describe('Range:', () => {
                 });
         })));
 
-    it('should emit "change" when native input value is changed', injectAsync([TestComponentBuilder],
+    it('should emit "change" when native input value is changed', inject([TestComponentBuilder],
         fakeAsync((tcb: TestComponentBuilder) => {
-            return tcb.overrideTemplate(TestComponent, `<gtx-range (change)="onChange($event)" value="25"></gtx-range>`)
+            tcb.overrideTemplate(TestComponent, `<gtx-range (change)="onChange($event)" value="25"></gtx-range>`)
                 .createAsync(TestComponent)
                 .then((fixture: ComponentFixture) => {
                     let nativeInput: HTMLInputElement = fixture.nativeElement.querySelector('input');
@@ -119,9 +119,9 @@ describe('Range:', () => {
                 });
         })));
 
-    it('should emit "change" when native input is blurred', injectAsync([TestComponentBuilder],
+    it('should emit "change" when native input is blurred', inject([TestComponentBuilder],
         fakeAsync((tcb: TestComponentBuilder) => {
-            return tcb.overrideTemplate(TestComponent, `<gtx-range (change)="onChange($event)" value="25"></gtx-range>`)
+            tcb.overrideTemplate(TestComponent, `<gtx-range (change)="onChange($event)" value="25"></gtx-range>`)
                 .createAsync(TestComponent)
                 .then((fixture: ComponentFixture) => {
                     let inputDel: DebugElement = fixture.debugElement.query(By.css('input'));
@@ -138,9 +138,9 @@ describe('Range:', () => {
 
     describe('ValueAccessor:', () => {
 
-        it('should bind the value with NgModel (inbound)', injectAsync([TestComponentBuilder],
+        it('should bind the value with NgModel (inbound)', inject([TestComponentBuilder],
             fakeAsync((tcb: TestComponentBuilder) => {
-                return tcb.overrideTemplate(TestComponent, `<gtx-range [(ngModel)]="value"></gtx-range>`)
+                tcb.overrideTemplate(TestComponent, `<gtx-range [(ngModel)]="value"></gtx-range>`)
                     .createAsync(TestComponent)
                     .then((fixture: ComponentFixture) => {
                         fixture.detectChanges();
@@ -150,9 +150,9 @@ describe('Range:', () => {
                     });
             })));
 
-        it('should bind the value with NgModel (outbound)', injectAsync([TestComponentBuilder],
+        it('should bind the value with NgModel (outbound)', inject([TestComponentBuilder],
             fakeAsync((tcb: TestComponentBuilder) => {
-                return tcb.overrideTemplate(TestComponent, `<gtx-range [(ngModel)]="value"></gtx-range>`)
+                tcb.overrideTemplate(TestComponent, `<gtx-range [(ngModel)]="value"></gtx-range>`)
                     .createAsync(TestComponent)
                     .then((fixture: ComponentFixture) => {
                         fixture.detectChanges();
@@ -167,9 +167,9 @@ describe('Range:', () => {
                     });
             })));
 
-        it('should bind the value with NgControl (inbound)', injectAsync([TestComponentBuilder],
+        it('should bind the value with NgControl (inbound)', inject([TestComponentBuilder],
             fakeAsync((tcb: TestComponentBuilder) => {
-                return tcb.overrideTemplate(TestComponent, `<form [ngFormModel]="testForm">
+                tcb.overrideTemplate(TestComponent, `<form [ngFormModel]="testForm">
                                                                 <gtx-range ngControl="test"></gtx-range>
                                                             </form>`)
                     .createAsync(TestComponent)
@@ -181,9 +181,9 @@ describe('Range:', () => {
                     });
             })));
 
-        it('should bind the value with NgControl (outbound)', injectAsync([TestComponentBuilder],
+        it('should bind the value with NgControl (outbound)', inject([TestComponentBuilder],
             fakeAsync((tcb: TestComponentBuilder) => {
-                return tcb.overrideTemplate(TestComponent, `<form [ngFormModel]="testForm">
+                tcb.overrideTemplate(TestComponent, `<form [ngFormModel]="testForm">
                                                             <gtx-range ngControl="test"></gtx-range>
                                                         </form>`)
                     .createAsync(TestComponent)

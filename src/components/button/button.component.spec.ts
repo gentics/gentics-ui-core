@@ -1,12 +1,12 @@
 import {Component} from '@angular/core';
-import {describe, expect, injectAsync, it} from '@angular/core/testing';
+import {describe, expect, inject, it} from '@angular/core/testing';
 import {ComponentFixture, TestComponentBuilder} from '@angular/compiler/testing';
 import {Button} from './button.component';
 
 describe('Button:', () => {
 
-    it('should be enabled by default', injectAsync([TestComponentBuilder], (tcb: TestComponentBuilder) => {
-        return tcb.createAsync(TestComponent)
+    it('should be enabled by default', inject([TestComponentBuilder], (tcb: TestComponentBuilder) => {
+        tcb.createAsync(TestComponent)
             .then((fixture: ComponentFixture) => {
                 let button: HTMLButtonElement = fixture.nativeElement.querySelector('button');
                 fixture.detectChanges();
@@ -15,8 +15,8 @@ describe('Button:', () => {
             });
     }));
 
-    it('should bind the "disabled" property', injectAsync([TestComponentBuilder], (tcb: TestComponentBuilder) => {
-        return tcb.overrideTemplate(TestComponent, `<gtx-button [disabled]='true'></gtx-button>`)
+    it('should bind the "disabled" property', inject([TestComponentBuilder], (tcb: TestComponentBuilder) => {
+        tcb.overrideTemplate(TestComponent, `<gtx-button [disabled]='true'></gtx-button>`)
             .createAsync(TestComponent)
             .then((fixture: ComponentFixture) => {
                 let button: HTMLButtonElement = fixture.nativeElement.querySelector('button');
@@ -26,8 +26,8 @@ describe('Button:', () => {
             });
     }));
 
-    it('should accept literal "disabled" property', injectAsync([TestComponentBuilder], (tcb: TestComponentBuilder) => {
-        return tcb.overrideTemplate(TestComponent, `<gtx-button disabled='true'></gtx-button>`)
+    it('should accept literal "disabled" property', inject([TestComponentBuilder], (tcb: TestComponentBuilder) => {
+        tcb.overrideTemplate(TestComponent, `<gtx-button disabled='true'></gtx-button>`)
             .createAsync(TestComponent)
             .then((fixture: ComponentFixture) => {
                 let button: HTMLButtonElement = fixture.nativeElement.querySelector('button');
@@ -38,7 +38,6 @@ describe('Button:', () => {
     }));
 
 });
-
 
 @Component({
     template: `<gtx-button></gtx-button>`,

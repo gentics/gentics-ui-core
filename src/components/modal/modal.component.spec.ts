@@ -1,13 +1,13 @@
 import {Component, DebugElement} from '@angular/core';
 import {By} from '@angular/platform-browser';
-import {describe, expect, fakeAsync, injectAsync, it, tick} from '@angular/core/testing';
+import {ddescribe, describe, expect, fakeAsync, inject, it, tick} from '@angular/core/testing';
 import {ComponentFixture, TestComponentBuilder} from '@angular/compiler/testing';
 import {Modal} from './modal.component';
 
 describe('Modal:', () => {
 
-    it('should remove the modal contents from the DOM', injectAsync([TestComponentBuilder], (tcb: TestComponentBuilder) => {
-        return tcb.createAsync(TestComponent)
+    it('should remove the modal contents from the DOM', inject([TestComponentBuilder], (tcb: TestComponentBuilder) => {
+        tcb.createAsync(TestComponent)
             .then((fixture: ComponentFixture) => {
                 fixture.detectChanges();
                 let modalContentsDel: DebugElement = fixture.debugElement.query(By.css('gtx-modal'));
@@ -17,8 +17,8 @@ describe('Modal:', () => {
             });
     }));
 
-    it('should append the modal to the body', injectAsync([TestComponentBuilder], (tcb: TestComponentBuilder) => {
-        return tcb.createAsync(TestComponent)
+    it('should append the modal to the body', inject([TestComponentBuilder], (tcb: TestComponentBuilder) => {
+        tcb.createAsync(TestComponent)
             .then((fixture: ComponentFixture) => {
                 fixture.detectChanges();
                 let body: Element = document.querySelector('body');
@@ -29,8 +29,8 @@ describe('Modal:', () => {
             });
     }));
 
-    it('should append the overlay to the body', injectAsync([TestComponentBuilder], (tcb: TestComponentBuilder) => {
-        return tcb.createAsync(TestComponent)
+    it('should append the overlay to the body', inject([TestComponentBuilder], (tcb: TestComponentBuilder) => {
+        tcb.createAsync(TestComponent)
             .then((fixture: ComponentFixture) => {
                 fixture.detectChanges();
                 let body: Element = document.querySelector('body');
@@ -41,8 +41,8 @@ describe('Modal:', () => {
             });
     }));
 
-    it('should set the modal to "display: none"', injectAsync([TestComponentBuilder], (tcb: TestComponentBuilder) => {
-        return tcb.createAsync(TestComponent)
+    it('should set the modal to "display: none"', inject([TestComponentBuilder], (tcb: TestComponentBuilder) => {
+        tcb.createAsync(TestComponent)
             .then((fixture: ComponentFixture) => {
                 fixture.detectChanges();
                 let modal: HTMLElement = <HTMLElement> document.querySelector('.gtx-modal-dialog');
@@ -52,8 +52,8 @@ describe('Modal:', () => {
             });
     }));
 
-    it('should set the overlay to "display: none"', injectAsync([TestComponentBuilder], (tcb: TestComponentBuilder) => {
-        return tcb.createAsync(TestComponent)
+    it('should set the overlay to "display: none"', inject([TestComponentBuilder], (tcb: TestComponentBuilder) => {
+        tcb.createAsync(TestComponent)
             .then((fixture: ComponentFixture) => {
                 fixture.detectChanges();
                 let overlay: HTMLElement = <HTMLElement> document.querySelector('.gtx-modal-overlay');
@@ -65,66 +65,66 @@ describe('Modal:', () => {
 
     describe('"opened" state:', () => {
 
-        it('should set the overlay to "display: block"', injectAsync([TestComponentBuilder],
+        it('should set the overlay to "display: block"', inject([TestComponentBuilder],
             fakeAsync((tcb: TestComponentBuilder) => {
-             return tcb.createAsync(TestComponent)
-                 .then((fixture: ComponentFixture) => {
-                     fixture.detectChanges();
-                     fixture.componentInstance.showModal = true;
-                     fixture.detectChanges();
-                     tick(1000);
-                     let overlay: HTMLElement = getLastInDocument('.gtx-modal-overlay');
+                tcb.createAsync(TestComponent)
+                    .then((fixture: ComponentFixture) => {
+                        fixture.detectChanges();
+                        fixture.componentInstance.showModal = true;
+                        fixture.detectChanges();
+                        tick(1000);
+                        let overlay: HTMLElement = getLastInDocument('.gtx-modal-overlay');
 
-                     expect(overlay.style.display).toBe('block');
-                     fixture.destroy();
-                 });
-         })));
+                        expect(overlay.style.display).toBe('block');
+                        fixture.destroy();
+                    });
+            })));
 
-        it('should set the modal to "display: block"', injectAsync([TestComponentBuilder],
+        it('should set the modal to "display: block"', inject([TestComponentBuilder],
             fakeAsync((tcb: TestComponentBuilder) => {
-             return tcb.createAsync(TestComponent)
-                 .then((fixture: ComponentFixture) => {
-                     fixture.detectChanges();
-                     fixture.componentInstance.showModal = true;
-                     fixture.detectChanges();
-                     tick(1000);
-                     let overlay: HTMLElement = getLastInDocument('.gtx-modal-dialog');
+                tcb.createAsync(TestComponent)
+                    .then((fixture: ComponentFixture) => {
+                        fixture.detectChanges();
+                        fixture.componentInstance.showModal = true;
+                        fixture.detectChanges();
+                        tick(1000);
+                        let overlay: HTMLElement = getLastInDocument('.gtx-modal-dialog');
 
-                     expect(overlay.style.display).toBe('block');
-                     fixture.destroy();
-                 });
-         })));
+                        expect(overlay.style.display).toBe('block');
+                        fixture.destroy();
+                    });
+            })));
 
     });
 
-    describe('closing', () => {
+    xdescribe('closing', () => {
 
         /**
          * Failing, but not clear why, possibly due to the callback being needing to be fired after the
          * velocity-animate function has completed.
          * TODO: Fix the test or figure out another way to test it.
          */
-        /*xit('should fire "close" event when closeModal() called.', injectAsync([TestComponentBuilder],
+        it('should fire "close" event when closeModal() called.', inject([TestComponentBuilder],
             fakeAsync((tcb: TestComponentBuilder) => {
-             return tcb.createAsync(TestComponent)
-                 .then((fixture: ComponentFixture) => {
-                     fixture.detectChanges();
-                     let instance: TestComponent = fixture.componentInstance;
-                     instance.showModal = true;
-                     spyOn(instance, 'onClose');
-                     fixture.detectChanges();
-                     tick(1000);
-                     let modalInstance: Modal = fixture.debugElement.query(By.css('gtx-modal')).componentInstance;
+                tcb.createAsync(TestComponent)
+                    .then((fixture: ComponentFixture) => {
+                        fixture.detectChanges();
+                        let instance: TestComponent = fixture.componentInstance;
+                        instance.showModal = true;
+                        spyOn(instance, 'onClose');
+                        fixture.detectChanges();
+                        tick(1000);
+                        let modalInstance: Modal = fixture.debugElement.query(By.css('gtx-modal')).componentInstance;
 
-                     expect(instance.onClose).not.toHaveBeenCalled();
-                     modalInstance.closeModal();
-                     tick(250);
-                     tick();
+                        expect(instance.onClose).not.toHaveBeenCalled();
+                        modalInstance.closeModal();
+                        tick(250);
+                        tick();
 
-                     expect(instance.onClose).toHaveBeenCalled();
-                     fixture.destroy();
-                 });
-         })));*/
+                        expect(instance.onClose).toHaveBeenCalled();
+                        fixture.destroy();
+                    });
+            })));
 
     });
 
