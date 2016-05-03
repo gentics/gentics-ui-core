@@ -45,7 +45,7 @@ export interface ISortableMoveEvent extends ISortableEvent {
  *
  * ```html
  * <gtx-sortable-list (dragEnd)="sortList($event)">
- *     <gtx-sortable-item *ngFor="#item of items">
+ *     <gtx-sortable-item *ngFor="let item of items">
  *         <div>{{ item }}</div>
  *     </gtx-sortable-item>
  * </gtx-sortable-list>

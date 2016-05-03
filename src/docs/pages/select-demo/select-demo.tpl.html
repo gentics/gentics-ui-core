@@ -9,7 +9,7 @@
     <div class="demo-result">
         <div class="col s8">
             <gtx-select label="Basic Select" [(ngModel)]="selectVal">
-                <option *ngFor="#item of options" [value]="item">{{ item }}</option>
+                <option *ngFor="let item of options" [value]="item">{{ item }}</option>
             </gtx-select>
         </div>
         <div class="col s4">
@@ -19,7 +19,7 @@
     <div class="demo-code">
         <gtx-highlighted-code language="HTML" code='
                 <gtx-select label="Basic Select" [(ngModel)]="selectVal">
-                    <option *ngFor="#item of options" [value]="item">{{ item }}</option>
+                    <option *ngFor="let item of options" [value]="item">{{ item }}</option>
                 </gtx-select>
                 Value: <code(({ selectVal | json ))</code>
         '></gtx-highlighted-code>
@@ -35,7 +35,7 @@
         <div class="row">
             <div class="col s8">
                 <gtx-select label="Multiple Select" [(ngModel)]="selectMultiVal" multiple="true">
-                    <option *ngFor="#item of options" [value]="item">{{ item }}</option>
+                    <option *ngFor="let item of options" [value]="item">{{ item }}</option>
                 </gtx-select>
             </div>
             <div class="col s4">
@@ -46,7 +46,7 @@
     <div class="demo-code">
         <gtx-highlighted-code language="HTML" code='
                  <gtx-select label="Multiple Select" [(ngModel)]="selectMultiVal" multiple="true">
-                     <option *ngFor="#item of options" [value]="item">{{ item }}</option>
+                     <option *ngFor="let item of options" [value]="item">{{ item }}</option>
                  </gtx-select>
                  Value: <code>{{ selectMultiVal | json }}</code>
         '></gtx-highlighted-code>

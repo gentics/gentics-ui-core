@@ -28,7 +28,7 @@ declare var $: JQueryStatic;
  *
  * ```html
  * <gtx-select label="Choose an option" [(ngModel)]="selectVal">
- *     <option *ngFor="#item of options" [value]="item">{{ item }}</option>
+ *     <option *ngFor="let item of options" [value]="item">{{ item }}</option>
  * </gtx-select>
  * ```
  */

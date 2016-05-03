@@ -95,7 +95,7 @@ describe('Select:', () => {
             tcb
                 .overrideTemplate(TestComponent, `
                                 <gtx-select [value]="multiValue" multiple="true">
-                                    <option *ngFor="#option of options" [value]="option">{{ option }}</option>
+                                    <option *ngFor="let option of options" [value]="option">{{ option }}</option>
                                 </gtx-select>`)
                 .createAsync(TestComponent)
                 .then((fixture: ComponentFixture) => {
@@ -177,7 +177,7 @@ describe('Select:', () => {
         fakeAsync((tcb: TestComponentBuilder) => {
             tcb.overrideTemplate(TestComponent,
                 `<gtx-select multiple="true" [value]="value" (change)="onChange($event)">
-                      <option *ngFor="#option of options" [value]="option">{{ option }}</option>
+                      <option *ngFor="let option of options" [value]="option">{{ option }}</option>
                  </gtx-select>`)
                 .createAsync(TestComponent)
                 .then((fixture: ComponentFixture) => {
@@ -202,7 +202,7 @@ describe('Select:', () => {
         fakeAsync((tcb: TestComponentBuilder) => {
             tcb.overrideTemplate(TestComponent,
                 `<gtx-select multiple="true" [value]="value" (change)="onChange($event)">
-                      <option *ngFor="#option of options" [value]="option">{{ option }}</option>
+                      <option *ngFor="let option of options" [value]="option">{{ option }}</option>
                  </gtx-select>`)
                 .createAsync(TestComponent)
                 .then((fixture: ComponentFixture) => {
@@ -225,7 +225,7 @@ describe('Select:', () => {
             fakeAsync((tcb: TestComponentBuilder) => {
                 tcb.overrideTemplate(TestComponent,
                     `<gtx-select [(ngModel)]="ngModelValue">
-                         <option *ngFor="#option of options" [value]="option">{{ option }}</option>
+                         <option *ngFor="let option of options" [value]="option">{{ option }}</option>
                      </gtx-select>`)
                     .createAsync(TestComponent)
                     .then((fixture: ComponentFixture) => {
@@ -254,7 +254,7 @@ describe('Select:', () => {
                 tcb.overrideTemplate(TestComponent,
                     `<form [ngFormModel]="testForm">
                          <gtx-select ngControl="test">
-                             <option *ngFor="#option of options" [value]="option">{{ option }}</option>
+                             <option *ngFor="let option of options" [value]="option">{{ option }}</option>
                          </gtx-select>
                      </form>`)
                     .createAsync(TestComponent)
@@ -286,7 +286,7 @@ describe('Select:', () => {
     template: `<gtx-select [value]="value"
                            (blur)="onBlur($event)"
                            (change)="onChange($event)">
-                    <option *ngFor="#option of options" [value]="option">{{ option }}</option>
+                    <option *ngFor="let option of options" [value]="option">{{ option }}</option>
                </gtx-select>`,
     directives: [Select]
 })

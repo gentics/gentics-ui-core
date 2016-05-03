@@ -14,7 +14,7 @@
                           [(focusedPanel)]="splitFocus">
 
     <div class="list-pane" left>
-        <gtx-contents-list-item *ngFor="#item of filteredContentItems">
+        <gtx-contents-list-item *ngFor="let item of filteredContentItems">
             <div class="item-avatar">
                 <i class="material-icons" *ngIf="item.type === 'css'">style</i>
                 <i class="material-icons" *ngIf="item.type === 'component'">code</i>

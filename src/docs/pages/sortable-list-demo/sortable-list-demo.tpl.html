@@ -7,7 +7,7 @@
 <gtx-demo-block title="Basic List Binding">
     <div class="demo-result">
         <gtx-sortable-list (dragEnd)="sortList($event)">
-            <gtx-sortable-item *ngFor="#person of items">
+            <gtx-sortable-item *ngFor="let person of items">
                 <gtx-contents-list-item>
                     <div class="item-avatar">
                         <i class="material-icons">person</i>
@@ -24,7 +24,7 @@
     <div class="demo-code">
         <gtx-highlighted-code language="HTML" code='
                 <gtx-sortable-list (dragEnd)="sortList($event)">
-                    <gtx-sortable-item *ngFor="#person of items">
+                    <gtx-sortable-item *ngFor="let person of items">
                         <gtx-contents-list-item>
                             <div class="item-avatar">
                                 <i class="material-icons">person</i>
@@ -53,7 +53,7 @@
             does not have a drag handle, the entire item will be draggable:
         </p>
         <gtx-sortable-list (dragEnd)="sortList($event)">
-            <gtx-sortable-item *ngFor="#person of items">
+            <gtx-sortable-item *ngFor="let person of items">
                 <gtx-contents-list-item>
                     <div class="item-avatar">
                         <i class="material-icons">person</i>
@@ -70,7 +70,7 @@
     <div class="demo-code">
         <gtx-highlighted-code language="HTML" code='
                 <gtx-sortable-list (dragEnd)="sortList($event)">
-                    <gtx-sortable-item *ngFor="#person of items">
+                    <gtx-sortable-item *ngFor="let person of items">
                         <gtx-contents-list-item>
                             <div class="item-avatar">
                                 <i class="material-icons">person</i>
@@ -95,7 +95,7 @@
         </p>
         <gtx-checkbox [(ngModel)]="disabled" label="Disable sorting"></gtx-checkbox>
         <gtx-sortable-list [disabled]="disabled">
-            <gtx-sortable-item *ngFor="#person of items">
+            <gtx-sortable-item *ngFor="let person of items">
                 <gtx-contents-list-item>
                     <div class="item-avatar">
                         <i class="material-icons">person</i>
@@ -113,7 +113,7 @@
         <gtx-highlighted-code language="HTML" code='
                 <gtx-checkbox [(ngModel)]="disabled" label="Disable sorting"></gtx-checkbox>
                 <gtx-sortable-list [disabled]="disabled">
-                    <gtx-sortable-item *ngFor="#person of items">
+                    <gtx-sortable-item *ngFor="let person of items">
                         <gtx-contents-list-item>
                             <div class="item-avatar">
                                 <i class="material-icons">person</i>
@@ -138,7 +138,7 @@
         </p>
         <div class="auto-scroll-demo">
             <gtx-sortable-list (dragEnd)="sortList($event)">
-                <gtx-sortable-item *ngFor="#item of longList">
+                <gtx-sortable-item *ngFor="let item of longList">
                     <gtx-contents-list-item>
                         <div class="item-avatar">
                             <i class="material-icons">person</i>
@@ -154,7 +154,7 @@
     <div class="demo-code">
         <gtx-highlighted-code language="HTML" code='
                 <gtx-sortable-list (dragEnd)="sortList($event)">
-                    <gtx-sortable-item *ngFor="#item of longList">
+                    <gtx-sortable-item *ngFor="let item of longList">
                         <gtx-contents-list-item>
                             <div class="item-avatar">
                                 <i class="material-icons">person</i>
