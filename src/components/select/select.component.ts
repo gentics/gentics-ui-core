@@ -10,7 +10,7 @@ import {
     Output,
     EventEmitter
 } from '@angular/core';
-import {ObservableWrapper} from 'angular2/src/facade/async';
+import {ObservableWrapper} from '@angular/core/src/facade/async';
 import {ControlValueAccessor, NgSelectOption, NgControl} from '@angular/common';
 import {Subscription} from 'rxjs';
 

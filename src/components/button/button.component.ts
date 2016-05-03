@@ -1,5 +1,5 @@
 import {Component, Input} from '@angular/core';
-import {isPresent} from 'angular2/src/facade/lang';
+import {isPresent} from '@angular/core/src/facade/lang';
 
 /**
  * A Button component.

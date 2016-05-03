@@ -6,7 +6,6 @@ import {
     Output
 } from '@angular/core';
 import {ControlValueAccessor, NgControl} from '@angular/common';
-import {isPresent} from 'angular2/src/facade/lang';
 
 export type CheckState = boolean | 'indeterminate';
 

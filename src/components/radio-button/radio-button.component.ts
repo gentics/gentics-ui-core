@@ -2,26 +2,18 @@ import {
     Attribute,
     Component,
     Directive,
-    ElementRef,
     EventEmitter,
     Input,
     OnInit,
     OnDestroy,
     Optional,
     Output,
-    Provider,
-    Renderer,
     Self,
-    forwardRef
 } from '@angular/core';
 import {
     NgControl,
     ControlValueAccessor
 } from '@angular/common';
-import {
-    CONST_EXPR,
-    isPresent
-} from 'angular2/src/facade/lang';
 
 
 /**
