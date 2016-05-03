@@ -12,7 +12,7 @@ var __param = (this && this.__param) || function (paramIndex, decorator) {
     return function (target, key) { decorator(target, key, paramIndex); }
 };
 var core_1 = require('@angular/core');
-var async_1 = require('angular2/src/facade/async');
+var async_1 = require('@angular/core/src/facade/async');
 var common_1 = require('@angular/common');
 /**
  * The Select wraps the Materialize `<select>` element, which dynamically generates a styled list rather than use

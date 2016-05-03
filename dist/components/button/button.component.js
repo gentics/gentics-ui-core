@@ -9,7 +9,7 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 var core_1 = require('@angular/core');
-var lang_1 = require('angular2/src/facade/lang');
+var lang_1 = require('@angular/core/src/facade/lang');
 /**
  * A Button component.
  *

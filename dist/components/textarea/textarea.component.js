@@ -12,7 +12,7 @@ var __param = (this && this.__param) || function (paramIndex, decorator) {
     return function (target, key) { decorator(target, key, paramIndex); }
 };
 var core_1 = require('@angular/core');
-var lang_1 = require('angular2/src/facade/lang');
+var lang_1 = require('@angular/core/src/facade/lang');
 var common_1 = require('@angular/common');
 /**
  * The Textarea wraps the native `<textarea>` form element. Textareas automatically grow to accommodate their content.
