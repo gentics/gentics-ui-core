@@ -1,5 +1,5 @@
 import {Component, ViewChild} from '@angular/core';
-import {Router, RouteConfig, RouteDefinition, ROUTER_DIRECTIVES} from 'angular2/router';
+import {Router, RouteConfig, RouteDefinition, ROUTER_DIRECTIVES} from '@angular/router-deprecated';
 import {TopBar, SearchBar, SideMenu, SplitViewContainer, ContentsListItem, Notification, OverlayHost} from '../index';
 import {pages, kebabToPascal, IPageInfo} from './pageList';
 
@@ -68,7 +68,7 @@ export class App {
     }
 
     ngOnDestroy(): void {
-        this.subscription.unsubscribe(); 
+        this.subscription.unsubscribe();
     }
 
     filterContentItems(query: string): void {

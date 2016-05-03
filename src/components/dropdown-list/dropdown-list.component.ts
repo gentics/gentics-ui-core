@@ -175,7 +175,6 @@ export class DropdownList {
     }
 
     onTriggerClick(): void {
-        console.log('triggerClick');
         if (!this.isOpen) {
             this.isOpen = true;
             this.openDropdown();
