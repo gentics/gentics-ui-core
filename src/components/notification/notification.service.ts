@@ -1,6 +1,12 @@
-import {Injectable, EventEmitter, ComponentRef, ElementRef, DynamicComponentLoader, ComponentResolver} from '@angular/core';
+import {
+    ComponentFactory,
+    ComponentRef,
+    Injectable,
+    EventEmitter,
+    ComponentResolver,
+    ViewContainerRef
+} from '@angular/core';
 import {Toast, ToastType} from './toast.component';
-
 
 export interface INotificationOptions {
     message: string;
@@ -31,7 +37,7 @@ interface IOpenToast {
 
 /**
  * A toast notification service. Depends on the `<gtx-overlay-host>` being present in the app
- * (see `registerHostElement`).
+ * (see `registerHostView`).
  *
  * ```typescript
  * let dismiss = this.notification.show({
@@ -62,21 +68,20 @@ interface IOpenToast {
 export class Notification {
 
     open$: EventEmitter<INotificationOptions> = new EventEmitter();
-    private hostElementRef: ElementRef;
+    private hostViewContainer: ViewContainerRef;
     private openToasts: IOpenToast[] = [];
     /*
      * Spacing between stacked toasts
      */
     private verticalMargin: number = 10;
 
-    constructor(/*private loader: DynamicComponentLoader,*/
-                /*private componentResolver: ComponentResolver*/) {}
+    constructor(private componentResolver: ComponentResolver) {}
 
     /**
      * Used internally to register the service with the [OverlayHost](#/overlay-host) component.
      */
-    public registerHostElement(elementRef: ElementRef): void {
-        this.hostElementRef = elementRef;
+    public registerHostView(viewContainerRef: ViewContainerRef): void {
+        this.hostViewContainer = viewContainerRef;
     }
 
     /**
@@ -111,7 +116,7 @@ export class Notification {
      * Dispose of the Toast component and remove its reference from the
      * openToasts array.
      */
-    private destroyToast(componentRef: ComponentRef): void {
+    private destroyToast(componentRef: ComponentRef<Toast>): void {
         let toast: Toast = componentRef.instance;
         let index = this.getToastIndex(toast);
         if (-1 < index) {
@@ -123,7 +128,7 @@ export class Notification {
         }
         toast.startDismiss();
         setTimeout(() => {
-            componentRef.dispose();
+            componentRef.destroy();
             this.positionOpenToasts();
         }, 200);
 
@@ -134,15 +139,16 @@ export class Notification {
      * NotificationHost component in the DOM.
      */
     private createToast(options: INotificationOptions): Promise<Toast> {
-        this.componentResolver.resolveComponent(Toast).then(r => r.create())
-        return this.loader.loadNextToLocation(Toast, this.hostElementRef)
-            .then((componentRef: ComponentRef) => {
-                let toast: Toast = componentRef.instance;
+        return this.componentResolver.resolveComponent(Toast)
+            .then((toastFactory: ComponentFactory<Toast>) => {
+                let ref = this.hostViewContainer.createComponent(toastFactory);
+                let toast: Toast = ref.instance;
+
                 let dismissTimer: number;
                 toast.message = options.message;
                 toast.type = options.type;
                 toast.dismissOnClick = options.dismissOnClick;
-                toast.dismissFn = () => this.destroyToast(componentRef);
+                toast.dismissFn = () => this.destroyToast(ref);
 
                 if (options.action && options.action.label) {
                     toast.actionLabel = options.action.label;

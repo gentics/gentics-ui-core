@@ -1,4 +1,4 @@
-import {Component, ElementRef} from '@angular/core';
+import {Component, ElementRef, ViewContainerRef} from '@angular/core';
 import {Notification} from './../notification/notification.service';
 
 /**
@@ -21,8 +21,8 @@ import {Notification} from './../notification/notification.service';
 export class OverlayHost {
 
     constructor(private notification: Notification,
-                private elementRef: ElementRef) {
-        notification.registerHostElement(elementRef);
+                private viewContainerRef: ViewContainerRef) {
+        notification.registerHostView(viewContainerRef);
     }
 
     /**
