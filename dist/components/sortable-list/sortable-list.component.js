@@ -8,7 +8,7 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
-var core_1 = require('angular2/core');
+var core_1 = require('@angular/core');
 var sortable = require('sortablejs');
 /**
  * Enables the creation of lists which can be re-ordered by dragging the items. Built on top of
@@ -18,7 +18,7 @@ var sortable = require('sortablejs');
  *
  * ```html
  * <gtx-sortable-list (dragEnd)="sortList($event)">
- *     <gtx-sortable-item *ngFor="#item of items">
+ *     <gtx-sortable-item *ngFor="let item of items">
  *         <div>{{ item }}</div>
  *     </gtx-sortable-item>
  * </gtx-sortable-list>
@@ -161,7 +161,7 @@ var SortableList = (function () {
     ], SortableList.prototype, "disabled", void 0);
     __decorate([
         core_1.Output(), 
-        __metadata('design:type', core_1.EventEmitter)
+        __metadata('design:type', Object)
     ], SortableList.prototype, "dragEnd", void 0);
     SortableList = __decorate([
         core_1.Component({

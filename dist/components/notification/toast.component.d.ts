@@ -1,4 +1,4 @@
-import { ElementRef } from 'angular2/core';
+import { ElementRef } from '@angular/core';
 export declare type ToastType = 'default' | 'error' | 'success';
 /**
  * A Toast notification component. Not to be used directly - see Notification service for

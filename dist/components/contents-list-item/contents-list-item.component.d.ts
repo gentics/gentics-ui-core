@@ -8,7 +8,7 @@
  *
  *
  * ```html
- * <gtx-contents-list-item *ngFor="#item of listItems">
+ * <gtx-contents-list-item *ngFor="let item of listItems">
  *     <!-- this will be styled as a circular icon -->
  *     <div class="item-avatar"><i class="material-icons">{{ item.icon }}</i></div>
  *     <!-- this will stretch to use all available space -->

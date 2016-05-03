@@ -1,4 +1,4 @@
-import { ElementRef, EventEmitter } from 'angular2/core';
+import { ElementRef, EventEmitter } from '@angular/core';
 import { ModalService } from './modal.service';
 /**
  * A declarative modal dialog component. Can wrap generic content and display / hide it based on the `opened` attribute.

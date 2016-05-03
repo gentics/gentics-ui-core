@@ -11,8 +11,8 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 var __param = (this && this.__param) || function (paramIndex, decorator) {
     return function (target, key) { decorator(target, key, paramIndex); }
 };
-var core_1 = require('angular2/core');
-var common_1 = require('angular2/common');
+var core_1 = require('@angular/core');
+var common_1 = require('@angular/common');
 /**
  * RadioGroup groups multiple {@link RadioButton} elements together.
  * Use ngControl or ngFormControl to connect it to a form.
@@ -238,15 +238,15 @@ var RadioButton = (function () {
     ], RadioButton.prototype, "value", void 0);
     __decorate([
         core_1.Output(), 
-        __metadata('design:type', core_1.EventEmitter)
+        __metadata('design:type', Object)
     ], RadioButton.prototype, "blur", void 0);
     __decorate([
         core_1.Output(), 
-        __metadata('design:type', core_1.EventEmitter)
+        __metadata('design:type', Object)
     ], RadioButton.prototype, "focus", void 0);
     __decorate([
         core_1.Output(), 
-        __metadata('design:type', core_1.EventEmitter)
+        __metadata('design:type', Object)
     ], RadioButton.prototype, "change", void 0);
     RadioButton = __decorate([
         core_1.Component({

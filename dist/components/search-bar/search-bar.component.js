@@ -8,7 +8,7 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
-var core_1 = require('angular2/core');
+var core_1 = require('@angular/core');
 var input_component_1 = require('../input/input.component');
 var button_component_1 = require('../button/button.component');
 /**
@@ -56,11 +56,11 @@ var SearchBar = (function () {
     ], SearchBar.prototype, "query", void 0);
     __decorate([
         core_1.Output(), 
-        __metadata('design:type', core_1.EventEmitter)
+        __metadata('design:type', Object)
     ], SearchBar.prototype, "search", void 0);
     __decorate([
         core_1.Output(), 
-        __metadata('design:type', core_1.EventEmitter)
+        __metadata('design:type', Object)
     ], SearchBar.prototype, "change", void 0);
     SearchBar = __decorate([
         core_1.Component({

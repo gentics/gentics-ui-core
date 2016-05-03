@@ -1,4 +1,4 @@
-import { ElementRef } from 'angular2/core';
+import { ViewContainerRef } from '@angular/core';
 import { Notification } from './../notification/notification.service';
 /**
  * The OverlayHost is required to display any kind of overlay component such as a modal or
@@ -15,8 +15,8 @@ import { Notification } from './../notification/notification.service';
  */
 export declare class OverlayHost {
     private notification;
-    private elementRef;
-    constructor(notification: Notification, elementRef: ElementRef);
+    private viewContainerRef;
+    constructor(notification: Notification, viewContainerRef: ViewContainerRef);
     /**
      * Dispose of all open toasts and clear the openToasts array.
      */

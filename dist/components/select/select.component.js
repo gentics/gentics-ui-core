@@ -11,9 +11,9 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 var __param = (this && this.__param) || function (paramIndex, decorator) {
     return function (target, key) { decorator(target, key, paramIndex); }
 };
-var core_1 = require('angular2/core');
+var core_1 = require('@angular/core');
 var async_1 = require('angular2/src/facade/async');
-var common_1 = require('angular2/common');
+var common_1 = require('@angular/common');
 /**
  * The Select wraps the Materialize `<select>` element, which dynamically generates a styled list rather than use
  * the native HTML `<select>`.
@@ -26,7 +26,7 @@ var common_1 = require('angular2/common');
  *
  * ```html
  * <gtx-select label="Choose an option" [(ngModel)]="selectVal">
- *     <option *ngFor="#item of options" [value]="item">{{ item }}</option>
+ *     <option *ngFor="let item of options" [value]="item">{{ item }}</option>
  * </gtx-select>
  * ```
  */
@@ -226,15 +226,15 @@ var Select = (function () {
     ], Select.prototype, "id", void 0);
     __decorate([
         core_1.Output(), 
-        __metadata('design:type', core_1.EventEmitter)
+        __metadata('design:type', Object)
     ], Select.prototype, "blur", void 0);
     __decorate([
         core_1.Output(), 
-        __metadata('design:type', core_1.EventEmitter)
+        __metadata('design:type', Object)
     ], Select.prototype, "focus", void 0);
     __decorate([
         core_1.Output(), 
-        __metadata('design:type', core_1.EventEmitter)
+        __metadata('design:type', Object)
     ], Select.prototype, "change", void 0);
     __decorate([
         core_1.ContentChildren(common_1.NgSelectOption, { descendants: true }), 

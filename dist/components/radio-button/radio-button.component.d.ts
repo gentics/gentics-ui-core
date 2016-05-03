@@ -1,5 +1,5 @@
-import { EventEmitter, OnInit, OnDestroy } from 'angular2/core';
-import { NgControl, ControlValueAccessor } from 'angular2/common';
+import { EventEmitter, OnInit, OnDestroy } from '@angular/core';
+import { NgControl, ControlValueAccessor } from '@angular/common';
 /**
  * RadioGroup groups multiple {@link RadioButton} elements together.
  * Use ngControl or ngFormControl to connect it to a form.

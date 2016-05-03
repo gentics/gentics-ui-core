@@ -8,7 +8,7 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
-var core_1 = require('angular2/core');
+var core_1 = require('@angular/core');
 /**
  * A wrapper around items that appear in the list pane of the SplitViewComponent.
  *
@@ -19,7 +19,7 @@ var core_1 = require('angular2/core');
  *
  *
  * ```html
- * <gtx-contents-list-item *ngFor="#item of listItems">
+ * <gtx-contents-list-item *ngFor="let item of listItems">
  *     <!-- this will be styled as a circular icon -->
  *     <div class="item-avatar"><i class="material-icons">{{ item.icon }}</i></div>
  *     <!-- this will stretch to use all available space -->

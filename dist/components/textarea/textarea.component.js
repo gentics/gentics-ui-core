@@ -11,9 +11,9 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 var __param = (this && this.__param) || function (paramIndex, decorator) {
     return function (target, key) { decorator(target, key, paramIndex); }
 };
-var core_1 = require('angular2/core');
+var core_1 = require('@angular/core');
 var lang_1 = require('angular2/src/facade/lang');
-var common_1 = require('angular2/common');
+var common_1 = require('@angular/common');
 /**
  * The Textarea wraps the native `<textarea>` form element. Textareas automatically grow to accommodate their content.
  *
@@ -137,15 +137,15 @@ var Textarea = (function () {
     ], Textarea.prototype, "id", void 0);
     __decorate([
         core_1.Output(), 
-        __metadata('design:type', core_1.EventEmitter)
+        __metadata('design:type', Object)
     ], Textarea.prototype, "blur", void 0);
     __decorate([
         core_1.Output(), 
-        __metadata('design:type', core_1.EventEmitter)
+        __metadata('design:type', Object)
     ], Textarea.prototype, "focus", void 0);
     __decorate([
         core_1.Output(), 
-        __metadata('design:type', core_1.EventEmitter)
+        __metadata('design:type', Object)
     ], Textarea.prototype, "change", void 0);
     Textarea = __decorate([
         core_1.Component({

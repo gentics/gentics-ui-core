@@ -1,5 +1,5 @@
-import { EventEmitter } from 'angular2/core';
-import { ControlValueAccessor, NgControl } from 'angular2/common';
+import { EventEmitter } from '@angular/core';
+import { ControlValueAccessor, NgControl } from '@angular/common';
 import { Modal } from '../modal/modal.component';
 /**
  * A form control for selecting a date and (optionally) a time. Depends on [Modal](#/modal).

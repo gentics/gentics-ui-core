@@ -8,18 +8,7 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
-var core_1 = require('angular2/core');
-var dom_adapter_1 = require('angular2/src/platform/dom/dom_adapter');
-// HACK: workaround for enum type. With TypeScript >= 1.8.0, use:
-//   type FocusType: 'left' | 'right';
-var FocusType = (function () {
-    function FocusType() {
-    }
-    FocusType.LEFT = 'left';
-    FocusType.RIGHT = 'right';
-    return FocusType;
-}());
-exports.FocusType = FocusType;
+var core_1 = require('@angular/core');
 /**
  * A container that provides a ["master-detail" interface](https://en.wikipedia.org/wiki/Master%E2%80%93detail_interface)
  * with two resizable panels denoted by the `left` and `right` attributes on its children.
@@ -164,10 +153,10 @@ var SplitViewContainer = (function () {
         set: function (panel) {
             var newFocus;
             if (panel == 'right' && this._rightPanelVisible) {
-                newFocus = FocusType.RIGHT;
+                newFocus = 'right';
             }
             else {
-                newFocus = FocusType.LEFT;
+                newFocus = 'left';
             }
             if (newFocus != this._focusedPanel) {
                 this._focusedPanel = newFocus;
@@ -188,14 +177,19 @@ var SplitViewContainer = (function () {
     });
     // (hacky) After initializing the view, make this component fill the height of the viewport
     SplitViewContainer.prototype.ngAfterViewInit = function () {
+        var _this = this;
         if (!this.ownElement || !this.ownElement.nativeElement) {
             return;
         }
-        var element = this.ownElement.nativeElement;
-        var css = element.style;
-        css.top = element.offsetTop + 'px';
-        css.bottom = css.left = css.right = '0';
-        css.position = 'absolute';
+        // inside a setTimeout to allow any layout changes to stabilize (e.g. divs with ngIf showing/hiding)
+        // before we calculate the final position of the SplitViewContainer
+        setTimeout(function () {
+            var element = _this.ownElement.nativeElement;
+            var css = element.style;
+            css.top = element.offsetTop + 'px';
+            css.bottom = css.left = css.right = '0';
+            css.position = 'absolute';
+        });
         this.initSwipeHandler();
     };
     SplitViewContainer.prototype.ngOnDestroy = function () {
@@ -238,13 +232,13 @@ var SplitViewContainer = (function () {
         this.hammerManager.destroy();
     };
     SplitViewContainer.prototype.leftPanelClicked = function () {
-        if (this._focusedPanel == FocusType.RIGHT) {
-            this.focusedPanel = FocusType.LEFT;
+        if (this._focusedPanel == 'right') {
+            this.focusedPanel = 'left';
         }
     };
     SplitViewContainer.prototype.rightPanelClicked = function () {
-        if (this._focusedPanel == FocusType.LEFT && this._rightPanelVisible) {
-            this.focusedPanel = FocusType.RIGHT;
+        if (this._focusedPanel == 'left' && this._rightPanelVisible) {
+            this.focusedPanel = 'right';
         }
     };
     SplitViewContainer.prototype.startResizer = function (event) {
@@ -257,10 +251,10 @@ var SplitViewContainer = (function () {
         // Bind mousemove and mouseup on body (the Angular2 way)
         this.boundBodyMouseMove = this.moveResizer.bind(this);
         this.boundBodyMouseUp = this.endResizing.bind(this);
-        var body = dom_adapter_1.DOM.query('body');
-        dom_adapter_1.DOM.addClass(body, 'gtx-split-view-container-resizing');
-        body.addEventListener('mousemove', this.boundBodyMouseMove);
-        body.addEventListener('mouseup', this.boundBodyMouseUp);
+        var $body = $('body');
+        $body.addClass('gtx-split-view-container-resizing');
+        $body.on('mousemove', this.boundBodyMouseMove);
+        $body.on('mouseup', this.boundBodyMouseUp);
         // Start resizing
         this.resizerXPosition = this.getAdjustedPosition(event.clientX);
         this.resizing = true;
@@ -277,10 +271,10 @@ var SplitViewContainer = (function () {
     };
     SplitViewContainer.prototype.unbindBodyEvents = function () {
         if (this.boundBodyMouseMove) {
-            var body = dom_adapter_1.DOM.query('body');
-            dom_adapter_1.DOM.removeClass(body, 'gtx-split-view-container-resizing');
-            body.removeEventListener('mousemove', this.boundBodyMouseMove);
-            body.removeEventListener('mouseup', this.boundBodyMouseUp);
+            var $body = $('body');
+            $body.removeClass('gtx-split-view-container-resizing');
+            $body.off('mousemove', this.boundBodyMouseMove);
+            $body.off('mouseup', this.boundBodyMouseUp);
             this.boundBodyMouseMove = null;
             this.boundBodyMouseUp = null;
         }
@@ -319,7 +313,7 @@ var SplitViewContainer = (function () {
     ], SplitViewContainer.prototype, "rightPanelVisible", null);
     __decorate([
         core_1.Input(), 
-        __metadata('design:type', FocusType)
+        __metadata('design:type', String)
     ], SplitViewContainer.prototype, "focusedPanel", null);
     __decorate([
         core_1.Input(), 

@@ -8,7 +8,7 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
-var core_1 = require('angular2/core');
+var core_1 = require('@angular/core');
 var notification_service_1 = require('./../notification/notification.service');
 /**
  * The OverlayHost is required to display any kind of overlay component such as a modal or
@@ -24,10 +24,10 @@ var notification_service_1 = require('./../notification/notification.service');
  * ```
  */
 var OverlayHost = (function () {
-    function OverlayHost(notification, elementRef) {
+    function OverlayHost(notification, viewContainerRef) {
         this.notification = notification;
-        this.elementRef = elementRef;
-        notification.registerHostElement(elementRef);
+        this.viewContainerRef = viewContainerRef;
+        notification.registerHostView(viewContainerRef);
     }
     /**
      * Dispose of all open toasts and clear the openToasts array.
@@ -40,7 +40,7 @@ var OverlayHost = (function () {
             selector: 'gtx-overlay-host',
             template: ""
         }), 
-        __metadata('design:paramtypes', [notification_service_1.Notification, core_1.ElementRef])
+        __metadata('design:paramtypes', [notification_service_1.Notification, core_1.ViewContainerRef])
     ], OverlayHost);
     return OverlayHost;
 }());

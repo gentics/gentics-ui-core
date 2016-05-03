@@ -8,7 +8,7 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
-var core_1 = require('angular2/core');
+var core_1 = require('@angular/core');
 /**
  * A Dropdown List component based on the [Materialize implementation](http://materializecss.com/dropdown.html),
  * but translated into a native Angular2 version.
@@ -170,7 +170,6 @@ var DropdownList = (function () {
     };
     DropdownList.prototype.onTriggerClick = function () {
         var _this = this;
-        console.log('triggerClick');
         if (!this.isOpen) {
             this.isOpen = true;
             this.openDropdown();

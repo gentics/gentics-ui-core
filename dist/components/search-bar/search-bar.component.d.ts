@@ -1,4 +1,4 @@
-import { EventEmitter } from 'angular2/core';
+import { EventEmitter } from '@angular/core';
 /**
  * The SearchBar component should be the primary search input for the app. It should be
  * located near the top of the screen, below the [TopBar](#/top-bar).

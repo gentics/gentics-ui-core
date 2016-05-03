@@ -1,4 +1,4 @@
-import { ElementRef } from 'angular2/core';
+import { ElementRef } from '@angular/core';
 /**
  * A Dropdown List component based on the [Materialize implementation](http://materializecss.com/dropdown.html),
  * but translated into a native Angular2 version.

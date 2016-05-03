@@ -1,5 +1,5 @@
-import { ElementRef, EventEmitter } from 'angular2/core';
-export declare type sortFn<T> = (source: T[], byReference: boolean) => T[];
+import { ElementRef, EventEmitter } from '@angular/core';
+export declare type sortFn<T> = (source: T[], byReference?: boolean) => T[];
 /**
  * The event object returned by each of the Sortablejs callbacks, which can then be emitted up
  * to the consuming component.
@@ -40,7 +40,7 @@ export interface ISortableMoveEvent extends ISortableEvent {
  *
  * ```html
  * <gtx-sortable-list (dragEnd)="sortList($event)">
- *     <gtx-sortable-item *ngFor="#item of items">
+ *     <gtx-sortable-item *ngFor="let item of items">
  *         <div>{{ item }}</div>
  *     </gtx-sortable-item>
  * </gtx-sortable-list>

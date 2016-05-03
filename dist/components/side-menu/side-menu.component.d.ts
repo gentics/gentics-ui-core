@@ -1,4 +1,4 @@
-import { EventEmitter } from 'angular2/core';
+import { EventEmitter } from '@angular/core';
 /**
  * The SideMenu component is an off-canvas menu that features a hamburger toggle button which can be
  * used to toggle the state. The component itself is stateless, and relies on the value passed in as

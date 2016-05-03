@@ -1,8 +1,5 @@
-import { AfterViewInit, ElementRef, EventEmitter, OnDestroy } from 'angular2/core';
-export declare class FocusType {
-    static LEFT: FocusType;
-    static RIGHT: FocusType;
-}
+import { AfterViewInit, ElementRef, EventEmitter, OnDestroy } from '@angular/core';
+export declare type FocusType = 'left' | 'right';
 /**
  * A container that provides a ["master-detail" interface](https://en.wikipedia.org/wiki/Master%E2%80%93detail_interface)
  * with two resizable panels denoted by the `left` and `right` attributes on its children.

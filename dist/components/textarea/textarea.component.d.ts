@@ -1,5 +1,5 @@
-import { EventEmitter } from 'angular2/core';
-import { ControlValueAccessor, NgControl } from 'angular2/common';
+import { EventEmitter } from '@angular/core';
+import { ControlValueAccessor, NgControl } from '@angular/common';
 /**
  * The Textarea wraps the native `<textarea>` form element. Textareas automatically grow to accommodate their content.
  *

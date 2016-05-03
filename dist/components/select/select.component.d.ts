@@ -1,5 +1,5 @@
-import { ElementRef, QueryList, EventEmitter } from 'angular2/core';
-import { ControlValueAccessor, NgSelectOption, NgControl } from 'angular2/common';
+import { ElementRef, QueryList, EventEmitter } from '@angular/core';
+import { ControlValueAccessor, NgSelectOption, NgControl } from '@angular/common';
 import { Subscription } from 'rxjs';
 /**
  * The Select wraps the Materialize `<select>` element, which dynamically generates a styled list rather than use
@@ -13,7 +13,7 @@ import { Subscription } from 'rxjs';
  *
  * ```html
  * <gtx-select label="Choose an option" [(ngModel)]="selectVal">
- *     <option *ngFor="#item of options" [value]="item">{{ item }}</option>
+ *     <option *ngFor="let item of options" [value]="item">{{ item }}</option>
  * </gtx-select>
  * ```
  */

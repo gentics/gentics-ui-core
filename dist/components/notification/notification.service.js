@@ -8,7 +8,7 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
-var core_1 = require('angular2/core');
+var core_1 = require('@angular/core');
 var toast_component_1 = require('./toast.component');
 var defaultOptions = {
     message: '',
@@ -18,7 +18,7 @@ var defaultOptions = {
 };
 /**
  * A toast notification service. Depends on the `<gtx-overlay-host>` being present in the app
- * (see `registerHostElement`).
+ * (see `registerHostView`).
  *
  * ```typescript
  * let dismiss = this.notification.show({
@@ -46,8 +46,8 @@ var defaultOptions = {
  *
  */
 var Notification = (function () {
-    function Notification(loader) {
-        this.loader = loader;
+    function Notification(componentResolver) {
+        this.componentResolver = componentResolver;
         this.open$ = new core_1.EventEmitter();
         this.openToasts = [];
         /*
@@ -58,8 +58,8 @@ var Notification = (function () {
     /**
      * Used internally to register the service with the [OverlayHost](#/overlay-host) component.
      */
-    Notification.prototype.registerHostElement = function (elementRef) {
-        this.hostElementRef = elementRef;
+    Notification.prototype.registerHostView = function (viewContainerRef) {
+        this.hostViewContainer = viewContainerRef;
     };
     /**
      * Show a toast notification. Returns an object with a dismiss() method, which will
@@ -103,7 +103,7 @@ var Notification = (function () {
         }
         toast.startDismiss();
         setTimeout(function () {
-            componentRef.dispose();
+            componentRef.destroy();
             _this.positionOpenToasts();
         }, 200);
     };
@@ -113,14 +113,15 @@ var Notification = (function () {
      */
     Notification.prototype.createToast = function (options) {
         var _this = this;
-        return this.loader.loadNextToLocation(toast_component_1.Toast, this.hostElementRef)
-            .then(function (componentRef) {
-            var toast = componentRef.instance;
+        return this.componentResolver.resolveComponent(toast_component_1.Toast)
+            .then(function (toastFactory) {
+            var ref = _this.hostViewContainer.createComponent(toastFactory);
+            var toast = ref.instance;
             var dismissTimer;
             toast.message = options.message;
             toast.type = options.type;
             toast.dismissOnClick = options.dismissOnClick;
-            toast.dismissFn = function () { return _this.destroyToast(componentRef); };
+            toast.dismissFn = function () { return _this.destroyToast(ref); };
             if (options.action && options.action.label) {
                 toast.actionLabel = options.action.label;
             }
@@ -167,7 +168,7 @@ var Notification = (function () {
     };
     Notification = __decorate([
         core_1.Injectable(), 
-        __metadata('design:paramtypes', [core_1.DynamicComponentLoader])
+        __metadata('design:paramtypes', [core_1.ComponentResolver])
     ], Notification);
     return Notification;
 }());

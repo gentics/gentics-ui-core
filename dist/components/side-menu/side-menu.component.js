@@ -8,7 +8,7 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
-var core_1 = require('angular2/core');
+var core_1 = require('@angular/core');
 var side_menu_toggle_component_1 = require('./side-menu-toggle.component');
 /**
  * The SideMenu component is an off-canvas menu that features a hamburger toggle button which can be
@@ -66,7 +66,7 @@ var SideMenu = (function () {
     ], SideMenu.prototype, "hostIsOpen", null);
     __decorate([
         core_1.Output(), 
-        __metadata('design:type', core_1.EventEmitter)
+        __metadata('design:type', Object)
     ], SideMenu.prototype, "toggle", void 0);
     SideMenu = __decorate([
         core_1.Component({

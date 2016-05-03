@@ -1,4 +1,4 @@
-import { EventEmitter, ElementRef, DynamicComponentLoader } from 'angular2/core';
+import { EventEmitter, ComponentResolver, ViewContainerRef } from '@angular/core';
 import { ToastType } from './toast.component';
 export interface INotificationOptions {
     message: string;
@@ -16,7 +16,7 @@ export interface INotificationOptions {
 }
 /**
  * A toast notification service. Depends on the `<gtx-overlay-host>` being present in the app
- * (see `registerHostElement`).
+ * (see `registerHostView`).
  *
  * ```typescript
  * let dismiss = this.notification.show({
@@ -44,16 +44,16 @@ export interface INotificationOptions {
  *
  */
 export declare class Notification {
-    private loader;
+    private componentResolver;
     open$: EventEmitter<INotificationOptions>;
-    private hostElementRef;
+    private hostViewContainer;
     private openToasts;
     private verticalMargin;
-    constructor(loader: DynamicComponentLoader);
+    constructor(componentResolver: ComponentResolver);
     /**
      * Used internally to register the service with the [OverlayHost](#/overlay-host) component.
      */
-    registerHostElement(elementRef: ElementRef): void;
+    registerHostView(viewContainerRef: ViewContainerRef): void;
     /**
      * Show a toast notification. Returns an object with a dismiss() method, which will
      * dismiss the toast when invoked.

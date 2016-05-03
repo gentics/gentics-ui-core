@@ -1,5 +1,5 @@
-import { EventEmitter } from 'angular2/core';
-import { ControlValueAccessor, NgControl } from 'angular2/common';
+import { EventEmitter } from '@angular/core';
+import { ControlValueAccessor, NgControl } from '@angular/common';
 export declare type CheckState = boolean | 'indeterminate';
 /**
  * Checkbox wraps the native `<input type="checkbox">` form element.
@@ -49,15 +49,15 @@ export declare class Checkbox implements ControlValueAccessor {
     /**
      * Blur event
      */
-    blur: EventEmitter<CheckState>;
+    blur: EventEmitter<boolean | "indeterminate">;
     /**
      * Focus event
      */
-    focus: EventEmitter<CheckState>;
+    focus: EventEmitter<boolean | "indeterminate">;
     /**
      * Change event
      */
-    change: EventEmitter<CheckState>;
+    change: EventEmitter<boolean | "indeterminate">;
     private checkState;
     private onChange;
     private onTouched;

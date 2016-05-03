@@ -11,8 +11,8 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 var __param = (this && this.__param) || function (paramIndex, decorator) {
     return function (target, key) { decorator(target, key, paramIndex); }
 };
-var core_1 = require('angular2/core');
-var common_1 = require('angular2/common');
+var core_1 = require('@angular/core');
+var common_1 = require('@angular/common');
 var input_component_1 = require('../input/input.component');
 var modal_component_1 = require('../modal/modal.component');
 var button_component_1 = require('../button/button.component');
@@ -224,7 +224,7 @@ var DateTimePicker = (function () {
     ], DateTimePicker.prototype, "displayTime", null);
     __decorate([
         core_1.Output(), 
-        __metadata('design:type', core_1.EventEmitter)
+        __metadata('design:type', Object)
     ], DateTimePicker.prototype, "change", void 0);
     DateTimePicker = __decorate([
         core_1.Component({

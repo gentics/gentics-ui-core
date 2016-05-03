@@ -1,5 +1,5 @@
-import { EventEmitter } from 'angular2/core';
-import { ControlValueAccessor, NgControl } from 'angular2/common';
+import { EventEmitter } from '@angular/core';
+import { ControlValueAccessor, NgControl } from '@angular/common';
 /**
  * The Range wraps the native `<input type="range">` form element.
  *

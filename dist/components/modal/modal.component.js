@@ -8,7 +8,7 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
-var core_1 = require('angular2/core');
+var core_1 = require('@angular/core');
 var modal_service_1 = require('./modal.service');
 /**
  * A declarative modal dialog component. Can wrap generic content and display / hide it based on the `opened` attribute.
@@ -136,7 +136,7 @@ var Modal = (function () {
     ], Modal.prototype, "padding", null);
     __decorate([
         core_1.Output(), 
-        __metadata('design:type', core_1.EventEmitter)
+        __metadata('design:type', Object)
     ], Modal.prototype, "close", void 0);
     Modal = __decorate([
         core_1.Component({
