@@ -8,14 +8,10 @@ import {
     Output,
     ViewChild
 } from '@angular/core';
-import { DOM } from 'angular2/src/platform/dom/dom_adapter';
 
-// HACK: workaround for enum type. With TypeScript >= 1.8.0, use:
-//   type FocusType: 'left' | 'right';
-export class FocusType {
-    static LEFT = <FocusType> (<any> 'left');
-    static RIGHT = <FocusType> (<any> 'right');
-}
+declare var $: JQueryStatic;
+
+export type FocusType = 'left' | 'right';
 
 /**
  * A container that provides a ["master-detail" interface](https://en.wikipedia.org/wiki/Master%E2%80%93detail_interface)
@@ -103,9 +99,9 @@ export class SplitViewContainer implements AfterViewInit, OnDestroy {
     set focusedPanel(panel: FocusType) {
         let newFocus: FocusType;
         if (panel == 'right' && this._rightPanelVisible) {
-            newFocus = FocusType.RIGHT;
+            newFocus = 'right';
         } else {
-            newFocus = FocusType.LEFT;
+            newFocus = 'left';
         }
 
         if (newFocus != this._focusedPanel) {
@@ -276,14 +272,14 @@ export class SplitViewContainer implements AfterViewInit, OnDestroy {
     }
 
     private leftPanelClicked(): void {
-        if (this._focusedPanel == FocusType.RIGHT) {
-            this.focusedPanel = FocusType.LEFT;
+        if (this._focusedPanel == 'right') {
+            this.focusedPanel = 'left';
         }
     }
 
     private rightPanelClicked(): void {
-        if (this._focusedPanel == FocusType.LEFT && this._rightPanelVisible) {
-            this.focusedPanel = FocusType.RIGHT;
+        if (this._focusedPanel == 'left' && this._rightPanelVisible) {
+            this.focusedPanel = 'right';
         }
     }
 
@@ -297,10 +293,10 @@ export class SplitViewContainer implements AfterViewInit, OnDestroy {
         // Bind mousemove and mouseup on body (the Angular2 way)
         this.boundBodyMouseMove = this.moveResizer.bind(this);
         this.boundBodyMouseUp = this.endResizing.bind(this);
-        const body: HTMLBodyElement = DOM.query('body');
-        DOM.addClass(body, 'gtx-split-view-container-resizing');
-        body.addEventListener('mousemove', this.boundBodyMouseMove);
-        body.addEventListener('mouseup', this.boundBodyMouseUp);
+        const $body: JQuery = $('body');
+        $body.addClass('gtx-split-view-container-resizing');
+        $body.on('mousemove', this.boundBodyMouseMove);
+        $body.on('mouseup', this.boundBodyMouseUp);
 
         // Start resizing
         this.resizerXPosition = this.getAdjustedPosition(event.clientX);
@@ -321,10 +317,10 @@ export class SplitViewContainer implements AfterViewInit, OnDestroy {
 
     private unbindBodyEvents(): void {
         if (this.boundBodyMouseMove) {
-            const body: HTMLBodyElement = DOM.query('body');
-            DOM.removeClass(body, 'gtx-split-view-container-resizing');
-            body.removeEventListener('mousemove', this.boundBodyMouseMove);
-            body.removeEventListener('mouseup', this.boundBodyMouseUp);
+            const $body: JQuery = $('body');
+            $body.removeClass('gtx-split-view-container-resizing');
+            $body.off('mousemove', this.boundBodyMouseMove);
+            $body.off('mouseup', this.boundBodyMouseUp);
             this.boundBodyMouseMove = null;
             this.boundBodyMouseUp = null;
         }
