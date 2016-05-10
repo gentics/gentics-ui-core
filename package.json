@@ -42,7 +42,7 @@
     "del": "^2.2.0",
     "es6-promise": "3.0.2",
     "es6-shim": "0.35.0",
-    "gulp": "^3.9.0",
+    "gulp": "gulpjs/gulp#b4d89c391b40cd29e8526e0391981eef67cfccab",
     "gulp-autoprefixer": "^3.1.0",
     "gulp-concat": "^2.6.0",
     "gulp-filter": "^3.0.1",
