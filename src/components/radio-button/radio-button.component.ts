@@ -247,7 +247,10 @@ export class RadioButton implements ControlValueAccessor, OnInit, OnDestroy {
         }
     }
 
-    private onInputChecked(input: HTMLInputElement): boolean {
+    private onInputChecked(e: Event, input: HTMLInputElement): boolean {
+        if (e) {
+            e.stopPropagation();
+        }
         if (this.statelessMode) {
             let newState = input.checked;
             if (input.checked !== this.inputChecked) {

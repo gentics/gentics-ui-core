@@ -148,7 +148,10 @@ export class Checkbox implements ControlValueAccessor {
         this.onChange(this.checkState);
     }
 
-    private onInputChanged(input: HTMLInputElement): boolean {
+    private onInputChanged(e: Event, input: HTMLInputElement): boolean {
+        if (e) {
+            e.stopPropagation();
+        }
         let newState: CheckState = input.indeterminate ? 'indeterminate' : input.checked;
         if (this.statelessMode) {
             if (input.checked !== this.checkState) {

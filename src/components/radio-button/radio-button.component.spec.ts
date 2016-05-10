@@ -110,6 +110,28 @@ describe('RadioButton', () => {
             });
     }));
 
+    it('should emit a single "change" with current value when the native input changes',
+        inject([TestComponentBuilder], fakeAsync((tcb: TestComponentBuilder) => {
+            tcb.overrideTemplate(TestComponent, `
+                    <gtx-radio-button value="foo" 
+                                      (change)="onChange($event)"></gtx-radio-button>`)
+                .createAsync(TestComponent)
+                .then((fixture: ComponentFixture) => {
+                    const nativeInput: HTMLInputElement = fixture.nativeElement.querySelector('input');
+                    const instance: TestComponent = fixture.componentInstance;
+                    fixture.detectChanges();
+                    instance.onChange = jasmine.createSpy('onChange');
+
+                    nativeInput.click();
+                    tick();
+                    fixture.detectChanges();
+
+                    expect(instance.onChange).toHaveBeenCalledWith('foo');
+                    expect(instance.onChange.calls.count()).toBe(1);
+                });
+        }))
+    );
+
     it('should emit "blur" with current check state when the native input blurs', inject([TestComponentBuilder],
         fakeAsync((tcb: TestComponentBuilder) => {
             tcb.overrideTemplate(TestComponent, `

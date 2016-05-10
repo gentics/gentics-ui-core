@@ -130,6 +130,26 @@ describe('Checkbox', () => {
         })
     );
 
+    it('should emit a single "change" with current check state when the native input changes',
+        inject([TestComponentBuilder], fakeAsync((tcb: TestComponentBuilder) => {
+            tcb.overrideTemplate(TestComponent, `<gtx-checkbox (change)="onChange($event)"></gtx-checkbox>`)
+                .createAsync(TestComponent)
+                .then((fixture: ComponentFixture) => {
+                    const nativeInput: HTMLInputElement = fixture.nativeElement.querySelector('input');
+                    const instance: TestComponent = fixture.componentInstance;
+                    fixture.detectChanges();
+                    instance.onChange = jasmine.createSpy('onChange');
+
+                    nativeInput.click();
+                    tick();
+                    fixture.detectChanges();
+
+                    expect(instance.onChange).toHaveBeenCalledWith(true);
+                    expect(instance.onChange.calls.count()).toBe(1);
+                });
+        }))
+    );
+
     it('should emit "blur" with current check state when the native input blurs',
         inject([TestComponentBuilder], fakeAsync((tcb: TestComponentBuilder) => {
             tcb.overrideTemplate(TestComponent, `
