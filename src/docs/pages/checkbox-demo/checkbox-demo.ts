@@ -16,4 +16,5 @@ export class CheckboxDemo {
         B: false,
         C: 'indeterminate'
     };
+    checkText: string = 'checked'; 
 }

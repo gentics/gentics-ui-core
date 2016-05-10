@@ -52,3 +52,33 @@
             };"></gtx-highlighted-code>
     </div>
 </gtx-demo-block>
+
+
+<gtx-demo-block title="Stateless Mode">
+    <div class="demo-result">
+        <gtx-checkbox checked="true"
+                      label="This is always checked"></gtx-checkbox>
+
+        <gtx-checkbox [checked]="statelessIsChecked"
+                      label="The state is set by the parent"
+                      (change)="statelessIsChecked = $event"></gtx-checkbox>
+
+        <gtx-checkbox [checked]="checkText === 'checked'"
+                      label="This is checked when the text input == 'checked'"></gtx-checkbox>
+        <gtx-input [(ngModel)]="checkText"></gtx-input>
+    </div>
+    <div class="demo-code">
+        <gtx-highlighted-code language="HTML" code='
+                <gtx-checkbox checked="true"
+                              label="This is always checked"></gtx-checkbox>
+
+                <gtx-checkbox [checked]="statelessIsChecked"
+                              label="The state is set by the parent"
+                              (change)="statelessIsChecked = $event"></gtx-checkbox>
+
+                <gtx-checkbox [checked]="checkText === `checked`"
+                              label="This is checked when the text input == `checked`"></gtx-checkbox>
+                <gtx-input [(ngModel)]="checkText"></gtx-input>
+           '></gtx-highlighted-code>
+    </div>
+</gtx-demo-block>

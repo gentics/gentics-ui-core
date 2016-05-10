@@ -361,8 +361,84 @@ describe('Checkbox', () => {
         ));
 
     });
-});
 
+    describe('stateless mode:', () => {
+
+        function getCheckbox(fixture: ComponentFixture): Checkbox {
+            return fixture.debugElement.query(By.css('gtx-checkbox')).componentInstance;
+        }
+
+        it('stateless mode should be disabled by default',
+            inject([TestComponentBuilder], fakeAsync((tcb: TestComponentBuilder) => {
+                tcb.createAsync(TestComponent)
+                    .then((fixture: ComponentFixture) => {
+                        const checkboxComponent: Checkbox = getCheckbox(fixture);
+                        fixture.detectChanges();
+
+                        expect(checkboxComponent['statelessMode']).toBe(false);
+                    });
+            })));
+
+        it('stateless mode should be enabled when using "checked" attribute',
+            inject([TestComponentBuilder], fakeAsync((tcb: TestComponentBuilder) => {
+                tcb.overrideTemplate(TestComponent, `<gtx-checkbox checked="true"></gtx-checkbox>`)
+                    .createAsync(TestComponent)
+                    .then((fixture: ComponentFixture) => {
+                        const checkboxComponent: Checkbox = getCheckbox(fixture);
+                        fixture.detectChanges();
+
+                        expect(checkboxComponent['statelessMode']).toBe(true);
+                    });
+            })));
+
+        it('should not change check state on click when bound to "checked" attribute',
+            inject([TestComponentBuilder], fakeAsync((tcb: TestComponentBuilder) => {
+                tcb.overrideTemplate(TestComponent, `
+                        <gtx-checkbox checked="true"></gtx-checkbox>
+                    `)
+                    .createAsync(TestComponent)
+                    .then((fixture: ComponentFixture) => {
+                        const checkboxComponent: Checkbox = getCheckbox(fixture);
+                        const nativeInput: HTMLInputElement = fixture.nativeElement.querySelector('input');
+                        fixture.detectChanges();
+
+                        expect(checkboxComponent.checked).toBe(true);
+                        expect(nativeInput.checked).toBe(true);
+
+                        nativeInput.click();
+                        tick();
+                        fixture.detectChanges();
+
+                        expect(checkboxComponent.checked).toBe(true);
+                        expect(nativeInput.checked).toBe(true);
+                    });
+            })));
+
+        it('should change check state when "checked" attribute binding changes',
+            inject([TestComponentBuilder], (tcb: TestComponentBuilder) => {
+                tcb.overrideTemplate(TestComponent, `
+                        <gtx-checkbox [checked]="checkState"></gtx-checkbox>
+                    `)
+                    .createAsync(TestComponent)
+                    .then((fixture: ComponentFixture) => {
+                        const instance: TestComponent = fixture.componentInstance;
+                        const checkboxComponent: Checkbox = getCheckbox(fixture);
+                        const nativeInput: HTMLInputElement = fixture.nativeElement.querySelector('input');
+                        fixture.detectChanges();
+
+                        expect(checkboxComponent.checked).toBe(false);
+                        expect(nativeInput.checked).toBe(false);
+
+                        instance.checkState = true;
+                        fixture.detectChanges();
+
+                        expect(checkboxComponent.checked).toBe(true);
+                        expect(nativeInput.checked).toBe(true);
+                    });
+            }));
+
+    });
+});
 
 @Component({
     template: `<gtx-checkbox></gtx-checkbox>`,
