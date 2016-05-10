@@ -8,6 +8,9 @@ import {isPresent} from '@angular/core/src/facade/lang';
  * <gtx-button>Click me</gtx-button>
  * <gtx-button size="large">Buy Now!</gtx-button>
  * <gtx-button type="alert">Delete all stuff</gtx-button>
+ * <gtx-button icon>
+ *     <i class="material-icons">settings</i>
+ * </gtx-button>
  * ```
  */
 @Component({
@@ -38,17 +41,33 @@ export class Button {
     set flat(val: boolean) {
         this.isFlat = isPresent(val) && val !== false;
     }
+
+    /**
+     * Setting the "icon" attribute turns the button into an "icon button", which is
+     * like a flat button without a border, suitable for wrapping an icon.
+     */
+    @Input()
+    get icon(): boolean {
+        return this.isIcon === true;
+    }
+    set icon(val: boolean) {
+        this.isIcon = isPresent(val) && val !== false;
+    }
     /**
      * Controls whether the button is disabled.
      */
     @Input() disabled: boolean = false;
 
     private isFlat: boolean = false;
+    private isIcon: boolean = false;
 
     getButtonClasses(): string {
         let classes = [this.size, this.type];
-        if (this.isFlat) {
+        if (this.isFlat || this.isIcon) {
             classes.push('btn-flat');
+        }
+        if (this.isIcon) {
+            classes.push('btn-icon');
         }
         return classes.join(' ');
     }
