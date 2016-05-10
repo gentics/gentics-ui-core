@@ -30,11 +30,27 @@ export declare class RadioGroup implements ControlValueAccessor {
  * <gtx-radio-button [(ngModel)]="val" value="B" label="B"></gtx-radio-button>
  * <gtx-radio-button [(ngModel)]="val" value="C" label="C"></gtx-radio-button>
  * ```
+ *
+ * ##### Stateless Mode
+ * By default, the RadioButton keeps track of its own internal checked state. This makes sense
+ * for most use cases, such as when used in a form bound to NgControl.
+ *
+ * However, in some cases we want to explicitly set the state from outside. This is done by binding
+ * to the <code>checked</code> attribute. When this attribute is bound, the checked state of the
+ * RadioButton will *only* change when the value of the binding changes. Clicking on the RadioButton
+ * will have no effect other than to emit an event which the parent can use to update the binding.
+ *
+ * Here is a basic example of a stateless RadioButton where the parent component manages the state:
+ *
+ * ```html
+ * <gtx-radio-button [checked]="isChecked"></gtx-checkbox>
+ * ```
  */
 export declare class RadioButton implements ControlValueAccessor, OnInit, OnDestroy {
     private group;
     /**
-     * The checked state of the control
+     * The checked state of the control. When set, the RadioButton will be
+     * in stateless mode.
      */
     checked: boolean;
     /**
@@ -78,6 +94,10 @@ export declare class RadioButton implements ControlValueAccessor, OnInit, OnDest
      */
     change: EventEmitter<any>;
     private inputChecked;
+    /**
+     * See note above on stateless mode.
+     */
+    private statelessMode;
     private onChange;
     private onTouched;
     constructor(control: NgControl, group: RadioGroup, modelAttrib: string);
@@ -88,5 +108,5 @@ export declare class RadioButton implements ControlValueAccessor, OnInit, OnDest
     writeValue(value: any): void;
     ngOnInit(): void;
     ngOnDestroy(): void;
-    private onInputChecked();
+    private onInputChecked(e, input);
 }

@@ -30,6 +30,10 @@ gtx-button {
         }
     }
 
+    button[disabled] {
+        opacity: 0.5;
+    }
+
     > button:not(.btn-flat) {
 
         // default (primary)
@@ -127,6 +131,38 @@ gtx-button {
             &:hover { background-color: transparentize($gtx-color-alert, 0.9); }
             &:active { background-color: transparentize($gtx-color-alert, 0.6); }
             &:focus { border: 1px solid transparentize($gtx-color-alert, 0.2); }
+        }
+    }
+
+    > button.btn-flat.btn-icon {
+        padding: 0;
+        border: none;
+        &:focus {
+            border: none;
+        }
+
+        &.small {
+            height: 16px;
+            line-height: 16px;
+            > i {
+                font-size: 16px;
+            }
+        }
+
+        &.regular {
+            height: 24px;
+            line-height: 24px;
+            > i {
+                font-size: 24px;
+            }
+        }
+
+        &.large {
+            height: 42px;
+            line-height: 42px;
+            > i {
+                font-size: 42px;
+            }
         }
     }
 

@@ -17,6 +17,9 @@ var lang_1 = require('@angular/core/src/facade/lang');
  * <gtx-button>Click me</gtx-button>
  * <gtx-button size="large">Buy Now!</gtx-button>
  * <gtx-button type="alert">Delete all stuff</gtx-button>
+ * <gtx-button icon>
+ *     <i class="material-icons">settings</i>
+ * </gtx-button>
  * ```
  */
 var Button = (function () {
@@ -35,6 +38,7 @@ var Button = (function () {
          */
         this.disabled = false;
         this.isFlat = false;
+        this.isIcon = false;
     }
     Object.defineProperty(Button.prototype, "flat", {
         /**
@@ -50,10 +54,27 @@ var Button = (function () {
         enumerable: true,
         configurable: true
     });
+    Object.defineProperty(Button.prototype, "icon", {
+        /**
+         * Setting the "icon" attribute turns the button into an "icon button", which is
+         * like a flat button without a border, suitable for wrapping an icon.
+         */
+        get: function () {
+            return this.isIcon === true;
+        },
+        set: function (val) {
+            this.isIcon = lang_1.isPresent(val) && val !== false;
+        },
+        enumerable: true,
+        configurable: true
+    });
     Button.prototype.getButtonClasses = function () {
         var classes = [this.size, this.type];
-        if (this.isFlat) {
+        if (this.isFlat || this.isIcon) {
             classes.push('btn-flat');
+        }
+        if (this.isIcon) {
+            classes.push('btn-icon');
         }
         return classes.join(' ');
     };
@@ -69,6 +90,10 @@ var Button = (function () {
         core_1.Input(), 
         __metadata('design:type', Boolean)
     ], Button.prototype, "flat", null);
+    __decorate([
+        core_1.Input(), 
+        __metadata('design:type', Boolean)
+    ], Button.prototype, "icon", null);
     __decorate([
         core_1.Input(), 
         __metadata('design:type', Boolean)

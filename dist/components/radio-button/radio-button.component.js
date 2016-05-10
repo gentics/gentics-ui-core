@@ -85,6 +85,21 @@ exports.RadioGroup = RadioGroup;
  * <gtx-radio-button [(ngModel)]="val" value="B" label="B"></gtx-radio-button>
  * <gtx-radio-button [(ngModel)]="val" value="C" label="C"></gtx-radio-button>
  * ```
+ *
+ * ##### Stateless Mode
+ * By default, the RadioButton keeps track of its own internal checked state. This makes sense
+ * for most use cases, such as when used in a form bound to NgControl.
+ *
+ * However, in some cases we want to explicitly set the state from outside. This is done by binding
+ * to the <code>checked</code> attribute. When this attribute is bound, the checked state of the
+ * RadioButton will *only* change when the value of the binding changes. Clicking on the RadioButton
+ * will have no effect other than to emit an event which the parent can use to update the binding.
+ *
+ * Here is a basic example of a stateless RadioButton where the parent component manages the state:
+ *
+ * ```html
+ * <gtx-radio-button [checked]="isChecked"></gtx-checkbox>
+ * ```
  */
 var RadioButton = (function () {
     function RadioButton(control, group, modelAttrib) {
@@ -126,6 +141,10 @@ var RadioButton = (function () {
          */
         this.change = new core_1.EventEmitter();
         this.inputChecked = false;
+        /**
+         * See note above on stateless mode.
+         */
+        this.statelessMode = false;
         this.onChange = function (_) { };
         this.onTouched = function () { };
         if (control && !control.valueAccessor) {
@@ -141,14 +160,16 @@ var RadioButton = (function () {
     }
     Object.defineProperty(RadioButton.prototype, "checked", {
         /**
-         * The checked state of the control
+         * The checked state of the control. When set, the RadioButton will be
+         * in stateless mode.
          */
         get: function () {
             return this.inputChecked;
         },
         set: function (val) {
+            this.statelessMode = true;
             if (val != this.inputChecked) {
-                this.inputChecked = val;
+                this.inputChecked = val === true || val === 'true';
                 this.change.emit(this.value);
                 if (val && this.group) {
                     this.group.radioSelected(this);
@@ -196,13 +217,25 @@ var RadioButton = (function () {
             this.group.remove(this);
         }
     };
-    RadioButton.prototype.onInputChecked = function () {
+    RadioButton.prototype.onInputChecked = function (e, input) {
+        if (e) {
+            e.stopPropagation();
+        }
+        if (this.statelessMode) {
+            var newState = input.checked;
+            if (input.checked !== this.inputChecked) {
+                input.checked = !!this.inputChecked;
+            }
+            this.change.emit(newState);
+            return false;
+        }
         this.inputChecked = true;
         this.change.emit(this.value);
         if (this.group) {
             this.group.radioSelected(this);
         }
         this.onChange(this.value);
+        return true;
     };
     __decorate([
         core_1.Input(), 

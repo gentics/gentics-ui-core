@@ -8,10 +8,27 @@ export declare type CheckState = boolean | 'indeterminate';
  * <gtx-checkbox [(ngModel)]="isOkay" label="Is it okay?"></gtx-checkbox>
  * <gtx-checkbox [(ngModel)]="checkStates.B" value="B" label="B"></gtx-checkbox>
  * ```
+ *
+ * ##### Stateless Mode
+ * By default, the Checkbox keeps track of its own internal checked state. This makes sense
+ * for most use cases, such as when used in a form bound to NgControl.
+ *
+ * However, in some cases we want to explicitly set the state from outside. This is done by binding
+ * to the <code>checked</code> attribute. When this attribute is bound, the checked state of the
+ * Checkbox will *only* change when the value of the binding changes. Clicking on the Checkbox
+ * will have no effect other than to emit an event which the parent can use to update the binding.
+ *
+ * Here is a basic example of a stateless checkbox where the parent component manages the state:
+ *
+ * ```html
+ * <gtx-checkbox [checked]="isChecked"
+ *               (change)="isChecked = $event"></gtx-checkbox>
+ * ```
  */
 export declare class Checkbox implements ControlValueAccessor {
     /**
-     * Checked state of the checkbox
+     * Checked state of the checkbox. When set, the Checkbox will be
+     * in stateless mode.
      */
     checked: boolean;
     /**
@@ -59,6 +76,10 @@ export declare class Checkbox implements ControlValueAccessor {
      */
     change: EventEmitter<boolean | "indeterminate">;
     private checkState;
+    /**
+     * See note above on stateless mode.
+     */
+    private statelessMode;
     private onChange;
     private onTouched;
     constructor(control: NgControl);
@@ -68,5 +89,5 @@ export declare class Checkbox implements ControlValueAccessor {
     registerOnTouched(fn: Function): void;
     writeValue(value: any): void;
     ngOnInit(): void;
-    private onInputChanged(input);
+    private onInputChanged(e, input);
 }
