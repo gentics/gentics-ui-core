@@ -1,48 +1,54 @@
 'use strict';
 
-import autoprefixer from 'gulp-autoprefixer';
-import concat from 'gulp-concat';
-import del from 'del';
-import gulp from 'gulp';
-import filter from 'gulp-filter';
-import gutil from 'gulp-util';
-import jscs from 'gulp-jscs';
-import jscsStylish from 'gulp-jscs-stylish';
-import jsonlint from 'gulp-jsonlint';
-import karma from 'karma';
-import merge from 'merge-stream';
-import * as path from 'path';
-import sass from 'gulp-sass';
-import sourcemaps from 'gulp-sourcemaps';
-import tslint from 'gulp-tslint';
-import tslintStylish from 'tslint-stylish';
-import ts from 'gulp-typescript';
-import webpack from 'webpack';
+const autoprefixer = require('gulp-autoprefixer');
+const concat = require('gulp-concat');
+const del = require('del');
+const gulp = require('gulp');
+const filter = require('gulp-filter');
+const gutil = require('gulp-util');
+const jscs = require('gulp-jscs');
+const jscsStylish = require('gulp-jscs-stylish');
+const jsonlint = require('gulp-jsonlint');
+const karma = require('karma');
+const merge = require('merge-stream');
+const path = require('path');
+const sass = require('gulp-sass');
+const sourcemaps = require('gulp-sourcemaps');
+const tslint = require('gulp-tslint');
+const tslintStylish = require('tslint-stylish');
+const ts = require('gulp-typescript');
+const webpack = require('webpack');
 
 const webpackConfig = require('./webpack.config.js');
 const buildConfig = require('./build.config').config;
 const paths = require('./build.config').paths;
 
-gulp.task('docs:build', [
-    'webpack:run',
-    'docs:styles',
-    'docs:static-files'
-]);
+gulp.task('clean', clean);
+gulp.task('lib:typescript', compileLibTypescript);
+gulp.task('lib:templates', copyTemplates);
+gulp.task('lib:styles', compileLibStyles);
+gulp.task('lib:fonts', copyFonts);
+gulp.task('lib:build', gulp.parallel('lib:typescript', 'lib:templates', 'lib:styles', 'lib:fonts'));
+gulp.task('lib:rebuild', gulp.series('clean', 'lib:build'));
+gulp.task('lint', lint);
+gulp.task('webpack:watch', watchWebpack);
+gulp.task('webpack:run', runWebpack);
+gulp.task('docs:static-files', gulp.parallel(copyFonts, copyImages));
+gulp.task('docs:styles', compileDocsSASS);
+gulp.task('docs:build', gulp.series('webpack:run', 'docs:styles', 'docs:static-files'));
+gulp.task('docs:rebuild', gulp.series('clean', 'docs:build'));
+gulp.task('docs:watch', gulp.series(
+    gulp.parallel('docs:styles', 'docs:static-files'),
+    gulp.parallel('webpack:watch', watchDocs)
+));
+gulp.task('test:run', callback => runKarmaServer(false, callback));
+gulp.task('test:watch', callback => runKarmaServer(true, callback));
 
-gulp.task('lib:build', [
-    'lib:typescript',
-    'lib:templates',
-    'lib:styles',
-    'lib:fonts'
-]);
+function clean() {
+    return del([`${paths.out.docs}/**`, `!${paths.out.docs}`]);
+}
 
-gulp.task('clean', () => del([
-    paths.out.docs + '/**',
-    '!' + paths.out.docs
-]));
-
-gulp.task('lib:typescript', () => {
-    let outDir = path.join(__dirname, paths.out.dist.root);
+function compileLibTypescript() {
     let tsResult = gulp.src(paths.src.typescript.concat(paths.src.typings))
         .pipe(ts({
             noImplicitAny: true,
@@ -57,33 +63,41 @@ gulp.task('lib:typescript', () => {
         }));
 
     return merge([
-        tsResult.dts.pipe(gulp.dest(outDir)),
-        tsResult.js.pipe(gulp.dest(outDir))
+        tsResult.dts.pipe(gulp.dest(paths.out.dist.root)),
+        tsResult.js.pipe(gulp.dest(paths.out.dist.root))
     ]);
-});
+}
 
-gulp.task('lib:templates', () => gulp.src(paths.src.templates)
-    .pipe(gulp.dest(paths.out.dist.root)));
+function copyTemplates() {
+    return (
+        gulp.src(paths.src.templates)
+        .pipe(gulp.dest(paths.out.dist.root))
+    );
+}
 
-gulp.task('lib:styles', () => {
-    let libStyles = gulp.src(paths.src.scss)
-        .pipe(gulp.dest(paths.out.dist.root));
-    let materializeStyles = gulp.src('node_modules/materialize-css/sass/**/*.scss')
-        .pipe(gulp.dest(path.join(paths.out.dist.styles, 'materialize-css/sass')));
+function compileLibStyles() {
+    return merge([
+        gulp.src(paths.src.scss)
+            .pipe(gulp.dest(paths.out.dist.root)),
+        gulp.src('node_modules/materialize-css/sass/**/*.scss')
+            .pipe(gulp.dest(path.join(paths.out.dist.styles, 'materialize-css/sass')))
+    ]);
+}
 
-    return merge([libStyles, materializeStyles]);
-});
-
-gulp.task('lib:fonts', () => gulp.src(paths.vendorStatics.concat(paths.src.fonts))
+function copyFonts() {
+    return (
+        gulp.src(paths.vendorStatics.concat(paths.src.fonts))
         .pipe(filter([
             '*.eot',
             '*.ttf',
             '*.woff',
             '*.woff2'
         ]))
-        .pipe(gulp.dest(paths.out.dist.fonts)));
+        .pipe(gulp.dest(paths.out.dist.fonts))
+    );
+}
 
-gulp.task('lint', (done) => {
+function lint(doneCallback) {
     const files = gulp.src(paths.src.lint, { base: '.' });
     const linters = merge(
         files.pipe(filter('**/*.js'))
@@ -103,48 +117,47 @@ gulp.task('lint', (done) => {
 
     let errors = [];
     linters.on('error', error => errors.push(error))
-        .on('end', () => done(errors.length ? errors : null));
-});
+        .on('end', () => doneCallback(errors.length ? errors : null));
+}
 
-gulp.task('docs:static-files', () => {
-    let fonts = gulp.src(paths.vendorStatics.concat(paths.src.fonts))
-        .pipe(filter([
-            '*.eot',
-            '*.ttf',
-            '*.woff',
-            '*.woff2'
-        ]))
-        .pipe(gulp.dest(paths.out.fonts));
+function copyImages() {
+    return (
+        gulp.src(paths.docs.assets)
+        .pipe(gulp.dest(paths.out.images))
+    );
+}
 
-    let images = gulp.src(paths.docs.assets)
-        .pipe(gulp.dest(paths.out.images));
+function compileDocsSASS() {
+    return (
+        gulp.src(paths.docs.scssMain, { base: '.' })
+        .pipe(sourcemaps.init())
+        .pipe(sass({
+            errLogToConsole: true,
+            outputStyle: 'expanded',
+            includePaths: ['node_modules']
+        }).on('error', sass.logError))
+        .pipe(autoprefixer(buildConfig.autoprefixer))
+        .pipe(concat('app.css'))
+        .pipe(sourcemaps.write('.', {
+            includeContent: true,
+            sourceRoot: relativeRoot(paths.out.css)
+        }))
+        .pipe(gulp.dest(paths.out.css))
+    );
+}
 
-    return merge(fonts, images);
-});
+function watchDocs(runForever) {
+    gulp.watch(paths.docs.scss, 'docs:styles');
+    gulp.watch(paths.src.vendorStatics, 'docs:static-files');
+}
 
-gulp.task('docs:styles', () => gulp.src(paths.docs.scssMain, { base: '.' })
-    .pipe(sourcemaps.init())
-    .pipe(sass({
-        errLogToConsole: true,
-        outputStyle: 'expanded',
-        includePaths: [path.join(__dirname, 'node_modules')]
-    }).on('error', sass.logError))
-    .pipe(autoprefixer(buildConfig.autoprefixer))
-    .pipe(concat('app.css'))
-    .pipe(sourcemaps.write('.', {
-        includeContent: true,
-        sourceRoot: relativeRoot(paths.out.css)
-    }))
-    .pipe(gulp.dest(paths.out.css)));
+function runWebpack(callback) {
+    devCompiler.run(webpackOnCompleted(callback));
+}
 
-gulp.task('docs:watch', ['docs:styles', 'docs:static-files', 'webpack:watch'], () => {
-    gulp.watch(paths.docs.scss, ['docs:styles']);
-    gulp.watch(paths.src.vendorStatics, ['docs:static-files']);
-});
-
-gulp.task('test:run', callback => runKarmaServer(false, callback));
-
-gulp.task('test:watch', callback => runKarmaServer(true, callback));
+function watchWebpack(callback) {
+    devCompiler.watch({}, webpackOnCompleted(callback));
+}
 
 // Pass a command line argument to gulp to change browsers
 // e.g. gulp test:watch --browsers=Chrome,Firefox,PhantomJS
@@ -157,7 +170,7 @@ function runKarmaServer(watch, callback) {
     });
 
     const server = new karma.Server({
-        configFile: __dirname + '/karma.conf.js',
+        configFile: 'karma.conf.js',
         singleRun: !watch,
         browsers: testBrowsers
     }, callback);
@@ -194,14 +207,6 @@ function webpackOnCompleted(callback) {
         }
     };
 }
-
-gulp.task('webpack:watch', callback => {
-    devCompiler.watch({}, webpackOnCompleted(callback));
-});
-
-gulp.task('webpack:run', callback => {
-    devCompiler.run(webpackOnCompleted(callback));
-});
 
 /**
  * Helper function to get correct sourceRoot in sourcemaps on Windows with forward-slash
