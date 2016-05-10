@@ -38,20 +38,20 @@ describe('RadioButton', () => {
 
     it('should use defaults for undefined attributes which have a default',
         inject([TestComponentBuilder], (tcb: TestComponentBuilder) => {
-            tcb.overrideTemplate(TestComponent, `<gtx-radio-button></gtx-radio-button>`)
-                .createAsync(TestComponent)
-                .then((fixture: ComponentFixture) => {
-                    const nativeInput: HTMLInputElement = fixture.nativeElement.querySelector('input');
-                    fixture.detectChanges();
+                tcb.overrideTemplate(TestComponent, `<gtx-radio-button></gtx-radio-button>`)
+                    .createAsync(TestComponent)
+                    .then((fixture: ComponentFixture) => {
+                        const nativeInput: HTMLInputElement = fixture.nativeElement.querySelector('input');
+                        fixture.detectChanges();
 
-                    expect(nativeInput.checked).toBe(false);
-                    expect(nativeInput.disabled).toBe(false);
-                    expect(nativeInput.readOnly).toBe(false);
-                    expect(nativeInput.required).toBe(false);
-                    expect(nativeInput.value).toBe('');
-                });
-        }
-    ));
+                        expect(nativeInput.checked).toBe(false);
+                        expect(nativeInput.disabled).toBe(false);
+                        expect(nativeInput.readOnly).toBe(false);
+                        expect(nativeInput.required).toBe(false);
+                        expect(nativeInput.value).toBe('');
+                    });
+            }
+        ));
 
     it('should not display undefined attributes', inject([TestComponentBuilder], (tcb: TestComponentBuilder) => {
         tcb.overrideTemplate(TestComponent, `<gtx-radio-button></gtx-radio-button>`)
@@ -186,31 +186,31 @@ describe('RadioButton', () => {
 
         it('should bind the check state with NgModel (inbound)',
             inject([TestComponentBuilder], fakeAsync((tcb: TestComponentBuilder) => {
-                tcb.overrideTemplate(TestComponent, `
+                    tcb.overrideTemplate(TestComponent, `
                     <gtx-radio-button
                         [(ngModel)]="boundProperty"
                         value="otherValue">
                     </gtx-radio-button>`)
-                    .createAsync(TestComponent)
-                    .then((fixture: ComponentFixture) => {
-                        fixture.detectChanges();
-                        const instance: TestComponent = fixture.componentInstance;
-                        const nativeInput: HTMLInputElement = fixture.nativeElement.querySelector('input');
+                        .createAsync(TestComponent)
+                        .then((fixture: ComponentFixture) => {
+                            fixture.detectChanges();
+                            const instance: TestComponent = fixture.componentInstance;
+                            const nativeInput: HTMLInputElement = fixture.nativeElement.querySelector('input');
 
-                        expect(nativeInput.checked).toBe(false);
+                            expect(nativeInput.checked).toBe(false);
 
-                        instance.boundProperty = 'otherValue';
-                        fixture.detectChanges();
-                        tick();
-                        expect(nativeInput.checked).toBe(true);
+                            instance.boundProperty = 'otherValue';
+                            fixture.detectChanges();
+                            tick();
+                            expect(nativeInput.checked).toBe(true);
 
-                        instance.boundProperty = null;
-                        fixture.detectChanges();
-                        tick();
-                        expect(nativeInput.checked).toBe(false);
-                    });
-            })
-        ));
+                            instance.boundProperty = null;
+                            fixture.detectChanges();
+                            tick();
+                            expect(nativeInput.checked).toBe(false);
+                        });
+                })
+            ));
 
         it('should update a bound property with NgModel (outbound)', inject([TestComponentBuilder],
             fakeAsync((tcb: TestComponentBuilder) => {
@@ -243,7 +243,7 @@ describe('RadioButton', () => {
 
         it('should update multiple radioButtons bound on one NgModel (inbound)',
             inject([TestComponentBuilder], fakeAsync((tcb: TestComponentBuilder) => {
-                tcb.overrideTemplate(TestComponent, `
+                    tcb.overrideTemplate(TestComponent, `
                     <gtx-radio-button
                         [(ngModel)]="boundObjectProperty"
                         [value]="objectValues[0]">
@@ -252,34 +252,34 @@ describe('RadioButton', () => {
                         [(ngModel)]="boundObjectProperty"
                         [value]="objectValues[1]">
                     </gtx-radio-button>`)
-                    .createAsync(TestComponent)
-                    .then((fixture: ComponentFixture) => {
-                        fixture.detectChanges();
-                        tick();
-                        const instance: TestComponent = fixture.componentInstance;
-                        const nativeInputs: NodeListOf<HTMLInputElement> = fixture.nativeElement.querySelectorAll('input');
+                        .createAsync(TestComponent)
+                        .then((fixture: ComponentFixture) => {
+                            fixture.detectChanges();
+                            tick();
+                            const instance: TestComponent = fixture.componentInstance;
+                            const nativeInputs: NodeListOf<HTMLInputElement> = fixture.nativeElement.querySelectorAll('input');
 
-                        expect(nativeInputs[0].checked).toBe(false);
-                        expect(nativeInputs[1].checked).toBe(false);
+                            expect(nativeInputs[0].checked).toBe(false);
+                            expect(nativeInputs[1].checked).toBe(false);
 
-                        instance.boundObjectProperty = instance.objectValues[0];
-                        fixture.detectChanges();
-                        tick();
-                        expect(nativeInputs[0].checked).toBe(true);
-                        expect(nativeInputs[1].checked).toBe(false);
+                            instance.boundObjectProperty = instance.objectValues[0];
+                            fixture.detectChanges();
+                            tick();
+                            expect(nativeInputs[0].checked).toBe(true);
+                            expect(nativeInputs[1].checked).toBe(false);
 
-                        instance.boundObjectProperty = instance.objectValues[1];
-                        fixture.detectChanges();
-                        tick();
-                        expect(nativeInputs[0].checked).toBe(false);
-                        expect(nativeInputs[1].checked).toBe(true);
-                    });
-            })
-        ));
+                            instance.boundObjectProperty = instance.objectValues[1];
+                            fixture.detectChanges();
+                            tick();
+                            expect(nativeInputs[0].checked).toBe(false);
+                            expect(nativeInputs[1].checked).toBe(true);
+                        });
+                })
+            ));
 
         it('should update multiple radioButtons bound on one NgModel (outbound)',
             inject([TestComponentBuilder], fakeAsync((tcb: TestComponentBuilder) => {
-                tcb.overrideTemplate(TestComponent, `
+                    tcb.overrideTemplate(TestComponent, `
                     <gtx-radio-button
                         [(ngModel)]="boundObjectProperty"
                         [value]="objectValues[0]">
@@ -288,34 +288,34 @@ describe('RadioButton', () => {
                         [(ngModel)]="boundObjectProperty"
                         [value]="objectValues[1]">
                     </gtx-radio-button>`)
-                    .createAsync(TestComponent)
-                    .then((fixture: ComponentFixture) => {
-                        fixture.detectChanges();
-                        tick();
-                        const instance: TestComponent = fixture.componentInstance;
-                        const nativeInputs: NodeListOf<HTMLInputElement> = fixture.nativeElement.querySelectorAll('input');
+                        .createAsync(TestComponent)
+                        .then((fixture: ComponentFixture) => {
+                            fixture.detectChanges();
+                            tick();
+                            const instance: TestComponent = fixture.componentInstance;
+                            const nativeInputs: NodeListOf<HTMLInputElement> = fixture.nativeElement.querySelectorAll('input');
 
-                        expect(nativeInputs[0].checked).toBe(false);
-                        expect(nativeInputs[1].checked).toBe(false);
+                            expect(nativeInputs[0].checked).toBe(false);
+                            expect(nativeInputs[1].checked).toBe(false);
 
-                        nativeInputs[0].click();
-                        tick();
-                        fixture.detectChanges();
-                        tick();
-                        expect(nativeInputs[0].checked).toBe(true);
-                        expect(nativeInputs[1].checked).toBe(false);
-                        expect(instance.boundObjectProperty).toBe(instance.objectValues[0]);
+                            nativeInputs[0].click();
+                            tick();
+                            fixture.detectChanges();
+                            tick();
+                            expect(nativeInputs[0].checked).toBe(true);
+                            expect(nativeInputs[1].checked).toBe(false);
+                            expect(instance.boundObjectProperty).toBe(instance.objectValues[0]);
 
-                        nativeInputs[1].click();
-                        tick();
-                        fixture.detectChanges();
-                        tick();
-                        expect(nativeInputs[0].checked).toBe(false);
-                        expect(nativeInputs[1].checked).toBe(true);
-                        expect(instance.boundObjectProperty).toBe(instance.objectValues[1]);
-                    });
-            })
-        ));
+                            nativeInputs[1].click();
+                            tick();
+                            fixture.detectChanges();
+                            tick();
+                            expect(nativeInputs[0].checked).toBe(false);
+                            expect(nativeInputs[1].checked).toBe(true);
+                            expect(instance.boundObjectProperty).toBe(instance.objectValues[1]);
+                        });
+                })
+            ));
 
         it('should bind the value with NgControl (inbound)', inject([TestComponentBuilder],
             fakeAsync((tcb: TestComponentBuilder) => {
@@ -372,196 +372,267 @@ describe('RadioButton', () => {
         ));
 
     });
-});
 
+    describe('stateless mode:', () => {
+
+        function getRadioButton(fixture: ComponentFixture): RadioButton {
+            return fixture.debugElement.query(By.css('gtx-radio-button')).componentInstance;
+        }
+
+        it('stateless mode should be disabled by default',
+            inject([TestComponentBuilder], fakeAsync((tcb: TestComponentBuilder) => {
+                tcb.createAsync(TestComponent)
+                    .then((fixture: ComponentFixture) => {
+                        const radioButtonComponent: RadioButton = getRadioButton(fixture);
+                        fixture.detectChanges();
+
+                        expect(radioButtonComponent['statelessMode']).toBe(false);
+                    });
+            })));
+
+        it('stateless mode should be enabled when using "checked" attribute',
+            inject([TestComponentBuilder], fakeAsync((tcb: TestComponentBuilder) => {
+                tcb.overrideTemplate(TestComponent, `<gtx-radio-button checked="true"></gtx-radio-button>`)
+                    .createAsync(TestComponent)
+                    .then((fixture: ComponentFixture) => {
+                        const radioButtonComponent: RadioButton = getRadioButton(fixture);
+                        fixture.detectChanges();
+
+                        expect(radioButtonComponent['statelessMode']).toBe(true);
+                    });
+            })));
+
+        it('should not change check state on click when bound to "checked" attribute',
+            inject([TestComponentBuilder], fakeAsync((tcb: TestComponentBuilder) => {
+                tcb.overrideTemplate(TestComponent, `<gtx-radio-button checked="false"></gtx-radio-button>`)
+                    .createAsync(TestComponent)
+                    .then((fixture: ComponentFixture) => {
+                        const radioButtonComponent: RadioButton = getRadioButton(fixture);
+                        const nativeInput: HTMLInputElement = fixture.nativeElement.querySelector('input');
+                        fixture.detectChanges();
+
+                        expect(radioButtonComponent.checked).toBe(false);
+                        expect(nativeInput.checked).toBe(false);
+
+                        nativeInput.click();
+                        tick();
+                        fixture.detectChanges();
+
+                        expect(radioButtonComponent.checked).toBe(false);
+                        expect(nativeInput.checked).toBe(false);
+                    });
+            })));
+
+        it('should change check state when "checked" attribute binding changes',
+            inject([TestComponentBuilder], (tcb: TestComponentBuilder) => {
+                tcb.overrideTemplate(TestComponent, `<gtx-radio-button [checked]="checkState"></gtx-radio-button>`)
+                    .createAsync(TestComponent)
+                    .then((fixture: ComponentFixture) => {
+                        const instance: TestComponent = fixture.componentInstance;
+                        const radioButtonComponent: RadioButton = getRadioButton(fixture);
+                        const nativeInput: HTMLInputElement = fixture.nativeElement.querySelector('input');
+                        fixture.detectChanges();
+
+                        expect(radioButtonComponent.checked).toBe(false);
+                        expect(nativeInput.checked).toBe(false);
+
+                        instance.checkState = true;
+                        fixture.detectChanges();
+
+                        expect(radioButtonComponent.checked).toBe(true);
+                        expect(nativeInput.checked).toBe(true);
+                    });
+            }));
+
+    });
+});
 
 describe('RadioGroup', () => {
 
     it('should bind the check state of RadioButton children with NgModel (inbound)',
         inject([TestComponentBuilder], fakeAsync((tcb: TestComponentBuilder) => {
-            tcb.overrideTemplate(TestComponent, `
+                tcb.overrideTemplate(TestComponent, `
                 <gtx-radio-group [(ngModel)]="boundProperty">
                     <gtx-radio-button value="A"></gtx-radio-button>
                     <gtx-radio-button value="B"></gtx-radio-button>
                 </gtx-radio-group>`)
-                .createAsync(TestComponent)
-                .then((fixture: ComponentFixture) => {
-                    fixture.detectChanges();
+                    .createAsync(TestComponent)
+                    .then((fixture: ComponentFixture) => {
+                        fixture.detectChanges();
 
-                    const instance: TestComponent = fixture.componentInstance;
-                    const nativeInputs: NodeListOf<HTMLInputElement> = fixture.nativeElement.querySelectorAll('input');
+                        const instance: TestComponent = fixture.componentInstance;
+                        const nativeInputs: NodeListOf<HTMLInputElement> = fixture.nativeElement.querySelectorAll('input');
 
-                    instance.boundProperty = 'A';
-                    fixture.detectChanges();
-                    tick();
-                    expect(nativeInputs[0].checked).toBe(true);
-                    expect(nativeInputs[1].checked).toBe(false);
+                        instance.boundProperty = 'A';
+                        fixture.detectChanges();
+                        tick();
+                        expect(nativeInputs[0].checked).toBe(true);
+                        expect(nativeInputs[1].checked).toBe(false);
 
-                    instance.boundProperty = 'B';
-                    fixture.detectChanges();
-                    tick();
-                    expect(nativeInputs[0].checked).toBe(false);
-                    expect(nativeInputs[1].checked).toBe(true);
-                });
-        })
-    ));
+                        instance.boundProperty = 'B';
+                        fixture.detectChanges();
+                        tick();
+                        expect(nativeInputs[0].checked).toBe(false);
+                        expect(nativeInputs[1].checked).toBe(true);
+                    });
+            })
+        ));
 
     xit('should uncheck all RadioButton children when none of their values match a property bound with NgModel (inbound)',
         inject([TestComponentBuilder], fakeAsync((tcb: TestComponentBuilder) => {
-            tcb.overrideTemplate(TestComponent, `
+                tcb.overrideTemplate(TestComponent, `
                 <gtx-radio-group [(ngModel)]="boundProperty">
                     <gtx-radio-button value="A"></gtx-radio-button>
                     <gtx-radio-button value="B"></gtx-radio-button>
                 </gtx-radio-group>`)
-                .createAsync(TestComponent)
-                .then((fixture: ComponentFixture) => {
-                    const instance: TestComponent = fixture.componentInstance;
-                    const nativeInputs: NodeListOf<HTMLInputElement> = fixture.nativeElement.querySelectorAll('input');
+                    .createAsync(TestComponent)
+                    .then((fixture: ComponentFixture) => {
+                        const instance: TestComponent = fixture.componentInstance;
+                        const nativeInputs: NodeListOf<HTMLInputElement> = fixture.nativeElement.querySelectorAll('input');
 
-                    instance.boundProperty = 'A';
-                    tick();
-                    fixture.detectChanges();
-                    expect(nativeInputs[0].checked).toBe(true);
-                    expect(nativeInputs[1].checked).toBe(false);
+                        instance.boundProperty = 'A';
+                        tick();
+                        fixture.detectChanges();
+                        expect(nativeInputs[0].checked).toBe(true);
+                        expect(nativeInputs[1].checked).toBe(false);
 
-                    instance.boundProperty = 'some other value';
-                    fixture.detectChanges();
-                    tick();
-                    expect(nativeInputs[0].checked).toBe(false);
-                    expect(nativeInputs[1].checked).toBe(false);
-                });
-        })
-    ));
+                        instance.boundProperty = 'some other value';
+                        fixture.detectChanges();
+                        tick();
+                        expect(nativeInputs[0].checked).toBe(false);
+                        expect(nativeInputs[1].checked).toBe(false);
+                    });
+            })
+        ));
 
     it('should update a NgModel bound property when RadioButton children are checked (outbound)',
         inject([TestComponentBuilder], fakeAsync((tcb: TestComponentBuilder) => {
-            tcb.overrideTemplate(TestComponent, `
+                tcb.overrideTemplate(TestComponent, `
                 <gtx-radio-group [(ngModel)]="boundProperty">
                     <gtx-radio-button value="A"></gtx-radio-button>
                     <gtx-radio-button value="B"></gtx-radio-button>
                 </gtx-radio-group>`)
-                .createAsync(TestComponent)
-                .then((fixture: ComponentFixture) => {
-                    fixture.detectChanges();
-                    tick();
-                    const instance: TestComponent = fixture.componentInstance;
-                    const nativeInputs: NodeListOf<HTMLInputElement> = fixture.nativeElement.querySelectorAll('input');
+                    .createAsync(TestComponent)
+                    .then((fixture: ComponentFixture) => {
+                        fixture.detectChanges();
+                        tick();
+                        const instance: TestComponent = fixture.componentInstance;
+                        const nativeInputs: NodeListOf<HTMLInputElement> = fixture.nativeElement.querySelectorAll('input');
 
-                    nativeInputs[0].click();
-                    fixture.detectChanges();
-                    tick();
-                    expect(instance.boundProperty).toBe('A');
-                    expect(nativeInputs[0].checked).toBe(true);
-                    expect(nativeInputs[1].checked).toBe(false);
+                        nativeInputs[0].click();
+                        fixture.detectChanges();
+                        tick();
+                        expect(instance.boundProperty).toBe('A');
+                        expect(nativeInputs[0].checked).toBe(true);
+                        expect(nativeInputs[1].checked).toBe(false);
 
-                    nativeInputs[1].click();
-                    fixture.detectChanges();
-                    tick();
-                    expect(instance.boundProperty).toBe('B');
-                    expect(nativeInputs[0].checked).toBe(false);
-                    expect(nativeInputs[1].checked).toBe(true);
-                });
-        })
-    ));
+                        nativeInputs[1].click();
+                        fixture.detectChanges();
+                        tick();
+                        expect(instance.boundProperty).toBe('B');
+                        expect(nativeInputs[0].checked).toBe(false);
+                        expect(nativeInputs[1].checked).toBe(true);
+                    });
+            })
+        ));
 
     xit('should set a NgModel bound property to null when no RadioButton children are checked (outbound)',
         inject([TestComponentBuilder], fakeAsync((tcb: TestComponentBuilder) => {
-            tcb.overrideTemplate(TestComponent, `
+                tcb.overrideTemplate(TestComponent, `
                 <gtx-radio-group [(ngModel)]="boundProperty">
                     <gtx-radio-button value="A" [checked]="checkState"></gtx-radio-button>
                     <gtx-radio-button value="B"></gtx-radio-button>
                 </gtx-radio-group>`)
-                .createAsync(TestComponent)
-                .then((fixture: ComponentFixture) => {
-                    fixture.detectChanges();
+                    .createAsync(TestComponent)
+                    .then((fixture: ComponentFixture) => {
+                        fixture.detectChanges();
 
-                    const instance: TestComponent = fixture.componentInstance;
-                    const nativeInputs: NodeListOf<HTMLInputElement> = fixture.nativeElement.querySelectorAll('input');
-                    // const debugInputs: DebugElement[] = fixture.debugElement.queryAll(By.css('input'));
+                        const instance: TestComponent = fixture.componentInstance;
+                        const nativeInputs: NodeListOf<HTMLInputElement> = fixture.nativeElement.querySelectorAll('input');
+                        // const debugInputs: DebugElement[] = fixture.debugElement.queryAll(By.css('input'));
 
-                    instance.checkState = true;
-                    fixture.detectChanges();
-                    tick();
-                    expect(instance.boundProperty).toBe('A');
-                    expect(nativeInputs[0].checked).toBe(true);
-                    expect(nativeInputs[1].checked).toBe(false);
+                        instance.checkState = true;
+                        fixture.detectChanges();
+                        tick();
+                        expect(instance.boundProperty).toBe('A');
+                        expect(nativeInputs[0].checked).toBe(true);
+                        expect(nativeInputs[1].checked).toBe(false);
 
-                    instance.checkState = false;
-                    fixture.detectChanges();
-                    tick();
-                    expect(instance.boundProperty).toBe(null);
-                    expect(nativeInputs[0].checked).toBe(false);
-                    expect(nativeInputs[1].checked).toBe(false);
-                });
-        })
-    ));
+                        instance.checkState = false;
+                        fixture.detectChanges();
+                        tick();
+                        expect(instance.boundProperty).toBe(null);
+                        expect(nativeInputs[0].checked).toBe(false);
+                        expect(nativeInputs[1].checked).toBe(false);
+                    });
+            })
+        ));
 
     it('should bind the check state of RadioButton children with NgControl (inbound)',
         inject([TestComponentBuilder], fakeAsync((tcb: TestComponentBuilder) => {
-            tcb.overrideTemplate(TestComponent, `
+                tcb.overrideTemplate(TestComponent, `
                 <form [ngFormModel]="testForm">
                     <gtx-radio-group ngControl="testControl">
                         <gtx-radio-button value="A"></gtx-radio-button>
                         <gtx-radio-button value="B"></gtx-radio-button>
                     </gtx-radio-group>
                 </form>`)
-                .createAsync(TestComponent)
-                .then((fixture: ComponentFixture) => {
-                    fixture.detectChanges();
+                    .createAsync(TestComponent)
+                    .then((fixture: ComponentFixture) => {
+                        fixture.detectChanges();
 
-                    const instance: TestComponent = fixture.componentInstance;
-                    const nativeInputs: NodeListOf<HTMLInputElement> = fixture.nativeElement.querySelectorAll('input');
-                    const control: Control = <Control> instance.testForm.find('testControl');
+                        const instance: TestComponent = fixture.componentInstance;
+                        const nativeInputs: NodeListOf<HTMLInputElement> = fixture.nativeElement.querySelectorAll('input');
+                        const control: Control = <Control> instance.testForm.find('testControl');
 
-                    control.updateValue('A');
-                    fixture.detectChanges();
-                    tick();
-                    expect(nativeInputs[0].checked).toBe(true);
-                    expect(nativeInputs[1].checked).toBe(false);
+                        control.updateValue('A');
+                        fixture.detectChanges();
+                        tick();
+                        expect(nativeInputs[0].checked).toBe(true);
+                        expect(nativeInputs[1].checked).toBe(false);
 
-                    control.updateValue('B');
-                    fixture.detectChanges();
-                    tick();
-                    expect(nativeInputs[0].checked).toBe(false);
-                    expect(nativeInputs[1].checked).toBe(true);
-                });
-        })
-    ));
+                        control.updateValue('B');
+                        fixture.detectChanges();
+                        tick();
+                        expect(nativeInputs[0].checked).toBe(false);
+                        expect(nativeInputs[1].checked).toBe(true);
+                    });
+            })
+        ));
 
     it('should bind the check state of RadioButton children with NgControl (outbound)',
         inject([TestComponentBuilder], fakeAsync((tcb: TestComponentBuilder) => {
-            tcb.overrideTemplate(TestComponent, `
+                tcb.overrideTemplate(TestComponent, `
                 <form [ngFormModel]="testForm">
                     <gtx-radio-group ngControl="testControl">
                         <gtx-radio-button value="A"></gtx-radio-button>
                         <gtx-radio-button value="B"></gtx-radio-button>
                     </gtx-radio-group>
                 </form>`)
-                .createAsync(TestComponent)
-                .then((fixture: ComponentFixture) => {
-                    fixture.detectChanges();
+                    .createAsync(TestComponent)
+                    .then((fixture: ComponentFixture) => {
+                        fixture.detectChanges();
 
-                    const instance: TestComponent = fixture.componentInstance;
-                    const nativeInputs: NodeListOf<HTMLInputElement> = fixture.nativeElement.querySelectorAll('input');
-                    const control: Control = <Control> instance.testForm.find('testControl');
+                        const instance: TestComponent = fixture.componentInstance;
+                        const nativeInputs: NodeListOf<HTMLInputElement> = fixture.nativeElement.querySelectorAll('input');
+                        const control: Control = <Control> instance.testForm.find('testControl');
 
-                    control.updateValue('A');
-                    fixture.detectChanges();
-                    tick();
-                    expect(nativeInputs[0].checked).toBe(true);
-                    expect(nativeInputs[1].checked).toBe(false);
+                        control.updateValue('A');
+                        fixture.detectChanges();
+                        tick();
+                        expect(nativeInputs[0].checked).toBe(true);
+                        expect(nativeInputs[1].checked).toBe(false);
 
-                    control.updateValue('B');
-                    fixture.detectChanges();
-                    tick();
-                    expect(nativeInputs[0].checked).toBe(false);
-                    expect(nativeInputs[1].checked).toBe(true);
-                });
-        })
-    ));
+                        control.updateValue('B');
+                        fixture.detectChanges();
+                        tick();
+                        expect(nativeInputs[0].checked).toBe(false);
+                        expect(nativeInputs[1].checked).toBe(true);
+                    });
+            })
+        ));
 
 });
-
 
 @Component({
     template: `<gtx-radio-button></gtx-radio-button>`,

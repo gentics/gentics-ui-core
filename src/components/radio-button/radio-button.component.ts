@@ -87,6 +87,21 @@ export class RadioGroup implements ControlValueAccessor {
  * <gtx-radio-button [(ngModel)]="val" value="B" label="B"></gtx-radio-button>
  * <gtx-radio-button [(ngModel)]="val" value="C" label="C"></gtx-radio-button>
  * ```
+ *
+ * ##### Stateless Mode
+ * By default, the RadioButton keeps track of its own internal checked state. This makes sense
+ * for most use cases, such as when used in a form bound to NgControl.
+ *
+ * However, in some cases we want to explicitly set the state from outside. This is done by binding
+ * to the <code>checked</code> attribute. When this attribute is bound, the checked state of the
+ * RadioButton will *only* change when the value of the binding changes. Clicking on the RadioButton
+ * will have no effect other than to emit an event which the parent can use to update the binding.
+ *
+ * Here is a basic example of a stateless RadioButton where the parent component manages the state:
+ *
+ * ```html
+ * <gtx-radio-button [checked]="isChecked"></gtx-checkbox>
+ * ```
  */
 @Component({
     selector: 'gtx-radio-button',
@@ -95,14 +110,16 @@ export class RadioGroup implements ControlValueAccessor {
 export class RadioButton implements ControlValueAccessor, OnInit, OnDestroy {
 
     /**
-     * The checked state of the control
+     * The checked state of the control. When set, the RadioButton will be
+     * in stateless mode.
      */
     @Input() get checked(): boolean {
         return this.inputChecked;
     }
     set checked(val: boolean) {
+        this.statelessMode = true;
         if (val != this.inputChecked) {
-            this.inputChecked = val;
+            this.inputChecked = val === true || <any> val === 'true';
             this.change.emit(this.value);
             if (val && this.group) {
                 this.group.radioSelected(this);
@@ -159,11 +176,15 @@ export class RadioButton implements ControlValueAccessor, OnInit, OnDestroy {
     @Output() focus = new EventEmitter<boolean>();
 
     /**
-     * Change event 
+     * Change event
      */
     @Output() change = new EventEmitter<any>();
 
     private inputChecked: boolean = false;
+    /**
+     * See note above on stateless mode.
+     */
+    private statelessMode: boolean = false;
 
     private onChange: Function = (_: any) => {};
     private onTouched: Function = () => {};
@@ -226,12 +247,22 @@ export class RadioButton implements ControlValueAccessor, OnInit, OnDestroy {
         }
     }
 
-    private onInputChecked(): void {
+    private onInputChecked(input: HTMLInputElement): boolean {
+        if (this.statelessMode) {
+            let newState = input.checked;
+            if (input.checked !== this.inputChecked) {
+                input.checked = !!this.inputChecked;
+            }
+            this.change.emit(newState);
+            return false;
+        }
+
         this.inputChecked = true;
         this.change.emit(this.value);
         if (this.group) {
             this.group.radioSelected(this);
         }
         this.onChange(this.value);
+        return true;
     }
 }

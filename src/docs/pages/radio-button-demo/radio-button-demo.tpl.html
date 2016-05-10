@@ -68,3 +68,20 @@
 
     </div>
 </gtx-demo-block>
+
+
+<gtx-demo-block title="Stateless Mode">
+    <div class="demo-result">
+        <gtx-radio-button label="Checkbox is checked" [checked]="radioChecked"></gtx-radio-button>
+        <gtx-radio-button label="Checkbox is not checked" [checked]="!radioChecked"></gtx-radio-button>
+        <gtx-checkbox [(ngModel)]="radioChecked" label="Toggle the radio buttons"></gtx-checkbox>
+    </div>
+    <div class="demo-code">
+        <gtx-highlighted-code language="HTML" code='
+            <gtx-radio-button label="Checkbox is checked" [checked]="radioChecked"></gtx-radio-button>
+            <gtx-radio-button label="Checkbox is not checked" [checked]="!radioChecked"></gtx-radio-button>
+            <gtx-checkbox [(ngModel)]="radioChecked" label="Toggle the radio buttons"></gtx-checkbox>
+        '></gtx-highlighted-code>
+
+    </div>
+</gtx-demo-block>
