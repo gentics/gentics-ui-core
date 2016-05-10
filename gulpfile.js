@@ -23,29 +23,33 @@ const webpackConfig = require('./webpack.config.js');
 const buildConfig = require('./build.config').config;
 const paths = require('./build.config').paths;
 
-gulp.task('clean', clean);
+gulp.task('lib:clean', cleanDirectory(paths.out.dist.root));
 gulp.task('lib:typescript', compileLibTypescript);
 gulp.task('lib:templates', copyTemplates);
 gulp.task('lib:styles', compileLibStyles);
-gulp.task('lib:fonts', copyFonts);
+gulp.task('lib:fonts', copyFontsTo(paths.out.dist.fonts));
 gulp.task('lib:build', gulp.parallel('lib:typescript', 'lib:templates', 'lib:styles', 'lib:fonts'));
-gulp.task('lib:rebuild', gulp.series('clean', 'lib:build'));
+gulp.task('lib:rebuild', gulp.series('lib:clean', 'lib:build'));
 gulp.task('lint', lint);
 gulp.task('webpack:watch', watchWebpack);
 gulp.task('webpack:run', runWebpack);
-gulp.task('docs:static-files', gulp.parallel(copyFonts, copyImages));
+gulp.task('docs:clean', cleanDirectory(paths.out.docs));
+gulp.task('docs:static-files', gulp.parallel(copyFontsTo(paths.out.fonts), copyImagesToDocs));
 gulp.task('docs:styles', compileDocsSASS);
 gulp.task('docs:build', gulp.series('webpack:run', 'docs:styles', 'docs:static-files'));
-gulp.task('docs:rebuild', gulp.series('clean', 'docs:build'));
+gulp.task('docs:rebuild', gulp.series('docs:clean', 'docs:build'));
 gulp.task('docs:watch', gulp.series(
     gulp.parallel('docs:styles', 'docs:static-files'),
     gulp.parallel('webpack:watch', watchDocs)
 ));
+gulp.task('clean', gulp.parallel('lib:clean', 'docs:clean'));
 gulp.task('test:run', callback => runKarmaServer(false, callback));
 gulp.task('test:watch', callback => runKarmaServer(true, callback));
 
-function clean() {
-    return del([`${paths.out.docs}/**`, `!${paths.out.docs}`]);
+function cleanDirectory(directory) {
+    return function clean() {
+        return del([`${directory}/**`, `!${directory}`]);
+    };
 }
 
 function compileLibTypescript() {
@@ -84,17 +88,19 @@ function compileLibStyles() {
     ]);
 }
 
-function copyFonts() {
-    return (
-        gulp.src(paths.vendorStatics.concat(paths.src.fonts))
-        .pipe(filter([
-            '*.eot',
-            '*.ttf',
-            '*.woff',
-            '*.woff2'
-        ]))
-        .pipe(gulp.dest(paths.out.dist.fonts))
-    );
+function copyFontsTo(outputFolder) {
+    return function copyFonts() {
+        return (
+            gulp.src(paths.vendorStatics.concat(paths.src.fonts))
+            .pipe(filter([
+                '*.eot',
+                '*.ttf',
+                '*.woff',
+                '*.woff2'
+            ]))
+            .pipe(gulp.dest(outputFolder))
+        );
+    };
 }
 
 function lint(doneCallback) {
@@ -120,7 +126,7 @@ function lint(doneCallback) {
         .on('end', () => doneCallback(errors.length ? errors : null));
 }
 
-function copyImages() {
+function copyImagesToDocs() {
     return (
         gulp.src(paths.docs.assets)
         .pipe(gulp.dest(paths.out.images))
