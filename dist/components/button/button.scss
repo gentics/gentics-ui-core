@@ -136,13 +136,11 @@ gtx-button {
 
     > button.btn-flat.btn-icon {
         padding: 0;
-        border: none;
-        &:focus {
-            border: none;
-        }
+        border: 1px solid transparent;
+        background: none !important;
 
         &.small {
-            height: 16px;
+            height: 18px;
             line-height: 16px;
             > i {
                 font-size: 16px;
@@ -150,7 +148,7 @@ gtx-button {
         }
 
         &.regular {
-            height: 24px;
+            height: 26px;
             line-height: 24px;
             > i {
                 font-size: 24px;
@@ -158,11 +156,48 @@ gtx-button {
         }
 
         &.large {
-            height: 42px;
+            height: 44px;
             line-height: 42px;
             > i {
                 font-size: 42px;
             }
+        }
+
+        &:hover {
+            color: darken($gtx-color-primary, 5%);
+        }
+
+        &:active {
+            color: darken($gtx-color-primary, 25%);
+        }
+
+        &:focus {
+            border-color: transparentize($gtx-color-primary, 0.8);
+        }
+
+        &.secondary {
+            color: $gtx-color-dark-gray;
+            &:hover { color: transparentize($gtx-color-dark-gray, 0.2); }
+            &:active { color: darken($gtx-color-dark-gray, 10%); }
+            &:focus { border-color: transparentize($gtx-color-secondary, 0.6); }
+        }
+        &.success {
+            color: darken($gtx-color-success, 10%);
+            &:hover { color: transparentize($gtx-color-success, 0.1); }
+            &:active { color: darken($gtx-color-success, 15%); }
+            &:focus { border-color: transparentize($gtx-color-success, 0.8); }
+        }
+        &.warning {
+            color: darken($gtx-color-warning, 10%);
+            &:hover { color: transparentize($gtx-color-warning, 0.1); }
+            &:active { color: darken($gtx-color-warning, 15%); }
+            &:focus { border-color: transparentize($gtx-color-warning, 0.8); }
+        }
+        &.alert {
+            color: darken($gtx-color-alert, 10%);
+            &:hover { color: $gtx-color-alert; }
+            &:active { color: darken($gtx-color-alert, 15%); }
+            &:focus { border-color: transparentize($gtx-color-alert, 0.9); }
         }
     }
 
