@@ -12,7 +12,7 @@
 
 ## Requirements
 
-- node >= 4.0
+- node >= 6.1
 - gulp: `npm install -g gulp`
 - typings: `npm install -g typings`
 
