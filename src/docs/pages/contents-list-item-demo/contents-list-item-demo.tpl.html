@@ -30,7 +30,32 @@
         <gtx-highlighted-code language="HTML" code='
                   <gtx-contents-list-item *ngFor="let item of listItems">
                       <div class="item-avatar"><i class="material-icons">person</i></div>
-                      <div class="item-primary">{{ item }}</div>
+                      <div class="item-primary">(( item ))</div>
+                  </gtx-contents-list-item>
+           '></gtx-highlighted-code>
+    </div>
+</gtx-demo-block>
+
+<gtx-demo-block title="Show On Hover">
+    <div class="demo-result">
+        <gtx-contents-list-item *ngFor="let item of listItems">
+            <div class="item-avatar"><i class="material-icons">person</i></div>
+            <div class="item-primary">{{ item }}</div>
+            <div class="show-on-hover">
+                <gtx-button icon type="secondary"><i class="material-icons">star</i></gtx-button>
+                <gtx-button icon type="alert"><i class="material-icons">delete</i></gtx-button>
+            </div>
+        </gtx-contents-list-item>
+    </div>
+    <div class="demo-code">
+        <gtx-highlighted-code language="HTML" code='
+                  <gtx-contents-list-item *ngFor="let item of listItems">
+                      <div class="item-avatar"><i class="material-icons">person</i></div>
+                      <div class="item-primary">(( item ))</div>
+                      <div class="show-on-hover">
+                          <gtx-button icon type="secondary"><i class="material-icons">star</i></gtx-button>
+                          <gtx-button icon type="alert"><i class="material-icons">delete</i></gtx-button>
+                      </div>
                   </gtx-contents-list-item>
            '></gtx-highlighted-code>
     </div>

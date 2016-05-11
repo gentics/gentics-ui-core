@@ -20,4 +20,16 @@ gtx-contents-list-item {
         flex: 1;
         padding: 0 5px 0 10px;
     }
+
+    .show-on-hover {
+        filter: grayscale(70%);
+        opacity: 0.1;
+        transition: opacity 0.1s, filter 0.1s;
+    }
+    &:hover {
+        .show-on-hover {
+            opacity: 1;
+            filter: grayscale(0%);
+        }
+    }
 }
