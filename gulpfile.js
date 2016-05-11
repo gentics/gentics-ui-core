@@ -176,7 +176,7 @@ function runKarmaServer(watch, callback) {
     });
 
     const server = new karma.Server({
-        configFile: 'karma.conf.js',
+        configFile: path.join(__dirname, 'karma.conf.js'),
         singleRun: !watch,
         browsers: testBrowsers
     }, callback);
