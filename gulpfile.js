@@ -153,8 +153,8 @@ function compileDocsSASS() {
 }
 
 function watchDocs(runForever) {
-    gulp.watch(paths.docs.scss, 'docs:styles');
-    gulp.watch(paths.src.vendorStatics, 'docs:static-files');
+    gulp.watch(paths.docs.scss, gulp.parallel('docs:styles'));
+    gulp.watch(paths.src.vendorStatics, gulp.parallel('docs:static-files'));
 }
 
 function runWebpack(callback) {
