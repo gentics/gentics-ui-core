@@ -1,0 +1,135 @@
+<h3>ProgressBar</h3>
+
+<gtx-autodocs [source]="componentSource" type="component"></gtx-autodocs>
+
+<h4>Demos</h4>
+
+
+<gtx-demo-block title="Indeterminate Progress">
+    <div class="demo-result">
+        <p>
+            Indeterminate progress bars should be used for actions which take an unknown duration,
+            like waiting for a server request to complete or an image to load.
+        </p>
+        <gtx-progress-bar [active]="loading"></gtx-progress-bar>
+        <div class="col s8">
+            <gtx-button (click)="loading = true">Load something</gtx-button>
+            <gtx-button (click)="loading = false">Loading completed</gtx-button>
+        </div>
+    </div>
+    <div class="demo-code">
+        <gtx-highlighted-code language="HTML" code='
+                <gtx-progress-bar [active]="loading"></gtx-progress-bar>
+                <gtx-button (click)="loading = true">Load something</gtx-button>
+                <gtx-button (click)="loading = false">Loading completed</gtx-button>
+        '></gtx-highlighted-code>
+    </div>
+</gtx-demo-block>
+
+
+<gtx-demo-block title="Determinate Progress">
+    <div class="demo-result">
+        <p>
+            Determinate progress bars should be used for actions which take a calculateable amount of time
+            and for for actions which report their progress, like uploading a file to the server
+            or operating large data sets in a web worker.
+        </p>
+        <gtx-progress-bar [active]="fileUploading" [progress]="filePercentage"></gtx-progress-bar>
+        <div class="col s8">
+            <gtx-button (click)="startFileUpload()" [disabled]="fileUploading">Upload a file</gtx-button>
+        </div>
+    </div>
+    <div class="demo-code">
+        <gtx-highlighted-code language="TypeScript" code='
+                startFileUpload() {
+                    this.filePercentage = 0;
+                    this.fileUploading = true;
+                    uploadFileAsync();
+                }
+                onUploadProgress(uploaded, total) {
+                    this.filePercentage = uploaded / total;
+                }
+        '></gtx-highlighted-code>
+        <gtx-highlighted-code language="HTML" code='
+                <gtx-progress-bar [active]="fileUploading" [progress]="filePercentage"></gtx-progress-bar>
+                <gtx-button (click)="startFileUpload()" [disabled]="fileUploading">Upload a file</gtx-button>
+        '></gtx-highlighted-code>
+    </div>
+</gtx-demo-block>
+
+
+<gtx-demo-block title="Programmatic Use">
+    <div class="demo-result">
+        <p>
+            Instead of binding the <code>active</code> property of the component, it can be referenced
+            in the template and <code>start()</code>/<code>complete()</code> can be called directly.
+        </p>
+        <gtx-progress-bar #busy></gtx-progress-bar>
+        <div class="col s8">
+            <gtx-button (click)="busy.start()">Start loading</gtx-button>
+            <gtx-button (click)="busy.complete()">Loading done</gtx-button>
+        </div>
+    </div>
+    <div class="demo-code">
+        <gtx-highlighted-code language="HTML" code='
+                <gtx-progress-bar #busy></gtx-progress-bar>
+                <gtx-button (click)="busy.start()">Start loading</gtx-button>
+                <gtx-button (click)="busy.complete()">Loading done</gtx-button>
+        '></gtx-highlighted-code>
+    </div>
+</gtx-demo-block>
+
+
+<gtx-demo-block title="Show progress for a Promise">
+    <div class="demo-result">
+        <p>
+            When calling <code>start()</code> on the component, a <code>Promise</code>
+            can be passed which animates the progress bar when it is resolved or rejected.
+        </p>
+        <gtx-progress-bar #waiting></gtx-progress-bar>
+        <div class="col s8">
+            <gtx-button (click)="waiting.start(waitPromise(2000))" [disabled]="waiting.active">
+                Start something that returns a Promise
+            </gtx-button>
+        </div>
+    </div>
+    <div class="demo-code">
+        <gtx-highlighted-code language="TypeScript" code='
+                waitPromise(milliseconds: number) {
+                    return new Promise<void>(done => { setTimeout(done, milliseconds); });
+                }
+        '></gtx-highlighted-code>
+        <gtx-highlighted-code language="HTML" code='
+                <gtx-progress-bar #waiting></gtx-progress-bar>
+                <gtx-button (click)="waiting.start(waitPromise(2000))" [disabled]="waiting.active">
+                    Start something that returns a Promise
+                </gtx-button>
+        '></gtx-highlighted-code>
+    </div>
+</gtx-demo-block>
+
+
+<gtx-demo-block title="Change fill speed for indeterminate progress">
+    <div class="demo-result">
+        <gtx-progress-bar #slow speed="3s"></gtx-progress-bar>
+        <gtx-progress-bar #medium speed="800ms"></gtx-progress-bar>
+        <gtx-progress-bar #fast speed="200ms"></gtx-progress-bar>
+        <div class="col s8">
+            <gtx-button (click)="slow.start()" [disabled]="medium.active || fast.active">Slow</gtx-button>
+            <gtx-button (click)="medium.start()" [disabled]="slow.active || fast.active">Medium</gtx-button>
+            <gtx-button (click)="fast.start()" [disabled]="slow.active || medium.active">Fast</gtx-button>
+            <gtx-button (click)="slow.complete(); medium.complete(); fast.complete()">Done</gtx-button>
+        </div>
+    </div>
+    <div class="demo-code">
+        <gtx-highlighted-code language="HTML" code='
+                <gtx-progress-bar #slow speed="3s"></gtx-progress-bar>
+                <gtx-progress-bar #medium speed="800ms"></gtx-progress-bar>
+                <gtx-progress-bar #fast speed="200ms"></gtx-progress-bar>
+
+                <gtx-button (click)="slow.start()">Slow</gtx-button>
+                <gtx-button (click)="medium.start()">Medium</gtx-button>
+                <gtx-button (click)="fast.start()">Fast</gtx-button>
+        '></gtx-highlighted-code>
+    </div>
+</gtx-demo-block>

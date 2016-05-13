@@ -1,0 +1,12 @@
+<div class="progress-bar-wrapper"
+    [class.is-determinate]="determinate"
+    [class.is-indeterminate]="!determinate"
+    [class.visible]="progressBarVisible"
+    #fadeAnimationElement
+>
+    <div
+        class="progress-bar-inner"
+        [style.width.%]="progressPercentage"
+        #animationElement>
+    </div>
+</div>

@@ -1,0 +1,30 @@
+gtx-progress-bar {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: $gtx-progress-bar-height;
+
+    > .progress-bar-wrapper {
+        height: $gtx-progress-bar-height;
+        background-color: $gtx-progress-bar-background-color;
+        transition-property: opacity;
+        transition-duration: $gtx-progress-bar-fade-duration;
+        opacity: 0;
+
+        &.visible {
+            opacity: 1;
+        }
+
+        > .progress-bar-inner {
+            height: $gtx-progress-bar-height;
+            background-color: $gtx-progress-bar-color;
+        }
+
+        &.is-determinate > .progress-bar-inner {
+            transition-duration: $gtx-progress-bar-animation-duration;
+            transition-property: width;
+            transition-timing-function: linear;
+        }
+    }
+}
