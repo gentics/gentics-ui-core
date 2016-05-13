@@ -9,8 +9,6 @@ import {
     ViewChild
 } from '@angular/core';
 
-declare var $: JQueryStatic;
-
 /**
  * A progress bar that attachs to the top of the parent container and can be used to display activity or progress.
  * It can be used for determinate tasks with a known duration and an exact progress
@@ -87,7 +85,11 @@ export class ProgressBar {
             this.determinate = true;
             progress = Math.max(0, Math.min(progress, 100));
             if (progress !== this.progressPercentage) {
-                this.progressPercentage = progress;
+                if (progress == 100) {
+                    this.complete();
+                } else {
+                    this.progressPercentage = progress;
+                }
             }
         }
     }
@@ -103,7 +105,7 @@ export class ProgressBar {
                 let factor = (match[2] == 's' ? 1000 : 1);
                 this.indeterminateSpeed = Number.parseFloat(match[1]) * factor;
             }
-        } else if (!Number.isNaN(speed)) {
+        } else if (!isNaN(speed)) {
             this.indeterminateSpeed = speed;
         }
     }
