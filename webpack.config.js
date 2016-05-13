@@ -36,6 +36,11 @@ module.exports = {
         noParse: paths.vendorJS
     },
     ts: {
+        files: [
+            'src/index.ts',
+            'src/docs/bootstrap.ts',
+            'typings/main.d.ts'
+        ],
         compilerOptions: {
             noEmit: false,
             noEmitOnError: false

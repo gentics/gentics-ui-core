@@ -7,7 +7,7 @@ describe('Button:', () => {
 
     it('should be enabled by default', inject([TestComponentBuilder], (tcb: TestComponentBuilder) => {
         tcb.createAsync(TestComponent)
-            .then((fixture: ComponentFixture) => {
+            .then((fixture: ComponentFixture<TestComponent>) => {
                 let button: HTMLButtonElement = fixture.nativeElement.querySelector('button');
                 fixture.detectChanges();
 
@@ -18,7 +18,7 @@ describe('Button:', () => {
     it('should bind the "disabled" property', inject([TestComponentBuilder], (tcb: TestComponentBuilder) => {
         tcb.overrideTemplate(TestComponent, `<gtx-button [disabled]='true'></gtx-button>`)
             .createAsync(TestComponent)
-            .then((fixture: ComponentFixture) => {
+            .then((fixture: ComponentFixture<TestComponent>) => {
                 let button: HTMLButtonElement = fixture.nativeElement.querySelector('button');
                 fixture.detectChanges();
 
@@ -29,7 +29,7 @@ describe('Button:', () => {
     it('should accept literal "disabled" property', inject([TestComponentBuilder], (tcb: TestComponentBuilder) => {
         tcb.overrideTemplate(TestComponent, `<gtx-button disabled='true'></gtx-button>`)
             .createAsync(TestComponent)
-            .then((fixture: ComponentFixture) => {
+            .then((fixture: ComponentFixture<TestComponent>) => {
                 let button: HTMLButtonElement = fixture.nativeElement.querySelector('button');
                 fixture.detectChanges();
 

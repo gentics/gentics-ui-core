@@ -8,10 +8,10 @@ describe('DropdownList:', () => {
     it('should add a matching id to trigger and content', inject([TestComponentBuilder],
         (tcb: TestComponentBuilder) => {
             tcb.createAsync(TestComponent)
-                .then((fixture: ComponentFixture) => {
+                .then((fixture: ComponentFixture<TestComponent>) => {
                     fixture.detectChanges();
-                    let trigger: HTMLElement = fixture.nativeElement.querySelector('.dropdown-trigger');
-                    let list: HTMLUListElement = document.querySelector('.dropdown-content');
+                    let trigger = <HTMLElement> fixture.nativeElement.querySelector('.dropdown-trigger');
+                    let list = <HTMLUListElement> document.querySelector('.dropdown-content');
 
                     expect(trigger.dataset['activates'] === list.id).toBe(true);
 
@@ -22,9 +22,9 @@ describe('DropdownList:', () => {
     it('content should get attached to body', inject([TestComponentBuilder],
         (tcb: TestComponentBuilder) => {
             tcb.createAsync(TestComponent)
-                .then((fixture: ComponentFixture) => {
+                .then((fixture: ComponentFixture<TestComponent>) => {
                     fixture.detectChanges();
-                    let contentWrapper: HTMLUListElement = document.querySelector('.dropdown-content-wrapper');
+                    let contentWrapper = <HTMLUListElement> document.querySelector('.dropdown-content-wrapper');
 
                     expect(contentWrapper.parentElement).toBe(document.body);
 
@@ -35,7 +35,7 @@ describe('DropdownList:', () => {
     it('should clean up the wrapper div from the body', inject([TestComponentBuilder],
         (tcb: TestComponentBuilder) => {
             tcb.createAsync(TestComponent)
-                .then((fixture: ComponentFixture) => {
+                .then((fixture: ComponentFixture<TestComponent>) => {
                     fixture.detectChanges();
 
                     expect(document.querySelectorAll('.dropdown-content-wrapper').length).toBe(1);

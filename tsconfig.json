@@ -9,9 +9,11 @@
         "noImplicitAny": true,
         "noEmit": true
     },
-    "files": [
-        "src/index.ts",
-        "src/docs/bootstrap.ts",
-        "typings/main.d.ts"
+    "exclude": [
+        "node_modules",
+        "dist/",
+        "docs/",
+        "typings/browser",
+        "typings/browser.d.ts"
     ]
 }
