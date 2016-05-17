@@ -11,7 +11,7 @@ describe('Range:', () => {
         (tcb: TestComponentBuilder) => {
             tcb.overrideTemplate(TestComponent, `<gtx-range></gtx-range>`)
                 .createAsync(TestComponent)
-                .then((fixture: ComponentFixture) => {
+                .then((fixture: ComponentFixture<TestComponent>) => {
                     let nativeInput: HTMLInputElement = fixture.nativeElement.querySelector('input');
                     fixture.detectChanges();
 
@@ -25,7 +25,7 @@ describe('Range:', () => {
     it('should not display undefined attributes', inject([TestComponentBuilder], (tcb: TestComponentBuilder) => {
         tcb.overrideTemplate(TestComponent, `<gtx-range></gtx-range>`)
             .createAsync(TestComponent)
-            .then((fixture: ComponentFixture) => {
+            .then((fixture: ComponentFixture<TestComponent>) => {
                 let nativeInput: HTMLInputElement = fixture.nativeElement.querySelector('input');
                 const getAttr: Function = (name: string) => nativeInput.attributes.getNamedItem(name);
                 fixture.detectChanges();
@@ -53,7 +53,7 @@ describe('Range:', () => {
                        value="35"
                    ></gtx-range>`)
             .createAsync(TestComponent)
-            .then((fixture: ComponentFixture) => {
+            .then((fixture: ComponentFixture<TestComponent>) => {
                 let nativeInput: HTMLInputElement = fixture.nativeElement.querySelector('input');
                 fixture.detectChanges();
 
@@ -72,7 +72,7 @@ describe('Range:', () => {
         fakeAsync((tcb: TestComponentBuilder) => {
             tcb.overrideTemplate(TestComponent, `<gtx-range (blur)="onBlur($event)" [value]="value"></gtx-range>`)
                 .createAsync(TestComponent)
-                .then((fixture: ComponentFixture) => {
+                .then((fixture: ComponentFixture<TestComponent>) => {
                     let inputDel: DebugElement = fixture.debugElement.query(By.css('input'));
                     let instance: TestComponent = fixture.componentInstance;
                     fixture.detectChanges();
@@ -89,7 +89,7 @@ describe('Range:', () => {
         fakeAsync((tcb: TestComponentBuilder) => {
             tcb.overrideTemplate(TestComponent, `<gtx-range (focus)="onFocus($event)" [value]="value"></gtx-range>`)
                 .createAsync(TestComponent)
-                .then((fixture: ComponentFixture) => {
+                .then((fixture: ComponentFixture<TestComponent>) => {
                     let inputDel: DebugElement = fixture.debugElement.query(By.css('input'));
                     let instance: TestComponent = fixture.componentInstance;
                     fixture.detectChanges();
@@ -106,7 +106,7 @@ describe('Range:', () => {
         fakeAsync((tcb: TestComponentBuilder) => {
             tcb.overrideTemplate(TestComponent, `<gtx-range (change)="onChange($event)" value="25"></gtx-range>`)
                 .createAsync(TestComponent)
-                .then((fixture: ComponentFixture) => {
+                .then((fixture: ComponentFixture<TestComponent>) => {
                     let nativeInput: HTMLInputElement = fixture.nativeElement.querySelector('input');
                     let instance: TestComponent = fixture.componentInstance;
                     fixture.detectChanges();
@@ -123,7 +123,7 @@ describe('Range:', () => {
         fakeAsync((tcb: TestComponentBuilder) => {
             tcb.overrideTemplate(TestComponent, `<gtx-range (change)="onChange($event)" value="25"></gtx-range>`)
                 .createAsync(TestComponent)
-                .then((fixture: ComponentFixture) => {
+                .then((fixture: ComponentFixture<TestComponent>) => {
                     let inputDel: DebugElement = fixture.debugElement.query(By.css('input'));
                     let instance: TestComponent = fixture.componentInstance;
                     fixture.detectChanges();
@@ -142,7 +142,7 @@ describe('Range:', () => {
             fakeAsync((tcb: TestComponentBuilder) => {
                 tcb.overrideTemplate(TestComponent, `<gtx-range [(ngModel)]="value"></gtx-range>`)
                     .createAsync(TestComponent)
-                    .then((fixture: ComponentFixture) => {
+                    .then((fixture: ComponentFixture<TestComponent>) => {
                         fixture.detectChanges();
                         tick();
                         let nativeInput: HTMLInputElement = fixture.nativeElement.querySelector('input');
@@ -154,7 +154,7 @@ describe('Range:', () => {
             fakeAsync((tcb: TestComponentBuilder) => {
                 tcb.overrideTemplate(TestComponent, `<gtx-range [(ngModel)]="value"></gtx-range>`)
                     .createAsync(TestComponent)
-                    .then((fixture: ComponentFixture) => {
+                    .then((fixture: ComponentFixture<TestComponent>) => {
                         fixture.detectChanges();
                         let instance: TestComponent = fixture.componentInstance;
                         let nativeInput: HTMLInputElement = fixture.nativeElement.querySelector('input');
@@ -173,7 +173,7 @@ describe('Range:', () => {
                                                                 <gtx-range ngControl="test"></gtx-range>
                                                             </form>`)
                     .createAsync(TestComponent)
-                    .then((fixture: ComponentFixture) => {
+                    .then((fixture: ComponentFixture<TestComponent>) => {
                         fixture.detectChanges();
                         tick();
                         let nativeInput: HTMLInputElement = fixture.nativeElement.querySelector('input');
@@ -187,7 +187,7 @@ describe('Range:', () => {
                                                             <gtx-range ngControl="test"></gtx-range>
                                                         </form>`)
                     .createAsync(TestComponent)
-                    .then((fixture: ComponentFixture) => {
+                    .then((fixture: ComponentFixture<TestComponent>) => {
                         fixture.detectChanges();
                         let instance: TestComponent = fixture.componentInstance;
                         let nativeInput: HTMLInputElement = fixture.nativeElement.querySelector('input');

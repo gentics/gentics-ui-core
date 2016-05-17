@@ -13,7 +13,7 @@ describe('DateTimePicker:', () => {
     it('should bind the label', inject([TestComponentBuilder], (tcb: TestComponentBuilder) => {
         tcb.overrideTemplate(TestComponent, `<gtx-date-time-picker label="test"></gtx-date-time-picker>`)
             .createAsync(TestComponent)
-            .then((fixture: ComponentFixture) => {
+            .then((fixture: ComponentFixture<TestComponent>) => {
                 fixture.detectChanges();
                 let label: HTMLLabelElement = fixture.nativeElement.querySelector('label');
 
@@ -25,7 +25,7 @@ describe('DateTimePicker:', () => {
     it('should display the time-picker when displayTime=true', inject([TestComponentBuilder], (tcb: TestComponentBuilder) => {
         tcb.overrideTemplate(TestComponent, `<gtx-date-time-picker label="test" displayTime="true"></gtx-date-time-picker>`)
             .createAsync(TestComponent)
-            .then((fixture: ComponentFixture) => {
+            .then((fixture: ComponentFixture<TestComponent>) => {
                 fixture.detectChanges();
                 let timePickerDiv: HTMLElement = <HTMLElement> document.querySelector('.time-picker');
 
@@ -38,7 +38,7 @@ describe('DateTimePicker:', () => {
     it('should not display the time-picker when displayTime=false', inject([TestComponentBuilder], (tcb: TestComponentBuilder) => {
         tcb.overrideTemplate(TestComponent, `<gtx-date-time-picker label="test" displayTime="false"></gtx-date-time-picker>`)
             .createAsync(TestComponent)
-            .then((fixture: ComponentFixture) => {
+            .then((fixture: ComponentFixture<TestComponent>) => {
                 fixture.detectChanges();
                 let timePickerDiv: HTMLElement = <HTMLElement> document.querySelector('.time-picker');
 
@@ -54,7 +54,7 @@ describe('DateTimePicker:', () => {
             (tcb: TestComponentBuilder) => {
                 tcb.overrideTemplate(TestComponent, `<gtx-date-time-picker></gtx-date-time-picker>`)
                     .createAsync(TestComponent)
-                    .then((fixture: ComponentFixture) => {
+                    .then((fixture: ComponentFixture<TestComponent>) => {
                         fixture.detectChanges();
                         let pickerInstance: DateTimePicker = fixture.debugElement
                             .query(By.css('gtx-date-time-picker')).componentInstance;
@@ -69,7 +69,7 @@ describe('DateTimePicker:', () => {
                 tcb.overrideTemplate(TestComponent, `<gtx-date-time-picker timestamp="${TEST_TIMESTAMP}">
                     </gtx-date-time-picker>`)
                     .createAsync(TestComponent)
-                    .then((fixture: ComponentFixture) => {
+                    .then((fixture: ComponentFixture<TestComponent>) => {
                         fixture.detectChanges();
                         let pickerInstance: DateTimePicker = fixture.debugElement
                             .query(By.css('gtx-date-time-picker')).componentInstance;
@@ -84,7 +84,7 @@ describe('DateTimePicker:', () => {
                 tcb.overrideTemplate(TestComponent, `<gtx-date-time-picker [timestamp]="testModel">
                     </gtx-date-time-picker>`)
                     .createAsync(TestComponent)
-                    .then((fixture: ComponentFixture) => {
+                    .then((fixture: ComponentFixture<TestComponent>) => {
                         fixture.detectChanges();
                         let pickerInstance: DateTimePicker = fixture.debugElement
                             .query(By.css('gtx-date-time-picker')).componentInstance;
@@ -103,7 +103,7 @@ describe('DateTimePicker:', () => {
             (tcb: TestComponentBuilder) => {
                 tcb.overrideTemplate(TestComponent, `<gtx-date-time-picker></gtx-date-time-picker>`)
                     .createAsync(TestComponent)
-                    .then((fixture: ComponentFixture) => {
+                    .then((fixture: ComponentFixture<TestComponent>) => {
                         fixture.detectChanges();
                         let input: HTMLInputElement = fixture.nativeElement.querySelector('input');
 
@@ -117,7 +117,7 @@ describe('DateTimePicker:', () => {
                 tcb.overrideTemplate(TestComponent,
                     `<gtx-date-time-picker timestamp="1457971763" displayTime="false"></gtx-date-time-picker>`)
                     .createAsync(TestComponent)
-                    .then((fixture: ComponentFixture) => {
+                    .then((fixture: ComponentFixture<TestComponent>) => {
                         fixture.detectChanges();
                         let input: HTMLInputElement = fixture.nativeElement.querySelector('input');
 
@@ -131,7 +131,7 @@ describe('DateTimePicker:', () => {
                 tcb.overrideTemplate(TestComponent,
                     `<gtx-date-time-picker timestamp="${TEST_TIMESTAMP}" displayTime="true"></gtx-date-time-picker>`)
                     .createAsync(TestComponent)
-                    .then((fixture: ComponentFixture) => {
+                    .then((fixture: ComponentFixture<TestComponent>) => {
                         fixture.detectChanges();
                         let input: HTMLInputElement = fixture.nativeElement.querySelector('input');
 
@@ -145,7 +145,7 @@ describe('DateTimePicker:', () => {
                 tcb.overrideTemplate(TestComponent,
                     `<gtx-date-time-picker [timestamp]="testModel" displayTime="true"></gtx-date-time-picker>`)
                     .createAsync(TestComponent)
-                    .then((fixture: ComponentFixture) => {
+                    .then((fixture: ComponentFixture<TestComponent>) => {
                         fixture.detectChanges();
                         let input: HTMLInputElement = fixture.nativeElement.querySelector('input');
 
@@ -159,7 +159,7 @@ describe('DateTimePicker:', () => {
                 tcb.overrideTemplate(TestComponent,
                     `<gtx-date-time-picker timestamp="${TEST_TIMESTAMP}" format="YY-MM-ddd"></gtx-date-time-picker>`)
                     .createAsync(TestComponent)
-                    .then((fixture: ComponentFixture) => {
+                    .then((fixture: ComponentFixture<TestComponent>) => {
                         fixture.detectChanges();
                         let input: HTMLInputElement = fixture.nativeElement.querySelector('input');
 
@@ -171,7 +171,7 @@ describe('DateTimePicker:', () => {
 
     describe('confirm():', () => {
 
-        let fixture: ComponentFixture;
+        let fixture: ComponentFixture<TestComponent>;
         let input: HTMLInputElement;
         let instance: TestComponent;
 
@@ -181,7 +181,7 @@ describe('DateTimePicker:', () => {
                     `<gtx-date-time-picker timestamp="${TEST_TIMESTAMP}" (change)="onChange($event)">
                         </gtx-date-time-picker>`)
                     .createAsync(TestComponent)
-                    .then((_fixture: ComponentFixture) => {
+                    .then((_fixture: ComponentFixture<TestComponent>) => {
                         fixture = _fixture;
                         instance = _fixture.componentInstance;
 
@@ -220,7 +220,7 @@ describe('DateTimePicker:', () => {
 
     describe('time increments:', () => {
 
-        let fixture: ComponentFixture;
+        let fixture: ComponentFixture<TestComponent>;
         let pickerInstance: DateTimePicker;
 
         beforeEach(<any> inject([TestComponentBuilder],
@@ -229,7 +229,7 @@ describe('DateTimePicker:', () => {
                     `<gtx-date-time-picker timestamp="${TEST_TIMESTAMP}" (change)="onChange($event)">
                         </gtx-date-time-picker>`)
                     .createAsync(TestComponent)
-                    .then((_fixture: ComponentFixture) => {
+                    .then((_fixture: ComponentFixture<TestComponent>) => {
                         fixture = _fixture;
                         _fixture.detectChanges();
                         pickerInstance = _fixture.debugElement
@@ -285,7 +285,7 @@ describe('DateTimePicker:', () => {
             fakeAsync((tcb: TestComponentBuilder) => {
                 tcb.overrideTemplate(TestComponent, `<gtx-date-time-picker [(ngModel)]="testModel"></gtx-date-time-picker>`)
                     .createAsync(TestComponent)
-                    .then((fixture: ComponentFixture) => {
+                    .then((fixture: ComponentFixture<TestComponent>) => {
                         fixture.detectChanges();
                         tick();
 
@@ -306,7 +306,7 @@ describe('DateTimePicker:', () => {
             fakeAsync((tcb: TestComponentBuilder) => {
                 tcb.overrideTemplate(TestComponent, `<gtx-date-time-picker [(ngModel)]="testModel"></gtx-date-time-picker>`)
                     .createAsync(TestComponent)
-                    .then((fixture: ComponentFixture) => {
+                    .then((fixture: ComponentFixture<TestComponent>) => {
                         fixture.detectChanges();
                         tick();
                         let instance: TestComponent = fixture.componentInstance;

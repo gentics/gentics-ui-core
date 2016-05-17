@@ -19,7 +19,7 @@ export interface INotificationOptions {
     dismissOnClick?: boolean;
     action?: {
         label: string;
-        onClick: Function;
+        onClick?: Function;
     };
 }
 

@@ -1,7 +1,7 @@
 import {Component} from '@angular/core';
 import {ControlGroup, Control} from '@angular/common';
 import {By} from '@angular/platform-browser';
-import {describe, expect, fakeAsync, inject, it, tick} from '@angular/core/testing';
+import {describe, expect, fakeAsync, inject, it, xit, tick} from '@angular/core/testing';
 import {ComponentFixture, TestComponentBuilder} from '@angular/compiler/testing';
 import {Select} from './select.component';
 
@@ -10,7 +10,7 @@ describe('Select:', () => {
     it('should bind the label', inject([TestComponentBuilder], (tcb: TestComponentBuilder) => {
         tcb.overrideTemplate(TestComponent, `<gtx-select label="testLabel"></gtx-select>`)
             .createAsync(TestComponent)
-            .then((fixture: ComponentFixture) => {
+            .then((fixture: ComponentFixture<TestComponent>) => {
                 let label: HTMLElement = fixture.nativeElement.querySelector('label');
                 fixture.detectChanges();
 
@@ -21,7 +21,7 @@ describe('Select:', () => {
     it('should bind the id to the label and input', inject([TestComponentBuilder], (tcb: TestComponentBuilder) => {
         tcb.overrideTemplate(TestComponent, `<gtx-select label="testLabel" id="testId"></gtx-select>`)
             .createAsync(TestComponent)
-            .then((fixture: ComponentFixture) => {
+            .then((fixture: ComponentFixture<TestComponent>) => {
                 let label: HTMLLabelElement = fixture.nativeElement.querySelector('label');
                 let nativeSelect: HTMLSelectElement = fixture.nativeElement.querySelector('select');
 
@@ -36,7 +36,7 @@ describe('Select:', () => {
         (tcb: TestComponentBuilder) => {
             tcb.overrideTemplate(TestComponent, `<gtx-select></gtx-select>`)
                 .createAsync(TestComponent)
-                .then((fixture: ComponentFixture) => {
+                .then((fixture: ComponentFixture<TestComponent>) => {
                     let nativeSelect: HTMLSelectElement = fixture.nativeElement.querySelector('select');
                     fixture.detectChanges();
 
@@ -49,7 +49,7 @@ describe('Select:', () => {
     it('should not display undefined attributes', inject([TestComponentBuilder], (tcb: TestComponentBuilder) => {
         tcb.overrideTemplate(TestComponent, `<gtx-select></gtx-select>`)
             .createAsync(TestComponent)
-            .then((fixture: ComponentFixture) => {
+            .then((fixture: ComponentFixture<TestComponent>) => {
                 let nativeSelect: HTMLSelectElement = fixture.nativeElement.querySelector('select');
                 const getAttr: Function = (name: string) => nativeSelect.attributes.getNamedItem(name);
                 fixture.detectChanges();
@@ -67,7 +67,7 @@ describe('Select:', () => {
                           required="true"
                       ></gtx-select>`)
             .createAsync(TestComponent)
-            .then((fixture: ComponentFixture) => {
+            .then((fixture: ComponentFixture<TestComponent>) => {
                 let nativeSelect: HTMLSelectElement = fixture.nativeElement.querySelector('select');
                 fixture.detectChanges();
 
@@ -81,7 +81,7 @@ describe('Select:', () => {
     it('should accept a "value" string and make the matching option "selected"', inject([TestComponentBuilder],
         (tcb: TestComponentBuilder) => {
             tcb.createAsync(TestComponent)
-                .then((fixture: ComponentFixture) => {
+                .then((fixture: ComponentFixture<TestComponent>) => {
                     fixture.detectChanges();
                     let optionBar: HTMLOptionElement = <HTMLOptionElement> fixture.nativeElement
                         .querySelector('option[value="Bar"]');
@@ -98,7 +98,7 @@ describe('Select:', () => {
                                     <option *ngFor="let option of options" [value]="option">{{ option }}</option>
                                 </gtx-select>`)
                 .createAsync(TestComponent)
-                .then((fixture: ComponentFixture) => {
+                .then((fixture: ComponentFixture<TestComponent>) => {
                     fixture.detectChanges();
                     tick();
 
@@ -113,7 +113,7 @@ describe('Select:', () => {
     it('should update "value" when another option is clicked', inject([TestComponentBuilder],
         fakeAsync((tcb: TestComponentBuilder) => {
             tcb.createAsync(TestComponent)
-                .then((fixture: ComponentFixture) => {
+                .then((fixture: ComponentFixture<TestComponent>) => {
                     fixture.detectChanges();
                     tick();
                     let selectInstance: Select = fixture.debugElement.query(By.css('gtx-select')).componentInstance;
@@ -133,10 +133,10 @@ describe('Select:', () => {
      * TODO: find out why this fails with error "1 periodic timer(s) still in the queue."
      * then re-enable
      */
-    xit('should emit "blur" when input blurs, with current value', inject([TestComponentBuilder],
+    xit('should emit "blur" when input blurs, with current value', <any> inject([TestComponentBuilder],
         fakeAsync((tcb: TestComponentBuilder) => {
             tcb.createAsync(TestComponent)
-                .then((fixture: ComponentFixture) => {
+                .then((fixture: ComponentFixture<TestComponent>) => {
                     fixture.detectChanges();
                     tick();
                     let fakeInput: HTMLInputElement = fixture.nativeElement.querySelector('input.select-dropdown');
@@ -155,7 +155,7 @@ describe('Select:', () => {
     it('should emit "change" when a list item is clicked', inject([TestComponentBuilder],
         fakeAsync((tcb: TestComponentBuilder) => {
             tcb.createAsync(TestComponent)
-                .then((fixture: ComponentFixture) => {
+                .then((fixture: ComponentFixture<TestComponent>) => {
                     fixture.detectChanges();
                     tick();
 
@@ -180,7 +180,7 @@ describe('Select:', () => {
                       <option *ngFor="let option of options" [value]="option">{{ option }}</option>
                  </gtx-select>`)
                 .createAsync(TestComponent)
-                .then((fixture: ComponentFixture) => {
+                .then((fixture: ComponentFixture<TestComponent>) => {
                     fixture.detectChanges();
                     tick();
 
@@ -205,7 +205,7 @@ describe('Select:', () => {
                       <option *ngFor="let option of options" [value]="option">{{ option }}</option>
                  </gtx-select>`)
                 .createAsync(TestComponent)
-                .then((fixture: ComponentFixture) => {
+                .then((fixture: ComponentFixture<TestComponent>) => {
                     fixture.detectChanges();
                     tick();
 
@@ -228,7 +228,7 @@ describe('Select:', () => {
                          <option *ngFor="let option of options" [value]="option">{{ option }}</option>
                      </gtx-select>`)
                     .createAsync(TestComponent)
-                    .then((fixture: ComponentFixture) => {
+                    .then((fixture: ComponentFixture<TestComponent>) => {
                         fixture.detectChanges();
                         tick();
 
@@ -258,7 +258,7 @@ describe('Select:', () => {
                          </gtx-select>
                      </form>`)
                     .createAsync(TestComponent)
-                    .then((fixture: ComponentFixture) => {
+                    .then((fixture: ComponentFixture<TestComponent>) => {
                         fixture.detectChanges();
                         tick();
                         let instance: TestComponent = fixture.componentInstance;

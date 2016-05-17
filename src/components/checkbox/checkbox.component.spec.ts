@@ -13,7 +13,7 @@ describe('Checkbox', () => {
                 <gtx-checkbox label="testLabel"></gtx-checkbox>
             `)
                 .createAsync(TestComponent)
-                .then((fixture: ComponentFixture) => {
+                .then((fixture: ComponentFixture<TestComponent>) => {
                     const label: HTMLLabelElement = fixture.nativeElement.querySelector('label');
                     fixture.detectChanges();
                     expect(label.innerText).toBe('testLabel');
@@ -30,7 +30,7 @@ describe('Checkbox', () => {
                 ></gtx-checkbox>
             `)
                 .createAsync(TestComponent)
-                .then((fixture: ComponentFixture) => {
+                .then((fixture: ComponentFixture<TestComponent>) => {
                     const label: HTMLLabelElement = fixture.nativeElement.querySelector('label');
                     const nativeInput: HTMLInputElement = fixture.nativeElement.querySelector('input');
 
@@ -49,7 +49,7 @@ describe('Checkbox', () => {
                 <gtx-checkbox></gtx-checkbox>
             `)
                     .createAsync(TestComponent)
-                    .then((fixture: ComponentFixture) => {
+                    .then((fixture: ComponentFixture<TestComponent>) => {
                         const nativeInput: HTMLInputElement = fixture.nativeElement.querySelector('input');
                         fixture.detectChanges();
 
@@ -68,7 +68,7 @@ describe('Checkbox', () => {
                 <gtx-checkbox></gtx-checkbox>
             `)
                 .createAsync(TestComponent)
-                .then((fixture: ComponentFixture) => {
+                .then((fixture: ComponentFixture<TestComponent>) => {
                     const nativeInput: HTMLInputElement = fixture.nativeElement.querySelector('input');
                     const getAttr: Function = (name: string) => nativeInput.attributes.getNamedItem(name);
                     fixture.detectChanges();
@@ -91,7 +91,7 @@ describe('Checkbox', () => {
                 <gtx-checkbox></gtx-checkbox>
             `)
                 .createAsync(TestComponent)
-                .then((fixture: ComponentFixture) => {
+                .then((fixture: ComponentFixture<TestComponent>) => {
                     const nativeInput: HTMLInputElement = fixture.nativeElement.querySelector('input');
                     const getAttr: Function = (name: string) => nativeInput.attributes.getNamedItem(name);
                     fixture.detectChanges();
@@ -116,7 +116,7 @@ describe('Checkbox', () => {
                 ></gtx-checkbox>
             `)
                 .createAsync(TestComponent)
-                .then((fixture: ComponentFixture) => {
+                .then((fixture: ComponentFixture<TestComponent>) => {
                     const nativeInput: HTMLInputElement = fixture.nativeElement.querySelector('input');
                     fixture.detectChanges();
 
@@ -134,18 +134,18 @@ describe('Checkbox', () => {
         inject([TestComponentBuilder], fakeAsync((tcb: TestComponentBuilder) => {
             tcb.overrideTemplate(TestComponent, `<gtx-checkbox (change)="onChange($event)"></gtx-checkbox>`)
                 .createAsync(TestComponent)
-                .then((fixture: ComponentFixture) => {
+                .then((fixture: ComponentFixture<TestComponent>) => {
                     const nativeInput: HTMLInputElement = fixture.nativeElement.querySelector('input');
                     const instance: TestComponent = fixture.componentInstance;
                     fixture.detectChanges();
-                    instance.onChange = jasmine.createSpy('onChange');
+                    const spy = instance.onChange = jasmine.createSpy('onChange');
 
                     nativeInput.click();
                     tick();
                     fixture.detectChanges();
 
                     expect(instance.onChange).toHaveBeenCalledWith(true);
-                    expect(instance.onChange.calls.count()).toBe(1);
+                    expect(spy.calls.count()).toBe(1);
                 });
         }))
     );
@@ -160,7 +160,7 @@ describe('Checkbox', () => {
                 ></gtx-checkbox>
             `)
                 .createAsync(TestComponent)
-                .then((fixture: ComponentFixture) => {
+                .then((fixture: ComponentFixture<TestComponent>) => {
                     const debugInput: DebugElement = fixture.debugElement.query(By.css('input'));
                     const instance: TestComponent = fixture.componentInstance;
                     fixture.detectChanges();
@@ -185,7 +185,7 @@ describe('Checkbox', () => {
                 ></gtx-checkbox>
             `)
                 .createAsync(TestComponent)
-                .then((fixture: ComponentFixture) => {
+                .then((fixture: ComponentFixture<TestComponent>) => {
                     const debugInput: DebugElement = fixture.debugElement.query(By.css('input'));
                     const instance: TestComponent = fixture.componentInstance;
                     fixture.detectChanges();
@@ -210,7 +210,7 @@ describe('Checkbox', () => {
                 ></gtx-checkbox>
             `)
                 .createAsync(TestComponent)
-                .then((fixture: ComponentFixture) => {
+                .then((fixture: ComponentFixture<TestComponent>) => {
                     const debugInput: DebugElement = fixture.debugElement.query(By.css('input'));
                     const instance: TestComponent = fixture.componentInstance;
                     fixture.detectChanges();
@@ -236,7 +236,7 @@ describe('Checkbox', () => {
                     </gtx-checkbox>
                 `)
                         .createAsync(TestComponent)
-                        .then((fixture: ComponentFixture) => {
+                        .then((fixture: ComponentFixture<TestComponent>) => {
                             const instance: TestComponent = fixture.componentInstance;
                             const nativeInput: HTMLInputElement = fixture.nativeElement.querySelector('input');
 
@@ -269,7 +269,7 @@ describe('Checkbox', () => {
                     ></gtx-checkbox>
                 `)
                         .createAsync(TestComponent)
-                        .then((fixture: ComponentFixture) => {
+                        .then((fixture: ComponentFixture<TestComponent>) => {
                             const instance: TestComponent = fixture.componentInstance;
                             const nativeInput: HTMLInputElement = fixture.nativeElement.querySelector('input');
                             const debugInput: DebugElement = fixture.debugElement.query(By.css('input'));
@@ -307,7 +307,7 @@ describe('Checkbox', () => {
                     </form>
                 `)
                     .createAsync(TestComponent)
-                    .then((fixture: ComponentFixture) => {
+                    .then((fixture: ComponentFixture<TestComponent>) => {
                         const instance: TestComponent = fixture.componentInstance;
                         const nativeInput: HTMLInputElement = fixture.nativeElement.querySelector('input');
                         const control: Control = <Control> instance.testForm.find('testControl');
@@ -350,7 +350,7 @@ describe('Checkbox', () => {
                     </form>
                 `)
                     .createAsync(TestComponent)
-                    .then((fixture: ComponentFixture) => {
+                    .then((fixture: ComponentFixture<TestComponent>) => {
                         fixture.detectChanges();
 
                         const instance: TestComponent = fixture.componentInstance;
@@ -384,14 +384,14 @@ describe('Checkbox', () => {
 
     describe('stateless mode:', () => {
 
-        function getCheckbox(fixture: ComponentFixture): Checkbox {
+        function getCheckbox(fixture: ComponentFixture<TestComponent>): Checkbox {
             return fixture.debugElement.query(By.css('gtx-checkbox')).componentInstance;
         }
 
         it('stateless mode should be disabled by default',
             inject([TestComponentBuilder], fakeAsync((tcb: TestComponentBuilder) => {
                 tcb.createAsync(TestComponent)
-                    .then((fixture: ComponentFixture) => {
+                    .then((fixture: ComponentFixture<TestComponent>) => {
                         const checkboxComponent: Checkbox = getCheckbox(fixture);
                         fixture.detectChanges();
 
@@ -403,7 +403,7 @@ describe('Checkbox', () => {
             inject([TestComponentBuilder], fakeAsync((tcb: TestComponentBuilder) => {
                 tcb.overrideTemplate(TestComponent, `<gtx-checkbox checked="true"></gtx-checkbox>`)
                     .createAsync(TestComponent)
-                    .then((fixture: ComponentFixture) => {
+                    .then((fixture: ComponentFixture<TestComponent>) => {
                         const checkboxComponent: Checkbox = getCheckbox(fixture);
                         fixture.detectChanges();
 
@@ -417,7 +417,7 @@ describe('Checkbox', () => {
                         <gtx-checkbox checked="true"></gtx-checkbox>
                     `)
                     .createAsync(TestComponent)
-                    .then((fixture: ComponentFixture) => {
+                    .then((fixture: ComponentFixture<TestComponent>) => {
                         const checkboxComponent: Checkbox = getCheckbox(fixture);
                         const nativeInput: HTMLInputElement = fixture.nativeElement.querySelector('input');
                         fixture.detectChanges();
@@ -440,7 +440,7 @@ describe('Checkbox', () => {
                         <gtx-checkbox [checked]="checkState"></gtx-checkbox>
                     `)
                     .createAsync(TestComponent)
-                    .then((fixture: ComponentFixture) => {
+                    .then((fixture: ComponentFixture<TestComponent>) => {
                         const instance: TestComponent = fixture.componentInstance;
                         const checkboxComponent: Checkbox = getCheckbox(fixture);
                         const nativeInput: HTMLInputElement = fixture.nativeElement.querySelector('input');

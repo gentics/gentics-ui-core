@@ -11,7 +11,7 @@ describe('SortableList:', () => {
         /**
          * Returns the sort() function of the SortableList class, configured with the indexes supplied.
          */
-        function getSortFn(fixture: ComponentFixture, oldIndex: number = 0, newIndex: number = 2): Function {
+        function getSortFn(fixture: ComponentFixture<TestComponent>, oldIndex: number = 0, newIndex: number = 2): Function {
             let instance: SortableList = fixture.debugElement.query(By.css('gtx-sortable-list')).componentInstance;
             let event: ISortableEvent = <ISortableEvent> {
                 oldIndex,
@@ -22,7 +22,7 @@ describe('SortableList:', () => {
 
         it('should be a function', inject([TestComponentBuilder], (tcb: TestComponentBuilder) => {
             tcb.createAsync(TestComponent)
-                .then((fixture: ComponentFixture) => {
+                .then((fixture: ComponentFixture<TestComponent>) => {
                     let sortFn: any = getSortFn(fixture);
                     expect(typeof sortFn).toBe('function');
                 });
@@ -30,7 +30,7 @@ describe('SortableList:', () => {
 
         it('should return a new array be default', inject([TestComponentBuilder], (tcb: TestComponentBuilder) => {
             tcb.createAsync(TestComponent)
-                .then((fixture: ComponentFixture) => {
+                .then((fixture: ComponentFixture<TestComponent>) => {
                     let initial = [1, 2, 3];
                     let sortFn = getSortFn(fixture);
                     let sorted = sortFn(initial);
@@ -41,7 +41,7 @@ describe('SortableList:', () => {
         it('should return the same array when byReference = true', inject([TestComponentBuilder],
             (tcb: TestComponentBuilder) => {
                 tcb.createAsync(TestComponent)
-                    .then((fixture: ComponentFixture) => {
+                    .then((fixture: ComponentFixture<TestComponent>) => {
                         let initial = [1, 2, 3];
                         let sortFn = getSortFn(fixture);
                         let sorted = sortFn(initial, true);
@@ -51,7 +51,7 @@ describe('SortableList:', () => {
 
         it('should sort a simple array', inject([TestComponentBuilder], (tcb: TestComponentBuilder) => {
             tcb.createAsync(TestComponent)
-                .then((fixture: ComponentFixture) => {
+                .then((fixture: ComponentFixture<TestComponent>) => {
                     let initial = [1, 2, 3];
                     let expected = [3, 2, 1];
                     let sortFn = getSortFn(fixture);
@@ -63,7 +63,7 @@ describe('SortableList:', () => {
 
         it('should sort an array of objects', inject([TestComponentBuilder], (tcb: TestComponentBuilder) => {
             tcb.createAsync(TestComponent)
-                .then((fixture: ComponentFixture) => {
+                .then((fixture: ComponentFixture<TestComponent>) => {
                     let initial = [{ name: 'john' }, { name: 'joe' }, { name: 'mary' }];
                     let expected = [{ name: 'mary' }, { name: 'joe' }, { name: 'john' }];
                     let sortFn = getSortFn(fixture);
@@ -75,11 +75,11 @@ describe('SortableList:', () => {
         it('should preserve array for undefined indexes', inject([TestComponentBuilder],
             (tcb: TestComponentBuilder) => {
             tcb.createAsync(TestComponent)
-                .then((fixture: ComponentFixture) => {
+                .then((fixture: ComponentFixture<TestComponent>) => {
                     let initial = [1, 2, 3];
                     let instance: SortableList = fixture
                         .debugElement.query(By.css('gtx-sortable-list')).componentInstance;
-                    let sortFn = instance.sortFactory({});
+                    let sortFn = instance.sortFactory(<ISortableEvent> {});
 
                     expect(sortFn(initial)).toEqual(initial);
                 });
@@ -88,7 +88,7 @@ describe('SortableList:', () => {
         it('should preserve array for out-of-bound oldIndex', inject([TestComponentBuilder],
             (tcb: TestComponentBuilder) => {
             tcb.createAsync(TestComponent)
-                .then((fixture: ComponentFixture) => {
+                .then((fixture: ComponentFixture<TestComponent>) => {
                     let initial = [1, 2, 3];
                     let sortFn = getSortFn(fixture, 3, 1);
 
@@ -99,7 +99,7 @@ describe('SortableList:', () => {
         it('should preserve array for out-of-bound newIndex', inject([TestComponentBuilder],
             (tcb: TestComponentBuilder) => {
             tcb.createAsync(TestComponent)
-                .then((fixture: ComponentFixture) => {
+                .then((fixture: ComponentFixture<TestComponent>) => {
                     let initial = [1, 2, 3];
                     let sortFn = getSortFn(fixture, 0, 3);
 
@@ -113,7 +113,7 @@ describe('SortableList:', () => {
 
         it('should bind to the sortable instance', inject([TestComponentBuilder], (tcb: TestComponentBuilder) => {
             tcb.createAsync(TestComponent)
-                .then((fixture: ComponentFixture) => {
+                .then((fixture: ComponentFixture<TestComponent>) => {
                     fixture.detectChanges();
                     let sortable: Sortablejs.Sortable = fixture.debugElement
                         .query(By.css('gtx-sortable-list')).componentInstance.sortable;
