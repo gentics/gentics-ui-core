@@ -2,11 +2,11 @@
     [class.is-determinate]="determinate"
     [class.is-indeterminate]="!determinate"
     [class.visible]="progressBarVisible"
-    #fadeAnimationElement
+    #progressWrapper
 >
     <div
-        class="progress-bar-inner"
+        class="progress-indicator"
         [style.width.%]="progressPercentage"
-        #animationElement>
+        #progressIndicator>
     </div>
 </div>

@@ -16,12 +16,12 @@ gtx-progress-bar {
             opacity: 1;
         }
 
-        > .progress-bar-inner {
+        > .progress-indicator {
             height: $gtx-progress-bar-height;
             background-color: $gtx-progress-bar-color;
         }
 
-        &.is-determinate > .progress-bar-inner {
+        &.is-determinate > .progress-indicator {
             transition-duration: $gtx-progress-bar-animation-duration;
             transition-property: width;
             transition-timing-function: linear;

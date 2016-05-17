@@ -117,8 +117,8 @@ export class ProgressBar {
     private animationRequest: number = null;
     private lastAnimationFrame: number = null;
 
-    @ViewChild('fadeAnimationElement') private fadeAnimationElement: ElementRef;
-    @ViewChild('animationElement') private animationElement: ElementRef;
+    @ViewChild('progressBarWrapper') private fadeAnimationElement: ElementRef;
+    @ViewChild('progressIndicator') private animationElement: ElementRef;
 
     /**
      * Starts showing the progress bar in "indeterminate" mode.
