@@ -6,7 +6,8 @@ import {
     Input,
     OnDestroy,
     Output,
-    ViewChild
+    ViewChild,
+    NgZone
 } from '@angular/core';
 
 /**
@@ -55,6 +56,8 @@ import {
     template: require('./progress-bar.tpl.html')
 })
 export class ProgressBar {
+
+    constructor(private _zone: NgZone) { }
 
     /**
      * Shows or hides the progress bar. When no "progress" value
@@ -221,6 +224,12 @@ export class ProgressBar {
         }
 
         this.lastAnimationFrame = now;
-        this.animationRequest = requestAnimationFrame(() => this.animateIndeterminate());
+
+        // Run animation outside of angular change detector
+        this._zone.runOutsideAngular(() => {
+            this.animationRequest = requestAnimationFrame(
+                () => this.animateIndeterminate()
+            );
+        });
     }
 }
