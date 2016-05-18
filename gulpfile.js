@@ -178,7 +178,11 @@ function runKarmaServer(watch, callback) {
     const server = new karma.Server({
         configFile: path.join(__dirname, 'karma.conf.js'),
         singleRun: !watch,
-        browsers: testBrowsers
+        browsers: testBrowsers,
+        reporters: ['mocha'],
+        mochaReporter: {
+            output: 'autowatch'
+        }
     }, callback);
     server.start();
 }

@@ -70,13 +70,14 @@ module.exports = function (config) {
             'karma-jasmine',
             'karma-phantomjs-launcher',
             'karma-chrome-launcher',
-            'karma-firefox-launcher'
+            'karma-firefox-launcher',
+            'karma-mocha-reporter'
         ],
 
         // test results reporter to use
         // possible values: 'dots', 'progress'
         // available reporters: https://npmjs.org/browse/keyword/karma-reporter
-        reporters: ['progress'],
+        reporters: ['mocha'],
 
         // web server port
         port: 9876,
