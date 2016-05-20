@@ -1,0 +1,12 @@
+<div class="progress-bar-wrapper"
+    [class.is-determinate]="determinate"
+    [class.is-indeterminate]="!determinate"
+    [class.visible]="progressBarVisible"
+    #progressBarWrapper
+>
+    <div
+        class="progress-indicator"
+        [style.width.%]="progressPercentage"
+        #progressIndicator>
+    </div>
+</div>

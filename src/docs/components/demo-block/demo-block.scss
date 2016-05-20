@@ -5,16 +5,22 @@ gtx-demo-block {
     border: 1px solid lighten($gtx-color-secondary, 10%);
     .demo-title {
         margin-top: 0;
+        margin-bottom: 0;
         padding: 10px;
         border-bottom: 1px solid $gtx-color-light-gray;
         background-color: lighten($gtx-color-secondary, 10%);
     }
     .demo-body {
-        padding: 10px 20px 30px 20px;
+        padding: 20px 20px 30px 20px;
+        position: relative;
     }
     .code-wrapper {
         overflow: hidden;
         max-height: 0;
         transition: max-height 0.3s;
+
+        pre {
+            margin-top: 0;
+        }
     }
 }

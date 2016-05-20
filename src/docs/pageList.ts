@@ -11,6 +11,7 @@ import {InputDemo} from './pages/input-demo/input-demo';
 import {ModalDemo} from './pages/modal-demo/modal-demo';
 import {NotificationDemo} from './pages/notification-demo/notification-demo';
 import {OverlayHostDemo} from './pages/overlay-host-demo/overlay-host-demo';
+import {ProgressBarDemo} from './pages/progress-bar-demo/progress-bar-demo';
 import {RadioButtonDemo} from './pages/radio-button-demo/radio-button-demo';
 import {RangeDemo} from './pages/range-demo/range-demo';
 import {SearchBarDemo} from './pages/search-bar-demo/search-bar-demo';
@@ -23,7 +24,7 @@ import {TopBarDemo} from './pages/top-bar-demo/top-bar-demo';
 import {TypographyDemo} from './pages/typography-demo/typography-demo';
 
 export interface IPageInfo {
-    name: string; 
+    name: string;
     component: Type;
     type: 'component' | 'service' | 'css';
     keywords?: string[];
@@ -88,6 +89,11 @@ export const pages: IPageInfo[] = [
     {
         name: 'overlay-host',
         component: OverlayHostDemo,
+        type: 'component'
+    },
+    {
+        name: 'progress-bar',
+        component: ProgressBarDemo,
         type: 'component'
     },
     {

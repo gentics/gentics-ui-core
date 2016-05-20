@@ -35,6 +35,12 @@ $gtx-animation-duration: 300ms !default;
 
 
 /* Component-specific variables */
+$gtx-progress-bar-animation-duration: $gtx-animation-duration !default;
+$gtx-progress-bar-background-color: transparent !default;
+$gtx-progress-bar-color: $gtx-color-primary !default;
+$gtx-progress-bar-fade-duration: ($gtx-animation-duration / 2) !default;
+$gtx-progress-bar-height: 3px !default;
+
 $gtx-split-view-container-animation-duration: $gtx-animation-duration !default;
 $gtx-split-view-container-opacity-focused: 1 !default;
 $gtx-split-view-container-opacity-inactive: 0.66 !default;
