@@ -19,7 +19,7 @@ module.exports = function (config) {
         files: [
             ...paths.vendorJS.map(addModulePath),
             './testing-bootstrap.js',
-            { pattern: paths.src.typescript[0], watched: true, served: false, included: false }
+            { pattern: paths.src.typescript[0], watched: false, served: false, included: false }
         ],
 
         // list of files to exclude
