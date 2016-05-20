@@ -9,6 +9,7 @@
 
 <gtx-split-view-container class="split-view-container"
                           leftContainerWidthPercent="35"
+                          [minPanelSizePixels]="320"
                           [rightPanelVisible]="hasContent"
                           (rightPanelOpened)="splitFocus = 'right'"
                           [(focusedPanel)]="splitFocus">
