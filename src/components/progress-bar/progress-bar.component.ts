@@ -1,14 +1,19 @@
 import {
-    AfterViewInit,
     Component,
     ElementRef,
-    EventEmitter,
     Input,
     OnDestroy,
-    Output,
-    ViewChild,
-    NgZone
+    ViewChild
 } from '@angular/core';
+import {Subscribable} from 'rxjs/Observable';
+
+function isPromise(obj: any): obj is PromiseLike<any> {
+    return typeof obj === 'object' && obj !== null && typeof obj.then === 'function';
+}
+
+function isSubscribable(obj: any): obj is Subscribable<any> {
+    return typeof obj === 'object' && obj !== null && typeof obj.subscribe === 'function';
+}
 
 /**
  * A progress bar that attachs to the top of the parent container and can be used to display activity or progress.
@@ -55,9 +60,7 @@ import {
     selector: 'gtx-progress-bar',
     template: require('./progress-bar.tpl.html')
 })
-export class ProgressBar {
-
-    constructor(private _zone: NgZone) { }
+export class ProgressBar implements OnDestroy {
 
     /**
      * Shows or hides the progress bar. When no "progress" value
@@ -98,8 +101,9 @@ export class ProgressBar {
     }
 
     /**
-     * Sets the speed of the indeterminate animation in milliseconds
-     * required to reach 50% of the progress bar. *Defaults to 500 milliseconds.*
+     * Sets the speed of the indeterminate animation required to reach
+     * 50% of the progress bar. Accepts values like "500ms", "0.5s", 500.
+     * *Default: 500ms*
      */
     @Input() set speed(speed: string|number) {
         if (typeof speed === 'string') {
@@ -119,15 +123,16 @@ export class ProgressBar {
     private determinate: boolean = false;
     private animationRequest: number = null;
     private lastAnimationFrame: number = null;
+    private removePendingHandler: () => void = null;
 
-    @ViewChild('progressBarWrapper') private fadeAnimationElement: ElementRef;
-    @ViewChild('progressIndicator') private animationElement: ElementRef;
+    @ViewChild('progressBarWrapper') private progressBarWrapper: ElementRef;
+    @ViewChild('progressIndicator') private progressIndicator: ElementRef;
 
     /**
      * Starts showing the progress bar in "indeterminate" mode.
-     * Can be passed a Promise that animates the progress bar when resolved or rejected.
+     * Can be passed a Promise or an Observable which animates the progress bar when resolved or rejected.
      */
-    public start(promise?: PromiseLike<any>): void {
+    public start(promiseOrObservable?: PromiseLike<any> | Subscribable<any>): void {
         if (!this._active) {
             this._active = true;
             this.lastAnimationFrame = null;
@@ -138,8 +143,17 @@ export class ProgressBar {
             }
         }
 
-        if (promise && typeof promise.then == 'function') {
-            promise.then(() => this.complete(), () => this.complete());
+        if (isPromise(promiseOrObservable)) {
+            promiseOrObservable.then(
+                () => this.complete(),
+                () => this.complete()
+            );
+        } else if (isSubscribable(promiseOrObservable)) {
+            promiseOrObservable.subscribe(
+                null,
+                (error: any) => this.complete(),
+                () => this.complete()
+            );
         }
     }
 
@@ -161,13 +175,32 @@ export class ProgressBar {
         }
     }
 
+    ngOnDestroy(): void {
+        if (this.animationRequest) {
+            cancelAnimationFrame(this.animationRequest);
+            this.animationRequest = null;
+        }
+
+        if (this.removePendingHandler) {
+            this.removePendingHandler();
+        }
+    }
+
     private fadeOutProgressBar(): Promise<void> {
+        if (this.removePendingHandler) {
+            this.removePendingHandler();
+        }
+
         return new Promise<void>( (resolve: () => void) => {
-            let element = this.fadeAnimationElement.nativeElement;
-            let callback = () => {
-                element.removeEventListener('transitionend', callback);
+            let element = this.progressBarWrapper.nativeElement;
+            const callback = () => {
+                this.removePendingHandler();
                 this.progressPercentage = 0;
                 resolve();
+            };
+            this.removePendingHandler = () => {
+                element.removeEventListener('transitionend', callback);
+                this.removePendingHandler = null;
             };
             element.addEventListener('transitionend', callback);
             this.progressBarVisible = false;
@@ -175,24 +208,36 @@ export class ProgressBar {
     }
 
     private transitionTo100Percent(): Promise<void> {
+        if (this.removePendingHandler) {
+            this.removePendingHandler();
+        }
         return new Promise<void>( (resolve: () => void) => {
-            let element = this.animationElement.nativeElement;
+            let element = this.progressIndicator.nativeElement;
             if (this.determinate) {
+                // transition the progress indicator in a cancelable way
                 let callback = () => {
-                    element.removeEventListener('transitionend', callback);
+                    this.removePendingHandler();
                     resolve();
+                };
+                this.removePendingHandler = () => {
+                    element.removeEventListener('transitionend', callback);
+                    this.removePendingHandler = null;
                 };
                 element.addEventListener('transitionend', callback);
                 this.progressPercentage = 100;
             } else {
+                // Use requestAnimationFrame() in a cancelable way
+                let frameRequest: number;
                 let waitUntilDone = () => {
                     if (this.progressPercentage == 100) {
+                        frameRequest = null;
                         resolve();
                     } else {
-                        requestAnimationFrame(waitUntilDone);
+                        frameRequest = requestAnimationFrame(waitUntilDone);
                     }
                 };
-                requestAnimationFrame(waitUntilDone);
+                frameRequest = requestAnimationFrame(waitUntilDone);
+                this.removePendingHandler = () => cancelAnimationFrame(frameRequest);
             }
         });
     }
@@ -201,7 +246,7 @@ export class ProgressBar {
         this.animationRequest = null;
         if (this.determinate) { return; }
 
-        let now = +(new Date());
+        let now = performance ? performance.now() : Date.now();
         let delta = (now - this.lastAnimationFrame) / 1000;
 
         if (!this.lastAnimationFrame) {
@@ -224,12 +269,8 @@ export class ProgressBar {
         }
 
         this.lastAnimationFrame = now;
-
-        // Run animation outside of angular change detector
-        this._zone.runOutsideAngular(() => {
-            this.animationRequest = requestAnimationFrame(
-                () => this.animateIndeterminate()
-            );
-        });
+        this.animationRequest = requestAnimationFrame(
+            () => this.animateIndeterminate()
+        );
     }
 }
