@@ -8,7 +8,7 @@ import {
     OnDestroy,
     Optional,
     Output,
-    Self,
+    Self
 } from '@angular/core';
 import {
     NgControl,
@@ -126,6 +126,11 @@ export class RadioButton implements ControlValueAccessor, OnInit, OnDestroy {
             }
             if (val) {
                 this.onChange(this.value);
+            } else if (val === false) {
+                if (this.group) {
+                    this.group.radioSelected(null);
+                }
+                this.onChange(false);
             }
         }
     }

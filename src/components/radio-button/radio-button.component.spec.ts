@@ -1,7 +1,7 @@
 import {Component, DebugElement} from '@angular/core';
 import {ControlGroup, Control} from '@angular/common';
 import {By} from '@angular/platform-browser';
-import {describe, expect, fakeAsync, inject, it, xit, tick} from '@angular/core/testing';
+import {describe, expect, fakeAsync, inject, it, tick} from '@angular/core/testing';
 import {ComponentFixture, TestComponentBuilder} from '@angular/compiler/testing';
 import {RadioButton, RadioGroup} from './radio-button.component';
 
@@ -500,8 +500,8 @@ describe('RadioGroup', () => {
         }))
     );
 
-    xit('should uncheck all RadioButton children when none of their values match a property bound with NgModel (inbound)',
-        inject([TestComponentBuilder], fakeAsync((tcb: TestComponentBuilder) => {
+    it('should uncheck all RadioButton children when none of their values match a property bound with NgModel (inbound)',
+        fakeAsync(inject([TestComponentBuilder], (tcb: TestComponentBuilder) => {
             tcb.overrideTemplate(TestComponent, `
             <gtx-radio-group [(ngModel)]="boundProperty">
                 <gtx-radio-button value="A"></gtx-radio-button>
@@ -509,20 +509,21 @@ describe('RadioGroup', () => {
             </gtx-radio-group>`)
             .createAsync(TestComponent)
             .then((fixture: ComponentFixture<TestComponent>) => {
+                fixture.detectChanges();
                 const instance: TestComponent = fixture.componentInstance;
                 const nativeInputs: NodeListOf<HTMLInputElement> = fixture.nativeElement.querySelectorAll('input');
 
                 instance.boundProperty = 'A';
-                tick();
                 fixture.detectChanges();
-                expect(nativeInputs[0].checked).toBe(true);
-                expect(nativeInputs[1].checked).toBe(false);
+                tick();
+                expect(nativeInputs[0].checked).toBe(true, 'checkbox A is not checked');
+                expect(nativeInputs[1].checked).toBe(false, 'checkbox B is checked but should not be');
 
                 instance.boundProperty = 'some other value';
                 fixture.detectChanges();
                 tick();
-                expect(nativeInputs[0].checked).toBe(false);
-                expect(nativeInputs[1].checked).toBe(false);
+                expect(nativeInputs[0].checked).toBe(false, 'checkbox A does not get unchecked');
+                expect(nativeInputs[1].checked).toBe(false, 'checkbox B is checked when it should not be');
             });
         }))
     );
@@ -558,7 +559,7 @@ describe('RadioGroup', () => {
         }))
     );
 
-    xit('should set a NgModel bound property to null when no RadioButton children are checked (outbound)',
+    it('should set a NgModel bound property to null when no RadioButton children are checked (outbound)',
         inject([TestComponentBuilder], fakeAsync((tcb: TestComponentBuilder) => {
             tcb.overrideTemplate(TestComponent, `
             <gtx-radio-group [(ngModel)]="boundProperty">
@@ -571,7 +572,6 @@ describe('RadioGroup', () => {
 
                 const instance: TestComponent = fixture.componentInstance;
                 const nativeInputs: NodeListOf<HTMLInputElement> = fixture.nativeElement.querySelectorAll('input');
-                // const debugInputs: DebugElement[] = fixture.debugElement.queryAll(By.css('input'));
 
                 instance.checkState = true;
                 fixture.detectChanges();
