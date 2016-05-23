@@ -3,7 +3,7 @@ const hljs = require('highlight.js');
 
 /**
  * Code highlighting via highlight.js. To include interpolated vars in the code, use double
- * parents so that Angular does not think the whole thing is a binding. Double parens will get
+ * parens so that Angular does not think the whole thing is a binding. Double parens will get
  * replaced with double curlies in the final output.
  *
  * ```
@@ -52,8 +52,8 @@ export class HighlightedCode {
         };
 
         let lines: string[] = contents
-            .split(/\r?\n/)
-            .filter((line: string) => 0 < line.trim().length);
+            .replace(/^(\s*[\r\n]+)+|([\r\n]+\s*)+$/g, '')
+            .split(/\r?\n|\r/);
         let indentation: number = lines[0].match(/^\s*/)[0].length;
 
         return lines.map((line: string) => removeIndentation(line, indentation)).join('\n');
@@ -64,7 +64,7 @@ export class HighlightedCode {
      * so it matches the Angular syntax.
      */
     private replaceDoubleCurlies(source: string): string {
-        return source.replace(/\(\(\s*(.+)\s*\)\)/g, '{{ $1 }}');
+        return source.replace(/\(\(\s*(.+?)\s*\)\)/g, '{{ $1 }}');
     }
 
 }
