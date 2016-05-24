@@ -38,7 +38,7 @@
                     content: '1 col';
                 }
 
-                @for $i from 2 through 12 {
+                @for $i from 2 through $grid-column-count {
                     &.#{$size}-#{$i}::before {
                         content: '#{$i} columns';
                     }
@@ -64,14 +64,14 @@
     }
 
     .people {
-        @include flex-grid-row(12);
+        @include flex-grid-row($grid-column-count);
     }
 
     .vcard {
         box-shadow: 0 0 10px $gtx-color-light-gray;
 
         @include breakpoint(small) {
-            @include flex-grid-column(12);
+            @include flex-grid-column($grid-column-count);
             @include flex-grid-row(1);
             .vcard-picture { @include flex-grid-column(1 of 1); }
             .vcard-details { @include flex-grid-column(1 of 1); }

@@ -8,14 +8,7 @@ $roboto-font-path: '../fonts/';
 @import "mixins";
 @import "materialize-css/sass/materialize";
 @import "icons";
-
-/* Foundation grid */
-@import "./foundation-grid/util/util";
-$global-left: left !default;
-$global-right: right !default;
-$global-width: rem-calc(1200) !default;
-@import "./foundation-grid/grid/grid";
-@include foundation-flex-grid;
+@import "grid";
 
 /* Components */
 @import "../components/button/button";
