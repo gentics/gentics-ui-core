@@ -10,9 +10,10 @@ $roboto-font-path: '../fonts/';
 @import "icons";
 
 /* Foundation grid */
-$global-flexbox: true !global;
 @import "./foundation-grid/util/util";
-@import "./foundation-grid/global";
+$global-left: left !default;
+$global-right: right !default;
+$global-width: rem-calc(1200) !default;
 @import "./foundation-grid/grid/grid";
 @include foundation-flex-grid;
 
