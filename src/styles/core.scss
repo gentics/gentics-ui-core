@@ -9,6 +9,13 @@ $roboto-font-path: '../fonts/';
 @import "materialize-css/sass/materialize";
 @import "icons";
 
+/* Foundation grid */
+$global-flexbox: true !global;
+@import "./foundation-grid/util/util";
+@import "./foundation-grid/global";
+@import "./foundation-grid/grid/grid";
+@include foundation-flex-grid;
+
 /* Components */
 @import "../components/button/button";
 @import "../components/contents-list-item/contents-list-item";

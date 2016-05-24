@@ -1,0 +1,113 @@
+.grid-demo {
+
+    &:not(.no-border) {
+
+        .column, .columns {
+            background-color: $gtx-color-very-light-gray;
+            border: 1px solid $gtx-color-mid-gray;
+            min-height: 1.5em;
+
+            &:nth-child(2n) {
+                background-color: $gtx-color-off-white;
+            }
+        }
+    }
+
+    &.show-grid-width .column,
+    &.show-grid-width .columns {
+        &::before, {
+            background-color: rgba(255, 255, 255, 0.8);
+            border-radius: 1.5em;
+            content: '\0A';
+            display: inline-block;
+            margin-right: 0.33em;
+            max-width: 100%;
+            min-height: 1.5em;
+            overflow: hidden;
+            padding-left: 0.75em;
+            padding-right: 0.75em;
+            text-align: center;
+            text-overflow: ellipsis;
+            vertical-align: middle;
+            white-space: nowrap;
+        }
+
+        &.small-1::before {
+            content: '1 col';
+        }
+        @for $i from 2 through 12 {
+            &.small-#{$i}::before {
+                content: '#{$i} columns';
+            }
+        }
+
+        @media screen and (min-width: 40em) {
+            &.medium-1::before {
+                content: '1 col';
+            }
+            @for $i from 2 through 12 {
+                &.medium-#{$i}::before {
+                    content: '#{$i} columns';
+                }
+            }
+        }
+
+        @media screen and (min-width: 64em) {
+            &.large-1::before {
+                content: '1 col';
+            }
+            @for $i from 2 through 12 {
+                &.large-#{$i}::before {
+                    content: '#{$i} columns';
+                }
+            }
+        }
+    }
+
+    img.thumbnail {
+        border: 1px solid $gtx-color-light-gray;
+        display: block;
+        height: auto;
+        margin-left: auto;
+        margin-right: auto;
+        margin-bottom: 1rem;
+        max-width: 100%;
+        padding: 3px;
+        width: auto;
+    }
+
+    .my-container {
+        @include flex-grid-row;
+    }
+
+    .people {
+        @include flex-grid-row;
+    }
+
+    .vcard {
+        box-shadow: 0 0 10px $gtx-color-light-gray;
+
+        .vcard-picture {
+            display: block;
+            height: auto;
+            margin-bottom: 0;
+            width: auto;
+        }
+
+        @include breakpoint(small) {
+            @include grid-col-size(1);
+        }
+
+        @include breakpoint(large) {
+            @include grid-col-size(3);
+        }
+
+        .vcard-image { @include flex-grid-column(1); }
+        .vcard-details { @include flex-grid-column(2); }
+
+    }
+
+    .vcard-details {
+        font-size: 18pt;
+    }
+}
