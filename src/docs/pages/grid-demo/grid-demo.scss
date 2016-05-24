@@ -32,33 +32,16 @@
             white-space: nowrap;
         }
 
-        &.small-1::before {
-            content: '1 col';
-        }
-        @for $i from 2 through 12 {
-            &.small-#{$i}::before {
-                content: '#{$i} columns';
-            }
-        }
-
-        @media screen and (min-width: 40em) {
-            &.medium-1::before {
-                content: '1 col';
-            }
-            @for $i from 2 through 12 {
-                &.medium-#{$i}::before {
-                    content: '#{$i} columns';
+        @each $size in map-keys($breakpoints) {
+            @include breakpoint($size) {
+                &.#{$size}-1::before {
+                    content: '1 col';
                 }
-            }
-        }
 
-        @media screen and (min-width: 64em) {
-            &.large-1::before {
-                content: '1 col';
-            }
-            @for $i from 2 through 12 {
-                &.large-#{$i}::before {
-                    content: '#{$i} columns';
+                @for $i from 2 through 12 {
+                    &.#{$size}-#{$i}::before {
+                        content: '#{$i} columns';
+                    }
                 }
             }
         }
@@ -81,33 +64,51 @@
     }
 
     .people {
-        @include flex-grid-row;
+        @include flex-grid-row(12);
     }
 
     .vcard {
         box-shadow: 0 0 10px $gtx-color-light-gray;
 
-        .vcard-picture {
-            display: block;
-            height: auto;
-            margin-bottom: 0;
-            width: auto;
+        @include breakpoint(small) {
+            @include flex-grid-column(12);
+            @include flex-grid-row(1);
+            .vcard-picture { @include flex-grid-column(1 of 1); }
+            .vcard-details { @include flex-grid-column(1 of 1); }
         }
 
-        @include breakpoint(small) {
-            @include grid-col-size(1);
+        @include breakpoint(medium) {
+            @include flex-grid-row(3);
+            .vcard-picture { @include flex-grid-column(1 of 3); }
+            .vcard-details { @include flex-grid-column(2 of 3); }
         }
 
         @include breakpoint(large) {
-            @include grid-col-size(3);
+            @include flex-grid-column(6);
         }
+    }
 
-        .vcard-image { @include flex-grid-column(1); }
-        .vcard-details { @include flex-grid-column(2); }
-
+    .vcard-picture > img {
+        display: block;
+        height: auto;
+        margin-bottom: 0;
+        margin: 1.5rem 0;
+        max-width: 100%;
+        width: auto;
     }
 
     .vcard-details {
-        font-size: 18pt;
+        font-size: 14pt;
+        margin-top: 1.5rem;
+        margin-bottom: 1.5rem;
+
+        .vcard-name {
+            font-size: 18pt;
+        }
+
+        p {
+            margin-top: 0.5rem;
+            margin-bottom: 0.5rem;
+        }
     }
 }

@@ -49,8 +49,8 @@
     </div>
 </div>
 <p>
-    (Resize the page to see the column width change due to
-    <code>small-#</code> and <code>large-#</code> classes.)
+    Resize the page to see the column width change due to
+    <code>small-#</code> and <code>large-#</code> classes.
 </p>
 
 <hr>
@@ -440,27 +440,47 @@
 <h5>Example</h5>
 <gtx-highlighted-code language="SASS" code='
     .people { @include flex-grid-row() };
-    .vcard-image { @include flex-grid-column(1); }
-    .vcard-details { @include flex-grid-column(2); }
+    .vcard {
+        @include breakpoint(small) {
+            @include flex-grid-column(12);
+            @include flex-grid-row(1);
+            .vcard-picture { @include flex-grid-column(1 of 1); }
+            .vcard-details { @include flex-grid-column(1 of 1); }
+        }
+
+        @include breakpoint(medium) {
+            @include flex-grid-row(3);
+            .vcard-picture { @include flex-grid-column(1 of 3); }
+            .vcard-details { @include flex-grid-column(2 of 3); }
+        }
+
+        @include breakpoint(large) {
+            @include flex-grid-column(6);
+        }
+    }
 '></gtx-highlighted-code>
 <gtx-highlighted-code language="HTML" [code]="example13.innerHTML"></gtx-highlighted-code>
 <div class="grid-demo no-border" #example13>
     <div class="people">
-        <div class="vcard-image">
-            <img src="/images/placeholder.png" class="vcard-picture" alt="">
+        <div class="vcard">
+            <div class="vcard-picture">
+                <img src="/images/placeholder.png" alt="">
+            </div>
+            <div class="vcard-details">
+                <p class="vcard-name">Jane Doe</p>
+                <p class="vcard-address">Examplestreet 14</p>
+                <p class="vcard-zip">123456 City</p>
+            </div>
         </div>
-        <div class="vcard-details">
-            <p class="vcard-name">Jane Doe</p>
-            <p class="vcard-address">Examplestreet 14</p>
-            <p class="vcard-zip">123456 City</p>
-        </div>
-        <div class="vcard-image">
-            <img src="/images/placeholder.png" class="vcard-picture" alt="">
-        </div>
-        <div class="vcard-details">
-            <p class="vcard-name">John Handcock</p>
-            <p class="vcard-address">Examplestreet 14</p>
-            <p class="vcard-zip">123456 City</p>
+        <div class="vcard">
+            <div class="vcard-picture">
+                <img src="/images/placeholder.png" alt="">
+            </div>
+            <div class="vcard-details">
+                <p class="vcard-name">John Handcock</p>
+                <p class="vcard-address">Sample lane 48</p>
+                <p class="vcard-zip">98765 Town</p>
+            </div>
         </div>
     </div>
 </div>
