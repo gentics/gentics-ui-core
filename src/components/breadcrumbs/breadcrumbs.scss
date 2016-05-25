@@ -3,6 +3,8 @@ gtx-breadcrumbs {
 
     nav {
         background-color: $gtx-breadcrumbs-background-color;
+        padding-left: rem-calc(15px);
+        padding-right: rem-calc(15px);
         transition-duration: $gtx-breadcrumbs-animation-duration;
         transition-property: background-color;
 

@@ -2,14 +2,18 @@ import {
     Component,
     EventEmitter,
     Input,
-    Output
+    Output,
+    Pipe,
+    PipeTransform
 } from '@angular/core';
 import {isPresent} from '@angular/core/src/facade/lang';
 
-interface IBreadcrumbLink {
+export interface IBreadcrumbLink {
     href?: string;
     text: string;
 }
+
+export type BreadcrumbLink = IBreadcrumbLink | string;
 
 /**
  * A Breadcrumbs navigation component.
@@ -27,7 +31,7 @@ export class Breadcrumbs {
     /**
      * A list of links to display
      */
-    @Input() links: IBreadcrumbLink[] | string[] = [];
+    @Input() links: BreadcrumbLink[] = [];
 
     /**
      * Controls whether the navigation is disabled.
@@ -42,16 +46,23 @@ export class Breadcrumbs {
     /**
      * Fires when a link is clicked
      */
-    @Output() clicked = new EventEmitter<IBreadcrumbLink | string>();
+    @Output() clicked = new EventEmitter<BreadcrumbLink>();
 
 
     private isDisabled: boolean = false;
 
-    private linkClicked(link: IBreadcrumbLink, event: Event) {
+    private textOfLink(link: BreadcrumbLink): string {
+        if (link != null && typeof (<IBreadcrumbLink> link).text == 'string') {
+            return (<IBreadcrumbLink> link).text;
+        }
+        return link.toString();
+    }
+
+    private linkClicked(link: BreadcrumbLink, event: Event) {
         if (this.isDisabled) {
             event.preventDefault();
         } else {
-            console.log('link clicked: ', link);
+            this.clicked.emit(link);
         }
     }
 

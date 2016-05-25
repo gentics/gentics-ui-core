@@ -4,9 +4,10 @@ import {Autodocs, DemoBlock, HighlightedCode} from '../../components';
 
 @Component({
     template: require('./breadcrumbs-demo.tpl.html'),
-    styles: [`gtx-breadcrumbs { margin-bottom: 10px; }`],
+    styles: [`.columns + .columns { margin-top: -8px; }`],
     directives: [GTX_FORM_DIRECTIVES, Breadcrumbs, Autodocs, DemoBlock, HighlightedCode]
 })
 export class BreadcrumbsDemo {
     componentSource: string = require('!!raw!../../../components/breadcrumbs/breadcrumbs.component.ts');
+    isDisabled: boolean = true;
 }

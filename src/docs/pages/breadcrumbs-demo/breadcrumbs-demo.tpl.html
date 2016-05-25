@@ -38,16 +38,25 @@
             { href: "#/breadcrumbs", text: "Breadcrumbs" }
         ]' disabled></gtx-breadcrumbs>
         <p>
-            Of course, the <code>active</code> attribute can be bound to a boolean property.
+            The <code>active</code> attribute can also be bound to a boolean property.
         </p>
-        <gtx-breadcrumbs [links]='[
-            { text: "Demo" },
-            { text: "Hardware" },
-            { text: "Components" },
-            { text: "Monitors" },
-            { text: "24 inch and up" }
-        ]' [disabled]="isDisabled"></gtx-breadcrumbs>
-        <gtx-checkbox [(ngModel)]="isDisabled" label="Disabled"></gtx-checkbox>
+        <div class="row expanded small-collapse">
+            <div class="columns small-12 large-9">
+                <gtx-breadcrumbs
+                    [links]='[
+                        "Demo",
+                        "Hardware",
+                        "Components",
+                        "Monitors",
+                        "24 inch and up"
+                    ]'
+                    [disabled]="isDisabled">
+                </gtx-breadcrumbs>
+            </div>
+            <div class="columns small-12 large-2 large-push-1">
+                <gtx-checkbox [(ngModel)]="isDisabled" label="Disabled"></gtx-checkbox>
+            </div>
+        </div>
     </div>
     <div class="demo-code">
         <gtx-highlighted-code language="HTML" code='
@@ -55,15 +64,16 @@
                 { href: "#", text: "Gentics UI Core"" },
                 { href: "#", text: "Components"" },
                 { href: "#/breadcrumbs", text: "Breadcrumbs"" }
-            ]&#39; [disabled]="isDisabled"></gtx-breadcrumbs>
+            ]&#39; disabled></gtx-breadcrumbs>
 
             <gtx-breadcrumbs [links]=&#39;[
-                { text: "Demo" },
-                { text: "Hardware" },
-                { text: "Components" },
-                { text: "Monitors" },
-                { text: "24 inch and up" },
+                "Demo",
+                "Hardware",
+                "Components",
+                "Monitors",
+                "24 inch and up"
             ]&#39; [disabled]="isDisabled"></gtx-breadcrumbs>
+            <gtx-checkbox [(ngModel)]="isDisabled" label="Disabled"></gtx-checkbox>
         '></gtx-highlighted-code>
     </div>
 </gtx-demo-block>
