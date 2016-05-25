@@ -44,11 +44,11 @@
             <div class="columns small-12 large-9">
                 <gtx-breadcrumbs
                     [links]='[
-                        "Demo",
-                        "Hardware",
-                        "Components",
-                        "Monitors",
-                        "24 inch and up"
+                        { text: "Demo" },
+                        { text: "Hardware" },
+                        { text: "Components" },
+                        { text: "Monitors" },
+                        { text: "24 inch and up" }
                     ]'
                     [disabled]="isDisabled">
                 </gtx-breadcrumbs>
@@ -61,19 +61,40 @@
     <div class="demo-code">
         <gtx-highlighted-code language="HTML" code='
             <gtx-breadcrumbs [links]=&#39;[
-                { href: "#", text: "Gentics UI Core"" },
-                { href: "#", text: "Components"" },
-                { href: "#/breadcrumbs", text: "Breadcrumbs"" }
+                { href: "#", text: "Gentics UI Core" },
+                { href: "#", text: "Components" },
+                { href: "#/breadcrumbs", text: "Breadcrumbs" }
             ]&#39; disabled></gtx-breadcrumbs>
 
             <gtx-breadcrumbs [links]=&#39;[
-                "Demo",
-                "Hardware",
-                "Components",
-                "Monitors",
-                "24 inch and up"
+                { text: "Demo" },
+                { text: "Hardware" },
+                { text: "Components" },
+                { text: "Monitors" },
+                { text: "24 inch and up" }
             ]&#39; [disabled]="isDisabled"></gtx-breadcrumbs>
             <gtx-checkbox [(ngModel)]="isDisabled" label="Disabled"></gtx-checkbox>
+        '></gtx-highlighted-code>
+    </div>
+</gtx-demo-block>
+
+<gtx-demo-block title="Router links as breadcrumbs">
+    <div class="demo-result">
+        <p>
+            To use the <a target="_blank" href="https://angular.io/docs/ts/latest/guide/router.html">Angular Router</a>
+            for breadcrumb navigation links, bind values to the <code>routerLinks</code> property.
+        </p>
+        <gtx-breadcrumbs [routerLinks]='[
+            { route: ["DefaultRoute"], text: "Index" },
+            { route: ["Breadcrumbs"], text: "Breadcrumbs navigation" }
+        ]'></gtx-breadcrumbs>
+    </div>
+    <div class="demo-code">
+        <gtx-highlighted-code language="HTML" code='
+            <gtx-breadcrumbs [routerLinks]=&#39;[
+                { route: ["DefaultRoute"], text: "Index" },
+                { route: ["Breadcrumbs"], text: "Breadcrumbs navigation" }
+            ]&#39;></gtx-breadcrumbs>
         '></gtx-highlighted-code>
     </div>
 </gtx-demo-block>

@@ -2,10 +2,9 @@ import {
     Component,
     EventEmitter,
     Input,
-    Output,
-    Pipe,
-    PipeTransform
+    Output
 } from '@angular/core';
+import {RouterLink} from '@angular/router-deprecated';
 import {isPresent} from '@angular/core/src/facade/lang';
 
 export interface IBreadcrumbLink {
@@ -13,7 +12,10 @@ export interface IBreadcrumbLink {
     text: string;
 }
 
-export type BreadcrumbLink = IBreadcrumbLink | string;
+export interface IBreadcrumbRouterLink {
+    route: any[];
+    text: string;
+}
 
 /**
  * A Breadcrumbs navigation component.
@@ -24,14 +26,21 @@ export type BreadcrumbLink = IBreadcrumbLink | string;
  */
 @Component({
     selector: 'gtx-breadcrumbs',
-    template: require('./breadcrumbs.tpl.html')
+    template: require('./breadcrumbs.tpl.html'),
+    directives: [RouterLink]
 })
 export class Breadcrumbs {
 
     /**
      * A list of links to display
      */
-    @Input() links: BreadcrumbLink[] = [];
+    @Input() links: IBreadcrumbLink[] = null;
+
+
+    /**
+     * A list of RouterLinks to display
+     */
+    @Input() routerLinks: IBreadcrumbRouterLink[] = null;
 
     /**
      * Controls whether the navigation is disabled.
@@ -46,24 +55,17 @@ export class Breadcrumbs {
     /**
      * Fires when a link is clicked
      */
-    @Output() clicked = new EventEmitter<BreadcrumbLink>();
+    @Output() clicked = new EventEmitter<IBreadcrumbLink | IBreadcrumbRouterLink>();
 
 
     private isDisabled: boolean = false;
 
-    private textOfLink(link: BreadcrumbLink): string {
-        if (link != null && typeof (<IBreadcrumbLink> link).text == 'string') {
-            return (<IBreadcrumbLink> link).text;
-        }
-        return link.toString();
-    }
-
-    private linkClicked(link: BreadcrumbLink, event: Event) {
+    private linkClicked(link: IBreadcrumbLink | IBreadcrumbRouterLink, event: Event): void {
         if (this.isDisabled) {
             event.preventDefault();
+            event.stopImmediatePropagation();
         } else {
             this.clicked.emit(link);
         }
     }
-
 }
