@@ -35,6 +35,14 @@ $gtx-animation-duration: 300ms !default;
 
 
 /* Component-specific variables */
+$gtx-breadcrumbs-animation-duration: $gtx-animation-duration !default;
+$gtx-breadcrumbs-background-color: $gtx-color-primary !default;
+$gtx-breadcrumbs-active-color: white !default;
+$gtx-breadcrumbs-inactive-color: $gtx-color-off-white !default;
+$gtx-breadcrumbs-disabled-background-color: grayscale($gtx-color-primary) !default;
+$gtx-breadcrumbs-disabled-active-color: $gtx-color-light-gray !default;
+$gtx-breadcrumbs-disabled-inactive-color: transparentize($gtx-color-light-gray, 0.3) !default;
+
 $gtx-progress-bar-animation-duration: $gtx-animation-duration !default;
 $gtx-progress-bar-background-color: transparent !default;
 $gtx-progress-bar-color: $gtx-color-primary !default;

@@ -11,6 +11,7 @@ $roboto-font-path: '../fonts/';
 @import "grid";
 
 /* Components */
+@import "../components/breadcrumbs/breadcrumbs";
 @import "../components/button/button";
 @import "../components/contents-list-item/contents-list-item";
 @import "../components/date-time-picker/date-time-picker";

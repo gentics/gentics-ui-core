@@ -1,0 +1,13 @@
+<nav [class.disabled]="isDisabled">
+
+    <div class="nav-wrapper row columns">
+
+        <a *ngFor="let link of links"
+            [attr.href]="isDisabled ? null : link?.href"
+            class="breadcrumb"
+            (click)="linkClicked(link, $event)"
+        >{{ link.text }}</a>
+
+    </div>
+
+</nav>

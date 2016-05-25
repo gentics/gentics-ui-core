@@ -5,6 +5,7 @@
  */
 require('./materialize');
 
+export * from './components/breadcrumbs/breadcrumbs.component';
 export * from './components/button/button.component';
 export * from './components/contents-list-item/contents-list-item.component';
 export * from './components/dropdown-list/dropdown-list.component';
