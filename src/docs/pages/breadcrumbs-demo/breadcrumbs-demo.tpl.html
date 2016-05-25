@@ -1,0 +1,69 @@
+<h3>Breadcrumbs</h3>
+
+<gtx-autodocs [source]="componentSource"></gtx-autodocs>
+
+<h4>Demos</h4>
+
+<gtx-demo-block title="Simple breadcrumbs navigation">
+    <div class="demo-result">
+        <p>
+            An example breadcrumbs navigation
+        </p>
+        <gtx-breadcrumbs [links]='[
+            { href: "#", text: "Gentics UI Core" },
+            { href: "#", text: "Components" },
+            { href: "#/breadcrumbs", text: "Breadcrumbs" }
+        ]'></gtx-breadcrumbs>
+    </div>
+    <div class="demo-code">
+        <gtx-highlighted-code language="HTML" code='
+            <gtx-breadcrumbs [links]=&#39;[
+                { href: "#", text: "Gentics UI Core" },
+                { href: "#", text: "Components" },
+                { href: "#/breadcrumbs", text: "Breadcrumbs" }
+            ]&#39;></gtx-breadcrumbs>
+        '></gtx-highlighted-code>
+    </div>
+</gtx-demo-block>
+
+<gtx-demo-block title="Disabled breadcrumbs bar">
+    <div class="demo-result">
+        <p>
+            To disable a breadcrumb bar, add the <code>active</code> attribute.
+            Setting a value like <code>active="active"</code> is optional.
+        </p>
+        <gtx-breadcrumbs [links]='[
+            { href: "#", text: "Gentics UI Core" },
+            { href: "#", text: "Components" },
+            { href: "#/breadcrumbs", text: "Breadcrumbs" }
+        ]' disabled></gtx-breadcrumbs>
+        <p>
+            Of course, the <code>active</code> attribute can be bound to a boolean property.
+        </p>
+        <gtx-breadcrumbs [links]='[
+            { text: "Demo" },
+            { text: "Hardware" },
+            { text: "Components" },
+            { text: "Monitors" },
+            { text: "24 inch and up" }
+        ]' [disabled]="isDisabled"></gtx-breadcrumbs>
+        <gtx-checkbox [(ngModel)]="isDisabled" label="Disabled"></gtx-checkbox>
+    </div>
+    <div class="demo-code">
+        <gtx-highlighted-code language="HTML" code='
+            <gtx-breadcrumbs [links]=&#39;[
+                { href: "#", text: "Gentics UI Core"" },
+                { href: "#", text: "Components"" },
+                { href: "#/breadcrumbs", text: "Breadcrumbs"" }
+            ]&#39; [disabled]="isDisabled"></gtx-breadcrumbs>
+
+            <gtx-breadcrumbs [links]=&#39;[
+                { text: "Demo" },
+                { text: "Hardware" },
+                { text: "Components" },
+                { text: "Monitors" },
+                { text: "24 inch and up" },
+            ]&#39; [disabled]="isDisabled"></gtx-breadcrumbs>
+        '></gtx-highlighted-code>
+    </div>
+</gtx-demo-block>

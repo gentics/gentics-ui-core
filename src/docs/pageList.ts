@@ -1,5 +1,6 @@
 import {Type} from '@angular/core';
 // Demo pages
+import {BreadcrumbsDemo} from './pages/breadcrumbs-demo/breadcrumbs-demo';
 import {ButtonDemo} from './pages/button-demo/button-demo';
 import {CheckboxDemo} from './pages/checkbox-demo/checkbox-demo';
 import {ColorsDemo} from './pages/colors-demo/colors-demo';
@@ -32,6 +33,11 @@ export interface IPageInfo {
 }
 
 export const pages: IPageInfo[] = [
+    {
+        name: 'breadcrumbs',
+        component: BreadcrumbsDemo,
+        type: 'component'
+    },
     {
         name: 'button',
         component: ButtonDemo,
