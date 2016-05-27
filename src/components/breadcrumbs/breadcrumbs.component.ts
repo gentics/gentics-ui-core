@@ -10,11 +10,13 @@ import {isPresent} from '@angular/core/src/facade/lang';
 export interface IBreadcrumbLink {
     href?: string;
     text: string;
+    [key: string]: any;
 }
 
 export interface IBreadcrumbRouterLink {
     route: any[];
     text: string;
+    [key: string]: any;
 }
 
 /**
