@@ -1,23 +1,26 @@
 import {Component} from '@angular/core';
-import {expect, inject, it} from '@angular/core/testing';
+import {expect, fakeAsync, inject, it, tick} from '@angular/core/testing';
 import {ComponentFixture, TestComponentBuilder} from '@angular/compiler/testing';
 import {DropdownList} from './dropdown-list.component';
 
 describe('DropdownList:', () => {
 
-    it('should add a matching id to trigger and content', inject([TestComponentBuilder],
-        (tcb: TestComponentBuilder) => {
+    it('should add a matching id to trigger and content', fakeAsync(
+        inject([TestComponentBuilder], (tcb: TestComponentBuilder) => {
             tcb.createAsync(TestComponent)
                 .then((fixture: ComponentFixture<TestComponent>) => {
                     fixture.detectChanges();
                     let trigger = <HTMLElement> fixture.nativeElement.querySelector('.dropdown-trigger');
                     let list = <HTMLUListElement> document.querySelector('.dropdown-content');
 
-                    expect(trigger.dataset['activates'] === list.id).toBe(true);
+                    tick();
+
+                    expect(trigger.dataset['activates']).toBe(list.id,
+                        'DropdownList data-activates attribute should match id');
 
                     fixture.destroy();
                 });
-        }));
+        })));
 
     it('content should get attached to body', inject([TestComponentBuilder],
         (tcb: TestComponentBuilder) => {
@@ -32,8 +35,8 @@ describe('DropdownList:', () => {
                 });
         }));
 
-    it('should clean up the wrapper div from the body', inject([TestComponentBuilder],
-        (tcb: TestComponentBuilder) => {
+    it('should clean up the wrapper div from the body', fakeAsync(
+        inject([TestComponentBuilder], (tcb: TestComponentBuilder) => {
             tcb.createAsync(TestComponent)
                 .then((fixture: ComponentFixture<TestComponent>) => {
                     fixture.detectChanges();
@@ -41,10 +44,11 @@ describe('DropdownList:', () => {
                     expect(document.querySelectorAll('.dropdown-content-wrapper').length).toBe(1);
 
                     fixture.destroy();
+                    tick();
 
                     expect(document.querySelectorAll('.dropdown-content-wrapper').length).toBe(0);
                 });
-        }));
+        })));
 });
 
 
