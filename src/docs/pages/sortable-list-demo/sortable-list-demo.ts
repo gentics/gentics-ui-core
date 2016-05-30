@@ -56,4 +56,8 @@ export class SortableListDemo {
     sortList(e: ISortableEvent): void {
         this.items = e.sort(this.items);
     }
+    
+    sortLongList(e: ISortableEvent): void {
+        this.longList = e.sort(this.longList);
+    }
 }

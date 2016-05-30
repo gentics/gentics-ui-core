@@ -49,12 +49,23 @@ describe('SortableList:', () => {
                     });
             }));
 
-        it('should sort a simple array', inject([TestComponentBuilder], (tcb: TestComponentBuilder) => {
+        it('should sort a simple small array', inject([TestComponentBuilder], (tcb: TestComponentBuilder) => {
             tcb.createAsync(TestComponent)
                 .then((fixture: ComponentFixture<TestComponent>) => {
                     let initial = [1, 2, 3];
-                    let expected = [3, 2, 1];
+                    let expected = [2, 3, 1];
                     let sortFn = getSortFn(fixture);
+
+                    expect(sortFn(initial)).toEqual(expected);
+                });
+        }));
+
+        it('should sort a simple large array', inject([TestComponentBuilder], (tcb: TestComponentBuilder) => {
+            tcb.createAsync(TestComponent)
+                .then((fixture: ComponentFixture<TestComponent>) => {
+                    let initial = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
+                    let expected = [1, 2, 3, 5, 6, 7, 4, 8, 9, 10];
+                    let sortFn = getSortFn(fixture, 3, 6);
 
                     expect(sortFn(initial)).toEqual(expected);
                 });
@@ -65,7 +76,7 @@ describe('SortableList:', () => {
             tcb.createAsync(TestComponent)
                 .then((fixture: ComponentFixture<TestComponent>) => {
                     let initial = [{ name: 'john' }, { name: 'joe' }, { name: 'mary' }];
-                    let expected = [{ name: 'mary' }, { name: 'joe' }, { name: 'john' }];
+                    let expected = [{ name: 'joe' }, { name: 'mary' }, { name: 'john' }];
                     let sortFn = getSortFn(fixture);
 
                     expect(sortFn(initial)).toEqual(expected);

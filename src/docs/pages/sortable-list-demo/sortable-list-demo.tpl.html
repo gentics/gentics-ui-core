@@ -137,7 +137,7 @@
             scrollable area will trigger auto scrolling.
         </p>
         <div class="auto-scroll-demo">
-            <gtx-sortable-list (dragEnd)="sortList($event)">
+            <gtx-sortable-list (dragEnd)="sortLongList($event)">
                 <gtx-sortable-item *ngFor="let item of longList">
                     <gtx-contents-list-item>
                         <div class="item-avatar">
@@ -153,7 +153,7 @@
     </div>
     <div class="demo-code">
         <gtx-highlighted-code language="HTML" code='
-                <gtx-sortable-list (dragEnd)="sortList($event)">
+                <gtx-sortable-list (dragEnd)="sortLongList($event)">
                     <gtx-sortable-item *ngFor="let item of longList">
                         <gtx-contents-list-item>
                             <div class="item-avatar">

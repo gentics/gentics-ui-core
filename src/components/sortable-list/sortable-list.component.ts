@@ -173,9 +173,7 @@ export class SortableList {
             const valid = (i: any): boolean => isInt(i) && inBounds(i);
 
             if (oldIndex !== newIndex && valid(oldIndex) && valid(newIndex)) {
-                let item: any = result[newIndex];
-                result[newIndex] = result[oldIndex];
-                result[oldIndex] = item;
+                result.splice(newIndex, 0, result.splice(oldIndex, 1)[0]);
             }
 
             return result;
