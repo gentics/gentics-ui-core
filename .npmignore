@@ -1,1 +1,7 @@
-src
+/*
+!/dist
+!/.npmignore
+!/package.json
+!/tsproject.json
+!/typings.json
+!/README.md

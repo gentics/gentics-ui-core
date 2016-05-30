@@ -31,5 +31,6 @@ node_modules
 
 *.orig
 .idea
+/dist
 /docs
 /typings

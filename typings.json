@@ -1,13 +1,13 @@
 {
   "ambientDependencies": {
-    "es6-shim": "registry:dt/es6-shim#0.31.2+20160317120654",
-    "hammerjs": "registry:dt/hammerjs#2.0.4+20160417130828",
-    "jasmine": "registry:dt/jasmine#2.2.0+20160412134438",
-    "jquery": "registry:dt/jquery#1.10.0+20160417213236",
-    "materialize-css": "registry:dt/materialize-css#0.97.5+20160317120654",
-    "moment-node": "registry:dt/moment-node#2.11.1+20160417135035",
-    "node": "registry:dt/node#4.0.0+20160423143914",
-    "sortablejs": "registry:dt/sortablejs#1.3.0-rc1+20160317120654",
-    "velocity-animate": "registry:dt/velocity-animate#1.2.2+20160317120654"
+    "es6-shim": "github:DefinitelyTyped/DefinitelyTyped/es6-shim/es6-shim.d.ts#7de6c3dd94feaeb21f20054b9f30d5dabc5efabd",
+    "hammerjs": "github:DefinitelyTyped/DefinitelyTyped/hammerjs/hammerjs.d.ts#de8e80dfe5360fef44d00c41257d5ef37add000a",
+    "jasmine": "github:DefinitelyTyped/DefinitelyTyped/jasmine/jasmine.d.ts#36a1be34dbe202c665b3ddafd50824f78c09eea3",
+    "jquery": "github:DefinitelyTyped/DefinitelyTyped/jquery/jquery.d.ts#4cdfbe96b666eec5e1defbb519a62abf04e96764",
+    "materialize-css": "github:DefinitelyTyped/DefinitelyTyped/materialize-css/materialize-css.d.ts#7de6c3dd94feaeb21f20054b9f30d5dabc5efabd",
+    "moment-node": "github:DefinitelyTyped/DefinitelyTyped/moment/moment-node.d.ts#8886ae591751e8a8237fa855617745768f0b1bdf",
+    "node": "github:DefinitelyTyped/DefinitelyTyped/node/node.d.ts#9081e075b730c9948b643a6c38d6deb18cb0ebdd",
+    "sortablejs": "github:DefinitelyTyped/DefinitelyTyped/sortablejs/sortablejs.d.ts#7de6c3dd94feaeb21f20054b9f30d5dabc5efabd",
+    "velocity-animate": "github:DefinitelyTyped/DefinitelyTyped/velocity-animate/velocity-animate.d.ts#7de6c3dd94feaeb21f20054b9f30d5dabc5efabd"
   }
 }
