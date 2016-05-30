@@ -5,7 +5,7 @@
             <a *ngFor="let link of links; let i = index"
                 class="breadcrumb"
                 [attr.href]="isDisabled ? null : links[i]?.href"
-                (click)="linkClicked(links[i], $event)"
+                (click)="onLinkClicked(links[i], $event)"
             >{{ links[i].text }}</a>
         </template>
 
@@ -13,7 +13,7 @@
             <a *ngFor="let rlink of routerLinks; let j = index"
                 class="breadcrumb"
                 [routerLink]="routerLinks[j].route"
-                (click)="linkClicked(routerLinks[j], $event)"
+                (click)="onLinkClicked(routerLinks[j], $event)"
             >{{ routerLinks[j].text }}</a>
         </template>
 

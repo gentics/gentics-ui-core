@@ -182,12 +182,12 @@ describe('Breadcrumbs:', () => {
     ));
 
 
-    it('forwards clicks on its links to the "clicked" EventEmitter', fakeAsync(
+    it('forwards clicks on its links to the "linkClick" EventEmitter', fakeAsync(
         inject([TestComponentBuilder], (tcb: TestComponentBuilder) => {
             tcb.overrideTemplate(TestComponent, `
                 <gtx-breadcrumbs [links]="[
                     { text: 'A', href: '/a' }
-                ]" (clicked)="onClick($event)">
+                ]" (linkClick)="onClick($event)">
                 </gtx-breadcrumbs>
             `).createAsync(TestComponent)
             .then((fixture: ComponentFixture<TestComponent>) => {
@@ -207,12 +207,12 @@ describe('Breadcrumbs:', () => {
         })
     ));
 
-    it('does not forward clicks to the "clicked" EventEmitter when disabled', fakeAsync(
+    it('does not forward clicks to the "linkClick" EventEmitter when disabled', fakeAsync(
         inject([TestComponentBuilder], (tcb: TestComponentBuilder) => {
             tcb.overrideTemplate(TestComponent, `
                 <gtx-breadcrumbs [links]="[
                     { text: 'A', href: '/a' }
-                ]" (clicked)="onClick($event)" disabled>
+                ]" (linkClick)="onClick($event)" disabled>
                 </gtx-breadcrumbs>
             `).createAsync(TestComponent)
             .then((fixture: ComponentFixture<TestComponent>) => {
@@ -231,10 +231,10 @@ describe('Breadcrumbs:', () => {
         })
     ));
 
-    it('forwards the "links" input value to the "clicked" EventEmitter by reference', fakeAsync(
+    it('forwards the "links" input value to the "linkClick" EventEmitter by reference', fakeAsync(
         inject([TestComponentBuilder], (tcb: TestComponentBuilder) => {
             tcb.overrideTemplate(TestComponent, `
-                <gtx-breadcrumbs [links]="links" (clicked)="onClick($event)"></gtx-breadcrumbs>
+                <gtx-breadcrumbs [links]="links" (linkClick)="onClick($event)"></gtx-breadcrumbs>
             `).createAsync(TestComponent)
             .then((fixture: ComponentFixture<TestComponent>) => {
                 const component: TestComponent = fixture.componentInstance;
@@ -260,16 +260,95 @@ describe('Breadcrumbs:', () => {
         })
     ));
 
-    // describe('Router link capabilities', () => {
-    //     beforeEachProviders(() => [
-    //         RouteRegistry,
-    //         { provide: Location, useClass: SpyLocation },
-    //         { provide: ROUTER_PRIMARY_COMPONENT, useValue: TestRoutingComponent },
-    //         { provide: Router, useClass: RootRouter }
-    //     ]);
-    //
-    //     // TODO
-    // });
+    describe('Router link capabilities', () => {
+        beforeEachProviders(() => [
+            RouteRegistry,
+            { provide: Location, useClass: SpyLocation },
+            { provide: ROUTER_PRIMARY_COMPONENT, useValue: TestRoutingComponent },
+            { provide: Router, useClass: RootRouter }
+        ]);
+
+        it('creates links with the text provided in "routerLinks"', fakeAsync(
+            inject([TestComponentBuilder, Location], (tcb: TestComponentBuilder, spyLocation: SpyLocation) => {
+                tcb.overrideTemplate(TestRoutingComponent, `
+                    <gtx-breadcrumbs [routerLinks]='[
+                        { text: "A", route: ["/TestA/TestB/TestC"] },
+                        { text: "B", route: ["/TestA", "TestB", "TestC"] }
+                    ]'></gtx-breadcrumbs>
+                    <router-outlet></router-outlet>
+                `).createAsync(TestRoutingComponent)
+                .then((fixture: ComponentFixture<TestRoutingComponent>) => {
+                    fixture.detectChanges();
+                    spyLocation.simulateUrlPop('component-A-url/component-B-url/component-C-url');
+                    tick();
+                    fixture.detectChanges();
+                    let nativeLinks: HTMLAnchorElement[] = fixture.nativeElement.querySelectorAll('a');
+
+                    expect(nativeLinks.length).toBe(2);
+                    expect(linkTexts(fixture)).toEqual(['A', 'B']);
+                });
+            })
+        ));
+
+        it('sets the "href" of links created via "routerLinks" to their router URL', fakeAsync(
+            inject([TestComponentBuilder, Location], (tcb: TestComponentBuilder, spyLocation: SpyLocation) => {
+                tcb.overrideTemplate(TestRoutingComponent, `
+                    <gtx-breadcrumbs [routerLinks]='[
+                        { text: "A", route: ["/TestA/TestB/TestC"] },
+                        { text: "B", route: ["TestA", "TestB", "TestC"] }
+                    ]'></gtx-breadcrumbs>
+                    <router-outlet></router-outlet>
+                `).createAsync(TestRoutingComponent)
+                .then((fixture: ComponentFixture<TestRoutingComponent>) => {
+                    fixture.detectChanges();
+                    spyLocation.simulateUrlPop('component-A-url/component-B-url/component-C-url');
+                    tick();
+                    fixture.detectChanges();
+
+                    expect(linkHrefs(fixture)).toEqual([
+                        '/component-A-url/component-B-url/component-C-url',
+                        '/component-A-url/component-B-url/component-C-url'
+                    ]);
+                });
+            })
+        ));
+
+        it('changes to the correct URL when clicking links created via "routerLink"', fakeAsync(
+            inject([TestComponentBuilder, Location], (tcb: TestComponentBuilder, spyLocation: SpyLocation) => {
+                tcb.overrideTemplate(TestRoutingComponent, `
+                    <gtx-breadcrumbs [routerLinks]='[
+                        { text: "A", route: ["TestA", "TestB", "TestC"] },
+                        { text: "B", route: ["TestA", "TestB", "TestC-2"] },
+                        { text: "B", route: ["TestA", "TestB", "TestC-3"] }
+                    ]'></gtx-breadcrumbs>
+                    <router-outlet></router-outlet>
+                `).createAsync(TestRoutingComponent)
+                .then((fixture: ComponentFixture<TestRoutingComponent>) => {
+                    fixture.detectChanges();
+                    spyLocation.simulateUrlPop('component-A-url/component-B-url/component-C-url');
+                    tick();
+                    fixture.detectChanges();
+
+                    let generatedLinks = fixture.debugElement.queryAll(By.css('a'));
+                    expect(generatedLinks.length).toBe(3);
+
+                    generatedLinks[1].triggerEventHandler('click', new MouseEvent('click', {}));
+                    tick(50);
+                    expect(spyLocation.urlChanges).toEqual([
+                        '/component-A-url/component-B-url/component-C-2-url'
+                    ]);
+
+                    generatedLinks[2].triggerEventHandler('click', new MouseEvent('click', {}));
+                    tick(50);
+                    expect(spyLocation.urlChanges).toEqual([
+                        '/component-A-url/component-B-url/component-C-2-url',
+                        '/component-A-url/component-B-url/component-C-3-url'
+                    ]);
+                });
+            })
+        ));
+
+    });
 
 });
 
@@ -287,11 +366,18 @@ class TestComponent {
 /* 3-ancestor component setup to test routing */
 
 @Component({
+    template: `no content`
+})
+class RoutedTestComponentC { }
+
+@Component({
     template: `<router-outlet></router-outlet>`,
     directives: [TestComponent]
 })
 @RouteConfig([
-    { name: 'TestC', path: 'component-C-url', component: TestComponent }
+    { name: 'TestC', path: '/component-C-url', component: RoutedTestComponentC },
+    { name: 'TestC-2', path: '/component-C-2-url', component: RoutedTestComponentC },
+    { name: 'TestC-3', path: '/component-C-3-url', component: RoutedTestComponentC }
 ])
 class RoutedTestComponentB { }
 
@@ -300,15 +386,15 @@ class RoutedTestComponentB { }
     directives: [ROUTER_DIRECTIVES]
 })
 @RouteConfig([
-    { name: 'TestB', path: 'component-B-url', component: RoutedTestComponentB }
+    { name: 'TestB', path: '/component-B-url/...', component: RoutedTestComponentB }
 ])
 class RoutedTestComponentA { }
 
 @Component({
     template: `<router-outlet></router-outlet>`,
-    directives: [ROUTER_DIRECTIVES]
+    directives: [ROUTER_DIRECTIVES, Breadcrumbs]
 })
 @RouteConfig([
-    { name: 'TestA', path: 'component-A-url', component: RoutedTestComponentA }
+    { name: 'TestA', path: '/component-A-url/...', component: RoutedTestComponentA }
 ])
 class TestRoutingComponent { }

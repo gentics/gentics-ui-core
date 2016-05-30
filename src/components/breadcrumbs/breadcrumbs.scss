@@ -27,6 +27,7 @@ gtx-breadcrumbs {
 
     nav.disabled {
         background-color: $gtx-breadcrumbs-disabled-background-color;
+        pointer-events: none;
 
         .breadcrumb {
             &, &::before {

@@ -57,17 +57,17 @@ export class Breadcrumbs {
     /**
      * Fires when a link is clicked
      */
-    @Output() clicked = new EventEmitter<IBreadcrumbLink | IBreadcrumbRouterLink>();
+    @Output() linkClick = new EventEmitter<IBreadcrumbLink | IBreadcrumbRouterLink>();
 
 
     private isDisabled: boolean = false;
 
-    private linkClicked(link: IBreadcrumbLink | IBreadcrumbRouterLink, event: Event): void {
+    private onLinkClicked(link: IBreadcrumbLink | IBreadcrumbRouterLink, event: Event): void {
         if (this.isDisabled) {
             event.preventDefault();
             event.stopImmediatePropagation();
         } else {
-            this.clicked.emit(link);
+            this.linkClick.emit(link);
         }
     }
 }
