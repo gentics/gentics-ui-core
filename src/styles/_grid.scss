@@ -1,4 +1,12 @@
-/* Foundation grid */
+/* Foundation grid with materialize breakpoints */
+$breakpoints: (
+    small: 0,
+    medium: $small-screen,
+    large: $medium-screen,
+    xlarge: $large-screen,
+    xxlarge: 1440px,
+);
+
 @import "./foundation-grid/util/util";
 $global-left: left !default;
 $global-right: right !default;
@@ -31,4 +39,21 @@ $global-width: rem-calc(1200) !default;
             }
         }
     }
+}
+
+/* Supplement for materialize's container grid class */
+.container {
+  margin: 0 auto;
+  max-width: 1280px;
+  width: 90%;
+}
+@media #{$medium-and-up} {
+  .container {
+    width: 85%;
+  }
+}
+@media #{$large-and-up} {
+  .container {
+    width: 70%;
+  }
 }
