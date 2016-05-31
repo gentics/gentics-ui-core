@@ -8,4 +8,4 @@ import {Autodocs, DemoBlock, HighlightedCode} from '../../components';
 })
 export class DropdownListDemo {
     componentSource: string = require('!!raw!../../../components/dropdown-list/dropdown-list.component.ts');
-}
+} 

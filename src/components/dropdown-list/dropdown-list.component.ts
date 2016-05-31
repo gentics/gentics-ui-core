@@ -1,8 +1,4 @@
-import {
-    Component,
-    ElementRef,
-    Input
-} from '@angular/core';
+import {Component, ElementRef, Input} from '@angular/core';
 
 /**
  * A Dropdown List component based on the [Materialize implementation](http://materializecss.com/dropdown.html),
@@ -41,15 +37,15 @@ export class DropdownList {
     options = {
         inDuration: 300,
         outDuration: 225,
-        constrain_width: true, // Constrains width of dropdown to the activator
         hover: false,
-        gutter: 0, // Spacing from edge
-        belowOrigin: false,
-        alignment: 'left'
+        alignment: 'left',
+        width: 'contents',
+        belowTrigger: false
     };
+    scrollMask: JQuery;
 
     /**
-     * Set the alignment of the dropdown, either 'left' or 'right'. Defaults to 'left'.
+     * Set the alignment of the dropdown, either 'left' or 'right'. *Default: 'left'*.
      */
     @Input()
     get align(): string {
@@ -60,6 +56,33 @@ export class DropdownList {
     }
 
     /**
+     * Set the width of the dropdown. Can be either 'contents', 'trigger' or a numeric value. 'Contents' will
+     * set a width sufficient to accommodate the widest list item. 'Trigger' sets the width to equal the width
+     * of the trigger element. A numeric value sets the width the a specific number of pixels. *Default: 'contents'*.
+     */
+    @Input()
+    get width(): string {
+        return this.options.width;
+    }
+    set width(val: string) {
+        const isValid = (s: string) => /^(trigger|contents|[\d\.]+)$/.test(s);
+        if (isValid(val)) {
+            this.options.width = val;
+        }
+    }
+
+    /**
+     * If true, the dropdown will be positioned below the bottom of the trigger element. *Default: false*.
+     */
+    @Input()
+    get belowTrigger(): boolean {
+        return this.options.belowTrigger;
+    }
+    set belowTrigger(val: boolean) {
+        this.options.belowTrigger = (val === true || <any> val === 'true');
+    }
+
+    /**
      * Close the dropdown and unregister the global event handlers.
      */
     closeDropdown = () => {
@@ -67,6 +90,7 @@ export class DropdownList {
         this.$content.fadeOut(this.options.outDuration);
         setTimeout(() => this.contentStyles.maxHeight = '', this.options.outDuration);
         $(document).off('click scroll', this.closeDropdown);
+        this.destroyScrollMask();
     };
 
     constructor(private elementRef: ElementRef) {}
@@ -94,6 +118,7 @@ export class DropdownList {
      * Remove the content wrapper from the body.
      */
     ngOnDestroy(): void {
+        this.destroyScrollMask();
         this.$contentWrapper.remove();
     }
 
@@ -101,12 +126,75 @@ export class DropdownList {
      * Open the dropdown contents in the correct position.
      */
     openDropdown(): void {
+        this.createScrollMask();
+
         // Constrain width
-        if (this.options.constrain_width === true) {
-            this.contentStyles.width = this.$trigger.outerWidth() + 'px';
-        } else {
+        if (this.width === 'contents') {
             this.contentStyles.whiteSpace = 'nowrap';
+        } else if (this.width === 'trigger') {
+            this.contentStyles.width = this.$trigger.outerWidth() + 1 + 'px';
+        } else {
+            this.contentStyles.width = this.width + 'px';
         }
+
+        // needs to be wrapped in a setTimeout due to positioning issues that arise if the
+        // content re-flows after being displayed, this altering the height of the $content element.
+        // The setTimeout allows the true (re-flowed) height to be used in calculating the
+        // position of the dropdown.
+        setTimeout(() => {
+            let positionStyles = this.calculatePositionStyles();
+            let height = this.$content.innerHeight() + 'px';
+            let flowUpwards = parseInt(positionStyles.top, 10) < Math.floor(this.$trigger.offset().top);
+            Object.assign(this.contentStyles, positionStyles);
+
+            // Show dropdown
+            this.$content.stop(true, true)
+                .css({
+                    opacity: 0,
+                    display: 'block',
+                    height: 0,
+                    'margin-top': flowUpwards ? height : 0
+                })
+                .velocity({
+                    height,
+                    'margin-top': 0
+                }, {
+                    queue: false,
+                    duration: this.options.inDuration,
+                    easing: 'easeOutCubic'
+                })
+                .velocity({
+                    opacity: 1
+                }, {
+                    queue: false,
+                    duration: this.options.inDuration,
+                    easing: 'easeOutSine'
+                });
+        });
+    }
+
+    /**
+     * Creates a scroll mask and adds it to the DOM to prevent scrolling while the
+     * dropdown is open.
+     */
+    createScrollMask(): void {
+        this.scrollMask = $('<div>')
+            .addClass('scroll-mask')
+            .insertBefore(this.$contentWrapper);
+    }
+
+    destroyScrollMask(): void {
+        if (this.scrollMask && this.scrollMask.remove) {
+            this.scrollMask.remove();
+            this.scrollMask = null;
+        }
+    }
+
+    /**
+     * Calculates the position of the dropdown based on the height, width. alignment and screen boundaries.
+     */
+    calculatePositionStyles(): { top: string, left: string, maxHeight?: number } {
+        let positionStyles: any = {};
 
         // Offscreen detection
         let windowHeight: number = window.innerHeight;
@@ -117,7 +205,7 @@ export class DropdownList {
 
         // Below Origin
         let verticalOffset: number = 0;
-        if (this.options.belowOrigin === true) {
+        if (this.belowTrigger === true) {
             verticalOffset = originHeight;
         }
 
@@ -130,15 +218,18 @@ export class DropdownList {
             currAlignment = 'left';
         }
         // Vertical bottom offscreen detection
-        if (offsetTop + this.$content.innerHeight() > windowHeight) {
+        if (verticalOffset + offsetTop + this.$content.innerHeight() > windowHeight) {
             // If going upwards still goes offscreen, just crop height of dropdown.
             if (offsetTop + originHeight - this.$content.innerHeight() < 0) {
                 let adjustedHeight: number = windowHeight - offsetTop - verticalOffset;
-                this.contentStyles.maxHeight = adjustedHeight;
+                positionStyles.maxHeight = adjustedHeight;
             } else {
                 // Flow upwards.
                 if (!verticalOffset) {
-                    verticalOffset += originHeight;
+                    verticalOffset += originHeight + 1;
+                }
+                if (this.belowTrigger === true) {
+                    verticalOffset -= originHeight;
                 }
                 verticalOffset -= this.$content.innerHeight();
             }
@@ -146,32 +237,17 @@ export class DropdownList {
 
         // Handle edge alignment
         let leftPosition: number = 0;
-        let triggerLeft: number = this.$trigger[0].getBoundingClientRect().left;
+        let triggerLeft: number = Math.floor(this.$trigger[0].getBoundingClientRect().left);
         if (currAlignment === 'left') {
-            leftPosition = triggerLeft + this.options.gutter;
+            leftPosition = triggerLeft;
         } else if (currAlignment === 'right') {
-            let offsetRight: number = triggerLeft + this.$trigger.outerWidth() - this.$content.outerWidth();
-            leftPosition =  offsetRight + this.options.gutter;
+            leftPosition =  triggerLeft + this.$trigger.outerWidth() - this.$content.outerWidth();
         }
 
-        this.contentStyles.top = this.$trigger[0].getBoundingClientRect().top + verticalOffset + 'px';
-        this.contentStyles.left = leftPosition + 'px';
+        positionStyles.top = this.$trigger[0].getBoundingClientRect().top + verticalOffset + 'px';
+        positionStyles.left = leftPosition + 'px';
 
-        // Show dropdown
-        this.$content.stop(true, true).css('opacity', 0)
-            .slideDown({
-                queue: false,
-                duration: this.options.inDuration,
-                easing: 'easeOutCubic',
-                complete: (): void => {
-                    this.contentStyles.height = '';
-                }
-            })
-            .velocity( { opacity: 1 }, {
-                queue: false,
-                duration: this.options.inDuration,
-                easing: 'easeOutSine'
-            });
+        return positionStyles;
     }
 
     onTriggerClick(): void {
