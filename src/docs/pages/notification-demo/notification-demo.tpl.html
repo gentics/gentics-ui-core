@@ -8,17 +8,17 @@
 <gtx-demo-block title="Basic options">
     <div class="demo-result">
         <div class="row">
-            <div class="col s4">
+            <div class="column small-4">
                 <gtx-input label="Message" [(ngModel)]="message"></gtx-input>
             </div>
-            <div class="col s4">
+            <div class="column small-4">
                 <gtx-select label="Toast Type" [(ngModel)]="type">
                     <option value="default">default</option>
                     <option value="success">success</option>
                     <option value="error">error</option>
                 </gtx-select>
             </div>
-            <div class="col s4">
+            <div class="column small-4">
                 <gtx-input label="Delay" [(ngModel)]="delay" type="number" min="0" max="10000" step="500"></gtx-input>
             </div>
         </div>

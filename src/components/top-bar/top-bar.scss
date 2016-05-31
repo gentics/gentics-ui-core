@@ -3,11 +3,16 @@ gtx-top-bar {
 
     > .content {
         @extend .container;
+        // @include flex-grid-column(12);
+        // @include flex-grid-row(12);
+        // @include grid-column-offset(1);
+
         display: flex;
         align-items: center;
-        justify-content: flex-start;
-        @media #{$medium-and-down} {
-            justify-content: flex-end;
+        justify-content: flex-end;
+
+        @media #{$large-and-up} {
+            justify-content: flex-start;
         }
 
         > *:not(.content-right) {

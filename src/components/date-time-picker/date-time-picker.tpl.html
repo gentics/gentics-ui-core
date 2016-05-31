@@ -18,7 +18,7 @@
         <div [id]='uid' class="calendar-container"></div>
         <div class="time-picker" *ngIf="_displayTime">
             <div class="row">
-                <div class="col s4">
+                <div class="column small-4">
                     <button class="increment-button" (click)="incrementTime('hours')"><i class="material-icons">arrow_drop_up</i></button>
                     <gtx-input [(ngModel)]="time.h"
                                label="Hours"
@@ -29,7 +29,7 @@
                                max="23"></gtx-input>
                     <button class="increment-button" (click)="decrementTime('hours')"><i class="material-icons">arrow_drop_down</i></button>
                 </div>
-                <div class="col s4">
+                <div class="column small-4">
                     <button class="increment-button" (click)="incrementTime('minutes')"><i class="material-icons">arrow_drop_up</i></button>
                     <gtx-input [(ngModel)]="time.m"
                                label="Minutes"
@@ -40,7 +40,7 @@
                                max="59"></gtx-input>
                     <button class="increment-button" (click)="decrementTime('minutes')"><i class="material-icons">arrow_drop_down</i></button>
                 </div>
-                <div class="col s4">
+                <div class="column small-4">
                     <button class="increment-button" (click)="incrementTime('seconds')"><i class="material-icons">arrow_drop_up</i></button>
                     <gtx-input [(ngModel)]="time.s"
                                label="Seconds"

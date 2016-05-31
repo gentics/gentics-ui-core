@@ -12,7 +12,7 @@
             like waiting for a server request to complete or an image to load.
         </p>
         <gtx-progress-bar [active]="loading"></gtx-progress-bar>
-        <div class="col s8">
+        <div class="column small-8">
             <gtx-button (click)="loading = true">Load something</gtx-button>
             <gtx-button (click)="loading = false">Loading completed</gtx-button>
         </div>
@@ -35,7 +35,7 @@
             or operating large data sets in a web worker.
         </p>
         <gtx-progress-bar [active]="fileUploading" [progress]="filePercentage"></gtx-progress-bar>
-        <div class="col s8">
+        <div class="column small-8">
             <gtx-button (click)="startFileUpload()" [disabled]="fileUploading">Upload a file</gtx-button>
         </div>
     </div>
@@ -65,7 +65,7 @@
             in the template and <code>start()</code>/<code>complete()</code> can be called directly.
         </p>
         <gtx-progress-bar #busy></gtx-progress-bar>
-        <div class="col s8">
+        <div class="column small-8">
             <gtx-button (click)="busy.start()">Start loading</gtx-button>
             <gtx-button (click)="busy.complete()">Loading done</gtx-button>
         </div>
@@ -87,7 +87,7 @@
             can be passed which animates the progress bar when it is resolved or rejected.
         </p>
         <gtx-progress-bar #waiting></gtx-progress-bar>
-        <div class="col s8">
+        <div class="column small-8">
             <gtx-button (click)="waiting.start(waitPromise(2000))" [disabled]="waiting.active">
                 Start something that returns a Promise
             </gtx-button>
@@ -114,7 +114,7 @@
         <gtx-progress-bar #slow speed="3s"></gtx-progress-bar>
         <gtx-progress-bar #medium speed="800ms"></gtx-progress-bar>
         <gtx-progress-bar #fast speed="200ms"></gtx-progress-bar>
-        <div class="col s8">
+        <div class="column small-8">
             <gtx-button (click)="slow.start()" [disabled]="medium.active || fast.active">Slow</gtx-button>
             <gtx-button (click)="medium.start()" [disabled]="slow.active || fast.active">Medium</gtx-button>
             <gtx-button (click)="fast.start()" [disabled]="slow.active || medium.active">Fast</gtx-button>
