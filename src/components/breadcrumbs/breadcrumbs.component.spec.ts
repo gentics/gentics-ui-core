@@ -317,9 +317,9 @@ describe('Breadcrumbs:', () => {
             inject([TestComponentBuilder, Location], (tcb: TestComponentBuilder, spyLocation: SpyLocation) => {
                 tcb.overrideTemplate(TestRoutingComponent, `
                     <gtx-breadcrumbs [routerLinks]='[
-                        { text: "A", route: ["TestA", "TestB", "TestC"] },
-                        { text: "B", route: ["TestA", "TestB", "TestC-2"] },
-                        { text: "B", route: ["TestA", "TestB", "TestC-3"] }
+                        { text: "1", route: ["TestA", "TestB", "TestC"] },
+                        { text: "2", route: ["TestA", "TestB", "TestC-2"] },
+                        { text: "3", route: ["TestA", "TestB", "TestC-3"] }
                     ]'></gtx-breadcrumbs>
                     <router-outlet></router-outlet>
                 `).createAsync(TestRoutingComponent)
@@ -344,6 +344,37 @@ describe('Breadcrumbs:', () => {
                         '/component-A-url/component-B-url/component-C-2-url',
                         '/component-A-url/component-B-url/component-C-3-url'
                     ]);
+                });
+            })
+        ));
+
+        /*
+         * The test below does not work yet.
+         * At the current angular revision, the RouterLink directive can not be disabled.
+         * Only working solution is "pointer-events: none", which does not prevent the click event.
+         * This might change with a future revision of angular.
+         */
+        xit('does not change the URL on router link click when disabled', fakeAsync(
+            inject([TestComponentBuilder, Location], (tcb: TestComponentBuilder, spyLocation: SpyLocation) => {
+                tcb.overrideTemplate(TestRoutingComponent, `
+                    <gtx-breadcrumbs [routerLinks]='[
+                        { text: "C1", route: ["TestA", "TestB", "TestC"] },
+                        { text: "C2", route: ["TestA", "TestB", "TestC-2"] }
+                    ]' disabled></gtx-breadcrumbs>
+                    <router-outlet></router-outlet>
+                `).createAsync(TestRoutingComponent)
+                .then((fixture: ComponentFixture<TestRoutingComponent>) => {
+                    fixture.detectChanges();
+                    spyLocation.simulateUrlPop('component-A-url/component-B-url/component-C-url');
+                    tick();
+                    fixture.detectChanges();
+
+                    let generatedLinks = fixture.debugElement.queryAll(By.css('a'));
+                    expect(generatedLinks.length).toBe(2);
+
+                    generatedLinks[1].triggerEventHandler('click', new MouseEvent('click', {}));
+                    tick(50);
+                    expect(spyLocation.urlChanges).toEqual([]);
                 });
             })
         ));
