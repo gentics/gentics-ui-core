@@ -6,8 +6,9 @@ $icons-font-path: '../fonts/';
 $roboto-font-path: '../fonts/';
 @import "variables";
 @import "mixins";
-@import "materialize-css/sass/materialize";
+@import "materialize";
 @import "icons";
+@import "grid";
 
 /* Components */
 @import "../components/button/button";

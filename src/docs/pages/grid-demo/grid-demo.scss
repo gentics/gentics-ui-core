@@ -1,0 +1,114 @@
+.grid-demo {
+
+    &:not(.no-border) {
+
+        .column, .columns {
+            background-color: $gtx-color-very-light-gray;
+            border: 1px solid $gtx-color-mid-gray;
+            min-height: 1.5em;
+
+            &:nth-child(2n) {
+                background-color: $gtx-color-off-white;
+            }
+        }
+    }
+
+    &.show-grid-width .column,
+    &.show-grid-width .columns {
+        &::before, {
+            background-color: rgba(255, 255, 255, 0.8);
+            border-radius: 1.5em;
+            content: '\0A';
+            display: inline-block;
+            margin-right: 0.33em;
+            max-width: 100%;
+            min-height: 1.5em;
+            overflow: hidden;
+            padding-left: 0.75em;
+            padding-right: 0.75em;
+            text-align: center;
+            text-overflow: ellipsis;
+            vertical-align: middle;
+            white-space: nowrap;
+        }
+
+        @each $size in map-keys($breakpoints) {
+            @include breakpoint($size) {
+                &.#{$size}-1::before {
+                    content: '1 col';
+                }
+
+                @for $i from 2 through $grid-column-count {
+                    &.#{$size}-#{$i}::before {
+                        content: '#{$i} columns';
+                    }
+                }
+            }
+        }
+    }
+
+    img.thumbnail {
+        border: 1px solid $gtx-color-light-gray;
+        display: block;
+        height: auto;
+        margin-left: auto;
+        margin-right: auto;
+        margin-bottom: 1rem;
+        max-width: 100%;
+        padding: 3px;
+        width: auto;
+    }
+
+    .my-container {
+        @include flex-grid-row;
+    }
+
+    .people {
+        @include flex-grid-row($grid-column-count);
+    }
+
+    .vcard {
+        box-shadow: 0 0 10px $gtx-color-light-gray;
+
+        @include breakpoint(small) {
+            @include flex-grid-column($grid-column-count);
+            @include flex-grid-row(1);
+            .vcard-picture { @include flex-grid-column(1 of 1); }
+            .vcard-details { @include flex-grid-column(1 of 1); }
+        }
+
+        @include breakpoint(medium) {
+            @include flex-grid-row(3);
+            .vcard-picture { @include flex-grid-column(1 of 3); }
+            .vcard-details { @include flex-grid-column(2 of 3); }
+        }
+
+        @include breakpoint(large) {
+            @include flex-grid-column(6);
+        }
+    }
+
+    .vcard-picture > img {
+        display: block;
+        height: auto;
+        margin-bottom: 0;
+        margin: 1.5rem 0;
+        max-width: 100%;
+        width: auto;
+    }
+
+    .vcard-details {
+        font-size: 14pt;
+        margin-top: 1.5rem;
+        margin-bottom: 1.5rem;
+
+        .vcard-name {
+            font-size: 18pt;
+        }
+
+        p {
+            margin-top: 0.5rem;
+            margin-bottom: 0.5rem;
+        }
+    }
+}

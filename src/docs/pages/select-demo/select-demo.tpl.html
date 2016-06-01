@@ -7,12 +7,12 @@
 
 <gtx-demo-block title="Basic Select">
     <div class="demo-result">
-        <div class="col s8">
+        <div class="column small-8">
             <gtx-select label="Basic Select" [(ngModel)]="selectVal">
                 <option *ngFor="let item of options" [value]="item">{{ item }}</option>
             </gtx-select>
         </div>
-        <div class="col s4">
+        <div class="column small-4">
             Value: <code>{{ selectVal | json }}</code>
         </div>
     </div>
@@ -33,12 +33,12 @@
         </p>
 
         <div class="row">
-            <div class="col s8">
+            <div class="column small-8">
                 <gtx-select label="Multiple Select" [(ngModel)]="selectMultiVal" multiple="true">
                     <option *ngFor="let item of options" [value]="item">{{ item }}</option>
                 </gtx-select>
             </div>
-            <div class="col s4">
+            <div class="column small-4">
                 Value: <code>{{ selectMultiVal | json }}</code>
             </div>
         </div>
@@ -56,7 +56,7 @@
 <gtx-demo-block title="Option Groups">
     <div class="demo-result">
         <div class="row">
-            <div class="col s8">
+            <div class="column small-8">
                 <gtx-select label="Select With Option Groups" [(ngModel)]="selectGroup" >
                     <optgroup label="Foos">
                         <option value="foo1">Foo 1</option>
@@ -68,7 +68,7 @@
                     </optgroup>
                 </gtx-select>
             </div>
-            <div class="col s4">
+            <div class="column small-4">
                 Value: <code>{{ selectGroup | json }}</code>
             </div>
         </div>

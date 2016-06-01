@@ -1,0 +1,59 @@
+/* Foundation grid with materialize breakpoints */
+$breakpoints: (
+    small: 0,
+    medium: $small-screen,
+    large: $medium-screen,
+    xlarge: $large-screen,
+    xxlarge: 1440px,
+);
+
+@import "./foundation-grid/util/util";
+$global-left: left !default;
+$global-right: right !default;
+$global-width: rem-calc(1200) !default;
+@import "./foundation-grid/grid/grid";
+@include foundation-flex-grid;
+
+/* Fixes for Foundation flex grid */
+@each $size in map-keys($breakpoints) {
+    @include breakpoint($size) {
+        .row .columns.#{$size}-centered {
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .row .columns.#{$size}-uncentered {
+            margin-left: 0;
+            margin-right: 0;
+        }
+
+        @for $i from 0 through $grid-column-count {
+            .row .columns.#{$size}-push-#{$i} {
+                position: relative;
+                left: ($i / $grid-column-count) * 100%;
+            }
+
+            .row .columns.#{$size}-pull-#{$i} {
+                position: relative;
+                left: -($i / $grid-column-count) * 100%;
+            }
+        }
+    }
+}
+
+/* Supplement for materialize's container grid class */
+.container {
+  margin: 0 auto;
+  max-width: 1280px;
+  width: 90%;
+}
+@media #{$medium-and-up} {
+  .container {
+    width: 85%;
+  }
+}
+@media #{$large-and-up} {
+  .container {
+    width: 70%;
+  }
+}
