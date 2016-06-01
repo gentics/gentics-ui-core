@@ -1,0 +1,43 @@
+gtx-breadcrumbs {
+    @include noselect;
+
+    nav {
+        background-color: $gtx-breadcrumbs-background-color;
+        padding-left: rem-calc(15px);
+        padding-right: rem-calc(15px);
+        transition-duration: $gtx-breadcrumbs-animation-duration;
+        transition-property: background-color;
+
+        .breadcrumb {
+            &, &::before {
+                transition-duration: $gtx-breadcrumbs-animation-duration;
+                transition-property: color;
+                color: $gtx-breadcrumbs-inactive-color;
+            }
+
+            &:last-child {
+                color: $gtx-breadcrumbs-active-color;
+            }
+
+            &:not([href]) {
+                cursor:  default;
+            }
+        }
+    }
+
+    nav.disabled {
+        background-color: $gtx-breadcrumbs-disabled-background-color;
+        pointer-events: none;
+
+        .breadcrumb {
+            &, &::before {
+                color: $gtx-breadcrumbs-disabled-inactive-color;
+                cursor: default;
+            }
+
+            &:last-child {
+                color: $gtx-breadcrumbs-disabled-active-color;
+            }
+        }
+    }
+}

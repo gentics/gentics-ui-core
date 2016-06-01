@@ -1,0 +1,21 @@
+<nav [class.disabled]="isDisabled">
+    <div class="nav-wrapper">
+
+        <template [ngIf]="links">
+            <a *ngFor="let link of links; let i = index"
+                class="breadcrumb"
+                [attr.href]="isDisabled ? null : links[i]?.href"
+                (click)="onLinkClicked(links[i], $event)"
+            >{{ links[i].text }}</a>
+        </template>
+
+        <template [ngIf]="routerLinks">
+            <a *ngFor="let rlink of routerLinks; let j = index"
+                class="breadcrumb"
+                [routerLink]="routerLinks[j].route"
+                (click)="onLinkClicked(routerLinks[j], $event)"
+            >{{ routerLinks[j].text }}</a>
+        </template>
+
+    </div>
+</nav>
