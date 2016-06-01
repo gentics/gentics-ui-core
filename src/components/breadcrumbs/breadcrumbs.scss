@@ -1,14 +1,24 @@
 gtx-breadcrumbs {
     @include noselect;
 
-    nav {
+    > nav {
         background-color: $gtx-breadcrumbs-background-color;
         padding-left: rem-calc(15px);
         padding-right: rem-calc(15px);
         transition-duration: $gtx-breadcrumbs-animation-duration;
         transition-property: background-color;
 
-        .breadcrumb {
+        > .nav-wrapper {
+            font-size: 2rem;
+            height: 2rem;
+
+            > * {
+                @extend .breadcrumb;
+                vertical-align: top;
+            }
+        }
+
+        > .nav-wrapper > .breadcrumb {
             &, &::before {
                 transition-duration: $gtx-breadcrumbs-animation-duration;
                 transition-property: color;
@@ -29,7 +39,7 @@ gtx-breadcrumbs {
         background-color: $gtx-breadcrumbs-disabled-background-color;
         pointer-events: none;
 
-        .breadcrumb {
+        > .nav-wrapper > .breadcrumb {
             &, &::before {
                 color: $gtx-breadcrumbs-disabled-inactive-color;
                 cursor: default;
