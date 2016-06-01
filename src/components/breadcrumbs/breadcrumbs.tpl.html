@@ -1,6 +1,8 @@
 <nav [class.disabled]="isDisabled">
     <div class="nav-wrapper">
 
+        <ng-content></ng-content>
+
         <template [ngIf]="links">
             <a *ngFor="let link of links; let i = index"
                 class="breadcrumb"
