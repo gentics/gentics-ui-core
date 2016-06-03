@@ -8,7 +8,7 @@ const paths = {
             'src/**/*.ts', 'src/**/*.spec.ts'],
         scss: ['src/**/*.scss', '!src/docs/**/*.scss'],
         typescript: ['src/**/*.ts', '!**/*.spec.ts', '!src/docs/**/*.ts'],
-        typings: 'typings/main.d.ts',
+        typings: 'typings/index.d.ts',
         tests: 'src/**/*.spec.ts',
         fonts: 'src/assets/fonts/*.*',
         templates: ['src/**/*.tpl.html', '!src/docs/**/*.tpl.html']

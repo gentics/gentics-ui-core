@@ -39,7 +39,7 @@ module.exports = {
         files: [
             'src/index.ts',
             'src/docs/bootstrap.ts',
-            'typings/main.d.ts'
+            'typings/index.d.ts'
         ],
         compilerOptions: {
             noEmit: false,
