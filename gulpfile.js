@@ -24,10 +24,10 @@ const buildConfig = require('./build.config').config;
 const paths = require('./build.config').paths;
 
 gulp.task('lib:clean', cleanDirectory(paths.out.dist.root));
-gulp.task('lib:typescript', compileLibTypescript);
-gulp.task('lib:templates', copyTemplates);
-gulp.task('lib:styles', compileLibStyles);
 gulp.task('lib:fonts', copyFontsTo(paths.out.dist.fonts));
+gulp.task('lib:styles', () => checkLibSASS().then(copyLibSASS));
+gulp.task('lib:typescript', compileLibTypescript);
+gulp.task('lib:templates', copyLibTemplates);
 gulp.task('lib:build', gulp.parallel('lib:typescript', 'lib:templates', 'lib:styles', 'lib:fonts'));
 gulp.task('lib:rebuild', gulp.series('lib:clean', 'lib:build'));
 gulp.task('lint', lint);
@@ -54,37 +54,63 @@ function cleanDirectory(directory) {
 
 function compileLibTypescript() {
     let tsResult = gulp.src(paths.src.typescript.concat(paths.src.typings))
+        .pipe(sourcemaps.init())
         .pipe(ts({
-            noImplicitAny: true,
-            outDir: 'dist',
-            module: 'commonjs',
-            target: 'es5',
+            declaration: true,
             emitDecoratorMetadata: true,
             experimentalDecorators: true,
-            sourceMap: true,
+            module: 'commonjs',
             moduleResolution: 'node',
-            declaration: true
+            noEmitOnError: true,
+            noImplicitAny: true,
+            outDir: 'dist',
+            sourceMap: true,
+            target: 'es5',
+            typescript: require('typescript')
         }));
+
+    tsResult.on('error', setNonZeroExitCode);
 
     return merge([
         tsResult.dts.pipe(gulp.dest(paths.out.dist.root)),
-        tsResult.js.pipe(gulp.dest(paths.out.dist.root))
+        tsResult.js
+            .pipe(sourcemaps.write('.', { includeContent: true, sourceRoot: '../src' }))
+            .pipe(gulp.dest(paths.out.dist.root))
     ]);
 }
 
-function copyTemplates() {
+function copyLibTemplates() {
     return (
         gulp.src(paths.src.templates)
         .pipe(gulp.dest(paths.out.dist.root))
     );
 }
 
-function compileLibStyles() {
-    return merge([
-        gulp.src(paths.src.scss)
-            .pipe(gulp.dest(paths.out.dist.root)),
-        gulp.src('node_modules/materialize-css/sass/**/*.scss')
+function checkLibSASS() {
+    let stream = (
+        gulp.src(paths.src.scssMain, { base: '.' })
+        .pipe(sass({
+            errLogToConsole: true,
+            outputStyle: 'expanded',
+            includePaths: ['node_modules']
+        }))
+        .on('error', setNonZeroExitCode)
+        .on('error', sass.logError)
+    );
+    stream.pipe(gutil.noop());
+    return streamToPromise(stream);
+}
+
+function copyLibSASS() {
+    return Promise.all([
+        streamToPromise(
+            gulp.src(paths.src.scss)
+            .pipe(gulp.dest(paths.out.dist.root))
+        ),
+        streamToPromise(
+            gulp.src('node_modules/materialize-css/sass/**/*.scss')
             .pipe(gulp.dest(path.join(paths.out.dist.styles, 'materialize-css/sass')))
+        )
     ]);
 }
 
@@ -103,27 +129,38 @@ function copyFontsTo(outputFolder) {
     };
 }
 
-function lint(doneCallback) {
+function lint() {
     const files = gulp.src(paths.src.lint, { base: '.' });
-    const linters = merge(
-        files.pipe(filter('**/*.js'))
+
+    return Promise.all([
+        new Promise((resolve, reject) => {
+            files.pipe(filter('**/*.js'))
             .pipe(jscs())
+            .on('error', reject)
+            .on('end', resolve)
             .pipe(jscsStylish())
-            .pipe(jscs.reporter('fail')),
-        files.pipe(filter('**/*.json'))
+            .pipe(jscs.reporter('fail'));
+        }),
+        new Promise((resolve, reject) => {
+            files.pipe(filter('**/*.json'))
             .pipe(jsonlint())
-            .pipe(jsonlint.reporter()),
-        files.pipe(filter('**/*.ts'))
+            .on('error', reject)
+            .on('end', resolve)
+            .pipe(jsonlint.reporter())
+            .pipe(jsonlint.failOnError());
+        }),
+        new Promise((resolve, reject) => {
+            files.pipe(filter('**/*.ts'))
             .pipe(tslint())
             .pipe(tslint.report(tslintStylish, {
                 emitError: true,
-                summarizeFailureOutput: true
+                summarizeFailureOutput: false
             }))
-    );
-
-    let errors = [];
-    linters.on('error', error => errors.push(error))
-        .on('end', () => doneCallback(errors.length ? errors : null));
+            .on('error', reject)
+            .on('end', resolve);
+        })
+    ])
+    .catch(setNonZeroExitCode);
 }
 
 function copyImagesToDocs() {
@@ -141,7 +178,9 @@ function compileDocsSASS() {
             errLogToConsole: true,
             outputStyle: 'expanded',
             includePaths: ['node_modules']
-        }).on('error', sass.logError))
+        }))
+        .on('error', sass.logError)
+        .on('error', setNonZeroExitCode)
         .pipe(autoprefixer(buildConfig.autoprefixer))
         .pipe(concat('app.css'))
         .pipe(sourcemaps.write('.', {
@@ -183,7 +222,11 @@ function runKarmaServer(watch, callback) {
         mochaReporter: {
             output: 'autowatch'
         }
-    }, callback);
+    }, errors => {
+        if (errors) { setNonZeroExitCode(); }
+        callback();
+    });
+
     server.start();
 }
 
@@ -199,6 +242,7 @@ function webpackOnCompleted(callback) {
     let hasRun = false;
     return (err, stats) => {
         if (err) {
+            setNonZeroExitCode();
             throw new gutil.PluginError('[webpack]', err);
         }
 
@@ -206,6 +250,7 @@ function webpackOnCompleted(callback) {
             stats.toJson().errors.map(e => {
                 gutil.log(gutil.colors.red(e));
             });
+            setNonZeroExitCode();
         }
 
         let duration = stats.toJson({ timings: true }).time / 1000;
@@ -228,4 +273,25 @@ function webpackOnCompleted(callback) {
  */
 function relativeRoot(filepath) {
     return path.relative(filepath, '.').replace(/\\/g, '/');
+}
+
+/**
+ * Utility function that makes gulp exit non-zero non errors
+ * to use gulp tasks in CI tools and shell scripts
+ */
+function setNonZeroExitCode() {
+    if (!setNonZeroExitCode.called) {
+        setNonZeroExitCode.called = true;
+        process.once('exit', () => { process.reallyExit(1); });
+    }
+}
+
+/**
+ * Utility function to chain stream success/fail state as promises
+ */
+function streamToPromise(stream) {
+    return new Promise((resolve, reject) => {
+        stream.on('error', reject);;
+        stream.on('end', resolve);
+    });
 }

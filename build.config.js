@@ -4,13 +4,14 @@
 
 const paths = {
     src: {
+        fonts: 'src/assets/fonts/*.*',
         lint: ['./*.js', 'src/**/*.js', './*.json', 'src/**/*.json',
             'src/**/*.ts', 'src/**/*.spec.ts'],
         scss: ['src/**/*.scss', '!src/docs/**/*.scss'],
+        scssMain: 'src/styles/core.scss',
         typescript: ['src/**/*.ts', '!**/*.spec.ts', '!src/docs/**/*.ts'],
         typings: 'typings/index.d.ts',
         tests: 'src/**/*.spec.ts',
-        fonts: 'src/assets/fonts/*.*',
         templates: ['src/**/*.tpl.html', '!src/docs/**/*.tpl.html']
     },
     docs: {
