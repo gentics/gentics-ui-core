@@ -1,3 +1,11 @@
+## 0.3.1
+### Features 
+* SearchBar now has a "clear" button and event
+* SearchBar can project content.
+
+### Fixes
+* InputField no longer fires "change" event on blur.
+
 ## 0.3.0 (2016-06-03)
 
 ### Features
