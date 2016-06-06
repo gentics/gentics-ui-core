@@ -230,7 +230,7 @@ describe('InputField', () => {
                 });
         })));
 
-    it('should emit "change" when native input is blurred', inject([TestComponentBuilder],
+    it('should not emit "change" when native input is blurred', inject([TestComponentBuilder],
         fakeAsync((tcb: TestComponentBuilder) => {
             tcb.overrideTemplate(TestComponent, `<gtx-input (change)="onChange($event)" value="foo"></gtx-input>`)
                 .createAsync(TestComponent)
@@ -238,13 +238,12 @@ describe('InputField', () => {
                     let nativeInput: HTMLInputElement = fixture.nativeElement.querySelector('input');
                     let instance: TestComponent = fixture.componentInstance;
                     fixture.detectChanges();
-                    const spy = spyOn(instance, 'onChange');
+                    spyOn(instance, 'onChange');
 
                     triggerEvent(nativeInput, 'blur');
                     tick();
 
-                    expect(instance.onChange).toHaveBeenCalledWith('foo');
-                    expect(spy.calls.count()).toBe(1);
+                    expect(instance.onChange).not.toHaveBeenCalled();
                 });
         })));
 

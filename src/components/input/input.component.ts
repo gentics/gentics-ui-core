@@ -13,7 +13,7 @@ import {ControlValueAccessor, NgControl} from '@angular/common';
  * The InputField wraps the native `<input>` form element but should only be used for
  * text, number or password types. Other types (date, range, file) should have dedicated components.
  *
- * 
+ *
  * Note that the class is named `InputField` since `Input` is used by the Angular framework to denote
  * component inputs.
  *
@@ -150,7 +150,6 @@ export class InputField implements ControlValueAccessor {
         e.stopPropagation();
         const target: HTMLInputElement = <HTMLInputElement> e.target;
         this.blur.emit(this.normalizeValue(target.value));
-        this.change.emit(this.normalizeValue(target.value));
     }
 
     onFocus(): void {
