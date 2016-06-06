@@ -13,19 +13,40 @@
         </p>
         <gtx-search-bar query="cats"
                         (change)="changeCount = changeCount + 1"
-                        (search)="searchCount = searchCount + 1">
+                        (search)="searchCount = searchCount + 1"
+                        (clear)="clearCount = clearCount + 1">
         </gtx-search-bar>
         <code>change</code> fired {{ changeCount }} times.<br>
-        <code>search</code> fired {{ searchCount }} times.
+        <code>search</code> fired {{ searchCount }} times.<br>
+        <code>clear</code> fired {{ clearCount }} times.
     </div>
     <div class="demo-code">
         <gtx-highlighted-code language="HTML" code='
                  <gtx-search-bar query="cats"
-                        (change)="changeCount = changeCount + 1"
-                        (search)="searchCount = searchCount + 1">
+                                 (change)="changeCount = changeCount + 1"
+                                 (search)="searchCount = searchCount + 1"
+                                 (clear)="clearCount = clearCount + 1">
                  </gtx-search-bar>
-                 <code>change</code> fired (( changeCount )) times.<br>
-                 <code>search</code> fired (( searchCount )) times.
+                 <code>change</code> fired {{ changeCount }} times.<br>
+                 <code>search</code> fired {{ searchCount }} times.<br>
+                 <code>clear</code> fired {{ clearCount }} times.
+        '></gtx-highlighted-code>
+    </div>
+</gtx-demo-block>
+
+<gtx-demo-block title="Content Projection">
+    <div class="demo-result">
+        <gtx-search-bar>
+            <div class="chip">Tag 1<i class="material-icons">close</i></div>
+            <div class="chip">Tag 2<i class="material-icons">close</i></div>
+        </gtx-search-bar>
+    </div>
+    <div class="demo-code">
+        <gtx-highlighted-code language="HTML" code='
+                  <gtx-search-bar>
+                      <div class="chip">Tag 1<i class="material-icons">close</i></div>
+                      <div class="chip">Tag 2<i class="material-icons">close</i></div>
+                  </gtx-search-bar>
         '></gtx-highlighted-code>
     </div>
 </gtx-demo-block>

@@ -11,4 +11,5 @@ export class SearchBarDemo {
 
     changeCount: number = 0;
     searchCount: number = 0;
+    clearCount: number = 0;
 }

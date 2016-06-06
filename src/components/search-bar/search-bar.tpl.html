@@ -1,8 +1,16 @@
+<div class="contents">
+    <ng-content></ng-content>
+</div>
 <div class="input">
     <gtx-input placeholder="Search"
                [(ngModel)]="query"
                (keydown)="onKeyDown($event)"
                (change)="onChange($event)"></gtx-input>
+</div>
+<div class="clear-button" *ngIf="query && query !== ''">
+    <gtx-button icon type="secondary" (click)="clear.emit(true)">
+        <i class="material-icons">close</i>
+    </gtx-button>
 </div>
 <div class="submit-button">
     <gtx-button flat (click)="doSearch()">

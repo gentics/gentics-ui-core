@@ -15,19 +15,63 @@ describe('SearchBar', () => {
             });
     }));
 
+    it('should default to empty string if query not defined', inject([TestComponentBuilder], (tcb: TestComponentBuilder) => {
+        tcb.overrideTemplate(TestComponent, `<gtx-search-bar></gtx-search-bar>`)
+            .createAsync(TestComponent)
+            .then((fixture: ComponentFixture<TestComponent>) => {
+                fixture.detectChanges();
+                let input: HTMLInputElement = fixture.debugElement.query(By.css('input')).nativeElement;
+                expect(input.value).toBe('');
+            });
+    }));
+
+    it('should not display the clear button when query is empty',
+        inject([TestComponentBuilder], fakeAsync((tcb: TestComponentBuilder) => {
+            tcb.overrideTemplate(TestComponent, `<gtx-search-bar [query]="query"></gtx-search-bar>`)
+                .createAsync(TestComponent)
+                .then((fixture: ComponentFixture<TestComponent>) => {
+                    fixture.detectChanges();
+                    const getButton = (): HTMLButtonElement => fixture.nativeElement
+                        .querySelector('.clear-button button');
+
+                    expect(getButton()).toBeNull();
+
+                    fixture.componentInstance.query = 'foo';
+                    fixture.detectChanges();
+
+                    expect(getButton()).not.toBeNull();
+                });
+        })));
+
     it('should emit the "search" event when button clicked',
         inject([TestComponentBuilder], fakeAsync((tcb: TestComponentBuilder) => {
             tcb.createAsync(TestComponent)
                 .then((fixture: ComponentFixture<TestComponent>) => {
                     fixture.detectChanges();
                     let testInstance: TestComponent = fixture.componentInstance;
-                    let button: HTMLButtonElement = fixture.nativeElement.querySelector('button');
+                    let button: HTMLButtonElement = fixture.nativeElement.querySelector('.submit-button button');
 
                     spyOn(testInstance, 'onSearch');
                     button.click();
                     tick();
 
                     expect(testInstance.onSearch).toHaveBeenCalledWith('foo');
+                });
+        })));
+
+    it('should emit the "clear" event when button clicked',
+        inject([TestComponentBuilder], fakeAsync((tcb: TestComponentBuilder) => {
+            tcb.createAsync(TestComponent)
+                .then((fixture: ComponentFixture<TestComponent>) => {
+                    fixture.detectChanges();
+                    let testInstance: TestComponent = fixture.componentInstance;
+                    let button: HTMLButtonElement = fixture.nativeElement.querySelector('.clear-button button');
+
+                    spyOn(testInstance, 'onClear');
+                    button.click();
+                    tick();
+
+                    expect(testInstance.onClear).toHaveBeenCalledWith(true);
                 });
         })));
 
@@ -68,13 +112,37 @@ describe('SearchBar', () => {
                     expect(testInstance.onChange).toHaveBeenCalledWith('foo');
                 });
         })));
+
+    it('should not emit the "change" event when input blurred',
+        inject([TestComponentBuilder], fakeAsync((tcb: TestComponentBuilder) => {
+            tcb.createAsync(TestComponent)
+                .then((fixture: ComponentFixture<TestComponent>) => {
+                    fixture.detectChanges();
+                    let testInstance: TestComponent = fixture.componentInstance;
+                    let input: HTMLInputElement = fixture.nativeElement.querySelector('input');
+                    spyOn(testInstance, 'onChange');
+
+                    let event: Event = document.createEvent('Event');
+                    event.initEvent('blur', true, true);
+                    input.dispatchEvent(event);
+                    tick();
+                    tick();
+
+                    expect(testInstance.onChange).not.toHaveBeenCalled();
+                });
+        })));
 });
 
 @Component({
-    template: `<gtx-search-bar query="foo" (search)="onSearch($event)" (change)="onChange($event)"></gtx-search-bar>`,
+    template: `<gtx-search-bar query="foo" 
+                               (search)="onSearch($event)" 
+                               (change)="onChange($event)"
+                               (clear)="onClear($event)"></gtx-search-bar>`,
     directives: [SearchBar]
 })
 class TestComponent {
+    query: string = '';
     onSearch(): void {}
     onChange(): void {}
+    onClear(): void {}
 }

@@ -18,6 +18,16 @@ gtx-search-bar {
         }
     }
 
+    > .contents {
+        align-self: center;
+    }
+
+    > .clear-button {
+        align-self: center;
+        padding-bottom: 2px;
+        opacity: 0.6;
+    }
+
     > .submit-button {
         align-self: center;
 

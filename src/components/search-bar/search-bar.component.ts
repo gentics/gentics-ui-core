@@ -12,6 +12,16 @@ import {Button} from '../button/button.component';
  *                 (search)="search($event)">
  * </gtx-search-bar>
  * ```
+ *
+ * ##### Content Projection
+ * Content inside the `<gtx-search-bar>` tags will be projected inside the component, to the left of the
+ * search bar. This can be used, for example, to display current filters being applied to the search.
+ *
+ * ```html
+ * <gtx-search-bar>
+ *      <div class="chip">Tag 1<i class="material-icons">close</i></div>
+ * </gtx-search-bar>
+ * ```
  */
 @Component({
     selector: 'gtx-search-bar',
@@ -23,7 +33,7 @@ export class SearchBar {
     /**
      * Value that pre-fills the search input with a string value.
      */
-    @Input() query: string;
+    @Input() query: string = '';
 
     /**
      * Fired when either the search button is clicked, or
@@ -35,6 +45,11 @@ export class SearchBar {
      * Fired whenever the value of the input changes.
      */
     @Output() change = new EventEmitter<string>();
+
+    /**
+     * Fired when the clear button is clicked.
+     */
+    @Output() clear = new EventEmitter<boolean>();
 
     constructor() {}
 
