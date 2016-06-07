@@ -62,7 +62,6 @@
             true,
             "always"
         ],
-        "space-return-throw-case": true,
         "trailing-comma": [
             true,
             {
