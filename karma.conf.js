@@ -29,7 +29,7 @@ module.exports = function (config) {
         // preprocess matching files before serving them to the browser
         // available preprocessors: https://npmjs.org/browse/keyword/karma-preprocessor
         preprocessors: {
-            'testing-bootstrap.js': ['webpack']
+            'testing-bootstrap.js': ['webpack', 'sourcemap']
         },
 
         webpack: {
@@ -56,7 +56,7 @@ module.exports = function (config) {
                 }
             },
             debug: true,
-            devtool: 'eval-source-map'
+            devtool: 'inline-source-map'
         },
 
         webpackMiddleware: {
@@ -71,7 +71,8 @@ module.exports = function (config) {
             'karma-phantomjs-launcher',
             'karma-chrome-launcher',
             'karma-firefox-launcher',
-            'karma-mocha-reporter'
+            'karma-mocha-reporter',
+            'karma-sourcemap-loader'
         ],
 
         // test results reporter to use
