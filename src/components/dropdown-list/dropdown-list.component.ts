@@ -1,4 +1,5 @@
-import {Component, ElementRef, Input} from '@angular/core';
+import {Component, EmbeddedViewRef, ElementRef, Input, TemplateRef, ViewChild} from '@angular/core';
+import {OverlayHostService} from '../overlay-host/overlay-host.service';
 
 /**
  * A Dropdown List component based on the [Materialize implementation](http://materializecss.com/dropdown.html),
@@ -28,8 +29,8 @@ import {Component, ElementRef, Input} from '@angular/core';
 export class DropdownList {
     id: string = 'dropdown-' + Math.random().toString(36).substr(2);
     $trigger: JQuery;
-    $contentWrapper: JQuery;
-    $content: JQuery;
+    contentWrapper: HTMLElement;
+    content: HTMLElement;
     contentStyles: any = {
         position: 'absolute'
     };
@@ -43,6 +44,8 @@ export class DropdownList {
         belowTrigger: false
     };
     scrollMask: JQuery;
+    @ViewChild(TemplateRef) contentsTemplate: TemplateRef<any>;
+    embeddedView: EmbeddedViewRef<any>;
 
     /**
      * Set the alignment of the dropdown, either 'left' or 'right'. *Default: 'left'*.
@@ -87,13 +90,14 @@ export class DropdownList {
      */
     closeDropdown = () => {
         this.isOpen = false;
-        this.$content.fadeOut(this.options.outDuration);
+        $(this.content).fadeOut(this.options.outDuration);
         setTimeout(() => this.contentStyles.maxHeight = '', this.options.outDuration);
         $(document).off('click scroll', this.closeDropdown);
         this.destroyScrollMask();
     };
 
-    constructor(private elementRef: ElementRef) {}
+    constructor(private elementRef: ElementRef,
+                private overlayHostService: OverlayHostService) {}
 
     /**
      * Set up the various references to the DOM elements we will be working with,
@@ -102,16 +106,15 @@ export class DropdownList {
     ngAfterViewInit(): void {
         const queryChild: Function = (selector: string): JQuery => $(this.elementRef.nativeElement).find(selector);
 
-        let $body: JQuery = $('body');
         this.$trigger = queryChild('.dropdown-trigger');
-        this.$contentWrapper = queryChild('.dropdown-content-wrapper');
-        this.$content = queryChild('.dropdown-content');
-        this.$content.attr('id', this.id);
         this.$trigger.attr('data-activates', this.id);
 
-        // move the contents to body to avoid z-index issues.
-        this.$contentWrapper.remove();
-        $body.append(this.$contentWrapper);
+        this.overlayHostService.getHostView().then(view => {
+            this.embeddedView = view.createEmbeddedView(this.contentsTemplate);
+            this.contentWrapper = this.embeddedView.rootNodes.filter(node => node.nodeType === Node.ELEMENT_NODE)[0];
+            this.content = <HTMLElement> this.contentWrapper.querySelector('.dropdown-content');
+            this.content.setAttribute('id', this.id);
+        });
     }
 
     /**
@@ -119,7 +122,9 @@ export class DropdownList {
      */
     ngOnDestroy(): void {
         this.destroyScrollMask();
-        this.$contentWrapper.remove();
+        if (this.embeddedView) {
+            this.embeddedView.destroy();
+        }
     }
 
     /**
@@ -143,12 +148,12 @@ export class DropdownList {
         // position of the dropdown.
         setTimeout(() => {
             let positionStyles = this.calculatePositionStyles();
-            let height = this.$content.innerHeight() + 'px';
+            let height = $(this.content).innerHeight() + 'px';
             let flowUpwards = parseInt(positionStyles.top, 10) < Math.floor(this.$trigger.offset().top);
             Object.assign(this.contentStyles, positionStyles);
 
             // Show dropdown
-            this.$content.stop(true, true)
+            $(this.content).stop(true, true)
                 .css({
                     opacity: 0,
                     display: 'block',
@@ -180,7 +185,7 @@ export class DropdownList {
     createScrollMask(): void {
         this.scrollMask = $('<div>')
             .addClass('scroll-mask')
-            .insertBefore(this.$contentWrapper);
+            .insertBefore(this.contentWrapper);
     }
 
     destroyScrollMask(): void {
@@ -195,6 +200,7 @@ export class DropdownList {
      */
     calculatePositionStyles(): { top: string, left: string, maxHeight?: number } {
         let positionStyles: any = {};
+        let $content = $(this.content);
 
         // Offscreen detection
         let windowHeight: number = window.innerHeight;
@@ -209,18 +215,18 @@ export class DropdownList {
             verticalOffset = originHeight;
         }
 
-        if (offsetLeft + this.$content.innerWidth() > $(window).width()) {
+        if (offsetLeft + $content.innerWidth() > $(window).width()) {
             // Dropdown goes past screen on right, force right alignment
             currAlignment = 'right';
 
-        } else if (offsetLeft - this.$content.innerWidth() + this.$trigger.innerWidth() < 0) {
+        } else if (offsetLeft - $content.innerWidth() + this.$trigger.innerWidth() < 0) {
             // Dropdown goes past screen on left, force left alignment
             currAlignment = 'left';
         }
         // Vertical bottom offscreen detection
-        if (verticalOffset + offsetTop + this.$content.innerHeight() > windowHeight) {
+        if (verticalOffset + offsetTop + $content.innerHeight() > windowHeight) {
             // If going upwards still goes offscreen, just crop height of dropdown.
-            if (offsetTop + originHeight - this.$content.innerHeight() < 0) {
+            if (offsetTop + originHeight - $content.innerHeight() < 0) {
                 let adjustedHeight: number = windowHeight - offsetTop - verticalOffset;
                 positionStyles.maxHeight = adjustedHeight;
             } else {
@@ -231,7 +237,7 @@ export class DropdownList {
                 if (this.belowTrigger === true) {
                     verticalOffset -= originHeight;
                 }
-                verticalOffset -= this.$content.innerHeight();
+                verticalOffset -= $content.innerHeight();
             }
         }
 
@@ -241,7 +247,7 @@ export class DropdownList {
         if (currAlignment === 'left') {
             leftPosition = triggerLeft;
         } else if (currAlignment === 'right') {
-            leftPosition =  triggerLeft + this.$trigger.outerWidth() - this.$content.outerWidth();
+            leftPosition =  triggerLeft + this.$trigger.outerWidth() - $content.outerWidth();
         }
 
         positionStyles.top = this.$trigger[0].getBoundingClientRect().top + verticalOffset + 'px';

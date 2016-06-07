@@ -1,6 +1,5 @@
-import {Component, provide} from '@angular/core';
+import {Component} from '@angular/core';
 import {
-    beforeEachProviders,
     describe,
     expect,
     fakeAsync,
@@ -12,14 +11,18 @@ import {
 import {ComponentFixture, TestComponentBuilder} from '@angular/compiler/testing';
 import {OverlayHost} from './../overlay-host/overlay-host.component';
 import {Notification} from './notification.service';
+import {OverlayHostService} from '../overlay-host/overlay-host.service';
 
-
-let injector = getTestInjector().createInjector().resolveAndCreateChild([Notification]);
-let notificationService: Notification = injector.get(Notification);
-
-beforeEachProviders(() => [provide(Notification, { useValue: notificationService })]);
+let overlayHostService: OverlayHostService;
+let notificationService: Notification;
 
 describe('Notification:', () => {
+
+    beforeEach(() => {
+        let injector = getTestInjector().createInjector().resolveAndCreateChild([OverlayHostService, Notification]);
+        overlayHostService = injector.get(OverlayHostService);
+        notificationService = injector.get(Notification);
+    });
 
     describe('show():', () => {
 
@@ -218,6 +221,9 @@ describe('Notification:', () => {
 @Component({
     template: `<gtx-overlay-host></gtx-overlay-host>`,
     directives: [OverlayHost],
-    providers: [provide(Notification, { useValue: notificationService })]
+    providers: [
+        { provide: Notification, useFactory: (): any => notificationService },
+        { provide: OverlayHostService, useFactory: (): any => overlayHostService }
+    ]
 })
 class TestComponent {}

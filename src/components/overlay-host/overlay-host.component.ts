@@ -1,5 +1,5 @@
-import {Component, ElementRef, ViewContainerRef} from '@angular/core';
-import {Notification} from './../notification/notification.service';
+import {Component, ViewContainerRef} from '@angular/core';
+import {OverlayHostService} from './overlay-host.service';
 
 /**
  * The OverlayHost is required to display any kind of overlay component such as a modal or
@@ -8,7 +8,9 @@ import {Notification} from './../notification/notification.service';
  * child of you root App component).
  *
  * There are no attributes to configure nor events to listen to - all interaction with this
- * component happens though the services that register with it.
+ * component happens via the `OverlayHostService`, which allows other components to grab a 
+ * reference (`ViewContainerRef`) to the OverlayHost DOM element and then insert components or elements
+ * at that location.
  *
  * ```html
  * <gtx-overlay-host></gtx-overlay-host>
@@ -20,16 +22,8 @@ import {Notification} from './../notification/notification.service';
 })
 export class OverlayHost {
 
-    constructor(private notification: Notification,
-                private viewContainerRef: ViewContainerRef) {
-        notification.registerHostView(viewContainerRef);
+    constructor(overlayHostService: OverlayHostService,
+                viewContainerRef: ViewContainerRef) {
+        overlayHostService.registerHostView(viewContainerRef);
     }
-
-    /**
-     * Dispose of all open toasts and clear the openToasts array.
-     */
-    ngOnDestroy(): void {
-        this.notification.destroyAllToasts();
-    }
-
 }

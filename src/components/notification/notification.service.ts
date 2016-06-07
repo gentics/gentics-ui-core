@@ -7,6 +7,7 @@ import {
     ViewContainerRef
 } from '@angular/core';
 import {Toast, ToastType} from './toast.component';
+import {OverlayHostService} from '../overlay-host/overlay-host.service';
 
 export interface INotificationOptions {
     message: string;
@@ -36,8 +37,7 @@ interface IOpenToast {
 }
 
 /**
- * A toast notification service. Depends on the `<gtx-overlay-host>` being present in the app
- * (see `registerHostView`).
+ * A toast notification service. Depends on the `<gtx-overlay-host>` being present in the app.
  *
  * ```typescript
  * let dismiss = this.notification.show({
@@ -75,13 +75,11 @@ export class Notification {
      */
     private verticalMargin: number = 10;
 
-    constructor(private componentResolver: ComponentResolver) {}
-
-    /**
-     * Used internally to register the service with the [OverlayHost](#/overlay-host) component.
-     */
-    public registerHostView(viewContainerRef: ViewContainerRef): void {
-        this.hostViewContainer = viewContainerRef;
+    constructor(private componentResolver: ComponentResolver,
+                overlayHostService: OverlayHostService) {
+        overlayHostService.getHostView().then(view => {
+            this.hostViewContainer = view;
+        });
     }
 
     /**

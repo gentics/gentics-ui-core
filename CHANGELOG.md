@@ -2,9 +2,13 @@
 ### Features 
 * SearchBar now has a "clear" button and event
 * SearchBar can project content.
+* Created OverlayHostService & refactored the way that overlays are created.
+* (build) Updated tslint version
+* (tests) Add source map support for karma tests
 
 ### Fixes
 * InputField no longer fires "change" event on blur.
+* DropdownList now uses native Angular methods of inserting & disposing of DOM nodes, which fixes some layout issues.
 
 ## 0.3.0 (2016-06-03)
 

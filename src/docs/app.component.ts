@@ -2,6 +2,7 @@ import {Component, ViewChild} from '@angular/core';
 import {Router, RouteConfig, RouteDefinition, ROUTER_DIRECTIVES} from '@angular/router-deprecated';
 import {TopBar, SearchBar, SideMenu, SplitViewContainer, ContentsListItem, Notification, OverlayHost} from '../index';
 import {pages, kebabToPascal, IPageInfo} from './pageList';
+import {OverlayHostService} from '../components/overlay-host/overlay-host.service';
 
 
 const routes: RouteDefinition[] = pages.map((demo: IPageInfo) => {
@@ -37,7 +38,7 @@ routes.push({
         ContentsListItem,
         OverlayHost
     ],
-    providers: [Notification]
+    providers: [Notification, OverlayHostService]
 })
 @RouteConfig(routes)
 export class App {
