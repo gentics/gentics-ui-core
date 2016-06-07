@@ -6,7 +6,8 @@
   "main": "dist/index.js",
   "typings": "dist/index.d.ts",
   "scripts": {
-    "build": "gulp build:docs",
+    "build": "gulp lib:build",
+    "prepare-package": "gulp package",
     "test": "gulp test:run",
     "watch": "gulp watch"
   },

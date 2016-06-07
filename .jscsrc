@@ -49,7 +49,6 @@
     "requireDollarBeforejQueryAssignment": true,
     "requireDotNotation": true,
     "requireLineFeedAtFileEnd": true,
-    "requirePaddingNewLinesAfterBlocks": true,
     "requirePaddingNewLinesBeforeLineComments": {
         "allExcept": "firstAfterCurly"
     },

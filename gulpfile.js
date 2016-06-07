@@ -23,36 +23,57 @@ const webpackConfig = require('./webpack.config.js');
 const buildConfig = require('./build.config').config;
 const paths = require('./build.config').paths;
 
-gulp.task('lib:clean', cleanDirectory(paths.out.dist.root));
-gulp.task('lib:fonts', copyFontsTo(paths.out.dist.fonts));
-gulp.task('lib:styles', () => checkLibSASS().then(copyLibSASS));
-gulp.task('lib:typescript', compileLibTypescript);
-gulp.task('lib:templates', copyLibTemplates);
-gulp.task('lib:build', gulp.parallel('lib:typescript', 'lib:templates', 'lib:styles', 'lib:fonts'));
-gulp.task('lib:rebuild', gulp.series('lib:clean', 'lib:build'));
-gulp.task('lint', lint);
-gulp.task('webpack:watch', watchWebpack);
-gulp.task('webpack:run', runWebpack);
-gulp.task('docs:clean', cleanDirectory(paths.out.docs));
-gulp.task('docs:static-files', gulp.parallel(copyFontsTo(paths.out.fonts), copyImagesToDocs));
-gulp.task('docs:styles', compileDocsSASS);
-gulp.task('docs:build', gulp.series('webpack:run', 'docs:styles', 'docs:static-files'));
-gulp.task('docs:rebuild', gulp.series('docs:clean', 'docs:build'));
-gulp.task('docs:watch', gulp.series(
-    gulp.parallel('docs:styles', 'docs:static-files'),
-    gulp.parallel('webpack:watch', watchDocs)
+gulp.task('clean', gulp.parallel(
+    cleanDistFolder,
+    cleanDocsFolder
 ));
-gulp.task('clean', gulp.parallel('lib:clean', 'docs:clean'));
+gulp.task('dist:build', gulp.parallel(
+    compileDistStyles,
+    compileDistTypescript,
+    copyDistTemplates,
+    copyFontsTo(paths.out.dist.fonts)
+));
+gulp.task('dist:watch', gulp.series(
+    'dist:build',
+    watchDist
+));
+gulp.task('lint', lint);
+gulp.task('docs:build', gulp.series(
+    runWebpack,
+    compileDocsSASS,
+    gulp.parallel(
+        copyFontsTo(paths.out.fonts),
+        copyImagesToDocs
+    )
+));
+gulp.task('docs:watch', gulp.series(
+    gulp.parallel(
+        compileDocsSASS,
+        copyFontsTo(paths.out.fonts),
+        copyImagesToDocs
+    ),
+    gulp.parallel(
+        watchWebpack,
+        watchDocs
+    )
+));
 gulp.task('test:run', callback => runKarmaServer(false, callback));
 gulp.task('test:watch', callback => runKarmaServer(true, callback));
+gulp.task('package', gulp.series('clean', 'lint', 'test:run', 'dist:build'));
 
-function cleanDirectory(directory) {
-    return function clean() {
-        return del([`${directory}/**`, `!${directory}`]);
-    };
+function cleanDistFolder() {
+    return del([`${paths.out.dist.root}/**`, `!${paths.out.dist.root}`]);
 }
 
-function compileLibTypescript() {
+function cleanDocsFolder() {
+    return del([`${paths.out.docs}/**`, `!${paths.out.docs}`]);
+}
+
+function compileDistStyles() {
+    return checkDistSASS().then(copyDistSASS);
+}
+
+function compileDistTypescript() {
     let tsResult = gulp.src(paths.src.typescript.concat(paths.src.typings))
         .pipe(sourcemaps.init())
         .pipe(ts({
@@ -79,14 +100,14 @@ function compileLibTypescript() {
     ]);
 }
 
-function copyLibTemplates() {
+function copyDistTemplates() {
     return (
         gulp.src(paths.src.templates)
         .pipe(gulp.dest(paths.out.dist.root))
     );
 }
 
-function checkLibSASS() {
+function checkDistSASS() {
     let stream = (
         gulp.src(paths.src.scssMain, { base: '.' })
         .pipe(sass({
@@ -101,7 +122,7 @@ function checkLibSASS() {
     return streamToPromise(stream);
 }
 
-function copyLibSASS() {
+function copyDistSASS() {
     return Promise.all([
         streamToPromise(
             gulp.src(paths.src.scss)
@@ -147,7 +168,7 @@ function lint() {
             .on('error', reject)
             .on('end', resolve)
             .pipe(jsonlint.reporter())
-            .pipe(jsonlint.failOnError());
+            .pipe(jsonlint.failAfterError());
         }),
         new Promise((resolve, reject) => {
             files.pipe(filter('**/*.ts'))
@@ -192,8 +213,15 @@ function compileDocsSASS() {
 }
 
 function watchDocs(runForever) {
-    gulp.watch(paths.docs.scss, gulp.parallel('docs:styles'));
-    gulp.watch(paths.src.vendorStatics, gulp.parallel('docs:static-files'));
+    gulp.watch(paths.docs.scss, gulp.series(compileDocsSASS));
+    gulp.watch(paths.src.vendorStatics, gulp.parallel(copyFontsTo(paths.out.fonts), copyImagesToDocs));
+}
+
+function watchDist(runForever) {
+    gulp.watch(paths.src.scss, gulp.series(compileDistStyles));
+    gulp.watch([paths.src.typescript, paths.src.typings], compileDistTypescript);
+    gulp.watch(paths.src.templates, copyDistTemplates);
+    gulp.watch(paths.src.fonts, copyFontsTo(paths.out.dist.fonts));
 }
 
 function runWebpack(callback) {
