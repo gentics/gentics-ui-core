@@ -7,6 +7,14 @@ import {Range} from './components/range/range.component';
 import {Select} from './components/select/select.component';
 import {Textarea} from './components/textarea/textarea.component';
 
+export {Checkbox} from './components/checkbox/checkbox.component';
+export {DateTimePicker} from './components/date-time-picker/date-time-picker.component';
+export {InputField} from './components/input/input.component';
+export {RadioButton, RadioGroup} from './components/radio-button/radio-button.component';
+export {Range} from './components/range/range.component';
+export {Select} from './components/select/select.component';
+export {Textarea} from './components/textarea/textarea.component';
+
 /**
  * This file is here to group all the form components and their value accessors into a single
  * variable, to simplify their consumption.
