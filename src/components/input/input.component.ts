@@ -150,6 +150,7 @@ export class InputField implements ControlValueAccessor {
         e.stopPropagation();
         const target: HTMLInputElement = <HTMLInputElement> e.target;
         this.blur.emit(this.normalizeValue(target.value));
+        this.onTouched();
     }
 
     onFocus(): void {
@@ -158,8 +159,9 @@ export class InputField implements ControlValueAccessor {
 
     onInput(e: Event): void {
         const target: HTMLInputElement = <HTMLInputElement> e.target;
-        this.change.emit(this.normalizeValue(target.value));
-        this.onChange(this.normalizeValue(target.value));
+        let value = this.normalizeValue(target.value);
+        this.change.emit(value);
+        this.onChange(value);
     }
 
     writeValue(value: any): void {

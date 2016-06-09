@@ -311,6 +311,32 @@ describe('InputField', () => {
                     });
             })));
 
+
+        it('should mark the component as "touched" when native input blurs',
+            inject([TestComponentBuilder], fakeAsync((tcb: TestComponentBuilder) => {
+                tcb.overrideTemplate(TestComponent, `
+                    <form [ngFormModel]="testForm">
+                        <gtx-input ngControl="test"></gtx-input>
+                    </form>`)
+                    .createAsync(TestComponent)
+                    .then((fixture: ComponentFixture<TestComponent>) => {
+                        let nativeInput: HTMLInputElement = fixture.nativeElement.querySelector('input');
+                        let instance: TestComponent = fixture.componentInstance;
+                        fixture.detectChanges();
+
+                        expect(instance.testForm.controls['test'].touched).toBe(false);
+                        expect(instance.testForm.controls['test'].untouched).toBe(true);
+
+                        triggerEvent(nativeInput, 'focus');
+                        triggerEvent(nativeInput, 'blur');
+                        fixture.detectChanges();
+
+                        expect(instance.testForm.controls['test'].touched).toBe(true);
+                        expect(instance.testForm.controls['test'].untouched).toBe(false);
+                    });
+            })));
+
+
     });
 });
 
