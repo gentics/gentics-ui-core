@@ -15,7 +15,8 @@ gtx-modal {
 
     > .modal-footer {
         text-align: right;
-        gtx-button {
+
+        > gtx-modal-footer {
             float: right;
         }
     }
