@@ -11,8 +11,8 @@ gtx-input {
     }
 
     > input[type="text"],
-    input[type="number"],
-    input[type="password"] {
+    > input[type="number"],
+    > input[type="password"] {
         @extend .input-base;
     }
 }

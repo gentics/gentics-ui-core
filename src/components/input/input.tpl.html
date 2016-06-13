@@ -19,5 +19,5 @@
     (focus)="onFocus($event)"
     (input)="onInput($event)"
 
-    #input
-><label [attr.for]="id" (click)="input.focus()">{{ label }}</label>
+    #inputElement
+><label [attr.for]="id" (click)="inputElement.focus()" #labelElement>{{ label }}</label>

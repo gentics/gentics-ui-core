@@ -1,11 +1,12 @@
 import {
     Component,
-    ElementRef,
     Input,
     Output,
     Optional,
     Self,
-    EventEmitter
+    EventEmitter,
+    ElementRef,
+    ViewChild
 } from '@angular/core';
 import {ControlValueAccessor, NgControl} from '@angular/common';
 
@@ -114,12 +115,14 @@ export class InputField implements ControlValueAccessor {
      */
     @Output() change = new EventEmitter<string|number>();
 
+    @ViewChild('inputElement') private inputElement: ElementRef;
+    @ViewChild('labelElement') private labelElement: ElementRef;
+
     // ValueAccessor members
     onChange: any = (_: any) => {};
     onTouched: any = () => {};
 
-    constructor(@Self() @Optional() ngControl: NgControl,
-                private elementRef: ElementRef) {
+    constructor(@Self() @Optional() ngControl: NgControl) {
         if (ngControl) {
             ngControl.valueAccessor = this;
         }
@@ -136,13 +139,15 @@ export class InputField implements ControlValueAccessor {
      * when the input component is created.
      */
     ngAfterViewInit(): void {
-        let input: HTMLInputElement = this.elementRef.nativeElement.querySelector('input');
-        let label: HTMLLabelElement = this.elementRef.nativeElement.querySelector('label');
+        let input: HTMLInputElement = this.inputElement.nativeElement;
+        let label: HTMLLabelElement = this.labelElement.nativeElement;
 
-        if (String(this.value).length > 0 || this.placeholder) {
-            label.classList.add('active');
-        } else {
-            label.classList.remove('active');
+        if (input && label) {
+            if (String(this.value).length > 0 || this.placeholder) {
+                label.classList.add('active');
+            } else {
+                label.classList.remove('active');
+            }
         }
     }
 
