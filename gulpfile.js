@@ -90,7 +90,7 @@ function compileDistTypescript() {
             typescript: require('typescript')
         }));
 
-    tsResult.on('error', setNonZeroExitCode);
+    tsResult.on('error', () => process.exitCode = 1);
 
     return merge([
         tsResult.dts.pipe(gulp.dest(paths.out.dist.root)),
@@ -115,7 +115,7 @@ function checkDistSASS() {
             outputStyle: 'expanded',
             includePaths: ['node_modules']
         }))
-        .on('error', setNonZeroExitCode)
+        .on('error', () => { process.exitCode = 1; })
         .on('error', sass.logError)
     );
     stream.pipe(gutil.noop());
@@ -181,7 +181,7 @@ function lint() {
             .on('end', resolve);
         })
     ])
-    .catch(setNonZeroExitCode);
+    .catch(() => { process.exitCode = 1; });
 }
 
 function copyImagesToDocs() {
@@ -201,7 +201,7 @@ function compileDocsSASS() {
             includePaths: ['node_modules']
         }))
         .on('error', sass.logError)
-        .on('error', setNonZeroExitCode)
+        .on('error', () => { process.exitCode = 1; })
         .pipe(autoprefixer(buildConfig.autoprefixer))
         .pipe(concat('app.css'))
         .pipe(sourcemaps.write('.', {
@@ -251,7 +251,7 @@ function runKarmaServer(watch, callback) {
             output: 'autowatch'
         }
     }, errors => {
-        if (errors) { setNonZeroExitCode(); }
+        if (errors) { process.exitCode = 1; };
         callback();
     });
 
@@ -270,7 +270,7 @@ function webpackOnCompleted(callback) {
     let hasRun = false;
     return (err, stats) => {
         if (err) {
-            setNonZeroExitCode();
+            process.exitCode = 1;
             throw new gutil.PluginError('[webpack]', err);
         }
 
@@ -278,7 +278,7 @@ function webpackOnCompleted(callback) {
             stats.toJson().errors.map(e => {
                 gutil.log(gutil.colors.red(e));
             });
-            setNonZeroExitCode();
+            process.exitCode = 1;
         }
 
         let duration = stats.toJson({ timings: true }).time / 1000;
@@ -301,17 +301,6 @@ function webpackOnCompleted(callback) {
  */
 function relativeRoot(filepath) {
     return path.relative(filepath, '.').replace(/\\/g, '/');
-}
-
-/**
- * Utility function that makes gulp exit non-zero non errors
- * to use gulp tasks in CI tools and shell scripts
- */
-function setNonZeroExitCode() {
-    if (!setNonZeroExitCode.called) {
-        setNonZeroExitCode.called = true;
-        process.once('exit', () => { process.reallyExit(1); });
-    }
 }
 
 /**
