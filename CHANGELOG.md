@@ -1,3 +1,13 @@
+## 0.4.0 (2016-06-20)
+### Features
+* gulp "dist:watch" task, internal tasks not exposed
+* Form components can be imported individually
+
+### Fixes
+* InputField is now marked as "touched" on blur.
+* Select is now marked as "touched" on blur.
+* Images in ui-core demo changed to relative urls
+
 ## 0.3.1
 ### Features 
 * SearchBar now has a "clear" button and event
