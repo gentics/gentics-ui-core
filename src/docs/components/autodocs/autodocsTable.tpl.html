@@ -21,7 +21,7 @@
                   *ngIf="block[props[2]]"
                   [title]="block[props[2]]">{{  block[props[2]] }}</code></td>
         <td>
-            <div class="block-body" [innerHTML]="block[props[3]]"></div>
+            <div class="block-body" [innerHTML]="sanitize(block[props[3]])"></div>
         </td>
     </tr>
     </tbody>

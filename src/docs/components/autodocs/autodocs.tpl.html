@@ -1,4 +1,4 @@
-<div [innerHTML]="docs.main"></div>
+<div [innerHTML]="sanitize(docs.main)"></div>
 
 <div *ngIf="0 < docs.inputs.length" class="autodoc-section">
     <h6>Inputs</h6>

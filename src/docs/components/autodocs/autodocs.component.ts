@@ -1,4 +1,5 @@
 import {Component, Input, ElementRef} from '@angular/core';
+import {DomSanitizationService} from '@angular/platform-browser';
 import {parseDocs, IDocumentation} from './doc-parser';
 import {AutodocTable} from './autodoc-table.component';
 
@@ -18,10 +19,14 @@ export class Autodocs {
 
     docs: IDocumentation;
 
-    constructor(private elementRef: ElementRef) {}
+    constructor(private elementRef: ElementRef, private sanitizer: DomSanitizationService) {}
 
     ngOnInit(): void {
         this.docs = parseDocs(this.source, this.type);
         setTimeout(() => $(this.elementRef.nativeElement).find('pre>code').addClass('hljs'));
+    }
+    
+    sanitize(html: string): any {
+        return this.sanitizer.bypassSecurityTrustHtml(html);
     }
 }

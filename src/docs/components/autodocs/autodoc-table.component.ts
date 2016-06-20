@@ -1,4 +1,5 @@
 import {Component, Input} from '@angular/core';
+import {DomSanitizationService} from '@angular/platform-browser';
 import {DocBlock} from './doc-parser';
 
 @Component({
@@ -10,6 +11,8 @@ export class AutodocTable {
     identifierLabel: string = 'Name';
     headers: string[];
     props: string[];
+
+    constructor(private sanitizer: DomSanitizationService) {}
 
     ngOnInit(): void {
         let firstBlock = this.docBlocks[0];
@@ -30,5 +33,9 @@ export class AutodocTable {
             this.headers = ['Property', 'Type', 'Default Value', 'Comments'];
             this.props = ['identifier', 'type', 'defaultValue', 'body'];
         }
-    } 
+    }
+    
+    sanitize(html: string): any {
+        return this.sanitizer.bypassSecurityTrustHtml(html);
+    }
 }
