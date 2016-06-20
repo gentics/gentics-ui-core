@@ -278,6 +278,37 @@ describe('Select:', () => {
                     });
             })));
 
+        /*
+        * This causes a "1 periodic timer(s) still in the queue"" Error
+        */
+        xit('should mark the component as "touched" when native input blurs',
+            inject([TestComponentBuilder], fakeAsync((tcb: TestComponentBuilder) => {
+                tcb.overrideTemplate(TestComponent, `
+                    <form [ngFormModel]="testForm">
+                        <gtx-select ngControl="test">
+                             <option *ngFor="let option of options" [value]="option">{{ option }}</option>
+                         </gtx-select>
+                    </form>`)
+                    .createAsync(TestComponent)
+                    .then((fixture: ComponentFixture<TestComponent>) => {
+                        fixture.detectChanges();
+                        tick();
+                        let instance: TestComponent = fixture.componentInstance;
+                        let nativeInput: HTMLInputElement = fixture.nativeElement.querySelector('input');
+
+                        expect(instance.testForm.controls['test'].touched).toBe(false);
+                        expect(instance.testForm.controls['test'].untouched).toBe(true);
+
+                        triggerEvent(nativeInput, 'focus');
+                        triggerEvent(nativeInput, 'blur');
+                        tick();
+                        fixture.detectChanges();
+
+                        expect(instance.testForm.controls['test'].touched).toBe(true);
+                        expect(instance.testForm.controls['test'].untouched).toBe(false);
+                    });
+            })));
+
     });
 
 });
@@ -307,4 +338,14 @@ class TestComponent {
     onBlur(): void {}
     onFocus(): void {}
     onChange(): void {}
+}
+
+
+/**
+ * Create an dispatch an 'input' event on the <input> element
+ */
+function triggerEvent(el: HTMLElement, eventName: string): void {
+    let event: Event = document.createEvent('Event');
+    event.initEvent(eventName, true, true);
+    el.dispatchEvent(event);
 }

@@ -89,12 +89,12 @@ export class Select implements ControlValueAccessor {
 
     @ContentChildren(NgSelectOption, { descendants: true }) selectOptions: QueryList<NgSelectOption>;
 
+    $nativeSelect: any;
+    subscription: Subscription;
+
     // ValueAccessor members
     onChange: any = () => {};
     onTouched: any = () => {};
-
-    $nativeSelect: any;
-    subscription: Subscription;
 
     /**
      * Event handler for when one of the Materialize-generated LI elements is clicked.
@@ -109,6 +109,7 @@ export class Select implements ControlValueAccessor {
     inputBlur: (e: Event) => void = (e: Event) => {
         e.stopPropagation();
         e.preventDefault();
+        this.onTouched();
         this.blur.emit(this.value);
     };
 
@@ -206,7 +207,7 @@ export class Select implements ControlValueAccessor {
     }
 
     // ValueAccessor members
-    writeValue(value: any): void {
+    writeValue(value: string|string[]): void {
         this.updateValue(value);
     }
     registerOnChange(fn: (_: any) => any): void {
@@ -214,7 +215,9 @@ export class Select implements ControlValueAccessor {
             fn(this.value);
         };
     }
-    registerOnTouched(fn: () => any): void { this.onTouched = fn; }
+    registerOnTouched(fn: () => any): void {
+        this.onTouched = fn;
+    }
 
 
     /**
