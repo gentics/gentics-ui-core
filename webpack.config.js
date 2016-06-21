@@ -30,7 +30,7 @@ module.exports = {
             { test: /\.ts$/, loader: 'ts?transpileOnly=false' },
             { test: /\.css$/, loader: 'style!raw!autoprefixer' },
             { test: /\.scss$/, loader: 'style!raw!autoprefixer!sass' },
-            { test: /\.html/, loader: 'html' },
+            { test: /\.html/, loader: 'raw' },
             { test: /\.svg/, loader: 'svg-inline' }
         ],
         noParse: paths.vendorJS

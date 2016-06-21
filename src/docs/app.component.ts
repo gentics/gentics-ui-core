@@ -1,30 +1,9 @@
 import {Component, ViewChild} from '@angular/core';
-import {Router, RouteConfig, RouteDefinition, ROUTER_DIRECTIVES} from '@angular/router-deprecated';
+import {DomSanitizationService} from '@angular/platform-browser';
+import {ActivatedRoute, Router, ROUTER_DIRECTIVES, RouterState} from '@angular/router';
 import {TopBar, SearchBar, SideMenu, SplitViewContainer, ContentsListItem, Notification, OverlayHost} from '../index';
 import {pages, kebabToPascal, IPageInfo} from './pageList';
 import {OverlayHostService} from '../components/overlay-host/overlay-host.service';
-
-
-const routes: RouteDefinition[] = pages.map((demo: IPageInfo) => {
-   return {
-       path: '/' + demo.name,
-       name: kebabToPascal(demo.name),
-       component: demo.component
-   };
-});
-
-
-@Component({
-    selector: 'default',
-    template: ''
-})
-class DefaultRoute {}
-
-routes.push({
-    path: '/',
-    name: 'DefaultRoute',
-    component: DefaultRoute
-});
 
 @Component({
     selector: 'app',
@@ -40,14 +19,13 @@ routes.push({
     ],
     providers: [Notification, OverlayHostService]
 })
-@RouteConfig(routes)
 export class App {
     @ViewChild(SplitViewContainer) splitViewContainer: SplitViewContainer;
     displayMenu: boolean = false;
     contentItems: any[] = pages.map((page: IPageInfo) => {
         return {
             title: kebabToPascal(page.name),
-            route: kebabToPascal(page.name),
+            route: '/' + page.name,
             keywords: page.keywords || [],
             type: page.type
         };
@@ -57,15 +35,24 @@ export class App {
     splitFocus: string = 'left';
     searchQuery: string;
     subscription: any;
+    logoSvg: any;
 
-    logoSvg: string = require('./assets/gentics-logo.svg');
+    constructor(private router: Router,
+                private route: ActivatedRoute,
+                private sanitizer: DomSanitizationService) {
+        this.filteredContentItems = this.contentItems.slice(0);
+        this.logoSvg = sanitizer.bypassSecurityTrustHtml(require('./assets/gentics-logo.svg'));
+    }
 
-    constructor(private router: Router) {
-        this.subscription = router.subscribe((route: any) => {
-            this.hasContent = !!route;
+    ngOnInit(): void {
+        this.subscription = this.route.url.subscribe((route) => {
+            console.log('route', route);
+            this.hasContent = route[0].path !== '';
+            if (this.hasContent) {
+                this.splitFocus = 'right';
+            }
             this.splitViewContainer.scrollRightPanelTo(0);
         });
-        this.filteredContentItems = this.contentItems.slice(0);
     }
 
     ngOnDestroy(): void {
@@ -91,7 +78,6 @@ export class App {
     }
 
     goToRoute(route: string): void {
-        this.router.navigate([route]);
         this.focusRightPanel();
     }
 
@@ -104,6 +90,7 @@ export class App {
     }
 
     private focusRightPanel(): void {
+        this.hasContent = true;
         setTimeout(() => this.splitFocus = 'right');
     }
 }
