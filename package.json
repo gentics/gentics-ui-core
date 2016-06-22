@@ -85,11 +85,10 @@
     "style-loader": "^0.13.0",
     "svg-inline-loader": "^0.4.1",
     "ts-loader": "0.8.1",
-    "tslint": "3.10.2",
+    "tslint": "3.11.0",
     "tslint-eslint-rules": "^1.0.1",
     "tslint-stylish": "^2.1.0-beta",
-    "typescript": "1.8.7",
-    "typings": "^1.0.4",
+    "typescript": "1.8.10",
     "webpack": "^1.12.13",
     "zone.js": "0.6.12"
   },
