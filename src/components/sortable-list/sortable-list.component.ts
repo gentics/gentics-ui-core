@@ -1,5 +1,5 @@
 import {Component, ElementRef, EventEmitter, Input, Output} from '@angular/core';
-const sortable: Sortablejs.Sortable = require('sortablejs');
+const sortable: typeof Sortablejs.Sortable = require('sortablejs');
 
 export type sortFn<T> = (source: T[], byReference?: boolean) => T[];
 
@@ -115,7 +115,7 @@ export class SortableList {
     }
 
     ngOnInit(): void {
-        this.sortable = (<any> sortable).create(this.elementRef.nativeElement, {
+        this.sortable = sortable.create(this.elementRef.nativeElement, {
             animation: 150,
             setData: (dataTransfer: any, dragEl: Element): void => {
                 this.setInvisibleDragImage(dataTransfer);
@@ -138,13 +138,14 @@ export class SortableList {
             // Attempt to drag a filtered element
             onFilter: (e: ISortableEvent): void => {},
             // Event when you move an item in the list or between lists
-            onMove: (e: ISortableMoveEvent): void => {
+            onMove: (e: ISortableMoveEvent): boolean => {
                 // Example: http://jsbin.com/tuyafe/1/edit?js,output
                 e.dragged; // dragged HTMLElement
                 e.draggedRect; // TextRectangle {left, top, right и bottom}
                 e.related; // HTMLElement on which have guided
                 e.relatedRect; // TextRectangle
                 // return false; — for cancel
+                return true;
             }
         });
     }

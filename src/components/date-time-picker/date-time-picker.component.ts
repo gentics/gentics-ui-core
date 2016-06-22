@@ -59,10 +59,6 @@ export class DateTimePicker implements ControlValueAccessor {
 
     value: moment.Moment = momentjs();
 
-    // ValueAccessor members
-    onChange: any = () => {};
-    onTouched: any = () => {};
-
     /**
      * cal is an instance of a Rome calendar, for the API see https://github.com/bevacqua/rome#rome-api
      */
@@ -76,6 +72,10 @@ export class DateTimePicker implements ControlValueAccessor {
         m: 0,
         s: 0
     };
+
+    // ValueAccessor members
+    onChange: any = () => {};
+    onTouched: any = () => {};
 
     constructor(@Self() @Optional() ngControl: NgControl) {
         if (ngControl) {

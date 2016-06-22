@@ -1,7 +1,7 @@
 import {Component} from '@angular/core';
 import {ControlGroup, Control} from '@angular/common';
 import {By} from '@angular/platform-browser';
-import {describe, expect, fakeAsync, inject, it, tick} from '@angular/core/testing';
+import {beforeEach, describe, expect, fakeAsync, inject, it, tick} from '@angular/core/testing';
 import {ComponentFixture, TestComponentBuilder} from '@angular/compiler/testing';
 import {DateTimePicker} from './date-time-picker.component';
 import {Modal} from '../modal/modal.component';
@@ -175,7 +175,7 @@ describe('DateTimePicker:', () => {
         let input: HTMLInputElement;
         let instance: TestComponent;
 
-        beforeEach(<any> inject([TestComponentBuilder],
+        beforeEach(inject([TestComponentBuilder],
             fakeAsync((tcb: TestComponentBuilder) => {
                 tcb.overrideTemplate(TestComponent,
                     `<gtx-date-time-picker timestamp="${TEST_TIMESTAMP}" (change)="onChange($event)">
@@ -223,7 +223,7 @@ describe('DateTimePicker:', () => {
         let fixture: ComponentFixture<TestComponent>;
         let pickerInstance: DateTimePicker;
 
-        beforeEach(<any> inject([TestComponentBuilder],
+        beforeEach(inject([TestComponentBuilder],
             fakeAsync((tcb: TestComponentBuilder) => {
                 tcb.overrideTemplate(TestComponent,
                     `<gtx-date-time-picker timestamp="${TEST_TIMESTAMP}" (change)="onChange($event)">

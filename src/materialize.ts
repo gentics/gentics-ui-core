@@ -9,12 +9,14 @@
  * we need for the UI Core.
  */
 
-'use strict';
+declare const window: Window & {
+    $: JQueryStatic;
+    jQuery: JQueryStatic;
+};
 
 /* Required dependencies for the Materialize scripts */
 import * as $ from 'jquery';
-(<any> window)['$'] = $;
-(<any> window)['jQuery'] = $;
+window.$ = window.jQuery = $;
 require('jquery-easing');
 require('materialize-css/js/animation.js');
 require('velocity-animate');

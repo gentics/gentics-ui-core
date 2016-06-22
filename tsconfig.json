@@ -7,13 +7,12 @@
         "sourceMap": true,
         "moduleResolution": "node",
         "noImplicitAny": true,
-        "noEmit": true
+        "noEmit": true,
+        "noEmitOnError": true
     },
     "exclude": [
         "node_modules",
         "dist/",
-        "docs/",
-        "typings/browser",
-        "typings/browser.d.ts"
+        "docs/"
     ]
 }

@@ -73,22 +73,18 @@ function compileDistStyles() {
     return checkDistSASS().then(copyDistSASS);
 }
 
+let tsProject;
 function compileDistTypescript() {
+    if (!tsProject) {
+        tsProject = ts.createProject('tsconfig.json', {
+            noEmit: false,
+            outDir: 'dist',
+            typescript: require('typescript')
+        });
+    }
     let tsResult = gulp.src(paths.src.typescript.concat(paths.src.typings))
         .pipe(sourcemaps.init())
-        .pipe(ts({
-            declaration: true,
-            emitDecoratorMetadata: true,
-            experimentalDecorators: true,
-            module: 'commonjs',
-            moduleResolution: 'node',
-            noEmitOnError: true,
-            noImplicitAny: true,
-            outDir: 'dist',
-            sourceMap: true,
-            target: 'es5',
-            typescript: require('typescript')
-        }));
+        .pipe(ts(tsProject));
 
     tsResult.on('error', () => process.exitCode = 1);
 

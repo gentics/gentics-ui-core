@@ -27,9 +27,6 @@ export class RadioGroup implements ControlValueAccessor {
 
     private static instanceCounter: number = 0;
 
-    private onChange: Function = (_: any) => {};
-    private onTouched: Function = () => {};
-
     private radioButtons: RadioButton[] = [];
     private groupID: number;
 
@@ -74,6 +71,9 @@ export class RadioGroup implements ControlValueAccessor {
 
     registerOnChange(fn: Function): void { this.onChange = fn; }
     registerOnTouched(fn: Function): void { this.onTouched = fn; }
+
+    private onTouched: Function = () => {};
+    private onChange: Function = (_: any) => {};
 }
 
 
@@ -191,9 +191,6 @@ export class RadioButton implements ControlValueAccessor, OnInit, OnDestroy {
      */
     private statelessMode: boolean = false;
 
-    private onChange: Function = (_: any) => {};
-    private onTouched: Function = () => {};
-
     constructor(@Self() @Optional() control: NgControl,
                 @Optional() private group: RadioGroup,
                 @Attribute('ngModel') modelAttrib: string) {
@@ -218,9 +215,6 @@ export class RadioButton implements ControlValueAccessor, OnInit, OnDestroy {
     onFocus(): void {
         this.focus.emit(this.checked);
     }
-
-    registerOnChange(fn: Function): void { this.onChange = fn; }
-    registerOnTouched(fn: Function): void { this.onTouched = fn; }
 
     writeValue(value: any): void {
         let wasChecked: boolean = this.checked;
@@ -251,6 +245,12 @@ export class RadioButton implements ControlValueAccessor, OnInit, OnDestroy {
             this.group.remove(this);
         }
     }
+
+    registerOnChange(fn: Function): void { this.onChange = fn; }
+    registerOnTouched(fn: Function): void { this.onTouched = fn; }
+
+    private onChange: Function = (_: any) => {};
+    private onTouched: Function = () => {};
 
     private onInputChecked(e: Event, input: HTMLInputElement): boolean {
         if (e) {

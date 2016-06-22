@@ -1,5 +1,7 @@
 {
-    "rulesDirectory": "node_modules/tslint-eslint-rules/dist/rules",
+    "rulesDirectory": [
+        "node_modules/tslint-eslint-rules/dist/rules"
+    ],
     "rules": {
         "ban": false,
         "class-name": true,
@@ -13,7 +15,10 @@
             true,
             "spaces"
         ],
-        "interface-name": true,
+        "interface-name": [
+            true,
+            "always-prefix"
+        ],
         "jsdoc-format": true,
         "label-position": true,
         "label-undefined": true,

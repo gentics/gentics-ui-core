@@ -156,7 +156,7 @@ export class Notification {
                 }
 
                 if (0 < options.delay) {
-                    dismissTimer = <any> setTimeout(() => toast.dismissFn(), options.delay);
+                    dismissTimer = setTimeout(() => toast.dismissFn(), options.delay);
                 }
 
                 this.openToasts.unshift({

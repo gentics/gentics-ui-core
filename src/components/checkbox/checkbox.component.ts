@@ -116,9 +116,6 @@ export class Checkbox implements ControlValueAccessor {
      */
     private statelessMode: boolean = false;
 
-    private onChange: Function = () => {};
-    private onTouched: Function = () => {};
-
     constructor(@Optional() control: NgControl) {
         if (control && !control.valueAccessor) {
             control.valueAccessor = this;
@@ -134,9 +131,6 @@ export class Checkbox implements ControlValueAccessor {
         this.focus.emit(this.checkState);
     }
 
-    registerOnChange(fn: Function): void { this.onChange = fn; }
-    registerOnTouched(fn: Function): void { this.onTouched = fn; }
-
     writeValue(value: any): void {
         if (value !== this.checkState) {
             this.checkState = value;
@@ -147,6 +141,12 @@ export class Checkbox implements ControlValueAccessor {
     ngOnInit(): void {
         this.onChange(this.checkState);
     }
+
+    registerOnChange(fn: Function): void { this.onChange = fn; }
+    registerOnTouched(fn: Function): void { this.onTouched = fn; }
+
+    private onChange: Function = () => {};
+    private onTouched: Function = () => {};
 
     private onInputChanged(e: Event, input: HTMLInputElement): boolean {
         if (e) {

@@ -92,10 +92,6 @@ export class Textarea implements ControlValueAccessor {
      */
     @Output() change = new EventEmitter<string>();
 
-    // ValueAccessor members
-    onChange: any = (_: any) => {};
-    onTouched: any = () => {};
-
     private _maxlength: number;
 
     constructor(@Self() @Optional() ngControl: NgControl) {
@@ -126,4 +122,7 @@ export class Textarea implements ControlValueAccessor {
 
     registerOnChange(fn: Function): void { this.onChange = fn; }
     registerOnTouched(fn: Function): void { this.onTouched = fn; }
+
+    private onChange: any = (_: any) => {};
+    private onTouched: any = () => {};
 }

@@ -186,15 +186,15 @@ describe('Select:', () => {
 
                     let optionLIs: NodeListOf<HTMLLIElement> = fixture.nativeElement.querySelectorAll('li');
                     let instance: TestComponent = fixture.componentInstance;
-                    spyOn(instance, 'onChange');
+                    let onChange = spyOn(instance, 'onChange');
 
                     optionLIs[0].click();
                     tick();
-                    expect((<any> instance.onChange).calls.argsFor(0)[0]).toEqual(['Bar', 'Foo']);
+                    expect(onChange.calls.argsFor(0)[0]).toEqual(['Bar', 'Foo']);
 
                     optionLIs[2].click();
                     tick();
-                    expect((<any> instance.onChange).calls.argsFor(1)[0]).toEqual(['Bar', 'Foo', 'Baz']);
+                    expect(onChange.calls.argsFor(1)[0]).toEqual(['Bar', 'Foo', 'Baz']);
                 });
         })));
 
@@ -211,11 +211,11 @@ describe('Select:', () => {
 
                     let optionLIs: NodeListOf<HTMLLIElement> = fixture.nativeElement.querySelectorAll('li');
                     let instance: TestComponent = fixture.componentInstance;
-                    spyOn(instance, 'onChange');
+                    let onChange = spyOn(instance, 'onChange');
 
                     optionLIs[1].click();
                     tick();
-                    expect((<any> instance.onChange).calls.argsFor(0)[0]).toEqual([]);
+                    expect(onChange.calls.argsFor(0)[0]).toEqual([]);
                 });
         })));
 

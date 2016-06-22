@@ -57,14 +57,6 @@ export class Modal {
     private modal: ModalInstance;
     private subscription: Subscription;
     private isClosing: boolean = false;
-    /**
-     * Close the modal when the ESC key is pressed.
-     */
-    private keyHandler = (e: JQueryEventObject): void => {
-        if (e.keyCode === 27) {
-            this.closeModal();
-        }
-    };
 
     constructor(private elementRef: ElementRef,
                 private modalService: ModalService) {
@@ -124,6 +116,15 @@ export class Modal {
             this.modal.close(val);
         }
     }
+
+    /**
+     * Close the modal when the ESC key is pressed.
+     */
+    private keyHandler = (e: JQueryEventObject): void => {
+        if (e.keyCode === 27) {
+            this.closeModal();
+        }
+    };
 
     private registerKeyHandler(): void {
         $(document).on('keyup', this.keyHandler);
