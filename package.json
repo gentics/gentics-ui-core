@@ -9,7 +9,7 @@
     "build": "gulp lib:build",
     "prepare-package": "gulp package",
     "test": "gulp test:run",
-    "watch": "gulp watch"
+    "watch": "gulp test:watch dist:watch docs:watch"
   },
   "repository": {
     "type": "git",
