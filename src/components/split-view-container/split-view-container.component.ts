@@ -143,13 +143,13 @@ export class SplitViewContainer implements AfterViewInit, OnDestroy {
      * Triggers when the right panel is closed.
      */
     @Output()
-    rightPanelClosed: EventEmitter<void> = new EventEmitter<void>();
+    rightPanelClosed = new EventEmitter<void>(true);
 
     /**
      * Triggers when the right panel is opened.
      */
     @Output()
-    rightPanelOpened: EventEmitter<void> = new EventEmitter<void>();
+    rightPanelOpened = new EventEmitter<void>(true);
 
     /**
      * Triggers when the value of {@link rightPanelVisible} changes.
@@ -157,19 +157,19 @@ export class SplitViewContainer implements AfterViewInit, OnDestroy {
      * `<split-view-container [(rightPanelVisible)]="property">`
      */
     @Output()
-    rightPanelVisibleChange: EventEmitter<boolean> = new EventEmitter<boolean>();
+    rightPanelVisibleChange = new EventEmitter<boolean>(true);
 
     /**
      * Triggers when the left panel is focused.
      */
     @Output()
-    leftPanelFocused: EventEmitter<void> = new EventEmitter<void>();
+    leftPanelFocused = new EventEmitter<void>(true);
 
     /**
      * Triggers when the right panel is focused.
      */
     @Output()
-    rightPanelFocused: EventEmitter<void> = new EventEmitter<void>();
+    rightPanelFocused = new EventEmitter<void>(true);
 
     /**
      * Triggers when the value of {@link focusedPanel} changes.
@@ -177,21 +177,21 @@ export class SplitViewContainer implements AfterViewInit, OnDestroy {
      * `<split-view-container [(focusedPanel)]="property">`
      */
     @Output()
-    focusedPanelChange: EventEmitter<FocusType> = new EventEmitter<FocusType>();
+    focusedPanelChange = new EventEmitter<FocusType>(true);
 
     /**
      * Triggers when the user starts resizing the split amount between the panels.
      * Receives the size of the left panel in % of the container width as argument.
      */
     @Output()
-    splitDragStart: EventEmitter<number> = new EventEmitter<number>();
+    splitDragStart = new EventEmitter<number>(true);
 
     /**
      * Triggers when the user resizes the split amount between the panels.
      * Receives the size of the left panel in % of the container width as argument.
      */
     @Output()
-    splitDragEnd: EventEmitter<number> = new EventEmitter<number>();
+    splitDragEnd = new EventEmitter<number>(true);
 
 
     private _rightPanelVisible: boolean = false;
@@ -273,13 +273,13 @@ export class SplitViewContainer implements AfterViewInit, OnDestroy {
 
     private leftPanelClicked(): void {
         if (this._focusedPanel == 'right') {
-            this.focusedPanel = 'left';
+            this.focusedPanelChange.emit('left');
         }
     }
 
     private rightPanelClicked(): void {
         if (this._focusedPanel == 'left' && this._rightPanelVisible) {
-            this.focusedPanel = 'right';
+            this.focusedPanelChange.emit('right');
         }
     }
 

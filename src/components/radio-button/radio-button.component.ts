@@ -173,17 +173,17 @@ export class RadioButton implements ControlValueAccessor, OnInit, OnDestroy {
     /**
      * Blur event
      */
-    @Output() blur = new EventEmitter<boolean>();
+    @Output() blur = new EventEmitter<boolean>(true);
 
     /**
      * Focus event
      */
-    @Output() focus = new EventEmitter<boolean>();
+    @Output() focus = new EventEmitter<boolean>(true);
 
     /**
      * Change event
      */
-    @Output() change = new EventEmitter<any>();
+    @Output() change = new EventEmitter<any>(true);
 
     private inputChecked: boolean = false;
     /**
