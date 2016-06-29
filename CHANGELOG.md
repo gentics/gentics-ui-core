@@ -1,24 +1,30 @@
+## 0.5.0 (2016-??-??)
+### Features
+
+### Fixes
+* Resizing SplitViewContainer above iframe works
+
 ## 0.4.0 (2016-06-20)
 ### Features
 * gulp "dist:watch" task, internal tasks not exposed
 * Form components can be imported individually
 
 ### Fixes
-* InputField is now marked as "touched" on blur.
-* Select is now marked as "touched" on blur.
+* InputField is now marked as "touched" on blur
+* Select is now marked as "touched" on blur
 * Images in ui-core demo changed to relative urls
 
 ## 0.3.1
 ### Features 
 * SearchBar now has a "clear" button and event
-* SearchBar can project content.
-* Created OverlayHostService & refactored the way that overlays are created.
+* SearchBar can project content
+* Created OverlayHostService & refactored the way that overlays are created
 * (build) Updated tslint version
 * (tests) Add source map support for karma tests
 
 ### Fixes
-* InputField no longer fires "change" event on blur.
-* DropdownList now uses native Angular methods of inserting & disposing of DOM nodes, which fixes some layout issues.
+* InputField no longer fires "change" event on blur
+* DropdownList now uses native Angular methods of inserting & disposing of DOM nodes, which fixes some layout issues
 
 ## 0.3.0 (2016-06-03)
 
@@ -51,9 +57,9 @@
 * Add show-on-hover class to ContentsListItem
 
 ### Fixes
-* (docs) fix docs parser regex.
-* (build) Upgrade to Gulp v4.
+* (docs) fix docs parser regex
+* (build) Upgrade to Gulp v4
 
 
 ## v0.1.0
-Basic selection of components, built on angular2 rc.0.
+Basic selection of components, built on angular2 rc.0

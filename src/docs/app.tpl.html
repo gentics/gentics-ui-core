@@ -6,12 +6,6 @@
 <div class="container">
     <gtx-search-bar (change)="filterContentItems($event)" query=""></gtx-search-bar>
 
-
-<button (click)="splitFocus = 'left'">left</button>
-   <button (click)="splitFocus = 'right'">right</button>
-    {{ splitFocus }}
-</div>
-
 <gtx-split-view-container class="split-view-container"
                           leftContainerWidthPercent="35"
                           [minPanelSizePixels]="320"

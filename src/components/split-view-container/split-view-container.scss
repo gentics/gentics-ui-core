@@ -45,7 +45,20 @@ gtx-split-view-container {
             bottom: 0;
             width: $gtx-split-view-container-resize-handle-width;
             background-color: $gtx-split-view-container-resize-drag-color;
+            z-index: 901;
             @include noselect;
+        }
+
+        // Fix hover events above iframes
+        > .resizing-overlay {
+            display: block;
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            z-index: 900;
+            background-color: rgba(0,0,0,0.00001);
         }
     }
 
