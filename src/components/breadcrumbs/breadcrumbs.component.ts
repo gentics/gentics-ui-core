@@ -4,7 +4,7 @@ import {
     Input,
     Output
 } from '@angular/core';
-import {RouterLink} from '@angular/router-deprecated';
+import {RouterLink} from '@angular/router/directives/router_link';
 import {isPresent} from '@angular/core/src/facade/lang';
 
 export interface IBreadcrumbLink {
