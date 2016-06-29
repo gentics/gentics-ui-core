@@ -85,15 +85,15 @@
             for breadcrumb navigation links, bind values to the <code>routerLinks</code> property.
         </p>
         <gtx-breadcrumbs [routerLinks]='[
-            { route: ["DefaultRoute"], text: "Index" },
-            { route: ["Breadcrumbs"], text: "Breadcrumbs navigation" }
+            { route: ["/"], text: "Index" },
+            { route: ["./"], text: "Breadcrumbs navigation" }
         ]'></gtx-breadcrumbs>
     </div>
     <div class="demo-code">
         <gtx-highlighted-code language="HTML" code='
             <gtx-breadcrumbs [routerLinks]=&#39;[
-                { route: ["DefaultRoute"], text: "Index" },
-                { route: ["Breadcrumbs"], text: "Breadcrumbs navigation" }
+                { route: ["/"], text: "Index" },
+                { route: ["./"], text: "Breadcrumbs navigation" }
             ]&#39;></gtx-breadcrumbs>
         '></gtx-highlighted-code>
     </div>

@@ -4,7 +4,7 @@ import {
     Input,
     Output
 } from '@angular/core';
-import {RouterLink} from '@angular/router/directives/router_link';
+import {ROUTER_DIRECTIVES} from '@angular/router';
 import {isPresent} from '@angular/core/src/facade/lang';
 
 export interface IBreadcrumbLink {
@@ -29,7 +29,7 @@ export interface IBreadcrumbRouterLink {
 @Component({
     selector: 'gtx-breadcrumbs',
     template: require('./breadcrumbs.tpl.html'),
-    directives: [RouterLink]
+    directives: [ROUTER_DIRECTIVES]
 })
 export class Breadcrumbs {
 
