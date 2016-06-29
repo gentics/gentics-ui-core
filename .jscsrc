@@ -4,8 +4,6 @@
         "node_modules/**",
         "**/*.md"
     ],
-    "esnext": true,
-    "verbose": true,
 
     "disallowEmptyBlocks": true,
     "disallowKeywords": [
