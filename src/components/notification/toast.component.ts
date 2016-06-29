@@ -33,7 +33,10 @@ export class Toast {
     }
 
     ngOnDestroy(): void {
-        this.hammerManager.destroy();
+        if (this.hammerManager) {
+            this.hammerManager.destroy();
+            this.hammerManager = undefined;
+        }
     }
 
     /**
