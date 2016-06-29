@@ -1,11 +1,10 @@
 import {Component, provide} from '@angular/core';
 import {By} from '@angular/platform-browser';
-import {beforeEach, beforeEachProviders, xdescribe, describe, expect, fakeAsync, inject, it, xit, tick} from '@angular/core/testing';
+import {beforeEachProviders, describe, expect, fakeAsync, inject, it, xit, tick} from '@angular/core/testing';
 import {ComponentFixture, TestComponentBuilder} from '@angular/compiler/testing';
-// Dependencies that will change when replacing router-deprecated
 import {Location} from '@angular/common';
 import {SpyLocation} from '@angular/common/testing';
-import {Router, RouterConfig, ROUTER_DIRECTIVES, provideRouter} from '@angular/router';
+import {Router, Route, ROUTER_DIRECTIVES, provideRouter} from '@angular/router';
 
 import {
     Breadcrumbs,
@@ -264,13 +263,14 @@ describe('Breadcrumbs:', () => {
      * Needs some investigation to figure out how to fix.
      * Possibly helpful: https://github.com/angular/vladivostok/issues/45
      */
-    xdescribe('Router link capabilities', () => {
+    describe('Router link capabilities', () => {
         beforeEachProviders(() => [
+            ROUTER_DIRECTIVES,
             provideRouter(getRoutes()),
             { provide: Location, useClass: SpyLocation }
         ]);
 
-        it('creates links with the text provided in "routerLinks"', fakeAsync(
+        xit('creates links with the text provided in "routerLinks"', fakeAsync(
             inject([TestComponentBuilder, Location], (tcb: TestComponentBuilder, spyLocation: SpyLocation) => {
                 tcb.overrideTemplate(TestRoutingComponent, `
                     <gtx-breadcrumbs [routerLinks]='[
@@ -292,12 +292,12 @@ describe('Breadcrumbs:', () => {
             })
         ));
 
-        it('sets the "href" of links created via "routerLinks" to their router URL', fakeAsync(
+        xit('sets the "href" of links created via "routerLinks" to their router URL', fakeAsync(
             inject([TestComponentBuilder, Location], (tcb: TestComponentBuilder, spyLocation: SpyLocation) => {
                 tcb.overrideTemplate(TestRoutingComponent, `
                     <gtx-breadcrumbs [routerLinks]='[
                         { text: "A", route: ["/TestA/TestB/TestC"] },
-                        { text: "B", route: ["TestA", "TestB", "TestC"] }
+                        { text: "B", route: ["/TestA", "TestB", "TestC"] }
                     ]'></gtx-breadcrumbs>
                     <router-outlet></router-outlet>
                 `).createAsync(TestRoutingComponent)
@@ -315,13 +315,13 @@ describe('Breadcrumbs:', () => {
             })
         ));
 
-        it('changes to the correct URL when clicking links created via "routerLink"', fakeAsync(
+        xit('changes to the correct URL when clicking links created via "routerLink"', fakeAsync(
             inject([TestComponentBuilder, Location], (tcb: TestComponentBuilder, spyLocation: SpyLocation) => {
                 tcb.overrideTemplate(TestRoutingComponent, `
                     <gtx-breadcrumbs [routerLinks]='[
-                        { text: "1", route: ["TestA", "TestB", "TestC"] },
-                        { text: "2", route: ["TestA", "TestB", "TestC-2"] },
-                        { text: "3", route: ["TestA", "TestB", "TestC-3"] }
+                        { text: "1", route: ["/TestA", "TestB", "TestC"] },
+                        { text: "2", route: ["/TestA", "TestB", "TestC-2"] },
+                        { text: "3", route: ["/TestA", "TestB", "TestC-3"] }
                     ]'></gtx-breadcrumbs>
                     <router-outlet></router-outlet>
                 `).createAsync(TestRoutingComponent)
@@ -360,8 +360,8 @@ describe('Breadcrumbs:', () => {
             inject([TestComponentBuilder, Location], (tcb: TestComponentBuilder, spyLocation: SpyLocation) => {
                 tcb.overrideTemplate(TestRoutingComponent, `
                     <gtx-breadcrumbs [routerLinks]='[
-                        { text: "C1", route: ["TestA", "TestB", "TestC"] },
-                        { text: "C2", route: ["TestA", "TestB", "TestC-2"] }
+                        { text: "C1", route: ["/TestA", "TestB", "TestC"] },
+                        { text: "C2", route: ["/TestA", "TestB", "TestC-2"] }
                     ]' disabled></gtx-breadcrumbs>
                     <router-outlet></router-outlet>
                 `).createAsync(TestRoutingComponent)
@@ -411,23 +411,22 @@ class RoutedTestComponentB { }
 
 @Component({
     template: `<router-outlet></router-outlet>`,
-    directives: [ROUTER_DIRECTIVES]
+    directives: []
 })
 class RoutedTestComponentA { }
 
 @Component({
     template: `<router-outlet></router-outlet>`,
-    directives: [ROUTER_DIRECTIVES, Breadcrumbs]
+    directives: [Breadcrumbs]
 })
 class TestRoutingComponent { }
 
-function getRoutes(): RouterConfig {
-    const routes: RouterConfig = [
-        {path: 'component-C-url', component: RoutedTestComponentC},
-        {path: 'component-C-2-url', component: RoutedTestComponentC},
-        {path: 'component-C-3-url', component: RoutedTestComponentC},
-        {path: 'component-B-url/...', component: RoutedTestComponentB},
-        {path: 'component-A-url/...', component: RoutedTestComponentA}
+function getRoutes(): Route[] {
+    return [
+        { path: 'component-C-url', component: RoutedTestComponentC },
+        { path: 'component-C-2-url', component: RoutedTestComponentC },
+        { path: 'component-C-3-url', component: RoutedTestComponentC },
+        { path: 'component-B-url/...', component: RoutedTestComponentB },
+        { path: 'component-A-url/...', component: RoutedTestComponentA }
     ];
-    return routes;
 }

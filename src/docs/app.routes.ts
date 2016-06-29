@@ -1,5 +1,5 @@
 import {Component} from '@angular/core';
-import {Router, RouterConfig, Route, provideRouter} from '@angular/router';
+import {Route, provideRouter} from '@angular/router';
 import {IPageInfo, pages} from './pageList';
 
 const routes: Route[] = pages.map((demo: IPageInfo) => {
@@ -9,16 +9,16 @@ const routes: Route[] = pages.map((demo: IPageInfo) => {
    };
 });
 
-routes.push({
-    path: 'index',
-    component: DefaultRoute
-});
-
 @Component({
     selector: 'default',
     template: ''
 })
 class DefaultRoute {}
+
+routes.push({
+    path: 'index',
+    component: DefaultRoute
+});
 
 export const APP_ROUTER_PROVIDERS = [
   provideRouter(routes)
