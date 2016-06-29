@@ -466,7 +466,7 @@ describe('Checkbox', () => {
 })
 class TestComponent {
 
-    boundProperty: any = null;
+    boundProperty: any;
     checkState: boolean = false;
     testIndeterminate: boolean = false;
     testForm: ControlGroup;

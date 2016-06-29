@@ -191,11 +191,11 @@ describe('RadioButton', () => {
                     .then((fixture: ComponentFixture<TestComponent>) => {
                         const nativeInput: HTMLInputElement = fixture.nativeElement.querySelector('input');
                         const instance: TestComponent = fixture.componentInstance;
-                        instance.boundProperty = null;
+                        instance.boundProperty = undefined;
                         fixture.detectChanges();
                         tick();
                         expect(instance.checkState).toBe(false);
-                        expect(instance.boundProperty).toBe(null);
+                        expect(instance.boundProperty).toBe(undefined);
 
                         instance.checkState = true;
                         fixture.detectChanges();
@@ -226,7 +226,7 @@ describe('RadioButton', () => {
                             tick();
                             expect(nativeInput.checked).toBe(true);
 
-                            instance.boundProperty = null;
+                            instance.boundProperty = undefined;
                             fixture.detectChanges();
                             tick();
                             expect(nativeInput.checked).toBe(false);
@@ -666,7 +666,7 @@ class TestComponent {
     checkState: boolean = false;
     testForm: ControlGroup;
 
-    boundObjectProperty: any = null;
+    boundObjectProperty: any = undefined;
     objectValues: any[] = [
         { a: 1 },
         { b: 2 }

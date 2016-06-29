@@ -8,11 +8,11 @@ import {
 import {Subscribable} from 'rxjs/Observable';
 
 function isPromise(obj: any): obj is PromiseLike<any> {
-    return typeof obj === 'object' && obj !== null && typeof obj.then === 'function';
+    return typeof obj === 'object' && obj != null && typeof obj.then === 'function';
 }
 
 function isSubscribable(obj: any): obj is Subscribable<any> {
-    return typeof obj === 'object' && obj !== null && typeof obj.subscribe === 'function';
+    return typeof obj === 'object' && obj != null && typeof obj.subscribe === 'function';
 }
 
 /**
@@ -85,7 +85,7 @@ export class ProgressBar implements OnDestroy {
      * or `complete()` is called.
      */
     @Input() set progress(progress: number) {
-        if (progress === null) {
+        if (progress == null) {
             this.determinate = false;
         } else {
             this.determinate = true;
@@ -121,9 +121,9 @@ export class ProgressBar implements OnDestroy {
     private progressBarVisible: boolean = false;
     private indeterminateSpeed: number = 500;
     private determinate: boolean = false;
-    private animationRequest: number = null;
-    private lastAnimationFrame: number = null;
-    private removePendingHandler: () => void = null;
+    private animationRequest: number = undefined;
+    private lastAnimationFrame: number = undefined;
+    private removePendingHandler: () => void = undefined;
 
     @ViewChild('progressBarWrapper') private progressBarWrapper: ElementRef;
     @ViewChild('progressIndicator') private progressIndicator: ElementRef;
@@ -135,7 +135,7 @@ export class ProgressBar implements OnDestroy {
     public start(promiseOrObservable?: PromiseLike<any> | Subscribable<any>): void {
         if (!this._active) {
             this._active = true;
-            this.lastAnimationFrame = null;
+            this.lastAnimationFrame = undefined;
             this.progressBarVisible = true;
             if (!this.determinate) {
                 this.progressPercentage = 0;
@@ -178,7 +178,7 @@ export class ProgressBar implements OnDestroy {
     ngOnDestroy(): void {
         if (this.animationRequest) {
             cancelAnimationFrame(this.animationRequest);
-            this.animationRequest = null;
+            this.animationRequest = undefined;
         }
 
         if (this.removePendingHandler) {
@@ -200,7 +200,7 @@ export class ProgressBar implements OnDestroy {
             };
             this.removePendingHandler = () => {
                 element.removeEventListener('transitionend', callback);
-                this.removePendingHandler = null;
+                this.removePendingHandler = undefined;
             };
             element.addEventListener('transitionend', callback);
             this.progressBarVisible = false;
@@ -221,7 +221,7 @@ export class ProgressBar implements OnDestroy {
                 };
                 this.removePendingHandler = () => {
                     element.removeEventListener('transitionend', callback);
-                    this.removePendingHandler = null;
+                    this.removePendingHandler = undefined;
                 };
                 element.addEventListener('transitionend', callback);
                 this.progressPercentage = 100;
@@ -230,7 +230,7 @@ export class ProgressBar implements OnDestroy {
                 let frameRequest: number;
                 let waitUntilDone = () => {
                     if (this.progressPercentage == 100) {
-                        frameRequest = null;
+                        frameRequest = undefined;
                         resolve();
                     } else {
                         frameRequest = requestAnimationFrame(waitUntilDone);
@@ -243,7 +243,7 @@ export class ProgressBar implements OnDestroy {
     }
 
     private animateIndeterminate(): void {
-        this.animationRequest = null;
+        this.animationRequest = undefined;
         if (this.determinate) { return; }
 
         let now = performance ? performance.now() : Date.now();

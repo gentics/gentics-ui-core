@@ -36,13 +36,13 @@ export class Breadcrumbs {
     /**
      * A list of links to display
      */
-    @Input() links: IBreadcrumbLink[] = null;
+    @Input() links: IBreadcrumbLink[];
 
 
     /**
      * A list of RouterLinks to display
      */
-    @Input() routerLinks: IBreadcrumbRouterLink[] = null;
+    @Input() routerLinks: IBreadcrumbRouterLink[];
 
     /**
      * Controls whether the navigation is disabled.
