@@ -2,13 +2,18 @@ import {
     Component,
     Input,
     Output,
-    Optional,
-    Self,
+    Provider,
     EventEmitter,
     ElementRef,
-    ViewChild
+    ViewChild,
+    forwardRef
 } from '@angular/core';
-import {ControlValueAccessor, NgControl} from '@angular/common';
+import {ControlValueAccessor, NG_VALUE_ACCESSOR} from '@angular/common';
+
+const GTX_INPUT_VALUE_ACCESSOR = new Provider(NG_VALUE_ACCESSOR, {
+    useExisting: forwardRef(() => InputField),
+    multi: true
+});
 
 /**
  * The InputField wraps the native `<input>` form element but should only be used for
@@ -26,7 +31,8 @@ import {ControlValueAccessor, NgControl} from '@angular/common';
  */
 @Component({
     selector: 'gtx-input',
-    template: require('./input.tpl.html')
+    template: require('./input.tpl.html'),
+    providers: [GTX_INPUT_VALUE_ACCESSOR]
 })
 export class InputField implements ControlValueAccessor {
 
@@ -121,12 +127,6 @@ export class InputField implements ControlValueAccessor {
     // ValueAccessor members
     onChange: any = (_: any) => {};
     onTouched: any = () => {};
-
-    constructor(@Self() @Optional() ngControl: NgControl) {
-        if (ngControl) {
-            ngControl.valueAccessor = this;
-        }
-    }
 
     /**
      * The Materialize input includes a dynamic label that changes position depending on the state of the input.
