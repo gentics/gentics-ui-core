@@ -1,5 +1,5 @@
 import {Component} from '@angular/core';
-import {ControlGroup, Control} from '@angular/common';
+import {FormGroup, FormControl} from '@angular/forms';
 import {By} from '@angular/platform-browser';
 import {describe, expect, fakeAsync, inject, it, xit, tick} from '@angular/core/testing';
 import {ComponentFixture, TestComponentBuilder} from '@angular/compiler/testing';
@@ -249,11 +249,11 @@ describe('Select:', () => {
                     });
             })));
 
-        it('should bind the value with NgControl (outbound)', inject([TestComponentBuilder],
+        it('should bind the value with formControlName (outbound)', inject([TestComponentBuilder],
             fakeAsync((tcb: TestComponentBuilder) => {
                 tcb.overrideTemplate(TestComponent,
-                    `<form [ngFormModel]="testForm">
-                         <gtx-select ngControl="test">
+                    `<form [formGroup]="testForm">
+                         <gtx-select formControlName="test">
                              <option *ngFor="let option of options" [value]="option">{{ option }}</option>
                          </gtx-select>
                      </form>`)
@@ -284,8 +284,8 @@ describe('Select:', () => {
         xit('should mark the component as "touched" when native input blurs',
             inject([TestComponentBuilder], fakeAsync((tcb: TestComponentBuilder) => {
                 tcb.overrideTemplate(TestComponent, `
-                    <form [ngFormModel]="testForm">
-                        <gtx-select ngControl="test">
+                    <form [formGroup]="testForm">
+                        <gtx-select formControlName="test">
                              <option *ngFor="let option of options" [value]="option">{{ option }}</option>
                          </gtx-select>
                     </form>`)
@@ -327,11 +327,11 @@ class TestComponent {
     multiValue: string[] = ['Bar', 'Baz'];
     ngModelValue: string = 'Bar';
     options: string[] = ['Foo', 'Bar', 'Baz'];
-    testForm: ControlGroup;
+    testForm: FormGroup;
 
     constructor() {
-        this.testForm = new ControlGroup({
-            test: new Control('Bar')
+        this.testForm = new FormGroup({
+            test: new FormControl('Bar')
         });
     }
 

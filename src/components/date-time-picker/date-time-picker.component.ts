@@ -1,5 +1,5 @@
 import {Component, Input, Output, EventEmitter, ElementRef, Optional, Self} from '@angular/core';
-import {ControlValueAccessor, NgControl} from '@angular/common';
+import {ControlValueAccessor, NgControl} from '@angular/forms';
 import {InputField} from '../input/input.component';
 import {Modal} from '../modal/modal.component';
 import {Button} from '../button/button.component';

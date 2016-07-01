@@ -6,7 +6,7 @@ import {
     Provider,
     forwardRef
 } from '@angular/core';
-import {ControlValueAccessor, NG_VALUE_ACCESSOR} from '@angular/common';
+import {ControlValueAccessor, NG_VALUE_ACCESSOR} from '@angular/forms';
 
 export type CheckState = boolean | 'indeterminate';
 

@@ -11,7 +11,7 @@ import {
     EventEmitter
 } from '@angular/core';
 import {ObservableWrapper} from '@angular/core/src/facade/async';
-import {ControlValueAccessor, NgSelectOption, NgControl} from '@angular/common';
+import {ControlValueAccessor, NgSelectOption, NgControl} from '@angular/forms';
 import {Subscription} from 'rxjs';
 
 declare var $: JQueryStatic;

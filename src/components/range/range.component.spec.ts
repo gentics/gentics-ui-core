@@ -1,5 +1,5 @@
 import {Component, DebugElement} from '@angular/core';
-import {ControlGroup, Control} from '@angular/common';
+import {FormGroup, FormControl, REACTIVE_FORM_DIRECTIVES} from '@angular/forms';
 import {By} from '@angular/platform-browser';
 import {describe, expect, fakeAsync, inject, it, tick} from '@angular/core/testing';
 import {ComponentFixture, TestComponentBuilder} from '@angular/compiler/testing';
@@ -42,16 +42,17 @@ describe('Range:', () => {
     }));
 
     it('should pass through the native attributes', inject([TestComponentBuilder], (tcb: TestComponentBuilder) => {
-        tcb.overrideTemplate(TestComponent, `<gtx-range
-                       disabled="true"
-                       max="100"
-                       min="5"
-                       name="testName"
-                       readonly="true"
-                       required="true"
-                       step="5"
-                       value="35"
-                   ></gtx-range>`)
+        tcb.overrideTemplate(TestComponent, `
+            <gtx-range
+                disabled="true"
+                max="100"
+                min="5"
+                name="testName"
+                readonly="true"
+                required="true"
+                step="5"
+                value="35"
+            ></gtx-range>`)
             .createAsync(TestComponent)
             .then((fixture: ComponentFixture<TestComponent>) => {
                 let nativeInput: HTMLInputElement = fixture.nativeElement.querySelector('input');
@@ -167,11 +168,12 @@ describe('Range:', () => {
                     });
             })));
 
-        it('should bind the value with NgControl (inbound)', inject([TestComponentBuilder],
+        it('should bind the value with formControl (inbound)', inject([TestComponentBuilder],
             fakeAsync((tcb: TestComponentBuilder) => {
-                tcb.overrideTemplate(TestComponent, `<form [ngFormModel]="testForm">
-                                                                <gtx-range ngControl="test"></gtx-range>
-                                                            </form>`)
+                tcb.overrideTemplate(TestComponent, `
+                    <form [formGroup]="testForm">
+                        <gtx-range formControl="test"></gtx-range>
+                    </form>`)
                     .createAsync(TestComponent)
                     .then((fixture: ComponentFixture<TestComponent>) => {
                         fixture.detectChanges();
@@ -181,11 +183,12 @@ describe('Range:', () => {
                     });
             })));
 
-        it('should bind the value with NgControl (outbound)', inject([TestComponentBuilder],
+        it('should bind the value with formControl (outbound)', inject([TestComponentBuilder],
             fakeAsync((tcb: TestComponentBuilder) => {
-                tcb.overrideTemplate(TestComponent, `<form [ngFormModel]="testForm">
-                                                            <gtx-range ngControl="test"></gtx-range>
-                                                        </form>`)
+                tcb.overrideTemplate(TestComponent, `
+                    <form [formGroup]="testForm">
+                        <gtx-range formControl="test"></gtx-range>
+                    </form>`)
                     .createAsync(TestComponent)
                     .then((fixture: ComponentFixture<TestComponent>) => {
                         fixture.detectChanges();
@@ -205,16 +208,16 @@ describe('Range:', () => {
 
 @Component({
     template: `<gtx-range></gtx-range>`,
-    directives: [Range]
+    directives: [Range, REACTIVE_FORM_DIRECTIVES]
 })
 class TestComponent {
 
     value: number = 75;
-    testForm: ControlGroup;
+    testForm: FormGroup;
 
     constructor() {
-        this.testForm = new ControlGroup({
-            test: new Control(75)
+        this.testForm = new FormGroup({
+            test: new FormControl(75)
         });
     }
 

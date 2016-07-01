@@ -1,5 +1,5 @@
 import {Component, DebugElement} from '@angular/core';
-import {ControlGroup, Control} from '@angular/common';
+import {FormGroup, FormControl} from '@angular/forms';
 import {By} from '@angular/platform-browser';
 import {describe, expect, fakeAsync, inject, it, tick, xit} from '@angular/core/testing';
 import {ComponentFixture, TestComponentBuilder} from '@angular/compiler/testing';
@@ -342,7 +342,7 @@ describe('RadioButton', () => {
         xit('should bind the value with NgControl (inbound)', inject([TestComponentBuilder],
             fakeAsync((tcb: TestComponentBuilder) => {
                 tcb.overrideTemplate(TestComponent, `
-                    <form [ngFormModel]="testForm">
+                    <form [formGroup]="testForm">
                         <gtx-radio-button ngControl="testControl" value="radioValue">
                         </gtx-radio-button>
                     </form>`)
@@ -352,7 +352,7 @@ describe('RadioButton', () => {
                         tick();
                         const instance: TestComponent = fixture.componentInstance;
                         const nativeInput: HTMLInputElement = fixture.nativeElement.querySelector('input');
-                        const control: Control = <Control> instance.testForm.find('testControl');
+                        const control: FormControl = <FormControl> instance.testForm.find('testControl');
 
                         expect(nativeInput.checked).toBe(false);
 
@@ -366,7 +366,7 @@ describe('RadioButton', () => {
         xit('should bind the value with NgControl (outbound)', inject([TestComponentBuilder],
             fakeAsync((tcb: TestComponentBuilder) => {
                 tcb.overrideTemplate(TestComponent, `
-                    <form [ngFormModel]="testForm">
+                    <form [formGroup]="testForm">
                         <gtx-radio-button
                             [checked]="checkState"
                             ngControl="testControl"
@@ -377,7 +377,7 @@ describe('RadioButton', () => {
                     .then((fixture: ComponentFixture<TestComponent>) => {
                         const instance: TestComponent = fixture.componentInstance;
                         const nativeInput: HTMLInputElement = fixture.nativeElement.querySelector('input');
-                        const control: Control = <Control> instance.testForm.find('testControl');
+                        const control: FormControl = <FormControl> instance.testForm.find('testControl');
 
                         instance.checkState = false;
                         fixture.detectChanges();
@@ -593,7 +593,7 @@ describe('RadioGroup', () => {
     xit('should bind the check state of RadioButton children with NgControl (inbound)',
         inject([TestComponentBuilder], fakeAsync((tcb: TestComponentBuilder) => {
             tcb.overrideTemplate(TestComponent, `
-            <form [ngFormModel]="testForm">
+            <form [formGroup]="testForm">
                 <gtx-radio-group ngControl="testControl">
                     <gtx-radio-button value="A"></gtx-radio-button>
                     <gtx-radio-button value="B"></gtx-radio-button>
@@ -605,7 +605,7 @@ describe('RadioGroup', () => {
 
                 const instance: TestComponent = fixture.componentInstance;
                 const nativeInputs: NodeListOf<HTMLInputElement> = fixture.nativeElement.querySelectorAll('input');
-                const control: Control = <Control> instance.testForm.find('testControl');
+                const control: FormControl = <FormControl> instance.testForm.find('testControl');
 
                 control.updateValue('A');
                 fixture.detectChanges();
@@ -625,7 +625,7 @@ describe('RadioGroup', () => {
     it('should bind the check state of RadioButton children with NgControl (outbound)',
         inject([TestComponentBuilder], fakeAsync((tcb: TestComponentBuilder) => {
             tcb.overrideTemplate(TestComponent, `
-            <form [ngFormModel]="testForm">
+            <form [formGroup]="testForm">
                 <gtx-radio-group ngControl="testControl">
                     <gtx-radio-button value="A"></gtx-radio-button>
                     <gtx-radio-button value="B"></gtx-radio-button>
@@ -637,7 +637,7 @@ describe('RadioGroup', () => {
 
                 const instance: TestComponent = fixture.componentInstance;
                 const nativeInputs: NodeListOf<HTMLInputElement> = fixture.nativeElement.querySelectorAll('input');
-                const control: Control = <Control> instance.testForm.find('testControl');
+                const control: FormControl = <FormControl> instance.testForm.find('testControl');
 
                 control.updateValue('A');
                 fixture.detectChanges();
@@ -664,7 +664,7 @@ class TestComponent {
 
     boundProperty: string = 'boundValue';
     checkState: boolean = false;
-    testForm: ControlGroup;
+    testForm: FormGroup;
 
     boundObjectProperty: any = undefined;
     objectValues: any[] = [
@@ -673,8 +673,8 @@ class TestComponent {
     ];
 
     constructor() {
-        this.testForm = new ControlGroup({
-            testControl: new Control('controlValue')
+        this.testForm = new FormGroup({
+            testControl: new FormControl('controlValue')
         });
     }
 
