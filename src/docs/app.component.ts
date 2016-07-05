@@ -1,6 +1,7 @@
 import {Component, ViewChild} from '@angular/core';
-import {DomSanitizationService} from '@angular/platform-browser';
+import {DomSanitizationService, SafeHtml} from '@angular/platform-browser';
 import {ActivatedRoute, Router, ROUTER_DIRECTIVES, RouterState} from '@angular/router';
+import {Subscription} from 'rxjs';
 import {TopBar, SearchBar, SideMenu, SplitViewContainer, ContentsListItem, Notification, OverlayHost} from '../index';
 import {pages, kebabToPascal, IPageInfo} from './pageList';
 import {OverlayHostService} from '../components/overlay-host/overlay-host.service';
@@ -34,8 +35,8 @@ export class App {
     hasContent: boolean = false;
     splitFocus: string = 'left';
     searchQuery: string;
-    subscription: any;
-    logoSvg: any;
+    subscription: Subscription;
+    logoSvg: SafeHtml;
 
     constructor(private router: Router,
                 private route: ActivatedRoute,

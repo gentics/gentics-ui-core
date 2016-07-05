@@ -1,18 +1,17 @@
 import {Component, Input} from '@angular/core';
-import {DomSanitizationService} from '@angular/platform-browser';
 import {DocBlock} from './doc-parser';
+import {TrustedHTMLPipe} from '../trusted-html/trusted-html.pipe';
 
 @Component({
     selector: 'gtx-autodoc-table',
-    template: require('./autodocsTable.tpl.html')
+    template: require('./autodoc-table.tpl.html'),
+    pipes: [TrustedHTMLPipe]
 })
 export class AutodocTable {
     @Input() docBlocks: DocBlock[];
     identifierLabel: string = 'Name';
     headers: string[];
     props: string[];
-
-    constructor(private sanitizer: DomSanitizationService) {}
 
     ngOnInit(): void {
         let firstBlock = this.docBlocks[0];
@@ -34,8 +33,5 @@ export class AutodocTable {
             this.props = ['identifier', 'type', 'defaultValue', 'body'];
         }
     }
-    
-    sanitize(html: string): any {
-        return this.sanitizer.bypassSecurityTrustHtml(html);
-    }
+
 }

@@ -1,7 +1,7 @@
 import {Component, Input, ElementRef} from '@angular/core';
-import {DomSanitizationService} from '@angular/platform-browser';
 import {parseDocs, IDocumentation} from './doc-parser';
 import {AutodocTable} from './autodoc-table.component';
+import {TrustedHTMLPipe} from '../trusted-html/trusted-html.pipe';
 
 /**
  * Accepts a string of the component's source code, parses it and renders the
@@ -10,7 +10,8 @@ import {AutodocTable} from './autodoc-table.component';
 @Component({
     selector: 'gtx-autodocs',
     template: require('./autodocs.tpl.html'),
-    directives: [AutodocTable]
+    directives: [AutodocTable],
+    pipes: [TrustedHTMLPipe]
 })
 export class Autodocs {
 
@@ -19,14 +20,10 @@ export class Autodocs {
 
     docs: IDocumentation;
 
-    constructor(private elementRef: ElementRef, private sanitizer: DomSanitizationService) {}
+    constructor(private elementRef: ElementRef) {}
 
     ngOnInit(): void {
         this.docs = parseDocs(this.source, this.type);
         setTimeout(() => $(this.elementRef.nativeElement).find('pre>code').addClass('hljs'));
-    }
-    
-    sanitize(html: string): any {
-        return this.sanitizer.bypassSecurityTrustHtml(html);
     }
 }
