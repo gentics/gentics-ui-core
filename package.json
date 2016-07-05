@@ -39,12 +39,12 @@
     "ui"
   ],
   "devDependencies": {
-    "@angular/common": "2.0.0-rc.3",
-    "@angular/compiler": "2.0.0-rc.3",
-    "@angular/core": "2.0.0-rc.3",
+    "@angular/common": "2.0.0-rc.4",
+    "@angular/compiler": "2.0.0-rc.4",
+    "@angular/core": "2.0.0-rc.4",
     "@angular/forms": "0.1.1",
-    "@angular/platform-browser": "2.0.0-rc.3",
-    "@angular/platform-browser-dynamic": "2.0.0-rc.3",
+    "@angular/platform-browser": "2.0.0-rc.4",
+    "@angular/platform-browser-dynamic": "2.0.0-rc.4",
     "@angular/router": "3.0.0-alpha.8",
     "autoprefixer-loader": "^3.2.0",
     "del": "^2.2.0",
@@ -103,6 +103,6 @@
     "velocity-animate": "^1.2.3"
   },
   "peerDependencies": {
-    "@angular/core": "2.0.0-rc.3"
+    "@angular/core": "2.0.0-rc.4"
   }
 }
