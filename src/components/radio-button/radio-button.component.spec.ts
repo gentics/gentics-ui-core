@@ -369,6 +369,7 @@ describe('RadioButton', () => {
             ))
         );
 
+        // TODO: This triggers the "It looks like you're using the old forms module" warning - why?
         it('should bind the value with formControlName (inbound)',
             fakeAsync(inject([TestComponentBuilder], (tcb: TestComponentBuilder) =>
                 tcb.overrideTemplate(TestComponent, `
@@ -394,6 +395,7 @@ describe('RadioButton', () => {
             ))
         );
 
+        // TODO: This triggers the "It looks like you're using the old forms module" warning - why?
         it('should bind the value with formControlName (outbound)',
             fakeAsync(inject([TestComponentBuilder], (tcb: TestComponentBuilder) =>
                 tcb.overrideTemplate(TestComponent, `
@@ -633,6 +635,7 @@ describe('RadioGroup', () => {
         ))
     );
 
+    // TODO: This triggers the "It looks like you're using the old forms module" warning - why?
     it('should bind the check state of RadioButton children with formControlName (inbound)',
         fakeAsync(inject([TestComponentBuilder], (tcb: TestComponentBuilder) =>
             tcb.overrideTemplate(TestComponent, `
@@ -666,7 +669,8 @@ describe('RadioGroup', () => {
         ))
     );
 
-    it('should bind the check state of RadioButton children with formControlName (outbound)', // --- breaks
+    // TODO: This triggers the "It looks like you're using the old forms module" warning - why?
+    it('should bind the check state of RadioButton children with formControlName (outbound)',
         fakeAsync(inject([TestComponentBuilder], (tcb: TestComponentBuilder) =>
             tcb.overrideTemplate(TestComponent, `
                 <form [formGroup]="testForm">

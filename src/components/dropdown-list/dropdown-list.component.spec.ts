@@ -9,7 +9,7 @@ import {OverlayHostService} from '../overlay-host/overlay-host.service';
 
 let overlayHostService: OverlayHostService;
 
-fdescribe('DropdownList:', () => {
+describe('DropdownList:', () => {
 
     beforeEach(() => {
         // Create one OverlayHostService for all tests
@@ -43,8 +43,8 @@ fdescribe('DropdownList:', () => {
             .then((fixture: ComponentFixture<TestComponent>) => {
                 fixture.detectChanges();
                 tick();
-                let contentWrapper = <HTMLElement> fixture.nativeElement.querySelector('.dropdown-content-wrapper');
-                expect(contentWrapper.parentElement.classList.contains('test-component-root')).toBe(true);
+                let contentWrapper: HTMLElement = fixture.nativeElement.querySelector('.dropdown-content-wrapper');
+                expect(contentWrapper.parentElement.classList).toContain('test-component-root');
 
                 fixture.destroy();
             })

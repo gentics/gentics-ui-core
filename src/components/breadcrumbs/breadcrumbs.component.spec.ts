@@ -2,7 +2,7 @@ import {Location} from '@angular/common';
 import {SpyLocation} from '@angular/common/testing';
 import {ComponentFixture, TestComponentBuilder} from '@angular/compiler/testing';
 import {Component} from '@angular/core';
-import {beforeEachProviders, fakeAsync, inject, tick} from '@angular/core/testing';
+import {addProviders, fakeAsync, inject, tick} from '@angular/core/testing';
 import {By} from '@angular/platform-browser';
 import {Router, Route, ROUTER_DIRECTIVES, provideRouter} from '@angular/router';
 
@@ -275,11 +275,11 @@ describe('Breadcrumbs:', () => {
      * Possibly helpful: https://github.com/angular/vladivostok/issues/45
      */
     describe('Router link capabilities', () => {
-        beforeEachProviders(() => [
+        beforeEach(() => addProviders([
             ROUTER_DIRECTIVES,
             provideRouter(getRoutes()),
             { provide: Location, useClass: SpyLocation }
-        ]);
+        ]));
 
         xit('creates links with the text provided in "routerLinks"',
             fakeAsync(inject([TestComponentBuilder, Location], (tcb: TestComponentBuilder, spyLocation: SpyLocation) =>

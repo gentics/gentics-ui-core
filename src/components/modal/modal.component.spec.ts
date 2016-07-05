@@ -1,5 +1,5 @@
 import {Component, DebugElement} from '@angular/core';
-import {fakeAsync, inject, tick} from '@angular/core/testing';
+import {async, fakeAsync, inject, tick} from '@angular/core/testing';
 import {ComponentFixture, TestComponentBuilder} from '@angular/compiler/testing';
 import {By} from '@angular/platform-browser';
 
@@ -8,7 +8,7 @@ import {Modal} from './modal.component';
 describe('Modal:', () => {
 
     it('should remove the modal contents from the DOM',
-        inject([TestComponentBuilder], (tcb: TestComponentBuilder) =>
+        async(inject([TestComponentBuilder], (tcb: TestComponentBuilder) =>
             tcb.createAsync(TestComponent)
             .then((fixture: ComponentFixture<TestComponent>) => {
                 fixture.detectChanges();
@@ -17,11 +17,11 @@ describe('Modal:', () => {
                 expect(modalDebugElement.nativeElement.childElementCount).toBe(0);
                 fixture.destroy();
             })
-        )
+        ))
     );
 
     it('should append the modal to the body',
-        inject([TestComponentBuilder], (tcb: TestComponentBuilder) =>
+        async(inject([TestComponentBuilder], (tcb: TestComponentBuilder) =>
             tcb.createAsync(TestComponent)
             .then((fixture: ComponentFixture<TestComponent>) => {
                 fixture.detectChanges();
@@ -32,11 +32,11 @@ describe('Modal:', () => {
                     'modal should be appended to the body (why does this show up in other tests?)');
                 fixture.destroy();
             })
-        )
+        ))
     );
 
     it('should append the overlay to the body',
-        inject([TestComponentBuilder], (tcb: TestComponentBuilder) =>
+        async(inject([TestComponentBuilder], (tcb: TestComponentBuilder) =>
             tcb.createAsync(TestComponent)
             .then((fixture: ComponentFixture<TestComponent>) => {
                 fixture.detectChanges();
@@ -46,11 +46,11 @@ describe('Modal:', () => {
                 expect(overlay.parentNode).toBe(body);
                 fixture.destroy();
             })
-        )
+        ))
     );
 
     it('should set the modal to "display: none"',
-        inject([TestComponentBuilder], (tcb: TestComponentBuilder) =>
+        async(inject([TestComponentBuilder], (tcb: TestComponentBuilder) =>
             tcb.createAsync(TestComponent)
             .then((fixture: ComponentFixture<TestComponent>) => {
                 fixture.detectChanges();
@@ -59,11 +59,11 @@ describe('Modal:', () => {
                 expect(modal.style.display).toBe('none');
                 fixture.destroy();
             })
-        )
+        ))
     );
 
     it('should set the overlay to "display: none"',
-        inject([TestComponentBuilder], (tcb: TestComponentBuilder) =>
+        async(inject([TestComponentBuilder], (tcb: TestComponentBuilder) =>
             tcb.createAsync(TestComponent)
             .then((fixture: ComponentFixture<TestComponent>) => {
                 fixture.detectChanges();
@@ -72,13 +72,13 @@ describe('Modal:', () => {
                 expect(overlay.style.display).toBe('none');
                 fixture.destroy();
             })
-        )
+        ))
     );
 
     describe('"opened" state:', () => {
 
         it('should set the overlay to "display: block"',  // <- fails
-            inject([TestComponentBuilder], fakeAsync((tcb: TestComponentBuilder) =>
+            fakeAsync(inject([TestComponentBuilder], (tcb: TestComponentBuilder) =>
                 tcb.createAsync(TestComponent)
                 .then((fixture: ComponentFixture<TestComponent>) => {
                     fixture.detectChanges();
@@ -94,7 +94,7 @@ describe('Modal:', () => {
         );
 
         it('should set the modal to "display: block"',  // <- fails
-            inject([TestComponentBuilder], fakeAsync((tcb: TestComponentBuilder) =>
+            fakeAsync(inject([TestComponentBuilder], (tcb: TestComponentBuilder) =>
                 tcb.createAsync(TestComponent)
                 .then((fixture: ComponentFixture<TestComponent>) => {
                     fixture.detectChanges();
@@ -119,7 +119,7 @@ describe('Modal:', () => {
          * TODO: Fix the test or figure out another way to test it.
          */
         it('should fire "close" event when closeModal() called.',
-            inject([TestComponentBuilder], fakeAsync((tcb: TestComponentBuilder) =>
+            fakeAsync(inject([TestComponentBuilder], (tcb: TestComponentBuilder) =>
                 tcb.createAsync(TestComponent)
                 .then((fixture: ComponentFixture<TestComponent>) => {
                     fixture.detectChanges();

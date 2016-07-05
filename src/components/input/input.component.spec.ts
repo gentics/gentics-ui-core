@@ -1,5 +1,5 @@
 import {Component} from '@angular/core';
-import {beforeEachProviders, fakeAsync, inject, tick} from '@angular/core/testing';
+import {fakeAsync, inject, tick} from '@angular/core/testing';
 import {ComponentFixture, TestComponentBuilder} from '@angular/compiler/testing';
 import {FormControl, FormGroup, REACTIVE_FORM_DIRECTIVES} from '@angular/forms';
 
@@ -32,7 +32,7 @@ describe('InputField', () => {
                 let label: HTMLElement = fixture.nativeElement.querySelector('label');
                 fixture.detectChanges();
 
-                expect(label.classList.contains('active')).toBe(false);
+                expect(label.classList).not.toContain('active');
             })
         )
     );
@@ -47,7 +47,7 @@ describe('InputField', () => {
                 let label: HTMLElement = fixture.nativeElement.querySelector('label');
                 fixture.detectChanges();
 
-                expect(label.classList.contains('active')).toBe(true);
+                expect(label.classList).toContain('active');
             })
         )
     );
@@ -62,7 +62,7 @@ describe('InputField', () => {
                 let label: HTMLElement = fixture.nativeElement.querySelector('label');
                 fixture.detectChanges();
 
-                expect(label.classList.contains('active')).toBe(true);
+                expect(label.classList).toContain('active');
             })
         )
     );
@@ -150,15 +150,15 @@ describe('InputField', () => {
                 fixture.detectChanges();
 
                 expect(nativeInput.disabled).toBe(true);
-                expect(parseInt(nativeInput.max, 10)).toBe(100);
-                expect(parseInt(nativeInput.min, 10)).toBe(5);
+                expect(Number(nativeInput.max)).toBe(100);
+                expect(Number(nativeInput.min)).toBe(5);
                 expect(nativeInput.maxLength).toBe(25);
                 expect(nativeInput.name).toBe('testName');
                 expect(nativeInput.pattern).toBe('testRegex');
                 expect(nativeInput.placeholder).toBe('testPlaceholder');
                 expect(nativeInput.readOnly).toBe(true);
                 expect(nativeInput.required).toBe(true);
-                expect(parseInt(nativeInput.step, 10)).toBe(5);
+                expect(Number(nativeInput.step)).toBe(5);
                 expect(nativeInput.type).toBe('text');
                 expect(nativeInput.value).toBe('testValue');
             })
