@@ -21,7 +21,7 @@
     <div class="demo-result">
         <p>
            A checkbox can be mapped to boolean values or the value <code>"indeterminate"</code>
-            with <code>ngModel</code> / <code>ngControl</code> / <code>ngFormControl</code>.
+            with <code>ngModel</code> / <code>formControl</code> / <code>formControlName</code>.
         </p>
         <div class="xrow">
             <div class="column small-3">
@@ -39,17 +39,18 @@
     </div>
     <div class="demo-code">
         <gtx-highlighted-code language="HTML" code='
-            <gtx-checkbox [(ngModel)]="checkStates.A" label="A"></gtx-checkbox>
-            <gtx-checkbox [(ngModel)]="checkStates.B" label="B"></gtx-checkbox>
-            <gtx-checkbox [(ngModel)]="checkStates.C" label="C"></gtx-checkbox>
+                <gtx-checkbox [(ngModel)]="checkStates.A" label="A"></gtx-checkbox>
+                <gtx-checkbox [(ngModel)]="checkStates.B" label="B"></gtx-checkbox>
+                <gtx-checkbox [(ngModel)]="checkStates.C" label="C"></gtx-checkbox>
         '></gtx-highlighted-code>
 
-        <gtx-highlighted-code language="typescript" code="
-            checkStates: any = {
-                A: true,
-                B: false,
-                C: 'indeterminate'
-            };"></gtx-highlighted-code>
+        <gtx-highlighted-code language="typescript" code='
+                checkStates: any = {
+                    A: true,
+                    B: false,
+                    C: "indeterminate"
+                };
+        '></gtx-highlighted-code>
     </div>
 </gtx-demo-block>
 
@@ -79,6 +80,6 @@
                 <gtx-checkbox [checked]="checkText === `checked`"
                               label="This is checked when the text input == `checked`"></gtx-checkbox>
                 <gtx-input [(ngModel)]="checkText"></gtx-input>
-           '></gtx-highlighted-code>
+        '></gtx-highlighted-code>
     </div>
 </gtx-demo-block>

@@ -10,8 +10,8 @@ import {App} from './app.component';
 import {APP_ROUTER_PROVIDERS} from './app.routes';
 
 bootstrap(App, [
+    APP_ROUTER_PROVIDERS,
     disableDeprecatedForms(),
     provideForms(),
-    APP_ROUTER_PROVIDERS,
     { provide: LocationStrategy, useClass: HashLocationStrategy }
 ]);

@@ -1,5 +1,6 @@
-import {Component, Input, Output, EventEmitter, ElementRef, Optional, Self} from '@angular/core';
-import {ControlValueAccessor, NgControl} from '@angular/forms';
+import {Component, Input, Output, EventEmitter, ElementRef, Optional, Provider, Self, forwardRef} from '@angular/core';
+import {ControlValueAccessor, NG_VALUE_ACCESSOR} from '@angular/forms';
+
 import {InputField} from '../input/input.component';
 import {Modal} from '../modal/modal.component';
 import {Button} from '../button/button.component';
@@ -9,6 +10,12 @@ import {Button} from '../button/button.component';
  */
 const rome: any = require('rome');
 const momentjs: moment.MomentStatic = rome.moment;
+
+
+const GTX_DATEPICKER_VALUE_ACCESSOR = new Provider(NG_VALUE_ACCESSOR, {
+    useExisting: forwardRef(() => DateTimePicker),
+    multi: true
+});
 
 /**
  * A form control for selecting a date and (optionally) a time. Depends on [Modal](#/modal).
@@ -24,7 +31,8 @@ const momentjs: moment.MomentStatic = rome.moment;
 @Component({
     selector: 'gtx-date-time-picker',
     template: require('./date-time-picker.tpl.html'),
-    directives: [InputField, Modal, Button]
+    directives: [InputField, Modal, Button],
+    providers: [GTX_DATEPICKER_VALUE_ACCESSOR]
 })
 export class DateTimePicker implements ControlValueAccessor {
 
@@ -76,12 +84,6 @@ export class DateTimePicker implements ControlValueAccessor {
     // ValueAccessor members
     onChange: any = () => {};
     onTouched: any = () => {};
-
-    constructor(@Self() @Optional() ngControl: NgControl) {
-        if (ngControl) {
-            ngControl.valueAccessor = this;
-        }
-    }
 
     /**
      * If a timestamp has been passed in, initialize the value to that time.

@@ -1,7 +1,7 @@
 import {Component, DebugElement} from '@angular/core';
 import {FormGroup, FormControl, REACTIVE_FORM_DIRECTIVES} from '@angular/forms';
 import {By} from '@angular/platform-browser';
-import {describe, expect, fakeAsync, inject, it, tick} from '@angular/core/testing';
+import {fakeAsync, inject, tick} from '@angular/core/testing';
 import {ComponentFixture, TestComponentBuilder} from '@angular/compiler/testing';
 import {Range} from './range.component';
 
@@ -172,7 +172,7 @@ describe('Range:', () => {
             fakeAsync((tcb: TestComponentBuilder) => {
                 tcb.overrideTemplate(TestComponent, `
                     <form [formGroup]="testForm">
-                        <gtx-range formControl="test"></gtx-range>
+                        <gtx-range formControlName="test"></gtx-range>
                     </form>`)
                     .createAsync(TestComponent)
                     .then((fixture: ComponentFixture<TestComponent>) => {
@@ -187,7 +187,7 @@ describe('Range:', () => {
             fakeAsync((tcb: TestComponentBuilder) => {
                 tcb.overrideTemplate(TestComponent, `
                     <form [formGroup]="testForm">
-                        <gtx-range formControl="test"></gtx-range>
+                        <gtx-range formControlName="test"></gtx-range>
                     </form>`)
                     .createAsync(TestComponent)
                     .then((fixture: ComponentFixture<TestComponent>) => {

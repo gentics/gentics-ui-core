@@ -1,7 +1,7 @@
 import {Component} from '@angular/core';
 import {FormGroup, FormControl} from '@angular/forms';
 import {By} from '@angular/platform-browser';
-import {describe, expect, fakeAsync, inject, it, xit, tick} from '@angular/core/testing';
+import {fakeAsync, inject, tick} from '@angular/core/testing';
 import {ComponentFixture, TestComponentBuilder} from '@angular/compiler/testing';
 import {Select} from './select.component';
 

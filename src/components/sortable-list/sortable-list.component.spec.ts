@@ -1,8 +1,10 @@
 import {Component} from '@angular/core';
-import {By} from '@angular/platform-browser';
-import {describe, expect, inject, it} from '@angular/core/testing';
+import {inject} from '@angular/core/testing';
 import {ComponentFixture, TestComponentBuilder} from '@angular/compiler/testing';
+import {By} from '@angular/platform-browser';
+
 import {SortableList, ISortableEvent} from './sortable-list.component';
+
 
 describe('SortableList:', () => {
 

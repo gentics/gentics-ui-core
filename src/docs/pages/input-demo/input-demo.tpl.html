@@ -83,3 +83,47 @@
     </div>
 </gtx-demo-block>
 
+
+<gtx-demo-block title="Binding to Model-driven Forms">
+    <div class="demo-result">
+        <form [formGroup]="addressForm">
+            <div class="row small-collapse" formGroupName="name">
+                <div class="columns small-5">
+                    <gtx-input formControlName="first" label="First name"></gtx-input>
+                </div>
+                <div class="columns small-6 small-push-1">
+                    <gtx-input formControlName="last" label="Last name"></gtx-input>
+                </div>
+            </div>
+            <gtx-input [formControl]="addressForm.controls.address.controls.streetName" label="Street name"></gtx-input>
+        </form>
+        <div>
+            <pre>name.value: {{ addressForm.controls.name.value | json }}</pre>
+            <pre>addressForm.value: {{ addressForm.value | json }}</pre>
+        </div>
+    </div>
+    <div class="demo-code">
+        <gtx-highlighted-code language="TypeScript" code='
+                this.addressForm = new FormGroup({
+                    name: new FormGroup({
+                        first: new FormControl("John"),
+                        last: new FormControl("Doe")
+                    }),
+                    address: new FormGroup({
+                        streetName: new FormControl("")
+                    })
+                });
+        '></gtx-highlighted-code>
+        <gtx-highlighted-code language="HTML" code='
+                <form [formGroup]="addressForm">
+                    <div formGroupName="name">
+                        <gtx-input formControlName="first" label="First name"></gtx-input>
+                        <gtx-input formControlName="last" label="Last name"></gtx-input>
+                    </div>
+                    <gtx-input [formControl]="addressForm.controls.address.controls.streetName" label="Street name"></gtx-input>
+                </form>
+                <pre>name.value: (( addressForm.controls.name.value | json ))</pre>
+                <pre>addressForm.value: (( addressForm.value | json ))</pre>
+        '></gtx-highlighted-code>
+    </div>
+</gtx-demo-block>

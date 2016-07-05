@@ -53,11 +53,12 @@ export class Checkbox implements ControlValueAccessor {
     @Input() get checked(): boolean {
         return this.checkState === true;
     }
-    set checked(val: boolean) {
+    set checked(value: boolean) {
         this.statelessMode = true;
-        if (val != this.checkState) {
-            this.checkState = val === true || <any> val === 'true';
-            this.onChange(this.checkState);
+        let val: boolean | 'true' | '' | 'indeterminate' = <any> value;
+        let nowChecked = val === true || <any> val === 'true' || <any> val === '';
+        if (nowChecked != this.checkState) {
+            this.onChange(this.checkState = nowChecked);
         }
     }
 

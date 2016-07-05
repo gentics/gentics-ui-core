@@ -8,9 +8,9 @@ import {
     ViewChild,
     forwardRef
 } from '@angular/core';
-import {ControlValueAccessor, NG_VALUE_ACCESSOR, REACTIVE_FORM_DIRECTIVES} from '@angular/forms';
+import {ControlValueAccessor, NG_VALUE_ACCESSOR} from '@angular/forms';
 
-export const GTX_INPUT_VALUE_ACCESSOR = new Provider(NG_VALUE_ACCESSOR, {
+const GTX_INPUT_VALUE_ACCESSOR = new Provider(NG_VALUE_ACCESSOR, {
     useExisting: forwardRef(() => InputField),
     multi: true
 });
@@ -32,8 +32,7 @@ export const GTX_INPUT_VALUE_ACCESSOR = new Provider(NG_VALUE_ACCESSOR, {
 @Component({
     selector: 'gtx-input',
     template: require('./input.tpl.html'),
-    providers: [GTX_INPUT_VALUE_ACCESSOR],
-    directives: [REACTIVE_FORM_DIRECTIVES]
+    providers: [GTX_INPUT_VALUE_ACCESSOR]
 })
 export class InputField implements ControlValueAccessor {
 
@@ -100,7 +99,7 @@ export class InputField implements ControlValueAccessor {
     /**
      * Can be "text", "number" or "password".
      */
-    @Input() type: string = 'text';
+    @Input() type: 'text'|'number'|'password' = 'text';
 
     /**
      * Sets the value of the input.

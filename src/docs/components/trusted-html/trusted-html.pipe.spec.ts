@@ -1,7 +1,8 @@
 import {Component, Pipe} from '@angular/core';
-import {beforeEach, describe, expect, fakeAsync, it, inject, tick,  fit} from '@angular/core/testing';
+import {fakeAsync, inject, tick} from '@angular/core/testing';
 import {ComponentFixture, TestComponentBuilder} from '@angular/compiler/testing';
 import {DomSanitizationService} from '@angular/platform-browser/src/security/dom_sanitization_service';
+
 import {TrustedHTMLPipe} from './trusted-html.pipe';
 
 describe('TrustedHTMLPipe', () => {
@@ -22,7 +23,7 @@ describe('TrustedHTMLPipe', () => {
         });
     }));
 
-    it('is pure', fakeAsync(inject([TestComponentBuilder], (tcb: TestComponentBuilder) => {
+    it('is pure', inject([TestComponentBuilder], fakeAsync((tcb: TestComponentBuilder) => {
         tcb.overrideProviders(TrustedHTMLPipe, [{ provide: TrustedHTMLPipe, useClass: PipeMock }])
         .overrideTemplate(TestComponent, `<div [innerHTML]="html | pipeMock"></div>`)
         .createAsync(TestComponent).then(fixture => {

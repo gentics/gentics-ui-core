@@ -1,6 +1,6 @@
 import {Component, DebugElement} from '@angular/core';
 import {By} from '@angular/platform-browser';
-import {describe, expect, fakeAsync, inject, it, tick} from '@angular/core/testing';
+import {fakeAsync, inject, tick} from '@angular/core/testing';
 import {ComponentFixture, TestComponentBuilder} from '@angular/compiler/testing';
 import {SideMenu} from './side-menu.component';
 

@@ -1,16 +1,9 @@
-import {Component} from '@angular/core';
-import {
-    describe,
-    expect,
-    fakeAsync,
-    getTestInjector,
-    inject,
-    it,
-    tick
-} from '@angular/core/testing';
 import {ComponentFixture, TestComponentBuilder} from '@angular/compiler/testing';
-import {OverlayHost} from './../overlay-host/overlay-host.component';
+import {Component} from '@angular/core';
+import {fakeAsync, getTestInjector, inject, tick} from '@angular/core/testing';
+
 import {Notification} from './notification.service';
+import {OverlayHost} from './../overlay-host/overlay-host.component';
 import {OverlayHostService} from '../overlay-host/overlay-host.service';
 
 let overlayHostService: OverlayHostService;
@@ -47,170 +40,178 @@ describe('Notification:', () => {
             return fixture.nativeElement.querySelector('.gtx-toast');
         }
 
-        it('should return an object with a dismiss() method', inject([TestComponentBuilder],
-            fakeAsync((tcb: TestComponentBuilder) => {
+        it('should return an object with a dismiss() method',
+            inject([TestComponentBuilder], fakeAsync((tcb: TestComponentBuilder) =>
                 tcb.createAsync(TestComponent)
-                    .then((fixture: ComponentFixture<TestComponent>) => {
-                        fixture.detectChanges();
-                        let toast = notificationService.show({ message: 'test', delay: 0 });
-                        runShowAsyncTasks(fixture);
+                .then((fixture: ComponentFixture<TestComponent>) => {
+                    fixture.detectChanges();
+                    let toast = notificationService.show({ message: 'test', delay: 0 });
+                    runShowAsyncTasks(fixture);
 
-                        expect(toast.dismiss).toBeDefined();
-                        cleanUp(fixture);
-                    });
-            })));
+                    expect(toast.dismiss).toBeDefined();
+                    cleanUp(fixture);
+                })
+            ))
+        );
 
-        it('should add Toast component to DOM', inject([TestComponentBuilder],
-            fakeAsync((tcb: TestComponentBuilder) => {
+        it('should add Toast component to DOM',
+            inject([TestComponentBuilder], fakeAsync((tcb: TestComponentBuilder) =>
                 tcb.createAsync(TestComponent)
-                    .then((fixture: ComponentFixture<TestComponent>) => {
-                        fixture.detectChanges();
-                        notificationService.show({ message: 'test', delay: 0 });
-                        runShowAsyncTasks(fixture);
+                .then((fixture: ComponentFixture<TestComponent>) => {
+                    fixture.detectChanges();
+                    notificationService.show({ message: 'test', delay: 0 });
+                    runShowAsyncTasks(fixture);
 
-                        let toast = getToastElement(fixture);
+                    let toast = getToastElement(fixture);
 
-                        expect(toast).not.toBeNull();
-                        cleanUp(fixture);
-                    });
-            })));
+                    expect(toast).not.toBeNull();
+                    cleanUp(fixture);
+                })
+            ))
+        );
 
-        it('Toast should contain correct message', inject([TestComponentBuilder],
-            fakeAsync((tcb: TestComponentBuilder) => {
+        it('Toast should contain correct message',
+            inject([TestComponentBuilder], fakeAsync((tcb: TestComponentBuilder) =>
                 tcb.createAsync(TestComponent)
-                    .then((fixture: ComponentFixture<TestComponent>) => {
-                        fixture.detectChanges();
-                        notificationService.show({ message: 'test', delay: 0 });
-                        runShowAsyncTasks(fixture);
+                .then((fixture: ComponentFixture<TestComponent>) => {
+                    fixture.detectChanges();
+                    notificationService.show({ message: 'test', delay: 0 });
+                    runShowAsyncTasks(fixture);
 
-                        let toast = getToastElement(fixture);
+                    let toast = getToastElement(fixture);
 
-                        expect(toast.innerHTML).toContain('test');
-                        cleanUp(fixture);
-                    });
-            })));
+                    expect(toast.innerHTML).toContain('test');
+                    cleanUp(fixture);
+                })
+            ))
+        );
 
-
-        it('should remove Toast when dismiss() is invoked.', inject([TestComponentBuilder],
-            fakeAsync((tcb: TestComponentBuilder) => {
+        it('should remove Toast when dismiss() is invoked.',
+            inject([TestComponentBuilder], fakeAsync((tcb: TestComponentBuilder) =>
                 tcb.createAsync(TestComponent)
-                    .then((fixture: ComponentFixture<TestComponent>) => {
-                        fixture.detectChanges();
-                        let toast = notificationService.show({ message: 'test', delay: 0 });
-                        runShowAsyncTasks(fixture);
+                .then((fixture: ComponentFixture<TestComponent>) => {
+                    fixture.detectChanges();
+                    let toast = notificationService.show({ message: 'test', delay: 0 });
+                    runShowAsyncTasks(fixture);
 
-                        expect(getToastElement(fixture)).not.toBeNull();
+                    expect(getToastElement(fixture)).not.toBeNull();
 
-                        toast.dismiss();
-                        tick(500);
+                    toast.dismiss();
+                    tick(500);
 
-                        expect(getToastElement(fixture)).toBeNull();
-                        cleanUp(fixture);
-                    });
-            })));
+                    expect(getToastElement(fixture)).toBeNull();
+                    cleanUp(fixture);
+                })
+            ))
+        );
 
-        it('should remove Toast after timeout specified in "delay" option.', inject([TestComponentBuilder],
-            fakeAsync((tcb: TestComponentBuilder) => {
+        it('should remove Toast after timeout specified in "delay" option.',
+            inject([TestComponentBuilder], fakeAsync((tcb: TestComponentBuilder) =>
                 tcb.createAsync(TestComponent)
-                    .then((fixture: ComponentFixture<TestComponent>) => {
-                        fixture.detectChanges();
-                        notificationService.show({ message: 'test', delay: 500 });
-                        runShowAsyncTasks(fixture);
+                .then((fixture: ComponentFixture<TestComponent>) => {
+                    fixture.detectChanges();
+                    notificationService.show({ message: 'test', delay: 500 });
+                    runShowAsyncTasks(fixture);
 
-                        expect(getToastElement(fixture)).not.toBeNull();
+                    expect(getToastElement(fixture)).not.toBeNull();
 
-                        tick(500); // delay timeout
-                        tick(500); // animate away
+                    tick(500); // delay timeout
+                    tick(500); // animate away
 
-                        expect(getToastElement(fixture)).toBeNull();
-                        cleanUp(fixture);
-                    });
-            })));
+                    expect(getToastElement(fixture)).toBeNull();
+                    cleanUp(fixture);
+                })
+            ))
+        );
 
-        it('should not dismiss on click if "dismissOnClick" set to false.', inject([TestComponentBuilder],
-            fakeAsync((tcb: TestComponentBuilder) => {
+        it('should not dismiss on click if "dismissOnClick" set to false.',
+            inject([TestComponentBuilder], fakeAsync((tcb: TestComponentBuilder) =>
                 tcb.createAsync(TestComponent)
-                    .then((fixture: ComponentFixture<TestComponent>) => {
-                        fixture.detectChanges();
-                        notificationService.show({ message: 'test', delay: 0, dismissOnClick: false });
-                        runShowAsyncTasks(fixture);
+                .then((fixture: ComponentFixture<TestComponent>) => {
+                    fixture.detectChanges();
+                    notificationService.show({ message: 'test', delay: 0, dismissOnClick: false });
+                    runShowAsyncTasks(fixture);
 
-                        let toastElement = getToastElement(fixture);
-                        toastElement.click();
-                        tick(500);
+                    let toastElement = getToastElement(fixture);
+                    toastElement.click();
+                    tick(500);
 
-                        expect(getToastElement(fixture)).not.toBeNull();
-                        cleanUp(fixture);
-                    });
-            })));
+                    expect(getToastElement(fixture)).not.toBeNull();
+                    cleanUp(fixture);
+                })
+            ))
+        );
 
-        it('should dismiss on click if "dismissOnClick" set to true.', inject([TestComponentBuilder],
-            fakeAsync((tcb: TestComponentBuilder) => {
+        it('should dismiss on click if "dismissOnClick" set to true.',
+            inject([TestComponentBuilder], fakeAsync((tcb: TestComponentBuilder) =>
                 tcb.createAsync(TestComponent)
-                    .then((fixture: ComponentFixture<TestComponent>) => {
-                        fixture.detectChanges();
-                        notificationService.show({ message: 'test', delay: 0, dismissOnClick: true });
-                        runShowAsyncTasks(fixture);
+                .then((fixture: ComponentFixture<TestComponent>) => {
+                    fixture.detectChanges();
+                    notificationService.show({ message: 'test', delay: 0, dismissOnClick: true });
+                    runShowAsyncTasks(fixture);
 
-                        let toastElement = getToastElement(fixture);
-                        toastElement.click();
-                        tick(500);
+                    let toastElement = getToastElement(fixture);
+                    toastElement.click();
+                    tick(500);
 
-                        expect(getToastElement(fixture)).toBeNull();
-                        cleanUp(fixture);
-                    });
-            })));
+                    expect(getToastElement(fixture)).toBeNull();
+                    cleanUp(fixture);
+                })
+            ))
+        );
 
         describe('action option:', () => {
 
-            it('should display the label.', inject([TestComponentBuilder],
-                fakeAsync((tcb: TestComponentBuilder) => {
+            it('should display the label.',
+                inject([TestComponentBuilder], fakeAsync((tcb: TestComponentBuilder) =>
                     tcb.createAsync(TestComponent)
-                        .then((fixture: ComponentFixture<TestComponent>) => {
-                            fixture.detectChanges();
-                            notificationService.show({
-                                message: 'test',
-                                delay: 0,
-                                action: {
-                                    label: 'testLabel'
-                                }
-                            });
-                            runShowAsyncTasks(fixture);
-
-                            let actionDiv: HTMLElement = fixture.nativeElement.querySelector('.action');
-
-                            expect(actionDiv.innerText).toContain('testLabel');
-                            cleanUp(fixture);
+                    .then((fixture: ComponentFixture<TestComponent>) => {
+                        fixture.detectChanges();
+                        notificationService.show({
+                            message: 'test',
+                            delay: 0,
+                            action: {
+                                label: 'testLabel'
+                            }
                         });
-                })));
+                        runShowAsyncTasks(fixture);
 
-            it('should invoke the onClick method when clicked.', inject([TestComponentBuilder],
-                fakeAsync((tcb: TestComponentBuilder) => {
+                        let actionDiv: HTMLElement = fixture.nativeElement.querySelector('.action');
+
+                        expect(actionDiv.innerText).toContain('testLabel');
+                        cleanUp(fixture);
+                    })
+                ))
+            );
+
+            it('should invoke the onClick method when clicked',
+                inject([TestComponentBuilder], fakeAsync((tcb: TestComponentBuilder) =>
                     tcb.createAsync(TestComponent)
-                        .then((fixture: ComponentFixture<TestComponent>) => {
-                            fixture.detectChanges();
-                            let spy = jasmine.createSpy('spy');
-                            notificationService.show({
-                                message: 'test',
-                                delay: 0,
-                                action: {
-                                    label: 'testLabel',
-                                    onClick: spy
-                                }
-                            });
-                            runShowAsyncTasks(fixture);
-
-                            let actionDiv: HTMLElement = fixture.nativeElement.querySelector('.action');
-
-                            expect(spy).not.toHaveBeenCalled();
-                            actionDiv.click();
-                            tick();
-                            tick(500);
-
-                            expect(spy.calls.count()).toBe(1);
-                            cleanUp(fixture);
+                    .then((fixture: ComponentFixture<TestComponent>) => {
+                        fixture.detectChanges();
+                        let spy = jasmine.createSpy('spy');
+                        notificationService.show({
+                            message: 'test',
+                            delay: 0,
+                            action: {
+                                label: 'testLabel',
+                                onClick: spy
+                            }
                         });
-                })));
+                        runShowAsyncTasks(fixture);
+
+                        let actionDiv: HTMLElement = fixture.nativeElement.querySelector('.action');
+
+                        expect(spy).not.toHaveBeenCalled();
+                        actionDiv.click();
+                        tick();
+                        tick(500);
+
+                        expect(spy.calls.count()).toBe(1);
+                        cleanUp(fixture);
+                    })
+                ))
+            );
 
         });
 

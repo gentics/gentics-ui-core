@@ -1,5 +1,5 @@
 import {Component, ViewChild, DebugElement} from '@angular/core';
-import {describe, expect, fakeAsync, inject, xit, it, tick} from '@angular/core/testing';
+import {fakeAsync, inject, tick} from '@angular/core/testing';
 import {ComponentFixture, TestComponentBuilder} from '@angular/compiler/testing';
 import {By} from '@angular/platform-browser';
 

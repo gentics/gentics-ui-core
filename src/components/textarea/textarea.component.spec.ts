@@ -1,7 +1,7 @@
 import {Component, DebugElement} from '@angular/core';
-import {FormGroup, FormControl} from '@angular/forms';
+import {FormGroup, FormControl, REACTIVE_FORM_DIRECTIVES} from '@angular/forms';
 import {By} from '@angular/platform-browser';
-import {describe, expect, fakeAsync, inject, it, tick, xdescribe} from '@angular/core/testing';
+import {fakeAsync, inject, tick} from '@angular/core/testing';
 import {ComponentFixture, TestComponentBuilder} from '@angular/compiler/testing';
 import {Textarea} from './textarea.component';
 
@@ -225,9 +225,10 @@ describe('Textarea', () => {
 
         it('should bind the value with formControl (inbound)', inject([TestComponentBuilder],
             fakeAsync((tcb: TestComponentBuilder) => {
-                tcb.overrideTemplate(TestComponent, `<form [ngFormModel]="testForm">
-                                                                <gtx-textarea formControl="test"></gtx-textarea>
-                                                            </form>`)
+                tcb.overrideTemplate(TestComponent, `
+                        <form [formGroup]="testForm">
+                            <gtx-textarea formControlName="test"></gtx-textarea>
+                        </form>`)
                     .createAsync(TestComponent)
                     .then((fixture: ComponentFixture<TestComponent>) => {
                         fixture.detectChanges();
@@ -239,9 +240,10 @@ describe('Textarea', () => {
 
         it('should bind the value with formControl (outbound)', inject([TestComponentBuilder],
             fakeAsync((tcb: TestComponentBuilder) => {
-                tcb.overrideTemplate(TestComponent, `<form [ngFormModel]="testForm">
-                                                            <gtx-textarea formControl="test"></gtx-textarea>
-                                                        </form>`)
+                tcb.overrideTemplate(TestComponent, `
+                        <form [formGroup]="testForm">
+                            <gtx-textarea formControlName="test"></gtx-textarea>
+                        </form>`)
                     .createAsync(TestComponent)
                     .then((fixture: ComponentFixture<TestComponent>) => {
                         fixture.detectChanges();
@@ -262,18 +264,14 @@ describe('Textarea', () => {
 
 @Component({
     template: `<gtx-textarea></gtx-textarea>`,
-    directives: [Textarea]
+    directives: [Textarea, REACTIVE_FORM_DIRECTIVES]
 })
 class TestComponent {
 
     value: string = 'testValue';
-    testForm: FormGroup;
-
-    constructor() {
-        this.testForm = new FormGroup({
-            test: new FormControl('controlValue')
-        });
-    }
+    testForm: FormGroup = new FormGroup({
+        test: new FormControl('controlValue')
+    });
 
     onBlur(): void {}
     onFocus(): void {}

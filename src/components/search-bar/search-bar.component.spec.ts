@@ -1,6 +1,6 @@
 import {Component} from '@angular/core';
 import {By} from '@angular/platform-browser';
-import {describe, expect, fakeAsync, inject, it, tick} from '@angular/core/testing';
+import {fakeAsync, inject, tick} from '@angular/core/testing';
 import {ComponentFixture, TestComponentBuilder} from '@angular/compiler/testing';
 import {SearchBar} from './search-bar.component';
 
@@ -134,8 +134,8 @@ describe('SearchBar', () => {
 });
 
 @Component({
-    template: `<gtx-search-bar query="foo" 
-                               (search)="onSearch($event)" 
+    template: `<gtx-search-bar query="foo"
+                               (search)="onSearch($event)"
                                (change)="onChange($event)"
                                (clear)="onClear($event)"></gtx-search-bar>`,
     directives: [SearchBar]

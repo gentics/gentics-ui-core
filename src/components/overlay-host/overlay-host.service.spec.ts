@@ -1,10 +1,9 @@
-import {describe, expect, it} from '@angular/core/testing';
 import {OverlayHostService} from './../overlay-host/overlay-host.service';
 
 let overlayHostService: OverlayHostService;
 const dummyHostView: any = 'dummy_hostview';
 
-describe('OverlayHostService:', () => {
+fdescribe('OverlayHostService:', () => {
 
     beforeEach(() => {
         overlayHostService = new OverlayHostService();
@@ -12,7 +11,7 @@ describe('OverlayHostService:', () => {
 
     describe('getHostView()', () => {
         it('should return a promise', () => {
-            expect(overlayHostService.getHostView().then).toBeDefined();
+            expect(typeof overlayHostService.getHostView().then).toBe('function');
         });
 
         it('should resolve immediately if view is already registered', (done: Function) => {
