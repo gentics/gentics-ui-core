@@ -27,9 +27,7 @@ var forms = require('@angular/forms');
 
 testing.setBaseTestProviders(
     browser.TEST_BROWSER_DYNAMIC_PLATFORM_PROVIDERS,
-    browser.TEST_BROWSER_DYNAMIC_APPLICATION_PROVIDERS,
-    forms.disableDeprecatedForms(),
-    forms.provideForms()
+    browser.TEST_BROWSER_DYNAMIC_APPLICATION_PROVIDERS
 );
 
 require('./src/index.ts');

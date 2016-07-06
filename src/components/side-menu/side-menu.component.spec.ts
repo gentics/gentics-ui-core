@@ -61,7 +61,7 @@ describe('SideMenu', () => {
         );
 
         it('clicking toggle button should invoke "toggle()" callback with new state',
-            inject([TestComponentBuilder], fakeAsync((tcb: TestComponentBuilder) =>
+            fakeAsync(inject([TestComponentBuilder], (tcb: TestComponentBuilder) =>
                 tcb.createAsync(TestComponent)
                 .then((fixture: ComponentFixture<TestComponent>) => {
                     let testInstance: TestComponent = fixture.componentInstance;
@@ -80,7 +80,7 @@ describe('SideMenu', () => {
     });
 
     it('clicking overlay should invoke "toggle()" callback with new state',
-        inject([TestComponentBuilder], fakeAsync((tcb: TestComponentBuilder) =>
+        fakeAsync(inject([TestComponentBuilder], (tcb: TestComponentBuilder) =>
             tcb.createAsync(TestComponent)
             .then((fixture: ComponentFixture<TestComponent>) => {
                 let testInstance: TestComponent = fixture.componentInstance;
@@ -99,7 +99,7 @@ describe('SideMenu', () => {
     );
 
     it('clicking overlay when opened === false should not invoke "toggle()"',
-        inject([TestComponentBuilder], fakeAsync((tcb: TestComponentBuilder) =>
+        fakeAsync(inject([TestComponentBuilder], (tcb: TestComponentBuilder) =>
             tcb.createAsync(TestComponent)
             .then((fixture: ComponentFixture<TestComponent>) => {
                 let testInstance: TestComponent = fixture.componentInstance;

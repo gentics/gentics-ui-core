@@ -8,7 +8,7 @@ import {SplitViewContainer} from './split-view-container.component';
 describe('SplitViewContainer', () => {
 
     it('should have a "rightPanelVisible" property that allows double-binding',
-        inject([TestComponentBuilder], fakeAsync((tcb: TestComponentBuilder) =>
+        fakeAsync(inject([TestComponentBuilder], (tcb: TestComponentBuilder) =>
             tcb.overrideTemplate(TestComponent, `
                 <gtx-split-view-container
                     [rightPanelVisible]="hasRight"
@@ -39,7 +39,7 @@ describe('SplitViewContainer', () => {
     );
 
     it('should have a "focusedPanel" property that allows double-binding',
-        inject([TestComponentBuilder], fakeAsync((tcb: TestComponentBuilder) =>
+        fakeAsync(inject([TestComponentBuilder], (tcb: TestComponentBuilder) =>
             tcb.overrideTemplate(TestComponent, `
                 <gtx-split-view-container
                     [rightPanelVisible]="true"
@@ -71,7 +71,7 @@ describe('SplitViewContainer', () => {
     );
 
     it('should transclude elements with "left" and "right" attribute to the container on their side',
-        inject([TestComponentBuilder], fakeAsync((tcb: TestComponentBuilder) =>
+        fakeAsync(inject([TestComponentBuilder], (tcb: TestComponentBuilder) =>
             tcb.overrideTemplate(TestComponent, `
                 <gtx-split-view-container>
                     <div right class="should-be-right"></div>
@@ -105,7 +105,7 @@ describe('SplitViewContainer', () => {
     );
 
     it('should change "focusedPanel" to "left" when the right panel is hidden/closed',
-        inject([TestComponentBuilder], fakeAsync((tcb: TestComponentBuilder) =>
+        fakeAsync(inject([TestComponentBuilder], (tcb: TestComponentBuilder) =>
             tcb.overrideTemplate(TestComponent, `
                 <gtx-split-view-container
                     [(focusedPanel)]="focusedSide"
@@ -136,7 +136,7 @@ describe('SplitViewContainer', () => {
     );
 
     it('should emit "rightPanelOpened" when "rightPanelVisible" is changed to true',
-        inject([TestComponentBuilder], fakeAsync((tcb: TestComponentBuilder) =>
+        fakeAsync(inject([TestComponentBuilder], (tcb: TestComponentBuilder) =>
             tcb.overrideTemplate(TestComponent, `
                 <gtx-split-view-container
                     [rightPanelVisible]="hasRight"
@@ -161,7 +161,7 @@ describe('SplitViewContainer', () => {
     );
 
     it('should emit "rightPanelClosed" when "rightPanelVisible" is changed to false',
-        inject([TestComponentBuilder], fakeAsync((tcb: TestComponentBuilder) =>
+        fakeAsync(inject([TestComponentBuilder], (tcb: TestComponentBuilder) =>
             tcb.overrideTemplate(TestComponent, `
                 <gtx-split-view-container
                     [rightPanelVisible]="hasRight"
@@ -186,7 +186,7 @@ describe('SplitViewContainer', () => {
     );
 
     it('should emit "leftPanelFocused" when "focusedPanel" is changed to "left"',
-        inject([TestComponentBuilder], fakeAsync((tcb: TestComponentBuilder) =>
+        fakeAsync(inject([TestComponentBuilder], (tcb: TestComponentBuilder) =>
             tcb.overrideTemplate(TestComponent, `
                 <gtx-split-view-container
                     [rightPanelVisible]="true"
@@ -213,7 +213,7 @@ describe('SplitViewContainer', () => {
     );
 
     it('should emit "rightPanelFocused" when "focusedPanel" is changed to "right"',
-        inject([TestComponentBuilder], fakeAsync((tcb: TestComponentBuilder) =>
+        fakeAsync(inject([TestComponentBuilder], (tcb: TestComponentBuilder) =>
             tcb.overrideTemplate(TestComponent, `
                 <gtx-split-view-container
                     [rightPanelVisible]="true"

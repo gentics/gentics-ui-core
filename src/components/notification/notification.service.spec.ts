@@ -41,7 +41,7 @@ describe('Notification:', () => {
         }
 
         it('should return an object with a dismiss() method',
-            inject([TestComponentBuilder], fakeAsync((tcb: TestComponentBuilder) =>
+            fakeAsync(inject([TestComponentBuilder], (tcb: TestComponentBuilder) =>
                 tcb.createAsync(TestComponent)
                 .then((fixture: ComponentFixture<TestComponent>) => {
                     fixture.detectChanges();
@@ -55,7 +55,7 @@ describe('Notification:', () => {
         );
 
         it('should add Toast component to DOM',
-            inject([TestComponentBuilder], fakeAsync((tcb: TestComponentBuilder) =>
+            fakeAsync(inject([TestComponentBuilder], (tcb: TestComponentBuilder) =>
                 tcb.createAsync(TestComponent)
                 .then((fixture: ComponentFixture<TestComponent>) => {
                     fixture.detectChanges();
@@ -71,7 +71,7 @@ describe('Notification:', () => {
         );
 
         it('Toast should contain correct message',
-            inject([TestComponentBuilder], fakeAsync((tcb: TestComponentBuilder) =>
+            fakeAsync(inject([TestComponentBuilder], (tcb: TestComponentBuilder) =>
                 tcb.createAsync(TestComponent)
                 .then((fixture: ComponentFixture<TestComponent>) => {
                     fixture.detectChanges();
@@ -87,7 +87,7 @@ describe('Notification:', () => {
         );
 
         it('should remove Toast when dismiss() is invoked.',
-            inject([TestComponentBuilder], fakeAsync((tcb: TestComponentBuilder) =>
+            fakeAsync(inject([TestComponentBuilder], (tcb: TestComponentBuilder) =>
                 tcb.createAsync(TestComponent)
                 .then((fixture: ComponentFixture<TestComponent>) => {
                     fixture.detectChanges();
@@ -106,7 +106,7 @@ describe('Notification:', () => {
         );
 
         it('should remove Toast after timeout specified in "delay" option.',
-            inject([TestComponentBuilder], fakeAsync((tcb: TestComponentBuilder) =>
+            fakeAsync(inject([TestComponentBuilder], (tcb: TestComponentBuilder) =>
                 tcb.createAsync(TestComponent)
                 .then((fixture: ComponentFixture<TestComponent>) => {
                     fixture.detectChanges();
@@ -125,7 +125,7 @@ describe('Notification:', () => {
         );
 
         it('should not dismiss on click if "dismissOnClick" set to false.',
-            inject([TestComponentBuilder], fakeAsync((tcb: TestComponentBuilder) =>
+            fakeAsync(inject([TestComponentBuilder], (tcb: TestComponentBuilder) =>
                 tcb.createAsync(TestComponent)
                 .then((fixture: ComponentFixture<TestComponent>) => {
                     fixture.detectChanges();
@@ -143,7 +143,7 @@ describe('Notification:', () => {
         );
 
         it('should dismiss on click if "dismissOnClick" set to true.',
-            inject([TestComponentBuilder], fakeAsync((tcb: TestComponentBuilder) =>
+            fakeAsync(inject([TestComponentBuilder], (tcb: TestComponentBuilder) =>
                 tcb.createAsync(TestComponent)
                 .then((fixture: ComponentFixture<TestComponent>) => {
                     fixture.detectChanges();
@@ -163,7 +163,7 @@ describe('Notification:', () => {
         describe('action option:', () => {
 
             it('should display the label.',
-                inject([TestComponentBuilder], fakeAsync((tcb: TestComponentBuilder) =>
+                fakeAsync(inject([TestComponentBuilder], (tcb: TestComponentBuilder) =>
                     tcb.createAsync(TestComponent)
                     .then((fixture: ComponentFixture<TestComponent>) => {
                         fixture.detectChanges();
@@ -185,7 +185,7 @@ describe('Notification:', () => {
             );
 
             it('should invoke the onClick method when clicked',
-                inject([TestComponentBuilder], fakeAsync((tcb: TestComponentBuilder) =>
+                fakeAsync(inject([TestComponentBuilder], (tcb: TestComponentBuilder) =>
                     tcb.createAsync(TestComponent)
                     .then((fixture: ComponentFixture<TestComponent>) => {
                         fixture.detectChanges();

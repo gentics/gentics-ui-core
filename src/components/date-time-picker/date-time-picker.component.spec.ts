@@ -1,7 +1,7 @@
 import {ComponentFixture, TestComponentBuilder} from '@angular/compiler/testing';
 import {Component, ViewChild} from '@angular/core';
-import {fakeAsync, inject, tick} from '@angular/core/testing';
-import {FormGroup, FormControl, REACTIVE_FORM_DIRECTIVES} from '@angular/forms';
+import {addProviders, async, fakeAsync, inject, tick} from '@angular/core/testing';
+import {FormGroup, FormControl, disableDeprecatedForms, provideForms, REACTIVE_FORM_DIRECTIVES} from '@angular/forms';
 import {By} from '@angular/platform-browser';
 
 import {DateTimePicker} from './date-time-picker.component';
@@ -11,8 +11,13 @@ const TEST_TIMESTAMP: number = 1457971763;
 
 describe('DateTimePicker:', () => {
 
+    beforeEach(() => addProviders([
+        disableDeprecatedForms(),
+        provideForms()
+    ]));
+
     it('should bind the label',
-        inject([TestComponentBuilder], (tcb: TestComponentBuilder) =>
+        async(inject([TestComponentBuilder], (tcb: TestComponentBuilder) =>
             tcb.overrideTemplate(TestComponent, `
                 <gtx-date-time-picker label="test"></gtx-date-time-picker>
             `)
@@ -24,11 +29,11 @@ describe('DateTimePicker:', () => {
                 expect(label.innerText.trim()).toBe('test');
                 fixture.destroy();
             })
-        )
+        ))
     );
 
     it('should display the time-picker when displayTime=true',
-        inject([TestComponentBuilder], (tcb: TestComponentBuilder) =>
+        async(inject([TestComponentBuilder], (tcb: TestComponentBuilder) =>
             tcb.overrideTemplate(TestComponent, `
                 <gtx-date-time-picker label="test" displayTime="true">
                 </gtx-date-time-picker>
@@ -41,11 +46,11 @@ describe('DateTimePicker:', () => {
                 expect(timePickerDiv).not.toBeNull();
                 fixture.destroy();
             })
-        )
+        ))
     );
 
     it('should not display the time-picker when displayTime=false',
-        inject([TestComponentBuilder], (tcb: TestComponentBuilder) =>
+        async(inject([TestComponentBuilder], (tcb: TestComponentBuilder) =>
             tcb.overrideTemplate(TestComponent, `
                 <gtx-date-time-picker label="test" displayTime="false"></gtx-date-time-picker>
             `)
@@ -57,14 +62,14 @@ describe('DateTimePicker:', () => {
                 expect(timePickerDiv).toBeNull();
                 fixture.destroy();
             })
-        )
+        ))
     );
 
 
     describe('binding timestamp value:', () => {
 
         it('should default to current time if "timestamp" not set',
-            inject([TestComponentBuilder], (tcb: TestComponentBuilder) =>
+            async(inject([TestComponentBuilder], (tcb: TestComponentBuilder) =>
                 tcb.overrideTemplate(TestComponent, `
                     <gtx-date-time-picker></gtx-date-time-picker>
                 `)
@@ -76,11 +81,11 @@ describe('DateTimePicker:', () => {
                     expect(pickerInstance.value.date()).toEqual(new Date().getDate());
                     fixture.destroy();
                 })
-            )
+            ))
         );
 
         it('should bind to the a literal value of "timestamp"',
-            inject([TestComponentBuilder], (tcb: TestComponentBuilder) =>
+            async(inject([TestComponentBuilder], (tcb: TestComponentBuilder) =>
                 tcb.overrideTemplate(TestComponent, `
                     <gtx-date-time-picker timestamp="${TEST_TIMESTAMP}">
                     </gtx-date-time-picker>
@@ -93,11 +98,11 @@ describe('DateTimePicker:', () => {
                     expect(pickerInstance.value.unix()).toEqual(TEST_TIMESTAMP);
                     fixture.destroy();
                 })
-            )
+            ))
         );
 
         it('should bind to the a variable value of "timestamp"',
-            inject([TestComponentBuilder], (tcb: TestComponentBuilder) =>
+            async(inject([TestComponentBuilder], (tcb: TestComponentBuilder) =>
                 tcb.overrideTemplate(TestComponent, `
                     <gtx-date-time-picker [timestamp]="testModel">
                     </gtx-date-time-picker>
@@ -110,7 +115,7 @@ describe('DateTimePicker:', () => {
                     expect(pickerInstance.value.unix()).toEqual(TEST_TIMESTAMP);
                     fixture.destroy();
                 })
-            )
+            ))
         );
 
     });
@@ -118,7 +123,7 @@ describe('DateTimePicker:', () => {
     describe('input display:', () => {
 
         it('should have an empty input if timestamp is not set',
-            inject([TestComponentBuilder], (tcb: TestComponentBuilder) =>
+            async(inject([TestComponentBuilder], (tcb: TestComponentBuilder) =>
                 tcb.overrideTemplate(TestComponent, `
                     <gtx-date-time-picker></gtx-date-time-picker>
                 `)
@@ -130,11 +135,11 @@ describe('DateTimePicker:', () => {
                     expect(input.value.trim()).toBe('');
                     fixture.destroy();
                 })
-            )
+            ))
         );
 
         it('should format the timestamp in the input when displayTime=false',
-            inject([TestComponentBuilder], (tcb: TestComponentBuilder) =>
+            async(inject([TestComponentBuilder], (tcb: TestComponentBuilder) =>
                 tcb.overrideTemplate(TestComponent, `
                     <gtx-date-time-picker timestamp="1457971763" displayTime="false">
                     </gtx-date-time-picker>
@@ -147,11 +152,11 @@ describe('DateTimePicker:', () => {
                     expect(input.value.trim()).toBe('14/03/2016');
                     fixture.destroy();
                 })
-            )
+            ))
         );
 
         it('should format the timestamp in the input when displayTime=true',
-            inject([TestComponentBuilder], (tcb: TestComponentBuilder) =>
+            async(inject([TestComponentBuilder], (tcb: TestComponentBuilder) =>
                 tcb.overrideTemplate(TestComponent, `
                     <gtx-date-time-picker timestamp="${TEST_TIMESTAMP}" displayTime="true">
                     </gtx-date-time-picker>
@@ -164,11 +169,11 @@ describe('DateTimePicker:', () => {
                     expect(input.value.trim()).toBe('14/03/2016, 17:09:23');
                     fixture.destroy();
                 })
-            )
+            ))
         );
 
         it('should format the timestamp when "timestamp" bound to variable',
-            inject([TestComponentBuilder], (tcb: TestComponentBuilder) =>
+            async(inject([TestComponentBuilder], (tcb: TestComponentBuilder) =>
                 tcb.overrideTemplate(TestComponent, `
                     <gtx-date-time-picker [timestamp]="testModel" displayTime="true">
                     </gtx-date-time-picker>
@@ -181,11 +186,11 @@ describe('DateTimePicker:', () => {
                     expect(input.value.trim()).toBe('14/03/2016, 17:09:23');
                     fixture.destroy();
                 })
-            )
+            ))
         );
 
         it('should format the timestamp with custom format string',
-            inject([TestComponentBuilder], (tcb: TestComponentBuilder) =>
+            async(inject([TestComponentBuilder], (tcb: TestComponentBuilder) =>
                 tcb.overrideTemplate(TestComponent, `
                     <gtx-date-time-picker timestamp="${TEST_TIMESTAMP}" format="YY-MM-ddd">
                     </gtx-date-time-picker>
@@ -198,7 +203,7 @@ describe('DateTimePicker:', () => {
                     expect(input.value.trim()).toBe('16-03-Mon');
                     fixture.destroy();
                 })
-            )
+            ))
         );
     });
 
@@ -208,7 +213,7 @@ describe('DateTimePicker:', () => {
         let nativeInput: HTMLInputElement;
         let instance: TestComponent;
 
-        beforeEach(inject([TestComponentBuilder], fakeAsync((tcb: TestComponentBuilder) =>
+        beforeEach(fakeAsync(inject([TestComponentBuilder], (tcb: TestComponentBuilder) =>
             tcb.overrideTemplate(TestComponent, `
                 <gtx-date-time-picker
                     timestamp="${TEST_TIMESTAMP}"
@@ -216,7 +221,7 @@ describe('DateTimePicker:', () => {
                 </gtx-date-time-picker>
             `)
             .createAsync(TestComponent)
-            .then((_fixture: ComponentFixture<TestComponent>) => {
+            .then(_fixture => {
                 fixture = _fixture;
                 instance = fixture.componentInstance;
 
@@ -257,7 +262,7 @@ describe('DateTimePicker:', () => {
         let fixture: ComponentFixture<TestComponent>;
         let pickerInstance: DateTimePicker;
 
-        beforeEach(inject([TestComponentBuilder], fakeAsync((tcb: TestComponentBuilder) =>
+        beforeEach(fakeAsync(inject([TestComponentBuilder], (tcb: TestComponentBuilder) =>
             tcb.overrideTemplate(TestComponent, `
                 <gtx-date-time-picker
                     timestamp="${TEST_TIMESTAMP}"
@@ -265,7 +270,7 @@ describe('DateTimePicker:', () => {
                 </gtx-date-time-picker>
             `)
             .createAsync(TestComponent)
-            .then((_fixture: ComponentFixture<TestComponent>) => {
+            .then(_fixture => {
                 fixture = _fixture;
                 fixture.detectChanges();
                 pickerInstance = fixture.componentInstance.pickerInstance;
@@ -317,7 +322,7 @@ describe('DateTimePicker:', () => {
     describe('ValueAccessor:', () => {
 
         it('should bind the value with NgModel (inbound)',
-            inject([TestComponentBuilder], fakeAsync((tcb: TestComponentBuilder) =>
+            fakeAsync(inject([TestComponentBuilder], (tcb: TestComponentBuilder) =>
                 tcb.overrideTemplate(TestComponent, `
                     <gtx-date-time-picker [(ngModel)]="testModel">
                     </gtx-date-time-picker>
@@ -341,7 +346,7 @@ describe('DateTimePicker:', () => {
         );
 
         it('should bind the value with NgModel (outbound)',
-            inject([TestComponentBuilder], fakeAsync((tcb: TestComponentBuilder) =>
+            fakeAsync(inject([TestComponentBuilder], (tcb: TestComponentBuilder) =>
                 tcb.overrideTemplate(TestComponent, `
                     <gtx-date-time-picker [(ngModel)]="testModel">
                     </gtx-date-time-picker>

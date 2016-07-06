@@ -1,14 +1,19 @@
 import {ComponentFixture, TestComponentBuilder} from '@angular/compiler/testing';
 import {Component, ViewChild} from '@angular/core';
-import {fakeAsync, inject, tick} from '@angular/core/testing';
-import {FormGroup, FormControl} from '@angular/forms';
+import {addProviders, async, fakeAsync, inject, tick} from '@angular/core/testing';
+import {FormGroup, FormControl, disableDeprecatedForms, provideForms, REACTIVE_FORM_DIRECTIVES} from '@angular/forms';
 
 import {Select} from './select.component';
 
 describe('Select:', () => {
 
+    beforeEach(() => addProviders([
+        disableDeprecatedForms(),
+        provideForms()
+    ]));
+
     it('should bind the label',
-        inject([TestComponentBuilder], (tcb: TestComponentBuilder) =>
+        async(inject([TestComponentBuilder], (tcb: TestComponentBuilder) =>
             tcb.overrideTemplate(TestComponent, `
                 <gtx-select label="testLabel"></gtx-select>
             `)
@@ -19,11 +24,11 @@ describe('Select:', () => {
 
                 expect(label.innerText).toBe('testLabel');
             })
-        )
+        ))
     );
 
     it('should bind the id to the label and input',
-        inject([TestComponentBuilder], (tcb: TestComponentBuilder) =>
+        async(inject([TestComponentBuilder], (tcb: TestComponentBuilder) =>
             tcb.overrideTemplate(TestComponent, `
                 <gtx-select label="testLabel" id="testId"></gtx-select>
             `)
@@ -37,11 +42,11 @@ describe('Select:', () => {
                 expect(label.htmlFor).toBe('testId');
                 expect(nativeSelect.id).toBe('testId');
             })
-        )
+        ))
     );
 
     it('should use defaults for undefined attributes which have a default',
-        inject([TestComponentBuilder], (tcb: TestComponentBuilder) =>
+        async(inject([TestComponentBuilder], (tcb: TestComponentBuilder) =>
             tcb.overrideTemplate(TestComponent, `
                 <gtx-select></gtx-select>
             `)
@@ -54,11 +59,11 @@ describe('Select:', () => {
                 expect(nativeSelect.multiple).toBe(false);
                 expect(nativeSelect.required).toBe(false);
             })
-        )
+        ))
     );
 
     it('should not display undefined attributes',
-        inject([TestComponentBuilder], (tcb: TestComponentBuilder) =>
+        async(inject([TestComponentBuilder], (tcb: TestComponentBuilder) =>
             tcb.overrideTemplate(TestComponent, `
                 <gtx-select></gtx-select>
             `)
@@ -71,11 +76,11 @@ describe('Select:', () => {
                 expect(getAttr('id')).toBe(null);
                 expect(getAttr('name')).toBe(null);
             })
-        )
+        ))
     );
 
     it('should pass through the native attributes',
-        inject([TestComponentBuilder], (tcb: TestComponentBuilder) =>
+        async(inject([TestComponentBuilder], (tcb: TestComponentBuilder) =>
             tcb.overrideTemplate(TestComponent, `
                 <gtx-select
                     disabled="true"
@@ -94,11 +99,11 @@ describe('Select:', () => {
                 expect(nativeSelect.name).toBe('testName');
                 expect(nativeSelect.required).toBe(true);
             })
-        )
+        ))
     );
 
     it('should accept a "value" string and make the matching option "selected"',
-        inject([TestComponentBuilder], (tcb: TestComponentBuilder) =>
+        async(inject([TestComponentBuilder], (tcb: TestComponentBuilder) =>
             tcb.createAsync(TestComponent)
             .then((fixture: ComponentFixture<TestComponent>) => {
                 fixture.detectChanges();
@@ -107,11 +112,11 @@ describe('Select:', () => {
 
                 expect(optionBar.selected).toBe(true);
             })
-        )
+        ))
     );
 
     it('should accept a "value" array and make the matching options "selected" (multi select)',
-        inject([TestComponentBuilder], fakeAsync((tcb: TestComponentBuilder) =>
+        fakeAsync(inject([TestComponentBuilder], (tcb: TestComponentBuilder) =>
             tcb.overrideTemplate(TestComponent, `
                 <gtx-select [value]="multiValue" multiple="true">
                     <option *ngFor="let option of options" [value]="option">{{ option }}</option>
@@ -132,7 +137,7 @@ describe('Select:', () => {
     );
 
     it('should update "value" when another option is clicked',
-        inject([TestComponentBuilder], fakeAsync((tcb: TestComponentBuilder) =>
+        fakeAsync(inject([TestComponentBuilder], (tcb: TestComponentBuilder) =>
             tcb.createAsync(TestComponent)
             .then((fixture: ComponentFixture<TestComponent>) => {
                 fixture.detectChanges();
@@ -156,7 +161,7 @@ describe('Select:', () => {
      * then re-enable
      */
     xit('should emit "blur" when input blurs, with current value',
-        inject([TestComponentBuilder], fakeAsync((tcb: TestComponentBuilder) =>
+        fakeAsync(inject([TestComponentBuilder], (tcb: TestComponentBuilder) =>
             tcb.createAsync(TestComponent)
             .then((fixture: ComponentFixture<TestComponent>) => {
                 fixture.detectChanges();
@@ -176,7 +181,7 @@ describe('Select:', () => {
     );
 
     it('should emit "change" when a list item is clicked',
-        inject([TestComponentBuilder], fakeAsync((tcb: TestComponentBuilder) =>
+        fakeAsync(inject([TestComponentBuilder], (tcb: TestComponentBuilder) =>
             tcb.createAsync(TestComponent)
             .then((fixture: ComponentFixture<TestComponent>) => {
                 fixture.detectChanges();
@@ -198,7 +203,7 @@ describe('Select:', () => {
     );
 
     it('should emit "change" when a list item is clicked (multiple select)',
-        inject([TestComponentBuilder], fakeAsync((tcb: TestComponentBuilder) =>
+        fakeAsync(inject([TestComponentBuilder], (tcb: TestComponentBuilder) =>
             tcb.overrideTemplate(TestComponent, `
                 <gtx-select multiple="true" [value]="value" (change)="onChange($event)">
                     <option *ngFor="let option of options" [value]="option">{{ option }}</option>
@@ -225,7 +230,7 @@ describe('Select:', () => {
     );
 
     it('should emit "change" with an empty array when multiple select has no selected options',
-        inject([TestComponentBuilder], fakeAsync((tcb: TestComponentBuilder) =>
+        fakeAsync(inject([TestComponentBuilder], (tcb: TestComponentBuilder) =>
             tcb.overrideTemplate(TestComponent, `
                 <gtx-select multiple="true" [value]="value" (change)="onChange($event)">
                       <option *ngFor="let option of options" [value]="option">{{ option }}</option>
@@ -251,7 +256,7 @@ describe('Select:', () => {
 
         // TODO: Fails with "No value accessor for ''", although there is a value accessor defined
         xit('should bind the value with NgModel (outbound)',
-            inject([TestComponentBuilder], fakeAsync((tcb: TestComponentBuilder) =>
+            fakeAsync(inject([TestComponentBuilder], (tcb: TestComponentBuilder) =>
                 tcb.overrideTemplate(TestComponent, `
                     <gtx-select [(ngModel)]="ngModelValue">
                          <option *ngFor="let option of options" [value]="option">{{ option }}</option>
@@ -282,7 +287,7 @@ describe('Select:', () => {
 
         // TODO: Fails with "No value accessor for ''", although there is a value accessor defined
         xit('should bind the value with formControlName (outbound)',
-            inject([TestComponentBuilder], fakeAsync((tcb: TestComponentBuilder) =>
+            fakeAsync(inject([TestComponentBuilder], (tcb: TestComponentBuilder) =>
                 tcb.overrideTemplate(TestComponent, `
                     <form [formGroup]="testForm">
                         <gtx-select formControlName="test">
@@ -316,7 +321,7 @@ describe('Select:', () => {
         * This causes a "1 periodic timer(s) still in the queue"" Error
         */
         xit('should mark the component as "touched" when native input blurs',
-            inject([TestComponentBuilder], fakeAsync((tcb: TestComponentBuilder) =>
+            fakeAsync(inject([TestComponentBuilder], (tcb: TestComponentBuilder) =>
                 tcb.overrideTemplate(TestComponent, `
                     <form [formGroup]="testForm">
                         <gtx-select formControlName="test">
@@ -358,7 +363,7 @@ describe('Select:', () => {
         >
             <option *ngFor="let option of options" [value]="option">{{ option }}</option>
         </gtx-select>`,
-    directives: [Select]
+    directives: [Select, REACTIVE_FORM_DIRECTIVES]
 })
 class TestComponent {
 

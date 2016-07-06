@@ -10,10 +10,11 @@ import {
 } from '@angular/core';
 import {ControlValueAccessor, NG_VALUE_ACCESSOR} from '@angular/forms';
 
-const GTX_INPUT_VALUE_ACCESSOR = new Provider(NG_VALUE_ACCESSOR, {
+const GTX_INPUT_VALUE_ACCESSOR = {
+    provide: NG_VALUE_ACCESSOR,
     useExisting: forwardRef(() => InputField),
     multi: true
-});
+};
 
 /**
  * The InputField wraps the native `<input>` form element but should only be used for

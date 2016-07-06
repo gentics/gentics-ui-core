@@ -10,7 +10,7 @@ import {ProgressBar} from './progress-bar.component';
 describe('ProgressBar', () => {
 
     it('starts out as "not active"',
-        inject([TestComponentBuilder], fakeAsync((tcb: TestComponentBuilder) =>
+        fakeAsync(inject([TestComponentBuilder], (tcb: TestComponentBuilder) =>
             tcb.overrideTemplate(TestComponent, `
                 <gtx-progress-bar></gtx-progress-bar>
             `)
@@ -29,7 +29,7 @@ describe('ProgressBar', () => {
     );
 
     it('returns the value bound to "active"',
-        inject([TestComponentBuilder], fakeAsync((tcb: TestComponentBuilder) =>
+        fakeAsync(inject([TestComponentBuilder], (tcb: TestComponentBuilder) =>
             tcb.overrideTemplate(TestComponent, `
                 <gtx-progress-bar [active]="loadingSomething">
                 </gtx-progress-bar>
@@ -53,7 +53,7 @@ describe('ProgressBar', () => {
     );
 
     it('sets the "active" property when calling "start()" and "complete()"',
-        inject([TestComponentBuilder], fakeAsync((tcb: TestComponentBuilder) =>
+        fakeAsync(inject([TestComponentBuilder], (tcb: TestComponentBuilder) =>
             tcb.overrideTemplate(TestComponent, `
                 <gtx-progress-bar></gtx-progress-bar>
             `)
@@ -74,7 +74,7 @@ describe('ProgressBar', () => {
     );
 
     it('sets the "active" property when "progress" is set to 100%',
-        inject([TestComponentBuilder], fakeAsync((tcb: TestComponentBuilder) =>
+        fakeAsync(inject([TestComponentBuilder], (tcb: TestComponentBuilder) =>
             tcb.overrideTemplate(TestComponent, `
                 <gtx-progress-bar [active]="loadingSomething" [progress]="loadProgress">
                 </gtx-progress-bar>
@@ -103,7 +103,7 @@ describe('ProgressBar', () => {
     );
 
     it('grows its progress indicator in indeterminate mode',
-        inject([TestComponentBuilder], fakeAsync((tcb: TestComponentBuilder) =>
+        fakeAsync(inject([TestComponentBuilder], (tcb: TestComponentBuilder) =>
             tcb.overrideTemplate(TestComponent, `
                 <gtx-progress-bar [active]="loadingSomething">
                 </gtx-progress-bar>
@@ -142,7 +142,7 @@ describe('ProgressBar', () => {
     );
 
     it('grows its progress indicator with the "progress" property in determinate mode',
-        inject([TestComponentBuilder], fakeAsync((tcb: TestComponentBuilder) =>
+        fakeAsync(inject([TestComponentBuilder], (tcb: TestComponentBuilder) =>
             tcb.overrideTemplate(TestComponent, `
                 <gtx-progress-bar [active]="loadingSomething" [progress]="loadProgress">
                 </gtx-progress-bar>
@@ -200,7 +200,7 @@ describe('ProgressBar', () => {
     );
 
     it('start(Promise) changes the "active" property when the passed Promise is resolved',
-        inject([TestComponentBuilder], fakeAsync((tcb: TestComponentBuilder) =>
+        fakeAsync(inject([TestComponentBuilder], (tcb: TestComponentBuilder) =>
             tcb.overrideTemplate(TestComponent, `
                 <gtx-progress-bar></gtx-progress-bar>
             `)
@@ -227,7 +227,7 @@ describe('ProgressBar', () => {
 
 
     it('start(Promise) changes the "active" property when the passed Promise is rejected',
-        inject([TestComponentBuilder], fakeAsync((tcb: TestComponentBuilder) =>
+        fakeAsync(inject([TestComponentBuilder], (tcb: TestComponentBuilder) =>
             tcb.overrideTemplate(TestComponent, `
                 <gtx-progress-bar></gtx-progress-bar>
             `)
@@ -253,7 +253,7 @@ describe('ProgressBar', () => {
     );
 
     it('start(Observable) changes the "active" property when the Observable completes',
-        inject([TestComponentBuilder], fakeAsync((tcb: TestComponentBuilder) =>
+        fakeAsync(inject([TestComponentBuilder], (tcb: TestComponentBuilder) =>
             tcb.overrideTemplate(TestComponent, `
                 <gtx-progress-bar></gtx-progress-bar>
             `)
@@ -278,7 +278,7 @@ describe('ProgressBar', () => {
     );
 
     it('start(Observable) changes the "active" property when the Observable has errors',
-        inject([TestComponentBuilder], fakeAsync((tcb: TestComponentBuilder) =>
+        fakeAsync(inject([TestComponentBuilder], (tcb: TestComponentBuilder) =>
             tcb.overrideTemplate(TestComponent, `
                 <gtx-progress-bar></gtx-progress-bar>
             `)

@@ -1,15 +1,20 @@
 import {ComponentFixture, TestComponentBuilder} from '@angular/compiler/testing';
 import {Component, DebugElement, ViewChild} from '@angular/core';
-import {fakeAsync, inject, tick} from '@angular/core/testing';
-import {FormGroup, FormControl, REACTIVE_FORM_DIRECTIVES} from '@angular/forms';
+import {addProviders, async, fakeAsync, inject, tick} from '@angular/core/testing';
+import {FormGroup, FormControl, disableDeprecatedForms, provideForms, REACTIVE_FORM_DIRECTIVES} from '@angular/forms';
 import {By} from '@angular/platform-browser';
 
 import {RadioButton, RadioGroup} from './radio-button.component';
 
 describe('RadioButton', () => {
 
+    beforeEach(() => addProviders([
+        disableDeprecatedForms(),
+        provideForms()
+    ]));
+
     it('should bind the label',
-        inject([TestComponentBuilder], (tcb: TestComponentBuilder) =>
+        async(inject([TestComponentBuilder], (tcb: TestComponentBuilder) =>
             tcb.overrideTemplate(TestComponent, `
                 <gtx-radio-button label="testLabel"></gtx-radio-button>
             `)
@@ -19,11 +24,11 @@ describe('RadioButton', () => {
                 fixture.detectChanges();
                 expect(label.innerText).toBe('testLabel');
             })
-        )
+        ))
     );
 
     it('should bind the id to the label and input',
-        inject([TestComponentBuilder], (tcb: TestComponentBuilder) =>
+        async(inject([TestComponentBuilder], (tcb: TestComponentBuilder) =>
             tcb.overrideTemplate(TestComponent, `
                 <gtx-radio-button
                     label="testLabel"
@@ -41,11 +46,11 @@ describe('RadioButton', () => {
                 expect(label.getAttribute('for')).toBe('testId');
                 expect(nativeInput.id).toBe('testId');
             })
-        )
+        ))
     );
 
     it('should use defaults for undefined attributes which have a default',
-        inject([TestComponentBuilder], (tcb: TestComponentBuilder) =>
+        async(inject([TestComponentBuilder], (tcb: TestComponentBuilder) =>
             tcb.overrideTemplate(TestComponent, `
                 <gtx-radio-button></gtx-radio-button>
             `)
@@ -60,11 +65,11 @@ describe('RadioButton', () => {
                 expect(nativeInput.required).toBe(false);
                 expect(nativeInput.value).toBe('');
             })
-        )
+        ))
     );
 
     it('should not display undefined attributes',
-        inject([TestComponentBuilder], (tcb: TestComponentBuilder) =>
+        async(inject([TestComponentBuilder], (tcb: TestComponentBuilder) =>
             tcb.overrideTemplate(TestComponent, `
                 <gtx-radio-button></gtx-radio-button>
             `)
@@ -82,12 +87,12 @@ describe('RadioButton', () => {
                 expect(getAttr('placeholder')).toBe(null);
                 expect(getAttr('step')).toBe(null);
             })
-        )
+        ))
     );
 
 
     it('should prefill a unique "id" if none is passed in',
-        inject([TestComponentBuilder], (tcb: TestComponentBuilder) =>
+        async(inject([TestComponentBuilder], (tcb: TestComponentBuilder) =>
             tcb.overrideTemplate(TestComponent, `
                 <gtx-radio-button></gtx-radio-button>
             `)
@@ -101,11 +106,11 @@ describe('RadioButton', () => {
                 expect(id).not.toBe(null);
                 expect(id.value.length).toBeGreaterThan(0);
             })
-        )
+        ))
     );
 
     it('should pass through the native attributes',
-        inject([TestComponentBuilder], (tcb: TestComponentBuilder) =>
+        async(inject([TestComponentBuilder], (tcb: TestComponentBuilder) =>
             tcb.overrideTemplate(TestComponent, `
                 <gtx-radio-button
                     disabled="true"
@@ -128,7 +133,7 @@ describe('RadioButton', () => {
                 expect(nativeInput.required).toBe(true);
                 expect(nativeInput.value).toBe('testValue');
             })
-        )
+        ))
     );
 
     it('should emit a single "change" with current value when the native input changes',
@@ -484,7 +489,7 @@ describe('RadioButton', () => {
         );
 
         it('should change check state when "checked" attribute binding changes',
-            inject([TestComponentBuilder], (tcb: TestComponentBuilder) =>
+            async(inject([TestComponentBuilder], (tcb: TestComponentBuilder) =>
                 tcb.overrideTemplate(TestComponent, `
                     <gtx-radio-button [checked]="checkState"></gtx-radio-button>
                 `)
@@ -504,7 +509,7 @@ describe('RadioButton', () => {
                     expect(radioButtonComponent.checked).toBe(true);
                     expect(nativeInput.checked).toBe(true);
                 })
-            )
+            ))
         );
 
     });

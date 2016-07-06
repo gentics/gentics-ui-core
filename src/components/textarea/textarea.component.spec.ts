@@ -1,13 +1,18 @@
 import {ComponentFixture, TestComponentBuilder} from '@angular/compiler/testing';
 import {Component, DebugElement} from '@angular/core';
-import {async, fakeAsync, inject, tick} from '@angular/core/testing';
-import {FormGroup, FormControl, REACTIVE_FORM_DIRECTIVES} from '@angular/forms';
+import {addProviders, async, fakeAsync, inject, tick} from '@angular/core/testing';
+import {FormGroup, FormControl, disableDeprecatedForms, provideForms, REACTIVE_FORM_DIRECTIVES} from '@angular/forms';
 import {By} from '@angular/platform-browser';
 
 import {Textarea} from './textarea.component';
 
 
 describe('Textarea', () => {
+
+    beforeEach(() => addProviders([
+        disableDeprecatedForms(),
+        provideForms()
+    ]));
 
     it('should bind the label',
         async(inject([TestComponentBuilder], (tcb: TestComponentBuilder) =>
@@ -156,7 +161,7 @@ describe('Textarea', () => {
     );
 
     it('should emit "blur" when native input blurs, with current value',
-        inject([TestComponentBuilder], fakeAsync((tcb: TestComponentBuilder) =>
+        fakeAsync(inject([TestComponentBuilder], (tcb: TestComponentBuilder) =>
             tcb.overrideTemplate(TestComponent, `
                 <gtx-textarea (blur)="onBlur($event)" value="foo">
                 </gtx-textarea>

@@ -2,7 +2,7 @@ import {Location} from '@angular/common';
 import {SpyLocation} from '@angular/common/testing';
 import {ComponentFixture, TestComponentBuilder} from '@angular/compiler/testing';
 import {Component} from '@angular/core';
-import {addProviders, fakeAsync, inject, tick} from '@angular/core/testing';
+import {addProviders, async, fakeAsync, inject, tick} from '@angular/core/testing';
 import {By} from '@angular/platform-browser';
 import {Router, Route, ROUTER_DIRECTIVES, provideRouter} from '@angular/router';
 
@@ -37,7 +37,7 @@ function linkHrefs(fixture: ComponentFixture<any>): string[] {
 describe('Breadcrumbs:', () => {
 
     it('creates a breadcrumbs bar with the link texts provided',
-        inject([TestComponentBuilder], (tcb: TestComponentBuilder) =>
+        async(inject([TestComponentBuilder], (tcb: TestComponentBuilder) =>
             tcb.overrideTemplate(TestComponent, `
                 <gtx-breadcrumbs [links]='[
                     { text: "A" },
@@ -52,11 +52,11 @@ describe('Breadcrumbs:', () => {
                 expect(nativeLinks.length).toBe(2);
                 expect(linkTexts(fixture)).toEqual(['A', 'B']);
             })
-        )
+        ))
     );
 
     it('uses the href values provided',
-        inject([TestComponentBuilder], (tcb: TestComponentBuilder) =>
+        async(inject([TestComponentBuilder], (tcb: TestComponentBuilder) =>
             tcb.overrideTemplate(TestComponent, `
                 <gtx-breadcrumbs [links]='[
                     { text: "A", href: "/absolute" },
@@ -72,7 +72,7 @@ describe('Breadcrumbs:', () => {
                 expect(nativeLinks.length).toBe(3);
                 expect(linkHrefs(fixture)).toEqual(['/absolute', './relative.html', '#hashlocation']);
             })
-        )
+        ))
     );
 
     it('changes the text of the created links with the bound input property',

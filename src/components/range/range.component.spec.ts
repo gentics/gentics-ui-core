@@ -1,15 +1,20 @@
 import {ComponentFixture, TestComponentBuilder} from '@angular/compiler/testing';
 import {Component, DebugElement} from '@angular/core';
-import {fakeAsync, inject, tick} from '@angular/core/testing';
-import {FormGroup, FormControl, REACTIVE_FORM_DIRECTIVES} from '@angular/forms';
+import {addProviders, async, fakeAsync, inject, tick} from '@angular/core/testing';
+import {FormGroup, FormControl, disableDeprecatedForms, provideForms, REACTIVE_FORM_DIRECTIVES} from '@angular/forms';
 import {By} from '@angular/platform-browser';
 
 import {Range} from './range.component';
 
 describe('Range:', () => {
 
+    beforeEach(() => addProviders([
+        disableDeprecatedForms(),
+        provideForms()
+    ]));
+
     it('should use defaults for undefined attributes which have a default',
-        inject([TestComponentBuilder], (tcb: TestComponentBuilder) =>
+        async(inject([TestComponentBuilder], (tcb: TestComponentBuilder) =>
             tcb.overrideTemplate(TestComponent, `
                 <gtx-range></gtx-range>
             `)
@@ -23,11 +28,11 @@ describe('Range:', () => {
                 expect(nativeInput.required).toBe(false);
                 expect(nativeInput.value).toBe('50');
             })
-        )
+        ))
     );
 
     it('should not display undefined attributes',
-        inject([TestComponentBuilder], (tcb: TestComponentBuilder) =>
+        async(inject([TestComponentBuilder], (tcb: TestComponentBuilder) =>
             tcb.overrideTemplate(TestComponent, `
                 <gtx-range></gtx-range>
             `)
@@ -46,11 +51,11 @@ describe('Range:', () => {
                 expect(getAttr('placeholder')).toBe(null);
                 expect(getAttr('step')).toBe(null);
             })
-        )
+        ))
     );
 
     it('should pass through the native attributes',
-        inject([TestComponentBuilder], (tcb: TestComponentBuilder) =>
+        async(inject([TestComponentBuilder], (tcb: TestComponentBuilder) =>
             tcb.overrideTemplate(TestComponent, `
                 <gtx-range
                     disabled="true"
@@ -77,11 +82,11 @@ describe('Range:', () => {
                 expect(parseInt(nativeInput.step, 10)).toBe(5);
                 expect(nativeInput.value).toBe('35');
             })
-        )
+        ))
     );
 
     it('should emit "blur" when native input blurs, with current value',
-        inject([TestComponentBuilder], fakeAsync((tcb: TestComponentBuilder) =>
+        fakeAsync(inject([TestComponentBuilder], (tcb: TestComponentBuilder) =>
             tcb.overrideTemplate(TestComponent, `
                 <gtx-range
                     (blur)="onBlur($event)"
@@ -104,7 +109,7 @@ describe('Range:', () => {
     );
 
     it('should emit "focus" when native input is focused, with current value',
-        inject([TestComponentBuilder], fakeAsync((tcb: TestComponentBuilder) =>
+        fakeAsync(inject([TestComponentBuilder], (tcb: TestComponentBuilder) =>
             tcb.overrideTemplate(TestComponent, `
                 <gtx-range
                     (focus)="onFocus($event)"
@@ -127,7 +132,7 @@ describe('Range:', () => {
     );
 
     it('should emit "change" when native input value is changed',
-        inject([TestComponentBuilder], fakeAsync((tcb: TestComponentBuilder) =>
+        fakeAsync(inject([TestComponentBuilder], (tcb: TestComponentBuilder) =>
             tcb.overrideTemplate(TestComponent, `
                 <gtx-range (change)="onChange($event)" value="25">
                 </gtx-range>
@@ -148,7 +153,7 @@ describe('Range:', () => {
     );
 
     it('should emit "change" when native input is blurred',
-        inject([TestComponentBuilder], fakeAsync((tcb: TestComponentBuilder) =>
+        fakeAsync(inject([TestComponentBuilder], (tcb: TestComponentBuilder) =>
             tcb.overrideTemplate(TestComponent, `
                 <gtx-range
                     (change)="onChange($event)"
@@ -172,9 +177,8 @@ describe('Range:', () => {
 
     describe('ValueAccessor:', () => {
 
-        // TODO: Fails with "No value accessor for ''", although there is a value accessor defined
         xit('should bind the value with NgModel (inbound)',
-            inject([TestComponentBuilder], fakeAsync((tcb: TestComponentBuilder) =>
+            fakeAsync(inject([TestComponentBuilder], (tcb: TestComponentBuilder) =>
                 tcb.overrideTemplate(TestComponent, `
                     <gtx-range [(ngModel)]="value"></gtx-range>
                 `)
@@ -188,9 +192,8 @@ describe('Range:', () => {
             ))
         );
 
-        // TODO: Fails with "No value accessor for ''", although there is a value accessor defined
-        xit('should bind the value with NgModel (outbound)',
-            inject([TestComponentBuilder], fakeAsync((tcb: TestComponentBuilder) =>
+        it('should bind the value with NgModel (outbound)',
+            fakeAsync(inject([TestComponentBuilder], (tcb: TestComponentBuilder) =>
                 tcb.overrideTemplate(TestComponent, `
                     <gtx-range [(ngModel)]="value"></gtx-range>
                 `)
@@ -209,9 +212,8 @@ describe('Range:', () => {
             ))
         );
 
-        // TODO: This triggers the "It looks like you're using the old forms module" warning - why?
         it('should bind the value with formControl (inbound)',
-            inject([TestComponentBuilder], fakeAsync((tcb: TestComponentBuilder) =>
+            fakeAsync(inject([TestComponentBuilder], (tcb: TestComponentBuilder) =>
                 tcb.overrideTemplate(TestComponent, `
                     <form [formGroup]="testForm">
                         <gtx-range formControlName="test"></gtx-range>
@@ -227,9 +229,8 @@ describe('Range:', () => {
             ))
         );
 
-        // TODO: This triggers the "It looks like you're using the old forms module" warning - why?
         it('should bind the value with formControl (outbound)',
-            inject([TestComponentBuilder], fakeAsync((tcb: TestComponentBuilder) =>
+            fakeAsync(inject([TestComponentBuilder], (tcb: TestComponentBuilder) =>
                 tcb.overrideTemplate(TestComponent, `
                     <form [formGroup]="testForm">
                         <gtx-range formControlName="test"></gtx-range>

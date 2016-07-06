@@ -1,13 +1,13 @@
 import {ComponentFixture, TestComponentBuilder} from '@angular/compiler/testing';
 import {Component} from '@angular/core';
-import {inject} from '@angular/core/testing';
+import {async, inject} from '@angular/core/testing';
 
 import {Button} from './button.component';
 
 describe('Button:', () => {
 
     it('should be enabled by default',
-        inject([TestComponentBuilder], (tcb: TestComponentBuilder) =>
+        async(inject([TestComponentBuilder], (tcb: TestComponentBuilder) =>
             tcb.createAsync(TestComponent)
             .then((fixture: ComponentFixture<TestComponent>) => {
                 let button: HTMLButtonElement = fixture.nativeElement.querySelector('button');
@@ -15,11 +15,11 @@ describe('Button:', () => {
 
                 expect(button.disabled).toBe(false);
             })
-        )
+        ))
     );
 
     it('should bind the "disabled" property',
-        inject([TestComponentBuilder], (tcb: TestComponentBuilder) =>
+        async(inject([TestComponentBuilder], (tcb: TestComponentBuilder) =>
             tcb.overrideTemplate(TestComponent, `
                 <gtx-button [disabled]='true'></gtx-button>
             `)
@@ -30,11 +30,11 @@ describe('Button:', () => {
 
                 expect(button.disabled).toBe(true);
             })
-        )
+        ))
     );
 
     it('should accept literal "disabled" property',
-        inject([TestComponentBuilder], (tcb: TestComponentBuilder) =>
+        async(inject([TestComponentBuilder], (tcb: TestComponentBuilder) =>
             tcb.overrideTemplate(TestComponent, `
                 <gtx-button disabled='true'></gtx-button>
             `)
@@ -45,7 +45,7 @@ describe('Button:', () => {
 
                 expect(button.disabled).toBe(true);
             })
-        )
+        ))
     );
 
 });

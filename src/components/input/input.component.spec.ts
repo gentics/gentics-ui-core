@@ -1,14 +1,19 @@
 import {Component} from '@angular/core';
-import {fakeAsync, inject, tick} from '@angular/core/testing';
+import {addProviders, async, fakeAsync, inject, tick} from '@angular/core/testing';
 import {ComponentFixture, TestComponentBuilder} from '@angular/compiler/testing';
-import {FormControl, FormGroup, REACTIVE_FORM_DIRECTIVES} from '@angular/forms';
+import {FormControl, FormGroup, disableDeprecatedForms, provideForms, REACTIVE_FORM_DIRECTIVES} from '@angular/forms';
 
 import {InputField} from './input.component';
 
 describe('InputField', () => {
 
+    beforeEach(() => addProviders([
+        disableDeprecatedForms(),
+        provideForms()
+    ]));
+
     it('should bind the label',
-        inject([TestComponentBuilder], (tcb: TestComponentBuilder) =>
+        async(inject([TestComponentBuilder], (tcb: TestComponentBuilder) =>
             tcb.overrideTemplate(TestComponent, `
                 <gtx-input label="testLabel"></gtx-input>
             `)
@@ -19,11 +24,11 @@ describe('InputField', () => {
 
                 expect(label.innerText).toBe('testLabel');
             })
-        )
+        ))
     );
 
     it('should not add the "active" class to label if input is empty',
-        inject([TestComponentBuilder], (tcb: TestComponentBuilder) =>
+        async(inject([TestComponentBuilder], (tcb: TestComponentBuilder) =>
             tcb.overrideTemplate(TestComponent, `
                 <gtx-input label="testLabel"></gtx-input>
             `)
@@ -34,11 +39,11 @@ describe('InputField', () => {
 
                 expect(label.classList).not.toContain('active');
             })
-        )
+        ))
     );
 
     it('should add the "active" class to label if input not empty',
-        inject([TestComponentBuilder], (tcb: TestComponentBuilder) =>
+        async(inject([TestComponentBuilder], (tcb: TestComponentBuilder) =>
             tcb.overrideTemplate(TestComponent, `
                 <gtx-input label="testLabel" value="foo"></gtx-input>
             `)
@@ -49,11 +54,11 @@ describe('InputField', () => {
 
                 expect(label.classList).toContain('active');
             })
-        )
+        ))
     );
 
     it('should add the "active" class to label if placeholder is set',
-        inject([TestComponentBuilder], (tcb: TestComponentBuilder) =>
+        async(inject([TestComponentBuilder], (tcb: TestComponentBuilder) =>
             tcb.overrideTemplate(TestComponent, `
                 <gtx-input label="testLabel" placeholder="foo"></gtx-input>
             `)
@@ -64,11 +69,11 @@ describe('InputField', () => {
 
                 expect(label.classList).toContain('active');
             })
-        )
+        ))
     );
 
     it('should bind the id to the label and input',
-        inject([TestComponentBuilder], (tcb: TestComponentBuilder) =>
+        async(inject([TestComponentBuilder], (tcb: TestComponentBuilder) =>
             tcb.overrideTemplate(TestComponent, `
                 <gtx-input label="testLabel" id="testId"></gtx-input>
             `)
@@ -82,11 +87,11 @@ describe('InputField', () => {
                 expect(label.htmlFor).toBe('testId');
                 expect(nativeInput.id).toBe('testId');
             })
-        )
+        ))
     );
 
     it('should use defaults for undefined attributes which have a default',
-        inject([TestComponentBuilder], (tcb: TestComponentBuilder) =>
+        async(inject([TestComponentBuilder], (tcb: TestComponentBuilder) =>
             tcb.overrideTemplate(TestComponent, `
                 <gtx-input></gtx-input>
             `)
@@ -101,11 +106,11 @@ describe('InputField', () => {
                 expect(nativeInput.type).toBe('text');
                 expect(nativeInput.value).toBe('');
             })
-        )
+        ))
     );
 
     it('should not display undefined attributes',
-        inject([TestComponentBuilder], (tcb: TestComponentBuilder) =>
+        async(inject([TestComponentBuilder], (tcb: TestComponentBuilder) =>
             tcb.overrideTemplate(TestComponent, `
                 <gtx-input></gtx-input>
             `)
@@ -124,11 +129,11 @@ describe('InputField', () => {
                 expect(getAttr('placeholder')).toBe(null);
                 expect(getAttr('step')).toBe(null);
             })
-        )
+        ))
     );
 
     it('should pass through the native attributes',
-        inject([TestComponentBuilder], (tcb: TestComponentBuilder) =>
+        async(inject([TestComponentBuilder], (tcb: TestComponentBuilder) =>
             tcb.overrideTemplate(TestComponent, `
                 <gtx-input
                     disabled="true"
@@ -162,11 +167,11 @@ describe('InputField', () => {
                 expect(nativeInput.type).toBe('text');
                 expect(nativeInput.value).toBe('testValue');
             })
-        )
+        ))
     );
 
     it('should bind a string value',
-        inject([TestComponentBuilder], (tcb: TestComponentBuilder) =>
+        async(inject([TestComponentBuilder], (tcb: TestComponentBuilder) =>
             tcb.overrideTemplate(TestComponent, `
                 <gtx-input [value]="value"></gtx-input>
             `)
@@ -177,11 +182,11 @@ describe('InputField', () => {
 
                 expect(nativeInput.value).toEqual('testValue');
             })
-        )
+        ))
     );
 
     it('should bind a number value',
-        inject([TestComponentBuilder], (tcb: TestComponentBuilder) =>
+        async(inject([TestComponentBuilder], (tcb: TestComponentBuilder) =>
             tcb.overrideTemplate(TestComponent, `
                 <gtx-input type="number" [value]="numberVal"></gtx-input>
             `)
@@ -192,11 +197,11 @@ describe('InputField', () => {
 
                 expect(nativeInput.value).toEqual('42');
             })
-        )
+        ))
     );
 
     it('should emit "blur" when native input blurs, with current value',
-        inject([TestComponentBuilder], fakeAsync((tcb: TestComponentBuilder) =>
+        fakeAsync(inject([TestComponentBuilder], (tcb: TestComponentBuilder) =>
             tcb.overrideTemplate(TestComponent, `
                 <gtx-input (blur)="onBlur($event)" value="foo"></gtx-input>
             `)
@@ -216,7 +221,7 @@ describe('InputField', () => {
     );
 
     it('should emit "focus" when native input is focused, with current value',
-        inject([TestComponentBuilder], fakeAsync((tcb: TestComponentBuilder) =>
+        fakeAsync(inject([TestComponentBuilder], (tcb: TestComponentBuilder) =>
             tcb.overrideTemplate(TestComponent, `
                 <gtx-input (focus)="onFocus($event)" value="foo"></gtx-input>
             `)
@@ -236,7 +241,7 @@ describe('InputField', () => {
     );
 
     it('should emit "change" when native input value is changed (string)',
-        inject([TestComponentBuilder], fakeAsync((tcb: TestComponentBuilder) =>
+        fakeAsync(inject([TestComponentBuilder], (tcb: TestComponentBuilder) =>
             tcb.overrideTemplate(TestComponent, `
                 <gtx-input (change)="onChange($event)" value="foo"></gtx-input>
             `)
@@ -256,7 +261,7 @@ describe('InputField', () => {
     );
 
     it('should emit "change" when native input value is changed (number)',
-        inject([TestComponentBuilder], fakeAsync((tcb: TestComponentBuilder) =>
+        fakeAsync(inject([TestComponentBuilder], (tcb: TestComponentBuilder) =>
             tcb.overrideTemplate(TestComponent, `
                 <gtx-input (change)="onChange($event)" type="number" [value]="numberVal"></gtx-input>
             `)
@@ -276,7 +281,7 @@ describe('InputField', () => {
     );
 
     it('should not emit "change" when native input is blurred',
-        inject([TestComponentBuilder], fakeAsync((tcb: TestComponentBuilder) =>
+        fakeAsync(inject([TestComponentBuilder], (tcb: TestComponentBuilder) =>
             tcb.overrideTemplate(TestComponent, `
                 <gtx-input (change)="onChange($event)" value="foo"></gtx-input>
             `)
@@ -297,8 +302,8 @@ describe('InputField', () => {
 
     describe('ValueAccessor:', () => {
 
-        it('should bind the value with NgModel (inbound)',
-            inject([TestComponentBuilder], fakeAsync((tcb: TestComponentBuilder) =>
+        it('should bind the value with ngModel (inbound)',
+            fakeAsync(inject([TestComponentBuilder], (tcb: TestComponentBuilder) =>
                 tcb.overrideTemplate(TestComponent, `
                     <gtx-input [(ngModel)]="value"></gtx-input>
                 `)
@@ -312,8 +317,8 @@ describe('InputField', () => {
             ))
         );
 
-        it('should bind the value with NgModel (outbound)',
-            inject([TestComponentBuilder], fakeAsync((tcb: TestComponentBuilder) =>
+        it('should bind the value with ngModel (outbound)',
+            fakeAsync(inject([TestComponentBuilder], (tcb: TestComponentBuilder) =>
                 tcb.overrideTemplate(TestComponent, `
                     <gtx-input [(ngModel)]="value"></gtx-input>
                 `)
@@ -333,7 +338,7 @@ describe('InputField', () => {
         );
 
         it('should bind the value with formControlName (inbound)',
-            inject([TestComponentBuilder], fakeAsync((tcb: TestComponentBuilder) =>
+            fakeAsync(inject([TestComponentBuilder], (tcb: TestComponentBuilder) =>
                 tcb.overrideTemplate(TestComponent, `
                     <form [formGroup]="testForm">
                         <gtx-input [formControlName]="'test'"></gtx-input>
@@ -350,7 +355,7 @@ describe('InputField', () => {
         );
 
         it('should bind the value with formControlName (outbound)',
-            inject([TestComponentBuilder], fakeAsync((tcb: TestComponentBuilder) =>
+            fakeAsync(inject([TestComponentBuilder], (tcb: TestComponentBuilder) =>
                 tcb.overrideTemplate(TestComponent, `
                     <form [formGroup]="testForm">
                         <gtx-input formControlName="test"></gtx-input>
@@ -373,7 +378,7 @@ describe('InputField', () => {
 
         // TODO test if fakeAsync is necessary
         it('should mark the component as "touched" when native input blurs',
-            inject([TestComponentBuilder], fakeAsync((tcb: TestComponentBuilder) =>
+            fakeAsync(inject([TestComponentBuilder], (tcb: TestComponentBuilder) =>
                 tcb.overrideTemplate(TestComponent, `
                     <form [formGroup]="testForm">
                         <gtx-input formControlName="test"></gtx-input>

@@ -1,24 +1,24 @@
 import {ComponentFixture, TestComponentBuilder} from '@angular/compiler/testing';
 import {Component, ViewChild} from '@angular/core';
-import {fakeAsync, inject, tick} from '@angular/core/testing';
+import {async, fakeAsync, inject, tick} from '@angular/core/testing';
 
 import {SearchBar} from './search-bar.component';
 
 describe('SearchBar', () => {
 
     it('should fill input with value of the "query" prop',
-        inject([TestComponentBuilder], (tcb: TestComponentBuilder) =>
+        async(inject([TestComponentBuilder], (tcb: TestComponentBuilder) =>
             tcb.createAsync(TestComponent)
             .then((fixture: ComponentFixture<TestComponent>) => {
                 fixture.detectChanges();
                 let input: HTMLInputElement = fixture.nativeElement.querySelector('input');
                 expect(input.value).toBe('foo');
             })
-        )
+        ))
     );
 
     it('should default to empty string if query not defined',
-        inject([TestComponentBuilder], (tcb: TestComponentBuilder) =>
+        async(inject([TestComponentBuilder], (tcb: TestComponentBuilder) =>
             tcb.overrideTemplate(TestComponent, `
                 <gtx-search-bar></gtx-search-bar>
             `)
@@ -28,11 +28,11 @@ describe('SearchBar', () => {
                 let input: HTMLInputElement = fixture.nativeElement.querySelector('input');
                 expect(input.value).toBe('');
             })
-        )
+        ))
     );
 
     it('should not display the clear button when query is empty',
-        inject([TestComponentBuilder], fakeAsync((tcb: TestComponentBuilder) =>
+        fakeAsync(inject([TestComponentBuilder], (tcb: TestComponentBuilder) =>
             tcb.overrideTemplate(TestComponent, `
                 <gtx-search-bar [query]="query">
                 </gtx-search-bar>
@@ -53,7 +53,7 @@ describe('SearchBar', () => {
     );
 
     it('should emit the "search" event when button clicked',
-        inject([TestComponentBuilder], fakeAsync((tcb: TestComponentBuilder) =>
+        fakeAsync(inject([TestComponentBuilder], (tcb: TestComponentBuilder) =>
             tcb.createAsync(TestComponent)
             .then((fixture: ComponentFixture<TestComponent>) => {
                 fixture.detectChanges();
@@ -70,7 +70,7 @@ describe('SearchBar', () => {
     );
 
     it('should emit the "clear" event when button clicked',
-        inject([TestComponentBuilder], fakeAsync((tcb: TestComponentBuilder) =>
+        fakeAsync(inject([TestComponentBuilder], (tcb: TestComponentBuilder) =>
             tcb.createAsync(TestComponent)
             .then((fixture: ComponentFixture<TestComponent>) => {
                 fixture.detectChanges();
@@ -87,27 +87,28 @@ describe('SearchBar', () => {
     );
 
     it('should emit the "search" event when enter key pressed in input',
-        inject([TestComponentBuilder], fakeAsync((tcb: TestComponentBuilder) => {
+        fakeAsync(inject([TestComponentBuilder], (tcb: TestComponentBuilder) =>
             tcb.createAsync(TestComponent)
-                .then((fixture: ComponentFixture<TestComponent>) => {
-                    fixture.detectChanges();
-                    let testInstance: TestComponent = fixture.componentInstance;
-                    let searchBar: SearchBar = testInstance.searchBar;
-                    spyOn(testInstance, 'onSearch');
+            .then((fixture: ComponentFixture<TestComponent>) => {
+                fixture.detectChanges();
+                let testInstance: TestComponent = fixture.componentInstance;
+                let searchBar: SearchBar = testInstance.searchBar;
+                spyOn(testInstance, 'onSearch');
 
-                    // Unable to test keyboard events directly - tried several approaches from
-                    // http://stackoverflow.com/questions/596481/simulate-javascript-key-events,
-                    // so we just directly invoke the class method.
-                    // TODO: Is there a way now?
-                    (<Function> searchBar.onKeyDown)({ keyCode: 13 }, 'foo');
-                    tick();
+                // Unable to test keyboard events directly - tried several approaches from
+                // http://stackoverflow.com/questions/596481/simulate-javascript-key-events,
+                // so we just directly invoke the class method.
+                // TODO: Is there a way now?
+                (<Function> searchBar.onKeyDown)({ keyCode: 13 }, 'foo');
+                tick();
 
-                    expect(testInstance.onSearch).toHaveBeenCalledWith('foo');
-                });
-        })));
+                expect(testInstance.onSearch).toHaveBeenCalledWith('foo');
+            })
+        ))
+    );
 
     it('should emit the "change" event when input changed with "input" event',
-        inject([TestComponentBuilder], fakeAsync((tcb: TestComponentBuilder) =>
+        fakeAsync(inject([TestComponentBuilder], (tcb: TestComponentBuilder) =>
             tcb.createAsync(TestComponent)
             .then((fixture: ComponentFixture<TestComponent>) => {
                 fixture.detectChanges();
@@ -127,7 +128,7 @@ describe('SearchBar', () => {
     );
 
     it('should not emit the "change" event when input blurred',
-        inject([TestComponentBuilder], fakeAsync((tcb: TestComponentBuilder) =>
+        fakeAsync(inject([TestComponentBuilder], (tcb: TestComponentBuilder) =>
             tcb.createAsync(TestComponent)
             .then((fixture: ComponentFixture<TestComponent>) => {
                 fixture.detectChanges();

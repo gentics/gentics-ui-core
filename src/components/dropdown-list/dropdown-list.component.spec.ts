@@ -19,7 +19,7 @@ describe('DropdownList:', () => {
     });
 
     it('should add a matching id to trigger and content',
-        inject([TestComponentBuilder], fakeAsync((tcb: TestComponentBuilder) =>
+        fakeAsync(inject([TestComponentBuilder], (tcb: TestComponentBuilder) =>
             tcb.createAsync(TestComponent)
             .then((fixture: ComponentFixture<TestComponent>) => {
                 fixture.detectChanges();
@@ -38,7 +38,7 @@ describe('DropdownList:', () => {
     );
 
     it('content should get attached next to overlay host',
-        inject([TestComponentBuilder], fakeAsync((tcb: TestComponentBuilder) =>
+        fakeAsync(inject([TestComponentBuilder], (tcb: TestComponentBuilder) =>
             tcb.createAsync(TestComponent)
             .then((fixture: ComponentFixture<TestComponent>) => {
                 fixture.detectChanges();
@@ -52,7 +52,7 @@ describe('DropdownList:', () => {
     );
 
     it('should clean up the wrapper div from the body',
-        inject([TestComponentBuilder], fakeAsync((tcb: TestComponentBuilder) =>
+        fakeAsync(inject([TestComponentBuilder], (tcb: TestComponentBuilder) =>
             tcb.overrideTemplate(TestComponent, `
                 <gtx-overlay-host></gtx-overlay-host>
                 <gtx-dropdown-list>
@@ -93,7 +93,7 @@ describe('DropdownList:', () => {
      * Enable once the bug is fixed.
      */
     xit('should clean up the wrapper div from the when used with ngFor',
-        inject([TestComponentBuilder], fakeAsync((tcb: TestComponentBuilder) =>
+        fakeAsync(inject([TestComponentBuilder], (tcb: TestComponentBuilder) =>
             tcb.overrideTemplate(TestComponent, `
                 <gtx-overlay-host></gtx-overlay-host>
                 <gtx-dropdown-list *ngFor="let item of collection">

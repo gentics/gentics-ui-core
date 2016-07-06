@@ -1,15 +1,20 @@
 import {ComponentFixture, TestComponentBuilder} from '@angular/compiler/testing';
 import {Component, DebugElement, ViewChild} from '@angular/core';
-import {inject, fakeAsync, tick} from '@angular/core/testing';
-import {FormGroup, FormControl, REACTIVE_FORM_DIRECTIVES} from '@angular/forms';
+import {addProviders, async, inject, fakeAsync, tick} from '@angular/core/testing';
+import {FormGroup, FormControl, disableDeprecatedForms, provideForms, REACTIVE_FORM_DIRECTIVES} from '@angular/forms';
 import {By} from '@angular/platform-browser';
 
 import {Checkbox} from './checkbox.component';
 
 describe('Checkbox', () => {
 
+    beforeEach(() => addProviders([
+        disableDeprecatedForms(),
+        provideForms()
+    ]));
+
     it('should bind the label',
-        inject([TestComponentBuilder], (tcb: TestComponentBuilder) =>
+        async(inject([TestComponentBuilder], (tcb: TestComponentBuilder) =>
             tcb.overrideTemplate(TestComponent, `
                 <gtx-checkbox label="testLabel"></gtx-checkbox>
             `)
@@ -19,11 +24,11 @@ describe('Checkbox', () => {
                 fixture.detectChanges();
                 expect(label.innerText).toBe('testLabel');
             })
-        )
+        ))
     );
 
     it('should bind the id to the label and input',
-        inject([TestComponentBuilder], (tcb: TestComponentBuilder) =>
+        async(inject([TestComponentBuilder], (tcb: TestComponentBuilder) =>
             tcb.overrideTemplate(TestComponent, `
                 <gtx-checkbox
                     label="testLabel"
@@ -41,11 +46,11 @@ describe('Checkbox', () => {
                 expect(label.getAttribute('for')).toBe('testId');
                 expect(nativeInput.id).toBe('testId');
             })
-        )
+        ))
     );
 
     it('should use defaults for undefined attributes which have a default',
-        inject([TestComponentBuilder], (tcb: TestComponentBuilder) =>
+        async(inject([TestComponentBuilder], (tcb: TestComponentBuilder) =>
             tcb.overrideTemplate(TestComponent, `
                 <gtx-checkbox></gtx-checkbox>
             `)
@@ -60,11 +65,11 @@ describe('Checkbox', () => {
                 expect(nativeInput.required).toBe(false);
                 expect(nativeInput.value).toBe('');
             })
-        )
+        ))
     );
 
     it('should not display undefined attributes',
-        inject([TestComponentBuilder], (tcb: TestComponentBuilder) =>
+        async(inject([TestComponentBuilder], (tcb: TestComponentBuilder) =>
             tcb.overrideTemplate(TestComponent, `
                 <gtx-checkbox></gtx-checkbox>
             `)
@@ -82,12 +87,12 @@ describe('Checkbox', () => {
                 expect(getAttr('placeholder')).toBe(null);
                 expect(getAttr('step')).toBe(null);
             })
-        )
+        ))
     );
 
 
     it('should prefill a unique "id" if none is passed in',
-        inject([TestComponentBuilder], (tcb: TestComponentBuilder) =>
+        async(inject([TestComponentBuilder], (tcb: TestComponentBuilder) =>
             tcb.overrideTemplate(TestComponent, `
                 <gtx-checkbox></gtx-checkbox>
             `)
@@ -101,11 +106,11 @@ describe('Checkbox', () => {
                 expect(id).not.toBe(null);
                 expect(id.value.length).toBeGreaterThan(0);
             })
-        )
+        ))
     );
 
     it('should pass through the native attributes',
-        inject([TestComponentBuilder], (tcb: TestComponentBuilder) =>
+        async(inject([TestComponentBuilder], (tcb: TestComponentBuilder) =>
             tcb.overrideTemplate(TestComponent, `
                 <gtx-checkbox
                     disabled="true"
@@ -128,11 +133,11 @@ describe('Checkbox', () => {
                 expect(nativeInput.required).toBe(true);
                 expect(nativeInput.value).toBe('testValue');
             })
-        )
+        ))
     );
 
     it('should emit a single "change" with current check state when the native input changes',
-        inject([TestComponentBuilder], fakeAsync((tcb: TestComponentBuilder) =>
+        fakeAsync(inject([TestComponentBuilder], (tcb: TestComponentBuilder) =>
             tcb.overrideTemplate(TestComponent, `
                 <gtx-checkbox (change)="onChange($event)"></gtx-checkbox>
             `)
@@ -154,7 +159,7 @@ describe('Checkbox', () => {
     );
 
     it('should emit "blur" with current check state when the native input blurs',
-        inject([TestComponentBuilder], fakeAsync((tcb: TestComponentBuilder) =>
+        fakeAsync(inject([TestComponentBuilder], (tcb: TestComponentBuilder) =>
             tcb.overrideTemplate(TestComponent, `
                 <gtx-checkbox
                     (blur)="onBlur($event)"
@@ -179,7 +184,7 @@ describe('Checkbox', () => {
     );
 
     it('should emit "blur" with "indeterminate" when indeterminate and native input is blurred',
-        inject([TestComponentBuilder], fakeAsync((tcb: TestComponentBuilder) =>
+        fakeAsync(inject([TestComponentBuilder], (tcb: TestComponentBuilder) =>
             tcb.overrideTemplate(TestComponent, `
                 <gtx-checkbox
                     (blur)="onBlur($event)"
@@ -204,7 +209,7 @@ describe('Checkbox', () => {
     );
 
     it('should emit "focus" with current check state when the native input is focused',
-        inject([TestComponentBuilder], fakeAsync((tcb: TestComponentBuilder) =>
+        fakeAsync(inject([TestComponentBuilder], (tcb: TestComponentBuilder) =>
             tcb.overrideTemplate(TestComponent, `
                 <gtx-checkbox
                     (focus)="onFocus($event)"
@@ -229,15 +234,9 @@ describe('Checkbox', () => {
     );
 
     describe('ValueAccessor:', () => {
-        //
-        // The following two tests fail with an unexplainable error:
-        //     Error: No value accessor for ''
-        // This error does not occur in a slimmed-down basic example.
-        // Since the error appears as time consuming to fix, the tests
-        // are disabled for the time being.
-        //
-        xit('should bind the check state with ngModel (inbound)',
-            inject([TestComponentBuilder], fakeAsync((tcb: TestComponentBuilder) =>
+
+        it('should bind the check state with ngModel (inbound)',
+            fakeAsync(inject([TestComponentBuilder], (tcb: TestComponentBuilder) =>
                 tcb.overrideTemplate(TestComponent, `
                     <gtx-checkbox
                         [(ngModel)]="boundProperty"
@@ -269,8 +268,8 @@ describe('Checkbox', () => {
             ))
         );
 
-        xit('should update a bound property with ngModel (outbound)',  // fails --
-            inject([TestComponentBuilder], fakeAsync((tcb: TestComponentBuilder) =>
+        it('should update a bound property with ngModel (outbound)',
+            fakeAsync(inject([TestComponentBuilder], (tcb: TestComponentBuilder) =>
                 tcb.overrideTemplate(TestComponent, `
                     <gtx-checkbox
                         [(ngModel)]="boundProperty"
@@ -308,7 +307,7 @@ describe('Checkbox', () => {
         );
 
         it('should bind the value with formControlName (inbound)',
-            inject([TestComponentBuilder], fakeAsync((tcb: TestComponentBuilder) =>
+            fakeAsync(inject([TestComponentBuilder], (tcb: TestComponentBuilder) =>
                 tcb.overrideTemplate(TestComponent, `
                     <form [formGroup]="testForm">
                         <gtx-checkbox formControlName="testControl">
@@ -349,7 +348,7 @@ describe('Checkbox', () => {
         );
 
         it('should bind the value with formControlName (outbound)',
-            inject([TestComponentBuilder], fakeAsync((tcb: TestComponentBuilder) =>
+            fakeAsync(inject([TestComponentBuilder], (tcb: TestComponentBuilder) =>
                 tcb.overrideTemplate(TestComponent, `
                     <form [formGroup]="testForm">
                         <gtx-checkbox
@@ -394,7 +393,7 @@ describe('Checkbox', () => {
     describe('stateless mode:', () => {
 
         it('stateless mode should be disabled by default',
-            inject([TestComponentBuilder], (tcb: TestComponentBuilder) =>
+            async(inject([TestComponentBuilder], (tcb: TestComponentBuilder) =>
                 tcb.createAsync(TestComponent)
                 .then((fixture: ComponentFixture<TestComponent>) => {
                     const checkboxComponent = fixture.componentInstance.checkboxComponent;
@@ -402,11 +401,11 @@ describe('Checkbox', () => {
                     // TODO: Testing private properties is really bad - is there a better way?
                     expect(checkboxComponent['statelessMode']).toBe(false);
                 })
-            )
+            ))
         );
 
         it('stateless mode should be enabled when using "checked" attribute',
-            inject([TestComponentBuilder], (tcb: TestComponentBuilder) =>
+            async(inject([TestComponentBuilder], (tcb: TestComponentBuilder) =>
                 tcb.overrideTemplate(TestComponent, `
                     <gtx-checkbox checked="true"></gtx-checkbox>
                 `)
@@ -417,11 +416,11 @@ describe('Checkbox', () => {
 
                     expect(checkboxComponent['statelessMode']).toBe(true);
                 })
-            )
+            ))
         );
 
         it('should not change check state on click when bound to "checked" attribute',
-            inject([TestComponentBuilder], fakeAsync((tcb: TestComponentBuilder) =>
+            fakeAsync(inject([TestComponentBuilder], (tcb: TestComponentBuilder) =>
                 tcb.overrideTemplate(TestComponent, `
                     <gtx-checkbox checked="true"></gtx-checkbox>
                 `)
@@ -445,7 +444,7 @@ describe('Checkbox', () => {
         );
 
         it('should change check state when "checked" attribute binding changes',
-            inject([TestComponentBuilder], (tcb: TestComponentBuilder) =>
+            async(inject([TestComponentBuilder], (tcb: TestComponentBuilder) =>
                 tcb.overrideTemplate(TestComponent, `
                     <gtx-checkbox [checked]="checkState"></gtx-checkbox>
                 `)
@@ -465,7 +464,7 @@ describe('Checkbox', () => {
                     expect(checkboxComponent.checked).toBe(true);
                     expect(nativeInput.checked).toBe(true);
                 })
-            )
+            ))
         );
 
     });
