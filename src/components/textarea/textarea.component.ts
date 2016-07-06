@@ -11,10 +11,12 @@ import {
 import {isBlank, isNumber} from '@angular/core/src/facade/lang';
 import {ControlValueAccessor, NG_VALUE_ACCESSOR} from '@angular/forms';
 
-const GTX_TEXTAREA_VALUE_ACCESSOR = new Provider(NG_VALUE_ACCESSOR, {
+
+const GTX_TEXTAREA_VALUE_ACCESSOR = {
+    provide: NG_VALUE_ACCESSOR,
     useExisting: forwardRef(() => Textarea),
     multi: true
-});
+};
 
 /**
  * The Textarea wraps the native `<textarea>` form element. Textareas automatically grow to accommodate their content.

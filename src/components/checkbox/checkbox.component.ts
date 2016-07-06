@@ -3,10 +3,11 @@ import {ControlValueAccessor, NG_VALUE_ACCESSOR} from '@angular/forms';
 
 export type CheckState = boolean | 'indeterminate';
 
-const GTX_CHECKBOX_VALUE_ACCESSOR = new Provider(NG_VALUE_ACCESSOR, {
+const GTX_CHECKBOX_VALUE_ACCESSOR = {
+    provide: NG_VALUE_ACCESSOR,
     useExisting: forwardRef(() => Checkbox),
     multi: true
-});
+};
 
 /**
  * Checkbox wraps the native `<input type="checkbox">` form element.

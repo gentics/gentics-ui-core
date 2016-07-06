@@ -168,12 +168,12 @@ describe('Textarea', () => {
             `)
             .createAsync(TestComponent)
             .then((fixture: ComponentFixture<TestComponent>) => {
-                let textareaDel: DebugElement = fixture.debugElement.query(By.css('textarea'));
+                let textareaDebugElement: DebugElement = fixture.debugElement.query(By.css('textarea'));
                 let instance: TestComponent = fixture.componentInstance;
                 fixture.detectChanges();
                 spyOn(instance, 'onBlur');
 
-                textareaDel.triggerEventHandler('blur', null);
+                textareaDebugElement.triggerEventHandler('blur', null);
                 tick();
 
                 expect(instance.onBlur).toHaveBeenCalledWith('foo');
@@ -189,12 +189,12 @@ describe('Textarea', () => {
             `)
             .createAsync(TestComponent)
             .then((fixture: ComponentFixture<TestComponent>) => {
-                let textareaDel: DebugElement = fixture.debugElement.query(By.css('textarea'));
+                let textareaDebugElement: DebugElement = fixture.debugElement.query(By.css('textarea'));
                 let instance: TestComponent = fixture.componentInstance;
                 fixture.detectChanges();
                 spyOn(instance, 'onFocus');
 
-                textareaDel.triggerEventHandler('focus', null);
+                textareaDebugElement.triggerEventHandler('focus', null);
                 tick();
 
                 expect(instance.onFocus).toHaveBeenCalledWith('foo');
@@ -231,12 +231,12 @@ describe('Textarea', () => {
             `)
             .createAsync(TestComponent)
             .then((fixture: ComponentFixture<TestComponent>) => {
-                let textareaDel: DebugElement = fixture.debugElement.query(By.css('textarea'));
+                let textareaDebugElement: DebugElement = fixture.debugElement.query(By.css('textarea'));
                 let instance: TestComponent = fixture.componentInstance;
                 fixture.detectChanges();
                 spyOn(instance, 'onChange');
 
-                textareaDel.triggerEventHandler('blur', null);
+                textareaDebugElement.triggerEventHandler('blur', null);
                 tick();
 
                 expect(instance.onChange).toHaveBeenCalledWith('foo');
@@ -246,7 +246,7 @@ describe('Textarea', () => {
 
     describe('ValueAccessor:', () => {
 
-        xit('should bind the value with NgModel (inbound)',
+        it('should bind the value with ngModel (inbound)',
             fakeAsync(inject([TestComponentBuilder], (tcb: TestComponentBuilder) =>
                 tcb.overrideTemplate(TestComponent, `
                     <gtx-textarea [(ngModel)]="value"></gtx-textarea>
@@ -255,13 +255,14 @@ describe('Textarea', () => {
                 .then((fixture: ComponentFixture<TestComponent>) => {
                     fixture.detectChanges();
                     tick();
+                    fixture.detectChanges();
                     let nativeTextarea: HTMLTextAreaElement = fixture.nativeElement.querySelector('textarea');
                     expect(nativeTextarea.value).toBe('testValue');
                 })
             ))
         );
 
-        xit('should bind the value with NgModel (outbound)',
+        it('should bind the value with ngModel (outbound)',
             fakeAsync(inject([TestComponentBuilder], (tcb: TestComponentBuilder) =>
                 tcb.overrideTemplate(TestComponent, `
                     <gtx-textarea [(ngModel)]="value"></gtx-textarea>

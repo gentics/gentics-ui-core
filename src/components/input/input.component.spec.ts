@@ -311,6 +311,7 @@ describe('InputField', () => {
                 .then((fixture: ComponentFixture<TestComponent>) => {
                     fixture.detectChanges();
                     tick();
+                    fixture.detectChanges();
                     let nativeInput: HTMLInputElement = fixture.nativeElement.querySelector('input');
                     expect(nativeInput.value).toBe('testValue');
                 })
@@ -376,9 +377,8 @@ describe('InputField', () => {
             ))
         );
 
-        // TODO test if fakeAsync is necessary
         it('should mark the component as "touched" when native input blurs',
-            fakeAsync(inject([TestComponentBuilder], (tcb: TestComponentBuilder) =>
+            async(inject([TestComponentBuilder], (tcb: TestComponentBuilder) =>
                 tcb.overrideTemplate(TestComponent, `
                     <form [formGroup]="testForm">
                         <gtx-input formControlName="test"></gtx-input>

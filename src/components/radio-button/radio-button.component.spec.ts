@@ -209,7 +209,7 @@ describe('RadioButton', () => {
 
     describe('ValueAccessor:', () => {
 
-        xit('should change a variable bound with ngModel when selected',
+        it('should change a variable bound with ngModel when selected',
             fakeAsync(inject([TestComponentBuilder], (tcb: TestComponentBuilder) =>
                 tcb.overrideTemplate(TestComponent, `
                     <gtx-radio-button
@@ -237,7 +237,7 @@ describe('RadioButton', () => {
             ))
         );
 
-        xit('should bind the check state with NgModel (inbound)',
+        it('should bind the check state with ngModel (inbound)',
             fakeAsync(inject([TestComponentBuilder], (tcb: TestComponentBuilder) =>
                 tcb.overrideTemplate(TestComponent, `
                     <gtx-radio-button
@@ -256,17 +256,19 @@ describe('RadioButton', () => {
                     instance.boundProperty = 'otherValue';
                     fixture.detectChanges();
                     tick();
+                    fixture.detectChanges();
                     expect(nativeInput.checked).toBe(true);
 
                     instance.boundProperty = undefined;
                     fixture.detectChanges();
                     tick();
+                    fixture.detectChanges();
                     expect(nativeInput.checked).toBe(false);
                 })
             ))
         );
 
-        xit('should update a bound property with NgModel (outbound)',
+        it('should update a bound property with ngModel (outbound)',
             fakeAsync(inject([TestComponentBuilder], (tcb: TestComponentBuilder) =>
                 tcb.overrideTemplate(TestComponent, `
                     <gtx-radio-button
@@ -289,6 +291,7 @@ describe('RadioButton', () => {
                     instance.checkState = true;
                     fixture.detectChanges();
                     tick();
+                    fixture.detectChanges();
                     expect(instance.checkState).toBe(true);
                     expect(nativeInput.checked).toBe(true);
                     expect(instance.boundProperty).toBe('otherValue');
@@ -296,7 +299,7 @@ describe('RadioButton', () => {
             ))
         );
 
-        xit('should update multiple radioButtons bound on one NgModel (inbound)',
+        it('should update multiple radioButtons bound on one ngModel (inbound)',
             fakeAsync(inject([TestComponentBuilder], (tcb: TestComponentBuilder) =>
                 tcb.overrideTemplate(TestComponent, `
                     <gtx-radio-button
@@ -321,19 +324,21 @@ describe('RadioButton', () => {
                     instance.boundObjectProperty = instance.objectValues[0];
                     fixture.detectChanges();
                     tick();
+                    fixture.detectChanges();
                     expect(nativeInputs[0].checked).toBe(true);
                     expect(nativeInputs[1].checked).toBe(false);
 
                     instance.boundObjectProperty = instance.objectValues[1];
                     fixture.detectChanges();
                     tick();
+                    fixture.detectChanges();
                     expect(nativeInputs[0].checked).toBe(false);
                     expect(nativeInputs[1].checked).toBe(true);
                 })
             ))
         );
 
-        xit('should update multiple radioButtons bound on one NgModel (outbound)',
+        it('should update multiple radioButtons bound on one ngModel (outbound)',
             fakeAsync(inject([TestComponentBuilder], (tcb: TestComponentBuilder) =>
                 tcb.overrideTemplate(TestComponent, `
                     <gtx-radio-button
@@ -359,22 +364,22 @@ describe('RadioButton', () => {
                     tick();
                     fixture.detectChanges();
                     tick();
-                    expect(nativeInputs[0].checked).toBe(true);
-                    expect(nativeInputs[1].checked).toBe(false);
-                    expect(instance.boundObjectProperty).toBe(instance.objectValues[0]);
+                    expect(nativeInputs[0].checked).toBe(true, 'aa');
+                    expect(nativeInputs[1].checked).toBe(false, 'bb');
+                    expect(instance.boundObjectProperty).toBe(instance.objectValues[0], 'cc');
 
                     nativeInputs[1].click();
                     tick();
                     fixture.detectChanges();
                     tick();
-                    expect(nativeInputs[0].checked).toBe(false);
-                    expect(nativeInputs[1].checked).toBe(true);
-                    expect(instance.boundObjectProperty).toBe(instance.objectValues[1]);
+                    fixture.detectChanges();
+                    expect(nativeInputs[0].checked).toBe(false, 'dd');
+                    expect(nativeInputs[1].checked).toBe(true, 'ee');
+                    expect(instance.boundObjectProperty).toBe(instance.objectValues[1], 'ff');
                 })
             ))
         );
 
-        // TODO: This triggers the "It looks like you're using the old forms module" warning - why?
         it('should bind the value with formControlName (inbound)',
             fakeAsync(inject([TestComponentBuilder], (tcb: TestComponentBuilder) =>
                 tcb.overrideTemplate(TestComponent, `
@@ -400,7 +405,6 @@ describe('RadioButton', () => {
             ))
         );
 
-        // TODO: This triggers the "It looks like you're using the old forms module" warning - why?
         it('should bind the value with formControlName (outbound)',
             fakeAsync(inject([TestComponentBuilder], (tcb: TestComponentBuilder) =>
                 tcb.overrideTemplate(TestComponent, `
@@ -517,7 +521,12 @@ describe('RadioButton', () => {
 
 describe('RadioGroup', () => {
 
-    xit('should bind the check state of RadioButton children with NgModel (inbound)',
+    beforeEach(() => addProviders([
+        disableDeprecatedForms(),
+        provideForms()
+    ]));
+
+    it('should bind the check state of RadioButton children with ngModel (inbound)',
         fakeAsync(inject([TestComponentBuilder], (tcb: TestComponentBuilder) =>
             tcb.overrideTemplate(TestComponent, `
                 <gtx-radio-group [(ngModel)]="boundProperty">
@@ -535,19 +544,21 @@ describe('RadioGroup', () => {
                 instance.boundProperty = 'A';
                 fixture.detectChanges();
                 tick();
+                fixture.detectChanges();
                 expect(nativeInputs[0].checked).toBe(true);
                 expect(nativeInputs[1].checked).toBe(false);
 
                 instance.boundProperty = 'B';
                 fixture.detectChanges();
                 tick();
+                fixture.detectChanges();
                 expect(nativeInputs[0].checked).toBe(false);
                 expect(nativeInputs[1].checked).toBe(true);
             })
         ))
     );
 
-    xit('should uncheck all RadioButton children when none of their values match a property bound with NgModel (inbound)',
+    it('should uncheck all RadioButton children when none of their values match a property bound with ngModel (inbound)',
         fakeAsync(inject([TestComponentBuilder], (tcb: TestComponentBuilder) =>
             tcb.overrideTemplate(TestComponent, `
                 <gtx-radio-group [(ngModel)]="boundProperty">
@@ -564,19 +575,21 @@ describe('RadioGroup', () => {
                 instance.boundProperty = 'A';
                 fixture.detectChanges();
                 tick();
+                fixture.detectChanges();
                 expect(nativeInputs[0].checked).toBe(true, 'checkbox A is not checked');
                 expect(nativeInputs[1].checked).toBe(false, 'checkbox B is checked but should not be');
 
                 instance.boundProperty = 'some other value';
                 fixture.detectChanges();
                 tick();
+                fixture.detectChanges();
                 expect(nativeInputs[0].checked).toBe(false, 'checkbox A does not get unchecked');
                 expect(nativeInputs[1].checked).toBe(false, 'checkbox B is checked when it should not be');
             })
         ))
     );
 
-    xit('should update a ngModel bound property when RadioButton children are checked (outbound)',
+    it('should update a ngModel bound property when RadioButton children are checked (outbound)',
         fakeAsync(inject([TestComponentBuilder], (tcb: TestComponentBuilder) =>
             tcb.overrideTemplate(TestComponent, `
                 <gtx-radio-group [(ngModel)]="boundProperty">
@@ -608,7 +621,8 @@ describe('RadioGroup', () => {
         ))
     );
 
-    xit('should set a NgModel bound property to null when no RadioButton children are checked (outbound)',
+    // TODO: Throws "Expression has changed after it was checked. Previous value: 'boundValue'. Current value: 'A'"
+    xit('should set a ngModel bound property to null when no RadioButton children are checked (outbound)',
         fakeAsync(inject([TestComponentBuilder], (tcb: TestComponentBuilder) =>
             tcb.overrideTemplate(TestComponent, `
                 <gtx-radio-group [(ngModel)]="boundProperty">
@@ -626,6 +640,7 @@ describe('RadioGroup', () => {
                 instance.checkState = true;
                 fixture.detectChanges();
                 tick();
+                fixture.detectChanges();
                 expect(instance.boundProperty).toBe('A');
                 expect(nativeInputs[0].checked).toBe(true);
                 expect(nativeInputs[1].checked).toBe(false);
@@ -633,6 +648,7 @@ describe('RadioGroup', () => {
                 instance.checkState = false;
                 fixture.detectChanges();
                 tick();
+                fixture.detectChanges();
                 expect(instance.boundProperty).toBe(null);
                 expect(nativeInputs[0].checked).toBe(false);
                 expect(nativeInputs[1].checked).toBe(false);
@@ -640,7 +656,6 @@ describe('RadioGroup', () => {
         ))
     );
 
-    // TODO: This triggers the "It looks like you're using the old forms module" warning - why?
     it('should bind the check state of RadioButton children with formControlName (inbound)',
         fakeAsync(inject([TestComponentBuilder], (tcb: TestComponentBuilder) =>
             tcb.overrideTemplate(TestComponent, `
@@ -674,7 +689,6 @@ describe('RadioGroup', () => {
         ))
     );
 
-    // TODO: This triggers the "It looks like you're using the old forms module" warning - why?
     it('should bind the check state of RadioButton children with formControlName (outbound)',
         fakeAsync(inject([TestComponentBuilder], (tcb: TestComponentBuilder) =>
             tcb.overrideTemplate(TestComponent, `

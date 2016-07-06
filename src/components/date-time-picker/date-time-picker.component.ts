@@ -12,10 +12,11 @@ const rome: any = require('rome');
 const momentjs: moment.MomentStatic = rome.moment;
 
 
-const GTX_DATEPICKER_VALUE_ACCESSOR = new Provider(NG_VALUE_ACCESSOR, {
+const GTX_DATEPICKER_VALUE_ACCESSOR = {
+    provide: NG_VALUE_ACCESSOR,
     useExisting: forwardRef(() => DateTimePicker),
     multi: true
-});
+};
 
 /**
  * A form control for selecting a date and (optionally) a time. Depends on [Modal](#/modal).

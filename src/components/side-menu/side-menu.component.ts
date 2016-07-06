@@ -28,7 +28,7 @@ import {SideMenuToggleButton} from './side-menu-toggle.component';
 export class SideMenu {
 
     /**
-     * Sets the state of the menu: true = opened, false = closed. 
+     * Sets the state of the menu: true = opened, false = closed.
      */
     @Input() opened: boolean = false;
 

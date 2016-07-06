@@ -177,7 +177,7 @@ describe('Range:', () => {
 
     describe('ValueAccessor:', () => {
 
-        xit('should bind the value with NgModel (inbound)',
+        it('should bind the value with ngModel (inbound)',
             fakeAsync(inject([TestComponentBuilder], (tcb: TestComponentBuilder) =>
                 tcb.overrideTemplate(TestComponent, `
                     <gtx-range [(ngModel)]="value"></gtx-range>
@@ -186,13 +186,14 @@ describe('Range:', () => {
                 .then((fixture: ComponentFixture<TestComponent>) => {
                     fixture.detectChanges();
                     tick();
+                    fixture.detectChanges();
                     let nativeInput: HTMLInputElement = fixture.nativeElement.querySelector('input');
                     expect(nativeInput.value).toBe('75');
                 })
             ))
         );
 
-        it('should bind the value with NgModel (outbound)',
+        it('should bind the value with ngModel (outbound)',
             fakeAsync(inject([TestComponentBuilder], (tcb: TestComponentBuilder) =>
                 tcb.overrideTemplate(TestComponent, `
                     <gtx-range [(ngModel)]="value"></gtx-range>

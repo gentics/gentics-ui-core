@@ -25,7 +25,7 @@ describe('Modal:', () => {
             tcb.createAsync(TestComponent)
             .then((fixture: ComponentFixture<TestComponent>) => {
                 fixture.detectChanges();
-                let body: HTMLBodyElement = document.querySelector('body');
+                let body: HTMLBodyElement = <any> document.querySelector('body');
                 let modal: Element = document.querySelector('.gtx-modal-dialog');
 
                 expect(modal.parentNode).toBe(body,
@@ -40,7 +40,7 @@ describe('Modal:', () => {
             tcb.createAsync(TestComponent)
             .then((fixture: ComponentFixture<TestComponent>) => {
                 fixture.detectChanges();
-                let body: HTMLBodyElement = document.querySelector('body');
+                let body: HTMLBodyElement = <any> document.querySelector('body');
                 let overlay: Element = document.querySelector('.gtx-modal-overlay');
 
                 expect(overlay.parentNode).toBe(body);
@@ -77,7 +77,7 @@ describe('Modal:', () => {
 
     describe('"opened" state:', () => {
 
-        it('should set the overlay to "display: block"',  // <- fails
+        it('should set the overlay to "display: block"',
             fakeAsync(inject([TestComponentBuilder], (tcb: TestComponentBuilder) =>
                 tcb.createAsync(TestComponent)
                 .then((fixture: ComponentFixture<TestComponent>) => {
@@ -93,7 +93,7 @@ describe('Modal:', () => {
             ))
         );
 
-        it('should set the modal to "display: block"',  // <- fails
+        it('should set the modal to "display: block"',
             fakeAsync(inject([TestComponentBuilder], (tcb: TestComponentBuilder) =>
                 tcb.createAsync(TestComponent)
                 .then((fixture: ComponentFixture<TestComponent>) => {

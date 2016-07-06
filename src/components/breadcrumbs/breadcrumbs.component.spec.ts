@@ -281,6 +281,7 @@ describe('Breadcrumbs:', () => {
             { provide: Location, useClass: SpyLocation }
         ]));
 
+        // TODO: Throws "Platforms have to be created via `createPlatform`!" error
         xit('creates links with the text provided in "routerLinks"',
             fakeAsync(inject([TestComponentBuilder, Location], (tcb: TestComponentBuilder, spyLocation: SpyLocation) =>
                 tcb.overrideTemplate(TestRoutingComponent, `
@@ -304,6 +305,7 @@ describe('Breadcrumbs:', () => {
             ))
         );
 
+        // TODO: Throws "Platforms have to be created via `createPlatform`!" error
         xit('sets the "href" of links created via "routerLinks" to their router URL',
             fakeAsync(inject([TestComponentBuilder, Location], (tcb: TestComponentBuilder, spyLocation: SpyLocation) =>
                 tcb.overrideTemplate(TestRoutingComponent, `
@@ -328,6 +330,7 @@ describe('Breadcrumbs:', () => {
             ))
         );
 
+        // TODO: Throws "Platforms have to be created via `createPlatform`!" error
         xit('changes to the correct URL when clicking links created via "routerLink"',
             fakeAsync(inject([TestComponentBuilder, Location], (tcb: TestComponentBuilder, spyLocation: SpyLocation) =>
                 tcb.overrideTemplate(TestRoutingComponent, `

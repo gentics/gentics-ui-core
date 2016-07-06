@@ -321,7 +321,7 @@ describe('DateTimePicker:', () => {
 
     describe('ValueAccessor:', () => {
 
-        it('should bind the value with NgModel (inbound)',
+        it('should bind the value with ngModel (inbound)',
             fakeAsync(inject([TestComponentBuilder], (tcb: TestComponentBuilder) =>
                 tcb.overrideTemplate(TestComponent, `
                     <gtx-date-time-picker [(ngModel)]="testModel">
@@ -339,13 +339,15 @@ describe('DateTimePicker:', () => {
 
                     instance.testModel -= 10;
                     fixture.detectChanges();
+                    tick();
+                    fixture.detectChanges();
 
                     expect(pickerInstance.value.unix()).toBe(TEST_TIMESTAMP - 10);
                 })
             ))
         );
 
-        it('should bind the value with NgModel (outbound)',
+        it('should bind the value with ngModel (outbound)',
             fakeAsync(inject([TestComponentBuilder], (tcb: TestComponentBuilder) =>
                 tcb.overrideTemplate(TestComponent, `
                     <gtx-date-time-picker [(ngModel)]="testModel">

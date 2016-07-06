@@ -13,10 +13,12 @@ import {ControlValueAccessor, NG_VALUE_ACCESSOR} from '@angular/forms';
 
 declare var $: JQueryStatic;
 
-const GTX_RANGE_VALUE_ACCESSOR = new Provider(NG_VALUE_ACCESSOR, {
+
+const GTX_RANGE_VALUE_ACCESSOR = {
+    provide: NG_VALUE_ACCESSOR,
     useExisting: forwardRef(() => Range),
     multi: true
-});
+};
 
 /**
  * The Range wraps the native `<input type="range">` form element.

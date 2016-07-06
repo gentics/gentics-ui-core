@@ -18,10 +18,11 @@ import {Subscription} from 'rxjs';
 declare var $: JQueryStatic;
 
 
-const GTX_SELECT_VALUE_ACCESSOR = new Provider(NG_VALUE_ACCESSOR, {
+const GTX_SELECT_VALUE_ACCESSOR = {
+    provide: NG_VALUE_ACCESSOR,
     useExisting: forwardRef(() => Select),
     multi: true
-});
+};
 
 
 /**
@@ -99,7 +100,7 @@ export class Select implements ControlValueAccessor {
     @ContentChildren(NgSelectOption, { descendants: true }) selectOptions: QueryList<NgSelectOption>;
 
     $nativeSelect: any;
-    subscription: Subscription;
+    subscriptions: Subscription[] = [];
 
     // ValueAccessor members
     onChange: any = () => {};
@@ -162,12 +163,14 @@ export class Select implements ControlValueAccessor {
             this.registerHandlers();
         });
 
-        this.subscription = this.selectOptions.changes.subscribe(() => {
-            this.unregisterHandlers();
-            nativeSelect.value = <string> this.value;
-            this.$nativeSelect.material_select();
-            this.registerHandlers();
-        });
+        this.subscriptions.push(
+            this.selectOptions.changes.subscribe(() => {
+                this.unregisterHandlers();
+                nativeSelect.value = <string> this.value;
+                this.$nativeSelect.material_select();
+                this.registerHandlers();
+            })
+        );
     }
 
     /**
@@ -176,7 +179,7 @@ export class Select implements ControlValueAccessor {
     ngOnDestroy(): void {
         this.unregisterHandlers();
         this.$nativeSelect.material_select('destroy');
-        this.subscription.unsubscribe();
+        this.subscriptions.forEach(s => s.unsubscribe());
     }
 
     /**
@@ -249,6 +252,8 @@ export class Select implements ControlValueAccessor {
     }
 
     private _updateValueWhenListOfOptionsChanges(query: QueryList<NgSelectOption>): void {
-        ObservableWrapper.subscribe(query.changes, (_: any) => this.writeValue(this.value));
+        this.subscriptions.push(
+            query.changes.subscribe((_: any) => this.writeValue(this.value))
+        );
     }
 }

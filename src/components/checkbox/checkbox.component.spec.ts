@@ -257,11 +257,13 @@ describe('Checkbox', () => {
                     instance.boundProperty = 'indeterminate';
                     fixture.detectChanges();
                     tick();
+                    fixture.detectChanges();
                     expect(nativeInput.indeterminate).toBe(true);
 
                     instance.boundProperty = true;
                     fixture.detectChanges();
                     tick();
+                    fixture.detectChanges();
                     expect(nativeInput.checked).toBe(true);
                     expect(nativeInput.indeterminate).toBe(false);
                 })

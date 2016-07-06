@@ -13,7 +13,6 @@ describe('DropdownList:', () => {
 
     beforeEach(() => {
         // Create one OverlayHostService for all tests
-        // TODO: Create this once per test?
         let injector = getTestInjector().createInjector().resolveAndCreateChild([OverlayHostService]);
         overlayHostService = injector.get(OverlayHostService);
     });
@@ -88,11 +87,7 @@ describe('DropdownList:', () => {
         ))
     );
 
-    /**
-     * TODO: This fails due to an Angular bug: https://github.com/angular/angular/issues/8458
-     * Enable once the bug is fixed.
-     */
-    xit('should clean up the wrapper div from the when used with ngFor',
+    it('should clean up the wrapper div from the when used with ngFor',
         fakeAsync(inject([TestComponentBuilder], (tcb: TestComponentBuilder) =>
             tcb.overrideTemplate(TestComponent, `
                 <gtx-overlay-host></gtx-overlay-host>

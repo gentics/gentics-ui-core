@@ -279,7 +279,7 @@ function webpackOnCompleted(callback) {
         }
 
         let duration = stats.toJson({ timings: true }).time / 1000;
-        gutil.log('[webpack] bundle completed after', gutil.colors.magenta(`${duration} seconds`));
+        gutil.log('[webpack] completed after', gutil.colors.magenta(duration.toPrecision(3) + ' s'));
 
         if (!hasRun) {
             callback();

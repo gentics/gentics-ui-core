@@ -1,6 +1,6 @@
 import {ComponentFixture, TestComponentBuilder} from '@angular/compiler/testing';
 import {Component, ViewChild} from '@angular/core';
-import {addProviders, async, fakeAsync, inject, tick} from '@angular/core/testing';
+import {addProviders, async, discardPeriodicTasks, fakeAsync, inject, tick} from '@angular/core/testing';
 import {FormGroup, FormControl, disableDeprecatedForms, provideForms, REACTIVE_FORM_DIRECTIVES} from '@angular/forms';
 
 import {Select} from './select.component';
@@ -157,8 +157,7 @@ describe('Select:', () => {
     );
 
     /**
-     * TODO: find out why this fails with error "1 periodic timer(s) still in the queue."
-     * then re-enable
+     * TODO: Throws "1 periodic timer(s) still in the queue." - fix, then re-enable
      */
     xit('should emit "blur" when input blurs, with current value',
         fakeAsync(inject([TestComponentBuilder], (tcb: TestComponentBuilder) =>
@@ -174,8 +173,15 @@ describe('Select:', () => {
                 event.initEvent('blur', true, true);
                 fakeInput.dispatchEvent(event);
                 tick();
+                fixture.detectChanges();
 
                 expect(instance.onBlur).toHaveBeenCalledWith('Bar');
+                tick();
+                fixture.detectChanges();
+                tick();
+
+                fixture.destroy();
+                discardPeriodicTasks();
             })
         ))
     );
@@ -254,8 +260,7 @@ describe('Select:', () => {
 
     describe('ValueAccessor:', () => {
 
-        // TODO: Fails with "No value accessor for ''", although there is a value accessor defined
-        xit('should bind the value with NgModel (outbound)',
+        it('should bind the value with ngModel (outbound)',
             fakeAsync(inject([TestComponentBuilder], (tcb: TestComponentBuilder) =>
                 tcb.overrideTemplate(TestComponent, `
                     <gtx-select [(ngModel)]="ngModelValue">
@@ -285,8 +290,7 @@ describe('Select:', () => {
             ))
         );
 
-        // TODO: Fails with "No value accessor for ''", although there is a value accessor defined
-        xit('should bind the value with formControlName (outbound)',
+        it('should bind the value with formControlName (outbound)',
             fakeAsync(inject([TestComponentBuilder], (tcb: TestComponentBuilder) =>
                 tcb.overrideTemplate(TestComponent, `
                     <form [formGroup]="testForm">
@@ -318,7 +322,7 @@ describe('Select:', () => {
         );
 
         /*
-        * This causes a "1 periodic timer(s) still in the queue"" Error
+        * TODO: Throws "1 periodic timer(s) still in the queue"
         */
         xit('should mark the component as "touched" when native input blurs',
             fakeAsync(inject([TestComponentBuilder], (tcb: TestComponentBuilder) =>

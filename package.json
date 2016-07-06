@@ -36,7 +36,8 @@
   },
   "keywords": [
     "gentics",
-    "ui"
+    "ui",
+    "user-interface"
   ],
   "devDependencies": {
     "@angular/common": "2.0.0-rc.4",
