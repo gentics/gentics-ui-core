@@ -13,19 +13,22 @@ import {
 } from '@angular/core';
 import {ControlValueAccessor, NG_VALUE_ACCESSOR} from '@angular/forms';
 
-const GTX_RADIO_GROUP_VALUE_ACCESSOR = new Provider(NG_VALUE_ACCESSOR, {
+
+const GTX_RADIO_GROUP_VALUE_ACCESSOR = {
+    provide: NG_VALUE_ACCESSOR,
     useExisting: forwardRef(() => RadioGroup),
     multi: true
-});
+};
 
-const GTX_RADIO_BUTTON_VALUE_ACCESSOR = new Provider(NG_VALUE_ACCESSOR, {
+const GTX_RADIO_BUTTON_VALUE_ACCESSOR = {
+    provide: NG_VALUE_ACCESSOR,
     useExisting: forwardRef(() => RadioButton),
     multi: true
-});
+};
 
 /**
  * RadioGroup groups multiple {@link RadioButton} elements together.
- * Use NgModel to connect it to a form model.
+ * Use ngModel to connect it to a form model.
  */
 @Directive({
     selector: 'gtx-radio-group, [gtx-radio-group]',

@@ -1,13 +1,22 @@
 import {
     Component,
+    EventEmitter,
     Input,
-    Output,
     Optional,
+    Output,
+    Provider,
     Self,
-    EventEmitter
+    forwardRef
 } from '@angular/core';
 import {isBlank, isNumber} from '@angular/core/src/facade/lang';
-import {ControlValueAccessor, NgControl} from '@angular/forms';
+import {ControlValueAccessor, NG_VALUE_ACCESSOR} from '@angular/forms';
+
+
+const GTX_TEXTAREA_VALUE_ACCESSOR = {
+    provide: NG_VALUE_ACCESSOR,
+    useExisting: forwardRef(() => Textarea),
+    multi: true
+};
 
 /**
  * The Textarea wraps the native `<textarea>` form element. Textareas automatically grow to accommodate their content.
@@ -18,7 +27,8 @@ import {ControlValueAccessor, NgControl} from '@angular/forms';
  */
 @Component({
     selector: 'gtx-textarea',
-    template: require('./textarea.tpl.html')
+    template: require('./textarea.tpl.html'),
+    providers: [GTX_TEXTAREA_VALUE_ACCESSOR]
 })
 export class Textarea implements ControlValueAccessor {
 
@@ -93,12 +103,6 @@ export class Textarea implements ControlValueAccessor {
     @Output() change = new EventEmitter<string>();
 
     private _maxlength: number;
-
-    constructor(@Self() @Optional() ngControl: NgControl) {
-        if (ngControl) {
-            ngControl.valueAccessor = this;
-        }
-    }
 
 
     onBlur(): void {

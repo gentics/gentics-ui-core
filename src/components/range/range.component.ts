@@ -9,14 +9,16 @@ import {
     Self,
     forwardRef
 } from '@angular/core';
-import {ControlValueAccessor, NgControl, NG_VALUE_ACCESSOR, REACTIVE_FORM_DIRECTIVES} from '@angular/forms';
+import {ControlValueAccessor, NG_VALUE_ACCESSOR} from '@angular/forms';
 
 declare var $: JQueryStatic;
 
-const GTX_RANGE_VALUE_ACCESSOR = new Provider(NG_VALUE_ACCESSOR, {
+
+const GTX_RANGE_VALUE_ACCESSOR = {
+    provide: NG_VALUE_ACCESSOR,
     useExisting: forwardRef(() => Range),
     multi: true
-});
+};
 
 /**
  * The Range wraps the native `<input type="range">` form element.
@@ -28,8 +30,7 @@ const GTX_RANGE_VALUE_ACCESSOR = new Provider(NG_VALUE_ACCESSOR, {
 @Component({
     selector: 'gtx-range',
     template: require('./range.tpl.html'),
-    providers: [GTX_RANGE_VALUE_ACCESSOR],
-    directives: [REACTIVE_FORM_DIRECTIVES]
+    providers: [GTX_RANGE_VALUE_ACCESSOR]
 })
 export class Range implements ControlValueAccessor {
 
@@ -96,12 +97,6 @@ export class Range implements ControlValueAccessor {
     // ValueAccessor members
     onChange: any = (_: any) => {};
     onTouched: any = () => {};
-
-    constructor(@Self() @Optional() ngControl: NgControl) {
-        if (ngControl) {
-            ngControl.valueAccessor = this;
-        }
-    }
 
     onBlur(): void {
         this.blur.emit(this.value);

@@ -1,19 +1,13 @@
-import {
-    Component,
-    EventEmitter,
-    Input,
-    Output,
-    Provider,
-    forwardRef
-} from '@angular/core';
+import {Component, EventEmitter, Input, Output, Provider, forwardRef} from '@angular/core';
 import {ControlValueAccessor, NG_VALUE_ACCESSOR} from '@angular/forms';
 
 export type CheckState = boolean | 'indeterminate';
 
-const GTX_CHECKBOX_VALUE_ACCESSOR = new Provider(NG_VALUE_ACCESSOR, {
+const GTX_CHECKBOX_VALUE_ACCESSOR = {
+    provide: NG_VALUE_ACCESSOR,
     useExisting: forwardRef(() => Checkbox),
     multi: true
-});
+};
 
 /**
  * Checkbox wraps the native `<input type="checkbox">` form element.
@@ -53,11 +47,12 @@ export class Checkbox implements ControlValueAccessor {
     @Input() get checked(): boolean {
         return this.checkState === true;
     }
-    set checked(val: boolean) {
+    set checked(value: boolean) {
         this.statelessMode = true;
-        if (val != this.checkState) {
-            this.checkState = val === true || <any> val === 'true';
-            this.onChange(this.checkState);
+        let val: boolean | 'true' | '' | 'indeterminate' = <any> value;
+        let nowChecked = val === true || <any> val === 'true' || <any> val === '';
+        if (nowChecked != this.checkState) {
+            this.onChange(this.checkState = nowChecked);
         }
     }
 

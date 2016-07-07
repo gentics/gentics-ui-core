@@ -80,16 +80,16 @@ gtx-split-view-container {
             width: 100%;
         }
 
-        > .hasNoRightPanel > .right-panel {
+        & > .hasNoRightPanel > .right-panel {
             opacity: $gtx-split-view-container-opacity-hidden;
         }
 
-        > .hasRightPanel > .right-panel,
-        > .focusedRight > .left-panel {
+        & > .hasRightPanel > .right-panel,
+        & > .focusedRight > .left-panel {
             opacity: $gtx-split-view-container-opacity-inactive;
         }
 
-        > .focusedRight > .right-panel {
+        & > .focusedRight > .right-panel {
             opacity: $gtx-split-view-container-opacity-focused;
         }
 
@@ -107,6 +107,7 @@ gtx-split-view-container {
 
         & > * > .focus-switcher-left,
         & > * > .focus-switcher-right {
+            display: none;
             position: absolute;
             top: 0;
             bottom: 0;
@@ -129,8 +130,7 @@ gtx-split-view-container {
 
     // Definitions for "large", non-sliding breakpoint
     @media only screen and (min-width : $large-screen-up) {
-
-        > .slideable.hasNoRightPanel {
+        & > .slideable.hasNoRightPanel {
             width: 70%;
             max-width: 1280px;
         }
