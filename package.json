@@ -1,12 +1,12 @@
 {
   "name": "gentics-ui-core",
-  "version": "0.4.0",
+  "version": "0.5.0",
   "description": "Gentics UI Core Framework",
   "private": true,
   "main": "dist/index.js",
   "typings": "dist/index.d.ts",
   "scripts": {
-    "build": "gulp lib:build",
+    "build": "gulp dist:build",
     "prepare-package": "gulp package",
     "test": "gulp test:run",
     "watch": "gulp test:watch dist:watch docs:watch"

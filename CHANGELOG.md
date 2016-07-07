@@ -1,10 +1,14 @@
-## 0.5.0 (2016-??-??)
+## 0.5.0 (2016-07-07)
 ### Features
-* Upgraded to angular release candidate 3
+* Upgraded to angular release candidate 4
+* Upgraded to new router and form directives
 * (build) Updated jscs version
 
 ### Fixes
 * Resizing SplitViewContainer above iframe works
+* Performance problem with innerHTML in docs resolved 
+* "Cannot read property of undefined" in Notifications fixed
+* (docs) prevent angular from sanitizing strings in AutoDocs
 
 ## 0.4.0 (2016-06-20)
 ### Features
