@@ -4,7 +4,7 @@ import {
     Input,
     Output
 } from '@angular/core';
-import {RouterLink} from '@angular/router/directives/router_link';
+import {ROUTER_DIRECTIVES} from '@angular/router';
 import {isPresent} from '@angular/core/src/facade/lang';
 
 export interface IBreadcrumbLink {
@@ -29,20 +29,20 @@ export interface IBreadcrumbRouterLink {
 @Component({
     selector: 'gtx-breadcrumbs',
     template: require('./breadcrumbs.tpl.html'),
-    directives: [RouterLink]
+    directives: [ROUTER_DIRECTIVES]
 })
 export class Breadcrumbs {
 
     /**
      * A list of links to display
      */
-    @Input() links: IBreadcrumbLink[] = null;
+    @Input() links: IBreadcrumbLink[];
 
 
     /**
      * A list of RouterLinks to display
      */
-    @Input() routerLinks: IBreadcrumbRouterLink[] = null;
+    @Input() routerLinks: IBreadcrumbRouterLink[];
 
     /**
      * Controls whether the navigation is disabled.

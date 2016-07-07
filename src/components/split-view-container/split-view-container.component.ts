@@ -321,8 +321,8 @@ export class SplitViewContainer implements AfterViewInit, OnDestroy {
             $body.removeClass('gtx-split-view-container-resizing');
             $body.off('mousemove', this.boundBodyMouseMove);
             $body.off('mouseup', this.boundBodyMouseUp);
-            this.boundBodyMouseMove = null;
-            this.boundBodyMouseUp = null;
+            this.boundBodyMouseMove = undefined;
+            this.boundBodyMouseUp = undefined;
         }
     }
 

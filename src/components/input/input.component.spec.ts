@@ -1,8 +1,8 @@
 import {Component} from '@angular/core';
-import {ControlGroup, Control} from '@angular/common';
-import {describe, expect, fakeAsync, inject, it, tick} from '@angular/core/testing';
+import {beforeEachProviders, describe, expect, fakeAsync, inject, it, tick} from '@angular/core/testing';
 import {ComponentFixture, TestComponentBuilder} from '@angular/compiler/testing';
-import {InputField} from './input.component';
+import {InputField, GTX_INPUT_VALUE_ACCESSOR} from './input.component';
+import {FormControl, FormGroup, REACTIVE_FORM_DIRECTIVES} from '@angular/forms';
 
 describe('InputField', () => {
 
@@ -278,11 +278,12 @@ describe('InputField', () => {
                     });
             })));
 
-        it('should bind the value with NgControl (inbound)', inject([TestComponentBuilder],
+        it('should bind the value with formControlName (inbound)', inject([TestComponentBuilder],
             fakeAsync((tcb: TestComponentBuilder) => {
-                tcb.overrideTemplate(TestComponent, `<form [ngFormModel]="testForm">
-                                                                <gtx-input ngControl="test"></gtx-input>
-                                                            </form>`)
+                tcb.overrideTemplate(TestComponent, `
+                    <form [formGroup]="testForm">
+                        <gtx-input [formControlName]="'test'"></gtx-input>
+                    </form>`)
                     .createAsync(TestComponent)
                     .then((fixture: ComponentFixture<TestComponent>) => {
                         fixture.detectChanges();
@@ -292,11 +293,12 @@ describe('InputField', () => {
                     });
             })));
 
-        it('should bind the value with NgControl (outbound)', inject([TestComponentBuilder],
+        it('should bind the value with formControlName (outbound)', inject([TestComponentBuilder],
             fakeAsync((tcb: TestComponentBuilder) => {
-                tcb.overrideTemplate(TestComponent, `<form [ngFormModel]="testForm">
-                                                            <gtx-input ngControl="test"></gtx-input>
-                                                        </form>`)
+                tcb.overrideTemplate(TestComponent, `
+                    <form [formGroup]="testForm">
+                        <gtx-input formControlName="test"></gtx-input>
+                    </form>`)
                     .createAsync(TestComponent)
                     .then((fixture: ComponentFixture<TestComponent>) => {
                         fixture.detectChanges();
@@ -315,8 +317,8 @@ describe('InputField', () => {
         it('should mark the component as "touched" when native input blurs',
             inject([TestComponentBuilder], fakeAsync((tcb: TestComponentBuilder) => {
                 tcb.overrideTemplate(TestComponent, `
-                    <form [ngFormModel]="testForm">
-                        <gtx-input ngControl="test"></gtx-input>
+                    <form [formGroup]="testForm">
+                        <gtx-input formControlName="test"></gtx-input>
                     </form>`)
                     .createAsync(TestComponent)
                     .then((fixture: ComponentFixture<TestComponent>) => {
@@ -343,17 +345,17 @@ describe('InputField', () => {
 
 @Component({
     template: `<gtx-input></gtx-input>`,
-    directives: [InputField]
+    directives: [InputField, REACTIVE_FORM_DIRECTIVES]
 })
 class TestComponent {
 
     value: string = 'testValue';
     numberVal: number = 42;
-    testForm: ControlGroup;
+    testForm: FormGroup;
 
     constructor() {
-        this.testForm = new ControlGroup({
-            test: new Control('controlValue')
+        this.testForm = new FormGroup({
+            test: new FormControl('controlValue')
         });
     }
 

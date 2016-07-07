@@ -2,12 +2,18 @@ import {
     Component,
     EventEmitter,
     Input,
-    Optional,
-    Output
+    Output,
+    Provider,
+    forwardRef
 } from '@angular/core';
-import {ControlValueAccessor, NgControl} from '@angular/common';
+import {ControlValueAccessor, NG_VALUE_ACCESSOR} from '@angular/forms';
 
 export type CheckState = boolean | 'indeterminate';
+
+const GTX_CHECKBOX_VALUE_ACCESSOR = new Provider(NG_VALUE_ACCESSOR, {
+    useExisting: forwardRef(() => Checkbox),
+    multi: true
+});
 
 /**
  * Checkbox wraps the native `<input type="checkbox">` form element.
@@ -35,7 +41,8 @@ export type CheckState = boolean | 'indeterminate';
  */
 @Component({
     selector: 'gtx-checkbox',
-    template: require('./checkbox.tpl.html')
+    template: require('./checkbox.tpl.html'),
+    providers: [GTX_CHECKBOX_VALUE_ACCESSOR]
 })
 export class Checkbox implements ControlValueAccessor {
 
@@ -75,7 +82,7 @@ export class Checkbox implements ControlValueAccessor {
     /**
      * Checkbox ID
      */
-    @Input() id: string = 'checkbox-' + Math.random().toString(36).substr(2);
+    @Input() id: string = randomID();
     /**
      * Label for the checkbox
      */
@@ -115,12 +122,6 @@ export class Checkbox implements ControlValueAccessor {
      * See note above on stateless mode.
      */
     private statelessMode: boolean = false;
-
-    constructor(@Optional() control: NgControl) {
-        if (control && !control.valueAccessor) {
-            control.valueAccessor = this;
-        }
-    }
 
     onBlur(): void {
         this.blur.emit(this.checkState);
@@ -167,4 +168,8 @@ export class Checkbox implements ControlValueAccessor {
             return true;
         }
     }
+}
+
+function randomID(): string {
+    return 'checkbox-' + Math.random().toString(36).substr(2);
 }

@@ -1,5 +1,7 @@
 ## 0.5.0 (2016-??-??)
 ### Features
+* Upgraded to angular release candidate 3
+* (build) Updated jscs version
 
 ### Fixes
 * Resizing SplitViewContainer above iframe works

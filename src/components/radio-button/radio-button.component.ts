@@ -8,20 +8,28 @@ import {
     OnDestroy,
     Optional,
     Output,
-    Self
+    Provider,
+    forwardRef
 } from '@angular/core';
-import {
-    NgControl,
-    ControlValueAccessor
-} from '@angular/common';
+import {ControlValueAccessor, NG_VALUE_ACCESSOR} from '@angular/forms';
 
+const GTX_RADIO_GROUP_VALUE_ACCESSOR = new Provider(NG_VALUE_ACCESSOR, {
+    useExisting: forwardRef(() => RadioGroup),
+    multi: true
+});
+
+const GTX_RADIO_BUTTON_VALUE_ACCESSOR = new Provider(NG_VALUE_ACCESSOR, {
+    useExisting: forwardRef(() => RadioButton),
+    multi: true
+});
 
 /**
  * RadioGroup groups multiple {@link RadioButton} elements together.
- * Use ngControl or ngFormControl to connect it to a form.
+ * Use NgModel to connect it to a form model.
  */
 @Directive({
-    selector: 'gtx-radio-group, [gtx-radio-group]'
+    selector: 'gtx-radio-group, [gtx-radio-group]',
+    providers: [GTX_RADIO_GROUP_VALUE_ACCESSOR]
 })
 export class RadioGroup implements ControlValueAccessor {
 
@@ -34,11 +42,8 @@ export class RadioGroup implements ControlValueAccessor {
         return 'group-' + this.groupID;
     }
 
-    constructor(@Self() @Optional() private ngControl: NgControl) {
+    constructor() {
         this.groupID = RadioGroup.instanceCounter++;
-        if (ngControl) {
-            ngControl.valueAccessor = this;
-        }
     }
 
     add(radio: RadioButton): void {
@@ -79,7 +84,7 @@ export class RadioGroup implements ControlValueAccessor {
 
 /**
  * RadioButton wraps the native `<input type="radio">` form element.
- * To connect multiple radio buttons with a form via ngControl,
+ * To connect multiple radio buttons with a form via ngModel,
  * wrap them in a {@link RadioGroup} (`<gtx-radio-group>`).
  *
  * ```html
@@ -90,7 +95,7 @@ export class RadioGroup implements ControlValueAccessor {
  *
  * ##### Stateless Mode
  * By default, the RadioButton keeps track of its own internal checked state. This makes sense
- * for most use cases, such as when used in a form bound to NgControl.
+ * for most use cases, such as when used in a form bound to ngModel.
  *
  * However, in some cases we want to explicitly set the state from outside. This is done by binding
  * to the <code>checked</code> attribute. When this attribute is bound, the checked state of the
@@ -105,7 +110,8 @@ export class RadioGroup implements ControlValueAccessor {
  */
 @Component({
     selector: 'gtx-radio-button',
-    template: require('./radio-button.tpl.html')
+    template: require('./radio-button.tpl.html'),
+    providers: [GTX_RADIO_BUTTON_VALUE_ACCESSOR]
 })
 export class RadioButton implements ControlValueAccessor, OnInit, OnDestroy {
 
@@ -143,7 +149,7 @@ export class RadioButton implements ControlValueAccessor, OnInit, OnDestroy {
     /**
      * ID of the control
      */
-    @Input() id: string = 'radio-' + Math.random().toString(36).substr(2);
+    @Input() id: string = randomID();
 
     /**
      * Label for the radio button
@@ -191,13 +197,8 @@ export class RadioButton implements ControlValueAccessor, OnInit, OnDestroy {
      */
     private statelessMode: boolean = false;
 
-    constructor(@Self() @Optional() control: NgControl,
-                @Optional() private group: RadioGroup,
+    constructor(@Optional() private group: RadioGroup,
                 @Attribute('ngModel') modelAttrib: string) {
-
-        if (control && !control.valueAccessor) {
-            control.valueAccessor = this;
-        }
 
         // Pre-set a common input name for grouped input elements
         if (group) {
@@ -273,4 +274,8 @@ export class RadioButton implements ControlValueAccessor, OnInit, OnDestroy {
         this.onChange(this.value);
         return true;
     }
+}
+
+function randomID(): string {
+    return 'radio-' + Math.random().toString(36).substr(2);
 }

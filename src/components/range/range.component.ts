@@ -1,15 +1,22 @@
 import {
-    ElementRef,
     Component,
+    ElementRef,
+    EventEmitter,
     Input,
     Optional,
-    Self,
     Output,
-    EventEmitter
+    Provider,
+    Self,
+    forwardRef
 } from '@angular/core';
-import {ControlValueAccessor, NgControl} from '@angular/common';
+import {ControlValueAccessor, NgControl, NG_VALUE_ACCESSOR, REACTIVE_FORM_DIRECTIVES} from '@angular/forms';
 
 declare var $: JQueryStatic;
+
+const GTX_RANGE_VALUE_ACCESSOR = new Provider(NG_VALUE_ACCESSOR, {
+    useExisting: forwardRef(() => Range),
+    multi: true
+});
 
 /**
  * The Range wraps the native `<input type="range">` form element.
@@ -20,7 +27,9 @@ declare var $: JQueryStatic;
  */
 @Component({
     selector: 'gtx-range',
-    template: require('./range.tpl.html')
+    template: require('./range.tpl.html'),
+    providers: [GTX_RANGE_VALUE_ACCESSOR],
+    directives: [REACTIVE_FORM_DIRECTIVES]
 })
 export class Range implements ControlValueAccessor {
 

@@ -1,5 +1,5 @@
 import {Component} from '@angular/core';
-import {ControlGroup, Control} from '@angular/common';
+import {FormGroup, FormControl, REACTIVE_FORM_DIRECTIVES} from '@angular/forms';
 import {By} from '@angular/platform-browser';
 import {beforeEach, describe, expect, fakeAsync, inject, it, tick} from '@angular/core/testing';
 import {ComponentFixture, TestComponentBuilder} from '@angular/compiler/testing';
@@ -333,16 +333,16 @@ describe('DateTimePicker:', () => {
 
 @Component({
     template: `<gtx-date-time-picker></gtx-date-time-picker>`,
-    directives: [DateTimePicker]
+    directives: [DateTimePicker, REACTIVE_FORM_DIRECTIVES]
 })
 class TestComponent {
     showModal: boolean = false;
     testModel: number = TEST_TIMESTAMP;
-    testForm: ControlGroup;
+    testForm: FormGroup;
 
     constructor() {
-        this.testForm = new ControlGroup({
-            test: new Control(TEST_TIMESTAMP)
+        this.testForm = new FormGroup({
+            test: new FormControl(TEST_TIMESTAMP)
         });
     }
     onChange(): void {}

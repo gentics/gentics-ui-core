@@ -191,7 +191,7 @@ export class DropdownList {
     destroyScrollMask(): void {
         if (this.scrollMask && this.scrollMask.remove) {
             this.scrollMask.remove();
-            this.scrollMask = null;
+            this.scrollMask = undefined;
         }
     }
 

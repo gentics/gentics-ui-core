@@ -9,5 +9,5 @@ import {Autodocs, DemoBlock, HighlightedCode} from '../../components';
 export class InputDemo {
     componentSource: string = require('!!raw!../../../components/input/input.component.ts');
 
-    name: string = 'Foo';
+    name: string = 'Foo'; 
 }
