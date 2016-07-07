@@ -1,10 +1,8 @@
-import {Location} from '@angular/common';
-import {SpyLocation} from '@angular/common/testing';
 import {ComponentFixture, TestComponentBuilder} from '@angular/compiler/testing';
-import {Component} from '@angular/core';
-import {addProviders, async, fakeAsync, inject, tick} from '@angular/core/testing';
+import {Component, Directive, Input} from '@angular/core';
+import {async, fakeAsync, inject, tick} from '@angular/core/testing';
 import {By} from '@angular/platform-browser';
-import {Router, Route, ROUTER_DIRECTIVES, provideRouter} from '@angular/router';
+import {RouterLink, RouterLinkWithHref} from '@angular/router';
 
 import {
     Breadcrumbs,
@@ -45,7 +43,7 @@ describe('Breadcrumbs:', () => {
                 ]'></gtx-breadcrumbs>
             `)
             .createAsync(TestComponent)
-            .then((fixture: ComponentFixture<TestComponent>) => {
+            .then(fixture => {
                 fixture.detectChanges();
                 let nativeLinks: HTMLAnchorElement[] = fixture.nativeElement.querySelectorAll('a');
 
@@ -65,7 +63,7 @@ describe('Breadcrumbs:', () => {
                 ]'></gtx-breadcrumbs>
             `)
             .createAsync(TestComponent)
-            .then((fixture: ComponentFixture<TestComponent>) => {
+            .then(fixture => {
                 fixture.detectChanges();
                 let nativeLinks: HTMLAnchorElement[] = fixture.nativeElement.querySelectorAll('a');
 
@@ -76,12 +74,12 @@ describe('Breadcrumbs:', () => {
     );
 
     it('changes the text of the created links with the bound input property',
-        fakeAsync(inject([TestComponentBuilder], (tcb: TestComponentBuilder) =>
+        async(inject([TestComponentBuilder], (tcb: TestComponentBuilder) =>
             tcb.overrideTemplate(TestComponent, `
                 <gtx-breadcrumbs [links]="links"></gtx-breadcrumbs>
             `)
             .createAsync(TestComponent)
-            .then((fixture: ComponentFixture<TestComponent>) => {
+            .then(fixture => {
                 let component: TestComponent = fixture.componentInstance;
                 let links = component.links = [
                     { text: 'A' },
@@ -116,12 +114,12 @@ describe('Breadcrumbs:', () => {
     );
 
     it('changes the href of the created links with the bound input property',
-        fakeAsync(inject([TestComponentBuilder], (tcb: TestComponentBuilder) =>
+        async(inject([TestComponentBuilder], (tcb: TestComponentBuilder) =>
             tcb.overrideTemplate(TestComponent, `
                 <gtx-breadcrumbs [links]="links"></gtx-breadcrumbs>
             `)
             .createAsync(TestComponent)
-            .then((fixture: ComponentFixture<TestComponent>) => {
+            .then(fixture => {
                 let component: TestComponent = fixture.componentInstance;
                 let links = component.links = [
                     { text: 'A', href: '/a' },
@@ -156,7 +154,7 @@ describe('Breadcrumbs:', () => {
     );
 
     it('removes the href attribute of links when disabled',
-        fakeAsync(inject([TestComponentBuilder], (tcb: TestComponentBuilder) =>
+        async(inject([TestComponentBuilder], (tcb: TestComponentBuilder) =>
             tcb.overrideTemplate(TestComponent, `
                 <gtx-breadcrumbs [links]="[
                     { text: 'A', href: '/a' },
@@ -166,7 +164,7 @@ describe('Breadcrumbs:', () => {
                 </gtx-breadcrumbs>
             `)
             .createAsync(TestComponent)
-            .then((fixture: ComponentFixture<TestComponent>) => {
+            .then(fixture => {
                 let component: TestComponent = fixture.componentInstance;
 
                 component.disableBreadcrumbs = false;
@@ -194,7 +192,7 @@ describe('Breadcrumbs:', () => {
                 </gtx-breadcrumbs>
             `)
             .createAsync(TestComponent)
-            .then((fixture: ComponentFixture<TestComponent>) => {
+            .then(fixture => {
                 const component: TestComponent = fixture.componentInstance;
                 const spy = spyOn(component, 'onClick');
 
@@ -203,7 +201,6 @@ describe('Breadcrumbs:', () => {
 
                 let linkToClick = fixture.debugElement.query(By.css('a'));
                 linkToClick.triggerEventHandler('click', new MouseEvent('click', {}));
-                tick(50);
 
                 expect(spy.calls.count()).toBe(1);
                 expect(spy).toHaveBeenCalledWith({ text: 'A', href: '/a' });
@@ -220,7 +217,7 @@ describe('Breadcrumbs:', () => {
                 </gtx-breadcrumbs>
             `)
             .createAsync(TestComponent)
-            .then((fixture: ComponentFixture<TestComponent>) => {
+            .then(fixture => {
                 const component: TestComponent = fixture.componentInstance;
                 const spy = spyOn(component, 'onClick');
 
@@ -229,7 +226,6 @@ describe('Breadcrumbs:', () => {
 
                 let linkToClick = fixture.debugElement.query(By.css('a'));
                 linkToClick.triggerEventHandler('click', new MouseEvent('click', {}));
-                tick(50);
 
                 expect(spy.calls.count()).toBe(0);
             })
@@ -245,7 +241,7 @@ describe('Breadcrumbs:', () => {
                 </gtx-breadcrumbs>
             `)
             .createAsync(TestComponent)
-            .then((fixture: ComponentFixture<TestComponent>) => {
+            .then(fixture => {
                 const component: TestComponent = fixture.componentInstance;
                 const spy = spyOn(component, 'onClick');
                 component.links = [
@@ -253,14 +249,12 @@ describe('Breadcrumbs:', () => {
                 ];
 
                 fixture.detectChanges();
-                tick();
                 expect(spy.calls.count()).toBe(0);
 
                 let linkToClick = fixture.debugElement.query(By.css('a'));
                 expect(linkToClick).not.toBeNull();
 
                 linkToClick.triggerEventHandler('click', new MouseEvent('click', {}));
-                tick(50);
 
                 expect(spy.calls.count()).toBe(1, 'click handler was not called');
                 expect(spy).toHaveBeenCalledWith({ text: 'X', href: '/x', someKey: 'someValue' });
@@ -269,132 +263,82 @@ describe('Breadcrumbs:', () => {
         ))
     );
 
-    /**
-     * Since upgrading to the v3 router (with rc.2) these tests no longer work.
-     * Needs some investigation to figure out how to fix.
-     * Possibly helpful: https://github.com/angular/vladivostok/issues/45
-     */
     describe('Router link capabilities', () => {
-        beforeEach(() => addProviders([
-            ROUTER_DIRECTIVES,
-            provideRouter(getRoutes()),
-            { provide: Location, useClass: SpyLocation }
-        ]));
 
-        // TODO: Throws "Platforms have to be created via `createPlatform`!" error
-        xit('creates links with the text provided in "routerLinks"',
-            fakeAsync(inject([TestComponentBuilder, Location], (tcb: TestComponentBuilder, spyLocation: SpyLocation) =>
-                tcb.overrideTemplate(TestRoutingComponent, `
-                    <gtx-breadcrumbs [routerLinks]='[
-                        { text: "A", route: ["/TestA/TestB/TestC"] },
-                        { text: "B", route: ["/TestA", "TestB", "TestC"] }
-                    ]'></gtx-breadcrumbs>
-                    <router-outlet></router-outlet>
+        let createdRouterLinks: MockRouterLink[];
+        beforeEach(() => { createdRouterLinks = MockRouterLink.createdRouterLinks = []; });
+
+        it('creates links with the text provided in "routerLinks"',
+            async(inject([TestComponentBuilder], (tcb: TestComponentBuilder) =>
+                tcb.overrideTemplate(TestComponent, `
+                    <gtx-breadcrumbs [routerLinks]="routerLinks"></gtx-breadcrumbs>
                 `)
-                .createAsync(TestRoutingComponent)
-                .then((fixture: ComponentFixture<TestRoutingComponent>) => {
-                    fixture.detectChanges();
-                    spyLocation.simulateUrlPop('component-A-url/component-B-url/component-C-url');
-                    tick();
-                    fixture.detectChanges();
-                    let nativeLinks: HTMLAnchorElement[] = fixture.nativeElement.querySelectorAll('a');
+                .overrideDirective(Breadcrumbs, RouterLink, MockRouterLink)
+                .overrideDirective(Breadcrumbs, RouterLinkWithHref, MockRouterLink)
+                .createAsync(TestComponent)
+                .then(fixture => {
+                    let instance = fixture.componentRef.instance;
 
-                    expect(nativeLinks.length).toBe(2);
+                    instance.routerLinks = [
+                        { text: 'A', route: ['/TestA/TestB/TestC'] },
+                        { text: 'B', route: ['/TestA', 'TestB', 'TestC'] }
+                    ];
+                    fixture.detectChanges();
                     expect(linkTexts(fixture)).toEqual(['A', 'B']);
+
+                    instance.routerLinks.push({ text: 'C', route: ['./TestC'] });
+                    fixture.detectChanges();
+                    expect(linkTexts(fixture)).toEqual(['A', 'B', 'C']);
                 })
             ))
         );
 
-        // TODO: Throws "Platforms have to be created via `createPlatform`!" error
-        xit('sets the "href" of links created via "routerLinks" to their router URL',
-            fakeAsync(inject([TestComponentBuilder, Location], (tcb: TestComponentBuilder, spyLocation: SpyLocation) =>
-                tcb.overrideTemplate(TestRoutingComponent, `
+        it('forwards the "route" property to the routerLink directive',
+            async(inject([TestComponentBuilder], (tcb: TestComponentBuilder) =>
+                tcb.overrideTemplate(TestComponent, `
                     <gtx-breadcrumbs [routerLinks]='[
                         { text: "A", route: ["/TestA/TestB/TestC"] },
-                        { text: "B", route: ["/TestA", "TestB", "TestC"] }
+                        { text: "B", route: "./TestB" },
+                        { text: "C", route: ["/TestA", "TestB", "TestC"] }
                     ]'></gtx-breadcrumbs>
-                    <router-outlet></router-outlet>
                 `)
-                .createAsync(TestRoutingComponent)
-                .then((fixture: ComponentFixture<TestRoutingComponent>) => {
-                    fixture.detectChanges();
-                    spyLocation.simulateUrlPop('component-A-url/component-B-url/component-C-url');
-                    tick();
-                    fixture.detectChanges();
-
-                    expect(linkHrefs(fixture)).toEqual([
-                        '/component-A-url/component-B-url/component-C-url',
-                        '/component-A-url/component-B-url/component-C-url'
-                    ]);
-                })
-            ))
-        );
-
-        // TODO: Throws "Platforms have to be created via `createPlatform`!" error
-        xit('changes to the correct URL when clicking links created via "routerLink"',
-            fakeAsync(inject([TestComponentBuilder, Location], (tcb: TestComponentBuilder, spyLocation: SpyLocation) =>
-                tcb.overrideTemplate(TestRoutingComponent, `
-                    <gtx-breadcrumbs [routerLinks]='[
-                        { text: "1", route: ["/TestA", "TestB", "TestC"] },
-                        { text: "2", route: ["/TestA", "TestB", "TestC-2"] },
-                        { text: "3", route: ["/TestA", "TestB", "TestC-3"] }
-                    ]'></gtx-breadcrumbs>
-                    <router-outlet></router-outlet>
-                `)
-                .createAsync(TestRoutingComponent)
-                .then((fixture: ComponentFixture<TestRoutingComponent>) => {
-                    fixture.detectChanges();
-                    spyLocation.simulateUrlPop('component-A-url/component-B-url/component-C-url');
-                    tick();
+                .overrideDirective(Breadcrumbs, RouterLink, MockRouterLink)
+                .overrideDirective(Breadcrumbs, RouterLinkWithHref, MockRouterLink)
+                .createAsync(TestComponent)
+                .then(fixture => {
                     fixture.detectChanges();
 
-                    let generatedLinks = fixture.debugElement.queryAll(By.css('a'));
-                    expect(generatedLinks.length).toBe(3);
-
-                    generatedLinks[1].triggerEventHandler('click', new MouseEvent('click', {}));
-                    tick(50);
-                    expect(spyLocation.urlChanges).toEqual([
-                        '/component-A-url/component-B-url/component-C-2-url'
-                    ]);
-
-                    generatedLinks[2].triggerEventHandler('click', new MouseEvent('click', {}));
-                    tick(50);
-                    expect(spyLocation.urlChanges).toEqual([
-                        '/component-A-url/component-B-url/component-C-2-url',
-                        '/component-A-url/component-B-url/component-C-3-url'
-                    ]);
+                    expect(createdRouterLinks.length).toBe(3);
+                    expect(createdRouterLinks[0].commands).toEqual(['/TestA/TestB/TestC']);
+                    expect(createdRouterLinks[1].commands).toEqual(['./TestB']);
+                    expect(createdRouterLinks[2].commands).toEqual(['/TestA', 'TestB', 'TestC']);
                 })
             ))
         );
 
         /*
-         * The test below does not work yet.
-         * At the current angular revision, the RouterLink directive can not be disabled.
-         * Only working solution is "pointer-events: none", which does not prevent the click event.
+         * The test below does not work yet - At the current angular revision,
+         * the RouterLink directive can not be disabled. A working solution is "pointer-events: none",
+         * but that does not prevent the click event in tests and is not testable.
          * This might change with a future revision of angular.
          */
         xit('does not change the URL on router link click when disabled',
-            fakeAsync(inject([TestComponentBuilder, Location], (tcb: TestComponentBuilder, spyLocation: SpyLocation) =>
-                tcb.overrideTemplate(TestRoutingComponent, `
+            async(inject([TestComponentBuilder], (tcb: TestComponentBuilder) =>
+                tcb.overrideTemplate(TestComponent, `
                     <gtx-breadcrumbs [routerLinks]='[
                         { text: "C1", route: ["/TestA", "TestB", "TestC"] },
                         { text: "C2", route: ["/TestA", "TestB", "TestC-2"] }
                     ]' disabled></gtx-breadcrumbs>
-                    <router-outlet></router-outlet>
                 `)
-                .createAsync(TestRoutingComponent)
-                .then((fixture: ComponentFixture<TestRoutingComponent>) => {
+                .createAsync(TestComponent)
+                .then(fixture => {
                     fixture.detectChanges();
-                    spyLocation.simulateUrlPop('component-A-url/component-B-url/component-C-url');
                     tick();
                     fixture.detectChanges();
 
                     let generatedLinks = fixture.debugElement.queryAll(By.css('a'));
                     expect(generatedLinks.length).toBe(2);
-
-                    generatedLinks[1].triggerEventHandler('click', new MouseEvent('click', {}));
-                    tick(50);
-                    expect(spyLocation.urlChanges).toEqual([]);
+                    expect(createdRouterLinks.length).toBe(0);
                 })
             ))
         );
@@ -402,6 +346,7 @@ describe('Breadcrumbs:', () => {
     });
 
 });
+
 
 @Component({
     template: `<gtx-breadcrumbs></gtx-breadcrumbs>`,
@@ -414,37 +359,24 @@ class TestComponent {
     onClick(): void {}
 }
 
-/* 3-ancestor component setup to test routing */
 
-@Component({
-    template: `no content`
+@Directive({
+    selector: '[routerLink]'
 })
-class RoutedTestComponentC { }
+class MockRouterLink {
+    static createdRouterLinks: MockRouterLink[] = [];
+    commands: any[] = [];
 
-@Component({
-    template: `<router-outlet></router-outlet>`,
-    directives: [TestComponent]
-})
-class RoutedTestComponentB { }
+    constructor() {
+        MockRouterLink.createdRouterLinks.push(this);
+    }
 
-@Component({
-    template: `<router-outlet></router-outlet>`,
-    directives: []
-})
-class RoutedTestComponentA { }
-
-@Component({
-    template: `<router-outlet></router-outlet>`,
-    directives: [Breadcrumbs]
-})
-class TestRoutingComponent { }
-
-function getRoutes(): Route[] {
-    return [
-        { path: 'component-C-url', component: RoutedTestComponentC },
-        { path: 'component-C-2-url', component: RoutedTestComponentC },
-        { path: 'component-C-3-url', component: RoutedTestComponentC },
-        { path: 'component-B-url/...', component: RoutedTestComponentB },
-        { path: 'component-A-url/...', component: RoutedTestComponentA }
-    ];
+    @Input()
+    set routerLink(data: any[]|string) {
+        if (Array.isArray(data)) {
+            this.commands = data;
+        } else {
+            this.commands = [data];
+        }
+    }
 }
