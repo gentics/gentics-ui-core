@@ -9,7 +9,7 @@ describe('SideMenu', () => {
     it('should not have the "opened" class when closed',
         async(inject([TestComponentBuilder], (tcb: TestComponentBuilder) =>
             tcb.createAsync(TestComponent)
-            .then((fixture: ComponentFixture<TestComponent>) => {
+            .then(fixture => {
                 let menu: HTMLElement = getMenuElement(fixture);
                 fixture.detectChanges();
 
@@ -21,7 +21,7 @@ describe('SideMenu', () => {
     it('should have the "opened" class when open',
         async(inject([TestComponentBuilder], (tcb: TestComponentBuilder) =>
             tcb.createAsync(TestComponent)
-            .then((fixture: ComponentFixture<TestComponent>) => {
+            .then(fixture => {
                 let testInstance: TestComponent = fixture.componentInstance;
                 let menu: HTMLElement = getMenuElement(fixture);
                 testInstance.menuVisible = true;
@@ -37,7 +37,7 @@ describe('SideMenu', () => {
         it('should not have the "active" class when closed',
             async(inject([TestComponentBuilder], (tcb: TestComponentBuilder) =>
                 tcb.createAsync(TestComponent)
-                .then((fixture: ComponentFixture<TestComponent>) => {
+                .then(fixture => {
                     let button: HTMLElement = getToggleButtonElement(fixture);
                     fixture.detectChanges();
 
@@ -49,7 +49,7 @@ describe('SideMenu', () => {
         it('should have the "active" class when open',
             async(inject([TestComponentBuilder], (tcb: TestComponentBuilder) =>
                 tcb.createAsync(TestComponent)
-                .then((fixture: ComponentFixture<TestComponent>) => {
+                .then(fixture => {
                     let testInstance: TestComponent = fixture.componentInstance;
                     let button: HTMLElement = getToggleButtonElement(fixture);
                     testInstance.menuVisible = true;
@@ -63,7 +63,7 @@ describe('SideMenu', () => {
         it('clicking toggle button should invoke "toggle()" callback with new state',
             fakeAsync(inject([TestComponentBuilder], (tcb: TestComponentBuilder) =>
                 tcb.createAsync(TestComponent)
-                .then((fixture: ComponentFixture<TestComponent>) => {
+                .then(fixture => {
                     let testInstance: TestComponent = fixture.componentInstance;
                     let buttonDel: DebugElement = getToggleButtonDebugElement(fixture);
                     spyOn(testInstance, 'menuChanged');
@@ -82,7 +82,7 @@ describe('SideMenu', () => {
     it('clicking overlay should invoke "toggle()" callback with new state',
         fakeAsync(inject([TestComponentBuilder], (tcb: TestComponentBuilder) =>
             tcb.createAsync(TestComponent)
-            .then((fixture: ComponentFixture<TestComponent>) => {
+            .then(fixture => {
                 let testInstance: TestComponent = fixture.componentInstance;
                 let overlay: HTMLElement = fixture.nativeElement.querySelector('.side-menu-overlay');
                 spyOn(testInstance, 'menuChanged');
@@ -101,7 +101,7 @@ describe('SideMenu', () => {
     it('clicking overlay when opened === false should not invoke "toggle()"',
         fakeAsync(inject([TestComponentBuilder], (tcb: TestComponentBuilder) =>
             tcb.createAsync(TestComponent)
-            .then((fixture: ComponentFixture<TestComponent>) => {
+            .then(fixture => {
                 let testInstance: TestComponent = fixture.componentInstance;
                 let overlay: HTMLElement = fixture.nativeElement.querySelector('.side-menu-overlay');
                 spyOn(testInstance, 'menuChanged');

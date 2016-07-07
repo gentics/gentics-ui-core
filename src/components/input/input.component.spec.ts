@@ -18,7 +18,7 @@ describe('InputField', () => {
                 <gtx-input label="testLabel"></gtx-input>
             `)
             .createAsync(TestComponent)
-            .then((fixture: ComponentFixture<TestComponent>) => {
+            .then(fixture => {
                 let label: HTMLElement = fixture.nativeElement.querySelector('label');
                 fixture.detectChanges();
 
@@ -33,7 +33,7 @@ describe('InputField', () => {
                 <gtx-input label="testLabel"></gtx-input>
             `)
             .createAsync(TestComponent)
-            .then((fixture: ComponentFixture<TestComponent>) => {
+            .then(fixture => {
                 let label: HTMLElement = fixture.nativeElement.querySelector('label');
                 fixture.detectChanges();
 
@@ -48,7 +48,7 @@ describe('InputField', () => {
                 <gtx-input label="testLabel" value="foo"></gtx-input>
             `)
             .createAsync(TestComponent)
-            .then((fixture: ComponentFixture<TestComponent>) => {
+            .then(fixture => {
                 let label: HTMLElement = fixture.nativeElement.querySelector('label');
                 fixture.detectChanges();
 
@@ -63,7 +63,7 @@ describe('InputField', () => {
                 <gtx-input label="testLabel" placeholder="foo"></gtx-input>
             `)
             .createAsync(TestComponent)
-            .then((fixture: ComponentFixture<TestComponent>) => {
+            .then(fixture => {
                 let label: HTMLElement = fixture.nativeElement.querySelector('label');
                 fixture.detectChanges();
 
@@ -78,7 +78,7 @@ describe('InputField', () => {
                 <gtx-input label="testLabel" id="testId"></gtx-input>
             `)
             .createAsync(TestComponent)
-            .then((fixture: ComponentFixture<TestComponent>) => {
+            .then(fixture => {
                 let label: HTMLLabelElement = fixture.nativeElement.querySelector('label');
                 let nativeInput: HTMLInputElement = fixture.nativeElement.querySelector('input');
 
@@ -96,7 +96,7 @@ describe('InputField', () => {
                 <gtx-input></gtx-input>
             `)
             .createAsync(TestComponent)
-            .then((fixture: ComponentFixture<TestComponent>) => {
+            .then(fixture => {
                 let nativeInput: HTMLInputElement = fixture.nativeElement.querySelector('input');
                 fixture.detectChanges();
 
@@ -115,7 +115,7 @@ describe('InputField', () => {
                 <gtx-input></gtx-input>
             `)
             .createAsync(TestComponent)
-            .then((fixture: ComponentFixture<TestComponent>) => {
+            .then(fixture => {
                 let nativeInput: HTMLInputElement = fixture.nativeElement.querySelector('input');
                 const getAttr: Function = (name: string) => nativeInput.attributes.getNamedItem(name);
                 fixture.detectChanges();
@@ -150,7 +150,7 @@ describe('InputField', () => {
                     value="testValue"
                 ></gtx-input>`)
             .createAsync(TestComponent)
-            .then((fixture: ComponentFixture<TestComponent>) => {
+            .then(fixture => {
                 let nativeInput: HTMLInputElement = fixture.nativeElement.querySelector('input');
                 fixture.detectChanges();
 
@@ -176,7 +176,7 @@ describe('InputField', () => {
                 <gtx-input [value]="value"></gtx-input>
             `)
             .createAsync(TestComponent)
-            .then((fixture: ComponentFixture<TestComponent>) => {
+            .then(fixture => {
                 let nativeInput: HTMLInputElement = fixture.nativeElement.querySelector('input');
                 fixture.detectChanges();
 
@@ -191,7 +191,7 @@ describe('InputField', () => {
                 <gtx-input type="number" [value]="numberVal"></gtx-input>
             `)
             .createAsync(TestComponent)
-            .then((fixture: ComponentFixture<TestComponent>) => {
+            .then(fixture => {
                 let nativeInput: HTMLInputElement = fixture.nativeElement.querySelector('input');
                 fixture.detectChanges();
 
@@ -206,7 +206,7 @@ describe('InputField', () => {
                 <gtx-input (blur)="onBlur($event)" value="foo"></gtx-input>
             `)
             .createAsync(TestComponent)
-            .then((fixture: ComponentFixture<TestComponent>) => {
+            .then(fixture => {
                 let nativeInput: HTMLInputElement = fixture.nativeElement.querySelector('input');
                 let instance: TestComponent = fixture.componentInstance;
                 fixture.detectChanges();
@@ -226,7 +226,7 @@ describe('InputField', () => {
                 <gtx-input (focus)="onFocus($event)" value="foo"></gtx-input>
             `)
             .createAsync(TestComponent)
-            .then((fixture: ComponentFixture<TestComponent>) => {
+            .then(fixture => {
                 let nativeInput: HTMLInputElement = fixture.nativeElement.querySelector('input');
                 let instance: TestComponent = fixture.componentInstance;
                 fixture.detectChanges();
@@ -246,7 +246,7 @@ describe('InputField', () => {
                 <gtx-input (change)="onChange($event)" value="foo"></gtx-input>
             `)
             .createAsync(TestComponent)
-            .then((fixture: ComponentFixture<TestComponent>) => {
+            .then(fixture => {
                 let nativeInput: HTMLInputElement = fixture.nativeElement.querySelector('input');
                 let instance: TestComponent = fixture.componentInstance;
                 fixture.detectChanges();
@@ -266,7 +266,7 @@ describe('InputField', () => {
                 <gtx-input (change)="onChange($event)" type="number" [value]="numberVal"></gtx-input>
             `)
             .createAsync(TestComponent)
-            .then((fixture: ComponentFixture<TestComponent>) => {
+            .then(fixture => {
                 let nativeInput: HTMLInputElement = fixture.nativeElement.querySelector('input');
                 let instance: TestComponent = fixture.componentInstance;
                 fixture.detectChanges();
@@ -286,7 +286,7 @@ describe('InputField', () => {
                 <gtx-input (change)="onChange($event)" value="foo"></gtx-input>
             `)
             .createAsync(TestComponent)
-            .then((fixture: ComponentFixture<TestComponent>) => {
+            .then(fixture => {
                 let nativeInput: HTMLInputElement = fixture.nativeElement.querySelector('input');
                 let instance: TestComponent = fixture.componentInstance;
                 fixture.detectChanges();
@@ -308,7 +308,7 @@ describe('InputField', () => {
                     <gtx-input [(ngModel)]="value"></gtx-input>
                 `)
                 .createAsync(TestComponent)
-                .then((fixture: ComponentFixture<TestComponent>) => {
+                .then(fixture => {
                     fixture.detectChanges();
                     tick();
                     fixture.detectChanges();
@@ -324,7 +324,7 @@ describe('InputField', () => {
                     <gtx-input [(ngModel)]="value"></gtx-input>
                 `)
                 .createAsync(TestComponent)
-                .then((fixture: ComponentFixture<TestComponent>) => {
+                .then(fixture => {
                     fixture.detectChanges();
                     let instance: TestComponent = fixture.componentInstance;
                     let nativeInput: HTMLInputElement = fixture.nativeElement.querySelector('input');
@@ -346,7 +346,7 @@ describe('InputField', () => {
                     </form>
                 `)
                 .createAsync(TestComponent)
-                .then((fixture: ComponentFixture<TestComponent>) => {
+                .then(fixture => {
                     fixture.detectChanges();
                     tick();
                     let nativeInput: HTMLInputElement = fixture.nativeElement.querySelector('input');
@@ -363,7 +363,7 @@ describe('InputField', () => {
                     </form>
                 `)
                 .createAsync(TestComponent)
-                .then((fixture: ComponentFixture<TestComponent>) => {
+                .then(fixture => {
                     fixture.detectChanges();
                     let instance: TestComponent = fixture.componentInstance;
                     let nativeInput: HTMLInputElement = fixture.nativeElement.querySelector('input');
@@ -385,7 +385,7 @@ describe('InputField', () => {
                     </form>
                 `)
                 .createAsync(TestComponent)
-                .then((fixture: ComponentFixture<TestComponent>) => {
+                .then(fixture => {
                     let nativeInput: HTMLInputElement = fixture.nativeElement.querySelector('input');
                     let instance: TestComponent = fixture.componentInstance;
                     fixture.detectChanges();

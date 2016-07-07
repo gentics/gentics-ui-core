@@ -10,20 +10,9 @@ require('reflect-metadata');
 require('zone.js/dist/fake-async-test');
 require('zone.js/dist/async-test');
 
-// @AngularClass
-/*
- * When testing with webpack and ES6, we have to do some extra
- * things get testing to work right. Because we are gonna write test
- * in ES6 to, we have to compile those as well. That's handled in
- * karma.conf.js with the karma-webpack plugin. This is the entry
- * file for webpack test. Just like webpack will create a bundle.js
- * file for our client, when we run test, it well compile and bundle them
- * all here! Crazy huh. So we need to do some setup
- */
 Error.stackTraceLimit = Infinity;
 var testing = require('@angular/core/testing');
 var browser = require('@angular/platform-browser-dynamic/testing');
-var forms = require('@angular/forms');
 
 testing.setBaseTestProviders(
     browser.TEST_BROWSER_DYNAMIC_PLATFORM_PROVIDERS,
@@ -33,17 +22,9 @@ testing.setBaseTestProviders(
 require('./src/index.ts');
 
 /*
- Ok, this is kinda crazy. We can use the the context method on
- require that webpack created in order to tell webpack
- what files we actually want to require or import.
- Below, context will be an function/object with file names as keys.
- using that regex we are saying look in ./src/app and ./test then find
- any file that ends with spec.js and get its path. By passing in true
- we say do this recursively
+  We can use the context method on webpack's require to tell
+  webpack what files we actually want to require or import.
+  For each .spec.ts file, require the file and load it.
  */
 var testContext = require.context('./src', true, /\.spec\.ts/);
-
-// get all the files, for each file, call the context function
-// that will require the file and load it up here. Context will
-// loop and require those spec files here
 testContext.keys().forEach(testContext);

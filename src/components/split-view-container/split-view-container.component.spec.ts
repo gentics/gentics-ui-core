@@ -16,7 +16,7 @@ describe('SplitViewContainer', () => {
                 </gtx-split-view-container>
             `)
             .createAsync(TestComponent)
-            .then((fixture: ComponentFixture<TestComponent>) => {
+            .then(fixture => {
                 const instance: TestComponent = fixture.componentInstance;
                 instance.hasRight = false;
 
@@ -48,7 +48,7 @@ describe('SplitViewContainer', () => {
                 </gtx-split-view-container>
             `)
             .createAsync(TestComponent)
-            .then((fixture: ComponentFixture<TestComponent>) => {
+            .then(fixture => {
                 const instance: TestComponent = fixture.componentInstance;
                 instance.focusedSide = 'left';
 
@@ -79,7 +79,7 @@ describe('SplitViewContainer', () => {
                 </gtx-split-view-container>
             `)
             .createAsync(TestComponent)
-            .then((fixture: ComponentFixture<TestComponent>) => {
+            .then(fixture => {
                 fixture.detectChanges();
                 tick();
                 const left: HTMLParagraphElement = fixture.nativeElement.querySelector('.should-be-left');
@@ -113,7 +113,7 @@ describe('SplitViewContainer', () => {
                 </gtx-split-view-container>
             `)
             .createAsync(TestComponent)
-            .then((fixture: ComponentFixture<TestComponent>) => {
+            .then(fixture => {
                 const instance: TestComponent = fixture.componentInstance;
                 instance.hasRight = true;
                 fixture.detectChanges();
@@ -144,7 +144,7 @@ describe('SplitViewContainer', () => {
                 </gtx-split-view-container>
             `)
             .createAsync(TestComponent)
-            .then((fixture: ComponentFixture<TestComponent>) => {
+            .then(fixture => {
                 const instance: TestComponent = fixture.componentInstance;
                 instance.hasRight = false;
                 fixture.detectChanges();
@@ -169,7 +169,7 @@ describe('SplitViewContainer', () => {
                 </gtx-split-view-container>
             `)
             .createAsync(TestComponent)
-            .then((fixture: ComponentFixture<TestComponent>) => {
+            .then(fixture => {
                 const instance: TestComponent = fixture.componentInstance;
                 instance.hasRight = true;
                 fixture.detectChanges();
@@ -195,7 +195,7 @@ describe('SplitViewContainer', () => {
                 </gtx-split-view-container>
             `)
             .createAsync(TestComponent)
-            .then((fixture: ComponentFixture<TestComponent>) => {
+            .then(fixture => {
                 fixture.detectChanges();
 
                 const instance: TestComponent = fixture.componentInstance;
@@ -222,7 +222,7 @@ describe('SplitViewContainer', () => {
                 </gtx-split-view-container>
             `)
             .createAsync(TestComponent)
-            .then((fixture: ComponentFixture<TestComponent>) => {
+            .then(fixture => {
                 fixture.detectChanges();
 
                 const instance: TestComponent = fixture.componentInstance;

@@ -18,7 +18,7 @@ describe('Select:', () => {
                 <gtx-select label="testLabel"></gtx-select>
             `)
             .createAsync(TestComponent)
-            .then((fixture: ComponentFixture<TestComponent>) => {
+            .then(fixture => {
                 let label: HTMLElement = fixture.nativeElement.querySelector('label');
                 fixture.detectChanges();
 
@@ -33,7 +33,7 @@ describe('Select:', () => {
                 <gtx-select label="testLabel" id="testId"></gtx-select>
             `)
             .createAsync(TestComponent)
-            .then((fixture: ComponentFixture<TestComponent>) => {
+            .then(fixture => {
                 let label: HTMLLabelElement = fixture.nativeElement.querySelector('label');
                 let nativeSelect: HTMLSelectElement = fixture.nativeElement.querySelector('select');
 
@@ -51,7 +51,7 @@ describe('Select:', () => {
                 <gtx-select></gtx-select>
             `)
             .createAsync(TestComponent)
-            .then((fixture: ComponentFixture<TestComponent>) => {
+            .then(fixture => {
                 let nativeSelect: HTMLSelectElement = fixture.nativeElement.querySelector('select');
                 fixture.detectChanges();
 
@@ -68,7 +68,7 @@ describe('Select:', () => {
                 <gtx-select></gtx-select>
             `)
             .createAsync(TestComponent)
-            .then((fixture: ComponentFixture<TestComponent>) => {
+            .then(fixture => {
                 let nativeSelect: HTMLSelectElement = fixture.nativeElement.querySelector('select');
                 const getAttr: Function = (name: string) => nativeSelect.attributes.getNamedItem(name);
                 fixture.detectChanges();
@@ -90,7 +90,7 @@ describe('Select:', () => {
                 ></gtx-select>
             `)
             .createAsync(TestComponent)
-            .then((fixture: ComponentFixture<TestComponent>) => {
+            .then(fixture => {
                 let nativeSelect: HTMLSelectElement = fixture.nativeElement.querySelector('select');
                 fixture.detectChanges();
 
@@ -105,7 +105,7 @@ describe('Select:', () => {
     it('should accept a "value" string and make the matching option "selected"',
         async(inject([TestComponentBuilder], (tcb: TestComponentBuilder) =>
             tcb.createAsync(TestComponent)
-            .then((fixture: ComponentFixture<TestComponent>) => {
+            .then(fixture => {
                 fixture.detectChanges();
                 let optionBar: HTMLOptionElement = <HTMLOptionElement> fixture.nativeElement
                     .querySelector('option[value="Bar"]');
@@ -123,7 +123,7 @@ describe('Select:', () => {
                 </gtx-select>
             `)
             .createAsync(TestComponent)
-            .then((fixture: ComponentFixture<TestComponent>) => {
+            .then(fixture => {
                 fixture.detectChanges();
                 tick();
 
@@ -139,7 +139,7 @@ describe('Select:', () => {
     it('should update "value" when another option is clicked',
         fakeAsync(inject([TestComponentBuilder], (tcb: TestComponentBuilder) =>
             tcb.createAsync(TestComponent)
-            .then((fixture: ComponentFixture<TestComponent>) => {
+            .then(fixture => {
                 fixture.detectChanges();
                 tick();
                 let selectInstance: Select = fixture.componentInstance.selectInstance;
@@ -162,7 +162,7 @@ describe('Select:', () => {
     xit('should emit "blur" when input blurs, with current value',
         fakeAsync(inject([TestComponentBuilder], (tcb: TestComponentBuilder) =>
             tcb.createAsync(TestComponent)
-            .then((fixture: ComponentFixture<TestComponent>) => {
+            .then(fixture => {
                 fixture.detectChanges();
                 tick();
                 let fakeInput: HTMLInputElement = fixture.nativeElement.querySelector('input.select-dropdown');
@@ -189,7 +189,7 @@ describe('Select:', () => {
     it('should emit "change" when a list item is clicked',
         fakeAsync(inject([TestComponentBuilder], (tcb: TestComponentBuilder) =>
             tcb.createAsync(TestComponent)
-            .then((fixture: ComponentFixture<TestComponent>) => {
+            .then(fixture => {
                 fixture.detectChanges();
                 tick();
 
@@ -216,7 +216,7 @@ describe('Select:', () => {
                 </gtx-select>
             `)
             .createAsync(TestComponent)
-            .then((fixture: ComponentFixture<TestComponent>) => {
+            .then(fixture => {
                 fixture.detectChanges();
                 tick();
 
@@ -243,7 +243,7 @@ describe('Select:', () => {
                  </gtx-select>
             `)
             .createAsync(TestComponent)
-            .then((fixture: ComponentFixture<TestComponent>) => {
+            .then(fixture => {
                 fixture.detectChanges();
                 tick();
 
@@ -268,7 +268,7 @@ describe('Select:', () => {
                     </gtx-select>
                 `)
                 .createAsync(TestComponent)
-                .then((fixture: ComponentFixture<TestComponent>) => {
+                .then(fixture => {
                     fixture.detectChanges();
                     tick();
 
@@ -300,7 +300,7 @@ describe('Select:', () => {
                      </form>
                 `)
                 .createAsync(TestComponent)
-                .then((fixture: ComponentFixture<TestComponent>) => {
+                .then(fixture => {
                     fixture.detectChanges();
                     tick();
                     let instance: TestComponent = fixture.componentInstance;
@@ -334,7 +334,7 @@ describe('Select:', () => {
                     </form>
                 `)
                 .createAsync(TestComponent)
-                .then((fixture: ComponentFixture<TestComponent>) => {
+                .then(fixture => {
                     fixture.detectChanges();
                     tick();
                     let instance: TestComponent = fixture.componentInstance;

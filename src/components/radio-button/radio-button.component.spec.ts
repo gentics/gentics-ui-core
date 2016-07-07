@@ -19,7 +19,7 @@ describe('RadioButton', () => {
                 <gtx-radio-button label="testLabel"></gtx-radio-button>
             `)
             .createAsync(TestComponent)
-            .then((fixture: ComponentFixture<TestComponent>) => {
+            .then(fixture => {
                 const label: HTMLLabelElement = fixture.nativeElement.querySelector('label');
                 fixture.detectChanges();
                 expect(label.innerText).toBe('testLabel');
@@ -36,7 +36,7 @@ describe('RadioButton', () => {
                 ></gtx-radio-button>
             `)
             .createAsync(TestComponent)
-            .then((fixture: ComponentFixture<TestComponent>) => {
+            .then(fixture => {
                 const label: HTMLLabelElement = fixture.nativeElement.querySelector('label');
                 const nativeInput: HTMLInputElement = fixture.nativeElement.querySelector('input');
 
@@ -55,7 +55,7 @@ describe('RadioButton', () => {
                 <gtx-radio-button></gtx-radio-button>
             `)
             .createAsync(TestComponent)
-            .then((fixture: ComponentFixture<TestComponent>) => {
+            .then(fixture => {
                 const nativeInput: HTMLInputElement = fixture.nativeElement.querySelector('input');
                 fixture.detectChanges();
 
@@ -74,7 +74,7 @@ describe('RadioButton', () => {
                 <gtx-radio-button></gtx-radio-button>
             `)
             .createAsync(TestComponent)
-            .then((fixture: ComponentFixture<TestComponent>) => {
+            .then(fixture => {
                 const nativeInput: HTMLInputElement = fixture.nativeElement.querySelector('input');
                 const getAttr: Function = (name: string) => nativeInput.attributes.getNamedItem(name);
                 fixture.detectChanges();
@@ -97,7 +97,7 @@ describe('RadioButton', () => {
                 <gtx-radio-button></gtx-radio-button>
             `)
             .createAsync(TestComponent)
-            .then((fixture: ComponentFixture<TestComponent>) => {
+            .then(fixture => {
                 const nativeInput: HTMLInputElement = fixture.nativeElement.querySelector('input');
                 const getAttr: Function = (name: string) => nativeInput.attributes.getNamedItem(name);
                 fixture.detectChanges();
@@ -122,7 +122,7 @@ describe('RadioButton', () => {
                 ></gtx-radio-button>
             `)
             .createAsync(TestComponent)
-            .then((fixture: ComponentFixture<TestComponent>) => {
+            .then(fixture => {
                 const nativeInput: HTMLInputElement = fixture.nativeElement.querySelector('input');
                 fixture.detectChanges();
 
@@ -144,7 +144,7 @@ describe('RadioButton', () => {
                 </gtx-radio-button>
             `)
             .createAsync(TestComponent)
-            .then((fixture: ComponentFixture<TestComponent>) => {
+            .then(fixture => {
                 const nativeInput: HTMLInputElement = fixture.nativeElement.querySelector('input');
                 const instance: TestComponent = fixture.componentInstance;
                 fixture.detectChanges();
@@ -170,7 +170,7 @@ describe('RadioButton', () => {
                 ></gtx-radio-button>
             `)
             .createAsync(TestComponent)
-            .then((fixture: ComponentFixture<TestComponent>) => {
+            .then(fixture => {
                 const debugInput: DebugElement = fixture.debugElement.query(By.css('input'));
                 const instance: TestComponent = fixture.componentInstance;
                 fixture.detectChanges();
@@ -193,7 +193,7 @@ describe('RadioButton', () => {
                 ></gtx-radio-button>
             `)
             .createAsync(TestComponent)
-            .then((fixture: ComponentFixture<TestComponent>) => {
+            .then(fixture => {
                 const debugInput: DebugElement = fixture.debugElement.query(By.css('input'));
                 const instance: TestComponent = fixture.componentInstance;
                 fixture.detectChanges();
@@ -219,7 +219,7 @@ describe('RadioButton', () => {
                     ></gtx-radio-button>
                 `)
                 .createAsync(TestComponent)
-                .then((fixture: ComponentFixture<TestComponent>) => {
+                .then(fixture => {
                     const nativeInput: HTMLInputElement = fixture.nativeElement.querySelector('input');
                     const instance: TestComponent = fixture.componentInstance;
                     instance.boundProperty = undefined;
@@ -246,7 +246,7 @@ describe('RadioButton', () => {
                     </gtx-radio-button>
                 `)
                 .createAsync(TestComponent)
-                .then((fixture: ComponentFixture<TestComponent>) => {
+                .then(fixture => {
                     fixture.detectChanges();
                     const instance: TestComponent = fixture.componentInstance;
                     const nativeInput: HTMLInputElement = fixture.nativeElement.querySelector('input');
@@ -278,7 +278,7 @@ describe('RadioButton', () => {
                     ></gtx-radio-button>
                 `)
                 .createAsync(TestComponent)
-                .then((fixture: ComponentFixture<TestComponent>) => {
+                .then(fixture => {
                     fixture.detectChanges();
                     tick();
                     const instance: TestComponent = fixture.componentInstance;
@@ -312,7 +312,7 @@ describe('RadioButton', () => {
                     </gtx-radio-button>
                 `)
                 .createAsync(TestComponent)
-                .then((fixture: ComponentFixture<TestComponent>) => {
+                .then(fixture => {
                     fixture.detectChanges();
                     tick();
                     const instance: TestComponent = fixture.componentInstance;
@@ -351,7 +351,7 @@ describe('RadioButton', () => {
                     </gtx-radio-button>
                 `)
                 .createAsync(TestComponent)
-                .then((fixture: ComponentFixture<TestComponent>) => {
+                .then(fixture => {
                     fixture.detectChanges();
                     tick();
                     const instance: TestComponent = fixture.componentInstance;
@@ -389,7 +389,7 @@ describe('RadioButton', () => {
                     </form>
                 `)
                 .createAsync(TestComponent)
-                .then((fixture: ComponentFixture<TestComponent>) => {
+                .then(fixture => {
                     fixture.detectChanges();
                     tick();
                     const instance: TestComponent = fixture.componentInstance;
@@ -417,7 +417,7 @@ describe('RadioButton', () => {
                     </form>
                 `)
                 .createAsync(TestComponent)
-                .then((fixture: ComponentFixture<TestComponent>) => {
+                .then(fixture => {
                     const instance: TestComponent = fixture.componentInstance;
                     const nativeInput: HTMLInputElement = fixture.nativeElement.querySelector('input');
                     const control: FormControl = <FormControl> instance.testForm.find('testControl');
@@ -443,7 +443,7 @@ describe('RadioButton', () => {
         it('stateless mode should be disabled by default',
             fakeAsync(inject([TestComponentBuilder], (tcb: TestComponentBuilder) =>
                 tcb.createAsync(TestComponent)
-                .then((fixture: ComponentFixture<TestComponent>) => {
+                .then(fixture => {
                     const radioButtonComponent = fixture.componentInstance.radioButtonComponent;
                     fixture.detectChanges();
 
@@ -459,7 +459,7 @@ describe('RadioButton', () => {
                     <gtx-radio-button checked="true"></gtx-radio-button>
                 `)
                 .createAsync(TestComponent)
-                .then((fixture: ComponentFixture<TestComponent>) => {
+                .then(fixture => {
                     const radioButtonComponent = fixture.componentInstance.radioButtonComponent;
                     fixture.detectChanges();
 
@@ -474,7 +474,7 @@ describe('RadioButton', () => {
                     <gtx-radio-button checked="false"></gtx-radio-button>
                 `)
                 .createAsync(TestComponent)
-                .then((fixture: ComponentFixture<TestComponent>) => {
+                .then(fixture => {
                     const radioButtonComponent = fixture.componentInstance.radioButtonComponent;
                     const nativeInput: HTMLInputElement = fixture.nativeElement.querySelector('input');
                     fixture.detectChanges();
@@ -498,7 +498,7 @@ describe('RadioButton', () => {
                     <gtx-radio-button [checked]="checkState"></gtx-radio-button>
                 `)
                 .createAsync(TestComponent)
-                .then((fixture: ComponentFixture<TestComponent>) => {
+                .then(fixture => {
                     const instance: TestComponent = fixture.componentInstance;
                     const radioButtonComponent = fixture.componentInstance.radioButtonComponent;
                     const nativeInput: HTMLInputElement = fixture.nativeElement.querySelector('input');
@@ -535,7 +535,7 @@ describe('RadioGroup', () => {
                 </gtx-radio-group>
             `)
             .createAsync(TestComponent)
-            .then((fixture: ComponentFixture<TestComponent>) => {
+            .then(fixture => {
                 fixture.detectChanges();
 
                 const instance: TestComponent = fixture.componentInstance;
@@ -567,7 +567,7 @@ describe('RadioGroup', () => {
                 </gtx-radio-group>
             `)
             .createAsync(TestComponent)
-            .then((fixture: ComponentFixture<TestComponent>) => {
+            .then(fixture => {
                 fixture.detectChanges();
                 const instance: TestComponent = fixture.componentInstance;
                 const nativeInputs: NodeListOf<HTMLInputElement> = fixture.nativeElement.querySelectorAll('input');
@@ -598,7 +598,7 @@ describe('RadioGroup', () => {
                 </gtx-radio-group>
             `)
             .createAsync(TestComponent)
-            .then((fixture: ComponentFixture<TestComponent>) => {
+            .then(fixture => {
                 fixture.detectChanges();
                 tick();
                 const instance: TestComponent = fixture.componentInstance;
@@ -631,7 +631,7 @@ describe('RadioGroup', () => {
                 </gtx-radio-group>
             `)
             .createAsync(TestComponent)
-            .then((fixture: ComponentFixture<TestComponent>) => {
+            .then(fixture => {
                 fixture.detectChanges();
 
                 const instance: TestComponent = fixture.componentInstance;
@@ -667,7 +667,7 @@ describe('RadioGroup', () => {
                 </form>
             `)
             .createAsync(TestComponent)
-            .then((fixture: ComponentFixture<TestComponent>) => {
+            .then(fixture => {
                 fixture.detectChanges();
 
                 const instance: TestComponent = fixture.componentInstance;
@@ -700,7 +700,7 @@ describe('RadioGroup', () => {
                 </form>
             `)
             .createAsync(TestComponent)
-            .then((fixture: ComponentFixture<TestComponent>) => {
+            .then(fixture => {
                 fixture.detectChanges();
 
                 const instance: TestComponent = fixture.componentInstance;

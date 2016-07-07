@@ -15,7 +15,7 @@ describe('ProgressBar', () => {
                 <gtx-progress-bar></gtx-progress-bar>
             `)
             .createAsync(TestComponent)
-            .then((fixture: ComponentFixture<TestComponent>) => {
+            .then(fixture => {
                 fixture.detectChanges();
 
                 const instance: TestComponent = fixture.componentInstance;
@@ -35,7 +35,7 @@ describe('ProgressBar', () => {
                 </gtx-progress-bar>
             `)
             .createAsync(TestComponent)
-            .then((fixture: ComponentFixture<TestComponent>) => {
+            .then(fixture => {
                 fixture.detectChanges();
 
                 const instance: TestComponent = fixture.componentInstance;
@@ -58,7 +58,7 @@ describe('ProgressBar', () => {
                 <gtx-progress-bar></gtx-progress-bar>
             `)
             .createAsync(TestComponent)
-            .then((fixture: ComponentFixture<TestComponent>) => {
+            .then(fixture => {
                 fixture.detectChanges();
 
                 const instance: TestComponent = fixture.componentInstance;
@@ -80,7 +80,7 @@ describe('ProgressBar', () => {
                 </gtx-progress-bar>
             `)
             .createAsync(TestComponent)
-            .then((fixture: ComponentFixture<TestComponent>) => {
+            .then(fixture => {
                 fixture.detectChanges();
 
                 const instance: TestComponent = fixture.componentInstance;
@@ -109,7 +109,7 @@ describe('ProgressBar', () => {
                 </gtx-progress-bar>
             `)
             .createAsync(TestComponent)
-            .then((fixture: ComponentFixture<TestComponent>) => {
+            .then(fixture => {
                 fixture.detectChanges();
 
                 const instance: TestComponent = fixture.componentInstance;
@@ -148,7 +148,7 @@ describe('ProgressBar', () => {
                 </gtx-progress-bar>
             `)
             .createAsync(TestComponent)
-            .then((fixture: ComponentFixture<TestComponent>) => {
+            .then(fixture => {
                 fixture.detectChanges();
 
                 const instance: TestComponent = fixture.componentInstance;
@@ -205,7 +205,7 @@ describe('ProgressBar', () => {
                 <gtx-progress-bar></gtx-progress-bar>
             `)
             .createAsync(TestComponent)
-            .then((fixture: ComponentFixture<TestComponent>) => {
+            .then(fixture => {
                 fixture.detectChanges();
                 const progressBar: ProgressBar = fixture.componentInstance.progressBar;
 
@@ -232,7 +232,7 @@ describe('ProgressBar', () => {
                 <gtx-progress-bar></gtx-progress-bar>
             `)
             .createAsync(TestComponent)
-            .then((fixture: ComponentFixture<TestComponent>) => {
+            .then(fixture => {
                 fixture.detectChanges();
                 const progressBar: ProgressBar = fixture.componentInstance.progressBar;
 
@@ -258,7 +258,7 @@ describe('ProgressBar', () => {
                 <gtx-progress-bar></gtx-progress-bar>
             `)
             .createAsync(TestComponent)
-            .then((fixture: ComponentFixture<TestComponent>) => {
+            .then(fixture => {
                 fixture.detectChanges();
                 const progressBar: ProgressBar = fixture.componentInstance.progressBar;
 
@@ -283,7 +283,7 @@ describe('ProgressBar', () => {
                 <gtx-progress-bar></gtx-progress-bar>
             `)
             .createAsync(TestComponent)
-            .then((fixture: ComponentFixture<TestComponent>) => {
+            .then(fixture => {
                 fixture.detectChanges();
                 const progressBar: ProgressBar = fixture.componentInstance.progressBar;
 

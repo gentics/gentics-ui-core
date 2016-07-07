@@ -12,7 +12,7 @@ let overlayHostService: OverlayHostService;
 describe('DropdownList:', () => {
 
     beforeEach(() => {
-        // Create one OverlayHostService for all tests
+        // Create one OverlayHostService for every test
         let injector = getTestInjector().createInjector().resolveAndCreateChild([OverlayHostService]);
         overlayHostService = injector.get(OverlayHostService);
     });
@@ -20,7 +20,7 @@ describe('DropdownList:', () => {
     it('should add a matching id to trigger and content',
         fakeAsync(inject([TestComponentBuilder], (tcb: TestComponentBuilder) =>
             tcb.createAsync(TestComponent)
-            .then((fixture: ComponentFixture<TestComponent>) => {
+            .then(fixture => {
                 fixture.detectChanges();
                 tick();
                 let trigger = <HTMLElement> fixture.nativeElement.querySelector('.dropdown-trigger');
@@ -39,7 +39,7 @@ describe('DropdownList:', () => {
     it('content should get attached next to overlay host',
         fakeAsync(inject([TestComponentBuilder], (tcb: TestComponentBuilder) =>
             tcb.createAsync(TestComponent)
-            .then((fixture: ComponentFixture<TestComponent>) => {
+            .then(fixture => {
                 fixture.detectChanges();
                 tick();
                 let contentWrapper: HTMLElement = fixture.nativeElement.querySelector('.dropdown-content-wrapper');
@@ -74,7 +74,7 @@ describe('DropdownList:', () => {
                 </gtx-dropdown-list>
             `)
             .createAsync(TestComponent)
-            .then((fixture: ComponentFixture<TestComponent>) => {
+            .then(fixture => {
                 fixture.detectChanges();
                 tick();
                 expect(fixture.nativeElement.querySelectorAll('.dropdown-content-wrapper').length).toBe(3);
@@ -99,7 +99,7 @@ describe('DropdownList:', () => {
                 </gtx-dropdown-list>
             `)
             .createAsync(TestComponent)
-            .then((fixture: ComponentFixture<TestComponent>) => {
+            .then(fixture => {
                 fixture.detectChanges();
                 tick();
                 expect(fixture.nativeElement.querySelectorAll('.dropdown-content-wrapper').length).toBe(3);

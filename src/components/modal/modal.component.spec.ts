@@ -10,7 +10,7 @@ describe('Modal:', () => {
     it('should remove the modal contents from the DOM',
         async(inject([TestComponentBuilder], (tcb: TestComponentBuilder) =>
             tcb.createAsync(TestComponent)
-            .then((fixture: ComponentFixture<TestComponent>) => {
+            .then(fixture => {
                 fixture.detectChanges();
                 let modalDebugElement: DebugElement = fixture.debugElement.query(By.css('gtx-modal'));
 
@@ -23,7 +23,7 @@ describe('Modal:', () => {
     it('should append the modal to the body',
         async(inject([TestComponentBuilder], (tcb: TestComponentBuilder) =>
             tcb.createAsync(TestComponent)
-            .then((fixture: ComponentFixture<TestComponent>) => {
+            .then(fixture => {
                 fixture.detectChanges();
                 let body: HTMLBodyElement = <any> document.querySelector('body');
                 let modal: Element = document.querySelector('.gtx-modal-dialog');
@@ -38,7 +38,7 @@ describe('Modal:', () => {
     it('should append the overlay to the body',
         async(inject([TestComponentBuilder], (tcb: TestComponentBuilder) =>
             tcb.createAsync(TestComponent)
-            .then((fixture: ComponentFixture<TestComponent>) => {
+            .then(fixture => {
                 fixture.detectChanges();
                 let body: HTMLBodyElement = <any> document.querySelector('body');
                 let overlay: Element = document.querySelector('.gtx-modal-overlay');
@@ -52,7 +52,7 @@ describe('Modal:', () => {
     it('should set the modal to "display: none"',
         async(inject([TestComponentBuilder], (tcb: TestComponentBuilder) =>
             tcb.createAsync(TestComponent)
-            .then((fixture: ComponentFixture<TestComponent>) => {
+            .then(fixture => {
                 fixture.detectChanges();
                 let modal: HTMLElement = <HTMLElement> document.querySelector('.gtx-modal-dialog');
 
@@ -65,7 +65,7 @@ describe('Modal:', () => {
     it('should set the overlay to "display: none"',
         async(inject([TestComponentBuilder], (tcb: TestComponentBuilder) =>
             tcb.createAsync(TestComponent)
-            .then((fixture: ComponentFixture<TestComponent>) => {
+            .then(fixture => {
                 fixture.detectChanges();
                 let overlay: HTMLElement = <HTMLElement> document.querySelector('.gtx-modal-overlay');
 
@@ -80,7 +80,7 @@ describe('Modal:', () => {
         it('should set the overlay to "display: block"',
             fakeAsync(inject([TestComponentBuilder], (tcb: TestComponentBuilder) =>
                 tcb.createAsync(TestComponent)
-                .then((fixture: ComponentFixture<TestComponent>) => {
+                .then(fixture => {
                     fixture.detectChanges();
                     fixture.componentInstance.showModal = true;
                     fixture.detectChanges();
@@ -96,7 +96,7 @@ describe('Modal:', () => {
         it('should set the modal to "display: block"',
             fakeAsync(inject([TestComponentBuilder], (tcb: TestComponentBuilder) =>
                 tcb.createAsync(TestComponent)
-                .then((fixture: ComponentFixture<TestComponent>) => {
+                .then(fixture => {
                     fixture.detectChanges();
                     fixture.componentInstance.showModal = true;
                     fixture.detectChanges();
@@ -121,7 +121,7 @@ describe('Modal:', () => {
         it('should fire "close" event when closeModal() called.',
             fakeAsync(inject([TestComponentBuilder], (tcb: TestComponentBuilder) =>
                 tcb.createAsync(TestComponent)
-                .then((fixture: ComponentFixture<TestComponent>) => {
+                .then(fixture => {
                     fixture.detectChanges();
                     let instance: TestComponent = fixture.componentInstance;
                     instance.showModal = true;

@@ -22,7 +22,7 @@ describe('DateTimePicker:', () => {
                 <gtx-date-time-picker label="test"></gtx-date-time-picker>
             `)
             .createAsync(TestComponent)
-            .then((fixture: ComponentFixture<TestComponent>) => {
+            .then(fixture => {
                 fixture.detectChanges();
                 let label: HTMLLabelElement = fixture.nativeElement.querySelector('label');
 
@@ -39,7 +39,7 @@ describe('DateTimePicker:', () => {
                 </gtx-date-time-picker>
             `)
             .createAsync(TestComponent)
-            .then((fixture: ComponentFixture<TestComponent>) => {
+            .then(fixture => {
                 fixture.detectChanges();
                 let timePickerDiv: HTMLElement = <HTMLElement> document.querySelector('.time-picker');
 
@@ -55,7 +55,7 @@ describe('DateTimePicker:', () => {
                 <gtx-date-time-picker label="test" displayTime="false"></gtx-date-time-picker>
             `)
             .createAsync(TestComponent)
-            .then((fixture: ComponentFixture<TestComponent>) => {
+            .then(fixture => {
                 fixture.detectChanges();
                 let timePickerDiv: HTMLElement = <HTMLElement> document.querySelector('.time-picker');
 
@@ -74,7 +74,7 @@ describe('DateTimePicker:', () => {
                     <gtx-date-time-picker></gtx-date-time-picker>
                 `)
                 .createAsync(TestComponent)
-                .then((fixture: ComponentFixture<TestComponent>) => {
+                .then(fixture => {
                     fixture.detectChanges();
                     let pickerInstance: DateTimePicker = fixture.componentInstance.pickerInstance;
 
@@ -91,7 +91,7 @@ describe('DateTimePicker:', () => {
                     </gtx-date-time-picker>
                 `)
                 .createAsync(TestComponent)
-                .then((fixture: ComponentFixture<TestComponent>) => {
+                .then(fixture => {
                     fixture.detectChanges();
                     let pickerInstance: DateTimePicker = fixture.componentInstance.pickerInstance;
 
@@ -108,7 +108,7 @@ describe('DateTimePicker:', () => {
                     </gtx-date-time-picker>
                 `)
                 .createAsync(TestComponent)
-                .then((fixture: ComponentFixture<TestComponent>) => {
+                .then(fixture => {
                     fixture.detectChanges();
                     let pickerInstance: DateTimePicker = fixture.componentInstance.pickerInstance;
 
@@ -128,7 +128,7 @@ describe('DateTimePicker:', () => {
                     <gtx-date-time-picker></gtx-date-time-picker>
                 `)
                 .createAsync(TestComponent)
-                .then((fixture: ComponentFixture<TestComponent>) => {
+                .then(fixture => {
                     fixture.detectChanges();
                     let input: HTMLInputElement = fixture.nativeElement.querySelector('input');
 
@@ -145,7 +145,7 @@ describe('DateTimePicker:', () => {
                     </gtx-date-time-picker>
                 `)
                 .createAsync(TestComponent)
-                .then((fixture: ComponentFixture<TestComponent>) => {
+                .then(fixture => {
                     fixture.detectChanges();
                     let input: HTMLInputElement = fixture.nativeElement.querySelector('input');
 
@@ -162,7 +162,7 @@ describe('DateTimePicker:', () => {
                     </gtx-date-time-picker>
                 `)
                 .createAsync(TestComponent)
-                .then((fixture: ComponentFixture<TestComponent>) => {
+                .then(fixture => {
                     fixture.detectChanges();
                     let input: HTMLInputElement = fixture.nativeElement.querySelector('input');
 
@@ -179,7 +179,7 @@ describe('DateTimePicker:', () => {
                     </gtx-date-time-picker>
                 `)
                 .createAsync(TestComponent)
-                .then((fixture: ComponentFixture<TestComponent>) => {
+                .then(fixture => {
                     fixture.detectChanges();
                     let input: HTMLInputElement = fixture.nativeElement.querySelector('input');
 
@@ -196,7 +196,7 @@ describe('DateTimePicker:', () => {
                     </gtx-date-time-picker>
                 `)
                 .createAsync(TestComponent)
-                .then((fixture: ComponentFixture<TestComponent>) => {
+                .then(fixture => {
                     fixture.detectChanges();
                     let input: HTMLInputElement = fixture.nativeElement.querySelector('input');
 
@@ -328,7 +328,7 @@ describe('DateTimePicker:', () => {
                     </gtx-date-time-picker>
                 `)
                 .createAsync(TestComponent)
-                .then((fixture: ComponentFixture<TestComponent>) => {
+                .then(fixture => {
                     fixture.detectChanges();
                     tick();
 
@@ -354,7 +354,7 @@ describe('DateTimePicker:', () => {
                     </gtx-date-time-picker>
                 `)
                 .createAsync(TestComponent)
-                .then((fixture: ComponentFixture<TestComponent>) => {
+                .then(fixture => {
                     fixture.detectChanges();
                     tick();
                     let instance: TestComponent = fixture.componentInstance;

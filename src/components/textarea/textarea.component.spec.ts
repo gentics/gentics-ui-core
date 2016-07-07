@@ -20,7 +20,7 @@ describe('Textarea', () => {
                 <gtx-textarea label="testLabel"></gtx-textarea>
             `)
             .createAsync(TestComponent)
-            .then((fixture: ComponentFixture<TestComponent>) => {
+            .then(fixture => {
                 let label: HTMLElement = fixture.nativeElement.querySelector('label');
                 fixture.detectChanges();
 
@@ -36,7 +36,7 @@ describe('Textarea', () => {
                 </gtx-textarea>
             `)
             .createAsync(TestComponent)
-            .then((fixture: ComponentFixture<TestComponent>) => {
+            .then(fixture => {
                 let label: HTMLLabelElement = fixture.nativeElement.querySelector('label');
                 let nativeTextarea: HTMLTextAreaElement = fixture.nativeElement.querySelector('textarea');
 
@@ -53,7 +53,7 @@ describe('Textarea', () => {
                 <gtx-textarea></gtx-textarea>
             `)
             .createAsync(TestComponent)
-            .then((fixture: ComponentFixture<TestComponent>) => {
+            .then(fixture => {
                 let nativeTextarea: HTMLTextAreaElement = fixture.nativeElement.querySelector('textarea');
                 fixture.detectChanges();
 
@@ -69,7 +69,7 @@ describe('Textarea', () => {
         async(inject([TestComponentBuilder], (tcb: TestComponentBuilder) =>
             tcb.overrideTemplate(TestComponent, `<gtx-textarea></gtx-textarea>`)
             .createAsync(TestComponent)
-            .then((fixture: ComponentFixture<TestComponent>) => {
+            .then(fixture => {
                 let nativeTextarea: HTMLTextAreaElement = fixture.nativeElement.querySelector('textarea');
                 const getAttr: Function = (name: string) => nativeTextarea.attributes.getNamedItem(name);
                 fixture.detectChanges();
@@ -100,7 +100,7 @@ describe('Textarea', () => {
                 ></gtx-textarea>
             `)
             .createAsync(TestComponent)
-            .then((fixture: ComponentFixture<TestComponent>) => {
+            .then(fixture => {
                 let nativeTextarea: HTMLTextAreaElement = fixture.nativeElement.querySelector('textarea');
                 fixture.detectChanges();
 
@@ -121,7 +121,7 @@ describe('Textarea', () => {
                 <gtx-textarea [maxlength]="0"></gtx-textarea>
             `)
             .createAsync(TestComponent)
-            .then((fixture: ComponentFixture<TestComponent>) => {
+            .then(fixture => {
                 let nativeTextarea: HTMLTextAreaElement = fixture.nativeElement.querySelector('textarea');
                 fixture.detectChanges();
 
@@ -136,7 +136,7 @@ describe('Textarea', () => {
                 <gtx-textarea [maxlength]="-1"></gtx-textarea>
             `)
             .createAsync(TestComponent)
-            .then((fixture: ComponentFixture<TestComponent>) => {
+            .then(fixture => {
                 let nativeTextarea: HTMLTextAreaElement = fixture.nativeElement.querySelector('textarea');
                 fixture.detectChanges();
 
@@ -151,7 +151,7 @@ describe('Textarea', () => {
                 <gtx-textarea [maxlength]="null"></gtx-textarea>
             `)
             .createAsync(TestComponent)
-            .then((fixture: ComponentFixture<TestComponent>) => {
+            .then(fixture => {
                 let nativeTextarea: HTMLTextAreaElement = fixture.nativeElement.querySelector('textarea');
                 fixture.detectChanges();
 
@@ -167,7 +167,7 @@ describe('Textarea', () => {
                 </gtx-textarea>
             `)
             .createAsync(TestComponent)
-            .then((fixture: ComponentFixture<TestComponent>) => {
+            .then(fixture => {
                 let textareaDebugElement: DebugElement = fixture.debugElement.query(By.css('textarea'));
                 let instance: TestComponent = fixture.componentInstance;
                 fixture.detectChanges();
@@ -188,7 +188,7 @@ describe('Textarea', () => {
                 </gtx-textarea>
             `)
             .createAsync(TestComponent)
-            .then((fixture: ComponentFixture<TestComponent>) => {
+            .then(fixture => {
                 let textareaDebugElement: DebugElement = fixture.debugElement.query(By.css('textarea'));
                 let instance: TestComponent = fixture.componentInstance;
                 fixture.detectChanges();
@@ -209,7 +209,7 @@ describe('Textarea', () => {
                 </gtx-textarea>
             `)
             .createAsync(TestComponent)
-            .then((fixture: ComponentFixture<TestComponent>) => {
+            .then(fixture => {
                 let nativeTextarea: HTMLTextAreaElement = fixture.nativeElement.querySelector('textarea');
                 let instance: TestComponent = fixture.componentInstance;
                 fixture.detectChanges();
@@ -230,7 +230,7 @@ describe('Textarea', () => {
                 </gtx-textarea>
             `)
             .createAsync(TestComponent)
-            .then((fixture: ComponentFixture<TestComponent>) => {
+            .then(fixture => {
                 let textareaDebugElement: DebugElement = fixture.debugElement.query(By.css('textarea'));
                 let instance: TestComponent = fixture.componentInstance;
                 fixture.detectChanges();
@@ -252,7 +252,7 @@ describe('Textarea', () => {
                     <gtx-textarea [(ngModel)]="value"></gtx-textarea>
                 `)
                 .createAsync(TestComponent)
-                .then((fixture: ComponentFixture<TestComponent>) => {
+                .then(fixture => {
                     fixture.detectChanges();
                     tick();
                     fixture.detectChanges();
@@ -268,7 +268,7 @@ describe('Textarea', () => {
                     <gtx-textarea [(ngModel)]="value"></gtx-textarea>
                 `)
                 .createAsync(TestComponent)
-                .then((fixture: ComponentFixture<TestComponent>) => {
+                .then(fixture => {
                     fixture.detectChanges();
                     let instance: TestComponent = fixture.componentInstance;
                     let nativeTextarea: HTMLTextAreaElement = fixture.nativeElement.querySelector('textarea');
@@ -290,7 +290,7 @@ describe('Textarea', () => {
                     </form>
                 `)
                 .createAsync(TestComponent)
-                .then((fixture: ComponentFixture<TestComponent>) => {
+                .then(fixture => {
                     fixture.detectChanges();
                     tick();
                     let nativeTextarea: HTMLTextAreaElement = fixture.nativeElement.querySelector('textarea');
@@ -307,7 +307,7 @@ describe('Textarea', () => {
                     </form>
                 `)
                 .createAsync(TestComponent)
-                .then((fixture: ComponentFixture<TestComponent>) => {
+                .then(fixture => {
                     fixture.detectChanges();
                     let instance: TestComponent = fixture.componentInstance;
                     let nativeTextarea: HTMLTextAreaElement = fixture.nativeElement.querySelector('textarea');

@@ -24,7 +24,7 @@ describe('SortableList:', () => {
         it('should be a function',
             async(inject([TestComponentBuilder], (tcb: TestComponentBuilder) =>
                 tcb.createAsync(TestComponent)
-                .then((fixture: ComponentFixture<TestComponent>) => {
+                .then(fixture => {
                     let sortFn: any = getSortFn(fixture);
                     expect(typeof sortFn).toBe('function');
                 })
@@ -34,7 +34,7 @@ describe('SortableList:', () => {
         it('should return a new array be default',
             async(inject([TestComponentBuilder], (tcb: TestComponentBuilder) =>
                 tcb.createAsync(TestComponent)
-                .then((fixture: ComponentFixture<TestComponent>) => {
+                .then(fixture => {
                     let initial = [1, 2, 3];
                     let sortFn = getSortFn(fixture);
                     let sorted = sortFn(initial);
@@ -46,7 +46,7 @@ describe('SortableList:', () => {
         it('should return the same array when byReference = true',
             async(inject([TestComponentBuilder], (tcb: TestComponentBuilder) =>
                 tcb.createAsync(TestComponent)
-                .then((fixture: ComponentFixture<TestComponent>) => {
+                .then(fixture => {
                     let initial = [1, 2, 3];
                     let sortFn = getSortFn(fixture);
                     let sorted = sortFn(initial, true);
@@ -58,7 +58,7 @@ describe('SortableList:', () => {
         it('should sort a simple small array',
             async(inject([TestComponentBuilder], (tcb: TestComponentBuilder) =>
                 tcb.createAsync(TestComponent)
-                .then((fixture: ComponentFixture<TestComponent>) => {
+                .then(fixture => {
                     let initial = [1, 2, 3];
                     let expected = [2, 3, 1];
                     let sortFn = getSortFn(fixture);
@@ -71,7 +71,7 @@ describe('SortableList:', () => {
         it('should sort a simple large array',
             async(inject([TestComponentBuilder], (tcb: TestComponentBuilder) =>
                 tcb.createAsync(TestComponent)
-                .then((fixture: ComponentFixture<TestComponent>) => {
+                .then(fixture => {
                     let initial = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
                     let expected = [1, 2, 3, 5, 6, 7, 4, 8, 9, 10];
                     let sortFn = getSortFn(fixture, 3, 6);
@@ -84,7 +84,7 @@ describe('SortableList:', () => {
         it('should sort an array of objects',
             async(inject([TestComponentBuilder], (tcb: TestComponentBuilder) =>
                 tcb.createAsync(TestComponent)
-                .then((fixture: ComponentFixture<TestComponent>) => {
+                .then(fixture => {
                     let initial = [{ name: 'john' }, { name: 'joe' }, { name: 'mary' }];
                     let expected = [{ name: 'joe' }, { name: 'mary' }, { name: 'john' }];
                     let sortFn = getSortFn(fixture);
@@ -97,7 +97,7 @@ describe('SortableList:', () => {
         it('should preserve array for undefined indexes',
             async(inject([TestComponentBuilder], (tcb: TestComponentBuilder) =>
                 tcb.createAsync(TestComponent)
-                .then((fixture: ComponentFixture<TestComponent>) => {
+                .then(fixture => {
                     let initial = [1, 2, 3];
                     let instance: SortableList = fixture.componentInstance.listInstance;
                     let sortFn = instance.sortFactory(<ISortableEvent> {});
@@ -110,7 +110,7 @@ describe('SortableList:', () => {
         it('should preserve array for out-of-bound oldIndex',
             async(inject([TestComponentBuilder], (tcb: TestComponentBuilder) =>
                 tcb.createAsync(TestComponent)
-                .then((fixture: ComponentFixture<TestComponent>) => {
+                .then(fixture => {
                     let initial = [1, 2, 3];
                     let sortFn = getSortFn(fixture, 3, 1);
 
@@ -122,7 +122,7 @@ describe('SortableList:', () => {
         it('should preserve array for out-of-bound newIndex',
             async(inject([TestComponentBuilder], (tcb: TestComponentBuilder) =>
                 tcb.createAsync(TestComponent)
-                .then((fixture: ComponentFixture<TestComponent>) => {
+                .then(fixture => {
                     let initial = [1, 2, 3];
                     let sortFn = getSortFn(fixture, 0, 3);
 
@@ -138,7 +138,7 @@ describe('SortableList:', () => {
         it('should bind to the sortable instance',
             async(inject([TestComponentBuilder], (tcb: TestComponentBuilder) =>
                 tcb.createAsync(TestComponent)
-                .then((fixture: ComponentFixture<TestComponent>) => {
+                .then(fixture => {
                     fixture.detectChanges();
                     let sortable: Sortablejs.Sortable = fixture.componentInstance.listInstance.sortable;
 

@@ -9,7 +9,7 @@ describe('Button:', () => {
     it('should be enabled by default',
         async(inject([TestComponentBuilder], (tcb: TestComponentBuilder) =>
             tcb.createAsync(TestComponent)
-            .then((fixture: ComponentFixture<TestComponent>) => {
+            .then(fixture => {
                 let button: HTMLButtonElement = fixture.nativeElement.querySelector('button');
                 fixture.detectChanges();
 
@@ -24,7 +24,7 @@ describe('Button:', () => {
                 <gtx-button [disabled]='true'></gtx-button>
             `)
             .createAsync(TestComponent)
-            .then((fixture: ComponentFixture<TestComponent>) => {
+            .then(fixture => {
                 let button: HTMLButtonElement = fixture.nativeElement.querySelector('button');
                 fixture.detectChanges();
 
@@ -39,7 +39,7 @@ describe('Button:', () => {
                 <gtx-button disabled='true'></gtx-button>
             `)
             .createAsync(TestComponent)
-            .then((fixture: ComponentFixture<TestComponent>) => {
+            .then(fixture => {
                 let button: HTMLButtonElement = fixture.nativeElement.querySelector('button');
                 fixture.detectChanges();
 

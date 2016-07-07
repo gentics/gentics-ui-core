@@ -19,7 +19,7 @@ describe('Range:', () => {
                 <gtx-range></gtx-range>
             `)
             .createAsync(TestComponent)
-            .then((fixture: ComponentFixture<TestComponent>) => {
+            .then(fixture => {
                 let nativeInput: HTMLInputElement = fixture.nativeElement.querySelector('input');
                 fixture.detectChanges();
 
@@ -37,7 +37,7 @@ describe('Range:', () => {
                 <gtx-range></gtx-range>
             `)
             .createAsync(TestComponent)
-            .then((fixture: ComponentFixture<TestComponent>) => {
+            .then(fixture => {
                 let nativeInput: HTMLInputElement = fixture.nativeElement.querySelector('input');
                 const getAttr: Function = (name: string) => nativeInput.attributes.getNamedItem(name);
                 fixture.detectChanges();
@@ -69,7 +69,7 @@ describe('Range:', () => {
                 ></gtx-range>
             `)
             .createAsync(TestComponent)
-            .then((fixture: ComponentFixture<TestComponent>) => {
+            .then(fixture => {
                 let nativeInput: HTMLInputElement = fixture.nativeElement.querySelector('input');
                 fixture.detectChanges();
 
@@ -94,7 +94,7 @@ describe('Range:', () => {
                 </gtx-range>
             `)
             .createAsync(TestComponent)
-            .then((fixture: ComponentFixture<TestComponent>) => {
+            .then(fixture => {
                 let inputDel: DebugElement = fixture.debugElement.query(By.css('input'));
                 let instance: TestComponent = fixture.componentInstance;
                 fixture.detectChanges();
@@ -117,7 +117,7 @@ describe('Range:', () => {
                 </gtx-range>
             `)
             .createAsync(TestComponent)
-            .then((fixture: ComponentFixture<TestComponent>) => {
+            .then(fixture => {
                 let inputDel: DebugElement = fixture.debugElement.query(By.css('input'));
                 let instance: TestComponent = fixture.componentInstance;
                 fixture.detectChanges();
@@ -138,7 +138,7 @@ describe('Range:', () => {
                 </gtx-range>
             `)
             .createAsync(TestComponent)
-            .then((fixture: ComponentFixture<TestComponent>) => {
+            .then(fixture => {
                 let nativeInput: HTMLInputElement = fixture.nativeElement.querySelector('input');
                 let instance: TestComponent = fixture.componentInstance;
                 fixture.detectChanges();
@@ -161,7 +161,7 @@ describe('Range:', () => {
                 </gtx-range>
             `)
             .createAsync(TestComponent)
-            .then((fixture: ComponentFixture<TestComponent>) => {
+            .then(fixture => {
                 let inputDel: DebugElement = fixture.debugElement.query(By.css('input'));
                 let instance: TestComponent = fixture.componentInstance;
                 fixture.detectChanges();
@@ -183,7 +183,7 @@ describe('Range:', () => {
                     <gtx-range [(ngModel)]="value"></gtx-range>
                 `)
                 .createAsync(TestComponent)
-                .then((fixture: ComponentFixture<TestComponent>) => {
+                .then(fixture => {
                     fixture.detectChanges();
                     tick();
                     fixture.detectChanges();
@@ -199,7 +199,7 @@ describe('Range:', () => {
                     <gtx-range [(ngModel)]="value"></gtx-range>
                 `)
                 .createAsync(TestComponent)
-                .then((fixture: ComponentFixture<TestComponent>) => {
+                .then(fixture => {
                     fixture.detectChanges();
                     let instance: TestComponent = fixture.componentInstance;
                     let nativeInput: HTMLInputElement = fixture.nativeElement.querySelector('input');
@@ -221,7 +221,7 @@ describe('Range:', () => {
                     </form>
                 `)
                 .createAsync(TestComponent)
-                .then((fixture: ComponentFixture<TestComponent>) => {
+                .then(fixture => {
                     fixture.detectChanges();
                     tick();
                     let nativeInput: HTMLInputElement = fixture.nativeElement.querySelector('input');
@@ -238,7 +238,7 @@ describe('Range:', () => {
                     </form>
                 `)
                 .createAsync(TestComponent)
-                .then((fixture: ComponentFixture<TestComponent>) => {
+                .then(fixture => {
                     fixture.detectChanges();
                     let instance: TestComponent = fixture.componentInstance;
                     let nativeInput: HTMLInputElement = fixture.nativeElement.querySelector('input');

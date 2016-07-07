@@ -9,7 +9,7 @@ describe('SearchBar', () => {
     it('should fill input with value of the "query" prop',
         async(inject([TestComponentBuilder], (tcb: TestComponentBuilder) =>
             tcb.createAsync(TestComponent)
-            .then((fixture: ComponentFixture<TestComponent>) => {
+            .then(fixture => {
                 fixture.detectChanges();
                 let input: HTMLInputElement = fixture.nativeElement.querySelector('input');
                 expect(input.value).toBe('foo');
@@ -23,7 +23,7 @@ describe('SearchBar', () => {
                 <gtx-search-bar></gtx-search-bar>
             `)
             .createAsync(TestComponent)
-            .then((fixture: ComponentFixture<TestComponent>) => {
+            .then(fixture => {
                 fixture.detectChanges();
                 let input: HTMLInputElement = fixture.nativeElement.querySelector('input');
                 expect(input.value).toBe('');
@@ -38,7 +38,7 @@ describe('SearchBar', () => {
                 </gtx-search-bar>
             `)
             .createAsync(TestComponent)
-            .then((fixture: ComponentFixture<TestComponent>) => {
+            .then(fixture => {
                 fixture.detectChanges();
                 const getButton = (): HTMLButtonElement => fixture.nativeElement.querySelector('.clear-button button');
 
@@ -55,7 +55,7 @@ describe('SearchBar', () => {
     it('should emit the "search" event when button clicked',
         fakeAsync(inject([TestComponentBuilder], (tcb: TestComponentBuilder) =>
             tcb.createAsync(TestComponent)
-            .then((fixture: ComponentFixture<TestComponent>) => {
+            .then(fixture => {
                 fixture.detectChanges();
                 let testInstance: TestComponent = fixture.componentInstance;
                 let button: HTMLButtonElement = fixture.nativeElement.querySelector('.submit-button button');
@@ -72,7 +72,7 @@ describe('SearchBar', () => {
     it('should emit the "clear" event when button clicked',
         fakeAsync(inject([TestComponentBuilder], (tcb: TestComponentBuilder) =>
             tcb.createAsync(TestComponent)
-            .then((fixture: ComponentFixture<TestComponent>) => {
+            .then(fixture => {
                 fixture.detectChanges();
                 let testInstance: TestComponent = fixture.componentInstance;
                 let button: HTMLButtonElement = fixture.nativeElement.querySelector('.clear-button button');
@@ -89,7 +89,7 @@ describe('SearchBar', () => {
     it('should emit the "search" event when enter key pressed in input',
         fakeAsync(inject([TestComponentBuilder], (tcb: TestComponentBuilder) =>
             tcb.createAsync(TestComponent)
-            .then((fixture: ComponentFixture<TestComponent>) => {
+            .then(fixture => {
                 fixture.detectChanges();
                 let testInstance: TestComponent = fixture.componentInstance;
                 let searchBar: SearchBar = testInstance.searchBar;
@@ -110,7 +110,7 @@ describe('SearchBar', () => {
     it('should emit the "change" event when input changed with "input" event',
         fakeAsync(inject([TestComponentBuilder], (tcb: TestComponentBuilder) =>
             tcb.createAsync(TestComponent)
-            .then((fixture: ComponentFixture<TestComponent>) => {
+            .then(fixture => {
                 fixture.detectChanges();
                 let testInstance: TestComponent = fixture.componentInstance;
                 let input: HTMLInputElement = fixture.nativeElement.querySelector('input');
@@ -130,7 +130,7 @@ describe('SearchBar', () => {
     it('should not emit the "change" event when input blurred',
         fakeAsync(inject([TestComponentBuilder], (tcb: TestComponentBuilder) =>
             tcb.createAsync(TestComponent)
-            .then((fixture: ComponentFixture<TestComponent>) => {
+            .then(fixture => {
                 fixture.detectChanges();
                 let testInstance: TestComponent = fixture.componentInstance;
                 let input: HTMLInputElement = fixture.nativeElement.querySelector('input');
