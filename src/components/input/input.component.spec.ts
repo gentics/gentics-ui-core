@@ -1,16 +1,11 @@
 import {Component} from '@angular/core';
 import {addProviders, async, fakeAsync, inject, tick} from '@angular/core/testing';
 import {ComponentFixture, TestComponentBuilder} from '@angular/compiler/testing';
-import {FormControl, FormGroup, disableDeprecatedForms, provideForms, REACTIVE_FORM_DIRECTIVES} from '@angular/forms';
+import {FormControl, FormGroup, REACTIVE_FORM_DIRECTIVES} from '@angular/forms';
 
 import {InputField} from './input.component';
 
 describe('InputField', () => {
-
-    beforeEach(() => addProviders([
-        disableDeprecatedForms(),
-        provideForms()
-    ]));
 
     it('should bind the label',
         async(inject([TestComponentBuilder], (tcb: TestComponentBuilder) =>

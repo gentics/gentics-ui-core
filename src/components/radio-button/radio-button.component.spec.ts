@@ -1,17 +1,12 @@
 import {ComponentFixture, TestComponentBuilder} from '@angular/compiler/testing';
 import {Component, DebugElement, ViewChild} from '@angular/core';
 import {addProviders, async, fakeAsync, inject, tick} from '@angular/core/testing';
-import {FormGroup, FormControl, disableDeprecatedForms, provideForms, REACTIVE_FORM_DIRECTIVES} from '@angular/forms';
+import {FormGroup, FormControl, REACTIVE_FORM_DIRECTIVES} from '@angular/forms';
 import {By} from '@angular/platform-browser';
 
 import {RadioButton, RadioGroup} from './radio-button.component';
 
 describe('RadioButton', () => {
-
-    beforeEach(() => addProviders([
-        disableDeprecatedForms(),
-        provideForms()
-    ]));
 
     it('should bind the label',
         async(inject([TestComponentBuilder], (tcb: TestComponentBuilder) =>
@@ -520,11 +515,6 @@ describe('RadioButton', () => {
 });
 
 describe('RadioGroup', () => {
-
-    beforeEach(() => addProviders([
-        disableDeprecatedForms(),
-        provideForms()
-    ]));
 
     it('should bind the check state of RadioButton children with ngModel (inbound)',
         fakeAsync(inject([TestComponentBuilder], (tcb: TestComponentBuilder) =>

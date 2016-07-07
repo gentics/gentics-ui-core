@@ -1,17 +1,12 @@
 import {ComponentFixture, TestComponentBuilder} from '@angular/compiler/testing';
 import {Component, DebugElement, ViewChild} from '@angular/core';
 import {addProviders, async, inject, fakeAsync, tick} from '@angular/core/testing';
-import {FormGroup, FormControl, disableDeprecatedForms, provideForms, REACTIVE_FORM_DIRECTIVES} from '@angular/forms';
+import {FormGroup, FormControl, REACTIVE_FORM_DIRECTIVES} from '@angular/forms';
 import {By} from '@angular/platform-browser';
 
 import {Checkbox} from './checkbox.component';
 
 describe('Checkbox', () => {
-
-    beforeEach(() => addProviders([
-        disableDeprecatedForms(),
-        provideForms()
-    ]));
 
     it('should bind the label',
         async(inject([TestComponentBuilder], (tcb: TestComponentBuilder) =>

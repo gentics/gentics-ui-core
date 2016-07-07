@@ -1,18 +1,13 @@
 import {ComponentFixture, TestComponentBuilder} from '@angular/compiler/testing';
 import {Component, DebugElement} from '@angular/core';
 import {addProviders, async, fakeAsync, inject, tick} from '@angular/core/testing';
-import {FormGroup, FormControl, disableDeprecatedForms, provideForms, REACTIVE_FORM_DIRECTIVES} from '@angular/forms';
+import {FormGroup, FormControl, REACTIVE_FORM_DIRECTIVES} from '@angular/forms';
 import {By} from '@angular/platform-browser';
 
 import {Textarea} from './textarea.component';
 
 
 describe('Textarea', () => {
-
-    beforeEach(() => addProviders([
-        disableDeprecatedForms(),
-        provideForms()
-    ]));
 
     it('should bind the label',
         async(inject([TestComponentBuilder], (tcb: TestComponentBuilder) =>

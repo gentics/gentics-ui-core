@@ -1,16 +1,11 @@
 import {ComponentFixture, TestComponentBuilder} from '@angular/compiler/testing';
 import {Component, ViewChild} from '@angular/core';
 import {addProviders, async, discardPeriodicTasks, fakeAsync, inject, tick} from '@angular/core/testing';
-import {FormGroup, FormControl, disableDeprecatedForms, provideForms, REACTIVE_FORM_DIRECTIVES} from '@angular/forms';
+import {FormGroup, FormControl, REACTIVE_FORM_DIRECTIVES} from '@angular/forms';
 
 import {Select} from './select.component';
 
 describe('Select:', () => {
-
-    beforeEach(() => addProviders([
-        disableDeprecatedForms(),
-        provideForms()
-    ]));
 
     it('should bind the label',
         async(inject([TestComponentBuilder], (tcb: TestComponentBuilder) =>
