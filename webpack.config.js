@@ -42,6 +42,7 @@ module.exports = {
             'typings/index.d.ts'
         ],
         compilerOptions: {
+            declaration: false,
             noEmit: false,
             noEmitOnError: false
         }

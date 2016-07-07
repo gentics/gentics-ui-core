@@ -51,6 +51,7 @@ module.exports = function (config) {
             },
             ts: {
                 compilerOptions: {
+                    declaration: false,
                     noEmit: false,
                     noEmitOnError: false
                 }

@@ -77,6 +77,7 @@ let tsProject;
 function compileDistTypescript() {
     if (!tsProject) {
         tsProject = ts.createProject('tsconfig.json', {
+            declaration: true,
             noEmit: false,
             outDir: 'dist',
             typescript: require('typescript')
