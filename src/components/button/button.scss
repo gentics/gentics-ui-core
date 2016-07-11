@@ -3,6 +3,10 @@ gtx-button {
     display: inline-block;
 
     > button {
+        &.btn {
+            transition: color 0.2s, border 0.2s;
+        }
+
         &.btn:hover {
             @extend .z-depth-1;
         }
