@@ -82,7 +82,6 @@
     "requireTrailingComma": false,
     "safeContextKeyword": "_this",
     "validateIndentation": 4,
-    "validateLineBreaks": "LF",
     "validateQuoteMarks": {
         "escape": true,
         "ignoreJSX": true,
