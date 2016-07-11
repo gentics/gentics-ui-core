@@ -1,7 +1,9 @@
 import {Component, ViewChild} from '@angular/core';
 import {DomSanitizationService, SafeHtml} from '@angular/platform-browser';
-import {ActivatedRoute, Router, ROUTER_DIRECTIVES, RouterState} from '@angular/router';
+import {ActivatedRoute, Router, ROUTER_DIRECTIVES, RouterState, NavigationEnd, PRIMARY_OUTLET} from '@angular/router';
 import {Subscription} from 'rxjs';
+import 'rxjs/add/operator/map';
+import 'rxjs/add/operator/filter';
 import {TopBar, SearchBar, SideMenu, SplitViewContainer, ContentsListItem, Notification, OverlayHost} from '../index';
 import {pages, kebabToPascal, IPageInfo} from './pageList';
 import {OverlayHostService} from '../components/overlay-host/overlay-host.service';
@@ -46,14 +48,25 @@ export class App {
     }
 
     ngOnInit(): void {
-        this.subscription = this.route.url.subscribe((route) => {
-            console.log('route', route);
-            this.hasContent = route[0].path !== '';
-            if (this.hasContent) {
-                this.splitFocus = 'right';
-            }
-            this.splitViewContainer.scrollRightPanelTo(0);
-        });
+        this.subscription = this.router.events
+            .filter(event => event instanceof NavigationEnd)
+            .map(_ => this.router.routerState)
+            .map(state => {
+                let route = this.route;
+                while (state.firstChild(route)) {
+                    route = state.firstChild(route);
+                }
+                return route;
+            })
+            .filter(route => route.outlet === PRIMARY_OUTLET)
+            .subscribe((route: ActivatedRoute) => {
+                const path = route.snapshot.url[0].path;
+                this.hasContent = (path !== '' && path !== 'index');
+                if (this.hasContent) {
+                    this.splitFocus = 'right';
+                }
+                this.splitViewContainer.scrollRightPanelTo(0);
+            });
     }
 
     ngOnDestroy(): void {
