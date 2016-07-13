@@ -2,7 +2,6 @@ import {
     Component,
     Input,
     Output,
-    Provider,
     EventEmitter,
     ElementRef,
     ViewChild,

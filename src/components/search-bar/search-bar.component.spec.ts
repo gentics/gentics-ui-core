@@ -31,11 +31,10 @@ describe('SearchBar', () => {
         ))
     );
 
-    it('should not display the clear button when query is empty',
+    it('should only display the clear button when query is empty',
         fakeAsync(inject([TestComponentBuilder], (tcb: TestComponentBuilder) =>
             tcb.overrideTemplate(TestComponent, `
-                <gtx-search-bar [query]="query">
-                </gtx-search-bar>
+                <gtx-search-bar [query]="query"></gtx-search-bar>
             `)
             .createAsync(TestComponent)
             .then(fixture => {
@@ -48,6 +47,26 @@ describe('SearchBar', () => {
                 fixture.detectChanges();
 
                 expect(getButton()).not.toBeNull();
+            })
+        ))
+    );
+
+    it('should never display the clear button when hideClearButton is set',
+        fakeAsync(inject([TestComponentBuilder], (tcb: TestComponentBuilder) =>
+            tcb.overrideTemplate(TestComponent, `
+                <gtx-search-bar [query]="query" hideClearButton></gtx-search-bar>
+            `)
+            .createAsync(TestComponent)
+            .then(fixture => {
+                fixture.detectChanges();
+                const getButton = (): HTMLButtonElement => fixture.nativeElement.querySelector('.clear-button button');
+
+                expect(getButton()).toBeNull();
+
+                fixture.componentInstance.query = 'foo';
+                fixture.detectChanges();
+
+                expect(getButton()).toBeNull();
             })
         ))
     );

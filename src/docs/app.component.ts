@@ -36,7 +36,7 @@ export class App {
     filteredContentItems: any[];
     hasContent: boolean = false;
     splitFocus: string = 'left';
-    searchQuery: string;
+    searchQuery: string = '';
     subscription: Subscription;
     logoSvg: SafeHtml;
 
@@ -89,6 +89,11 @@ export class App {
         } else {
             this.filteredContentItems = this.contentItems.slice(0);
         }
+    }
+
+    resetFilter(): void {
+        this.searchQuery = '';
+        this.filterContentItems('');
     }
 
     goToRoute(route: string): void {

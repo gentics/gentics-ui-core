@@ -4,7 +4,9 @@
 </gtx-top-bar>
 
 <div class="container">
-    <gtx-search-bar (change)="filterContentItems($event)" query=""></gtx-search-bar>
+    <gtx-search-bar (change)="filterContentItems($event)"
+                    (clear)="resetFilter()"
+                    [(ngModel)]="searchQuery"></gtx-search-bar>
 
 <gtx-split-view-container class="split-view-container"
                           leftContainerWidthPercent="35"

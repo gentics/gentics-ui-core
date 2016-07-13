@@ -34,6 +34,25 @@
     </div>
 </gtx-demo-block>
 
+<gtx-demo-block title="NgModel and Clearing">
+    <div class="demo-result">
+        <gtx-checkbox [(ngModel)]="hideClearButton" label="Hide clear button"></gtx-checkbox>
+        <gtx-search-bar (clear)="term = ''"
+                        [(ngModel)]="term"
+                        [hideClearButton]="hideClearButton"></gtx-search-bar>
+        Model: <code>{{ term }}</code>
+    </div>
+    <div class="demo-code">
+        <gtx-highlighted-code language="HTML" code='
+                  <gtx-checkbox [(ngModel)]="hideClearButton" label="Hide clear button"></gtx-checkbox>
+                  <gtx-search-bar (clear)="term = ``"
+                                  [(ngModel)]="term"
+                                  [hideClearButton]="hideClearButton"></gtx-search-bar>
+                  Model: <code>{{ term }}</code>
+        '></gtx-highlighted-code>
+    </div>
+</gtx-demo-block>
+
 <gtx-demo-block title="Content Projection">
     <div class="demo-result">
         <gtx-search-bar>

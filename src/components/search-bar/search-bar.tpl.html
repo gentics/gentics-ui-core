@@ -5,9 +5,10 @@
     <gtx-input placeholder="Search"
                [value]="query"
                (keydown)="onKeyDown($event)"
-               (change)="onChange($event)"></gtx-input>
+               (blur)="onInputBlur($event)"
+               (change)="onInputChange($event)"></gtx-input>
 </div>
-<div class="clear-button" *ngIf="query && query !== ''">
+<div class="clear-button" *ngIf="!hideClearButton && query && query !== ''">
     <gtx-button icon type="secondary" (click)="clear.emit(true)">
         <i class="material-icons">close</i>
     </gtx-button>

@@ -1,3 +1,7 @@
+## 0.6.0 ()
+### Features
+* SearchBar now has a ValueAccessor, and `hideClearButton` attribute.
+
 ## 0.5.0 (2016-07-07)
 ### Features
 * Upgraded to angular release candidate 4
