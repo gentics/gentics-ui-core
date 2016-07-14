@@ -7,6 +7,7 @@
  */
 require('zone.js');
 require('reflect-metadata');
+require('es6-shim');
 require('zone.js/dist/fake-async-test');
 require('zone.js/dist/async-test');
 
@@ -20,10 +21,12 @@ testing.setBaseTestProviders(
     browser.TEST_BROWSER_DYNAMIC_APPLICATION_PROVIDERS
 );
 
-beforeEach(() => testing.addProviders([
-    forms.disableDeprecatedForms(),
-    forms.provideForms()
-]));
+beforeEach(function () {
+    testing.addProviders([
+        forms.disableDeprecatedForms(),
+        forms.provideForms()
+    ]);
+});
 
 require('./src/index.ts');
 
