@@ -4,7 +4,7 @@ gtx-button {
 
     > button {
         &.btn {
-            transition: color 0.2s, border 0.2s;
+            transition-property: color, border;
         }
 
         &.btn:hover {
