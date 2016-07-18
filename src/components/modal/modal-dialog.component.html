@@ -1,0 +1,10 @@
+<div class="modal-content">
+    <h2 class="modal-title">{{ config.title }}</h2>
+    <div class="modal-body" *ngIf="safeBody" [innerHTML]="safeBody"></div>
+</div>
+<div class="modal-footer">
+    <template ngFor let-button [ngForOf]="config.buttons">
+        <gtx-button [type]="button.type"
+                    (click)="onClick(button)">{{ button.label }}</gtx-button>
+    </template>
+</div>

@@ -1,10 +1,12 @@
-import {Component, Input, Output, ElementRef, EventEmitter} from '@angular/core';
-import {Subscription} from 'rxjs';
-import {ModalService, ModalInstance} from './modal.service';
-
-declare var $: JQueryStatic;
+import {Component, Input, Output, ElementRef, EventEmitter, ViewChild} from '@angular/core';
+import {ModalService} from './modal.service';
+import {IModalInstance, IModalOptions} from './modal-interfaces';
 
 /**
+ * **Deprecated**
+ * This component is deprecated in favour of the [ModalService.fromComponent()](#/modal-service) method, which provides a more
+ * flexible way to work with modals.
+ *
  * A declarative modal dialog component. Can wrap generic content and display / hide it based on the `opened` attribute.
  * Note that the modal itself is designed to be stateless - the `opened` state must be set from the parent. See
  * the example below for the simple "wiring" required to get the modal to work as expected.
@@ -53,53 +55,39 @@ export class Modal {
      */
     @Output() close = new EventEmitter<any>();
 
+    @ViewChild('modalContents') modalContents: ElementRef;
+
+    modal: IModalInstance;
+    modalOptions: IModalOptions = {};
+
     private _padding: boolean = true;
-    private modal: ModalInstance;
-    private subscription: Subscription;
-    private isClosing: boolean = false;
 
-    constructor(private elementRef: ElementRef,
-                private modalService: ModalService) {
-    }
+    constructor(private modalService: ModalService) {}
 
-    ngAfterViewInit(): void {
-        const modalElement: HTMLElement = this.elementRef.nativeElement.querySelector('.modal');
-        this.modal = this.modalService.create(modalElement, {
-            maxWidth: this.maxWidth,
-            onClose: (val: any): void => {
-                this.close.emit(val);
-                setTimeout(() => this.isClosing = false);
-            }
-        });
-
-        this.subscription = this.modal.changes.subscribe((type: string) => {
-            if (type === 'close') {
-                this.closeModal();
-            }
-        });
-
-        this.registerKeyHandler();
-    }
+    ngAfterViewInit(): void {}
 
     ngOnChanges(): void {
-        if (!this.modal) {
-            return;
+        if (this.maxWidth) {
+            this.modalOptions.maxWidth = this.maxWidth;
         }
+        this.modalOptions.padding = this._padding;
+
         if (this.opened) {
-            this.modal.open();
+            this.modalService.fromElement(this.modalContents, this.modalOptions)
+                .then(modal => {
+                    this.modal = modal;
+                    return this.modal.open();
+                })
+                .then(result => this.closeModal(result))
+                .catch(reason => this.closeModal(reason));
         } else {
             this.closeModal();
         }
 
-        if (this.maxWidth) {
-            this.modal.setMaxWidth(this.maxWidth);
-        }
+
     }
 
     ngOnDestroy(): void {
-        this.modal.destroy();
-        this.subscription.unsubscribe();
-        this.unRegisterKeyHandler();
     }
 
     /**
@@ -111,26 +99,9 @@ export class Modal {
      * </gtx-modal>
      */
     closeModal(val?: any): void {
-        if (!this.isClosing) {
-            this.isClosing = true;
-            this.modal.close(val);
+        if (this.modal) {
+            this.modal.instance.closeFn(val);
+            this.close.emit(val);
         }
-    }
-
-    /**
-     * Close the modal when the ESC key is pressed.
-     */
-    private keyHandler = (e: JQueryEventObject): void => {
-        if (e.keyCode === 27) {
-            this.closeModal();
-        }
-    };
-
-    private registerKeyHandler(): void {
-        $(document).on('keyup', this.keyHandler);
-    }
-
-    private unRegisterKeyHandler(): void {
-        $(document).off('keyup', this.keyHandler);
     }
 }

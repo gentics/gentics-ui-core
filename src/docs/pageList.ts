@@ -24,6 +24,7 @@ import {SortableListDemo} from './pages/sortable-list-demo/sortable-list-demo';
 import {TextareaDemo} from './pages/textarea-demo/textarea-demo';
 import {TopBarDemo} from './pages/top-bar-demo/top-bar-demo';
 import {TypographyDemo} from './pages/typography-demo/typography-demo';
+import {ModalServiceDemo} from './pages/modal-service-demo/modal-service-demo';
 
 export interface IPageInfo {
     name: string;
@@ -90,6 +91,12 @@ export const pages: IPageInfo[] = [
         name: 'modal',
         component: ModalDemo,
         type: 'component',
+        keywords: ['dialog', 'overlay']
+    },
+    {
+        name: 'modal-service',
+        component: ModalServiceDemo,
+        type: 'service',
         keywords: ['dialog', 'overlay']
     },
     {

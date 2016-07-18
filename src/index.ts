@@ -11,6 +11,7 @@ export * from './components/contents-list-item/contents-list-item.component';
 export * from './components/dropdown-list/dropdown-list.component';
 export * from './components/modal/modal.component';
 export * from './components/modal/modal.service';
+export * from './components/modal/modal-interfaces';
 export * from './components/notification/notification.service';
 export * from './components/progress-bar/progress-bar.component';
 export * from './components/overlay-host/overlay-host.component';

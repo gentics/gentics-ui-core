@@ -1,0 +1,101 @@
+<h3>ModalService</h3>
+
+<gtx-autodocs [source]="componentSource" type="service"></gtx-autodocs>
+
+<h4>Demos</h4>
+
+<gtx-demo-block title="Basic Modal">
+    <div class="demo-result">
+        <gtx-button (click)="showBasicDialog()">Confirm Delete</gtx-button>
+    </div>
+    <div class="demo-code">
+        <gtx-highlighted-code language="HTML" code='
+               <gtx-button (click)="showBasicDialog()">Confirm Delete</gtx-button>
+           '></gtx-highlighted-code>
+        <gtx-highlighted-code language="TypeScript" code='
+               showBasicDialog(): void {
+                   this.modalService.dialog({
+                       title: "A Basic Dialog",
+                       body: "Are you <strong>sure</strong> you want to do the thing?",
+                       buttons: [
+                           { label: "Okay", type: "default", returnValue: true },
+                           { label: "Cancel", type: "secondary", returnValue: false, shouldReject: true }
+                       ]
+                   })
+                       .then(dialog => dialog.open())
+                       .then(result => console.log("result:", result))
+                       .catch(reason => console.log("rejected", reason));
+               }
+           '></gtx-highlighted-code>
+    </div>
+</gtx-demo-block>
+
+<gtx-demo-block title="Modal Options">
+    <div class="demo-result">
+        <div class="row">
+            <div class="column"><gtx-input [(ngModel)]="maxWidth" label="maxWidth"></gtx-input></div>
+            <div class="column"><gtx-checkbox [(ngModel)]="padding" label="Padding"></gtx-checkbox></div>
+            <div class="column"><gtx-checkbox [(ngModel)]="closeOnOverlayClick" label="closeOnOverlayClick"></gtx-checkbox></div>
+            <div class="column"><gtx-checkbox [(ngModel)]="closeOnEscape" label="closeOnEscape"></gtx-checkbox></div>
+        </div>
+        <gtx-button (click)="showDialogWithOptions()">Confirm Delete</gtx-button>
+    </div>
+    <div class="demo-code">
+        <gtx-highlighted-code language="TypeScript" code='
+           showDialogWithOptions(): void {
+               const options: IModalOptions = {
+                   onOpen: (): void => console.log("Modal was opened."),
+                   onClose: (): void => console.log("Modal was closed."),
+                   padding: this.padding,
+                   maxWidth: this.maxWidth,
+                   closeOnOverlayClick: this.closeOnOverlayClick,
+                   closeOnEscape: this.closeOnEscape
+               };
+
+               this.modalService.dialog({
+                   // config as above
+               }, options)
+                   .then(dialog => dialog.open())
+                   .then(result => console.log("result:", result))
+                   .catch(reason => console.log("rejected", reason));
+           }
+           '></gtx-highlighted-code>
+    </div>
+</gtx-demo-block>
+
+
+<gtx-demo-block title="Custom Modals with .fromComponent()">
+    <div class="demo-result">
+        <gtx-button (click)="showCustomModal()">Custom Modal</gtx-button>
+    </div>
+    <div class="demo-code">
+        <gtx-highlighted-code language="TypeScript" code='
+          @Component({
+              selector: "my-modal-component",
+              template: `
+                  <div>
+                      <h1>A Custom Component</h1>
+                      <a (click)="closeFn("link was clicked")">Close me</a>
+                  </div>`
+          })
+          class MyModal implements IModalDialog {
+              closeFn: (val: any) => void;
+              cancelFn: (val?: any) => void;
+              registerCloseFn(close: (val: any) => void): void {
+                  this.closeFn = close;
+              }
+              registerCancelFn(cancel: (val?: any) => void): void {
+                  this.cancelFn = cancel;
+              }
+          }
+           '></gtx-highlighted-code>
+        <gtx-highlighted-code language="TypeScript" code='
+            showCustomModal(): void {
+                this.modalService.fromComponent(MyModal)
+                    .then(modal => modal.open())
+                    .then(result => console.log("result:", result))
+                    .catch(reason => console.log("rejected", reason));
+            }
+           '></gtx-highlighted-code>
+    </div>
+</gtx-demo-block>

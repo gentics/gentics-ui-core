@@ -1,0 +1,9 @@
+<div class="gtx-modal-overlay"
+     [class.visible]="visible"
+     (click)="overlayClick()"></div>
+<div class="gtx-modal-dialog"
+     [class.visible]="visible"
+     [style.max-width]="options.maxWidth"
+     [class.nopad]="options.padding === false">
+    <div #portal></div>
+</div>

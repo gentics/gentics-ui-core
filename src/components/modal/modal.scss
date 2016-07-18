@@ -3,17 +3,85 @@ gtx-modal {
     display: block;
 }
 
+$easeOutCubic: cubic-bezier(0.215, 0.610, 0.355, 1.000);
+
+.gtx-declarative-modal {
+    display: none;
+}
+
+.gtx-modal-overlay {
+    position: fixed;
+    z-index: 999;
+    top: -100px;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    height: 125%;
+    width: 100%;
+    opacity: 0;
+    background-color: rgba(0, 0, 0, 0.5);
+    visibility: hidden;
+    overflow: hidden;
+    max-height: 0;
+    will-change: opacity;
+    transition: opacity 0.5s $easeOutCubic, visibility 0s 0.5s, max-height 0s 0.5s;
+    &.visible {
+        transition: opacity 0.5s $easeOutCubic;
+        visibility: visible;
+        max-height: 9999999px;
+        opacity: 1;
+    }
+}
+
 .gtx-modal-dialog {
+    visibility: hidden;
+    position: fixed;
+    left: 0;
+    right: 0;
+    top: 4%;
+    opacity: 0;
+    background-color: #fafafa;
+    padding: 0;
+    max-height: 0;
+    width: 55%;
+    margin: auto;
+    overflow-y: auto;
+    border-radius: 2px;
+    will-change: top, opacity;
     z-index: 1000;
+    transform: scaleX(0.7);
+    box-shadow: 0 16px 28px 0 rgba(0, 0, 0, 0.22), 0 25px 55px 0 rgba(0, 0, 0, 0.21);
+    transition:
+        top 350ms $easeOutCubic,
+        opacity 350ms $easeOutCubic,
+        transform 350ms $easeOutCubic,
+        visibility 0s 0.5s,
+        max-height 0s 0.5s;
+
     @media #{$small-and-down} {
         max-height: 85%;
     }
 
-    .modal-content.nopad {
+    &.visible {
+        transition:
+            top 350ms $easeOutCubic,
+            opacity 350ms $easeOutCubic,
+            transform 350ms $easeOutCubic;
+        visibility: visible;
+        max-height: 70%;
+        opacity: 1;
+        transform: scaleX(1);
+        top: 10%;
+    }
+
+    .modal-content {
+        padding: 24px;
+    }
+    &.nopad .modal-content {
         padding: 0;
     }
 
-    > .modal-footer {
+    .modal-footer {
         text-align: right;
 
         > gtx-modal-footer {
@@ -21,7 +89,11 @@ gtx-modal {
         }
     }
 
-    > .modal-footer button.btn {
+    .modal-footer button.btn {
         margin: 5px;
+    }
+
+    .gtx-declarative-modal {
+        display: block;
     }
 }

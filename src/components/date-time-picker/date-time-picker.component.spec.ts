@@ -6,24 +6,29 @@ import {By} from '@angular/platform-browser';
 
 import {DateTimePicker} from './date-time-picker.component';
 import {Modal} from '../modal/modal.component';
+import {OverlayHostService} from '../overlay-host/overlay-host.service';
 
 const TEST_TIMESTAMP: number = 1457971763;
 
 describe('DateTimePicker:', () => {
+
+    beforeEach(() => {
+        addProviders([OverlayHostService]);
+    });
 
     it('should bind the label',
         async(inject([TestComponentBuilder], (tcb: TestComponentBuilder) =>
             tcb.overrideTemplate(TestComponent, `
                 <gtx-date-time-picker label="test"></gtx-date-time-picker>
             `)
-            .createAsync(TestComponent)
-            .then(fixture => {
-                fixture.detectChanges();
-                let label: HTMLLabelElement = fixture.nativeElement.querySelector('label');
+                .createAsync(TestComponent)
+                .then(fixture => {
+                    fixture.detectChanges();
+                    let label: HTMLLabelElement = fixture.nativeElement.querySelector('label');
 
-                expect(label.innerText.trim()).toBe('test');
-                fixture.destroy();
-            })
+                    expect(label.innerText.trim()).toBe('test');
+                    fixture.destroy();
+                })
         ))
     );
 
@@ -33,14 +38,14 @@ describe('DateTimePicker:', () => {
                 <gtx-date-time-picker label="test" displayTime="true">
                 </gtx-date-time-picker>
             `)
-            .createAsync(TestComponent)
-            .then(fixture => {
-                fixture.detectChanges();
-                let timePickerDiv: HTMLElement = <HTMLElement> document.querySelector('.time-picker');
+                .createAsync(TestComponent)
+                .then(fixture => {
+                    fixture.detectChanges();
+                    let timePickerDiv: HTMLElement = <HTMLElement> document.querySelector('.time-picker');
 
-                expect(timePickerDiv).not.toBeNull();
-                fixture.destroy();
-            })
+                    expect(timePickerDiv).not.toBeNull();
+                    fixture.destroy();
+                })
         ))
     );
 
@@ -49,14 +54,14 @@ describe('DateTimePicker:', () => {
             tcb.overrideTemplate(TestComponent, `
                 <gtx-date-time-picker label="test" displayTime="false"></gtx-date-time-picker>
             `)
-            .createAsync(TestComponent)
-            .then(fixture => {
-                fixture.detectChanges();
-                let timePickerDiv: HTMLElement = <HTMLElement> document.querySelector('.time-picker');
+                .createAsync(TestComponent)
+                .then(fixture => {
+                    fixture.detectChanges();
+                    let timePickerDiv: HTMLElement = <HTMLElement> document.querySelector('.time-picker');
 
-                expect(timePickerDiv).toBeNull();
-                fixture.destroy();
-            })
+                    expect(timePickerDiv).toBeNull();
+                    fixture.destroy();
+                })
         ))
     );
 
@@ -68,14 +73,14 @@ describe('DateTimePicker:', () => {
                 tcb.overrideTemplate(TestComponent, `
                     <gtx-date-time-picker></gtx-date-time-picker>
                 `)
-                .createAsync(TestComponent)
-                .then(fixture => {
-                    fixture.detectChanges();
-                    let pickerInstance: DateTimePicker = fixture.componentInstance.pickerInstance;
+                    .createAsync(TestComponent)
+                    .then(fixture => {
+                        fixture.detectChanges();
+                        let pickerInstance: DateTimePicker = fixture.componentInstance.pickerInstance;
 
-                    expect(pickerInstance.value.date()).toEqual(new Date().getDate());
-                    fixture.destroy();
-                })
+                        expect(pickerInstance.value.date()).toEqual(new Date().getDate());
+                        fixture.destroy();
+                    })
             ))
         );
 
@@ -85,14 +90,14 @@ describe('DateTimePicker:', () => {
                     <gtx-date-time-picker timestamp="${TEST_TIMESTAMP}">
                     </gtx-date-time-picker>
                 `)
-                .createAsync(TestComponent)
-                .then(fixture => {
-                    fixture.detectChanges();
-                    let pickerInstance: DateTimePicker = fixture.componentInstance.pickerInstance;
+                    .createAsync(TestComponent)
+                    .then(fixture => {
+                        fixture.detectChanges();
+                        let pickerInstance: DateTimePicker = fixture.componentInstance.pickerInstance;
 
-                    expect(pickerInstance.value.unix()).toEqual(TEST_TIMESTAMP);
-                    fixture.destroy();
-                })
+                        expect(pickerInstance.value.unix()).toEqual(TEST_TIMESTAMP);
+                        fixture.destroy();
+                    })
             ))
         );
 
@@ -102,14 +107,14 @@ describe('DateTimePicker:', () => {
                     <gtx-date-time-picker [timestamp]="testModel">
                     </gtx-date-time-picker>
                 `)
-                .createAsync(TestComponent)
-                .then(fixture => {
-                    fixture.detectChanges();
-                    let pickerInstance: DateTimePicker = fixture.componentInstance.pickerInstance;
+                    .createAsync(TestComponent)
+                    .then(fixture => {
+                        fixture.detectChanges();
+                        let pickerInstance: DateTimePicker = fixture.componentInstance.pickerInstance;
 
-                    expect(pickerInstance.value.unix()).toEqual(TEST_TIMESTAMP);
-                    fixture.destroy();
-                })
+                        expect(pickerInstance.value.unix()).toEqual(TEST_TIMESTAMP);
+                        fixture.destroy();
+                    })
             ))
         );
 
@@ -122,14 +127,14 @@ describe('DateTimePicker:', () => {
                 tcb.overrideTemplate(TestComponent, `
                     <gtx-date-time-picker></gtx-date-time-picker>
                 `)
-                .createAsync(TestComponent)
-                .then(fixture => {
-                    fixture.detectChanges();
-                    let input: HTMLInputElement = fixture.nativeElement.querySelector('input');
+                    .createAsync(TestComponent)
+                    .then(fixture => {
+                        fixture.detectChanges();
+                        let input: HTMLInputElement = fixture.nativeElement.querySelector('input');
 
-                    expect(input.value.trim()).toBe('');
-                    fixture.destroy();
-                })
+                        expect(input.value.trim()).toBe('');
+                        fixture.destroy();
+                    })
             ))
         );
 
@@ -139,14 +144,14 @@ describe('DateTimePicker:', () => {
                     <gtx-date-time-picker timestamp="1457971763" displayTime="false">
                     </gtx-date-time-picker>
                 `)
-                .createAsync(TestComponent)
-                .then(fixture => {
-                    fixture.detectChanges();
-                    let input: HTMLInputElement = fixture.nativeElement.querySelector('input');
+                    .createAsync(TestComponent)
+                    .then(fixture => {
+                        fixture.detectChanges();
+                        let input: HTMLInputElement = fixture.nativeElement.querySelector('input');
 
-                    expect(input.value.trim()).toBe('14/03/2016');
-                    fixture.destroy();
-                })
+                        expect(input.value.trim()).toBe('14/03/2016');
+                        fixture.destroy();
+                    })
             ))
         );
 
@@ -156,14 +161,14 @@ describe('DateTimePicker:', () => {
                     <gtx-date-time-picker timestamp="${TEST_TIMESTAMP}" displayTime="true">
                     </gtx-date-time-picker>
                 `)
-                .createAsync(TestComponent)
-                .then(fixture => {
-                    fixture.detectChanges();
-                    let input: HTMLInputElement = fixture.nativeElement.querySelector('input');
+                    .createAsync(TestComponent)
+                    .then(fixture => {
+                        fixture.detectChanges();
+                        let input: HTMLInputElement = fixture.nativeElement.querySelector('input');
 
-                    expect(input.value.trim()).toBe('14/03/2016, 17:09:23');
-                    fixture.destroy();
-                })
+                        expect(input.value.trim()).toBe('14/03/2016, 17:09:23');
+                        fixture.destroy();
+                    })
             ))
         );
 
@@ -173,14 +178,14 @@ describe('DateTimePicker:', () => {
                     <gtx-date-time-picker [timestamp]="testModel" displayTime="true">
                     </gtx-date-time-picker>
                 `)
-                .createAsync(TestComponent)
-                .then(fixture => {
-                    fixture.detectChanges();
-                    let input: HTMLInputElement = fixture.nativeElement.querySelector('input');
+                    .createAsync(TestComponent)
+                    .then(fixture => {
+                        fixture.detectChanges();
+                        let input: HTMLInputElement = fixture.nativeElement.querySelector('input');
 
-                    expect(input.value.trim()).toBe('14/03/2016, 17:09:23');
-                    fixture.destroy();
-                })
+                        expect(input.value.trim()).toBe('14/03/2016, 17:09:23');
+                        fixture.destroy();
+                    })
             ))
         );
 
@@ -190,14 +195,14 @@ describe('DateTimePicker:', () => {
                     <gtx-date-time-picker timestamp="${TEST_TIMESTAMP}" format="YY-MM-ddd">
                     </gtx-date-time-picker>
                 `)
-                .createAsync(TestComponent)
-                .then(fixture => {
-                    fixture.detectChanges();
-                    let input: HTMLInputElement = fixture.nativeElement.querySelector('input');
+                    .createAsync(TestComponent)
+                    .then(fixture => {
+                        fixture.detectChanges();
+                        let input: HTMLInputElement = fixture.nativeElement.querySelector('input');
 
-                    expect(input.value.trim()).toBe('16-03-Mon');
-                    fixture.destroy();
-                })
+                        expect(input.value.trim()).toBe('16-03-Mon');
+                        fixture.destroy();
+                    })
             ))
         );
     });
@@ -215,26 +220,26 @@ describe('DateTimePicker:', () => {
                     (change)="onChange($event)">
                 </gtx-date-time-picker>
             `)
-            .createAsync(TestComponent)
-            .then(_fixture => {
-                fixture = _fixture;
-                instance = fixture.componentInstance;
+                .createAsync(TestComponent)
+                .then(_fixture => {
+                    fixture = _fixture;
+                    instance = fixture.componentInstance;
 
-                spyOn(instance, 'onChange');
+                    spyOn(instance, 'onChange');
 
-                fixture.detectChanges();
-                nativeInput = fixture.nativeElement.querySelector('input');
-                let pickerInstance: DateTimePicker = fixture.componentInstance.pickerInstance;
+                    fixture.detectChanges();
+                    nativeInput = fixture.nativeElement.querySelector('input');
+                    let pickerInstance: DateTimePicker = fixture.componentInstance.pickerInstance;
 
-                let firstCalendarCell: HTMLElement = <HTMLElement> document
-                    .querySelector('table tr:first-child td:first-child');
-                firstCalendarCell.click();
-                tick();
+                    let firstCalendarCell: HTMLElement = <HTMLElement> document
+                        .querySelector('table tr:first-child td:first-child');
+                    firstCalendarCell.click();
+                    tick();
 
-                pickerInstance.confirm(<Modal> { closeModal: (): void => {} });
-                fixture.detectChanges();
-                tick();
-            })
+                    pickerInstance.confirm(<Modal> { closeModal: (): void => {} });
+                    fixture.detectChanges();
+                    tick();
+                })
         )));
 
         it('should change the displayed date when a new date is selected', () => {
@@ -264,13 +269,13 @@ describe('DateTimePicker:', () => {
                     (change)="onChange($event)">
                 </gtx-date-time-picker>
             `)
-            .createAsync(TestComponent)
-            .then(_fixture => {
-                fixture = _fixture;
-                fixture.detectChanges();
-                pickerInstance = fixture.componentInstance.pickerInstance;
-                tick();
-            })
+                .createAsync(TestComponent)
+                .then(_fixture => {
+                    fixture = _fixture;
+                    fixture.detectChanges();
+                    pickerInstance = fixture.componentInstance.pickerInstance;
+                    tick();
+                })
         )));
 
         it('incrementTime() should increment the time by one second', () => {
@@ -322,23 +327,23 @@ describe('DateTimePicker:', () => {
                     <gtx-date-time-picker [(ngModel)]="testModel">
                     </gtx-date-time-picker>
                 `)
-                .createAsync(TestComponent)
-                .then(fixture => {
-                    fixture.detectChanges();
-                    tick();
+                    .createAsync(TestComponent)
+                    .then(fixture => {
+                        fixture.detectChanges();
+                        tick();
 
-                    let instance: TestComponent = fixture.componentInstance;
-                    let pickerInstance: DateTimePicker = fixture.componentInstance.pickerInstance;
+                        let instance: TestComponent = fixture.componentInstance;
+                        let pickerInstance: DateTimePicker = fixture.componentInstance.pickerInstance;
 
-                    expect(pickerInstance.value.unix()).toBe(TEST_TIMESTAMP);
+                        expect(pickerInstance.value.unix()).toBe(TEST_TIMESTAMP);
 
-                    instance.testModel -= 10;
-                    fixture.detectChanges();
-                    tick();
-                    fixture.detectChanges();
+                        instance.testModel -= 10;
+                        fixture.detectChanges();
+                        tick();
+                        fixture.detectChanges();
 
-                    expect(pickerInstance.value.unix()).toBe(TEST_TIMESTAMP - 10);
-                })
+                        expect(pickerInstance.value.unix()).toBe(TEST_TIMESTAMP - 10);
+                    })
             ))
         );
 
@@ -348,25 +353,25 @@ describe('DateTimePicker:', () => {
                     <gtx-date-time-picker [(ngModel)]="testModel">
                     </gtx-date-time-picker>
                 `)
-                .createAsync(TestComponent)
-                .then(fixture => {
-                    fixture.detectChanges();
-                    tick();
-                    let instance: TestComponent = fixture.componentInstance;
-                    let pickerInstance: DateTimePicker = fixture.componentInstance.pickerInstance;
+                    .createAsync(TestComponent)
+                    .then(fixture => {
+                        fixture.detectChanges();
+                        tick();
+                        let instance: TestComponent = fixture.componentInstance;
+                        let pickerInstance: DateTimePicker = fixture.componentInstance.pickerInstance;
 
-                    pickerInstance.incrementTime('seconds');
-                    tick();
+                        pickerInstance.incrementTime('seconds');
+                        tick();
 
-                    // do not update the model value yet, until we confirm()
-                    expect(instance.testModel).toBe(TEST_TIMESTAMP);
+                        // do not update the model value yet, until we confirm()
+                        expect(instance.testModel).toBe(TEST_TIMESTAMP);
 
-                    pickerInstance.confirm(<Modal> { closeModal: (): void => {} });
-                    fixture.detectChanges();
-                    tick();
+                        pickerInstance.confirm(<Modal> { closeModal: (): void => {} });
+                        fixture.detectChanges();
+                        tick();
 
-                    expect(instance.testModel).toBe(TEST_TIMESTAMP + 1);
-                })
+                        expect(instance.testModel).toBe(TEST_TIMESTAMP + 1);
+                    })
             ))
         );
 
