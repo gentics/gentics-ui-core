@@ -5,9 +5,9 @@
  * The idea is to use Webpack to dynamically require each of the `.spec.ts` files and also set the
  * test providers in a single place, allowing the testing of DOM in component tests.
  */
+require('es6-shim');
 require('zone.js');
 require('reflect-metadata');
-require('es6-shim');
 require('zone.js/dist/fake-async-test');
 require('zone.js/dist/async-test');
 
