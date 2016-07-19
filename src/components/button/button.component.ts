@@ -20,15 +20,15 @@ import {isPresent} from '@angular/core/src/facade/lang';
 export class Button {
 
     /**
-     * Buttons can be "small", "regular" or "large"
+     * Specify the size of the button. Can be "small", "regular" or "large".
      */
-    @Input() size: string = 'regular';
+    @Input() size: 'small' | 'regular' | 'large' = 'regular';
 
     /**
      * Type determines the style of the button. Can be "default", "secondary",
      * "success", "warning" or "alert".
      */
-    @Input() type: string = 'default';
+    @Input() type: 'default' | 'secondary' | 'success' | 'warning' = 'default';
 
     /**
      * Setting the "flat" attribute gives the button a transparent background
@@ -60,16 +60,4 @@ export class Button {
 
     private isFlat: boolean = false;
     private isIcon: boolean = false;
-
-    getButtonClasses(): string {
-        let classes = [this.size, this.type];
-        if (this.isFlat || this.isIcon) {
-            classes.push('btn-flat');
-        }
-        if (this.isIcon) {
-            classes.push('btn-icon');
-        }
-        return classes.join(' ');
-    }
-
 }

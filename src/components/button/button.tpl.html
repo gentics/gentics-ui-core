@@ -1,6 +1,7 @@
-<button class="btn"
+<button class="btn {{size}} {{type}}"
         type="button"
         [disabled]="disabled"
-        [ngClass]="getButtonClasses()"
+        [class.btn-flat]="isFlat || isIcon"
+        [class.btn-icon]="isIcon"
 ><ng-content></ng-content>
 </button>
