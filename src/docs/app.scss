@@ -17,6 +17,14 @@ body {
             color: white;
         }
     }
+    .version-info {
+        font-size: $gtx-font-size-lead;
+        display: inline-block;
+        background-color: rgba(0, 0, 0, 0.2);
+        padding: 2px 5px;
+        border-radius: 3px;
+        font-weight: 300;
+    }
     .gentics-logo {
         width: 32px;
         height: 38px;

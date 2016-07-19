@@ -1,7 +1,8 @@
-## 0.6.0 ()
+## 0.6.0 (2016-07-19)
 ### Features
 * SearchBar now has a ValueAccessor, and `hideClearButton` attribute.
 * ModalService introduced for more flexible promise-based modals.
+* Added version number to docs.
 
 ## 0.5.0 (2016-07-07)
 ### Features

@@ -1,5 +1,5 @@
 import {Component, ViewChild} from '@angular/core';
-import {DomSanitizationService, SafeHtml} from '@angular/platform-browser';
+import {DomSanitizationService, SafeHtml, Title} from '@angular/platform-browser';
 import {ActivatedRoute, Router, ROUTER_DIRECTIVES, RouterState, NavigationEnd, PRIMARY_OUTLET} from '@angular/router';
 import {Subscription} from 'rxjs';
 import 'rxjs/add/operator/map';
@@ -7,6 +7,10 @@ import 'rxjs/add/operator/filter';
 import {TopBar, SearchBar, SideMenu, SplitViewContainer, ContentsListItem, Notification, OverlayHost} from '../index';
 import {pages, kebabToPascal, IPageInfo} from './pageList';
 import {OverlayHostService} from '../components/overlay-host/overlay-host.service';
+
+// Exposed globally by the Webpack DefinePlugin
+// (see webpack config)
+declare var VERSION: string;
 
 @Component({
     selector: 'app',
@@ -24,6 +28,7 @@ import {OverlayHostService} from '../components/overlay-host/overlay-host.servic
 })
 export class App {
     @ViewChild(SplitViewContainer) splitViewContainer: SplitViewContainer;
+    version: string;
     displayMenu: boolean = false;
     contentItems: any[] = pages.map((page: IPageInfo) => {
         return {
@@ -42,9 +47,12 @@ export class App {
 
     constructor(private router: Router,
                 private route: ActivatedRoute,
+                private titleService: Title,
                 private sanitizer: DomSanitizationService) {
         this.filteredContentItems = this.contentItems.slice(0);
         this.logoSvg = sanitizer.bypassSecurityTrustHtml(require('./assets/gentics-logo.svg'));
+        titleService.setTitle(`Gentics UI Core Docs v${VERSION}`);
+        this.version = VERSION;
     }
 
     ngOnInit(): void {

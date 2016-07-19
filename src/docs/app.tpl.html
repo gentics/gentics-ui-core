@@ -1,5 +1,8 @@
 <gtx-top-bar class="top-bar">
-    <h5><a class="title" [routerLink]="['index']">Gentics UI Core</a></h5>
+    <h5>
+        <a class="title" [routerLink]="['index']">Gentics UI Core Docs
+            <span class="version-info">v {{ version }}</span></a>
+    </h5>
     <div class="gtx-top-bar-right gentics-logo" [innerHTML]="logoSvg"></div>
 </gtx-top-bar>
 
@@ -8,44 +11,44 @@
                     (clear)="resetFilter()"
                     [(ngModel)]="searchQuery"></gtx-search-bar>
 
-<gtx-split-view-container class="split-view-container"
-                          leftContainerWidthPercent="35"
-                          [minPanelSizePixels]="320"
-                          [rightPanelVisible]="hasContent"
-                          [(focusedPanel)]="splitFocus">
+    <gtx-split-view-container class="split-view-container"
+                              leftContainerWidthPercent="35"
+                              [minPanelSizePixels]="320"
+                              [rightPanelVisible]="hasContent"
+                              [(focusedPanel)]="splitFocus">
 
-    <div class="list-pane" left>
-        <gtx-contents-list-item *ngFor="let item of filteredContentItems">
-            <div class="item-avatar">
-                <i class="material-icons" *ngIf="item.type === 'css'">style</i>
-                <i class="material-icons" *ngIf="item.type === 'component'">code</i>
-                <i class="material-icons" *ngIf="item.type === 'service'">share</i>
-            </div>
-            <div class="item-primary">
-                <a [routerLink]="[item.route]" (click)="focusRightPanel()">
-                    <strong>{{ item.title }}</strong>
-                </a>
-            </div>
-            <div class="type-label" [ngClass]="item.type">{{ item.type }}</div>
-        </gtx-contents-list-item>
-    </div>
+        <div class="list-pane" left>
+            <gtx-contents-list-item *ngFor="let item of filteredContentItems">
+                <div class="item-avatar">
+                    <i class="material-icons" *ngIf="item.type === 'css'">style</i>
+                    <i class="material-icons" *ngIf="item.type === 'component'">code</i>
+                    <i class="material-icons" *ngIf="item.type === 'service'">share</i>
+                </div>
+                <div class="item-primary">
+                    <a [routerLink]="[item.route]" (click)="focusRightPanel()">
+                        <strong>{{ item.title }}</strong>
+                    </a>
+                </div>
+                <div class="type-label" [ngClass]="item.type">{{ item.type }}</div>
+            </gtx-contents-list-item>
+        </div>
 
-    <div class="content-pane" right>
-        <router-outlet></router-outlet>
-    </div>
+        <div class="content-pane" right>
+            <router-outlet></router-outlet>
+        </div>
 
-</gtx-split-view-container>
+    </gtx-split-view-container>
 
-<gtx-side-menu [opened]="displayMenu" (toggle)="toggleMenu($event)">
-    <div class="menu-content">
-        <ul>
-            <li>Menu item 1</li>
-            <li>Menu item 2</li>
-            <li>Menu item 3</li>
-            <li>Menu item 4</li>
-            <li>Menu item 5</li>
-        </ul>
-    </div>
-</gtx-side-menu>
+    <gtx-side-menu [opened]="displayMenu" (toggle)="toggleMenu($event)">
+        <div class="menu-content">
+            <ul>
+                <li>Menu item 1</li>
+                <li>Menu item 2</li>
+                <li>Menu item 3</li>
+                <li>Menu item 4</li>
+                <li>Menu item 5</li>
+            </ul>
+        </div>
+    </gtx-side-menu>
 
-<gtx-overlay-host></gtx-overlay-host>
+    <gtx-overlay-host></gtx-overlay-host>

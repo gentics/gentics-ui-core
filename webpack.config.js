@@ -48,6 +48,9 @@ module.exports = {
         }
     },
     plugins: [
+        new webpack.DefinePlugin({
+            VERSION: JSON.stringify(require('./package.json').version)
+        }),
         new webpack.optimize.CommonsChunkPlugin('common', 'common.js'),
         new HtmlWebpackPlugin({
             inject: true,
