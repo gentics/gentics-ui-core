@@ -22,7 +22,7 @@ const defaultOptions: IModalOptions = {
  */
 @Component({
     selector: 'gtx-dynamic-modal',
-    template: require('./dynamic-modal-wrapper.component.html')
+    template: require('./dynamic-modal-wrapper.tpl.html')
 })
 export class DynamicModalWrapper {
     @ViewChild('portal', {read: ViewContainerRef}) portal: ViewContainerRef;

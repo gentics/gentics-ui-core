@@ -9,7 +9,7 @@ import {IModalDialog, IDialogConfig} from './modal-interfaces';
  */
 @Component({
     selector: 'gtx-modal-dialog',
-    template: require('./modal-dialog.component.html'),
+    template: require('./modal-dialog.tpl.html'),
     directives: [Button]
 })
 export class ModalDialog implements IModalDialog {
