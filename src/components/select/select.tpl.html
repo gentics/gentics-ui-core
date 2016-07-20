@@ -1,11 +1,10 @@
-<div class="input-field">
+<div>
     <select
         [disabled]="disabled"
         [attr.id]="id"
         [multiple]="multiple"
         [attr.name]="name"
-        [required]="required"
-    >
+        [required]="required">
         <ng-content></ng-content>
     </select>
     <label [attr.for]="id">{{ label }}</label>
