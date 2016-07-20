@@ -13,9 +13,17 @@
             <strong class="identifier">{{ block[props[0]] }}</strong>
         </td>
         <td>
-            <code class="type"
-                  *ngIf="block[props[1]]"
-                  [title]="block[props[1]]">{{  block[props[1]] }}</code></td>
+            <div *ngIf="props[1] !== 'methodArgs'">
+                <code class="type"
+                      *ngIf="block[props[1]]"
+                      [title]="block[props[1]]">{{  block[props[1]] }}</code>
+            </div>
+            <div *ngIf="props[1] === 'methodArgs'">
+                <code class="type"
+                      *ngFor="let arg of block[props[1]]"
+                      [title]="arg">{{ arg }}</code>
+            </div>
+        </td>
         <td>
             <code class="default-value"
                   *ngIf="block[props[2]]"

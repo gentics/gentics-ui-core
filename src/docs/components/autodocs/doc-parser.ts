@@ -14,7 +14,7 @@ marked.setOptions({
 // noinspection TsLint
 const COMPONENT_RE = /[^\S\r\n]*\/(?:\*{2})([\W\w]+?)\*\/[\r\n\s]*(?:@|)(\w+)(?:\(([\w']*)\)\s+(?:\s*(?:get|set)\s*)?(\w*)(?:\([\w:\s]*\))?(?:(?::\s*([\w<>\|\[\]]+))?(?:\s*=\s*([^;]+))?)?)?/g;
 // noinspection TsLint
-const SERVICE_RE = /[^\S\r\n]*\/(?:\*{2})([\W\w]+?)\*\/ *(?:\r\n?|\n) *(private|public|@Injectable)? *([\w\-]*)(?:\(([\w :,\?]*)\))?(?:: ([\w<>\{} :\(\)=]*))?[^\r\n]+/g;
+const SERVICE_RE = /[^\S\r\n]*\/(?:\*{2})([\W\w]+?)\*\/ *(?:\r\n?|\n) *(private|public|@Injectable)? *([\w\-]*)(?:\(([\w :,\?\[\]\{\}\r\n\t]*)\))?(?:: ([\w<>\{} :\(\)=]*))?[^\r\n]+/g;
 /* tslint:enable */
 
 
@@ -25,7 +25,7 @@ export class DocBlock {
     defaultValue: string;
     decorator: string;
     accessModifier: 'public' | 'private';
-    methodArgs: string;
+    methodArgs: string[];
 }
 
 export interface IDocumentation {
@@ -135,7 +135,9 @@ function parseServiceSource(src: string): DocBlock[] {
         }
 
         if (matches[4] !== undefined) {
-            block.methodArgs = matches[4];
+            block.methodArgs = matches[4].split(',')
+                .map((s: string) => s.trim())
+                .filter((s: string) => s !== '');
         }
 
         if (matches[5]) {
