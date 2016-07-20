@@ -7,6 +7,7 @@ export interface IDialogConfig {
     buttons: {
         label: string;
         type?: 'default' | 'secondary' | 'success'| 'warning' | 'alert';
+        flat?: boolean;
         // If specified, will be returned as the
         // value of the resolved promise (or the reason if rejected).
         returnValue?: any;

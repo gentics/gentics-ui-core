@@ -74,6 +74,10 @@ $easeOutCubic: cubic-bezier(0.215, 0.610, 0.355, 1.000);
         top: 10%;
     }
 
+    .modal-title {
+        margin-top: 0;
+    }
+
     .modal-content {
         padding: 24px;
     }

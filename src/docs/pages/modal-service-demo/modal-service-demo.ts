@@ -23,8 +23,8 @@ export class ModalServiceDemo {
             title: 'A Basic Dialog',
             body: 'Are you <strong>sure</strong> you want to do the thing?',
             buttons: [
-                { label: 'Okay', type: 'default', returnValue: true },
-                { label: 'Cancel', type: 'secondary', returnValue: false, shouldReject: true }
+                { label: 'Cancel', type: 'secondary', flat: true, returnValue: false, shouldReject: true },
+                { label: 'Okay', type: 'default', returnValue: true }
             ]
         })
             .then(dialog => dialog.open())
@@ -46,8 +46,8 @@ export class ModalServiceDemo {
             title: 'Another Dialog',
             body: 'Are you <strong>sure</strong> you want to do the thing?',
             buttons: [
-                { label: 'Okay', type: 'default', returnValue: true },
-                { label: 'Cancel', type: 'secondary', returnValue: false, shouldReject: true }
+                { label: 'Cancel', type: 'secondary', flat: true, returnValue: false, shouldReject: true },
+                { label: 'Okay', type: 'default', returnValue: true }
             ]
         }, options)
             .then(dialog => dialog.open())
