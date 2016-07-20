@@ -1,3 +1,9 @@
+## 0.6.1 (2016-07-19)
+### Fixes
+* ModalService templates named correctly and exported.
+* ModalService styling.
+* Fixed layout issues with Checkbox & RadioButton.
+
 ## 0.6.0 (2016-07-19)
 ### Features
 * SearchBar now has a ValueAccessor, and `hideClearButton` attribute.
