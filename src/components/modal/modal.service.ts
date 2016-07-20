@@ -85,6 +85,8 @@ import {IModalInstance, IDialogConfig, IModalDialog, IModalOptions} from './moda
  *       this.cancelFn = cancel;
  *   }
  *
+ *   someLocalVariable: string;
+ *
  *   // Bound to the form's submit event.
  *   onSubmitClick() : void {
  *      this.closeFn(this.form.value);
@@ -98,7 +100,7 @@ import {IModalInstance, IDialogConfig, IModalDialog, IModalOptions} from './moda
  * ```
  * The above component could then be used as follows:
  * ```TypeScript
- * modalService.fromComponent(MyModalForm)
+ * modalService.fromComponent(MyModalForm, {}, { someLocalVariable: 'foo' })
  *   .then(modal => modal.open())
  *   .then(result => console.log(result));
  * ```
@@ -130,10 +132,13 @@ export class ModalService {
     }
 
     /**
-     * Create a new modal instance containing the specified component.
+     * Create a new modal instance containing the specified component, optionally specifying "locals" which
+     * will be defined on the component instance with the given value.
      */
-    public fromComponent(component: Type, options?: IModalOptions): Promise<IModalInstance> {
-        return this.wrapComponentInModal(component, options);
+    public fromComponent(component: Type,
+                         options?: IModalOptions,
+                         locals?: { [key: string]: any }): Promise<IModalInstance> {
+        return this.wrapComponentInModal(component, options, locals);
     }
 
     /**
@@ -159,12 +164,20 @@ export class ModalService {
             });
     }
 
-    private wrapComponentInModal(component: Type, options?: IModalOptions): Promise<IModalInstance> {
+    private wrapComponentInModal(component: Type,
+                                 options?: IModalOptions,
+                                 locals?: { [key: string]: any }): Promise<IModalInstance> {
         return this.createModalWrapper(options)
             .then(modalWrapper => {
                 return modalWrapper.injectContent(component)
                     .then(componentRef => {
                         const dialog: IModalDialog = componentRef.instance;
+                        if (locals !== undefined) {
+                            for (let key in locals) {
+                                (<any> dialog)[key] = locals[key];
+                            }
+                            componentRef.changeDetectorRef.markForCheck();
+                        }
                         this.checkModalDialogInterface(dialog);
                         return {
                             instance: dialog,

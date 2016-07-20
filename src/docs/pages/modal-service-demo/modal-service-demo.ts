@@ -56,7 +56,7 @@ export class ModalServiceDemo {
     }
 
     showCustomModal(): void {
-        this.modalService.fromComponent(MyModal)
+        this.modalService.fromComponent(MyModal, {}, { greeting: 'Hello!' })
             .then(modal => modal.open())
             .then(result => console.log('result:', result))
             .catch(reason => console.log('rejected', reason));
@@ -67,13 +67,21 @@ export class ModalServiceDemo {
     selector: 'my-modal-component',
     template: `
         <div>
-            <h1>A Custom Component</h1>
+            <h4>A Custom Component</h4>
+            <h5>{{ greeting }}</h5>
             <a (click)="closeFn('link was clicked')">Close me</a>
         </div>`
 })
 class MyModal implements IModalDialog {
     closeFn: (val: any) => void;
     cancelFn: (val?: any) => void;
+
+    greeting: string;
+
+    constructor() {
+        console.log('constructor()', this.greeting);
+    }
+
     registerCloseFn(close: (val: any) => void): void {
         this.closeFn = close;
     }

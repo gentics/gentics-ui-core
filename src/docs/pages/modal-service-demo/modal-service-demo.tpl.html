@@ -75,10 +75,13 @@
               template: `
                   <div>
                       <h1>A Custom Component</h1>
+                      <h5>{{ greeting }}</h5>
                       <a (click)="closeFn("link was clicked")">Close me</a>
                   </div>`
           })
           class MyModal implements IModalDialog {
+              greeting: string;
+
               closeFn: (val: any) => void;
               cancelFn: (val?: any) => void;
               registerCloseFn(close: (val: any) => void): void {
@@ -91,7 +94,7 @@
            '></gtx-highlighted-code>
         <gtx-highlighted-code language="TypeScript" code='
             showCustomModal(): void {
-                this.modalService.fromComponent(MyModal)
+                this.modalService.fromComponent(MyModal, {}, { greeting: "Hello!" })
                     .then(modal => modal.open())
                     .then(result => console.log("result:", result))
                     .catch(reason => console.log("rejected", reason));

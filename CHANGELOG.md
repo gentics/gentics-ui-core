@@ -1,3 +1,9 @@
+## 0.6.2 ()
+### Features
+* ModalService.fromComponent() accepts object defining local variables.
+### Fixes
+* (Docs) Improve parsing & display of auto docs.
+
 ## 0.6.1 (2016-07-19)
 ### Fixes
 * ModalService templates named correctly and exported.

@@ -304,11 +304,17 @@ describe('ModalService:', () => {
 
         @Component({
             selector: 'test-modal-cmp',
-            template: `<div>TestModalCmp</div>`
+            template: `<div>TestModalCmp</div>
+                <div>{{ localValue }}</div>
+                <button class="modal-button" (click)="localFn('bar')"></button>`
         })
         class TestModalCmp implements IModalDialog {
             closeFn: (val: any) => void;
             cancelFn: (val?: any) => void;
+
+            localValue: string;
+            localFn: Function;
+
             registerCloseFn(close: (val: any) => void): void {
                 this.closeFn = close;
             }
@@ -364,6 +370,41 @@ describe('ModalService:', () => {
 
                         expect(testModalCmp).toBeDefined();
                         expect(testModalCmp.innerText).toContain('TestModalCmp');
+                    })
+            ))
+        );
+
+        it('should inject locals (string)',
+            fakeAsync(inject([TestComponentBuilder], (tcb: TestComponentBuilder) =>
+                tcb.createAsync(TestComponent)
+                    .then(fixture => {
+                        fixture.detectChanges();
+                        modalService.fromComponent(TestModalCmp, {}, { localValue: 'Foo' });
+                        tick();
+
+                        let testModalCmp = getElement(fixture, 'test-modal-cmp');
+                        fixture.detectChanges();
+
+                        expect(testModalCmp).toBeDefined();
+                        expect(testModalCmp.innerText).toContain('Foo');
+                    })
+            ))
+        );
+
+        it('should inject locals (function)',
+            fakeAsync(inject([TestComponentBuilder], (tcb: TestComponentBuilder) =>
+                tcb.createAsync(TestComponent)
+                    .then(fixture => {
+                        fixture.detectChanges();
+                        const spy = jasmine.createSpy('spy');
+                        modalService.fromComponent(TestModalCmp, {}, { localFn: spy });
+                        tick();
+
+                        fixture.detectChanges();
+                        getElement(fixture, '.modal-button').click();
+                        tick();
+
+                        expect(spy).toHaveBeenCalledWith('bar');
                     })
             ))
         );
