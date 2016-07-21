@@ -7,6 +7,7 @@ import {ColorsDemo} from './pages/colors-demo/colors-demo';
 import {ContentsListItemDemo} from './pages/contents-list-item-demo/contents-list-item-demo';
 import {DateTimePickerDemo} from './pages/date-time-picker-demo/date-time-picker-demo';
 import {DropdownListDemo} from './pages/dropdown-list-demo/dropdown-list-demo';
+import {FileDropAreaDemo} from './pages/file-drop-area-demo/file-drop-area-demo';
 import {GridDemo} from './pages/grid-demo/grid-demo';
 import {IconsDemo} from './pages/icons-demo/icons-demo';
 import {InputDemo} from './pages/input-demo/input-demo';
@@ -71,6 +72,12 @@ export const pages: IPageInfo[] = [
         component: DropdownListDemo,
         type: 'component',
         keywords: ['menu']
+    },
+    {
+        name: 'file-drop-area',
+        component: FileDropAreaDemo,
+        type: 'component',
+        keywords: ['file', 'upload', 'drag', 'drop']
     },
     {
         name: 'grid',

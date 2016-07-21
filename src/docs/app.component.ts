@@ -4,9 +4,10 @@ import {ActivatedRoute, Router, ROUTER_DIRECTIVES, NavigationEnd, PRIMARY_OUTLET
 import {Subscription} from 'rxjs';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/filter';
-import {TopBar, SearchBar, SplitViewContainer, ContentsListItem, Notification, OverlayHost} from '../index';
+import {ContentsListItem, Notification, OverlayHost, OverlayHostService, SearchBar,
+        SplitViewContainer, PageDragDropFileHandler, TopBar} from '../index';
 import {pages, kebabToPascal, IPageInfo} from './pageList';
-import {OverlayHostService} from '../components/overlay-host/overlay-host.service';
+
 
 // Exposed globally by the Webpack DefinePlugin
 // (see webpack config)
@@ -23,7 +24,7 @@ declare var VERSION: string;
         ContentsListItem,
         OverlayHost
     ],
-    providers: [Notification, OverlayHostService]
+    providers: [Notification, OverlayHostService, PageDragDropFileHandler]
 })
 export class App {
     @ViewChild(SplitViewContainer) splitViewContainer: SplitViewContainer;

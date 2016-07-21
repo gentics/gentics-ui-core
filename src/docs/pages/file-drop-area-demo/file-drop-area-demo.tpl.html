@@ -1,0 +1,195 @@
+<h3>File Drop Area</h3>
+
+<!-- autodocs do not seem to work with directives yet -->
+<!--<gtx-autodocs [source]="componentSource"></gtx-autodocs>-->
+
+<h4>Demos</h4>
+
+<gtx-demo-block title="Basic Example">
+    <div class="demo-result">
+
+        <p>The file drop area reacts to files that are dragged and/or dropped over it.</p>
+        <gtx-file-drop-area (fileDrop)="droppedFilesA = $event">
+            Drop files here
+        </gtx-file-drop-area>
+
+        <p>Files dropped into the drop area:</p>
+        <ul><li *ngFor="let file of droppedFilesA">{{ file?.name }}</li></ul>
+
+    </div>
+    <div class="demo-code">
+        <gtx-highlighted-code language="HTML" code='
+                <gtx-file-drop-area (fileDrop)="droppedFiles = $event">Drop files here</gtx-file-drop-area>
+                <p>Files dropped into the drop area:</p>
+                <ul><li *ngFor="let file of droppedFiles">(( file?.name ))</li></ul>
+           '></gtx-highlighted-code>
+    </div>
+</gtx-demo-block>
+
+<gtx-demo-block title="Tracking Drag/Drop State with Events">
+    <div class="demo-result">
+
+        <p>Drag/Drop state can be tracked by binding to events on the directive container.</p>
+
+        <gtx-file-drop-area
+            (fileDragEnter)="draggingFileOnThis = true"
+            (fileDragLeave)="draggingFileOnThis = false"
+            (fileDrop)="onDropFiles($event)"
+            (tabDragEnter)="draggingFileOnTab = true"
+            (tabDragLeave)="draggingFileOnTab = false"
+            [ngClass]="{'dragging-over': draggingFileOnThis, 'dragging-in-tab': draggingFileOnTab}"
+        >
+            Drop files here
+        </gtx-file-drop-area>
+
+        <p *ngIf="!draggingFileOnTab">No files are being dragged into the active tab.</p>
+        <p *ngIf="draggingFileOnTab">Some file(s) are being dragged into the current tab...</p>
+
+        <p *ngIf="!draggingFileOnThis">No files dragged into the drop area.</p>
+        <p *ngIf="draggingFileOnThis">Some file(s) are being dragged into the drop area...</p>
+
+        <p *ngIf="!droppedFiles.length">No files were dropped so far.</p>
+        <div *ngIf="droppedFiles.length > 0">
+            <p>Files dropped into the drop area:</p>
+            <ul><li *ngFor="let file of droppedFiles">{{ file?.name }}</li></ul>
+        </div>
+
+    </div>
+    <div class="demo-code">
+        <gtx-highlighted-code language="TypeScript" code='
+            onDropFiles(files: File[]): void {
+                this.draggingFileOnThis = false;
+                this.droppedFiles.push(...files);
+            }
+        '></gtx-highlighted-code>
+        <gtx-highlighted-code language="HTML" code='
+            <gtx-file-drop-area
+                (fileDragEnter)="draggingFileOnThis = true"
+                (fileDragLeave)="draggingFileOnThis = false"
+                (fileDrop)="onDropFiles($event)"
+                (tabDragEnter)="draggingFileOnTab = true"
+                (tabDragLeave)="draggingFileOnTab = false"
+            >
+                Drop files here
+            </gtx-file-drop-area>
+        '></gtx-highlighted-code>
+    </div>
+</gtx-demo-block>
+
+<gtx-demo-block title="Tracking Drag/Drop State with a Directive Reference Variable">
+    <div class="demo-result">
+
+        <gtx-file-drop-area #droparea="gtxFileDropArea"
+            [ngClass]="{'dragging-over': droparea.hovered, 'dragging-in-tab': droparea.fileDraggedInTab}"
+            (fileDrop)="droppedFilesC = $event">
+                Drop files here
+        </gtx-file-drop-area>
+
+        <p>Files dragged in the active tab: <code>{{ droparea.fileDraggedInTab }}</code></p>
+        <p>Files dragged over the droparea: <code>{{ droparea.hovered }}</code></p>
+        <p>Files dropped into the drop area:</p>
+        <ul><li *ngFor="let file of droppedFilesC">{{ file?.name }}</li></ul>
+
+    </div>
+    <div class="demo-code">
+        <gtx-highlighted-code language="HTML" code='
+            <gtx-file-drop-area #area="gtxFileDropArea" (fileDrop)="droppedFiles = $event">Drop files here</gtx-file-drop-area>
+            <p>Files dragged in the active tab: <code>(( area.fileDraggedInTab ))</code></p>
+            <p>Files dragged over the drop area: <code>(( area.hovered ))</code></p>
+        '></gtx-highlighted-code>
+    </div>
+</gtx-demo-block>
+
+<gtx-demo-block title="Usage on Other Components/Elements">
+    <div class="demo-result">
+
+        <p>Below is a <a routerLink="/sortable-list">SortableList</a> that accepts files via drag & drop.</p>
+
+        <gtx-sortable-list (dragEnd)="reorderList($event)"
+            gtxFileDropArea #area="gtxFileDropArea"
+            [class.dragging-over]="area.hovered"
+            [class.dragging-in-tab]="area.fileDraggedInTab"
+            (fileDrop)="addFilesToReorderableList($event)">
+
+                <gtx-sortable-item *ngFor="let listFile of reorderableFiles">
+                    <gtx-contents-list-item>
+                        <strong class="filename">{{ listFile.name }}</strong>
+                        <span class="filesize">{{ listFile.size }} B</span>
+                    </gtx-contents-list-item>
+                </gtx-sortable-item>
+
+                <gtx-contents-list-item *ngIf="!reorderableFiles.length && !area.fileDraggedInTab">
+                    <em class="placeholder">No files in the list.</em>
+                </gtx-contents-list-item>
+
+                <gtx-contents-list-item *ngIf="area.fileDraggedInTab">
+                    <strong class="placeholder">Drop a file here!</strong>
+                </gtx-contents-list-item>
+
+        </gtx-sortable-list>
+
+    </div>
+    <div class="demo-code">
+        <gtx-highlighted-code language="HTML" code='
+            <gtx-sortable-list
+                gtxFileDropArea #list="gtxFileDropArea"
+                [class.dragging-over]="list.hovered"
+                [class.dragging-in-tab]="list.fileDraggedInTab"
+                (fileDrop)="addFiles($event)">
+
+                    <gtx-sortable-item *ngFor="let file of listFiles"> ... </gtx-sortable-item>
+
+                    <gtx-contents-list-item *ngIf="!listFiles.length && !list.fileDraggedInTab">
+                        No files in the list.
+                    </gtx-contents-list-item>
+
+                    <gtx-contents-list-item *ngIf="list.fileDraggedInTab">
+                        Drop a file here!
+                    </gtx-contents-list-item>
+
+            </gtx-sortable-list>
+
+            <gtx-file-drop-area #droparea="gtxFileDropArea" (fileDrop)="droppedFiles = $event">Drop files here</gtx-file-drop-area>
+            <p>Files dragged in the active tab: <code>(( droparea.fileDraggedInTab ))</code></p>
+            <p>Files dragged over the droparea: <code>(( droparea.hovered ))</code></p>
+        '></gtx-highlighted-code>
+    </div>
+</gtx-demo-block>
+
+<gtx-demo-block title="Preventing accidental file drop on the browser tab">
+    <div class="demo-result">
+        <p>
+            When the user drags a file into the browser tab and misses a drop area,
+            the dropped file will be downloaded or opened by the browser, exiting the app.
+            To prevent that from happening, use <code>gtxPreventFileDrop</code>:
+        </p>
+        <gtx-highlighted-code language="HTML" code='
+            <app gtxPreventFileDrop="global">
+                <p>Dropping files here is denied</p>
+                <p gtxFileDropArea>Dropping files here is allowed</p>
+            </app>
+        '></gtx-highlighted-code>
+        <p>The directive also accepts a value of <code>true</code>/<code>false</code>/<code>"global"</code> and defaults to <code>true</code>.</p>
+
+        <hr>
+
+        <div [gtxPreventFileDrop]="preventGlobal ? 'global' : false"></div>
+        <gtx-checkbox [(ngModel)]="preventGlobal" label="Prevent background file drop on the whole page"></gtx-checkbox>
+
+        <div class="outlined-block" gtxPreventFileDrop>This container does not accept files.</div>
+        <div class="outlined-block" gtxPreventFileDrop="true">This container does not accept files.</div>
+        <div class="outlined-block" [gtxPreventFileDrop]="true">This container does not accept files.</div>
+        <div class="outlined-block" [gtxPreventFileDrop]="preventLocal">This container does<span *ngIf="preventLocal"> not</span> accept files.
+            <gtx-checkbox [(ngModel)]="preventLocal" label="Prevent file drop in this box"></gtx-checkbox>
+        </div>
+    </div>
+    <div class="demo-code">
+        <gtx-highlighted-code language="HTML" code='
+            <div gtxPreventFileDrop="global">This prevents dragging files on the whole page</div>
+            <div gtxPreventFileDrop>This does not accept files</div>
+            <div gtxPreventFileDrop="true">This does not accept files</div>
+            <div [gtxPreventFileDrop]="true">This does not accept files</div>
+            <div [gtxPreventFileDrop]="prevent">This does not accept files if prevent is true</div>
+        '></gtx-highlighted-code>
+    </div>
+</gtx-demo-block>
