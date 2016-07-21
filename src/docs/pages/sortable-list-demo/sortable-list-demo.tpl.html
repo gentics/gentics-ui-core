@@ -4,7 +4,7 @@
 
 <h4>Demos</h4>
 
-<gtx-demo-block title="Basic List Binding">
+<gtx-demo-block demoTitle="Basic List Binding">
     <div class="demo-result">
         <gtx-sortable-list (dragEnd)="sortList($event)">
             <gtx-sortable-item *ngFor="let person of items">
@@ -46,7 +46,7 @@
     </div>
 </gtx-demo-block>
 
-<gtx-demo-block title="Drag Handles">
+<gtx-demo-block demoTitle="Drag Handles">
     <div class="demo-result">
         <p>
             Optional drag handles are provided by the <code>&lt;gtx-drag-handle&gt;</code> component, but if a list item
@@ -88,7 +88,7 @@
 </gtx-demo-block>
 
 
-<gtx-demo-block title="Disabling">
+<gtx-demo-block demoTitle="Disabling">
     <div class="demo-result">
         <p>
             Sorting can be disabled by setting the <code>disabled</code> attribute to true:
@@ -130,7 +130,7 @@
     </div>
 </gtx-demo-block>
 
-<gtx-demo-block title="Auto Scrolling">
+<gtx-demo-block demoTitle="Auto Scrolling">
     <div class="demo-result">
         <p>
             Sometimes the list height is greater than the viewport height. In this case, dragging to the edge of the

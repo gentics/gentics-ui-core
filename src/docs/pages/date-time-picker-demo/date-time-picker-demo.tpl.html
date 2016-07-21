@@ -8,7 +8,7 @@
 
 </div>
 
-<gtx-demo-block title="Date And Time">
+<gtx-demo-block demoTitle="Date And Time">
     <div class="demo-result">
         <gtx-date-time-picker [(ngModel)]="timestamp" label="Pick a time"></gtx-date-time-picker>
         timestamp: <code>{{ timestamp }}</code>
@@ -21,7 +21,7 @@
     </div>
 </gtx-demo-block>
 
-<gtx-demo-block title="Date Only">
+<gtx-demo-block demoTitle="Date Only">
     <div class="demo-result">
         <gtx-date-time-picker [(ngModel)]="timestamp" label="Pick a date" displayTime="false"></gtx-date-time-picker>
         timestamp: <code>{{ timestamp }}</code>
@@ -34,7 +34,7 @@
     </div>
 </gtx-demo-block>
 
-<gtx-demo-block title="Custom Format">
+<gtx-demo-block demoTitle="Custom Format">
     <div class="demo-result">
         <gtx-date-time-picker [timestamp]="timestamp" format="Do MMM YY @ h:mm a"></gtx-date-time-picker>
     </div>

@@ -1,8 +1,9 @@
 ## 0.6.2 ()
 ### Features
-* ModalService.fromComponent() accepts object defining local variables.
+* ModalService.fromComponent() now accepts a parameter defining local variables.
 ### Fixes
-* (Docs) Improve parsing & display of auto docs.
+* (Docs) Improved parsing & display of auto docs.
+* (Docs) Renamed title attribute to prevent browsers from displaying tooltips on hover.
 
 ## 0.6.1 (2016-07-19)
 ### Fixes

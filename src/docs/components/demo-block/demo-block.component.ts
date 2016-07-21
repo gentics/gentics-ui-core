@@ -9,7 +9,7 @@ import {Button} from '../../../components/button/button.component';
 })
 export class DemoBlock {
 
-    @Input() title: string;
+    @Input() demoTitle: string;
     wrapperMaxHeight: number = 0;
 
     constructor(private elementRef: ElementRef) {}
