@@ -115,9 +115,7 @@ export class PageDragDropFileHandler {
         this.bindEvents();
     }
 
-    /**
-     * @internal
-     */
+    /** @internal */
     bindEvents(): void {
         if (this.eventsBound) { return; }
         const bind = this.eventTarget.addEventListener.bind(this.eventTarget);
@@ -131,9 +129,7 @@ export class PageDragDropFileHandler {
         this.eventsBound = true;
     }
 
-    /**
-     * @internal
-     */
+    /** @internal */
     unbindEvents(): void {
         const unbind = this.eventTarget.removeEventListener.bind(this.eventTarget);
         unbind('dragenter', this.fileDraggedIntoElement, true);
@@ -147,9 +143,7 @@ export class PageDragDropFileHandler {
     }
 
 
-    /**
-     * @internal
-     */
+    /** @internal */
     preventFileDropOnPageFor(directive: any, prevent: boolean): void {
         if (prevent) {
             this.componentsWantingToPreventFileDrop.add(directive);

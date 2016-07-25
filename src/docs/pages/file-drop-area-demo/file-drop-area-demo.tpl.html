@@ -37,7 +37,7 @@
             (fileDrop)="onDropFiles($event)"
             (pageDragEnter)="draggingFileOnPage = true"
             (pageDragLeave)="draggingFileOnPage = false"
-            [class.hovered]="draggingFileOnThis"
+            [class.dragging-over]="draggingFileOnThis"
             [class.dragging-in-page]="draggingFileOnPage"
         >
             Drop files here
@@ -81,14 +81,14 @@
     <div class="demo-result">
 
         <gtx-file-drop-area #droparea="gtxFileDropArea"
-            [class.hovered]="droparea.hovered"
+            [class.dragging-over]="droparea.draggedOver"
             [class.dragging-in-page]="droparea.fileDraggedInPage"
             (fileDrop)="droppedFilesC = $event">
                 Drop files here
         </gtx-file-drop-area>
 
         <p>Files dragged in the active page: <code>{{ droparea.fileDraggedInPage }}</code></p>
-        <p>Files dragged over the droparea: <code>{{ droparea.hovered }}</code></p>
+        <p>Files dragged over the droparea: <code>{{ droparea.draggedOver }}</code></p>
         <p>Files dropped into the drop area:</p>
         <ul><li *ngFor="let file of droppedFilesC">{{ file?.name }}</li></ul>
 
@@ -97,7 +97,7 @@
         <gtx-highlighted-code language="HTML" code='
             <gtx-file-drop-area #area="gtxFileDropArea" (fileDrop)="droppedFiles = $event">Drop files here</gtx-file-drop-area>
             <p>Files dragged in the active page: <code>(( area.fileDraggedInPage ))</code></p>
-            <p>Files dragged over the drop area: <code>(( area.hovered ))</code></p>
+            <p>Files dragged over the drop area: <code>(( area.draggedOver ))</code></p>
         '></gtx-highlighted-code>
     </div>
 </gtx-demo-block>
@@ -109,7 +109,7 @@
 
         <gtx-sortable-list (dragEnd)="reorderList($event)"
             gtxFileDropArea #area="gtxFileDropArea"
-            [class.hovered]="area.hovered"
+            [class.dragging-over]="area.draggedOver"
             [class.dragging-in-page]="area.fileDraggedInPage"
             (fileDrop)="addFilesToReorderableList($event)">
 
@@ -135,7 +135,7 @@
         <gtx-highlighted-code language="HTML" code='
             <gtx-sortable-list
                 gtxFileDropArea #list="gtxFileDropArea"
-                [class.hovered]="list.hovered"
+                [class.dragging-over]="list.draggedOver"
                 [class.dragging-in-page]="list.fileDraggedInPage"
                 (fileDrop)="addFiles($event)">
 
@@ -153,7 +153,7 @@
 
             <gtx-file-drop-area #droparea="gtxFileDropArea" (fileDrop)="droppedFiles = $event">Drop files here</gtx-file-drop-area>
             <p>Files dragged in the active page: <code>(( droparea.fileDraggedInPage ))</code></p>
-            <p>Files dragged over the droparea: <code>(( droparea.hovered ))</code></p>
+            <p>Files dragged over the droparea: <code>(( droparea.draggedOver ))</code></p>
         '></gtx-highlighted-code>
     </div>
 </gtx-demo-block>
@@ -163,7 +163,7 @@
 
         <div gtxFileDropArea [gtxFileDropArea]="{accept: 'text/*'}" #textDrop="gtxFileDropArea"
             (fileDrop)="droppedTextFiles = droppedTextFiles.concat($event)"
-            [class.hovered]="textDrop.hovered"
+            [class.dragging-over]="textDrop.draggedOver"
             [class.dragging-in-page]="textDrop.fileDraggedInPage">
                 This drop area only accepts text files.
         </div>
@@ -171,7 +171,7 @@
 
         <div gtxFileDropArea [gtxFileDropArea]="{accept: ['image/*', '!image/gif']}" #imageDrop="gtxFileDropArea"
             (fileDrop)="droppedImages = droppedImages.concat($event)"
-            [class.hovered]="imageDrop.hovered"
+            [class.dragging-over]="imageDrop.draggedOver"
             [class.dragging-in-page]="imageDrop.fileDraggedInPage">
                 Images are accepted on this, but no GIFs.
         </div>
@@ -304,7 +304,7 @@
 <gtx-demo-block demoTitle="Events">
     <div class="demo-result">
         <div gtxFileDropArea #eventDrop="gtxFileDropArea"
-            [class.hovered]="eventDrop.hovered"
+            [class.dragging-over]="eventDrop.draggedOver"
             [class.dragging-in-page]="dragdrop.fileDraggedInPage">
                 Drag files into the page or drop here to trigger events
         </div>

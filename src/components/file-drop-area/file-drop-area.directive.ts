@@ -49,7 +49,7 @@ export class FileDropArea implements OnDestroy {
     /**
      * Returns true if a file is dragged on the drop area.
      */
-    public get hovered(): boolean {
+    public get draggedOver(): boolean {
         return this.isDraggedOn;
     }
 
