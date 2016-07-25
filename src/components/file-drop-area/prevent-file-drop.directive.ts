@@ -11,18 +11,18 @@ import {getDataTransfer, transferHasFiles} from './drag-drop-utils.ts';
 })
 export class PreventFileDrop implements OnDestroy {
 
-    prevent: boolean | 'global' = true;
+    prevent: boolean | 'page' = true;
 
     constructor(private dragHandler: PageDragDropFileHandler) { }
 
     ngOnDestroy(): void {
-        this.dragHandler.requestPreventingFileDropGlobally(this, false);
+        this.dragHandler.preventFileDropOnPageFor(this, false);
     }
 
-    @Input() set gtxPreventFileDrop(val: boolean | 'true' | 'false' | 'global') {
-        let mode: boolean | 'global' = val === 'global' ? 'global' : (val !== false && val !== 'false');
+    @Input() set gtxPreventFileDrop(val: boolean | 'true' | 'false' | 'page') {
+        let mode: boolean | 'page' = val === 'page' ? 'page' : (val !== false && val !== 'false');
         if (mode != this.prevent) {
-            this.dragHandler.requestPreventingFileDropGlobally(this, mode === 'global');
+            this.dragHandler.preventFileDropOnPageFor(this, mode === 'page');
             this.prevent = mode;
         }
     }

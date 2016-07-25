@@ -1,10 +1,15 @@
 import {ComponentFixture, TestComponentBuilder} from '@angular/compiler/testing';
 import {Component} from '@angular/core';
-import {async, inject} from '@angular/core/testing';
+import {addProviders, async, inject} from '@angular/core/testing';
 
 import {FileDropArea} from './file-drop-area.directive';
+import {PageDragDropFileHandler} from './page-drag-drop-file-handler.service';
 
 describe('File Drop Area:', () => {
+
+    beforeEach(() => addProviders([
+        PageDragDropFileHandler
+    ]));
 
     it('test description',
         async(inject([TestComponentBuilder], (tcb: TestComponentBuilder) =>
@@ -22,4 +27,5 @@ describe('File Drop Area:', () => {
     directives: [FileDropArea]
 })
 class TestComponent {
+
 }

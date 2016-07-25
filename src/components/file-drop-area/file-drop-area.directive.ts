@@ -2,8 +2,35 @@ import {Directive, ElementRef, EventEmitter, HostListener, Input, OnDestroy, Out
 import {Subscription} from 'rxjs';
 
 import {PageDragDropFileHandler} from './page-drag-drop-file-handler.service';
-import {getDataTransfer, transferHasFiles} from './drag-drop-utils';
+import {clientReportsMimeTypesOnDrag, getDataTransfer, getTransferMimeTypes, transferHasFiles} from './drag-drop-utils';
+import {matchesMimeType} from './matches-mime-type';
 
+
+export interface IFileDropAreaOptions {
+    /**
+     * A string or list of mime types accepted by the drop area. Defaults to "*".
+     * Some mime types will not be reported by the client, they get matched as "unknown/unknown".
+     * @example
+     *   { accept: ['image/*', '!image/gif'] }
+     *   { accept: 'text/*' }
+     *   { accept: ['video/*', 'unknown/*'] }
+     */
+    accept?: string | string[];
+
+    /**
+     * Allow multiple files to be dropped on the drop area. Defaults to true.
+     */
+    multiple?: boolean;
+}
+
+const defaultOptions: IFileDropAreaOptions = {
+    accept: '*',
+    multiple: true
+};
+
+export interface IDraggedFile {
+    mimeType: string;
+}
 
 /**
  * File upload area that accepts files via drag and drop.
@@ -27,55 +54,74 @@ export class FileDropArea implements OnDestroy {
     }
 
     /**
-     * Returns true if a file is dragged inside the current browser tab.
+     * Returns true if a file is dragged inside the current page / browser tab.
      */
-    public get fileDraggedInTab(): boolean {
-        return this.isDraggingFileInTab;
+    public get fileDraggedInPage(): boolean {
+        return this.isDraggingFileInPage;
+    }
+
+    public get draggedFiles(): IDraggedFile[] {
+        return this.draggedFilesList;
     }
 
     /**
-     * Fires when a file or files are dragged over the drop area
+     * Sets options of this drop area.
+     */
+    @Input() set gtxFileDropArea(options: IFileDropAreaOptions) {
+        this.options = Object.assign({}, defaultOptions, options);
+    }
+
+    /**
+     * Fires when a file or files are dragged over the drop area.
      */
     @Output() fileDragEnter = new EventEmitter<void>();
 
     /**
-     * Fires when a file or files are dragged out of the drop area
+     * Fires when a file or files are dragged out of the drop area.
      */
     @Output() fileDragLeave = new EventEmitter<void>();
 
     /**
-     * Fires when a file or files are dropped on the drop area
+     * Fires when a file or files are dropped on the drop area.
      */
     @Output() fileDrop = new EventEmitter<File[]>();
 
     /**
-     * Fires when a file or files are dragged into the tab
+     * Fires when a file or files which do not match the "accepted" option
+     * are dropped on the drop area.
      */
-    @Output() tabDragEnter = new EventEmitter<void>();
+    @Output() fileDropRejected = new EventEmitter<File[]>();
 
     /**
-     * Fires when a file or files is dragged out of the tab
+     * Fires when a file or files are dragged into the page.
      */
-    @Output() tabDragLeave = new EventEmitter<void>();
+    @Output() pageDragEnter = new EventEmitter<void>();
+
+    /**
+     * Fires when a file or files is dragged out of the page.
+     */
+    @Output() pageDragLeave = new EventEmitter<void>();
 
 
-
-    private subscription: Subscription;
+    private draggedFilesList: IDraggedFile[] = [];
     private isDraggedOn: boolean = false;
-    private isDraggingFileInTab: boolean = false;
+    private isDraggingFileInPage: boolean = false;
+    private acceptCurrentDrag: boolean = false;
+    private options = defaultOptions;
+    private subscription: Subscription;
 
 
     constructor(private elementRef: ElementRef,
-                tab: PageDragDropFileHandler,
+                private dragDropHandler: PageDragDropFileHandler,
                 zone: NgZone) {
 
-        this.subscription = tab.dragStatusChanged.subscribe((dragStatus: boolean) => {
+        this.subscription = dragDropHandler.dragStatusChanged.subscribe((dragStatus: boolean) => {
             zone.runGuarded(() => {
-                this.isDraggingFileInTab = dragStatus;
+                this.isDraggingFileInPage = dragStatus;
                 if (dragStatus) {
-                    this.tabDragEnter.emit(undefined);
+                    this.pageDragEnter.emit(undefined);
                 } else {
-                    this.tabDragLeave.emit(undefined);
+                    this.pageDragLeave.emit(undefined);
                 }
             });
         });
@@ -89,13 +135,31 @@ export class FileDropArea implements OnDestroy {
     private onDragEnter(event: DragEvent): void {
         let transfer = getDataTransfer(event);
         if (!transferHasFiles(transfer)) {
+            this.acceptCurrentDrag = false;
             return;
         }
 
-        transfer.dropEffect = 'copy';
+        // Check "multiple" and "accept" options
+        let fileTypes = getTransferMimeTypes(transfer);
+        if (this.options.multiple === false && transfer.items.length != 1) {
+            this.acceptCurrentDrag = false;
+        } else if (clientReportsMimeTypesOnDrag() && this.options.accept !== '*') {
+            this.acceptCurrentDrag = fileTypes.every(type => matchesMimeType(type, this.options.accept)
+            );
+        } else {
+            this.acceptCurrentDrag = true;
+        }
+
         event.preventDefault();
-        this.isDraggedOn = true;
-        this.fileDragEnter.emit(undefined);
+        if (this.acceptCurrentDrag) {
+            transfer.dropEffect = 'none';
+            transfer.effectAllowed = 'none';
+        } else {
+            transfer.dropEffect = 'copy';
+            this.isDraggedOn = true;
+            this.draggedFilesList = fileTypes.map(type => ({ mimeType: type }));
+            this.fileDragEnter.emit(undefined);
+        }
     }
 
     @HostListener('dragover', ['$event'])
@@ -105,7 +169,12 @@ export class FileDropArea implements OnDestroy {
             return;
         }
 
-        transfer.dropEffect = 'copy';
+        if (this.acceptCurrentDrag) {
+            transfer.dropEffect = 'copy';
+        } else {
+            transfer.dropEffect = 'none';
+            transfer.effectAllowed = 'none';
+        }
         event.preventDefault();
     }
 
@@ -117,21 +186,44 @@ export class FileDropArea implements OnDestroy {
 
         event.preventDefault();
         this.isDraggedOn = false;
+        this.draggedFilesList = [];
         this.fileDragLeave.emit(undefined);
     }
 
     @HostListener('drop', ['$event'])
     private onDrop(event: DragEvent): void {
         let transfer = getDataTransfer(event);
-        if (!transferHasFiles(transfer)) { return; }
-
-        event.preventDefault();
-        this.isDraggedOn = false;
-        if (this.isDraggingFileInTab) {
-            this.isDraggingFileInTab = false;
-            this.tabDragLeave.emit(undefined);
+        if (!transferHasFiles(transfer)) {
+            return;
         }
 
-        this.fileDrop.emit(Array.from(transfer.files));
+        let files = Array.from(transfer.files);
+        let acceptedFiles: File[] = [];
+        let rejectedFiles: File[] = [];
+
+        // Check if the dropped files match the "accept" option
+        if (this.options.accept !== '*') {
+            for (let file of files) {
+                if (matchesMimeType(file.type, this.options.accept)) {
+                    acceptedFiles.push(file);
+                } else {
+                    rejectedFiles.push(file);
+                }
+            }
+        } else {
+            acceptedFiles = [...files];
+        }
+
+        this.isDraggedOn = false;
+        this.draggedFilesList = [];
+        event.preventDefault();
+        transfer.dropEffect = 'copy';
+
+        if (acceptedFiles.length > 0) {
+            this.fileDrop.emit(acceptedFiles);
+        }
+        if (rejectedFiles.length > 0) {
+            this.fileDropRejected.emit(rejectedFiles);
+        }
     }
 }

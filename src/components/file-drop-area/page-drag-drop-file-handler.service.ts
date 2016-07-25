@@ -1,11 +1,12 @@
 import {EventEmitter, Inject, Injectable, Input, OnInit, OnDestroy, Output, OpaqueToken, Optional} from '@angular/core';
 
-import {getDataTransfer, getEventTarget, transferHasFiles} from './drag-drop-utils';
+import {getDataTransfer, getEventTarget, getTransferMimeTypes, transferHasFiles} from './drag-drop-utils';
+import {matchesMimeType} from './matches-mime-type';
 
 /**
  * A token that can be used to inject a mock into the service
  */
-export const TAB_FILE_DRAG_EVENT_TARGET = new OpaqueToken('TAB_FILE_DRAG_EVENT_TARGET');
+export const PAGE_FILE_DRAG_EVENT_TARGET = new OpaqueToken('PAGE_FILE_DRAG_EVENT_TARGET');
 
 
 const noopEventTarget: EventTarget = {
@@ -50,27 +51,59 @@ export class PageDragDropFileHandler {
      */
     @Output() dropPrevented = new EventEmitter<void>();
 
-    public get fileDraggedInTab(): boolean {
-        return this.draggingOverTab;
-    }
 
-
-    /**
-     * Can be overwritten for testing purposes
-     * @internal
-     */
-    eventTarget: EventTarget;
-
-
-    private draggingOverTab = false;
+    private draggingOverPage = false;
+    private draggedFileTypes: { mimeType: string }[] = [];
     private enterLeaveCounter = 0;
     private enteredElements = new WeakSet<Element>();
+    private eventTarget: EventTarget;
     private eventsBound = false;
     private componentsWantingToPreventFileDrop = new Set<any>();
     private isAccidentalFileDropPrevented = false;
 
+    /**
+     * Returns true if a file is dragged over the current page/tab.
+     * @example
+     *   class Component {
+     *     constructor(private dragdrop: PageDragDropFileHandler) {}
+     *   }
+     *
+     *   <ul *ngIf="dragdrop.fileDraggedInPage"> ... </ul>
+     */
+    public get fileDraggedInPage(): boolean {
+        return this.draggingOverPage;
+    }
 
-    constructor(@Optional() @Inject(TAB_FILE_DRAG_EVENT_TARGET) eventTarget: EventTarget) {
+    /**
+     * Returns true if files are dragged over the current tab and any file matches the specified mime type.
+     * @example
+     *   class Component {
+     *     constructor(private dragdrop: PageDragDropFileHandler) {}
+     *   }
+     *
+     *   <ul *ngIf="dragdrop.anyDraggedFileIs('image/*')"> ... </ul>
+     */
+    public anyDraggedFileIs(allowedTypes: string | string[]): boolean {
+        if (!this.draggingOverPage) { return false; }
+        return this.draggedFileTypes.some(file => matchesMimeType(file.mimeType, allowedTypes));
+    }
+
+    /**
+     * Returns true if files are dragged over the current page and all files match the specified mime type.
+     * @example
+     *   class Component {
+     *     constructor(private dragdrop: PageDragDropFileHandler) {}
+     *   }
+     *
+     *   <ul *ngIf="dragdrop.allDraggedFilesAre('image/*')"> ... </ul>
+     */
+    public allDraggedFilesAre(allowedTypes: string | string[]): boolean {
+        if (!this.draggingOverPage) { return false; }
+        return this.draggedFileTypes.every(file => matchesMimeType(file.mimeType, allowedTypes));
+    }
+
+
+    constructor(@Optional() @Inject(PAGE_FILE_DRAG_EVENT_TARGET) eventTarget: EventTarget) {
         if (eventTarget) {
             this.eventTarget = eventTarget;
         } else if (typeof window === 'object') {
@@ -82,25 +115,34 @@ export class PageDragDropFileHandler {
         this.bindEvents();
     }
 
+    /**
+     * @internal
+     */
     bindEvents(): void {
         if (this.eventsBound) { return; }
-        const on: any = (...args: any[]) => this.eventTarget.addEventListener.apply(this.eventTarget, args);
-        on('dragenter', this.fileDraggedIntoElement, true);
-        on('dragleave', this.fileDraggedOutOfElement, true);
-        on('drop', this.fileDroppedOnElement, true);
-        on('dragenter', this.preventAccidentalDrop);
-        on('dragover', this.preventAccidentalDrop);
-        on('drop', this.preventAccidentalDrop);
+        const bind = this.eventTarget.addEventListener.bind(this.eventTarget);
+        bind('dragenter', this.fileDraggedIntoElement, true);
+        bind('dragleave', this.fileDraggedOutOfElement, true);
+        bind('drop', this.fileDroppedOnElement, true);
+        bind('mouseenter', this.detectUntrackedDrop, true);
+        bind('dragenter', this.preventAccidentalDrop, false);
+        bind('dragover', this.preventAccidentalDrop, false);
+        bind('drop', this.preventAccidentalDrop, false);
         this.eventsBound = true;
     }
 
+    /**
+     * @internal
+     */
     unbindEvents(): void {
-        this.eventTarget.removeEventListener('dragenter', this.fileDraggedIntoElement, true);
-        this.eventTarget.removeEventListener('dragleave', this.fileDraggedOutOfElement, true);
-        this.eventTarget.removeEventListener('drop', this.fileDroppedOnElement, true);
-        this.eventTarget.removeEventListener('dragenter', this.preventAccidentalDrop);
-        this.eventTarget.removeEventListener('dragover', this.preventAccidentalDrop);
-        this.eventTarget.removeEventListener('drop', this.preventAccidentalDrop);
+        const unbind = this.eventTarget.removeEventListener.bind(this.eventTarget);
+        unbind('dragenter', this.fileDraggedIntoElement, true);
+        unbind('dragleave', this.fileDraggedOutOfElement, true);
+        unbind('drop', this.fileDroppedOnElement, true);
+        unbind('mouseenter', this.detectUntrackedDrop, true);
+        unbind('dragenter', this.preventAccidentalDrop, false);
+        unbind('dragover', this.preventAccidentalDrop, false);
+        unbind('drop', this.preventAccidentalDrop, false);
         this.eventsBound = false;
     }
 
@@ -108,7 +150,7 @@ export class PageDragDropFileHandler {
     /**
      * @internal
      */
-    requestPreventingFileDropGlobally(directive: any, prevent: boolean): void {
+    preventFileDropOnPageFor(directive: any, prevent: boolean): void {
         if (prevent) {
             this.componentsWantingToPreventFileDrop.add(directive);
         } else {
@@ -119,15 +161,17 @@ export class PageDragDropFileHandler {
 
     private fileDraggedIntoElement = (event: DragEvent) => {
         let element = getEventTarget(event);
-        if (this.enteredElements.has(element) || !transferHasFiles(getDataTransfer(event))) {
-            return;
-        }
+        if (this.enteredElements.has(element)) { return; }
+
+        let transfer = getDataTransfer(event);
+        if (!transferHasFiles(transfer)) { return; }
 
         this.enterLeaveCounter += 1;
         this.enteredElements.add(element);
 
         if (this.enterLeaveCounter === 1) {
-            this.draggingOverTab = true;
+            this.draggingOverPage = true;
+            this.draggedFileTypes = getTransferMimeTypes(transfer).map(mimeType => ({ mimeType }));
 
             this.dragStatusChanged.emit(true);
             this.draggedIn.emit(undefined);
@@ -143,7 +187,8 @@ export class PageDragDropFileHandler {
         this.enterLeaveCounter -= 1;
 
         if (this.enterLeaveCounter === 0) {
-            this.draggingOverTab = false;
+            this.draggingOverPage = false;
+            this.draggedFileTypes = [];
 
             this.dragStatusChanged.emit(false);
             this.draggedOut.emit(undefined);
@@ -159,8 +204,10 @@ export class PageDragDropFileHandler {
         this.enterLeaveCounter = 0;
         this.enteredElements = new WeakSet();
 
-        if (this.draggingOverTab) {
-            this.draggingOverTab = false;
+        if (this.draggingOverPage) {
+            this.draggingOverPage = false;
+            this.draggedFileTypes = [];
+
             this.dragStatusChanged.emit(false);
             this.dropped.emit(undefined);
         }
@@ -177,5 +224,17 @@ export class PageDragDropFileHandler {
             }
         }
     }
-}
 
+    /**
+     * Fixes a bug when drop events are handled incorrectly
+     */
+    private detectUntrackedDrop = (event: MouseEvent) => {
+        if (this.draggingOverPage && event.buttons === 0) {
+            this.draggingOverPage = false;
+            this.draggedFileTypes = [];
+
+            this.dragStatusChanged.emit(false);
+            this.dropped.emit(undefined);
+        }
+    }
+}

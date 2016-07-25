@@ -72,20 +72,24 @@ gtx-file-drop-area,
 div[gtxFileDropArea] {
     & {
         background-color: $gtx-color-very-light-gray;
-        border: 3px solid transparent;
         border-radius: 6px;
+        border: 3px solid transparent;
         display: block;
-        max-width: 400px;
-        padding-top: 1em;
         padding-bottom: 1em;
+        padding-top: 1em;
+        max-width: 400px;
         text-align: center;
+    }
+
+    & ~ & {
+        margin-top: 1em;
     }
 
     &.dragging-over {
         background-color: $gtx-color-mid-gray;
     }
 
-    &.dragging-in-tab {
+    &.dragging-in-page {
         border-color: $gtx-color-primary;
     }
 }
@@ -111,10 +115,19 @@ gtx-sortable-list[gtxFileDropArea] {
 
 .demo-result .outlined-block {
     margin-top: 1em;
-    margin-bottom: 1em;
-    max-width: 320px;
     outline: 1px solid $gtx-color-light-gray;
     padding: 1em;
+    width: 320px;
+    width: max-content;
+}
+
+.log-table {
+    display: inline-block;
+
+    td, th {
+        padding: 0 5px;
+        font-family: monospace;
+    }
 }
 
 
