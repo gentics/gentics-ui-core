@@ -103,7 +103,7 @@ export class PageDragDropFileHandler {
     }
 
 
-    constructor(@Optional() @Inject(PAGE_FILE_DRAG_EVENT_TARGET) eventTarget: EventTarget) {
+    constructor(@Optional() @Inject(PAGE_FILE_DRAG_EVENT_TARGET) eventTarget: any) {
         if (eventTarget) {
             this.eventTarget = eventTarget;
         } else if (typeof window === 'object') {
