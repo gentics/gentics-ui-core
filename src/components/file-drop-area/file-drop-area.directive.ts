@@ -15,7 +15,7 @@ export interface IFileDropAreaOptions {
      *   { accept: 'text/*' }
      *   { accept: ['video/*', 'unknown/*'] }
      */
-    accept?: string | string[];
+    accept?: string;
 
     /**
      * Set to true to prevent interaction with the drop area.

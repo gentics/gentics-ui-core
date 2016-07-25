@@ -15,7 +15,7 @@ describe('matchesMimeType', () => {
     });
 
     it('accepts an empty string with negating patterns', () => {
-        expect(matchesMimeType('', ['*', '!image/*'])).toBe(true);
+        expect(matchesMimeType('', '*, !image/*')).toBe(true);
         expect(matchesMimeType('', '!image/*')).toBe(true);
     });
 
@@ -33,9 +33,9 @@ describe('matchesMimeType', () => {
     });
 
     it('rejects any invalid input', () => {
-        expect(matchesMimeType('text/plain', [])).toBe(false);
-        expect(matchesMimeType('image/png', [])).toBe(false);
-        expect(matchesMimeType('', [])).toBe(false);
+        expect(matchesMimeType('text/plain', <any> [])).toBe(false);
+        expect(matchesMimeType('image/png', <any> [])).toBe(false);
+        expect(matchesMimeType('', <any> [])).toBe(false);
         expect(matchesMimeType('', '')).toBe(false);
         expect(matchesMimeType('*', '')).toBe(false);
         expect(matchesMimeType(null, '*')).toBe(false);
@@ -58,9 +58,9 @@ describe('matchesMimeType', () => {
     });
 
     it('allows negation like ["image/*", "!image/gif"]', () => {
-        expect(matchesMimeType('image/png', ['image/*', '!image/gif'])).toBe(true);
-        expect(matchesMimeType('image/gif', ['image/*', '!image/gif'])).toBe(false);
-        expect(matchesMimeType('text/plain', ['image/*', '!image/gif'])).toBe(false);
+        expect(matchesMimeType('image/png', 'image/*, !image/gif')).toBe(true);
+        expect(matchesMimeType('image/gif', 'image/*, !image/gif')).toBe(false);
+        expect(matchesMimeType('text/plain', 'image/*, !image/gif')).toBe(false);
         expect(matchesMimeType('text/plain', '!image/*')).toBe(true);
         expect(matchesMimeType('image/png', '!image/*')).toBe(false);
     });

@@ -83,7 +83,7 @@ export class PageDragDropFileHandler {
      *
      *   <ul *ngIf="dragdrop.anyDraggedFileIs('image/*')"> ... </ul>
      */
-    public anyDraggedFileIs(allowedTypes: string | string[]): boolean {
+    public anyDraggedFileIs(allowedTypes: string): boolean {
         if (!this.draggingOverPage) { return false; }
         return this.draggedFileTypes.some(file => matchesMimeType(file.mimeType, allowedTypes));
     }
@@ -97,7 +97,7 @@ export class PageDragDropFileHandler {
      *
      *   <ul *ngIf="dragdrop.allDraggedFilesAre('image/*')"> ... </ul>
      */
-    public allDraggedFilesAre(allowedTypes: string | string[]): boolean {
+    public allDraggedFilesAre(allowedTypes: string): boolean {
         if (!this.draggingOverPage) { return false; }
         return this.draggedFileTypes.every(file => matchesMimeType(file.mimeType, allowedTypes));
     }

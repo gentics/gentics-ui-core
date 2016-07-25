@@ -189,15 +189,15 @@
             [class.dragging-in-page]="textDrop.fileDraggedInPage">
                 This drop area only accepts text files.
         </div>
-        <ul><li *ngFor="let textFile of droppedTextFiles">{{textFile.name}}</li></ul>
+        <ul><li *ngFor="let textFile of droppedTextFiles">{{ textFile.name }}</li></ul>
 
-        <div gtxFileDropArea [gtxFileDropArea]="{accept: ['image/*', '!image/gif']}" #imageDrop="gtxFileDropArea"
+        <div gtxFileDropArea [gtxFileDropArea]="{accept: 'image/*, !image/gif'}" #imageDrop="gtxFileDropArea"
             (fileDrop)="droppedImages = droppedImages.concat($event)"
             [class.dragging-over]="imageDrop.draggedOver"
             [class.dragging-in-page]="imageDrop.fileDraggedInPage">
                 Images are accepted on this, but no GIFs.
         </div>
-        <ul><li *ngFor="let image of droppedImages">{{image.name}}</li></ul>
+        <ul><li *ngFor="let image of droppedImages">{{ image.name }}</li></ul>
 
     </div>
     <div class="demo-code">
@@ -206,7 +206,7 @@
                 This drop area only accepts text files.
             </div>
 
-            <div [gtxFileDropArea]="{accept: [&#39;image/*&#39;, &#39;!image/gif&#39;]}">
+            <div [gtxFileDropArea]="{accept: &#39;image/*, !image/gif&#39;}">
                 Only images are accepted by this one, but no GIFs.
             </div>
         '></gtx-highlighted-code>
@@ -297,8 +297,8 @@
                     <td><code>{{ dragdrop.anyDraggedFileIs("text/plain") }}</code></td>
                 </tr>
                 <tr>
-                    <td><code>allDraggedFilesAre(["image/*", "!image/gif"])</code></td>
-                    <td><code>{{ dragdrop.allDraggedFilesAre(["image/*", "!image/gif"]) }}</code></td>
+                    <td><code>allDraggedFilesAre("image/*, !image/gif")</code></td>
+                    <td><code>{{ dragdrop.allDraggedFilesAre("image/*, !image/gif") }}</code></td>
                 </tr>
                 <tr>
                     <td><code>allDraggedFilesAre("text/plain")</code></td>
@@ -317,7 +317,7 @@
             <tr><td>fileDraggedInPage: </td> <td>(( dragdrop.fileDraggedInPage ))</td></tr>
             <tr><td>anyDraggedFileIs("image/jpeg"): </td> <td>(( dragdrop.anyDraggedFileIs("image/jpeg") ))</td></tr>
             <tr><td>anyDraggedFileIs("text/plain"): </td> <td>(( dragdrop.anyDraggedFileIs("text/plain") ))</td></tr>
-            <tr><td>allDraggedFilesAre(["image/*", "!image/gif"]): </td> <td>(( dragdrop.allDraggedFilesAre(["image/*", "!image/gif"]) ))</td></tr>
+            <tr><td>allDraggedFilesAre("image/*, !image/gif"): </td> <td>(( dragdrop.allDraggedFilesAre("image/*, !image/gif") ))</td></tr>
             <tr><td>allDraggedFilesAre("text/plain"): </td> <td>(( dragdrop.allDraggedFilesAre("text/plain") ))</td></tr>
         '></gtx-highlighted-code>
     </div>

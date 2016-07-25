@@ -84,21 +84,21 @@ describe('PageDragDropFileHandler service:', () => {
     describe('anyDraggedFileIs()', () => {
 
         it('is true if all dragged files match the allowed mime types', () => {
-            expect(service.anyDraggedFileIs(['text/plain'])).toBe(false);
+            expect(service.anyDraggedFileIs('text/plain')).toBe(false);
             triggerFakeDragEvent('dragenter', ['text/plain']);
-            expect(service.anyDraggedFileIs(['text/plain'])).toBe(true);
+            expect(service.anyDraggedFileIs('text/plain')).toBe(true);
         });
 
         it('is true if some but not all dragged files match the allowed mime types', () => {
-            expect(service.anyDraggedFileIs(['text/plain'])).toBe(false);
+            expect(service.anyDraggedFileIs('text/plain')).toBe(false);
             triggerFakeDragEvent('dragenter', ['text/plain', 'image/jpeg']);
-            expect(service.anyDraggedFileIs(['text/plain'])).toBe(true);
+            expect(service.anyDraggedFileIs('text/plain')).toBe(true);
         });
 
         it('is true if none of the dragged files match the allowed mime types', () => {
-            expect(service.anyDraggedFileIs(['text/plain'])).toBe(false);
+            expect(service.anyDraggedFileIs('text/plain')).toBe(false);
             triggerFakeDragEvent('dragenter', ['image/jpeg']);
-            expect(service.anyDraggedFileIs(['text/plain'])).toBe(false);
+            expect(service.anyDraggedFileIs('text/plain')).toBe(false);
         });
 
     });
@@ -106,21 +106,21 @@ describe('PageDragDropFileHandler service:', () => {
     describe('allDraggedFilesAre()', () => {
 
         it('is true if all dragged files match the allowed mime types', () => {
-            expect(service.allDraggedFilesAre(['text/plain'])).toBe(false);
+            expect(service.allDraggedFilesAre('text/plain')).toBe(false);
             triggerFakeDragEvent('dragenter', ['text/plain']);
-            expect(service.allDraggedFilesAre(['text/plain'])).toBe(true);
+            expect(service.allDraggedFilesAre('text/plain')).toBe(true);
         });
 
         it('is false if some but not all dragged files match the allowed mime types', () => {
-            expect(service.allDraggedFilesAre(['text/plain'])).toBe(false);
+            expect(service.allDraggedFilesAre('text/plain')).toBe(false);
             triggerFakeDragEvent('dragenter', ['text/plain', 'image/jpeg']);
-            expect(service.allDraggedFilesAre(['text/plain'])).toBe(false);
+            expect(service.allDraggedFilesAre('text/plain')).toBe(false);
         });
 
         it('is true if none of the dragged files match the allowed mime types', () => {
-            expect(service.allDraggedFilesAre(['text/plain'])).toBe(false);
+            expect(service.allDraggedFilesAre('text/plain')).toBe(false);
             triggerFakeDragEvent('dragenter', ['image/jpeg']);
-            expect(service.allDraggedFilesAre(['text/plain'])).toBe(false);
+            expect(service.allDraggedFilesAre('text/plain')).toBe(false);
         });
 
     });

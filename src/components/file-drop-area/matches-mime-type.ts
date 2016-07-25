@@ -1,38 +1,37 @@
 /**
  * Matches a mime type against a list of allowed/disallowed types.
  * @example
- *   matchesMimeType('text/plain', 'text/*')                  // true
- *   matchesMimeType('image/jpeg', 'text/*')                  // false
- *   matchesMimeType('text/plain', ['text/*', 'image/*'])     // true
- *   matchesMimeType('image/gif', ['image/*', '!image/gif'])  // false
+ *   matchesMimeType('text/plain', 'text/*')              // true
+ *   matchesMimeType('image/jpeg', 'text/*')              // false
+ *   matchesMimeType('text/plain', 'text/*, image/*')     // true
+ *   matchesMimeType('image/gif', 'image/*, !image/gif')  // false
  */
-export function matchesMimeType(type: string, allowedTypes: string | string[]): boolean {
-    if (typeof type !== 'string' || !allowedTypes || !allowedTypes.length) {
+export function matchesMimeType(type: string, allowedTypes: string): boolean {
+    if (typeof type !== 'string' || typeof allowedTypes !== 'string' || !allowedTypes) {
         return false;
     }
 
-    if (allowedTypes.length === 1 && allowedTypes[0] === '*') {
+    if (allowedTypes === '*') {
         return true;
     }
 
-    let patterns = Array.isArray(allowedTypes) ? allowedTypes : [allowedTypes];
-    let regex = compilePatternsToRegex(patterns);
+    let regex = compilePatternsToRegex(allowedTypes);
     return regex.test(type);
 }
 
 const patternCache: { [k: string]: RegExp } = {};
-function compilePatternsToRegex(patterns: string[]): RegExp {
-    let hash = patterns.join('||');
-    if (patternCache[hash]) {
-        return patternCache[hash];
+function compilePatternsToRegex(pattern: string): RegExp {
+    if (patternCache[pattern]) {
+        return patternCache[pattern];
     }
 
-    let parts = patterns.map(pattern => pattern.replace(/([\/\.\\\?\(\)\[\]\{\}])/g, '\\$1').replace(/\*/g, '.+'));
+    let globs = pattern.split(/,\s*/).filter(pattern => pattern !== '');
+    let parts = globs.map(pattern => pattern.replace(/([\/\.\\\?\(\)\[\]\{\}])/g, '\\$1').replace(/\*/g, '.+'));
     let inclusions: string = parts.filter(part => part[0] !== '!').map(s => s === '.+' ? '.*' : s).join('|');
     let exclusions: string = parts.filter(part => part[0] === '!').map(s => s.substr(1)).join('|');
     if (exclusions && (!inclusions || inclusions === '.+')) {
         inclusions = '.*';
     }
     let regexStr = exclusions ? `^(?!(?:${exclusions}$))(?:${inclusions || '.+'})$` : `^(?:${inclusions})$`;
-    return patternCache[hash] = new RegExp(regexStr);
+    return patternCache[pattern] = new RegExp(regexStr);
 }
