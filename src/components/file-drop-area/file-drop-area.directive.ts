@@ -73,8 +73,8 @@ export class FileDropArea implements OnDestroy {
     /**
      * Sets options of this drop area.
      */
-    @Input() set gtxFileDropArea(options: IFileDropAreaOptions) {
-        this.options = Object.assign({}, defaultOptions, options);
+    @Input('gtxFileDropArea') set options(options: IFileDropAreaOptions) {
+        this._options = Object.assign({}, defaultOptions, options);
     }
 
     /**
@@ -113,7 +113,7 @@ export class FileDropArea implements OnDestroy {
     private isDraggedOn: boolean = false;
     private isDraggingFileInPage: boolean = false;
     private acceptCurrentDrag: boolean = false;
-    private options = defaultOptions;
+    private _options = defaultOptions;
     private subscription: Subscription;
 
 
@@ -123,11 +123,13 @@ export class FileDropArea implements OnDestroy {
 
         this.subscription = dragDropHandler.dragStatusChanged.subscribe((dragStatus: boolean) => {
             zone.runGuarded(() => {
-                this.isDraggingFileInPage = dragStatus;
-                if (dragStatus) {
-                    this.pageDragEnter.emit(undefined);
-                } else {
-                    this.pageDragLeave.emit(undefined);
+                let allowed = dragStatus && (this._options.accept === '*' || dragDropHandler.allDraggedFilesAre(this._options.accept));
+                if (allowed != this.isDraggingFileInPage) {
+                    if (this.isDraggingFileInPage = allowed) {
+                        this.pageDragEnter.emit(undefined);
+                    } else {
+                        this.pageDragLeave.emit(undefined);
+                    }
                 }
             });
         });
@@ -147,12 +149,12 @@ export class FileDropArea implements OnDestroy {
 
         // Check if the file is accepted with the current options
         let fileTypes = getTransferMimeTypes(transfer);
-        if (this.options.disabled) {
+        if (this._options.disabled) {
             this.acceptCurrentDrag = false;
-        } else if (this.options.multiple === false && transfer.items.length != 1) {
+        } else if (this._options.multiple === false && transfer.items.length != 1) {
             this.acceptCurrentDrag = false;
-        } else if (clientReportsMimeTypesOnDrag() && this.options.accept !== '*') {
-            this.acceptCurrentDrag = fileTypes.every(type => matchesMimeType(type, this.options.accept)
+        } else if (clientReportsMimeTypesOnDrag() && this._options.accept !== '*') {
+            this.acceptCurrentDrag = fileTypes.every(type => matchesMimeType(type, this._options.accept)
             );
         } else {
             this.acceptCurrentDrag = true;
@@ -201,7 +203,7 @@ export class FileDropArea implements OnDestroy {
     @HostListener('drop', ['$event'])
     private onDrop(event: DragEvent): void {
         let transfer = getDataTransfer(event);
-        if (!transferHasFiles(transfer) || this.options.disabled) {
+        if (!transferHasFiles(transfer) || this._options.disabled) {
             return;
         }
 
@@ -210,9 +212,9 @@ export class FileDropArea implements OnDestroy {
         let rejectedFiles: File[] = [];
 
         // Check if the dropped files match the "accept" option
-        if (this.options.accept !== '*') {
+        if (this._options.accept !== '*') {
             for (let file of files) {
-                if (matchesMimeType(file.type, this.options.accept)) {
+                if (matchesMimeType(file.type, this._options.accept)) {
                     acceptedFiles.push(file);
                 } else {
                     rejectedFiles.push(file);
