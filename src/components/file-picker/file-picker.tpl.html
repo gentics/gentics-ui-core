@@ -1,0 +1,13 @@
+<div class="hidden-file-wrapper">
+    <input type="file" class="hidden-file-input"
+        tabindex="-1"
+        [accept]="_domAccept"
+        [disabled]="_disabled"
+        [multiple]="_multiple"
+        (change)="onChange($event)"
+        #nativeInput
+    />
+</div>
+<gtx-button (click)="nativeInput.click()" [disabled]="_disabled"
+    [size]="_size" [type]="_type" [flat]="_flat" [icon]="_icon"
+><ng-content></ng-content></gtx-button>
