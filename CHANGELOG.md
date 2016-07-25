@@ -1,5 +1,7 @@
-## 0.6.2 ()
+## 0.7.0 ()
 ### Features
+* Add FileDropArea & PreventFileDrop directives
+* Add PageDragDropFileHandler service
 * ModalService.fromComponent() now accepts a parameter defining local variables.
 * Split SideMenu and MenuToggleButton into separate components
 * SideMenu can now have its width and position configured.
