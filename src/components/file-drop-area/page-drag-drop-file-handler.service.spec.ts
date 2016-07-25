@@ -3,7 +3,7 @@ import {Observable, Subscription} from 'rxjs';
 import {PageDragDropFileHandler} from './page-drag-drop-file-handler.service';
 
 
-fdescribe('PageDragDropFileHandler service:', () => {
+describe('PageDragDropFileHandler service:', () => {
 
     const WITHOUT_FILES: any[] = [];
 

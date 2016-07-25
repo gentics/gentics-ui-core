@@ -30,6 +30,7 @@ export class FileDropAreaDemo implements OnDestroy {
     droppedImages: File[] = [];
     droppedTextFiles: File[] = [];
     reorderableFiles: File[] = [];
+    isDisabled = true;
     preventGlobal = true;
     preventLocal = false;
     serviceEvents: string[] = [];

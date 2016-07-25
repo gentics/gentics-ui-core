@@ -26,6 +26,28 @@
     </div>
 </gtx-demo-block>
 
+<gtx-demo-block demoTitle="Disable Drop Area">
+    <div class="demo-result">
+
+        <p>Passing <code>disabled: true</code> disables the drop area.</p>
+        <div gtxFileDropArea [gtxFileDropArea]="{ disabled: isDisabled }">
+            <span *ngIf="!isDisabled">Drop files here</span>
+            <span *ngIf="isDisabled">Drop area disabled.</span>
+            <gtx-checkbox [(ngModel)]="isDisabled" label="isDisabled: {{ isDisabled }}"></gtx-checkbox>
+        </div>
+
+    </div>
+    <div class="demo-code">
+        <gtx-highlighted-code language="HTML" code='
+            <div [gtxFileDropArea]="{ disabled: isDisabled }">
+                <span *ngIf="!isDisabled">Drop files here</span>
+                <span *ngIf="isDisabled">Drop area disabled.</span>
+            </div>
+            <gtx-checkbox [(ngModel)]="isDisabled" label="isDisabled: (( isDisabled ))"></gtx-checkbox>
+        '></gtx-highlighted-code>
+    </div>
+</gtx-demo-block>
+
 <gtx-demo-block demoTitle="Tracking Drag/Drop State with Events">
     <div class="demo-result">
 

@@ -18,6 +18,11 @@ export interface IFileDropAreaOptions {
     accept?: string | string[];
 
     /**
+     * Set to true to prevent interaction with the drop area.
+     */
+    disabled?: boolean;
+
+    /**
      * Allow multiple files to be dropped on the drop area. Defaults to true.
      */
     multiple?: boolean;
@@ -25,6 +30,7 @@ export interface IFileDropAreaOptions {
 
 const defaultOptions: IFileDropAreaOptions = {
     accept: '*',
+    disabled: false,
     multiple: true
 };
 
@@ -139,9 +145,11 @@ export class FileDropArea implements OnDestroy {
             return;
         }
 
-        // Check "multiple" and "accept" options
+        // Check if the file is accepted with the current options
         let fileTypes = getTransferMimeTypes(transfer);
-        if (this.options.multiple === false && transfer.items.length != 1) {
+        if (this.options.disabled) {
+            this.acceptCurrentDrag = false;
+        } else if (this.options.multiple === false && transfer.items.length != 1) {
             this.acceptCurrentDrag = false;
         } else if (clientReportsMimeTypesOnDrag() && this.options.accept !== '*') {
             this.acceptCurrentDrag = fileTypes.every(type => matchesMimeType(type, this.options.accept)
@@ -180,7 +188,7 @@ export class FileDropArea implements OnDestroy {
 
     @HostListener('dragleave', ['$event'])
     private onDragLeave(event: DragEvent): void {
-        if (event.currentTarget !== this.elementRef.nativeElement) {
+        if (event.currentTarget !== this.elementRef.nativeElement || !this.isDraggedOn) {
             return;
         }
 
@@ -193,7 +201,7 @@ export class FileDropArea implements OnDestroy {
     @HostListener('drop', ['$event'])
     private onDrop(event: DragEvent): void {
         let transfer = getDataTransfer(event);
-        if (!transferHasFiles(transfer)) {
+        if (!transferHasFiles(transfer) || this.options.disabled) {
             return;
         }
 
