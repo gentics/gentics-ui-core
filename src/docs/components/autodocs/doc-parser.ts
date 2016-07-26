@@ -12,7 +12,7 @@ marked.setOptions({
 
 /* tslint:disable:max-line-length */
 // noinspection TsLint
-const COMPONENT_RE = /[^\S\r\n]*\/(?:\*{2})([\W\w]+?)\*\/[\r\n\s]*(?:@|)(\w+)(?:\(([\w']*)\)\s+(?:\s*(?:get|set)\s*)?(\w*)(?:\([\w:\s]*\))?(?:(?::\s*([\w<>\|\[\]]+))?(?:\s*=\s*([^;]+))?)?)?/g;
+const COMPONENT_RE = /[^\S\r\n]*\/(?:\*{2})([\W\w]+?)\*\/[\r\n\s]*(?:@|)(\w+)(?:\(([\w']*)\)\s+(?:\s*(?:get|set)\s*)?(\w*)(?:\([\w:\s]*\))?(?:(?::\s*([\w<>\|\[\]'\s]+))?(?:\s*=\s*([^;]+))?)?)?/g;
 // noinspection TsLint
 const SERVICE_RE = /[^\S\r\n]*\/(?:\*{2})([\W\w]+?)\*\/ *(?:\r\n?|\n) *(private|public|@Injectable)? *([\w\-]*)(?:\(([\w :,\?\[\]\{\}\r\n\t]*)\))?(?:: ([\w<>\{} :\(\)=]*))?[^\r\n]+/g;
 /* tslint:enable */
