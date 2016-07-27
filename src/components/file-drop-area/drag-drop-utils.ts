@@ -26,8 +26,12 @@ export function transferHasFiles(transfer: DataTransfer): boolean {
     return false;
 }
 
+let _mimeTypeSupport: boolean;
 export function clientReportsMimeTypesOnDrag(): boolean {
-    return 'items' in DataTransfer.prototype;
+    if (_mimeTypeSupport === undefined) {
+        _mimeTypeSupport = 'items' in DataTransfer.prototype;
+    }
+    return _mimeTypeSupport;
 }
 
 /**

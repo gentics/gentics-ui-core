@@ -7,13 +7,13 @@
 <gtx-demo-block demoTitle="Basic example">
     <div class="demo-result">
         <div>
-            <gtx-file-picker (fileSelect)="selectedFiles = $event">
+            <gtx-file-picker (fileSelect)="onFilesSelected($event)">
                 Pick a file
             </gtx-file-picker>
         </div>
         <ul *ngIf="selectedFiles">
             <li>Selected files:</li>
-            <li *ngFor="let file of selectedFiles">{{ file?.name }}</li>
+            <li *ngFor="let file of selectedFiles">{{ file?.name }} ({{ file?.type }})</li>
         </ul>
     </div>
     <div class="demo-code">
@@ -40,7 +40,7 @@
         </div>
         <ul *ngIf="selectedFilesB">
             <li>Selected files:</li>
-            <li *ngFor="let file of selectedFilesB">{{ file?.name }}</li>
+            <li *ngFor="let file of selectedFilesB">{{ file?.name }} ({{ file?.type }})</li>
         </ul>
         <gtx-checkbox [(ngModel)]="isDisabled" label="isDisabled: {{ isDisabled }}"></gtx-checkbox>
         <gtx-checkbox [(ngModel)]="isMultiple" label="isMultiple: {{ isMultiple }}"></gtx-checkbox>
@@ -49,6 +49,47 @@
     <div class="demo-code">
         <gtx-highlighted-code language="HTML" code='
             <gtx-file-picker (fileSelect)="onFilesSelected($event)"
+                [disabled]="isDisabled"
+                [multiple]="isMultiple"
+                [accept]="onlyImages ? &#39;image/&#39;* : &#39;*&#39;">
+                Pick a file
+            </gtx-file-picker>
+        '></gtx-highlighted-code>
+    </div>
+</gtx-demo-block>
+
+<gtx-demo-block demoTitle="Usage with a FileDropArea">
+    <div class="demo-result">
+        <p>
+            If the <a [routerLink]="['/file-drop-area']"><code>FileDropArea</code></a>
+            directive is used on the file picker, the options of the file picker
+            are passed to the drop area and drop events are passed to the file picker.
+        </p>
+        <div>
+            <gtx-file-picker gtxFileDropArea
+                gtxPreventFileDrop="page"
+                (fileSelect)="selectedFilesC = $event"
+                [disabled]="isDisabled"
+                [multiple]="isMultiple"
+                [accept]="onlyImages ? 'image/*' : '*'">
+                    <span *ngIf="!onlyImages && !isMultiple">Pick or drop a file</span>
+                    <span *ngIf="!onlyImages && isMultiple">Pick or drop some files</span>
+                    <span *ngIf="onlyImages && !isMultiple">Pick or drop an image</span>
+                    <span *ngIf="onlyImages && isMultiple">Pick or drop some images</span>
+            </gtx-file-picker>
+        </div>
+        <ul *ngIf="selectedFilesC">
+            <li>Selected files:</li>
+            <li *ngFor="let file of selectedFilesC">{{ file?.name }} ({{ file?.type }})</li>
+        </ul>
+        <gtx-checkbox [(ngModel)]="isDisabled" label="isDisabled: {{ isDisabled }}"></gtx-checkbox>
+        <gtx-checkbox [(ngModel)]="isMultiple" label="isMultiple: {{ isMultiple }}"></gtx-checkbox>
+        <gtx-checkbox [(ngModel)]="onlyImages" label="onlyImages: {{ onlyImages }}"></gtx-checkbox>
+    </div>
+    <div class="demo-code">
+        <gtx-highlighted-code language="HTML" code='
+            <gtx-file-picker gtxFileDropArea
+                (fileSelect)="onFilesSelected($event)"
                 [disabled]="isDisabled"
                 [multiple]="isMultiple"
                 [accept]="onlyImages ? &#39;image/&#39;* : &#39;*&#39;">

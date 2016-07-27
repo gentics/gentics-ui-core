@@ -4,10 +4,13 @@
         [accept]="_domAccept"
         [disabled]="_disabled"
         [multiple]="_multiple"
-        (change)="onChange($event)"
-        #nativeInput
+        (change)="onChange($event, fileInput)"
+        #fileInput
     />
 </div>
-<gtx-button (click)="nativeInput.click()" [disabled]="_disabled"
-    [size]="_size" [type]="_type" [flat]="_flat" [icon]="_icon"
-><ng-content></ng-content></gtx-button>
+<gtx-button (click)="!_disabled && fileInput.click()" [disabled]="_disabled"
+            [class.dragged-over]="dropArea && dropArea.draggedOver"
+            [class.dragged-in-page]="dropArea && dropArea.fileDraggedInPage && !dropArea.draggedOver"
+            [size]="_size" [type]="_type" [flat]="_flat" [icon]="_icon">
+    <ng-content></ng-content>
+</gtx-button>

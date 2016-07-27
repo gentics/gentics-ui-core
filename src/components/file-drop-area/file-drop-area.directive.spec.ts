@@ -1,50 +1,78 @@
 import {ComponentFixture, TestComponentBuilder} from '@angular/compiler/testing';
-import {Component, EventEmitter, ViewChild} from '@angular/core';
+import {Component, EventEmitter, ElementRef, ViewChild} from '@angular/core';
 import {addProviders, async, fakeAsync, inject, tick} from '@angular/core/testing';
 
-import {FileDropArea} from './file-drop-area.directive';
-import {PageDragDropFileHandler} from './page-drag-drop-file-handler.service';
+import {SpyEventTarget, triggerFakeDragEvent} from '../../testing';
+import {DragStateTrackerFactory} from './drag-state-tracker.service.ts';
+import {PageFileDragHandler, PAGE_FILE_DRAG_EVENT_TARGET} from './page-file-drag-handler.service';
+import {FileDropArea, FILE_DROPAREA_DRAG_EVENT_TARGET} from './file-drop-area.directive';
+
 
 describe('File Drop Area:', () => {
 
-    let fakeService: MockPageDragDropFileHandler;
+    // let fakeService: MockPageDragDropFileHandler;
+    let fakePageElement: SpyEventTarget;
+    let fakeDragElement: SpyEventTarget;
 
     beforeEach(() => {
-        fakeService = new MockPageDragDropFileHandler();
+        // fakeService = new MockPageDragDropFileHandler();
+        fakePageElement = new SpyEventTarget();
+        fakeDragElement = new SpyEventTarget();
+
         addProviders([
-            { provide: PageDragDropFileHandler, useValue: fakeService }
+            { provide: PAGE_FILE_DRAG_EVENT_TARGET, useValue: fakePageElement },
+            { provide: FILE_DROPAREA_DRAG_EVENT_TARGET, useValue: fakeDragElement },
+            PageFileDragHandler,
+            DragStateTrackerFactory
         ]);
     });
 
     it('is created ok',
-        async(inject([TestComponentBuilder], (tcb: TestComponentBuilder) =>
+        async(inject([TestComponentBuilder], (tcb: TestComponentBuilder) =>  {
+            tcb.createAsync(TestComponent).then(fixture => {
+                expect(fixture).toBeDefined();
+            });
+        }))
+    );
+
+    fit('exposes a "dragHovered" boolean',
+        fakeAsync(inject([TestComponentBuilder], (tcb: TestComponentBuilder) => {
             tcb.createAsync(TestComponent)
             .then(fixture => {
-                expect(fixture).toBeDefined();
-            })
-        ))
+                fixture.detectChanges();
+                const directive: FileDropArea = fixture.componentInstance.directive;
+                expect(directive).toBeDefined();
+                expect(directive.dragHovered).toBe(false);
+
+                fakeFilesDragged(fakeDragElement, ['text/plain']);
+                fixture.detectChanges();
+                tick();
+                fixture.detectChanges();
+                expect(directive.dragHovered).toBe(true);
+            });
+        }))
     );
 
     //
     // Disabled for now.
     // DebugElement.triggerEventHandler seems not to work for drag/drop events
     // TODO: Find a way to test this.
-    xit('exposes a "draggedOver" boolean',
-        fakeAsync(inject([TestComponentBuilder], (tcb: TestComponentBuilder) =>
+    xit('exposes a "dragHovered" boolean',
+        fakeAsync(inject([TestComponentBuilder], (tcb: TestComponentBuilder) => {
             tcb.createAsync(TestComponent)
             .then(fixture => {
                 fixture.detectChanges();
                 const directive: FileDropArea = fixture.componentInstance.directive;
                 const onDragEnter = spyOn(directive, 'onDragEnter');
                 expect(directive).toBeDefined();
-                expect(directive.draggedOver).toBe(false);
-                fakeFilesDragged(fixture, ['text/plain']);
+                expect(directive.dragHovered).toBe(false);
+                fakeFilesDragged(fakeDragElement, ['text/plain']);
                 fixture.detectChanges();
                 tick();
                 fixture.detectChanges();
-                expect(directive.draggedOver).toBe(true);
+                expect(directive.dragHovered).toBe(true);
             })
-        ))
+        }))
     );
 
 });
@@ -73,44 +101,32 @@ class TestComponent {
     onPageDragLeave = jasmine.createSpy('onPageDragLeave');
 }
 
-class MockPageDragDropFileHandler {
-    dragStatusChanged = new EventEmitter<boolean>();
-    draggedIn = new EventEmitter<void>();
-    draggedOut = new EventEmitter<void>();
-    dropped = new EventEmitter<void>();
-    dropPrevented = new EventEmitter<void>();
+// class MockPageDragDropFileHandler {
+//     dragStatusChanged = new EventEmitter<boolean>();
+//     draggedIn = new EventEmitter<void>();
+//     draggedOut = new EventEmitter<void>();
+//     dropped = new EventEmitter<void>();
+//     dropPrevented = new EventEmitter<void>();
 
-    public get fileDraggedInPage(): boolean {
-        return false;
-    }
-    public anyDraggedFileIs(types: string | string[]): boolean {
-        return false;
-    }
-    public allDraggedFilesAre(types: string | string[]): boolean {
-        return false;
-    }
+//     public get fileDraggedInPage(): boolean {
+//         return false;
+//     }
+//     public anyDraggedFileIs(types: string | string[]): boolean {
+//         return false;
+//     }
+//     public allDraggedFilesAre(types: string | string[]): boolean {
+//         return false;
+//     }
+// }
+
+
+function fakeFilesDragged(target: SpyEventTarget, mimeTypes: string[]): void {
+    triggerFakeDragEvent(target, 'dragenter', mimeTypes);
+    triggerFakeDragEvent(target, 'dragover', mimeTypes);
 }
 
-function createFakeDragEvent(eventName: string, mimeTypes: string[]): DragEvent {
-    return <any> {
-        type: eventName,
-        dataTransfer: {
-            dropEffect: 'none',
-            effectAllowed: 'all',
-            files: mimeTypes.map((type: string, i: number) => ({ name: `unknown${i}`, type })),
-            items: mimeTypes.map(type => ({ kind: 'file', type })),
-            types: ['Files']
-        }
-    };
-}
-
-function fakeFilesDragged(fixture: ComponentFixture<TestComponent>, mimeTypes: string[]): void {
-    fixture.debugElement.triggerEventHandler('dragenter', createFakeDragEvent('dragenter', mimeTypes));
-    fixture.debugElement.triggerEventHandler('dragover', createFakeDragEvent('dragover', mimeTypes));
-}
-
-function fakeFilesDraggedAndDropped(fixture: ComponentFixture<TestComponent>, mimeTypes: string[]): void {
-    fixture.debugElement.triggerEventHandler('dragenter', createFakeDragEvent('dragenter', mimeTypes));
-    fixture.debugElement.triggerEventHandler('dragover', createFakeDragEvent('dragover', mimeTypes));
-    fixture.debugElement.triggerEventHandler('drop', createFakeDragEvent('drop', mimeTypes));
+function fakeFilesDraggedAndDropped(target: SpyEventTarget, mimeTypes: string[]): void {
+    triggerFakeDragEvent(target, 'dragenter', mimeTypes);
+    triggerFakeDragEvent(target, 'dragover', mimeTypes);
+    triggerFakeDragEvent(target, 'drop', mimeTypes);
 }

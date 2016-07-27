@@ -13,15 +13,19 @@
             Drop files here
         </gtx-file-drop-area>
 
-        <p>Files dropped:</p>
-        <ul><li *ngFor="let file of droppedFilesA">{{ file?.name }}</li></ul>
+        <ul *ngIf="droppedFilesA">
+            <li>Files dropped:</li>
+            <li *ngFor="let file of droppedFilesA">{{ file?.name }}</li>
+        </ul>
 
     </div>
     <div class="demo-code">
         <gtx-highlighted-code language="HTML" code='
             <gtx-file-drop-area (fileDrop)="droppedFiles = $event">Drop files here</gtx-file-drop-area>
-            <p>Files dropped:</p>
-            <ul><li *ngFor="let file of droppedFiles">(( file?.name ))</li></ul>
+            <ul *ngIf="droppedFilesA">
+                <li>Files dropped:</li>
+                <li *ngFor="let file of droppedFilesA">{{ file?.name }}</li>
+            </ul>
         '></gtx-highlighted-code>
     </div>
 </gtx-demo-block>
@@ -103,23 +107,54 @@
     <div class="demo-result">
 
         <gtx-file-drop-area #droparea="gtxFileDropArea"
-            [class.dragging-over]="droparea.draggedOver"
+            [class.dragging-over]="droparea.dragHovered"
             [class.dragging-in-page]="droparea.fileDraggedInPage"
             (fileDrop)="droppedFilesC = $event">
                 Drop files here
         </gtx-file-drop-area>
 
-        <p>Files dragged in the active page: <code>{{ droparea.fileDraggedInPage }}</code></p>
-        <p>Files dragged over the droparea: <code>{{ droparea.draggedOver }}</code></p>
-        <p>Files dropped into the drop area:</p>
-        <ul><li *ngFor="let file of droppedFilesC">{{ file?.name }}</li></ul>
+        <p>Properties of the <code>FileDropArea</code> reference variable:</p>
+
+        <table class="log-table highlight" style="display: inline-block">
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Current Value</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><code>dragHovered</code></td>
+                    <td><code>{{ droparea.dragHovered | json }}</code></td>
+                </tr>
+                <tr>
+                    <td><code>draggedFiles</code></td>
+                    <td><code>{{ droparea.draggedFiles | json }}</code></td>
+                </tr>
+                <tr>
+                    <td><code>draggedFiles$ | async</code></td>
+                    <td><code>{{ droparea.draggedFiles$ | async | json }}</code></td>
+                </tr>
+                <tr>
+                    <td><code>filesDraggedInPage</code></td>
+                    <td><code>{{ droparea.filesDraggedInPage | json }}</code></td>
+                </tr>
+                <tr>
+                    <td><code>filesDraggedInPage$ | async</code></td>
+                    <td><code>{{ droparea.filesDraggedInPage$ | async | json }}</code></td>
+                </tr>
+            </tbody>
+        </table>
 
     </div>
     <div class="demo-code">
         <gtx-highlighted-code language="HTML" code='
             <gtx-file-drop-area #area="gtxFileDropArea" (fileDrop)="droppedFiles = $event">Drop files here</gtx-file-drop-area>
-            <p>Files dragged in the active page: <code>(( area.fileDraggedInPage ))</code></p>
-            <p>Files dragged over the drop area: <code>(( area.draggedOver ))</code></p>
+            <td>(( droparea.dragHovered | json ))</td>
+            <td>(( droparea.draggedFiles | json ))</td>
+            <td>(( droparea.draggedFiles$ | async | json ))</td>
+            <td>(( droparea.filesDraggedInPage | json ))</td>
+            <td>(( droparea.filesDraggedInPage$ | async | json ))</td>
         '></gtx-highlighted-code>
     </div>
 </gtx-demo-block>
@@ -130,23 +165,23 @@
         <p>Below is a <a routerLink="/sortable-list">SortableList</a> that accepts files via drag & drop.</p>
 
         <gtx-sortable-list (dragEnd)="reorderList($event)"
-            gtxFileDropArea #area="gtxFileDropArea"
-            [class.dragging-over]="area.draggedOver"
-            [class.dragging-in-page]="area.fileDraggedInPage"
+            gtxFileDropArea #listArea="gtxFileDropArea"
+            [class.dragging-over]="listArea.dragHovered"
+            [class.dragging-in-page]="listArea.fileDraggedInPage"
             (fileDrop)="addFilesToReorderableList($event)">
 
                 <gtx-sortable-item *ngFor="let listFile of reorderableFiles">
                     <gtx-contents-list-item>
-                        <strong class="filename">{{ listFile.name }}</strong>
+                        <strong class="filename">{{ listFile.name }} <small>{{ listFile.type }}</small></strong>
                         <span class="filesize">{{ listFile.size }} B</span>
                     </gtx-contents-list-item>
                 </gtx-sortable-item>
 
-                <gtx-contents-list-item *ngIf="!reorderableFiles.length && !area.fileDraggedInPage">
+                <gtx-contents-list-item *ngIf="!reorderableFiles.length && !listArea.fileDraggedInPage">
                     <em class="placeholder">No files in the list.</em>
                 </gtx-contents-list-item>
 
-                <gtx-contents-list-item *ngIf="area.fileDraggedInPage">
+                <gtx-contents-list-item *ngIf="listArea.fileDraggedInPage">
                     <strong class="placeholder">Drop a file here!</strong>
                 </gtx-contents-list-item>
 
@@ -157,7 +192,7 @@
         <gtx-highlighted-code language="HTML" code='
             <gtx-sortable-list
                 gtxFileDropArea #list="gtxFileDropArea"
-                [class.dragging-over]="list.draggedOver"
+                [class.dragging-over]="list.dragHovered"
                 [class.dragging-in-page]="list.fileDraggedInPage"
                 (fileDrop)="addFiles($event)">
 
@@ -175,7 +210,7 @@
 
             <gtx-file-drop-area #droparea="gtxFileDropArea" (fileDrop)="droppedFiles = $event">Drop files here</gtx-file-drop-area>
             <p>Files dragged in the active page: <code>(( droparea.fileDraggedInPage ))</code></p>
-            <p>Files dragged over the droparea: <code>(( droparea.draggedOver ))</code></p>
+            <p>Files dragged over the droparea: <code>(( droparea.dragHovered ))</code></p>
         '></gtx-highlighted-code>
     </div>
 </gtx-demo-block>
@@ -185,7 +220,7 @@
 
         <div gtxFileDropArea [gtxFileDropArea]="{accept: 'text/*'}" #textDrop="gtxFileDropArea"
             (fileDrop)="droppedTextFiles = droppedTextFiles.concat($event)"
-            [class.dragging-over]="textDrop.draggedOver"
+            [class.dragging-over]="textDrop.dragHovered"
             [class.dragging-in-page]="textDrop.fileDraggedInPage">
                 This drop area only accepts text files.
         </div>
@@ -193,7 +228,7 @@
 
         <div gtxFileDropArea [gtxFileDropArea]="{accept: 'image/*, !image/gif'}" #imageDrop="gtxFileDropArea"
             (fileDrop)="droppedImages = droppedImages.concat($event)"
-            [class.dragging-over]="imageDrop.draggedOver"
+            [class.dragging-over]="imageDrop.dragHovered"
             [class.dragging-in-page]="imageDrop.fileDraggedInPage">
                 Images are accepted on this, but no GIFs.
         </div>
@@ -285,24 +320,28 @@
             </thead>
             <tbody>
                 <tr>
-                    <td><code>fileDraggedInPage</code></td>
-                    <td><code>{{ dragdrop.fileDraggedInPage }}</code></td>
+                    <td><code>filesDragged</code></td>
+                    <td><code>{{ dragdrop.filesDragged | json }}</code></td>
+                </tr>
+                <tr>
+                    <td><code>filesDragged$ | async</code></td>
+                    <td><code>{{ dragdrop.filesDragged$ | async | json }}</code></td>
                 </tr>
                 <tr>
                     <td><code>anyDraggedFileIs("image/jpeg")</code></td>
-                    <td><code>{{ dragdrop.anyDraggedFileIs("image/jpeg") }}</code></td>
+                    <td><code>{{ dragdrop.anyDraggedFileIs("image/jpeg") | json }}</code></td>
                 </tr>
                 <tr>
                     <td><code>anyDraggedFileIs("text/plain")</code></td>
-                    <td><code>{{ dragdrop.anyDraggedFileIs("text/plain") }}</code></td>
+                    <td><code>{{ dragdrop.anyDraggedFileIs("text/plain") | json }}</code></td>
                 </tr>
                 <tr>
                     <td><code>allDraggedFilesAre("image/*, !image/gif")</code></td>
-                    <td><code>{{ dragdrop.allDraggedFilesAre("image/*, !image/gif") }}</code></td>
+                    <td><code>{{ dragdrop.allDraggedFilesAre("image/*, !image/gif") | json }}</code></td>
                 </tr>
                 <tr>
                     <td><code>allDraggedFilesAre("text/plain")</code></td>
-                    <td><code>{{ dragdrop.allDraggedFilesAre("text/plain") }}</code></td>
+                    <td><code>{{ dragdrop.allDraggedFilesAre("text/plain") | json }}</code></td>
                 </tr>
             </tbody>
         </table>
@@ -314,11 +353,12 @@
             }
         '></gtx-highlighted-code>
         <gtx-highlighted-code language="HTML" code='
-            <tr><td>fileDraggedInPage: </td> <td>(( dragdrop.fileDraggedInPage ))</td></tr>
-            <tr><td>anyDraggedFileIs("image/jpeg"): </td> <td>(( dragdrop.anyDraggedFileIs("image/jpeg") ))</td></tr>
-            <tr><td>anyDraggedFileIs("text/plain"): </td> <td>(( dragdrop.anyDraggedFileIs("text/plain") ))</td></tr>
-            <tr><td>allDraggedFilesAre("image/*, !image/gif"): </td> <td>(( dragdrop.allDraggedFilesAre("image/*, !image/gif") ))</td></tr>
-            <tr><td>allDraggedFilesAre("text/plain"): </td> <td>(( dragdrop.allDraggedFilesAre("text/plain") ))</td></tr>
+            <tr><td>filesDragged</td> <td>(( dragdrop.filesDragged ))</td></tr>
+            <tr><td>filesDragged$ | json</td> <td>(( dragdrop.filesDragged$ | async ))</td></tr>
+            <tr><td>anyDraggedFileIs("image/jpeg")</td> <td>(( dragdrop.anyDraggedFileIs("image/jpeg") ))</td></tr>
+            <tr><td>anyDraggedFileIs("text/plain")</td> <td>(( dragdrop.anyDraggedFileIs("text/plain") ))</td></tr>
+            <tr><td>allDraggedFilesAre("image/*, !image/gif")</td> <td>(( dragdrop.allDraggedFilesAre("image/*, !image/gif") ))</td></tr>
+            <tr><td>allDraggedFilesAre("text/plain")</td> <td>(( dragdrop.allDraggedFilesAre("text/plain") ))</td></tr>
         '></gtx-highlighted-code>
     </div>
 </gtx-demo-block>
@@ -326,7 +366,7 @@
 <gtx-demo-block demoTitle="Events">
     <div class="demo-result">
         <div gtxFileDropArea #eventDrop="gtxFileDropArea"
-            [class.dragging-over]="eventDrop.draggedOver"
+            [class.dragging-over]="eventDrop.dragHovered"
             [class.dragging-in-page]="dragdrop.fileDraggedInPage">
                 Drag files into the page or drop here to trigger events
         </div>
@@ -336,6 +376,9 @@
                 <tr>
                     <th>{{ serviceEvents.length }} events
                         <em *ngIf="serviceEvents.length > 10"> ({{ serviceEvents.length - 10 }} hidden)</em>
+                        <gtx-button flat size="small" *ngIf="serviceEvents.length > 0" (click)="serviceEvents = []">
+                            <i class="material-icons">clear</i>
+                        </gtx-button>
                     </th>
                 </tr>
             </thead>

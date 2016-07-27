@@ -1,6 +1,6 @@
 import {Directive, HostListener, Input, OnDestroy} from '@angular/core';
 
-import {PageDragDropFileHandler} from './page-drag-drop-file-handler.service';
+import {PageFileDragHandler} from './page-file-drag-handler.service';
 import {getDataTransfer, transferHasFiles} from './drag-drop-utils.ts';
 
 /**
@@ -13,7 +13,7 @@ export class PreventFileDrop implements OnDestroy {
 
     prevent: boolean | 'page' = true;
 
-    constructor(private dragHandler: PageDragDropFileHandler) { }
+    constructor(private dragHandler: PageFileDragHandler) { }
 
     ngOnDestroy(): void {
         this.dragHandler.preventFileDropOnPageFor(this, false);

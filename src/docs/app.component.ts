@@ -4,8 +4,8 @@ import {ActivatedRoute, Router, ROUTER_DIRECTIVES, NavigationEnd, PRIMARY_OUTLET
 import {Subscription} from 'rxjs';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/filter';
-import {ContentsListItem, Notification, OverlayHost, OverlayHostService, SearchBar,
-        SplitViewContainer, PageDragDropFileHandler, TopBar} from '../index';
+import {ContentsListItem, Notification, OverlayHost, OverlayHostService,
+    PageFileDragHandler, SearchBar, SplitViewContainer, TopBar} from '../index';
 import {pages, kebabToPascal, IPageInfo} from './pageList';
 
 
@@ -24,7 +24,7 @@ declare var VERSION: string;
         ContentsListItem,
         OverlayHost
     ],
-    providers: [Notification, OverlayHostService, PageDragDropFileHandler]
+    providers: [Notification, OverlayHostService, PageFileDragHandler]
 })
 export class App {
     @ViewChild(SplitViewContainer) splitViewContainer: SplitViewContainer;

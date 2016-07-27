@@ -5,7 +5,7 @@ import {Observable, Subscription} from 'rxjs';
 import {GTX_FORM_DIRECTIVES, Modal, Button} from '../../../index';
 import {Autodocs, DemoBlock, HighlightedCode} from '../../components';
 import {SortableList, ISortableEvent} from '../../../components/sortable-list/sortable-list.component';
-import {PageDragDropFileHandler, FileDropArea, PreventFileDrop} from '../../../index';
+import {DragStateTrackerFactory, PageFileDragHandler, FileDropArea, PreventFileDrop} from '../../../index';
 
 @Component({
     template: require('./file-drop-area-demo.tpl.html'),
@@ -20,7 +20,7 @@ import {PageDragDropFileHandler, FileDropArea, PreventFileDrop} from '../../../i
         GTX_FORM_DIRECTIVES,
         ROUTER_DIRECTIVES
     ],
-    providers: [PageDragDropFileHandler]
+    providers: [PageFileDragHandler, DragStateTrackerFactory]
 })
 export class FileDropAreaDemo implements OnDestroy {
     componentSource: string = require('!!raw!../../../components/file-drop-area/file-drop-area.directive.ts');
@@ -36,12 +36,11 @@ export class FileDropAreaDemo implements OnDestroy {
     serviceEvents: string[] = [];
     subscription: Subscription;
 
-    constructor(private dragdrop: PageDragDropFileHandler) {
+    constructor(private dragdrop: PageFileDragHandler) {
         this.subscription = Observable.merge(
-                dragdrop.draggedIn.mapTo('draggedIn'),
-                dragdrop.draggedOut.mapTo('draggedOut'),
-                dragdrop.dropped.mapTo('dropped'),
-                dragdrop.dragStatusChanged.map($event => `dragStatusChanged ($event = ${$event})`)
+                dragdrop.dragEnter.mapTo('dragEnter'),
+                dragdrop.dragStop.mapTo('dragStop'),
+                dragdrop.filesDragged$.map($event => `filesDragged$ ($event = ${JSON.stringify($event)})`)
             ).subscribe(eventText => {
                 this.serviceEvents = this.serviceEvents.concat(eventText);
             });

@@ -25,4 +25,13 @@ gtx-file-picker {
         }
     }
 
+    & > gtx-button.dragged-in-page .btn {
+        background-color: $gtx-color-success;
+        opacity: 0.75;
+    }
+
+    & > gtx-button.dragged-over .btn {
+        background-color: $gtx-color-success;
+    }
+
 }

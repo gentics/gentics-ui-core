@@ -1,10 +1,17 @@
 import {Component} from '@angular/core';
-import {Button, FilePicker, GTX_FORM_DIRECTIVES} from '../../../index';
+import {ROUTER_DIRECTIVES} from '@angular/router';
+
+import {Button, FilePicker, FileDropArea, PreventFileDrop, GTX_FORM_DIRECTIVES} from '../../../index';
 import {Autodocs, DemoBlock, HighlightedCode} from '../../components';
+
 
 @Component({
     template: require('./file-picker-demo.tpl.html'),
-    directives: [FilePicker, Button, Autodocs, DemoBlock, HighlightedCode, GTX_FORM_DIRECTIVES],
+    directives: [
+        FilePicker, FileDropArea, PreventFileDrop, Button,
+        Autodocs, DemoBlock, HighlightedCode,
+        GTX_FORM_DIRECTIVES, ROUTER_DIRECTIVES
+    ],
     styles: [`gtx-file-picker { margin-bottom: 10px; }`]
 })
 export class FilePickerDemo {
@@ -13,4 +20,10 @@ export class FilePickerDemo {
     isDisabled = false;
     isMultiple = true;
     onlyImages = false;
+    selectedFiles: File[] = [];
+
+    onFilesSelected(files: File[]): void {
+        console.log('onFilesSelected: ' + JSON.stringify(files.map(f => ({name: f.name, type: f.type}))));
+        this.selectedFiles = [...files];
+    }
 }
