@@ -4,4 +4,118 @@
 
 <h4>Demos</h4>
 
-<p>This component is demonstrated by the side menu navigation of this docs app.</p>
+<gtx-demo-block demoTitle="Configurable Properties">
+    <div class="demo-result">
+        <div class="row">
+            <div class="column">
+                <gtx-select label="Position" [(ngModel)]="menuPosition">
+                    <option value="left">left</option>
+                    <option value="right">right</option>
+                </gtx-select>
+            </div>
+            <div class="column">
+                <gtx-select label="Width" [(ngModel)]="menuWidth">
+                    <option value="400px">400px</option>
+                    <option value="30em">30em</option>
+                    <option value="20vw">20vw</option>
+                </gtx-select>
+            </div>
+        </div>
+        <div class="demo-container">
+            <gtx-side-menu [opened]="displayMenu1"
+                           [position]="menuPosition"
+                           [width]="menuWidth"
+                           (toggle)="displayMenu1 = $event">
+                <gtx-side-menu-toggle>
+                    toggle
+                </gtx-side-menu-toggle>
+                <div class="my-menu-content">
+                    <ul>
+                        <li>Menu item 1</li>
+                        <li>Menu item 2</li>
+                        <li>Menu item 3</li>
+                        <li>Menu item 4</li>
+                        <li>Menu item 5</li>
+                    </ul>
+                </div>
+            </gtx-side-menu>
+        </div>
+    </div>
+    <div class="demo-code">
+        <gtx-highlighted-code language="HTML" code='
+                 <gtx-select label="Position" [(ngModel)]="menuPosition">
+                     <option value="left">left</option>
+                     <option value="right">right</option>
+                 </gtx-select>
+                 <gtx-select label="Width" [(ngModel)]="menuWidth">
+                     <option value="400px">400px</option>
+                     <option value="30em">30em</option>
+                     <option value="20vw">20vw</option>
+                 </gtx-select>
+
+                 <div class="demo-container">
+                     <gtx-side-menu [opened]="displayMenu1"
+                                    [position]="menuPosition"
+                                    [width]="menuWidth"
+                                    (toggle)="displayMenu1 = $event">
+                         <gtx-side-menu-toggle>
+                             toggle
+                         </gtx-side-menu-toggle>
+                         <div class="my-menu-content">
+                             <ul>
+                                 <li>Menu item 1</li>
+                                 <li>Menu item 2</li>
+                                 <li>Menu item 3</li>
+                                 <li>Menu item 4</li>
+                                 <li>Menu item 5</li>
+                             </ul>
+                         </div>
+                     </gtx-side-menu>
+                 </div>
+        '></gtx-highlighted-code>
+    </div>
+</gtx-demo-block>
+
+<gtx-demo-block demoTitle="With MenuToggleButton">
+    <div class="demo-result">
+        The SideMenu works well together with the <a href="#/menu-toggle-button">MenuToggleButton</a>.
+        <div class="demo-container">
+            <gtx-side-menu [opened]="displayMenu2"
+                           (toggle)="displayMenu2 = $event">
+                <gtx-side-menu-toggle>
+                    <gtx-menu-toggle-button [active]="displayMenu2"></gtx-menu-toggle-button>
+                </gtx-side-menu-toggle>
+                <div class="my-menu-content">
+                    <ul>
+                        <li>Menu item 1</li>
+                        <li>Menu item 2</li>
+                        <li>Menu item 3</li>
+                        <li>Menu item 4</li>
+                        <li>Menu item 5</li>
+                    </ul>
+                </div>
+            </gtx-side-menu>
+        </div>
+    </div>
+    <div class="demo-code">
+        <gtx-highlighted-code language="HTML" code='
+                 <div class="demo-container">
+                     <gtx-side-menu [opened]="displayMenu2"
+                                    (toggle)="displayMenu2 = $event">
+                         <gtx-side-menu-toggle>
+                             <gtx-menu-toggle-button [active]="displayMenu2"></gtx-menu-toggle-button>
+                         </gtx-side-menu-toggle>
+                         <div class="my-menu-content">
+                             <ul>
+                                 <li>Menu item 1</li>
+                                 <li>Menu item 2</li>
+                                 <li>Menu item 3</li>
+                                 <li>Menu item 4</li>
+                                 <li>Menu item 5</li>
+                             </ul>
+                         </div>
+                     </gtx-side-menu>
+                 </div>
+        '></gtx-highlighted-code>
+    </div>
+</gtx-demo-block>

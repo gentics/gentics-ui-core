@@ -1,0 +1,39 @@
+gtx-menu-toggle-button {
+    $width: 40px;
+
+    @media #{$medium-and-down} {
+        top: 0;
+    }
+
+    &:hover {
+        > .bar {
+            background: white;
+        }
+    }
+
+    > .bar {
+        @extend .z-depth-1;
+        display: block;
+        height: $width / 10;
+        width: $width;
+        background: $gtx-color-very-light-gray;
+        margin: $width / 5 auto;
+        transition: all .3s ease;
+    }
+
+    &.active {
+        > .bar {
+            @extend .z-depth-0;
+            background: $gtx-color-primary;
+        }
+        > .top {
+            transform: translateY($width / 3.33) rotateZ(45deg);
+        }
+        > .bottom {
+            transform: translateY(-$width / 3.33) rotateZ(-45deg);
+        }
+        > .middle {
+            width: 0;
+        }
+    }
+}

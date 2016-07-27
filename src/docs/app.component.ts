@@ -1,10 +1,10 @@
 import {Component, ViewChild} from '@angular/core';
 import {DomSanitizationService, SafeHtml, Title} from '@angular/platform-browser';
-import {ActivatedRoute, Router, ROUTER_DIRECTIVES, RouterState, NavigationEnd, PRIMARY_OUTLET} from '@angular/router';
+import {ActivatedRoute, Router, ROUTER_DIRECTIVES, NavigationEnd, PRIMARY_OUTLET} from '@angular/router';
 import {Subscription} from 'rxjs';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/filter';
-import {TopBar, SearchBar, SideMenu, SplitViewContainer, ContentsListItem, Notification, OverlayHost} from '../index';
+import {TopBar, SearchBar, SplitViewContainer, ContentsListItem, Notification, OverlayHost} from '../index';
 import {pages, kebabToPascal, IPageInfo} from './pageList';
 import {OverlayHostService} from '../components/overlay-host/overlay-host.service';
 
@@ -20,7 +20,6 @@ declare var VERSION: string;
         TopBar,
         SearchBar,
         SplitViewContainer,
-        SideMenu,
         ContentsListItem,
         OverlayHost
     ],
@@ -29,7 +28,6 @@ declare var VERSION: string;
 export class App {
     @ViewChild(SplitViewContainer) splitViewContainer: SplitViewContainer;
     version: string;
-    displayMenu: boolean = false;
     contentItems: any[] = pages.map((page: IPageInfo) => {
         return {
             title: kebabToPascal(page.name),
@@ -110,10 +108,6 @@ export class App {
 
     closeContent(): void {
         this.hasContent = false;
-    }
-
-    toggleMenu(newState: boolean): void {
-        this.displayMenu = newState;
     }
 
     private focusRightPanel(): void {

@@ -1,6 +1,16 @@
 <div class="side-menu-overlay" (click)="close()"></div>
-<div class="menu">
-    <gtx-side-menu-toggle-button [active]="opened" (click)="toggleState()"></gtx-side-menu-toggle-button>
+<div class="menu"
+     [style.width]="width"
+     [style.transform]="getMenuTranslateX()"
+     [class.left]="position === 'left'"
+     [class.right]="position === 'right'">
+
+    <div #toggleButton
+         class="toggle-button"
+         (click)="toggleState()"
+         [style.transform]="getToggleButtonTranslateX()">
+        <ng-content select="gtx-side-menu-toggle"></ng-content>
+    </div>
     <div class="menu-content">
         <ng-content></ng-content>
     </div>

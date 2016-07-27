@@ -1,0 +1,20 @@
+<h3>MenuToggleButton</h3>
+
+<gtx-autodocs [source]="componentSource"></gtx-autodocs>
+
+<h4>Demos</h4>
+
+<gtx-demo-block demoTitle="Demo">
+    <div class="demo-result">
+       <gtx-menu-toggle-button [active]="isActive"
+                               (click)="isActive = !isActive">
+       </gtx-menu-toggle-button>
+    </div>
+    <div class="demo-code">
+        <gtx-highlighted-code language="HTML" code='
+                <gtx-menu-toggle-button [active]="isActive"
+                                        (click)="isActive = !isActive">
+                </gtx-menu-toggle-button>
+        '></gtx-highlighted-code>
+    </div>
+</gtx-demo-block>

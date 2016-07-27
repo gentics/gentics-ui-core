@@ -1,6 +1,8 @@
 ## 0.6.2 ()
 ### Features
 * ModalService.fromComponent() now accepts a parameter defining local variables.
+* Split SideMenu and MenuToggleButton into separate components
+* SideMenu can now have its width and position configured.
 ### Fixes
 * (Docs) Improved parsing & display of auto docs.
 * (Docs) Renamed title attribute to prevent browsers from displaying tooltips on hover.
