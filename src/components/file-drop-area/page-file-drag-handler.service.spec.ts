@@ -25,10 +25,8 @@ describe('PageDragDropFileHandler service:', () => {
 
     it('adds event listeners to the page', () => {
         expect(spyPageElement.addEventListener).toHaveBeenCalled();
-        let listeners = spyPageElement.listeners.map(l => l.type);
-        expect(listeners).toContain('dragenter');
-        expect(listeners).toContain('dragover');
-        expect(listeners).toContain('drop');
+        let listenerTypes = spyPageElement.listeners.map(l => l.type);
+        expect(listenerTypes).toEqual(jasmine.arrayContaining(['dragenter', 'dragover', 'drop']));
     });
 
     it('allows removing its event listeners with destroy()', () => {
@@ -113,9 +111,56 @@ describe('PageDragDropFileHandler service:', () => {
 
     });
 
-    describe('events', () => {
+    describe('preventFileDropOnPageFor() @internal', () => {
 
-        it('emits dragEnter when a file is dragged into the page', () => {
+        it('does not handle file dragging if not requested by a component', () => {
+            for (let eventType of ['dragenter', 'dragover', 'drop']) {
+                let event = triggerFakeDragEvent(spyPageElement, eventType, ['text/plain']);
+                expect(event.dataTransfer.effectAllowed).not.toBe('none', `effectAllowed for ${eventType} event`);
+                expect(event.defaultPrevented).not.toBe(true, `default prevented for ${eventType} event`);
+            }
+        });
+
+        it('prevents file dragging if requested by a component', () => {
+            let component = {};
+            service.preventFileDropOnPageFor(component, true);
+            for (let eventType of ['dragenter', 'dragover', 'drop']) {
+                let event = triggerFakeDragEvent(spyPageElement, eventType, ['text/plain']);
+
+                expect(event.dataTransfer.dropEffect).toBe('none', `dropEffect for ${eventType} event`);
+                expect(event.dataTransfer.effectAllowed).toBe('none', `effectAllowed for ${eventType} event`);
+                expect(event.defaultPrevented).toBe(true, `default not prevented for ${eventType} event`);
+            }
+        });
+
+        it('does not handle text dragging', () => {
+            let component = {};
+            service.preventFileDropOnPageFor(component, true);
+            for (let eventType of ['dragenter', 'dragover', 'drop']) {
+                let event = triggerFakeDragEvent(spyPageElement, eventType, WITHOUT_FILES);
+
+                expect(event.dataTransfer.effectAllowed).not.toBe('none', `effectAllowed for ${eventType} event`);
+                expect(event.defaultPrevented).not.toBe(true, `default prevented for ${eventType} event`);
+            }
+        });
+
+        it('does not prevent file dragging "unrequested" by all requested components', () => {
+            let component = {};
+            service.preventFileDropOnPageFor(component, true);
+            service.preventFileDropOnPageFor(component, false);
+
+            for (let eventType of ['dragenter', 'dragover', 'drop']) {
+                let event = triggerFakeDragEvent(spyPageElement, eventType, ['text/plain']);
+                expect(event.dataTransfer.effectAllowed).not.toBe('none', `effectAllowed for ${eventType} event`);
+                expect(event.defaultPrevented).not.toBe(true, `default prevented for ${eventType} event`);
+            }
+        });
+
+    });
+
+    describe('dragEnter', () => {
+
+        it('is emitted when a file is dragged into the page', () => {
             let dragEnter = subscribeSpyObserver(service, service.dragEnter);
             expect(dragEnter.next).not.toHaveBeenCalled();
 
@@ -123,7 +168,7 @@ describe('PageDragDropFileHandler service:', () => {
             expect(dragEnter.next).toHaveBeenCalled();
         });
 
-        it('does not emit dragEnter or filesDragged$ when text is dragged into the page', () => {
+        it('is not emitted when text is dragged into the page', () => {
             let dragEnter = subscribeSpyObserver(service, service.dragEnter);
             expect(dragEnter.next).not.toHaveBeenCalled();
 
@@ -131,7 +176,11 @@ describe('PageDragDropFileHandler service:', () => {
             expect(dragEnter.next).not.toHaveBeenCalled();
         });
 
-        it('emits dragStop and filesDragged$ when a file is dragged out of the page', () => {
+    });
+
+    describe('dragStop', () => {
+
+        it('is emitted when a file is dragged out of the page', () => {
             let dragStop = subscribeSpyObserver(service, service.dragStop);
             expect(dragStop.next).not.toHaveBeenCalled();
 
@@ -141,7 +190,7 @@ describe('PageDragDropFileHandler service:', () => {
             expect(dragStop.next).toHaveBeenCalled();
         });
 
-        it('emits dragStop and filesDragged$ when a file is dropped on an element', () => {
+        it('is emitted when a file is dropped on an element', () => {
             let dragStop = subscribeSpyObserver(service, service.dragStop);
 
             triggerFakeDragEvent(spyPageElement, 'dragenter', ['text/plain']);
@@ -151,31 +200,27 @@ describe('PageDragDropFileHandler service:', () => {
 
     });
 
-    describe('observables', () => {
+    describe('filesDragged$', () => {
 
-        it('filesDragged$ emits an empty array before receiving drag events', () => {
+        it('does not emit values before receiving drag events', () => {
             let filesDragged$ = subscribeSpyObserver(service, service.filesDragged$);
-            expect(filesDragged$.next).toHaveBeenCalledWith([]);
+            expect(filesDragged$.next).not.toHaveBeenCalled();
         });
 
-        it('filesDragged$ emits a mime type list when a file is dragged into the page', () => {
+        it('emits a mime type list when a file is dragged into the page', () => {
             let filesDragged$ = subscribeSpyObserver(service, service.filesDragged$);
-            filesDragged$.next.calls.reset();
-
             triggerFakeDragEvent(spyPageElement, 'dragenter', ['text/plain']);
             expect(filesDragged$.next).toHaveBeenCalledTimes(1);
             expect(filesDragged$.next).toHaveBeenCalledWith([{ type: 'text/plain' }]);
         });
 
-        it('filesDragged$ does not emit when text is dragged into the page', () => {
+        it('does not emit when text is dragged into the page', () => {
             let filesDragged$ = subscribeSpyObserver(service, service.filesDragged$);
-            filesDragged$.next.calls.reset();
-
             triggerFakeDragEvent(spyPageElement, 'dragenter', WITHOUT_FILES);
             expect(filesDragged$.next).not.toHaveBeenCalled();
         });
 
-        it('filesDragged$ emits [] when a file is dragged out of the page', () => {
+        it('emits [] when a file is dragged out of the page', () => {
             let filesDragged$ = subscribeSpyObserver(service, service.filesDragged$);
             triggerFakeDragEvent(spyPageElement, 'dragenter', ['text/plain']);
             filesDragged$.next.calls.reset();
@@ -184,7 +229,7 @@ describe('PageDragDropFileHandler service:', () => {
             expect(filesDragged$.next).toHaveBeenCalledWith([]);
         });
 
-        it('filesDragged$ emits [] when a file is dropped on an element', () => {
+        it('emits [] when a file is dropped on an element', () => {
             let filesDragged$ = subscribeSpyObserver(service, service.filesDragged$);
             triggerFakeDragEvent(spyPageElement, 'dragenter', ['text/plain']);
             filesDragged$.next.calls.reset();

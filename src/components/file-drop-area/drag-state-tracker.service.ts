@@ -34,7 +34,6 @@ export type FileDragState = { type: string }[];
  */
 class DragStateTracker {
     state$: Observable<FileDragState>;
-    currentState: FileDragState = [];
     enterLeaveCounter = 0;
     enteredElements = new WeakSet<Element>();
     subscribers: Subscriber<FileDragState>[] = [];
@@ -44,12 +43,10 @@ class DragStateTracker {
             if (this.subscribers.push(subscriber) === 1) {
                 this.bindEvents();
             }
-            subscriber.next(this.currentState);
             return subscriber.add(() => {
                 let index = this.subscribers.indexOf(subscriber);
                 this.subscribers.splice(index, 1);
                 if (!this.subscribers.length) {
-                    this.currentState = [];
                     this.unbindEvents();
                 }
             });
@@ -73,7 +70,6 @@ class DragStateTracker {
 
     emit(state: FileDragState): void {
         this.subscribers.forEach(s => s.next(state));
-        this.currentState = state;
     }
 
     onDragEnter = (event: DragEvent) => {

@@ -28,7 +28,9 @@
 <gtx-demo-block demoTitle="Options">
     <div class="demo-result">
         <div>
-            <gtx-file-picker (fileSelect)="selectedFilesB = $event"
+            <gtx-file-picker
+                (fileSelect)="selectedFilesB = $event"
+                (fileSelectReject)="rejectedFilesB = $event"
                 [disabled]="isDisabled"
                 [multiple]="isMultiple"
                 [accept]="onlyImages ? 'image/*' : '*'">
@@ -38,13 +40,19 @@
                     <span *ngIf="onlyImages && isMultiple">Pick some images</span>
             </gtx-file-picker>
         </div>
-        <ul *ngIf="selectedFilesB">
-            <li>Selected files:</li>
-            <li *ngFor="let file of selectedFilesB">{{ file?.name }} ({{ file?.type }})</li>
-        </ul>
-        <gtx-checkbox [(ngModel)]="isDisabled" label="isDisabled: {{ isDisabled }}"></gtx-checkbox>
-        <gtx-checkbox [(ngModel)]="isMultiple" label="isMultiple: {{ isMultiple }}"></gtx-checkbox>
-        <gtx-checkbox [(ngModel)]="onlyImages" label="onlyImages: {{ onlyImages }}"></gtx-checkbox>
+        <div class="row expanded">
+            <ul class="small-6">
+                <li *ngIf="selectedFilesB">Selected files:</li>
+                <li *ngFor="let file of selectedFilesB">{{ file?.name }} <small>{{ file?.type }}</small></li>
+            </ul>
+            <ul class="small-6">
+                <li *ngIf="rejectedFilesB">Rejected files:</li>
+                <li *ngFor="let file of rejectedFilesB">{{ file?.name }} <small>{{ file?.type }}</small></li>
+            </ul>
+        </div>
+        <gtx-checkbox [(ngModel)]="isDisabled" label="disabled: {{ isDisabled }}"></gtx-checkbox>
+        <gtx-checkbox [(ngModel)]="isMultiple" label="multiple: {{ isMultiple }}"></gtx-checkbox>
+        <gtx-checkbox [(ngModel)]="onlyImages" label="accept: {{ onlyImages ? 'image/*' : '*' }}"></gtx-checkbox>
     </div>
     <div class="demo-code">
         <gtx-highlighted-code language="HTML" code='
@@ -69,6 +77,7 @@
             <gtx-file-picker gtxFileDropArea
                 gtxPreventFileDrop="page"
                 (fileSelect)="selectedFilesC = $event"
+                (fileSelectReject)="rejectedFilesC = $event"
                 [disabled]="isDisabled"
                 [multiple]="isMultiple"
                 [accept]="onlyImages ? 'image/*' : '*'">
@@ -78,13 +87,19 @@
                     <span *ngIf="onlyImages && isMultiple">Pick or drop some images</span>
             </gtx-file-picker>
         </div>
-        <ul *ngIf="selectedFilesC">
-            <li>Selected files:</li>
-            <li *ngFor="let file of selectedFilesC">{{ file?.name }} ({{ file?.type }})</li>
-        </ul>
-        <gtx-checkbox [(ngModel)]="isDisabled" label="isDisabled: {{ isDisabled }}"></gtx-checkbox>
-        <gtx-checkbox [(ngModel)]="isMultiple" label="isMultiple: {{ isMultiple }}"></gtx-checkbox>
-        <gtx-checkbox [(ngModel)]="onlyImages" label="onlyImages: {{ onlyImages }}"></gtx-checkbox>
+        <div class="row expanded">
+            <ul class="small-6">
+                <li *ngIf="selectedFilesC">Selected files:</li>
+                <li *ngFor="let file of selectedFilesC">{{ file?.name }} <small>{{ file?.type }}</small></li>
+            </ul>
+            <ul class="small-6">
+                <li *ngIf="rejectedFilesC">Rejected files:</li>
+                <li *ngFor="let file of rejectedFilesC">{{ file?.name }} <small>{{ file?.type }}</small></li>
+            </ul>
+        </div>
+        <gtx-checkbox [(ngModel)]="isDisabled" label="disabled: {{ isDisabled }}"></gtx-checkbox>
+        <gtx-checkbox [(ngModel)]="isMultiple" label="multiple: {{ isMultiple }}"></gtx-checkbox>
+        <gtx-checkbox [(ngModel)]="onlyImages" label="accept: {{ onlyImages ? 'image/*' : '*' }}"></gtx-checkbox>
     </div>
     <div class="demo-code">
         <gtx-highlighted-code language="HTML" code='

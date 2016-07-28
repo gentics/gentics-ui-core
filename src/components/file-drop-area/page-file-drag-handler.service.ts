@@ -51,7 +51,7 @@ export class PageFileDragHandler {
     @Output() dropPrevented = new EventEmitter<void>();
 
 
-    private _filesDragged: FileDragState;
+    private _filesDragged: FileDragState = [];
     private _subscription: Subscription;
     private _eventTarget: EventTarget;
     private _eventsBound = false;
@@ -112,8 +112,8 @@ export class PageFileDragHandler {
         }
 
         this.filesDragged$ = dragState.trackElement(this._eventTarget);
-        this.dragEnter = this.filesDragged$.skip(1).filter(list => list.length > 0);
-        this.dragStop = this.filesDragged$.skip(1).filter(list => list.length === 0).mapTo(false);
+        this.dragEnter = this.filesDragged$.filter(list => list.length > 0);
+        this.dragStop = this.filesDragged$.filter(list => list.length === 0).mapTo(false);
         this.bindEvents();
     }
 

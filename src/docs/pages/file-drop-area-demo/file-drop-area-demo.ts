@@ -23,12 +23,14 @@ import {DragStateTrackerFactory, PageFileDragHandler, FileDropArea, PreventFileD
     providers: [PageFileDragHandler, DragStateTrackerFactory]
 })
 export class FileDropAreaDemo implements OnDestroy {
-    componentSource: string = require('!!raw!../../../components/file-drop-area/file-drop-area.directive.ts');
+    directiveSource: string = require('!!raw!../../../components/file-drop-area/file-drop-area.directive.ts');
 
     draggingFileOnThis = false;
     droppedFiles: File[] = [];
     droppedImages: File[] = [];
     droppedTextFiles: File[] = [];
+    rejectedImages: File[] = [];
+    rejectedTextFiles: File[] = [];
     reorderableFiles: File[] = [];
     isDisabled = true;
     preventOnPage = true;

@@ -65,18 +65,24 @@ export const FILE_DROPAREA_DRAG_EVENT_TARGET = new OpaqueToken('FILE_DROPAREA_DR
 export class FileDropArea implements OnInit, OnDestroy {
 
     /**
-     * Returns true if a file is dragged on the drop area.
+     * Returns true if an accepted file is dragged on the drop area.
      */
     public get dragHovered(): boolean {
         return this._isDraggedOver;
     }
 
     /**
-     * If accepted files are dragged inside the current page / browser tab,
-     * returns a list of the mime types, `undefined` otherwise.
+     * Returns a list of mime types of accepted files dragged over the drop area.
      */
     public get draggedFiles(): FileDragState {
         return this._draggedFiles;
+    }
+
+    /**
+     * Returns true if an accepted file is dragged on the page.
+     */
+    public get pageDragHovered(): boolean {
+        return this._isPageDraggedOver;
     }
 
     /**
@@ -90,8 +96,11 @@ export class FileDropArea implements OnInit, OnDestroy {
     /**
      * Sets options of this drop area.
      */
-    @Input('gtxFileDropArea') set options(options: IFileDropAreaOptions) {
-        this._options = Object.assign({}, defaultOptions, options);
+    @Input('gtxFileDropArea') get options(): IFileDropAreaOptions {
+        return this._options;
+    }
+    set options(options: IFileDropAreaOptions) {
+        this._options = Object.freeze(Object.assign({}, defaultOptions, options));
     }
 
     /**
@@ -138,9 +147,10 @@ export class FileDropArea implements OnInit, OnDestroy {
     @Output() pageDragLeave = new EventEmitter<void>();
 
 
-    private _draggedFiles: IDraggedFile[];
+    private _draggedFiles: IDraggedFile[] = [];
     private _isDraggedOver: boolean = false;
-    private _filesDraggedInPage: IDraggedFile[];
+    private _isPageDraggedOver: boolean = false;
+    private _filesDraggedInPage: IDraggedFile[] = [];
     private _options = defaultOptions;
     private _subscriptions: Subscription[] = [];
     private _eventTarget: EventTarget;
@@ -174,6 +184,7 @@ export class FileDropArea implements OnInit, OnDestroy {
             }),
             this.filesDraggedInPage$.subscribe(filesInPage => {
                 zone.runGuarded(() => {
+                    this._isPageDraggedOver = filesInPage.length > 0;
                     this._filesDraggedInPage = filesInPage;
                     if (filesInPage.length > 0) {
                         this.pageDragEnter.emit(filesInPage);
@@ -186,44 +197,30 @@ export class FileDropArea implements OnInit, OnDestroy {
     }
 
     ngOnInit(): void {
-        this._eventTarget.addEventListener('dragenter', this.onDragEnter);
-        this._eventTarget.addEventListener('dragover', this.onDragOver);
+        this._eventTarget.addEventListener('dragenter', this.onDragEnterOver);
+        this._eventTarget.addEventListener('dragover', this.onDragEnterOver);
         this._eventTarget.addEventListener('drop', this.onDrop);
     }
 
     ngOnDestroy(): void {
         this._subscriptions.forEach(s => s.unsubscribe());
-        this._eventTarget.removeEventListener('dragenter', this.onDragEnter);
-        this._eventTarget.removeEventListener('dragover', this.onDragOver);
+        this._eventTarget.removeEventListener('dragenter', this.onDragEnterOver);
+        this._eventTarget.removeEventListener('dragover', this.onDragEnterOver);
         this._eventTarget.removeEventListener('drop', this.onDrop);
+        this.pageDrag.destroy();
     }
 
     private accepts = (file: {type: string}): boolean => {
         return !clientReportsMimeTypesOnDrag() || matchesMimeType(file.type, this._options.accept);
     }
 
-    private onDragEnter = (event: DragEvent) => {
+    private onDragEnterOver = (event: DragEvent) => {
         let transfer = getDataTransfer(event);
         if (!transferHasFiles(transfer)) {
             return;
         }
 
-        if (this._isDraggedOver) {
-            transfer.dropEffect = 'copy';
-        } else {
-            transfer.dropEffect = 'none';
-            transfer.effectAllowed = 'none';
-        }
-        event.preventDefault();
-    }
-
-    private onDragOver = (event: DragEvent) => {
-        let transfer = getDataTransfer(event);
-        if (!transferHasFiles(transfer)) {
-            return;
-        }
-
-        if (this._isDraggedOver) {
+        if (this._isDraggedOver && !this._options.disabled) {
             transfer.dropEffect = 'copy';
         } else {
             transfer.dropEffect = 'none';

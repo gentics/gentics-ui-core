@@ -2,7 +2,7 @@ import {ChangeDetectorRef, Component, EventEmitter, Input, OnInit, OnDestroy, Op
 import {Observable, Subscription} from 'rxjs';
 
 import {Button} from '../button/button.component';
-import {FileDropArea} from '../file-drop-area/file-drop-area.directive';
+import {FileDropArea, IFileDropAreaOptions} from '../file-drop-area/file-drop-area.directive';
 import {PageFileDragHandler} from '../file-drop-area/page-file-drag-handler.service';
 import {matchesMimeType} from '../file-drop-area/matches-mime-type';
 
@@ -17,11 +17,7 @@ import {matchesMimeType} from '../file-drop-area/matches-mime-type';
 @Component({
     selector: 'gtx-file-picker',
     template: require('./file-picker.tpl.html'),
-    directives: [Button, FileDropArea],
-    host: {
-        '[class.dragged-over]': 'dropArea && dropArea.draggedOver',
-        '[class.dragged-in-page]': 'dropArea && dropArea.fileDraggedInPage && !dropArea.draggedOver'
-    }
+    directives: [Button, FileDropArea]
 })
 export class FilePicker implements OnInit, OnDestroy {
     /**
@@ -59,10 +55,25 @@ export class FilePicker implements OnInit, OnDestroy {
         return this._accept;
     }
     set accept(value: string) {
-        if (value !== this._accept) {
-            this._accept = value;
+        let usedValue = value == undefined ? '*' : value;
+        if (usedValue !== this._accept) {
+            this._accept = usedValue;
             this.setDropAreaOptions();
         }
+    }
+
+    /**
+     * Button size - "small", "regular" or "large". Forwarded to the Button component.
+     */
+    @Input() set size(val: 'small' | 'regular' | 'large') {
+        this._size = val == undefined ? 'regular' : val;
+    }
+
+    /**
+     * Icon button without text. Forwarded to the Button component.
+     */
+    @Input() set icon(val: boolean) {
+        this._icon = val !== false && <any> val !== 'false';
     }
 
     /**
@@ -76,6 +87,8 @@ export class FilePicker implements OnInit, OnDestroy {
     @Output() fileSelectReject = new EventEmitter<File[]>();
 
 
+    private _icon: boolean = false;
+    private _size: string = 'regular';
     private _accept: string = '*';
     private _disabled = false;
     private _multiple = true;
@@ -104,7 +117,6 @@ export class FilePicker implements OnInit, OnDestroy {
                     this.fileSelectReject.emit(files);
                 })
             ];
-// setInterval(() => console.log(this.dropArea.draggedOver), 300);
         }
     }
 
@@ -136,10 +148,11 @@ export class FilePicker implements OnInit, OnDestroy {
 
     private setDropAreaOptions(): void {
         if (this.dropArea) {
-            let options = this.dropArea.options || (this.dropArea.options = {});
+            let options: IFileDropAreaOptions = Object.assign({}, this.dropArea.options || {});
             options.accept = this._accept;
             options.disabled = this._disabled;
             options.multiple = this._multiple;
+            this.dropArea.options = options;
         }
     }
 }
