@@ -10,8 +10,10 @@ import {Component, HostBinding, Input} from '@angular/core';
  * ```
  *
  * The colors can be configured by locally defining the following rules:
- * * `gtx-menu-toggle-button > .bar { background-color: someColor; }`
- * * `gtx-menu-toggle-button.active > .bar { background-color: someOtherColor; }`
+ * ```css
+ * gtx-menu-toggle-button > .bar { background-color: someColor; }
+ * gtx-menu-toggle-button.active > .bar { background-color: someOtherColor; }
+ * ```
  */
 @Component({
     selector: 'gtx-menu-toggle-button',
