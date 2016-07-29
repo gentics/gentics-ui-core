@@ -1,5 +1,6 @@
-## 0.7.0 ()
+## 0.7.0 (2016-07-29)
 ### Features
+* Add FilePicker component
 * Add FileDropArea & PreventFileDrop directives
 * Add PageDragDropFileHandler service
 * ModalService.fromComponent() now accepts a parameter defining local variables.
