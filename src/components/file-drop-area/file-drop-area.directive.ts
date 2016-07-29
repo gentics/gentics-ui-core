@@ -4,7 +4,7 @@ import {Observable, Subscription} from 'rxjs';
 import {PageFileDragHandler} from './page-file-drag-handler.service';
 import {FileDragState, DragStateTrackerFactory} from './drag-state-tracker.service';
 import {matchesMimeType} from './matches-mime-type';
-import {clientReportsMimeTypesOnDrag, getDataTransfer, getTransferMimeTypes, transferHasFiles} from './drag-drop-utils.ts';
+import {clientReportsMimeTypesOnDrag, getDataTransfer, getTransferMimeTypes, transferHasFiles} from './drag-drop-utils';
 
 
 

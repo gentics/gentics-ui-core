@@ -1,7 +1,7 @@
 import {Directive, HostListener, Input, OnDestroy} from '@angular/core';
 
 import {PageFileDragHandler} from './page-file-drag-handler.service';
-import {getDataTransfer, transferHasFiles} from './drag-drop-utils.ts';
+import {getDataTransfer, transferHasFiles} from './drag-drop-utils';
 
 /**
  * Prevents accidentally dropping files outside of a {@link FileDropArea}

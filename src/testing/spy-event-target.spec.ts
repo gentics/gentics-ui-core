@@ -1,4 +1,4 @@
-import {SpyEventTarget} from './spy-event-target.ts';
+import {SpyEventTarget} from './spy-event-target';
 
 describe('SpyEventTarget', () => {
 

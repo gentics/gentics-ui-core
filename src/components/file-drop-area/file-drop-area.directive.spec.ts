@@ -4,7 +4,7 @@ import {AsyncPipe} from '@angular/common';
 import {addProviders, async, fakeAsync, inject, tick} from '@angular/core/testing';
 
 import {SpyEventTarget, triggerFakeDragEvent, subscribeSpyObserver} from '../../testing';
-import {DragStateTrackerFactory} from './drag-state-tracker.service.ts';
+import {DragStateTrackerFactory} from './drag-state-tracker.service';
 import {PageFileDragHandler, PAGE_FILE_DRAG_EVENT_TARGET} from './page-file-drag-handler.service';
 import {FileDropArea, FILE_DROPAREA_DRAG_EVENT_TARGET} from './file-drop-area.directive';
 
