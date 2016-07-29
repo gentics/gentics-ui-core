@@ -22,9 +22,9 @@
     <div class="demo-code">
         <gtx-highlighted-code language="HTML" code='
             <gtx-file-drop-area (fileDrop)="droppedFiles = $event">Drop files here</gtx-file-drop-area>
-            <ul *ngIf="droppedFilesA">
+            <ul *ngIf="droppedFiles">
                 <li>Files dropped:</li>
-                <li *ngFor="let file of droppedFilesA">{{ file?.name }}</li>
+                <li *ngFor="let file of droppedFiles">(( file.name ))</li>
             </ul>
         '></gtx-highlighted-code>
     </div>
@@ -176,16 +176,19 @@
 
                 <gtx-sortable-item *ngFor="let listFile of reorderableFiles">
                     <gtx-contents-list-item>
-                        <strong class="filename">{{ listFile.name }} <small>{{ listFile.type }}</small></strong>
+                        <span class="filename">
+                            <strong>{{ listFile.name }} </strong>
+                            <small>{{ listFile.type }}</small>
+                        </span>
                         <span class="filesize">{{ listFile.size }} B</span>
                     </gtx-contents-list-item>
                 </gtx-sortable-item>
 
-                <gtx-contents-list-item *ngIf="!reorderableFiles.length && !listArea.filesDraggedInPage">
+                <gtx-contents-list-item *ngIf="!reorderableFiles.length && !listArea.pageDragHovered">
                     <em class="placeholder">No files in the list.</em>
                 </gtx-contents-list-item>
 
-                <gtx-contents-list-item *ngIf="listArea.filesDraggedInPage">
+                <gtx-contents-list-item *ngIf="listArea.pageDragHovered">
                     <strong class="placeholder">Drop a file here!</strong>
                 </gtx-contents-list-item>
 
@@ -198,7 +201,7 @@
                 gtxFileDropArea #list="gtxFileDropArea"
                 [class.dragging-over]="list.dragHovered"
                 [class.dragging-in-page]="list.pageDragHovered"
-                (fileDrop)="addFiles($event)">
+                (fileDrop)="listFiles = listFiles.concat($event)">
 
                     <gtx-sortable-item *ngFor="let file of listFiles"> ... </gtx-sortable-item>
 

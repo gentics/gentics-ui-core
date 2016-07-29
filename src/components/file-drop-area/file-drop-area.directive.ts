@@ -244,7 +244,11 @@ export class FileDropArea implements OnInit, OnDestroy {
 
         // Check if the dropped files match the "accept" option
         for (let file of files) {
-            (this.accepts(file) ? acceptedFiles : rejectedFiles).push(file);
+            if (matchesMimeType(file.type, this._options.accept)) {
+                acceptedFiles.push(file);
+            } else {
+                rejectedFiles.push(file);
+            }
         }
         if (acceptedFiles.length > 0) {
             this.fileDrop.emit(acceptedFiles);

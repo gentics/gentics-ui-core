@@ -131,7 +131,11 @@ export class FilePicker implements OnInit, OnDestroy {
             let accepted: File[] = [];
             let rejected: File[] = [];
             Array.from(files).forEach(file => {
-                (matchesMimeType(file.type, this._accept) ? accepted : rejected).push(file);
+                if (matchesMimeType(file.type, this._accept)) {
+                    accepted.push(file);
+                } else {
+                    rejected.push(file);
+                }
             });
 
             // Remove the Files from the input

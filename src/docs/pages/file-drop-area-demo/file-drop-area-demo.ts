@@ -44,7 +44,9 @@ export class FileDropAreaDemo implements OnDestroy {
                 dragdrop.dragStop.mapTo('dragStop'),
                 dragdrop.filesDragged$.map($event => `filesDragged$ ($event = ${JSON.stringify($event)})`)
             ).subscribe(eventText => {
-                this.serviceEvents = this.serviceEvents.concat(eventText);
+                let d = new Date();
+                let time = d.toTimeString().split(' ')[0] + (d.getMilliseconds() / 1000).toFixed(3).substr(1);
+                this.serviceEvents = this.serviceEvents.concat(`${time}: ${eventText}`);
             });
     }
 
