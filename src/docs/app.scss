@@ -68,6 +68,69 @@ gtx-contents-list-item {
     }
 }
 
+gtx-file-drop-area,
+div[gtxFileDropArea] {
+    & {
+        background-color: $gtx-color-very-light-gray;
+        border-radius: 6px;
+        border: 3px solid transparent;
+        display: block;
+        padding-bottom: 1em;
+        padding-top: 1em;
+        max-width: 400px;
+        text-align: center;
+    }
+
+    & ~ & {
+        margin-top: 1em;
+    }
+
+    &.dragging-over {
+        background-color: $gtx-color-mid-gray;
+    }
+
+    &.dragging-in-page {
+        border-color: $gtx-color-primary;
+    }
+}
+
+gtx-sortable-list[gtxFileDropArea] {
+    border: 1px solid $gtx-color-very-light-gray;
+
+    .filename {
+        flex: 1;
+        padding-left: 10px;
+    }
+
+    .filesize {
+        align-self: right;
+    }
+
+    .placeholder {
+        text-align: center;
+        margin-left: auto;
+        margin-right: auto;
+    }
+}
+
+.demo-result .outlined-block {
+    margin-top: 1em;
+    outline: 1px solid $gtx-color-light-gray;
+    padding: 1em;
+    width: 320px;
+    width: max-content;
+}
+
+.log-table {
+    display: inline-block;
+
+    td, th {
+        padding: 0 5px;
+        font-family: monospace;
+    }
+}
+
+
 code, kbd, pre, samp {
     border-radius: 3px;
     background-color: #FBFBFB;

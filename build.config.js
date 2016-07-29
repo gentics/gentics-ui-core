@@ -9,7 +9,7 @@ const paths = {
             'src/**/*.ts', 'src/**/*.spec.ts'],
         scss: ['src/**/*.scss', '!src/docs/**/*.scss'],
         scssMain: 'src/styles/core.scss',
-        typescript: ['src/**/*.ts', '!**/*.spec.ts', '!src/docs/**/*.ts'],
+        typescript: ['src/**/*.ts', '!**/*.spec.ts', '!src/testing/**', '!src/docs/**/*.ts'],
         typings: 'typings/*.d.ts',
         tests: 'src/**/*.spec.ts',
         templates: ['src/**/*.tpl.html', '!src/docs/**/*.tpl.html']

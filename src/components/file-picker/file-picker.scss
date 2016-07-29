@@ -1,0 +1,37 @@
+gtx-file-picker {
+    & {
+        display: inline-block;
+    }
+
+    > label {
+        display: inline-block;
+    }
+
+    > .hidden-file-wrapper {
+        display: inline-block;
+        height: 0px;
+        width: 0px;
+        overflow: hidden;
+        position: relative;
+
+        > .hidden-file-input {
+            opacity: 0.00001;
+            display: block;
+            height: 1px;
+            width: 1px;
+            position: absolute;
+            left: -10000px;
+            top: -10000px;
+        }
+    }
+
+    & > gtx-button.dragged-in-page .btn {
+        background-color: $gtx-color-success;
+        opacity: 0.75;
+    }
+
+    & > gtx-button.dragged-over .btn {
+        background-color: $gtx-color-success;
+    }
+
+}

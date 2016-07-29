@@ -3,6 +3,7 @@ gtx-demo-block {
     display: block;
     margin-bottom: 50px;
     border: 1px solid lighten($gtx-color-secondary, 10%);
+
     .demo-title {
         margin-top: 0;
         margin-bottom: 0;
@@ -10,10 +11,15 @@ gtx-demo-block {
         border-bottom: 1px solid $gtx-color-light-gray;
         background-color: lighten($gtx-color-secondary, 10%);
     }
+    .demo-title > * {
+        vertical-align: middle;
+    }
+
     .demo-body {
         padding: 20px 20px 30px 20px;
         position: relative;
     }
+
     .code-wrapper {
         overflow: hidden;
         max-height: 0;

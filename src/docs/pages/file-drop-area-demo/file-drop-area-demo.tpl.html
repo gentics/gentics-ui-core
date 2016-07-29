@@ -1,0 +1,418 @@
+<h3>FileDropArea directive</h3>
+
+<!-- autodocs do not seem to work with directives yet -->
+<!--<gtx-autodocs [source]="directiveSource"></gtx-autodocs>-->
+
+<h4>Demos</h4>
+
+<gtx-demo-block demoTitle="Basic Example">
+    <div class="demo-result">
+
+        <p>The file drop area reacts to files that are dragged and/or dropped over it.</p>
+        <gtx-file-drop-area (fileDrop)="droppedFilesA = $event">
+            Drop files here
+        </gtx-file-drop-area>
+
+        <ul *ngIf="droppedFilesA">
+            <li>Files dropped:</li>
+            <li *ngFor="let file of droppedFilesA">{{ file?.name }}</li>
+        </ul>
+
+    </div>
+    <div class="demo-code">
+        <gtx-highlighted-code language="HTML" code='
+            <gtx-file-drop-area (fileDrop)="droppedFiles = $event">Drop files here</gtx-file-drop-area>
+            <ul *ngIf="droppedFilesA">
+                <li>Files dropped:</li>
+                <li *ngFor="let file of droppedFilesA">{{ file?.name }}</li>
+            </ul>
+        '></gtx-highlighted-code>
+    </div>
+</gtx-demo-block>
+
+<gtx-demo-block demoTitle="Disable Drop Area">
+    <div class="demo-result">
+
+        <p>Passing <code>disabled: true</code> disables the drop area.</p>
+        <div gtxFileDropArea [gtxFileDropArea]="{ disabled: isDisabled }">
+            <span *ngIf="!isDisabled">Drop files here</span>
+            <span *ngIf="isDisabled">Drop area disabled.</span>
+            <gtx-checkbox [(ngModel)]="isDisabled" label="isDisabled: {{ isDisabled }}"></gtx-checkbox>
+        </div>
+
+    </div>
+    <div class="demo-code">
+        <gtx-highlighted-code language="HTML" code='
+            <div [gtxFileDropArea]="{ disabled: isDisabled }">
+                <span *ngIf="!isDisabled">Drop files here</span>
+                <span *ngIf="isDisabled">Drop area disabled.</span>
+            </div>
+            <gtx-checkbox [(ngModel)]="isDisabled" label="isDisabled: (( isDisabled ))"></gtx-checkbox>
+        '></gtx-highlighted-code>
+    </div>
+</gtx-demo-block>
+
+<gtx-demo-block demoTitle="Tracking Drag/Drop State with Events">
+    <div class="demo-result">
+
+        <p>Drag/Drop state can be tracked by binding to events on the directive container.</p>
+
+        <gtx-file-drop-area
+            (fileDragEnter)="draggingFileOnThis = true"
+            (fileDragLeave)="draggingFileOnThis = false"
+            (fileDrop)="onDropFiles($event)"
+            (pageDragEnter)="draggingFileOnPage = true"
+            (pageDragLeave)="draggingFileOnPage = false"
+            [class.dragging-over]="draggingFileOnThis"
+            [class.dragging-in-page]="draggingFileOnPage"
+        >
+            Drop files here
+        </gtx-file-drop-area>
+
+        <p *ngIf="!draggingFileOnPage">No files are being dragged into the active page.</p>
+        <p *ngIf="draggingFileOnPage">Some file(s) are being dragged into the current page...</p>
+
+        <p *ngIf="!draggingFileOnThis">No files dragged into the drop area.</p>
+        <p *ngIf="draggingFileOnThis">Some file(s) are being dragged into the drop area...</p>
+
+        <p *ngIf="!droppedFiles.length">No files were dropped so far.</p>
+        <div *ngIf="droppedFiles.length > 0">
+            <p>Files dropped into the drop area:</p>
+            <ul><li *ngFor="let file of droppedFiles">{{ file?.name }}</li></ul>
+        </div>
+
+    </div>
+    <div class="demo-code">
+        <gtx-highlighted-code language="TypeScript" code='
+            onDropFiles(files: File[]): void {
+                this.draggingFileOnThis = false;
+                this.droppedFiles.push(...files);
+            }
+        '></gtx-highlighted-code>
+        <gtx-highlighted-code language="HTML" code='
+            <gtx-file-drop-area
+                (fileDragEnter)="draggingFileOnThis = true"
+                (fileDragLeave)="draggingFileOnThis = false"
+                (fileDrop)="onDropFiles($event)"
+                (pageDragEnter)="draggingFileOnPage = true"
+                (pageDragLeave)="draggingFileOnPage = false"
+            >
+                Drop files here
+            </gtx-file-drop-area>
+        '></gtx-highlighted-code>
+    </div>
+</gtx-demo-block>
+
+<gtx-demo-block demoTitle="Tracking Drag/Drop State with a Directive Reference Variable">
+    <div class="demo-result">
+
+        <gtx-file-drop-area #droparea="gtxFileDropArea"
+            [class.dragging-over]="droparea.dragHovered"
+            [class.dragging-in-page]="droparea.pageDragHovered"
+            (fileDrop)="droppedFilesC = $event">
+                Drop files here
+        </gtx-file-drop-area>
+
+        <p>Properties of the <code>FileDropArea</code> reference variable:</p>
+
+        <table class="log-table highlight" style="display: inline-block">
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Current Value</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><code>dragHovered</code></td>
+                    <td><code>{{ droparea.dragHovered | json }}</code></td>
+                </tr>
+                <tr>
+                    <td><code>draggedFiles</code></td>
+                    <td><code>{{ droparea.draggedFiles | json }}</code></td>
+                </tr>
+                <tr>
+                    <td><code>draggedFiles$ | async</code></td>
+                    <td><code>{{ droparea.draggedFiles$ | async | json }}</code></td>
+                </tr>
+                <tr>
+                    <td><code>pageDragHovered</code></td>
+                    <td><code>{{ droparea.pageDragHovered | json }}</code></td>
+                </tr>
+                <tr>
+                    <td><code>filesDraggedInPage</code></td>
+                    <td><code>{{ droparea.filesDraggedInPage | json }}</code></td>
+                </tr>
+                <tr>
+                    <td><code>filesDraggedInPage$ | async</code></td>
+                    <td><code>{{ droparea.filesDraggedInPage$ | async | json }}</code></td>
+                </tr>
+            </tbody>
+        </table>
+
+    </div>
+    <div class="demo-code">
+        <gtx-highlighted-code language="HTML" code='
+            <gtx-file-drop-area #area="gtxFileDropArea" (fileDrop)="droppedFiles = $event">Drop files here</gtx-file-drop-area>
+            <td>(( droparea.dragHovered | json ))</td>
+            <td>(( droparea.draggedFiles | json ))</td>
+            <td>(( droparea.draggedFiles$ | async | json ))</td>
+            <td>(( droparea.filesDraggedInPage | json ))</td>
+            <td>(( droparea.filesDraggedInPage$ | async | json ))</td>
+        '></gtx-highlighted-code>
+    </div>
+</gtx-demo-block>
+
+<gtx-demo-block demoTitle="Usage on Other Components/Elements">
+    <div class="demo-result">
+
+        <p>Below is a <a routerLink="/sortable-list">SortableList</a> that accepts files via drag & drop.</p>
+
+        <gtx-sortable-list (dragEnd)="reorderList($event)"
+            gtxFileDropArea #listArea="gtxFileDropArea"
+            [class.dragging-over]="listArea.dragHovered"
+            [class.dragging-in-page]="listArea.filesDraggedInPage"
+            (fileDrop)="addFilesToReorderableList($event)">
+
+                <gtx-sortable-item *ngFor="let listFile of reorderableFiles">
+                    <gtx-contents-list-item>
+                        <strong class="filename">{{ listFile.name }} <small>{{ listFile.type }}</small></strong>
+                        <span class="filesize">{{ listFile.size }} B</span>
+                    </gtx-contents-list-item>
+                </gtx-sortable-item>
+
+                <gtx-contents-list-item *ngIf="!reorderableFiles.length && !listArea.filesDraggedInPage">
+                    <em class="placeholder">No files in the list.</em>
+                </gtx-contents-list-item>
+
+                <gtx-contents-list-item *ngIf="listArea.filesDraggedInPage">
+                    <strong class="placeholder">Drop a file here!</strong>
+                </gtx-contents-list-item>
+
+        </gtx-sortable-list>
+
+    </div>
+    <div class="demo-code">
+        <gtx-highlighted-code language="HTML" code='
+            <gtx-sortable-list
+                gtxFileDropArea #list="gtxFileDropArea"
+                [class.dragging-over]="list.dragHovered"
+                [class.dragging-in-page]="list.pageDragHovered"
+                (fileDrop)="addFiles($event)">
+
+                    <gtx-sortable-item *ngFor="let file of listFiles"> ... </gtx-sortable-item>
+
+                    <gtx-contents-list-item *ngIf="!listFiles.length && !list.pageDragHovered">
+                        No files in the list.
+                    </gtx-contents-list-item>
+
+                    <gtx-contents-list-item *ngIf="list.pageDragHovered">
+                        Drop a file here!
+                    </gtx-contents-list-item>
+
+            </gtx-sortable-list>
+
+            <gtx-file-drop-area #droparea="gtxFileDropArea" (fileDrop)="droppedFiles = $event">Drop files here</gtx-file-drop-area>
+            <p>Files dragged in the active page: <code>(( droparea.filesDraggedInPage ))</code></p>
+            <p>Files dragged over the droparea: <code>(( droparea.dragHovered ))</code></p>
+        '></gtx-highlighted-code>
+    </div>
+</gtx-demo-block>
+
+<gtx-demo-block demoTitle="Accepting Only Specific File Types">
+    <div class="demo-result">
+
+        <div gtxFileDropArea [gtxFileDropArea]="{accept: 'text/*'}" #textDrop="gtxFileDropArea"
+            (fileDrop)="droppedTextFiles = droppedTextFiles.concat($event)"
+            (fileDropReject)="rejectedTextFiles = rejectedTextFiles.concat($event)"
+            [class.dragging-over]="textDrop.dragHovered"
+            [class.dragging-in-page]="textDrop.pageDragHovered">
+                This drop area only accepts text files.
+        </div>
+        <ul><li *ngFor="let textFile of droppedTextFiles">{{ textFile.name }} <small>{{ textFile.type }}</small></li></ul>
+        <ul><li *ngFor="let rejectedTextFile of rejectedTextFiles"><s>{{ rejectedTextFile.name }} <small>{{ rejectedTextFile.type }}</small></s></li></ul>
+
+        <div gtxFileDropArea [gtxFileDropArea]="{accept: 'image/*, !image/gif'}" #imageDrop="gtxFileDropArea"
+            (fileDrop)="droppedImages = droppedImages.concat($event)"
+            (fileDropReject)="rejectedImages = rejectedImages.concat($event)"
+            [class.dragging-over]="imageDrop.dragHovered"
+            [class.dragging-in-page]="imageDrop.pageDragHovered">
+                Images are accepted on this, but no GIFs.
+        </div>
+        <ul><li *ngFor="let image of droppedImages">{{ image.name }} <small>{{ image.type }}</small></li></ul>
+        <ul><li *ngFor="let rejectedImage of rejectedImages"><s>{{ rejectedImage.name }} <small>{{ rejectedImage.type }}</small></s></li></ul>
+
+    </div>
+    <div class="demo-code">
+        <gtx-highlighted-code language="HTML" code='
+            <div [gtxFileDropArea]="{accept: &#39;text/*&#39;}">
+                This drop area only accepts text files.
+            </div>
+
+            <div [gtxFileDropArea]="{accept: &#39;image/*, !image/gif&#39;}">
+                Only images are accepted by this one, but no GIFs.
+            </div>
+        '></gtx-highlighted-code>
+    </div>
+</gtx-demo-block>
+
+
+<h4>Preventing accidental file drop on the page / browser tab</h4>
+<p>
+    When the user drags a file into the page and misses a drop area,
+    the dropped file will be downloaded or opened by the browser, exiting the app.
+    To prevent that from happening, use the <code>gtxPreventFileDrop</code> directive.
+</p>
+<p>
+    The directive accepts a value of <code>true</code>/<code>false</code>/<code>"page"</code>
+    and defaults to <code>true</code>.
+</p>
+<gtx-demo-block demoTitle="Preventing file drop on the whole page">
+    <div class="demo-result">
+        <p>Setting to <code>"page"</code> will deny file drop events outside of <code>FileDropArea</code>.</p>
+        <gtx-highlighted-code language="HTML" code='
+            <app gtxPreventFileDrop="page">
+                <p>Dropping files here is denied</p>
+                <p gtxFileDropArea>Dropping files here is allowed</p>
+            </app>
+        '></gtx-highlighted-code>
+
+        <div [gtxPreventFileDrop]="preventOnPage ? 'page' : false"></div>
+        <gtx-checkbox [(ngModel)]="preventOnPage" label="Prevent background file drop on the whole page"></gtx-checkbox>
+
+    </div>
+    <div class="demo-code">
+        <gtx-highlighted-code language="HTML" code='
+            <div [gtxPreventFileDrop]="preventOnPage ? &#39;page&#39; : false"></div>
+            <gtx-checkbox [(ngModel)]="preventOnPage" label="Prevent background file drop on the whole page"></gtx-checkbox>
+        '></gtx-highlighted-code>
+    </div>
+</gtx-demo-block>
+
+<gtx-demo-block demoTitle="Preventing file drop on specific elements">
+    <div class="demo-result">
+        <div class="outlined-block" gtxPreventFileDrop>This container does not accept files.</div>
+        <div class="outlined-block" gtxPreventFileDrop="true">This container does not accept files.</div>
+        <div class="outlined-block" [gtxPreventFileDrop]="true">This container does not accept files.</div>
+        <div class="outlined-block" [gtxPreventFileDrop]="preventLocal">This container does<span *ngIf="preventLocal"> not</span> accept files.
+            <gtx-checkbox [(ngModel)]="preventLocal" label="Prevent file drop in this box"></gtx-checkbox>
+        </div>
+    </div>
+    <div class="demo-code">
+        <gtx-highlighted-code language="HTML" code='
+            <div gtxPreventFileDrop>This does not accept files</div>
+            <div gtxPreventFileDrop="true">This does not accept files</div>
+            <div [gtxPreventFileDrop]="true">This does not accept files</div>
+            <div [gtxPreventFileDrop]="prevent">This does not accept files if prevent is true</div>
+        '></gtx-highlighted-code>
+    </div>
+</gtx-demo-block>
+
+
+<h4>Reacting to the Global Drag/Drop State</h4>
+<p>
+    Inject the <code>PageFileDragHandler</code> service in your component to track when files
+    are dragged onto or off the page and query their mime types if supported by the browser.
+    If the browser does not report a mime-type for exotic file types, <code>"unknown/unknown"</code>
+    is returned instead.
+</p>
+<gtx-demo-block demoTitle="Properties and Methods">
+    <div class="demo-result">
+        <p>Properties and methods of the <code>PageFileDragHandler</code> service:</p>
+        <table class="log-table highlight" style="display: inline-block">
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Current Value</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><code>filesDragged</code></td>
+                    <td><code>{{ dragdrop.filesDragged | json }}</code></td>
+                </tr>
+                <tr>
+                    <td><code>filesDragged$ | async</code></td>
+                    <td><code>{{ dragdrop.filesDragged$ | async | json }}</code></td>
+                </tr>
+                <tr>
+                    <td><code>anyDraggedFileIs("image/jpeg")</code></td>
+                    <td><code>{{ dragdrop.anyDraggedFileIs("image/jpeg") | json }}</code></td>
+                </tr>
+                <tr>
+                    <td><code>anyDraggedFileIs("text/plain")</code></td>
+                    <td><code>{{ dragdrop.anyDraggedFileIs("text/plain") | json }}</code></td>
+                </tr>
+                <tr>
+                    <td><code>allDraggedFilesAre("image/*, !image/gif")</code></td>
+                    <td><code>{{ dragdrop.allDraggedFilesAre("image/*, !image/gif") | json }}</code></td>
+                </tr>
+                <tr>
+                    <td><code>allDraggedFilesAre("text/plain")</code></td>
+                    <td><code>{{ dragdrop.allDraggedFilesAre("text/plain") | json }}</code></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <div class="demo-code">
+        <gtx-highlighted-code language="TypeScript" code='
+            class Component {
+                constructor(private dragdrop: PageFileDragHandler) { }
+            }
+        '></gtx-highlighted-code>
+        <gtx-highlighted-code language="HTML" code='
+            <tr><td>filesDragged</td> <td>(( dragdrop.filesDragged ))</td></tr>
+            <tr><td>filesDragged$ | json</td> <td>(( dragdrop.filesDragged$ | async ))</td></tr>
+            <tr><td>anyDraggedFileIs("image/jpeg")</td> <td>(( dragdrop.anyDraggedFileIs("image/jpeg") ))</td></tr>
+            <tr><td>anyDraggedFileIs("text/plain")</td> <td>(( dragdrop.anyDraggedFileIs("text/plain") ))</td></tr>
+            <tr><td>allDraggedFilesAre("image/*, !image/gif")</td> <td>(( dragdrop.allDraggedFilesAre("image/*, !image/gif") ))</td></tr>
+            <tr><td>allDraggedFilesAre("text/plain")</td> <td>(( dragdrop.allDraggedFilesAre("text/plain") ))</td></tr>
+        '></gtx-highlighted-code>
+    </div>
+</gtx-demo-block>
+
+<gtx-demo-block demoTitle="Events">
+    <div class="demo-result">
+        <div gtxFileDropArea #eventDrop="gtxFileDropArea"
+            [class.dragging-over]="eventDrop.dragHovered"
+            [class.dragging-in-page]="dragdrop.pageDragHovered">
+                Drag files into the page or drop here to trigger events
+        </div>
+        <p>Events of the <code>PageFileDragHandler</code> service:</p>
+        <table class="log-table highlight" style="display: inline-block">
+            <thead>
+                <tr>
+                    <th>{{ serviceEvents.length }} events
+                        <em *ngIf="serviceEvents.length > 10"> ({{ serviceEvents.length - 10 }} hidden)</em>
+                        <gtx-button flat size="small" *ngIf="serviceEvents.length > 0" (click)="serviceEvents = []">
+                            <i class="material-icons">clear</i>
+                        </gtx-button>
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let serviceEvent of (serviceEvents | slice:-10)">
+                    <td>{{ serviceEvent }}</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <div class="demo-code">
+        <gtx-highlighted-code language="TypeScript" code='
+            class Component {
+                constructor(private dragdrop: PageFileDragHandler) {
+                    this.subscriptions = [
+                        dragdrop.dragStatusChanged.subscribe(...),
+                        dragdrop.draggedIn.subscribe(...),
+                        dragdrop.draggedOut.subscribe(...),
+                        dragdrop.dropped.subscribe(...),
+                        dragdrop.dropPrevented.subscribe(...)
+                    ];
+                }
+                ngOnDestroy() {
+                    this.subscriptions.forEach(s => s.unsubscribe());
+                }
+            }
+        '></gtx-highlighted-code>
+    </div>
+</gtx-demo-block>
