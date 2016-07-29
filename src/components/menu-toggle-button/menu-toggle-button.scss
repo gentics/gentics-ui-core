@@ -6,12 +6,12 @@ gtx-menu-toggle-button {
     }
 
     &:hover {
-        > .bar {
+        .bar {
             background: white;
         }
     }
 
-    > .bar {
+    .bar {
         @extend .z-depth-1;
         display: block;
         height: $width / 10;
@@ -22,17 +22,17 @@ gtx-menu-toggle-button {
     }
 
     &.active {
-        > .bar {
+        .bar {
             @extend .z-depth-0;
             background: $gtx-color-primary;
         }
-        > .top {
+        .top {
             transform: translateY($width / 3.33) rotateZ(45deg);
         }
-        > .bottom {
+        .bottom {
             transform: translateY(-$width / 3.33) rotateZ(-45deg);
         }
-        > .middle {
+        .middle {
             width: 0;
         }
     }

@@ -11,15 +11,18 @@ import {Component, HostBinding, Input} from '@angular/core';
  *
  * The colors can be configured by locally defining the following rules:
  * ```css
- * gtx-menu-toggle-button > .bar { background-color: someColor; }
- * gtx-menu-toggle-button.active > .bar { background-color: someOtherColor; }
+ * gtx-menu-toggle-button .bar { background-color: someColor; }
+ * gtx-menu-toggle-button.active .bar { background-color: someOtherColor; }
  * ```
  */
 @Component({
     selector: 'gtx-menu-toggle-button',
-    template: `<div class="bar top"></div>
-               <div class="bar middle"></div>
-               <div class="bar bottom"></div>`
+    template: `
+        <div>
+            <div class="bar top"></div>
+            <div class="bar middle"></div>
+            <div class="bar bottom"></div>
+        </div>`
 })
 export class MenuToggleButton {
     @HostBinding('class.active')
