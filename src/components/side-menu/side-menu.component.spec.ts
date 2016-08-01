@@ -39,7 +39,6 @@ describe('SideMenu', () => {
                 .then(fixture => {
                     let testInstance: TestComponent = fixture.componentInstance;
                     let buttonDel: DebugElement = getToggleButtonDebugElement(fixture);
-                    console.log(buttonDel.nativeElement);
                     spyOn(testInstance, 'menuChanged');
                     testInstance.menuVisible = true;
                     fixture.detectChanges();
