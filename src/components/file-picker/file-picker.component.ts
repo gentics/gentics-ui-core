@@ -58,6 +58,7 @@ export class FilePicker implements OnInit, OnDestroy {
         let usedValue = value == undefined ? '*' : value;
         if (usedValue !== this._accept) {
             this._accept = usedValue;
+            this._inputAccept = usedValue.replace(/,/g, ';');
             this.setDropAreaOptions();
         }
     }
@@ -68,6 +69,18 @@ export class FilePicker implements OnInit, OnDestroy {
     @Input() set size(val: 'small' | 'regular' | 'large') {
         this._size = val == undefined ? 'regular' : val;
     }
+
+    /**
+     * Display the button as a flat button or not. Forwarded to the Button component.
+     */
+    @Input() set flat(val: boolean) {
+        this._flat = val != undefined && val !== false;
+    }
+
+    /**
+     * Sets the type of the button. Forwarded to the Button component.
+     */
+    @Input() type: 'primary' | 'secondary' | 'success' | 'warning' | 'alert' = 'primary';
 
     /**
      * Icon button without text. Forwarded to the Button component.
@@ -89,7 +102,9 @@ export class FilePicker implements OnInit, OnDestroy {
 
     private _icon: boolean = false;
     private _size: string = 'regular';
+    private _flat = false;
     private _accept: string = '*';
+    private _inputAccept: string = '*';
     private _disabled = false;
     private _multiple = true;
     private _subscriptions: Subscription[] = [];

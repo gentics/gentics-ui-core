@@ -1,7 +1,7 @@
 <div class="hidden-file-wrapper">
     <input type="file" class="hidden-file-input"
         tabindex="-1"
-        [accept]="_accept"
+        [accept]="_inputAccept"
         [disabled]="_disabled"
         [multiple]="_multiple"
         (change)="onChange($event, fileInput)"
@@ -10,7 +10,7 @@
 </div>
 <gtx-button (click)="!_disabled && fileInput.click()" [disabled]="_disabled"
             [size]="_size" [icon]="_icon"
-            [type]="dropArea?.pageDragHovered ? 'success' : 'primary'"
-            [flat]="dropArea?.dragHovered">
+            [type]="dropArea?.pageDragHovered ? 'success' : type"
+            [flat]="_flat || dropArea?.dragHovered">
     <ng-content></ng-content>
 </gtx-button>

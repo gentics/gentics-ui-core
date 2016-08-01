@@ -1,13 +1,15 @@
 import {Directive, HostListener, Input, OnDestroy} from '@angular/core';
 
 import {PageFileDragHandler} from './page-file-drag-handler.service';
+import {DragStateTrackerFactory} from './drag-state-tracker.service';
 import {getDataTransfer, transferHasFiles} from './drag-drop-utils';
 
 /**
  * Prevents accidentally dropping files outside of a {@link FileDropArea}
  */
 @Directive({
-    selector: '[gtxPreventFileDrop]'
+    selector: '[gtxPreventFileDrop]',
+    providers: [PageFileDragHandler, DragStateTrackerFactory]
 })
 export class PreventFileDrop implements OnDestroy {
 
