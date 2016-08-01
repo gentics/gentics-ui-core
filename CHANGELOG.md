@@ -1,3 +1,7 @@
+## 0.7.1 (2016-08-01)
+### Fixes
+* Fixed broken import names which don't work in compiled JavaScript
+
 ## 0.7.0 (2016-07-29)
 ### Features
 * Add FilePicker component
