@@ -153,7 +153,7 @@
     </div>
     <div class="demo-code">
         <gtx-highlighted-code language="HTML" code='
-            <gtx-file-drop-area #area="gtxFileDropArea" (fileDrop)="droppedFiles = $event">Drop files here</gtx-file-drop-area>
+            <gtx-file-drop-area #droparea="gtxFileDropArea" (fileDrop)="droppedFiles = $event">Drop files here</gtx-file-drop-area>
             <td>(( droparea.dragHovered | json ))</td>
             <td>(( droparea.draggedFiles | json ))</td>
             <td>(( droparea.draggedFiles$ | async | json ))</td>
