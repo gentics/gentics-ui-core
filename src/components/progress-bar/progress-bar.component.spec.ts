@@ -100,7 +100,8 @@ describe('ProgressBar', () => {
 
                 const instance: TestComponent = fixture.componentInstance;
                 const progressBar: ProgressBar = instance.progressBar;
-                const progressIndicator: HTMLElement = fixture.debugElement.query(By.directive(ProgressBar))
+                const progressIndicator: HTMLElement = fixture.debugElement
+                    .query(By.directive(ProgressBar))
                     .nativeElement.querySelector('.progress-indicator');
 
                 expect(progressIndicator).not.toBeNull(
@@ -149,7 +150,7 @@ describe('ProgressBar', () => {
 
                 const progressIndicator: HTMLElement = component.nativeElement.querySelector('.progress-indicator');
                 expect(progressIndicator).toBeDefined('Progress indicator not found.');
-                let oldWidth = progressIndicator.offsetWidth;
+                const widthAtZeroPercent = progressIndicator.offsetWidth;
 
                 instance.loadProgress = 0;
                 instance.loadingSomething = true;
@@ -161,47 +162,44 @@ describe('ProgressBar', () => {
                 instance.loadProgress = 0.6;
                 fixture.detectChanges();
                 tick();
-                let newWidth = progressIndicator.offsetWidth;
-                expect(newWidth).toBeGreaterThan(oldWidth,
-                    `expected progress indicator width to grow when setting "progress" ` +
-                    `but it was ${oldWidth}px before and is ${newWidth}px after`);
+                const widthAtSixtyPercent = progressIndicator.offsetWidth;
+                expect(widthAtSixtyPercent).toBeGreaterThan(widthAtZeroPercent,
+                    'expected progress indicator width to grow when setting "progress" from 0% to 60%');
 
-                oldWidth = newWidth;
                 instance.loadProgress = 0.8;
                 fixture.detectChanges();
                 tick();
-                newWidth = progressIndicator.offsetWidth;
+                const widthAtEightyPercent = progressIndicator.offsetWidth;
 
-                expect(newWidth).toBeGreaterThan(oldWidth,
-                    `expected progress indicator width to grow when setting "progress" ` +
-                    `but it was ${oldWidth}px before and is ${newWidth}px after`);
+                expect(widthAtEightyPercent).toBeGreaterThan(widthAtSixtyPercent,
+                    'expected progress indicator width to grow when setting "progress" from 60% to 80%');
             })
         ))
     );
 
     describe('with Promises:', () => {
 
-        let promise: Promise<any>;
-        let resolvePromise: Function;
-        let rejectPromise: Function;
-
-        beforeEach(() => {
-            promise = <any> new Promise<any>((resolve, reject) => {
-                resolvePromise = resolve;
-                rejectPromise = reject;
+        function createPromise(): Promise<any> & { resolve: Function, reject: Function } {
+            let resolve: Function;
+            let reject: Function;
+            const promise = new Promise<any>((resolvePromise, rejectPromise) => {
+                resolve = resolvePromise;
+                reject = rejectPromise;
             });
-        });
+            return Object.assign(promise, { resolve, reject });
+        }
 
         it('start() changes the "active" property when the passed Promise is resolved',
             fakeAsync(inject([TestComponentBuilder], (tcb: TestComponentBuilder) =>
                 tcb.createAsync(ProgressBar)
                 .then(fixture => {
-                    const progressBar: ProgressBar = fixture.componentRef.instance;
+                    const progressBar = fixture.componentRef.instance;
+                    const promise = createPromise();
 
                     progressBar.start(promise);
                     expect(progressBar.active).toBe(true);
 
-                    resolvePromise();
+                    promise.resolve();
                     tick();
                     expect(progressBar.active).toBe(false);
                 })
@@ -213,12 +211,13 @@ describe('ProgressBar', () => {
                 tcb.createAsync(ProgressBar)
                 .then(fixture => {
                     const progressBar = fixture.componentRef.instance;
+                    const promise = createPromise();
 
                     progressBar.start(promise);
                     expect(progressBar.active).toBe(true,
                         'Not active after calling start()');
 
-                    rejectPromise();
+                    promise.reject();
                     tick();
                     expect(progressBar.active).toBe(false,
                         'Still active after rejecting promise');
@@ -239,7 +238,7 @@ describe('ProgressBar', () => {
                     expect(progressBar.active).toBe(false,
                         'Active without a Promise');
 
-                    testComponent.promise = promise;
+                    testComponent.promise = createPromise();
                     fixture.detectChanges();
                     expect(progressBar.active).toBe(true,
                         'Not active when assigned a Promise');
@@ -256,19 +255,41 @@ describe('ProgressBar', () => {
                 .then(fixture => {
                     const testComponent = fixture.componentRef.instance;
                     const progressBar = testComponent.progressBar;
-
-                    expect(progressBar.active).toBe(false,
-                        'Active without a Promise');
+                    const promise = createPromise();
 
                     testComponent.promise = promise;
                     fixture.detectChanges();
-                    expect(progressBar.active).toBe(true,
-                        'Not active when assigned a Promise');
+                    expect(progressBar.active).toBe(true);
 
-                    resolvePromise();
+                    promise.resolve();
                     tick();
                     expect(progressBar.active).toBe(false,
                         'Still active after resolving Promise.');
+                })
+            ))
+        );
+
+        it('"for" only observes the currently attached Promise',
+            fakeAsync(inject([TestComponentBuilder], (tcb: TestComponentBuilder) =>
+                tcb.createAsync(ProgressBar)
+                .then(fixture => {
+                    const progressBar = fixture.componentRef.instance;
+                    const firstPromise = createPromise();
+                    const secondPromise = createPromise();
+
+                    progressBar.for = firstPromise;
+                    expect(progressBar.active).toBe(true, 'Not active after assigning first Promise');
+
+                    progressBar.for = secondPromise;
+                    expect(progressBar.active).toBe(true, 'Not active after assigning second Promise');
+
+                    firstPromise.resolve();
+                    tick();
+                    expect(progressBar.active).toBe(true, 'Not active after resolving first Promise');
+
+                    secondPromise.resolve();
+                    tick();
+                    expect(progressBar.active).toBe(false, 'Active after resolving second Promise');
                 })
             ))
         );
@@ -282,7 +303,7 @@ describe('ProgressBar', () => {
                 tcb.createAsync(ProgressBar)
                 .then(fixture => {
                     const progressBar = fixture.componentRef.instance;
-                    let observable = new Subject<number>();
+                    const observable = new Subject<number>();
 
                     progressBar.start(observable);
                     expect(progressBar.active).toBe(true,
@@ -299,7 +320,7 @@ describe('ProgressBar', () => {
                 tcb.createAsync(ProgressBar)
                 .then(fixture => {
                     const progressBar = fixture.componentRef.instance;
-                    let observable = new Subject<number>();
+                    const observable = new Subject<number>();
 
                     expect(progressBar.active).toBe(false);
 
@@ -323,7 +344,7 @@ describe('ProgressBar', () => {
                 .then(fixture => {
                     const testComponent = fixture.componentRef.instance;
                     const progressBar = testComponent.progressBar;
-                    let observable = new Subject<number>();
+                    const observable = new Subject<number>();
 
                     fixture.detectChanges();
                     expect(progressBar.active).toBe(false,
@@ -346,7 +367,7 @@ describe('ProgressBar', () => {
                 .then(fixture => {
                     const testComponent = fixture.componentRef.instance;
                     const progressBar = testComponent.progressBar;
-                    let observable = new Subject<number>();
+                    const observable = new Subject<number>();
                     testComponent.observable = observable;
                     fixture.detectChanges();
 
@@ -354,11 +375,11 @@ describe('ProgressBar', () => {
                     expect(progressIndicator).toBeDefined('Progress indicator element not found.');
                     observable.next(0.25);
                     fixture.detectChanges();
-                    let oldWidth = progressIndicator.offsetWidth;
+                    const oldWidth = progressIndicator.offsetWidth;
 
                     observable.next(0.75);
                     fixture.detectChanges();
-                    let newWidth = progressIndicator.offsetWidth;
+                    const newWidth = progressIndicator.offsetWidth;
                     expect(newWidth).toBeGreaterThan(oldWidth,
                         'Progress bar did not grow after emitting values.');
 
@@ -374,7 +395,7 @@ describe('ProgressBar', () => {
                 tcb.createAsync(ProgressBar)
                 .then(fixture => {
                     const progressBar = fixture.componentRef.instance;
-                    let observable = new Subject<number>();
+                    const observable = new Subject<number>();
 
                     progressBar.for = observable;
                     expect(progressBar.active).toBe(true);
@@ -390,13 +411,36 @@ describe('ProgressBar', () => {
                 tcb.createAsync(ProgressBar)
                 .then(fixture => {
                     const progressBar = fixture.componentRef.instance;
-                    let observable = new Subject<number>();
+                    const observable = new Subject<number>();
 
                     progressBar.for = observable;
                     expect(progressBar.active).toBe(true);
 
                     observable.error();
                     expect(progressBar.active).toBe(false);
+                })
+            ))
+        );
+
+        it('"for" only observes the currently assigned Observable',
+            fakeAsync(inject([TestComponentBuilder], (tcb: TestComponentBuilder) =>
+                tcb.createAsync(ProgressBar)
+                .then(fixture => {
+                    const progressBar = fixture.componentRef.instance;
+                    const firstObservable = new Subject<number>();
+                    const secondObservable = new Subject<number>();
+
+                    progressBar.for = firstObservable;
+                    expect(progressBar.active).toBe(true, 'Not active after assigning first Observable');
+
+                    progressBar.for = secondObservable;
+                    expect(progressBar.active).toBe(true, 'Not active after assigning second Observable');
+
+                    firstObservable.complete();
+                    expect(progressBar.active).toBe(true, 'Not active after first Observable completes');
+
+                    secondObservable.complete();
+                    expect(progressBar.active).toBe(false, 'Still active after second Observable completes');
                 })
             ))
         );

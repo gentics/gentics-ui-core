@@ -1,10 +1,4 @@
-import {
-    Component,
-    ElementRef,
-    Input,
-    OnDestroy,
-    ViewChild
-} from '@angular/core';
+import {Component, ElementRef, Input, NgZone, OnDestroy, ViewChild} from '@angular/core';
 import {Subscribable} from 'rxjs/Observable';
 
 function isPromise(obj: any): obj is PromiseLike<any> {
@@ -14,6 +8,8 @@ function isPromise(obj: any): obj is PromiseLike<any> {
 function isSubscribable(obj: any): obj is Subscribable<any> {
     return typeof obj === 'object' && obj != null && typeof obj.subscribe === 'function';
 }
+
+function noop(): void {}
 
 /**
  * A progress bar that attachs to the top of the parent container and can be used to display activity or progress.
@@ -34,8 +30,6 @@ function isSubscribable(obj: any): obj is Subscribable<any> {
  *
  * The ProgressBar instance exposes two public methods, `start()`, `complete()` which can be used
  * to manually control the progress bar visibility and progress in a parent component.
- *
- * An example usage follows:
  *
  * ```typescript
  * export class App {
@@ -68,16 +62,16 @@ export class ProgressBar implements OnDestroy {
      * and grows until "active" is set to false.
      */
     @Input() get active(): boolean {
-        return this._active;
+        return this.isActive;
     }
     set active(active: boolean) {
-        if (active && !this._active) {
+        if (active && !this.isActive) {
             this.start();
-        } else if (!active && this._active) {
+        } else if (!active && this.isActive) {
             this.complete();
         }
     }
-    private _active: boolean = false;
+    private isActive: boolean = false;
 
     /**
      * Sets the progress of the progress bar as a fraction [0...1].
@@ -122,8 +116,13 @@ export class ProgressBar implements OnDestroy {
      * or when an Observable emits values or completes.
      */
     @Input() set for(promiseOrObservable: Promise<any> | Subscribable<number>) {
+        this.cleanup();
+
         if (promiseOrObservable) {
+            this.progressPercentage = 0;
             this.start(promiseOrObservable);
+        } else if (this.isActive) {
+            this.complete();
         }
     }
 
@@ -133,18 +132,24 @@ export class ProgressBar implements OnDestroy {
     private determinate: boolean = false;
     private animationRequest: number = undefined;
     private lastAnimationFrame: number = undefined;
-    private removePendingHandler: () => void = undefined;
+    private removePendingHandler: () => void = noop;
+    private cleanupSubscription: () => void = noop;
 
     @ViewChild('progressBarWrapper') private progressBarWrapper: ElementRef;
     @ViewChild('progressIndicator') private progressIndicator: ElementRef;
+
+
+    constructor(private zone: NgZone) {}
 
     /**
      * Starts showing the progress bar in "indeterminate" mode.
      * Can be passed a Promise or an Observable which animates the progress bar when resolved or rejected.
      */
     public start(promiseOrObservable?: PromiseLike<any> | Subscribable<any>): void {
-        if (!this._active) {
-            this._active = true;
+        this.cleanupSubscription();
+
+        if (!this.isActive) {
+            this.isActive = true;
             this.lastAnimationFrame = undefined;
             this.progressBarVisible = true;
             if (!this.determinate) {
@@ -154,20 +159,29 @@ export class ProgressBar implements OnDestroy {
         }
 
         if (isPromise(promiseOrObservable)) {
+            let observing = true;
             promiseOrObservable.then(
-                () => this.complete(),
-                () => this.complete()
+                () => observing && this.complete(),
+                () => observing && this.complete()
             );
+            this.cleanupSubscription = () => {
+                observing = false;
+                this.cleanupSubscription = noop;
+            };
         } else if (isSubscribable(promiseOrObservable)) {
-            promiseOrObservable.subscribe(
+            let sub = promiseOrObservable.subscribe(
                 (value: any) => {
-                    if (typeof value === 'number' && value >= 0 && value <= 1) {
+                    if (typeof value === 'number') {
                         this.progress = value;
                     }
                 },
                 (error: any) => this.complete(),
                 () => this.complete()
             );
+            this.cleanupSubscription = () => {
+                sub.unsubscribe();
+                this.cleanupSubscription = noop;
+            };
         }
     }
 
@@ -175,29 +189,34 @@ export class ProgressBar implements OnDestroy {
      * Animates the progress bar to 100% and hides it
      */
     public complete(): void {
-        if (this._active) {
-            this._active = false;
+        if (this.isActive) {
+            this.isActive = false;
 
             if (this.determinate) {
                 if (this.progressPercentage == 100) {
                     this.fadeOutProgressBar();
                 } else {
                     this.transitionTo100Percent()
-                        .then(() => this.fadeOutProgressBar());
+                        .then(() => {
+                            this.zone.runGuarded(() => this.fadeOutProgressBar());
+                        });
                 }
             }
         }
     }
 
     ngOnDestroy(): void {
+        this.cleanup();
+    }
+
+    private cleanup(): void {
         if (this.animationRequest) {
             cancelAnimationFrame(this.animationRequest);
             this.animationRequest = undefined;
         }
 
-        if (this.removePendingHandler) {
-            this.removePendingHandler();
-        }
+        this.removePendingHandler();
+        this.cleanupSubscription();
     }
 
     private fadeOutProgressBar(): Promise<void> {
@@ -214,7 +233,7 @@ export class ProgressBar implements OnDestroy {
             };
             this.removePendingHandler = () => {
                 element.removeEventListener('transitionend', callback);
-                this.removePendingHandler = undefined;
+                this.removePendingHandler = noop;
             };
             element.addEventListener('transitionend', callback);
             this.progressBarVisible = false;
@@ -225,17 +244,17 @@ export class ProgressBar implements OnDestroy {
         if (this.removePendingHandler) {
             this.removePendingHandler();
         }
-        return new Promise<void>( (resolve: () => void) => {
+        return new Promise<void>(resolve => {
             let element = this.progressIndicator.nativeElement;
             if (this.determinate) {
                 // transition the progress indicator in a cancelable way
                 let callback = () => {
                     this.removePendingHandler();
-                    resolve();
+                    this.zone.runGuarded(resolve);
                 };
                 this.removePendingHandler = () => {
                     element.removeEventListener('transitionend', callback);
-                    this.removePendingHandler = undefined;
+                    this.removePendingHandler = noop;
                 };
                 element.addEventListener('transitionend', callback);
                 this.progressPercentage = 100;
@@ -251,7 +270,10 @@ export class ProgressBar implements OnDestroy {
                     }
                 };
                 frameRequest = requestAnimationFrame(waitUntilDone);
-                this.removePendingHandler = () => cancelAnimationFrame(frameRequest);
+                this.removePendingHandler = () => {
+                    cancelAnimationFrame(frameRequest);
+                    this.removePendingHandler = noop;
+                };
             }
         });
     }
@@ -260,13 +282,13 @@ export class ProgressBar implements OnDestroy {
         this.animationRequest = undefined;
         if (this.determinate) { return; }
 
-        let now = performance ? performance.now() : Date.now();
+        let now = typeof performance === 'object' ? performance.now() : Date.now();
         let delta = (now - this.lastAnimationFrame) / 1000;
 
         if (!this.lastAnimationFrame) {
             // Animation starting
             this.progressPercentage = 0;
-        } else if (this._active) {
+        } else if (this.isActive) {
             // Animate "active" state
             let factor = delta * (900 / this.indeterminateSpeed);
             let percent = this.progressPercentage + factor * Math.pow(1 - Math.sqrt(100 - this.progressPercentage), 2);

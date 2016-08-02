@@ -2,6 +2,9 @@
 ### Features
 * Add "for" input to ProgressBar that accepts an Observable or a Promise
 
+### Fixes
+* ProgressBar cleans up when using start() multiple times
+
 ## 0.7.1 (2016-08-01)
 ### Fixes
 * Fix broken import names of 0.7.0 which don't work in compiled JavaScript

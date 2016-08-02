@@ -80,7 +80,7 @@
 </gtx-demo-block>
 
 
-<gtx-demo-block demoTitle="Show progress for a Promise">
+<gtx-demo-block demoTitle="Show Progress for a Promise / Observable">
     <div class="demo-result">
         <p>
             When calling <code>start()</code> on the component, a <code>Promise</code>
@@ -92,6 +92,10 @@
                 Start something that returns a Promise
             </gtx-button>
         </div>
+        <p>
+            Instead of a <code>Promise</code>, an <code>Observable</code> can be
+            passed to <code>start()</code> as well.
+        </p>
     </div>
     <div class="demo-code">
         <gtx-highlighted-code language="TypeScript" code='
@@ -104,6 +108,39 @@
                 <gtx-button (click)="waiting.start(waitPromise(2000))" [disabled]="waiting.active">
                     Start something that returns a Promise
                 </gtx-button>
+        '></gtx-highlighted-code>
+    </div>
+</gtx-demo-block>
+
+
+<gtx-demo-block demoTitle="Bind to a Promise / Observable">
+    <div class="demo-result">
+        <p>
+            When a Promise or an observable is bound to <code>for</code>, its emitted value
+            and completion/error state will animate the progress bar.
+        </p>
+        <gtx-progress-bar [for]="observableProgress"></gtx-progress-bar>
+        <div class="column small-8">
+            <gtx-button (click)="createObservable()">Create an Observable</gtx-button>
+        </div>
+    </div>
+    <div class="demo-code">
+        <gtx-highlighted-code language="HTML" code='
+                <gtx-progress-bar [for]="progress"></gtx-progress-bar>
+                <gtx-button (click)="start()">Create an Observable</gtx-button>
+        '></gtx-highlighted-code>
+        <gtx-highlighted-code language="TypeScript" code='
+                progress: Observable<number>;
+                start() {
+                    this.progress = new Observable<number>((observer: Observer<number>) => {
+                        observer.next(0);
+                        setTimeout(() => observer.next(0.2), 300);
+                        setTimeout(() => observer.next(0.5), 800);
+                        setTimeout(() => observer.next(0.6), 1000);
+                        setTimeout(() => observer.next(0.75), 1200);
+                        setTimeout(() => observer.complete(), 2000);
+                    });
+                }
         '></gtx-highlighted-code>
     </div>
 </gtx-demo-block>
