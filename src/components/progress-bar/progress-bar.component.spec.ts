@@ -2,7 +2,7 @@ import {Component, ViewChild, DebugElement} from '@angular/core';
 import {fakeAsync, inject, tick} from '@angular/core/testing';
 import {ComponentFixture, TestComponentBuilder} from '@angular/compiler/testing';
 import {By} from '@angular/platform-browser';
-import {Observable, Observer} from 'rxjs';
+import {Observable, Subject} from 'rxjs';
 
 import {ProgressBar} from './progress-bar.component';
 
@@ -11,28 +11,19 @@ describe('ProgressBar', () => {
 
     it('starts out as "not active"',
         fakeAsync(inject([TestComponentBuilder], (tcb: TestComponentBuilder) =>
-            tcb.overrideTemplate(TestComponent, `
-                <gtx-progress-bar></gtx-progress-bar>
-            `)
-            .createAsync(TestComponent)
+            tcb.createAsync(ProgressBar)
             .then(fixture => {
-                fixture.detectChanges();
-
-                const instance: TestComponent = fixture.componentInstance;
-                const progressBar = instance.progressBar;
-
-                expect(progressBar).not.toBeNull();
-                expect(progressBar).not.toBeUndefined();
+                const progressBar = fixture.componentRef.instance;
+                expect(progressBar).toBeDefined();
                 expect(progressBar.active).toBe(false);
             })
         ))
     );
 
-    it('returns the value bound to "active"',
+    it('"active" returns the value bound to it',
         fakeAsync(inject([TestComponentBuilder], (tcb: TestComponentBuilder) =>
             tcb.overrideTemplate(TestComponent, `
-                <gtx-progress-bar [active]="loadingSomething">
-                </gtx-progress-bar>
+                <gtx-progress-bar [active]="loadingSomething"></gtx-progress-bar>
             `)
             .createAsync(TestComponent)
             .then(fixture => {
@@ -54,15 +45,10 @@ describe('ProgressBar', () => {
 
     it('sets the "active" property when calling "start()" and "complete()"',
         fakeAsync(inject([TestComponentBuilder], (tcb: TestComponentBuilder) =>
-            tcb.overrideTemplate(TestComponent, `
-                <gtx-progress-bar></gtx-progress-bar>
-            `)
-            .createAsync(TestComponent)
+            tcb.createAsync(ProgressBar)
             .then(fixture => {
                 fixture.detectChanges();
-
-                const instance: TestComponent = fixture.componentInstance;
-                const progressBar: ProgressBar = instance.progressBar;
+                const progressBar: ProgressBar = fixture.componentRef.instance;
 
                 expect(progressBar.active).toBe(false);
                 progressBar.start();
@@ -88,13 +74,13 @@ describe('ProgressBar', () => {
 
                 expect(progressBar.active).toBe(false);
 
-                instance.loadProgress = 0;
+                instance.loadProgress = 0.0;
                 instance.loadingSomething = true;
                 fixture.detectChanges();
 
                 expect(progressBar.active).toBe(true);
 
-                instance.loadProgress = 100;
+                instance.loadProgress = 1.0;
                 fixture.detectChanges();
                 tick();
                 expect(progressBar.active).toBe(false);
@@ -137,6 +123,7 @@ describe('ProgressBar', () => {
                 });
 
                 tick(100);
+                return fixture.whenStable();
             })
         ))
     );
@@ -151,24 +138,17 @@ describe('ProgressBar', () => {
             .then(fixture => {
                 fixture.detectChanges();
 
-                const instance: TestComponent = fixture.componentInstance;
+                const instance = fixture.componentRef.instance;
                 const progressBar: ProgressBar = instance.progressBar;
                 const component: DebugElement = fixture.debugElement
                     .query(By.directive(ProgressBar));
 
-                expect(component).not.toBeNull('the component is null');
-                expect(component).not.toBeUndefined('the component can not be found');
+                expect(component).toBeDefined('Component can not be found.');
                 expect(progressBar.active).toBe(false);
+                expect(component.nativeElement).toBeDefined('No nativeElement on component.');
 
-                expect(component.nativeElement).not.toBeNull(
-                    'the ProgressBar component does not have a nativeElement');
-
-                const progressIndicator: HTMLElement = component.nativeElement
-                    .querySelector('.progress-indicator');
-
-                expect(progressIndicator).not.toBeNull(
-                    'the progress bar indicator can not be found');
-
+                const progressIndicator: HTMLElement = component.nativeElement.querySelector('.progress-indicator');
+                expect(progressIndicator).toBeDefined('Progress indicator not found.');
                 let oldWidth = progressIndicator.offsetWidth;
 
                 instance.loadProgress = 0;
@@ -178,7 +158,7 @@ describe('ProgressBar', () => {
                 expect(progressBar.active).toBe(true,
                     'progressBar.active was expected to be true');
 
-                instance.loadProgress = 60;
+                instance.loadProgress = 0.6;
                 fixture.detectChanges();
                 tick();
                 let newWidth = progressIndicator.offsetWidth;
@@ -187,7 +167,7 @@ describe('ProgressBar', () => {
                     `but it was ${oldWidth}px before and is ${newWidth}px after`);
 
                 oldWidth = newWidth;
-                instance.loadProgress = 80;
+                instance.loadProgress = 0.8;
                 fixture.detectChanges();
                 tick();
                 newWidth = progressIndicator.offsetWidth;
@@ -199,115 +179,229 @@ describe('ProgressBar', () => {
         ))
     );
 
-    it('start(Promise) changes the "active" property when the passed Promise is resolved',
-        fakeAsync(inject([TestComponentBuilder], (tcb: TestComponentBuilder) =>
-            tcb.overrideTemplate(TestComponent, `
-                <gtx-progress-bar></gtx-progress-bar>
-            `)
-            .createAsync(TestComponent)
-            .then(fixture => {
-                fixture.detectChanges();
-                const progressBar: ProgressBar = fixture.componentInstance.progressBar;
+    describe('with Promises:', () => {
 
-                let resolve: () => void;
-                let promise = new Promise<void>( (done: () => void) => {
-                    resolve = done;
-                });
+        let promise: Promise<any>;
+        let resolvePromise: Function;
+        let rejectPromise: Function;
 
-                progressBar.start(promise);
-                expect(progressBar.active).toBe(true,
-                    'Expected active == true after calling start()');
-                resolve();
-                tick();
-                expect(progressBar.active).toBe(false,
-                    'Expected active == false after resolving passed promise');
-            })
-        ))
-    );
+        beforeEach(() => {
+            promise = <any> new Promise<any>((resolve, reject) => {
+                resolvePromise = resolve;
+                rejectPromise = reject;
+            });
+        });
 
+        it('start() changes the "active" property when the passed Promise is resolved',
+            fakeAsync(inject([TestComponentBuilder], (tcb: TestComponentBuilder) =>
+                tcb.createAsync(ProgressBar)
+                .then(fixture => {
+                    const progressBar: ProgressBar = fixture.componentRef.instance;
 
-    it('start(Promise) changes the "active" property when the passed Promise is rejected',
-        fakeAsync(inject([TestComponentBuilder], (tcb: TestComponentBuilder) =>
-            tcb.overrideTemplate(TestComponent, `
-                <gtx-progress-bar></gtx-progress-bar>
-            `)
-            .createAsync(TestComponent)
-            .then(fixture => {
-                fixture.detectChanges();
-                const progressBar: ProgressBar = fixture.componentInstance.progressBar;
+                    progressBar.start(promise);
+                    expect(progressBar.active).toBe(true);
 
-                let reject: () => void;
-                let promise = new Promise<void>( (_: Function, fail: () => void) => {
-                    reject = fail;
-                });
+                    resolvePromise();
+                    tick();
+                    expect(progressBar.active).toBe(false);
+                })
+            ))
+        );
 
-                progressBar.start(promise);
-                expect(progressBar.active).toBe(true,
-                    'Expected active == true after calling start()');
-                reject();
-                tick();
-                expect(progressBar.active).toBe(false,
-                    'Expected active == false after rejecting promise');
-            })
-        ))
-    );
+        it('start() changes the "active" property when the passed Promise is rejected',
+            fakeAsync(inject([TestComponentBuilder], (tcb: TestComponentBuilder) =>
+                tcb.createAsync(ProgressBar)
+                .then(fixture => {
+                    const progressBar = fixture.componentRef.instance;
 
-    it('start(Observable) changes the "active" property when the Observable completes',
-        fakeAsync(inject([TestComponentBuilder], (tcb: TestComponentBuilder) =>
-            tcb.overrideTemplate(TestComponent, `
-                <gtx-progress-bar></gtx-progress-bar>
-            `)
-            .createAsync(TestComponent)
-            .then(fixture => {
-                fixture.detectChanges();
-                const progressBar: ProgressBar = fixture.componentInstance.progressBar;
+                    progressBar.start(promise);
+                    expect(progressBar.active).toBe(true,
+                        'Not active after calling start()');
 
-                let done: Function;
-                let observable: Observable<number> = Observable.create( (observer: Observer<any>) => {
-                    done = () => observer.complete();
-                });
+                    rejectPromise();
+                    tick();
+                    expect(progressBar.active).toBe(false,
+                        'Still active after rejecting promise');
+                })
+            ))
+        );
 
-                progressBar.start(observable);
-                expect(progressBar.active).toBe(true,
-                    'Expected active == true after start(Observable)');
-                done();
-                expect(progressBar.active).toBe(false,
-                    'Expected active == false after calling Observable.done()');
-            })
-        ))
-    );
+        it('"for" activates the progress bar when a promise is assigned',
+            fakeAsync(inject([TestComponentBuilder], (tcb: TestComponentBuilder) =>
+                tcb.overrideTemplate(TestComponent, `
+                    <gtx-progress-bar [for]="promise"></gtx-progress-bar>
+                `)
+                .createAsync(TestComponent)
+                .then(fixture => {
+                    const testComponent = fixture.componentRef.instance;
+                    const progressBar = testComponent.progressBar;
 
-    it('start(Observable) changes the "active" property when the Observable has errors',
-        fakeAsync(inject([TestComponentBuilder], (tcb: TestComponentBuilder) =>
-            tcb.overrideTemplate(TestComponent, `
-                <gtx-progress-bar></gtx-progress-bar>
-            `)
-            .createAsync(TestComponent)
-            .then(fixture => {
-                fixture.detectChanges();
-                const progressBar: ProgressBar = fixture.componentInstance.progressBar;
+                    expect(progressBar.active).toBe(false,
+                        'Active without a Promise');
 
-                let done: Function;
-                let error: Function;
-                let observable: Observable<number> = Observable.create( (observer: Observer<any>) => {
-                    done = () => observer.complete();
-                    error = () => observer.error(null);
-                });
+                    testComponent.promise = promise;
+                    fixture.detectChanges();
+                    expect(progressBar.active).toBe(true,
+                        'Not active when assigned a Promise');
+                })
+            ))
+        );
 
-                expect(progressBar.active).toBe(false);
-                progressBar.start(observable);
-                expect(progressBar.active).toBe(true,
-                    'Expected active == true after start(Observable)');
-                error();
-                expect(progressBar.active).toBe(false,
-                    'Expected active == false after Observable.error()');
-                done();
-                expect(progressBar.active).toBe(false,
-                    'Observable.done() should be ignored after Observable.error()');
-            })
-        ))
-    );
+        it('"for" activates the progress bar based on a promise',
+            fakeAsync(inject([TestComponentBuilder], (tcb: TestComponentBuilder) =>
+                tcb.overrideTemplate(TestComponent, `
+                    <gtx-progress-bar [for]="promise"></gtx-progress-bar>
+                `)
+                .createAsync(TestComponent)
+                .then(fixture => {
+                    const testComponent = fixture.componentRef.instance;
+                    const progressBar = testComponent.progressBar;
 
+                    expect(progressBar.active).toBe(false,
+                        'Active without a Promise');
+
+                    testComponent.promise = promise;
+                    fixture.detectChanges();
+                    expect(progressBar.active).toBe(true,
+                        'Not active when assigned a Promise');
+
+                    resolvePromise();
+                    tick();
+                    expect(progressBar.active).toBe(false,
+                        'Still active after resolving Promise.');
+                })
+            ))
+        );
+
+    });
+
+    describe('with Observables:', () => {
+
+        it('start() changes the "active" property when the passed Observable completes',
+            fakeAsync(inject([TestComponentBuilder], (tcb: TestComponentBuilder) =>
+                tcb.createAsync(ProgressBar)
+                .then(fixture => {
+                    const progressBar = fixture.componentRef.instance;
+                    let observable = new Subject<number>();
+
+                    progressBar.start(observable);
+                    expect(progressBar.active).toBe(true,
+                        'Not active after calling start(Observable)');
+                    observable.complete();
+                    expect(progressBar.active).toBe(false,
+                        'Still active after Observable is completed');
+                })
+            ))
+        );
+
+        it('start() changes the "active" property when the passed Observable emits errors',
+            fakeAsync(inject([TestComponentBuilder], (tcb: TestComponentBuilder) =>
+                tcb.createAsync(ProgressBar)
+                .then(fixture => {
+                    const progressBar = fixture.componentRef.instance;
+                    let observable = new Subject<number>();
+
+                    expect(progressBar.active).toBe(false);
+
+                    progressBar.start(observable);
+                    expect(progressBar.active).toBe(true,
+                        'Not active after calling start(Observable)');
+
+                    observable.error();
+                    expect(progressBar.active).toBe(false,
+                        'Still active after Observable.error()');
+                })
+            ))
+        );
+
+        it('"for" starts the progress bar when assigned an observable',
+            fakeAsync(inject([TestComponentBuilder], (tcb: TestComponentBuilder) =>
+                tcb.overrideTemplate(TestComponent, `
+                    <gtx-progress-bar [for]="observable"></gtx-progress-bar>
+                `)
+                .createAsync(TestComponent)
+                .then(fixture => {
+                    const testComponent = fixture.componentRef.instance;
+                    const progressBar = testComponent.progressBar;
+                    let observable = new Subject<number>();
+
+                    fixture.detectChanges();
+                    expect(progressBar.active).toBe(false,
+                        'Active without an Observable');
+
+                    testComponent.observable = observable;
+                    fixture.detectChanges();
+                    expect(progressBar.active).toBe(true,
+                        'Not active when assigned an Observable');
+                })
+            ))
+        );
+
+        it('"for" animates the progress bar based on an observable',
+            fakeAsync(inject([TestComponentBuilder], (tcb: TestComponentBuilder) =>
+                tcb.overrideTemplate(TestComponent, `
+                    <gtx-progress-bar [for]="observable"></gtx-progress-bar>
+                `)
+                .createAsync(TestComponent)
+                .then(fixture => {
+                    const testComponent = fixture.componentRef.instance;
+                    const progressBar = testComponent.progressBar;
+                    let observable = new Subject<number>();
+                    testComponent.observable = observable;
+                    fixture.detectChanges();
+
+                    const progressIndicator: HTMLElement = fixture.nativeElement.querySelector('.progress-indicator');
+                    expect(progressIndicator).toBeDefined('Progress indicator element not found.');
+                    observable.next(0.25);
+                    fixture.detectChanges();
+                    let oldWidth = progressIndicator.offsetWidth;
+
+                    observable.next(0.75);
+                    fixture.detectChanges();
+                    let newWidth = progressIndicator.offsetWidth;
+                    expect(newWidth).toBeGreaterThan(oldWidth,
+                        'Progress bar did not grow after emitting values.');
+
+                    observable.complete();
+                    expect(progressBar.active).toBe(false,
+                        'Still active after Observable.complete()');
+                })
+            ))
+        );
+
+        it('"for" deactivates the progress bar when the passed observable is completed',
+            fakeAsync(inject([TestComponentBuilder], (tcb: TestComponentBuilder) =>
+                tcb.createAsync(ProgressBar)
+                .then(fixture => {
+                    const progressBar = fixture.componentRef.instance;
+                    let observable = new Subject<number>();
+
+                    progressBar.for = observable;
+                    expect(progressBar.active).toBe(true);
+
+                    observable.complete();
+                    expect(progressBar.active).toBe(false);
+                })
+            ))
+        );
+
+        it('"for" deactivates the progress bar when the passed observable has errors',
+            fakeAsync(inject([TestComponentBuilder], (tcb: TestComponentBuilder) =>
+                tcb.createAsync(ProgressBar)
+                .then(fixture => {
+                    const progressBar = fixture.componentRef.instance;
+                    let observable = new Subject<number>();
+
+                    progressBar.for = observable;
+                    expect(progressBar.active).toBe(true);
+
+                    observable.error();
+                    expect(progressBar.active).toBe(false);
+                })
+            ))
+        );
+
+    });
 });
 
 
@@ -317,6 +411,8 @@ describe('ProgressBar', () => {
 })
 class TestComponent {
     @ViewChild(ProgressBar) progressBar: ProgressBar;
+    promise: Promise<any>;
+    observable: Observable<number>;
     loadingSomething: boolean = false;
     loadProgress: number = 0;
 }

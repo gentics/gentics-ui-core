@@ -80,16 +80,16 @@ export class ProgressBar implements OnDestroy {
     private _active: boolean = false;
 
     /**
-     * Sets the progress of the progress bar in percent. When set, the progress bar
-     * is in "determinate" mode and will only update when the "progress" value changes
-     * or `complete()` is called.
+     * Sets the progress of the progress bar as a fraction [0...1].
+     * When set, the progress bar is in "determinate" mode and will only update
+     * when the "progress" value changes or `complete()` is called.
      */
     @Input() set progress(progress: number) {
         if (progress == null) {
             this.determinate = false;
         } else {
             this.determinate = true;
-            progress = Math.max(0, Math.min(progress, 100));
+            progress = Math.max(0, Math.min(100 * progress, 100));
             if (progress !== this.progressPercentage) {
                 if (progress == 100) {
                     this.complete();
@@ -114,6 +114,16 @@ export class ProgressBar implements OnDestroy {
             }
         } else if (!isNaN(speed)) {
             this.indeterminateSpeed = speed;
+        }
+    }
+
+    /**
+     * Automatically starts, stops and updates the progress bar for a Promise
+     * or when an Observable emits values or completes.
+     */
+    @Input() set for(promiseOrObservable: Promise<any> | Subscribable<number>) {
+        if (promiseOrObservable) {
+            this.start(promiseOrObservable);
         }
     }
 
@@ -150,7 +160,11 @@ export class ProgressBar implements OnDestroy {
             );
         } else if (isSubscribable(promiseOrObservable)) {
             promiseOrObservable.subscribe(
-                null,
+                (value: any) => {
+                    if (typeof value === 'number' && value >= 0 && value <= 1) {
+                        this.progress = value;
+                    }
+                },
                 (error: any) => this.complete(),
                 () => this.complete()
             );

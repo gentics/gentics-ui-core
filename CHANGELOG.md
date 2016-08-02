@@ -1,30 +1,37 @@
+## 0.7.2 (2016-08-XX)
+### Features
+* Add "for" input to ProgressBar that accepts an Observable or a Promise
+
 ## 0.7.1 (2016-08-01)
 ### Fixes
-* Fixed broken import names which don't work in compiled JavaScript
+* Fix broken import names of 0.7.0 which don't work in compiled JavaScript
+* Fix MenuToggleButton not accepting clicks / hover
 
 ## 0.7.0 (2016-07-29)
 ### Features
 * Add FilePicker component
 * Add FileDropArea & PreventFileDrop directives
 * Add PageDragDropFileHandler service
-* ModalService.fromComponent() now accepts a parameter defining local variables.
+* ModalService.fromComponent() now accepts a parameter defining local variables
 * Split SideMenu and MenuToggleButton into separate components
-* SideMenu can now have its width and position configured.
+* SideMenu can now have its width and position configured
+
 ### Fixes
-* (Docs) Improved parsing & display of auto docs.
-* (Docs) Renamed title attribute to prevent browsers from displaying tooltips on hover.
+* (docs) Improved parsing & display of auto docs
+* (docs) Renamed title attribute to prevent browsers from displaying tooltips on hover
+* (docs) Show angular template errors in console instead of silently failing
 
 ## 0.6.1 (2016-07-19)
 ### Fixes
-* ModalService templates named correctly and exported.
-* ModalService styling.
-* Fixed layout issues with Checkbox & RadioButton.
+* ModalService templates named correctly and exported
+* ModalService styling
+* Fix layout issues with Checkbox & RadioButton
 
 ## 0.6.0 (2016-07-19)
 ### Features
-* SearchBar now has a ValueAccessor, and `hideClearButton` attribute.
-* ModalService introduced for more flexible promise-based modals.
-* Added version number to docs.
+* SearchBar now has a ValueAccessor, and `hideClearButton` attribute
+* ModalService introduced for more flexible promise-based modals
+* Add version number to docs
 
 ## 0.5.0 (2016-07-07)
 ### Features
@@ -33,14 +40,14 @@
 * (build) Updated jscs version
 
 ### Fixes
-* Resizing SplitViewContainer above iframe works
-* Performance problem with innerHTML in docs resolved 
-* "Cannot read property of undefined" in Notifications fixed
-* (docs) prevent angular from sanitizing strings in AutoDocs
+* Fix resizing SplitViewContainer above iframe
+* Resolved Performance problem with innerHTML in docs
+* Fix "Cannot read property of undefined" in Notifications
+* (docs) Prevent angular from sanitizing strings in AutoDocs
 
 ## 0.4.0 (2016-06-20)
 ### Features
-* gulp "dist:watch" task, internal tasks not exposed
+* Add gulp "dist:watch" task, internal tasks not exposed anymore
 * Form components can be imported individually
 
 ### Fixes
@@ -52,7 +59,7 @@
 ### Features 
 * SearchBar now has a "clear" button and event
 * SearchBar can project content
-* Created OverlayHostService & refactored the way that overlays are created
+* Add OverlayHostService & refactored the way that overlays are created
 * (build) Updated tslint version
 * (tests) Add source map support for karma tests
 
@@ -66,7 +73,7 @@
 * Upgrade to typings 1.0.4
 
 ### Fixes
-* Gulp tasks exit with a non-zero code when errors occur
+* Gulp tasks now exit with a non-zero code when errors occur
 * Check sass validity in npm package build process
 
 ## 0.2.0 (2016-06-01)
@@ -91,9 +98,8 @@
 * Add show-on-hover class to ContentsListItem
 
 ### Fixes
-* (docs) fix docs parser regex
-* (build) Upgrade to Gulp v4
-
+* (docs) Fix docs parser regex
+* (build) Upgrade to gulp v4
 
 ## v0.1.0
 Basic selection of components, built on angular2 rc.0
