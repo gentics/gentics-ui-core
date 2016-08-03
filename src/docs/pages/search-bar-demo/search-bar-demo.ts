@@ -1,7 +1,7 @@
 import {Component} from '@angular/core';
 import {SearchBar} from '../../../index';
 import {Autodocs, DemoBlock, HighlightedCode} from '../../components';
-import {Checkbox} from '../../../../dist/components/checkbox/checkbox.component';
+import {Checkbox} from '../../../components/checkbox/checkbox.component';
 
 @Component({
     template: require('./search-bar-demo.tpl.html'),

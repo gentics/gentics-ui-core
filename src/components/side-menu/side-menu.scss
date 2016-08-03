@@ -30,10 +30,6 @@ gtx-side-menu {
 
         &.left {
             left: 0;
-            @media #{$small-and-down} {
-                width: 100vw;
-                transform: translateX(-100vw) !important;
-            }
 
             > .toggle-button {
                 float: right;
@@ -44,10 +40,6 @@ gtx-side-menu {
 
         &.right {
             right: 0;
-            @media #{$small-and-down} {
-                width: 100vw;
-                transform: translateX(100vw) !important;
-            }
 
             > .toggle-button {
                 top: 5px;
@@ -73,6 +65,9 @@ gtx-side-menu {
             @extend .z-depth-2;
             @media #{$small-and-down} {
                 box-shadow: none;
+                @media #{$small-and-down} {
+                    width: 100% !important;
+                }
             }
             transform: translateX(0);
 

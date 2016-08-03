@@ -4,6 +4,7 @@
 
 ### Fixes
 * ProgressBar cleans up when using start() multiple times
+* SideMenu fix positioning for small screens.
 
 ## 0.7.1 (2016-08-01)
 ### Fixes
