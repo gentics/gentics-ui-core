@@ -11,20 +11,20 @@ export class ProgressBarDemo {
     componentSource: string = require('!!raw!../../../components/progress-bar/progress-bar.component.ts');
 
     fileUploading = false;
-    filePercentage = 0;
+    fileProgress = 0;
     loading = false;
     progressSpeed = 500;
     observableProgress: Observable<number>;
 
     startFileUpload(): void {
-        this.filePercentage = 0;
+        this.fileProgress = 0;
         this.fileUploading = true;
         setTimeout(() => this.simulateProgress(), 300);
     }
 
     simulateProgress(): void {
-        this.filePercentage = Math.min(100, this.filePercentage + Math.random() * 10);
-        if (this.filePercentage == 100) {
+        this.fileProgress = Math.min(1, this.fileProgress + Math.random() * 0.1);
+        if (this.fileProgress == 1) {
             setTimeout(() => this.fileUploading = false, 300);
         } else {
             setTimeout(() => this.simulateProgress(), Math.random() * 200 + 200);

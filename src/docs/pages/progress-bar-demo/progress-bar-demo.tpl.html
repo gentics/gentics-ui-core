@@ -4,7 +4,6 @@
 
 <h4>Demos</h4>
 
-
 <gtx-demo-block demoTitle="Indeterminate Progress">
     <div class="demo-result">
         <p>
@@ -34,7 +33,7 @@
             and for for actions which report their progress, like uploading a file to the server
             or operating large data sets in a web worker.
         </p>
-        <gtx-progress-bar [active]="fileUploading" [progress]="filePercentage"></gtx-progress-bar>
+        <gtx-progress-bar [active]="fileUploading" [progress]="fileProgress"></gtx-progress-bar>
         <div class="column small-8">
             <gtx-button (click)="startFileUpload()" [disabled]="fileUploading">Upload a file</gtx-button>
         </div>
@@ -42,16 +41,16 @@
     <div class="demo-code">
         <gtx-highlighted-code language="TypeScript" code='
                 startFileUpload() {
-                    this.filePercentage = 0;
+                    this.fileProgress = 0;
                     this.fileUploading = true;
                     uploadFileAsync();
                 }
                 onUploadProgress(uploaded, total) {
-                    this.filePercentage = uploaded / total;
+                    this.fileProgress = uploaded / total;
                 }
         '></gtx-highlighted-code>
         <gtx-highlighted-code language="HTML" code='
-                <gtx-progress-bar [active]="fileUploading" [progress]="filePercentage"></gtx-progress-bar>
+                <gtx-progress-bar [active]="fileUploading" [progress]="fileProgress"></gtx-progress-bar>
                 <gtx-button (click)="startFileUpload()" [disabled]="fileUploading">Upload a file</gtx-button>
         '></gtx-highlighted-code>
     </div>

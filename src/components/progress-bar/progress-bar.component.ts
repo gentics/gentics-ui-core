@@ -17,13 +17,14 @@ function noop(): void {}
  * or for indeterminate tasks for which only start/end calls exist, e.g. an xhr call.
  *
  * ```html
- * <!-- a progress bar without a known progress duration (indeterminate) -->
- * <gtx-progress-bar [active]="isLoadingData">
- * </gtx-progress-bar>
+ * <!-- progress bar without a known progress duration (indeterminate) -->
+ * <gtx-progress-bar [active]="isLoadingData"></gtx-progress-bar>
  *
- * <!-- a progress bar for tasks where the progress is known (determinate)-->
- * <gtx-progress-bar [active]="isUploadingFile" [progress]="uploadProgress">
- * </gtx-progress-bar>
+ * <!-- progress bar for tasks where the progress is known (determinate)-->
+ * <gtx-progress-bar [active]="isUploadingFile" [progress]="uploadProgress"></gtx-progress-bar>
+ *
+ * <!-- progress bar for a Promise or Observable -->
+ * <gtx-progress-bar [for]="backgroundProgress$"></gtx-progress-bar>
  * ```
  *
  * ##### Using the progress bar programmatically inside another component
