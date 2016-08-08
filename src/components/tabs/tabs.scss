@@ -1,0 +1,58 @@
+gtx-tabs {
+
+    width: 100%;
+    display: block;
+
+    > ul.tab-links {
+        margin: 0;
+        list-style-type: none;
+        border-bottom: 1px solid $gtx-color-very-light-gray;
+        text-transform: uppercase;
+
+        > li.tab-link {
+            @include noselect;
+            display: inline-block;
+            cursor: pointer;
+            border-bottom: 3px solid transparent;
+            color: $gtx-color-mid-gray;
+            transition: border 0.3s, color 0.2s;
+
+            &:hover {
+                color: $gtx-color-off-black;
+            }
+
+            &.is-active {
+                border-bottom-color: $gtx-tabs-active-border-color;
+
+                > a {
+                    color: $gtx-tabs-active-color;
+                }
+            }
+
+            &.disabled {
+                > a {
+                    color: $gtx-color-light-gray;
+                    cursor: default;
+                }
+            }
+
+            > a {
+                padding: 10px 20px;
+                &, &:link, &:visited {
+                    color: $gtx-color-dark-gray;
+                }
+            }
+        }
+    }
+
+    gtx-tab {
+        > .tab-content {
+            display: none;
+
+            &.is-active {
+                display: block;
+            }
+        }
+    }
+
+}

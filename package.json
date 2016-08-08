@@ -1,6 +1,6 @@
 {
   "name": "gentics-ui-core",
-  "version": "0.7.2",
+  "version": "0.8.0",
   "description": "Gentics UI Core Framework",
   "private": true,
   "main": "dist/index.js",
@@ -30,7 +30,7 @@
       "email": "m.bromley@gentics.com"
     }
   ],
-  "license": "ISC",
+  "license": "Commercial",
   "engines": {
     "node": ">= 6.0.0"
   },

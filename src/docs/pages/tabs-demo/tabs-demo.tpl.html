@@ -1,0 +1,59 @@
+<h3>Tabs</h3>
+
+<gtx-autodocs [source]="componentSource" type="component"></gtx-autodocs>
+
+<h4>Demos</h4>
+
+<gtx-demo-block demoTitle="Stateful Tabs">
+    <div class="demo-result">
+        <gtx-tabs>
+            <gtx-tab title="Tab 1">Tab 1 Content</gtx-tab>
+            <gtx-tab title="Tab 2">Tab 2 Content</gtx-tab>
+            <gtx-tab title="Tab 3">Tab 3 Content</gtx-tab>
+        </gtx-tabs>
+    </div>
+    <div class="demo-code">
+        <gtx-highlighted-code language="HTML" code='
+                  <gtx-tabs>
+                      <gtx-tab title="Tab 1">Tab 1 Content</gtx-tab>
+                      <gtx-tab title="Tab 2">Tab 2 Content</gtx-tab>
+                      <gtx-tab title="Tab 3">Tab 3 Content</gtx-tab>
+                  </gtx-tabs>
+        '></gtx-highlighted-code>
+    </div>
+</gtx-demo-block>
+
+<gtx-demo-block demoTitle="Pure Tabs">
+    <div class="demo-result">
+        <div class="row">
+            <div class="column">
+                <gtx-select label="Select Active Tab" [(ngModel)]="activeTab">
+                    <option>tab1</option>
+                    <option>tab2</option>
+                    <option>tab3</option>
+                </gtx-select>
+            </div>
+            <div class="column">
+                <gtx-tabs pure [activeId]="activeTab">
+                    <gtx-tab title="Tab 1" id="tab1">Tab 1 Content</gtx-tab>
+                    <gtx-tab title="Tab 2" id="tab2">Tab 2 Content</gtx-tab>
+                    <gtx-tab title="Tab 3" id="tab3">Tab 3 Content</gtx-tab>
+                </gtx-tabs>
+            </div>
+        </div>
+    </div>
+    <div class="demo-code">
+        <gtx-highlighted-code language="HTML" code='
+                    <gtx-select label="Select Active Tab" [(ngModel)]="activeTab">
+                        <option>tab1</option>
+                        <option>tab2</option>
+                        <option>tab3</option>
+                    </gtx-select>
+                    <gtx-tabs pure [activeId]="activeTab">
+                        <gtx-tab title="Tab 1" id="tab1">Tab 1 Content</gtx-tab>
+                        <gtx-tab title="Tab 2" id="tab2">Tab 2 Content</gtx-tab>
+                        <gtx-tab title="Tab 3" id="tab3">Tab 3 Content</gtx-tab>
+                    </gtx-tabs>
+        '></gtx-highlighted-code>
+    </div>
+</gtx-demo-block>

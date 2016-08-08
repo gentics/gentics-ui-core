@@ -1,6 +1,7 @@
-## 0.7.2 (2016-08-XX)
+## 0.8.0 (2016-08-XX)
 ### Features
 * Add "for" input to ProgressBar that accepts an Observable or a Promise
+* Add Tabs components
 
 ### Fixes
 * ProgressBar cleans up when using start() multiple times

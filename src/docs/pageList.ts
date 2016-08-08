@@ -28,6 +28,7 @@ import {TopBarDemo} from './pages/top-bar-demo/top-bar-demo';
 import {TypographyDemo} from './pages/typography-demo/typography-demo';
 import {ModalServiceDemo} from './pages/modal-service-demo/modal-service-demo';
 import {MenuToggleButtonDemo} from './pages/menu-toggle-button-demo/menu-toggle-button-demo';
+import {TabsDemo} from './pages/tabs-demo/tabs-demo';
 
 export interface IPageInfo {
     name: string;
@@ -180,6 +181,12 @@ export const pages: IPageInfo[] = [
         name: 'textarea',
         component: TextareaDemo,
         type: 'component'
+    },
+    {
+        name: 'tabs',
+        component: TabsDemo,
+        type: 'component',
+        keywords: ['']
     },
     {
         name: 'top-bar',
