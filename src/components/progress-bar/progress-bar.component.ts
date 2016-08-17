@@ -1,4 +1,4 @@
-import {ChangeDetectorRef, Component, ElementRef, Input, NgZone, OnDestroy, ViewChild} from '@angular/core';
+import {Component, ElementRef, Input, NgZone, OnDestroy, ViewChild} from '@angular/core';
 import {Subscribable} from 'rxjs/Observable';
 
 function isPromise(obj: any): obj is PromiseLike<any> {
@@ -82,8 +82,13 @@ export class ProgressBar implements OnDestroy {
     @Input() set progress(progress: number) {
         if (progress == null) {
             this.determinate = false;
+            this.wrapperClasses.add('is-indeterminate');
+            this.wrapperClasses.remove('is-determinate');
         } else {
             this.determinate = true;
+            this.wrapperClasses.add('is-determinate');
+            this.wrapperClasses.remove('is-indeterminate');
+
             progress = Math.max(0, Math.min(100 * progress, 100));
             if (progress !== this.progressPercentage) {
                 if (progress == 100) {
@@ -128,7 +133,6 @@ export class ProgressBar implements OnDestroy {
     }
 
     private progressPercentage: number = 0;
-    private progressBarVisible: boolean = false;
     private indeterminateSpeed: number = 500;
     private determinate: boolean = false;
     private animationRequest: number = undefined;
@@ -139,9 +143,11 @@ export class ProgressBar implements OnDestroy {
     @ViewChild('progressBarWrapper') private progressBarWrapper: ElementRef;
     @ViewChild('progressIndicator') private progressIndicator: ElementRef;
 
+    private wrapperClasses = { add(...cls: string[]): void {}, remove(...cls: string[]): void {} };
 
-    constructor(private changeDetector: ChangeDetectorRef,
-                private zone: NgZone) { }
+
+
+    constructor(private zone: NgZone) { }
 
     /**
      * Starts showing the progress bar in "indeterminate" mode.
@@ -153,15 +159,15 @@ export class ProgressBar implements OnDestroy {
         if (!this.isActive) {
             this.isActive = true;
             this.lastAnimationFrame = undefined;
-            this.progressBarVisible = true;
-            if (!this.determinate) {
-                this.setProgressBarWidth(0, 'immediate');
-                this.changeDetector.markForCheck();
-                this.animateIndeterminate();
-            } else {
+            this.wrapperClasses.add('visible', this.determinate ? 'is-determinate' : 'is-indeterminate');
+            this.wrapperClasses.remove(this.determinate ? 'is-indeterminate' : 'is-determinate');
+
+            if (this.determinate) {
                 this.setProgressBarWidth(this.progressPercentage, 'immediate');
+            } else {
+                this.setProgressBarWidth(0, 'immediate');
+                this.animateIndeterminate();
             }
-            this.changeDetector.markForCheck();
         }
 
         if (isPromise(promiseOrObservable)) {
@@ -188,6 +194,12 @@ export class ProgressBar implements OnDestroy {
                 sub.unsubscribe();
                 this.cleanupSubscription = noop;
             };
+        }
+    }
+
+    ngAfterViewInit(): void {
+        if (this.progressBarWrapper && this.progressBarWrapper.nativeElement) {
+            this.wrapperClasses = (<HTMLElement> this.progressBarWrapper.nativeElement).classList;
         }
     }
 
@@ -240,8 +252,7 @@ export class ProgressBar implements OnDestroy {
                 this.removePendingHandler = noop;
             };
             element.addEventListener('transitionend', callback);
-            this.progressBarVisible = false;
-            this.changeDetector.markForCheck();
+            this.wrapperClasses.remove('visible');
         }));
     }
 
