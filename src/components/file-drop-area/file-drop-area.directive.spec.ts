@@ -5,6 +5,7 @@ import {addProviders, async, fakeAsync, inject, tick} from '@angular/core/testin
 
 import {SpyEventTarget, triggerFakeDragEvent, subscribeSpyObserver} from '../../testing';
 import {DragStateTrackerFactory} from './drag-state-tracker.service';
+import {clientReportsMimeTypesOnDrag} from './drag-drop-utils';
 import {PageFileDragHandler, PAGE_FILE_DRAG_EVENT_TARGET} from './page-file-drag-handler.service';
 import {FileDropArea, FILE_DROPAREA_DRAG_EVENT_TARGET} from './file-drop-area.directive';
 
@@ -137,6 +138,10 @@ describe('File Drop Area:', () => {
 
             it('is only true if the dragged files match the "accept" option',
                 fakeAsync(inject([TestComponentBuilder], (tcb: TestComponentBuilder) => {
+                    if (!clientReportsMimeTypesOnDrag()) {
+                        return pending('Client does not report MIME type of dragged files.');
+                    }
+
                     tcb.overrideTemplate(TestComponent, `
                         <div [gtxFileDropArea]="{ accept: 'image/*' }"></div>
                     `)
@@ -371,6 +376,10 @@ describe('File Drop Area:', () => {
     describe('options', () => {
 
         describe('accept', () => {
+
+            if (!clientReportsMimeTypesOnDrag()) {
+                pending('Client does not report MIME type of dragged files.');
+            }
 
             it('filters result of "draggedFiles"',
                 fakeAsync(inject([TestComponentBuilder], (tcb: TestComponentBuilder) => {
