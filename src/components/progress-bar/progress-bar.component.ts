@@ -228,7 +228,7 @@ export class ProgressBar implements OnDestroy {
             this.removePendingHandler();
         }
 
-        return new Promise<void>( (resolve: () => void) => {
+        return new Promise<void>( (resolve: () => void) => this.zone.run(() => {
             let element = this.progressBarWrapper.nativeElement;
             const callback = () => {
                 this.removePendingHandler();
@@ -242,7 +242,7 @@ export class ProgressBar implements OnDestroy {
             element.addEventListener('transitionend', callback);
             this.progressBarVisible = false;
             this.changeDetector.markForCheck();
-        });
+        }));
     }
 
     private setProgressBarWidth(percent: number, immediate?: string): void {
