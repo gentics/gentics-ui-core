@@ -1,4 +1,4 @@
-import {Component, EventEmitter, Input, Output, Provider, forwardRef} from '@angular/core';
+import {ChangeDetectorRef, Component, ElementRef, EventEmitter, Input, Output, Provider, ViewChild, forwardRef} from '@angular/core';
 import {ControlValueAccessor, NG_VALUE_ACCESSOR} from '@angular/forms';
 
 export type CheckState = boolean | 'indeterminate';
@@ -53,6 +53,7 @@ export class Checkbox implements ControlValueAccessor {
         let nowChecked = val === true || <any> val === 'true' || <any> val === '';
         if (nowChecked != this.checkState) {
             this.onChange(this.checkState = nowChecked);
+            this.changeDetector.markForCheck();
         }
     }
 
@@ -112,11 +113,17 @@ export class Checkbox implements ControlValueAccessor {
      */
     @Output() change = new EventEmitter<CheckState>();
 
+
     private checkState: CheckState = false;
     /**
      * See note above on stateless mode.
      */
     private statelessMode: boolean = false;
+
+    @ViewChild('labelElement') private labelElement: ElementRef;
+
+
+    constructor(private changeDetector: ChangeDetectorRef) { }
 
     onBlur(): void {
         this.blur.emit(this.checkState);
@@ -130,12 +137,17 @@ export class Checkbox implements ControlValueAccessor {
     writeValue(value: any): void {
         if (value !== this.checkState) {
             this.checkState = value;
+            this.changeDetector.markForCheck();
             this.change.emit(value);
         }
     }
 
     ngOnInit(): void {
         this.onChange(this.checkState);
+    }
+
+    ngAfterViewInit(): void {
+        this.fixInitialAnimation();
     }
 
     registerOnChange(fn: Function): void { this.onChange = fn; }
@@ -161,6 +173,20 @@ export class Checkbox implements ControlValueAccessor {
             this.change.emit(newState);
             this.onChange(newState);
             return true;
+        }
+    }
+
+    /**
+     * This is a hacky fix to prevent Materialize from animating ticked checkboxes which
+     * kicks in when a checkbox is added to the dom with checked=false and immediately
+     * set to checked=true.
+     */
+    private fixInitialAnimation(): void {
+        if (this.labelElement && this.labelElement.nativeElement) {
+            let label: HTMLLabelElement = this.labelElement.nativeElement;
+            label.style.display = 'none';
+            let ignored = label.offsetWidth;
+            label.style.display = '';
         }
     }
 }
