@@ -1,4 +1,4 @@
-import {Component, ElementRef, Input, NgZone, OnDestroy, ViewChild} from '@angular/core';
+import {ChangeDetectorRef, Component, ElementRef, Input, NgZone, OnDestroy, ViewChild} from '@angular/core';
 import {Subscribable} from 'rxjs/Observable';
 
 function isPromise(obj: any): obj is PromiseLike<any> {
@@ -89,7 +89,7 @@ export class ProgressBar implements OnDestroy {
                 if (progress == 100) {
                     this.complete();
                 } else {
-                    this.progressPercentage = progress;
+                    this.setProgressBarWidth(progress);
                 }
             }
         }
@@ -120,7 +120,7 @@ export class ProgressBar implements OnDestroy {
         this.cleanup();
 
         if (promiseOrObservable) {
-            this.progressPercentage = 0;
+            this.setProgressBarWidth(0, 'immediate');
             this.start(promiseOrObservable);
         } else if (this.isActive) {
             this.complete();
@@ -140,7 +140,8 @@ export class ProgressBar implements OnDestroy {
     @ViewChild('progressIndicator') private progressIndicator: ElementRef;
 
 
-    constructor(private zone: NgZone) {}
+    constructor(private changeDetector: ChangeDetectorRef,
+                private zone: NgZone) { }
 
     /**
      * Starts showing the progress bar in "indeterminate" mode.
@@ -154,9 +155,13 @@ export class ProgressBar implements OnDestroy {
             this.lastAnimationFrame = undefined;
             this.progressBarVisible = true;
             if (!this.determinate) {
-                this.progressPercentage = 0;
+                this.setProgressBarWidth(0, 'immediate');
+                this.changeDetector.markForCheck();
                 this.animateIndeterminate();
+            } else {
+                this.setProgressBarWidth(this.progressPercentage, 'immediate');
             }
+            this.changeDetector.markForCheck();
         }
 
         if (isPromise(promiseOrObservable)) {
@@ -198,9 +203,7 @@ export class ProgressBar implements OnDestroy {
                     this.fadeOutProgressBar();
                 } else {
                     this.transitionTo100Percent()
-                        .then(() => {
-                            this.zone.runGuarded(() => this.fadeOutProgressBar());
-                        });
+                        .then(() => this.fadeOutProgressBar());
                 }
             }
         }
@@ -229,8 +232,8 @@ export class ProgressBar implements OnDestroy {
             let element = this.progressBarWrapper.nativeElement;
             const callback = () => {
                 this.removePendingHandler();
-                this.progressPercentage = 0;
-                resolve();
+                this.setProgressBarWidth(0, 'immediate');
+                this.zone.run(resolve);
             };
             this.removePendingHandler = () => {
                 element.removeEventListener('transitionend', callback);
@@ -238,7 +241,26 @@ export class ProgressBar implements OnDestroy {
             };
             element.addEventListener('transitionend', callback);
             this.progressBarVisible = false;
+            this.changeDetector.markForCheck();
         });
+    }
+
+    private setProgressBarWidth(percent: number, immediate?: string): void {
+        this.progressPercentage = percent;
+
+        const nativeElement: HTMLElement = this.progressIndicator && this.progressIndicator.nativeElement;
+        if (nativeElement) {
+            const style = nativeElement.style;
+            if (immediate) {
+                // Don't animate the change
+                style.transitionDuration = style.webkitTransitionDuration = '0s';
+                style.width = percent + '%';
+                let getWidthOnce = nativeElement.offsetWidth;
+                style.transitionDuration = style.webkitTransitionDuration = '';
+            } else {
+                style.width = percent + '%';
+            }
+        }
     }
 
     private transitionTo100Percent(): Promise<void> {
@@ -251,19 +273,19 @@ export class ProgressBar implements OnDestroy {
                 // transition the progress indicator in a cancelable way
                 let callback = () => {
                     this.removePendingHandler();
-                    this.zone.runGuarded(resolve);
+                    this.zone.run(resolve);
                 };
                 this.removePendingHandler = () => {
                     element.removeEventListener('transitionend', callback);
                     this.removePendingHandler = noop;
                 };
                 element.addEventListener('transitionend', callback);
-                this.progressPercentage = 100;
+                this.setProgressBarWidth(100);
             } else {
                 // Use requestAnimationFrame() in a cancelable way
                 let frameRequest: number;
                 let waitUntilDone = () => {
-                    if (this.progressPercentage == 100) {
+                    if (this.progressPercentage === 100) {
                         frameRequest = undefined;
                         resolve();
                     } else {
@@ -288,18 +310,18 @@ export class ProgressBar implements OnDestroy {
 
         if (!this.lastAnimationFrame) {
             // Animation starting
-            this.progressPercentage = 0;
+            this.setProgressBarWidth(0);
         } else if (this.isActive) {
             // Animate "active" state
             let factor = delta * (900 / this.indeterminateSpeed);
             let percent = this.progressPercentage + factor * Math.pow(1 - Math.sqrt(100 - this.progressPercentage), 2);
-            this.progressPercentage = Math.max(0, Math.min(100, percent));
+            this.setProgressBarWidth(Math.max(0, Math.min(100, percent)));
         } else if (this.progressPercentage < 100) {
             // Done - animate to 100%
             let speed = (900 / this.indeterminateSpeed);
             let factor = speed + Math.max(0, 1 - speed);
             let percent = this.progressPercentage + 250 * delta * factor;
-            this.progressPercentage = Math.max(0, Math.min(100, percent));
+            this.setProgressBarWidth(Math.max(0, Math.min(100, percent)));
         } else {
             this.fadeOutProgressBar();
             return;

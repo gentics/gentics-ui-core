@@ -5,7 +5,8 @@
 
 ### Fixes
 * ProgressBar cleans up when using start() multiple times
-* SideMenu fix positioning for small screens.
+* SideMenu fix positioning for small screens
+* ProgressBar works more reliably and with ChangeDetection.OnPush
 
 ## 0.7.1 (2016-08-01)
 ### Fixes

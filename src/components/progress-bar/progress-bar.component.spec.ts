@@ -1,5 +1,5 @@
 import {Component, ViewChild, DebugElement} from '@angular/core';
-import {fakeAsync, inject, tick} from '@angular/core/testing';
+import {fakeAsync, inject, tick, getTestInjector} from '@angular/core/testing';
 import {ComponentFixture, TestComponentBuilder} from '@angular/compiler/testing';
 import {By} from '@angular/platform-browser';
 import {Observable, Subject} from 'rxjs';
@@ -89,44 +89,44 @@ describe('ProgressBar', () => {
     );
 
     it('grows its progress indicator in indeterminate mode',
-        fakeAsync(inject([TestComponentBuilder], (tcb: TestComponentBuilder) =>
-            tcb.overrideTemplate(TestComponent, `
+        (done: DoneFn) => {
+            let tcb: TestComponentBuilder = getTestInjector().get(TestComponentBuilder);
+            tcb = tcb.overrideTemplate(TestComponent, `
                 <gtx-progress-bar [active]="loadingSomething">
                 </gtx-progress-bar>
-            `)
-            .createAsync(TestComponent)
-            .then(fixture => {
-                fixture.detectChanges();
+            `);
+            let fixture = tcb.createSync(TestComponent);
+            fixture.detectChanges();
 
-                const instance: TestComponent = fixture.componentInstance;
-                const progressBar: ProgressBar = instance.progressBar;
-                const progressIndicator: HTMLElement = fixture.debugElement
-                    .query(By.directive(ProgressBar))
-                    .nativeElement.querySelector('.progress-indicator');
+            const instance: TestComponent = fixture.componentInstance;
+            const progressBar: ProgressBar = instance.progressBar;
+            const progressIndicator: HTMLElement = fixture.debugElement
+                .query(By.directive(ProgressBar))
+                .nativeElement.querySelector('.progress-indicator');
 
-                expect(progressIndicator).not.toBeNull(
-                    'progress indicator can not be found');
+            expect(progressIndicator).not.toBeNull(
+                'progress indicator can not be found');
 
-                const oldWidth = parseFloat(progressIndicator.style.width);
-                instance.loadingSomething = true;
-                fixture.detectChanges();
-                expect(progressBar.active).toBe(true,
-                    'progressBar.active was expected to be true');
+            instance.loadingSomething = true;
+            fixture.detectChanges();
+            const oldWidth = progressIndicator.offsetWidth;
+            expect(progressBar.active).toBe(true,
+                'progressBar.active was expected to be true');
 
-                requestAnimationFrame(() => {
-                    fixture.detectChanges();
-                    const newWidth = parseFloat(progressIndicator.style.width);
+            requestAnimationFrame(() => {
+                try {
+                    const newWidth = progressIndicator.offsetWidth;
                     progressBar.active = false;
 
                     // This expectation might show up in other tests when it fails
                     expect(newWidth).toBeGreaterThan(oldWidth,
                         'ProgressBar: expected progress indicator to grow in indeterminate mode');
-                });
-
-                tick(100);
-                return fixture.whenStable();
-            })
-        ))
+                    done();
+                } catch (err) {
+                    done.fail(err);
+                }
+            });
+        }
     );
 
     it('grows its progress indicator with the "progress" property in determinate mode',
@@ -150,11 +150,11 @@ describe('ProgressBar', () => {
 
                 const progressIndicator: HTMLElement = component.nativeElement.querySelector('.progress-indicator');
                 expect(progressIndicator).toBeDefined('Progress indicator not found.');
-                const widthAtZeroPercent = progressIndicator.offsetWidth;
 
                 instance.loadProgress = 0;
                 instance.loadingSomething = true;
                 fixture.detectChanges();
+                const widthAtZeroPercent = progressIndicator.offsetWidth;
 
                 expect(progressBar.active).toBe(true,
                     'progressBar.active was expected to be true');
