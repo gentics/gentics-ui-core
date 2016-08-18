@@ -1,4 +1,4 @@
-import {Component, EmbeddedViewRef, ElementRef, Input, TemplateRef, ViewChild} from '@angular/core';
+import {ChangeDetectorRef, Component, EmbeddedViewRef, ElementRef, Input, TemplateRef, ViewChild} from '@angular/core';
 import {OverlayHostService} from '../overlay-host/overlay-host.service';
 
 /**
@@ -97,6 +97,7 @@ export class DropdownList {
     };
 
     constructor(private elementRef: ElementRef,
+                private changeDetector: ChangeDetectorRef,
                 private overlayHostService: OverlayHostService) {}
 
     /**
@@ -141,6 +142,7 @@ export class DropdownList {
         } else {
             this.contentStyles.width = this.width + 'px';
         }
+        this.changeDetector.markForCheck();
 
         // needs to be wrapped in a setTimeout due to positioning issues that arise if the
         // content re-flows after being displayed, this altering the height of the $content element.
@@ -151,6 +153,7 @@ export class DropdownList {
             let height = $(this.content).innerHeight() + 'px';
             let flowUpwards = parseInt(positionStyles.top, 10) < Math.floor(this.$trigger.offset().top);
             Object.assign(this.contentStyles, positionStyles);
+            this.changeDetector.markForCheck();
 
             // Show dropdown
             $(this.content).stop(true, true)
