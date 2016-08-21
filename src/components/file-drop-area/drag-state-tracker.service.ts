@@ -35,7 +35,7 @@ export type FileDragState = { type: string }[];
 class DragStateTracker {
     state$: Observable<FileDragState>;
     enterLeaveCounter = 0;
-    enteredElements = new WeakSet<Element>();
+    enteredElements = new Set<Element>();
     subscribers: Subscriber<FileDragState>[] = [];
 
     constructor(private target: EventTarget) {
@@ -106,7 +106,7 @@ class DragStateTracker {
 
         if (this.enterLeaveCounter > 0) {
             this.enterLeaveCounter = 0;
-            this.enteredElements = new WeakSet();
+            this.enteredElements = new Set<Element>();
             this.emit([]);
         }
     }
@@ -114,7 +114,7 @@ class DragStateTracker {
     detectUntrackedDrop = (event: MouseEvent) => {
         if (this.enterLeaveCounter > 0 && event.buttons === 0) {
             this.enterLeaveCounter = 0;
-            this.enteredElements = new WeakSet();
+            this.enteredElements = new Set<Element>();
             this.emit([]);
         }
     }

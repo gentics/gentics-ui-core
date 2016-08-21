@@ -88,94 +88,107 @@ describe('ProgressBar', () => {
         ))
     );
 
-    it('grows its progress indicator in indeterminate mode',
-        (done: DoneFn) => {
-            let tcb: TestComponentBuilder = getTestInjector().get(TestComponentBuilder);
-            tcb = tcb.overrideTemplate(TestComponent, `
-                <gtx-progress-bar [active]="loadingSomething">
-                </gtx-progress-bar>
-            `);
-            let fixture = tcb.createSync(TestComponent);
-            fixture.detectChanges();
+    describe('animations', () => {
 
-            const instance: TestComponent = fixture.componentInstance;
-            const progressBar: ProgressBar = instance.progressBar;
-            const progressIndicator: HTMLElement = fixture.debugElement
-                .query(By.directive(ProgressBar))
-                .nativeElement.querySelector('.progress-indicator');
+        let fakeRAF: { discardPending(): void, restore(): void };
+        beforeEach(() => {
+            fakeRAF = fakeRequestAnimationFrameWhenTabInBackground();
+        });
+        afterEach(() => {
+            fakeRAF.discardPending();
+            fakeRAF.restore();
+        });
 
-            expect(progressIndicator).not.toBeNull(
-                'progress indicator can not be found');
-
-            instance.loadingSomething = true;
-            fixture.detectChanges();
-            const oldWidth = progressIndicator.offsetWidth;
-            expect(progressBar.active).toBe(true,
-                'progressBar.active was expected to be true');
-
-            requestAnimationFrame(() => {
-                try {
-                    const newWidth = progressIndicator.offsetWidth;
-                    progressBar.active = false;
-
-                    // This expectation might show up in other tests when it fails
-                    expect(newWidth).toBeGreaterThan(oldWidth,
-                        'ProgressBar: expected progress indicator to grow in indeterminate mode');
-                    done();
-                } catch (err) {
-                    done.fail(err);
-                }
-            });
-        }
-    );
-
-    it('grows its progress indicator with the "progress" property in determinate mode',
-        fakeAsync(inject([TestComponentBuilder], (tcb: TestComponentBuilder) =>
-            tcb.overrideTemplate(TestComponent, `
-                <gtx-progress-bar [active]="loadingSomething" [progress]="loadProgress">
-                </gtx-progress-bar>
-            `)
-            .createAsync(TestComponent)
-            .then(fixture => {
+        it('grows its progress indicator in indeterminate mode',
+            (done: DoneFn) => {
+                let tcb: TestComponentBuilder = getTestInjector().get(TestComponentBuilder);
+                tcb = tcb.overrideTemplate(TestComponent, `
+                    <gtx-progress-bar [active]="loadingSomething">
+                    </gtx-progress-bar>
+                `);
+                let fixture = tcb.createSync(TestComponent);
                 fixture.detectChanges();
 
-                const instance = fixture.componentRef.instance;
+                const instance: TestComponent = fixture.componentInstance;
                 const progressBar: ProgressBar = instance.progressBar;
-                const component: DebugElement = fixture.debugElement
-                    .query(By.directive(ProgressBar));
+                const progressIndicator: HTMLElement = fixture.debugElement
+                    .query(By.directive(ProgressBar))
+                    .nativeElement.querySelector('.progress-indicator');
 
-                expect(component).toBeDefined('Component can not be found.');
-                expect(progressBar.active).toBe(false);
-                expect(component.nativeElement).toBeDefined('No nativeElement on component.');
+                expect(progressIndicator).not.toBeNull(
+                    'progress indicator can not be found');
 
-                const progressIndicator: HTMLElement = component.nativeElement.querySelector('.progress-indicator');
-                expect(progressIndicator).toBeDefined('Progress indicator not found.');
-
-                instance.loadProgress = 0;
                 instance.loadingSomething = true;
                 fixture.detectChanges();
-                const widthAtZeroPercent = progressIndicator.offsetWidth;
-
+                const oldWidth = progressIndicator.offsetWidth;
                 expect(progressBar.active).toBe(true,
                     'progressBar.active was expected to be true');
 
-                instance.loadProgress = 0.6;
-                fixture.detectChanges();
-                tick();
-                const widthAtSixtyPercent = progressIndicator.offsetWidth;
-                expect(widthAtSixtyPercent).toBeGreaterThan(widthAtZeroPercent,
-                    'expected progress indicator width to grow when setting "progress" from 0% to 60%');
+                requestAnimationFrame(() => {
+                    try {
+                        const newWidth = progressIndicator.offsetWidth;
+                        progressBar.active = false;
 
-                instance.loadProgress = 0.8;
-                fixture.detectChanges();
-                tick();
-                const widthAtEightyPercent = progressIndicator.offsetWidth;
+                        // This expectation might show up in other tests when it fails
+                        expect(newWidth).toBeGreaterThan(oldWidth,
+                            'ProgressBar: expected progress indicator to grow in indeterminate mode');
+                        done();
+                    } catch (err) {
+                        done.fail(err);
+                    }
+                });
+            }
+        );
 
-                expect(widthAtEightyPercent).toBeGreaterThan(widthAtSixtyPercent,
-                    'expected progress indicator width to grow when setting "progress" from 60% to 80%');
-            })
-        ))
-    );
+        it('grows its progress indicator with the "progress" property in determinate mode',
+            fakeAsync(inject([TestComponentBuilder], (tcb: TestComponentBuilder) =>
+                tcb.overrideTemplate(TestComponent, `
+                    <gtx-progress-bar [active]="loadingSomething" [progress]="loadProgress">
+                    </gtx-progress-bar>
+                `)
+                .createAsync(TestComponent)
+                .then(fixture => {
+                    fixture.detectChanges();
+
+                    const instance = fixture.componentRef.instance;
+                    const progressBar: ProgressBar = instance.progressBar;
+                    const component: DebugElement = fixture.debugElement
+                        .query(By.directive(ProgressBar));
+
+                    expect(component).toBeDefined('Component can not be found.');
+                    expect(progressBar.active).toBe(false);
+                    expect(component.nativeElement).toBeDefined('No nativeElement on component.');
+
+                    const progressIndicator: HTMLElement = component.nativeElement.querySelector('.progress-indicator');
+                    expect(progressIndicator).toBeDefined('Progress indicator not found.');
+
+                    instance.loadProgress = 0;
+                    instance.loadingSomething = true;
+                    fixture.detectChanges();
+                    const widthAtZeroPercent = progressIndicator.offsetWidth;
+
+                    expect(progressBar.active).toBe(true,
+                        'progressBar.active was expected to be true');
+
+                    instance.loadProgress = 0.6;
+                    fixture.detectChanges();
+                    tick();
+                    const widthAtSixtyPercent = progressIndicator.offsetWidth;
+                    expect(widthAtSixtyPercent).toBeGreaterThan(widthAtZeroPercent,
+                        'expected progress indicator width to grow when setting "progress" from 0% to 60%');
+
+                    instance.loadProgress = 0.8;
+                    fixture.detectChanges();
+                    tick();
+                    const widthAtEightyPercent = progressIndicator.offsetWidth;
+
+                    expect(widthAtEightyPercent).toBeGreaterThan(widthAtSixtyPercent,
+                        'expected progress indicator width to grow when setting "progress" from 60% to 80%');
+                })
+            ))
+        );
+
+    });
 
     describe('with Promises:', () => {
 
@@ -447,6 +460,53 @@ describe('ProgressBar', () => {
 
     });
 });
+
+
+/**
+ * This is a workaround because requestAnimationFrame only works when the window is in the foreground.
+ * As test windows might be minimized or headless, tests depending on it would never complete.
+ *
+ * The returned object can cancel all pending timers and restore the original behavior.
+ */
+function fakeRequestAnimationFrameWhenTabInBackground(): { discardPending(): void, restore(): void } {
+    let request = window.requestAnimationFrame ? 'requestAnimationFrame' : 'webkitRequestAnimationFrame';
+    let cancel = window.cancelAnimationFrame ? 'cancelAnimationFrame' : 'webkitCancelAnimationFrame';
+    let global = <any> window;
+
+    if (!global[request] || !global[cancel]) {
+        throw new Error('requestAnimationFrame not supported.');
+    }
+
+    const originalRequest = global[request];
+    const originalCancel = global[cancel];
+    const pendingTimers: number[] = [];
+
+    global[request] = (callback: Function) => {
+        let handle = window.setTimeout(callback, 1);
+        pendingTimers.push(handle);
+        return handle;
+    };
+    global[cancel] = (handle: number) => {
+        window.clearTimeout(handle);
+        let index = pendingTimers.indexOf(handle);
+        if (index >= 0) {
+            pendingTimers.splice(index, 1);
+        }
+    };
+
+    return {
+        discardPending(): void {
+            for (let timer of pendingTimers) {
+                window.clearTimeout(timer);
+            }
+        },
+        restore(): void {
+            global[request] = originalRequest;
+            global[cancel] = originalCancel;
+
+        }
+    };
+}
 
 
 @Component({

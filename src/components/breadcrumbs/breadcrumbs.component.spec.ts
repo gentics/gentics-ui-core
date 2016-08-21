@@ -200,7 +200,7 @@ describe('Breadcrumbs:', () => {
                 expect(spy.calls.count()).toBe(0);
 
                 let linkToClick = fixture.debugElement.query(By.css('a'));
-                linkToClick.triggerEventHandler('click', new MouseEvent('click', {}));
+                linkToClick.triggerEventHandler('click', createClickEvent());
 
                 expect(spy.calls.count()).toBe(1);
                 expect(spy).toHaveBeenCalledWith({ text: 'A', href: '/a' });
@@ -225,7 +225,7 @@ describe('Breadcrumbs:', () => {
                 expect(spy.calls.count()).toBe(0);
 
                 let linkToClick = fixture.debugElement.query(By.css('a'));
-                linkToClick.triggerEventHandler('click', new MouseEvent('click', {}));
+                linkToClick.triggerEventHandler('click', createClickEvent());
 
                 expect(spy.calls.count()).toBe(0);
             })
@@ -254,11 +254,11 @@ describe('Breadcrumbs:', () => {
                 let linkToClick = fixture.debugElement.query(By.css('a'));
                 expect(linkToClick).not.toBeNull();
 
-                linkToClick.triggerEventHandler('click', new MouseEvent('click', {}));
+                linkToClick.triggerEventHandler('click', createClickEvent());
 
                 expect(spy.calls.count()).toBe(1, 'click handler was not called');
                 expect(spy).toHaveBeenCalledWith({ text: 'X', href: '/x', someKey: 'someValue' });
-                expect(spy.calls.mostRecent().args[0]).toEqual(component.links[0]); // toEqual compares by reference
+                expect(spy.calls.mostRecent().args[0]).toEqual(component.links[0]);
             })
         ))
     );
@@ -346,6 +346,16 @@ describe('Breadcrumbs:', () => {
     });
 
 });
+
+function createClickEvent(): Event {
+    try {
+        return new Event('click', { bubbles: true, cancelable: true });
+    } catch (ie11) {
+        let clickEvent: Event = document.createEvent('Event');
+        clickEvent.initEvent('click', true, true);
+        return clickEvent;
+    }
+}
 
 
 @Component({
