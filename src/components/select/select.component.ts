@@ -5,13 +5,10 @@ import {
     EventEmitter,
     forwardRef,
     Input,
-    Optional,
     Output,
-    Provider,
     Query,
     QueryList
 } from '@angular/core';
-import {ObservableWrapper} from '@angular/core/src/facade/async';
 import {ControlValueAccessor, NgSelectOption, NG_VALUE_ACCESSOR} from '@angular/forms';
 import {Subscription} from 'rxjs';
 

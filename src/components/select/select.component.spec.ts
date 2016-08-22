@@ -1,6 +1,6 @@
-import {ComponentFixture, TestComponentBuilder} from '@angular/compiler/testing';
+import {TestComponentBuilder} from '@angular/compiler/testing';
 import {Component, ViewChild} from '@angular/core';
-import {addProviders, async, discardPeriodicTasks, fakeAsync, inject, tick} from '@angular/core/testing';
+import {async, discardPeriodicTasks, fakeAsync, inject, tick} from '@angular/core/testing';
 import {FormGroup, FormControl, REACTIVE_FORM_DIRECTIVES} from '@angular/forms';
 
 import {Select} from './select.component';
@@ -313,6 +313,34 @@ describe('Select:', () => {
                     fixture.detectChanges();
                     expect(instance.testForm.controls['test'].value).toBe('Baz');
                 })
+            ))
+        );
+
+        it('should bind the value with formControlName (inbound)',
+            fakeAsync(inject([TestComponentBuilder], (tcb: TestComponentBuilder) =>
+                tcb.overrideTemplate(TestComponent, `
+                            <form [formGroup]="testForm">
+                                <gtx-select formControlName="test">
+                                    <option *ngFor="let option of options" [value]="option">{{ option }}</option>
+                                </gtx-select>
+                             </form>
+                        `)
+                    .createAsync(TestComponent)
+                    .then(fixture => {
+                        fixture.detectChanges();
+                        tick();
+                        let instance: TestComponent = fixture.componentInstance;
+                        let input: HTMLInputElement = fixture.nativeElement.querySelector('input.select-dropdown');
+
+                        expect(instance.testForm.controls['test'].value).toBe('Bar');
+                        expect(input.value).toBe('Bar');
+
+                        (instance.testForm.controls['test'] as FormControl).updateValue('Baz');
+                        fixture.detectChanges();
+
+                        expect(instance.testForm.controls['test'].value).toBe('Baz');
+                        expect(input.value).toBe('Baz');
+                    })
             ))
         );
 
