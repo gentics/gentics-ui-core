@@ -1,6 +1,6 @@
+require('es6-shim');
 require('zone.js');
 require('reflect-metadata');
-require('es6-shim');
 require('highlight.js/styles/atelier-estuary-light.css');
 
 import {LocationStrategy, HashLocationStrategy} from '@angular/common';
