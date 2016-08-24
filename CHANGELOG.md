@@ -1,26 +1,29 @@
-## 0.8.0 (2016-08-XX)
+## 0.8.0 (2016-08-24)
+
 ### Features
-* Add "for" input to ProgressBar that accepts an Observable or a Promise
-* Add Tabs components
+* Added "for" input to ProgressBar that accepts an Observable or a Promise
+* Added Tabs component
 
 ### Fixes
+* SideMenu positioning for small screens
 * ProgressBar cleans up when using start() multiple times
-* SideMenu fix positioning for small screens
 * ProgressBar works more reliably and with ChangeDetection.OnPush
-* Many compatibility issues on older browsers resolved
+* Resolved many compatibility issues on older browsers
 * DropdownList performance improvements
-* (docs) Fix order of polyfills so that zone.js patches promises.
+* (docs) Reorder polyfills so zone.js patches promises
 
 ## 0.7.1 (2016-08-01)
+
 ### Fixes
-* Fix broken import names of 0.7.0 which don't work in compiled JavaScript
-* Fix MenuToggleButton not accepting clicks / hover
+* Fixed broken import names of 0.7.0 which don't work in compiled JavaScript
+* Fixed MenuToggleButton not accepting clicks / hover
 
 ## 0.7.0 (2016-07-29)
+
 ### Features
-* Add FilePicker component
-* Add FileDropArea & PreventFileDrop directives
-* Add PageDragDropFileHandler service
+* Added FilePicker component
+* Added FileDropArea & PreventFileDrop directives
+* Added PageDragDropFileHandler service
 * ModalService.fromComponent() now accepts a parameter defining local variables
 * Split SideMenu and MenuToggleButton into separate components
 * SideMenu can now have its width and position configured
@@ -31,18 +34,21 @@
 * (docs) Show angular template errors in console instead of silently failing
 
 ## 0.6.1 (2016-07-19)
+
 ### Fixes
 * ModalService templates named correctly and exported
 * ModalService styling
 * Fix layout issues with Checkbox & RadioButton
 
 ## 0.6.0 (2016-07-19)
+
 ### Features
 * SearchBar now has a ValueAccessor, and `hideClearButton` attribute
 * ModalService introduced for more flexible promise-based modals
 * Add version number to docs
 
 ## 0.5.0 (2016-07-07)
+
 ### Features
 * Upgraded to angular release candidate 4
 * Upgraded to new router and form directives
@@ -55,6 +61,7 @@
 * (docs) Prevent angular from sanitizing strings in AutoDocs
 
 ## 0.4.0 (2016-06-20)
+
 ### Features
 * Add gulp "dist:watch" task, internal tasks not exposed anymore
 * Form components can be imported individually
@@ -65,6 +72,7 @@
 * Images in ui-core demo changed to relative urls
 
 ## 0.3.1
+
 ### Features 
 * SearchBar now has a "clear" button and event
 * SearchBar can project content

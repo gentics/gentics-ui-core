@@ -1,6 +1,6 @@
 /**
  * The Gentics UI Core is based on the Materialize framework. Materialize includes javascript code to enable
- * dynamic functionality of many of its components. It ships with a "materilize.js" file, which is a concatenated
+ * dynamic functionality of many of its components. It ships with a "materialize.js" file, which is a concatenated
  * bundle containing all the component JS as well as embedded versions of velocity-animate (an animation lib) and
  * hammerjs (touch interaction lib).
  *
