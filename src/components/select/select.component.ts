@@ -147,6 +147,8 @@ export class Select implements ControlValueAccessor {
         // always being selected. I think it has to do with the fact that the ValueAccessor
         // needs to run to update the nativeSelect value to the correct value before we
         // init the Materialize magic.
+        // TODO: Refactor to no longer use the Materialize implementation, but to use the
+        // overlay host to append to DOM in a more Angular-y way.
         setTimeout(() => {
             this.$nativeSelect.material_select();
 

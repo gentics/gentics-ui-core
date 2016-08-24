@@ -22,6 +22,8 @@
 @import "materialize-css/sass/components/tabs";
 @import "materialize-css/sass/components/tooltip";
 @import "materialize-css/sass/components/buttons";
+// not used for DropdownList, but required for Select. TODO: remove once Select refactored to no rely on it.
+@import "materialize-css/sass/components/dropdown";
 @import "materialize-css/sass/components/waves";
 @import "materialize-css/sass/components/modal";
 @import "materialize-css/sass/components/collapsible";
