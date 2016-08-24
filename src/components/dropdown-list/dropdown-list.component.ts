@@ -1,4 +1,13 @@
-import {ChangeDetectionStrategy, Component, EmbeddedViewRef, ElementRef, Input, TemplateRef, ViewChild} from '@angular/core';
+import {
+    ChangeDetectorRef,
+    ChangeDetectionStrategy,
+    Component,
+    EmbeddedViewRef,
+    ElementRef,
+    Input,
+    TemplateRef,
+    ViewChild
+} from '@angular/core';
 import {OverlayHostService} from '../overlay-host/overlay-host.service';
 
 /**
@@ -94,6 +103,7 @@ export class DropdownList {
         setTimeout(() => {
             this.contentStyles.maxHeight = '';
             this.contentStyles.opacity = 0;
+            this.cd.markForCheck();
         }, this.options.outDuration);
         this.destroyScrollMask();
         if (this.embeddedView) {
@@ -102,6 +112,7 @@ export class DropdownList {
     };
 
     constructor(private elementRef: ElementRef,
+                private cd: ChangeDetectorRef,
                 private overlayHostService: OverlayHostService) {}
 
     /**
@@ -170,6 +181,7 @@ export class DropdownList {
                 this.contentStyles.width = calculateContainerWidth() + 'px';
                 this.contentStyles.marginTop = 0;
                 this.contentStyles.opacity = 1;
+                this.cd.markForCheck();
             });
 
         });
