@@ -4,6 +4,7 @@
 * SplitViewContainer works with OnPush change detection
 * SplitViewContainer handles dragging outside of the window
 * Select uses ellipses if selected item text is wider than component
+* DropdownList works inside modals
 
 ## 0.8.0 (2016-08-24)
 
