@@ -8,6 +8,7 @@
 * SideMenu fix positioning for small screens
 * ProgressBar works more reliably and with ChangeDetection.OnPush
 * Many compatibility issues on older browsers resolved
+* DropdownList performance improvements
 * (docs) Fix order of polyfills so that zone.js patches promises.
 
 ## 0.7.1 (2016-08-01)

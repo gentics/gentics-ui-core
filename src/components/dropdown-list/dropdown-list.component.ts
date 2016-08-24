@@ -1,4 +1,4 @@
-import {ChangeDetectorRef, Component, EmbeddedViewRef, ElementRef, Input, TemplateRef, ViewChild} from '@angular/core';
+import {ChangeDetectionStrategy, Component, EmbeddedViewRef, ElementRef, Input, TemplateRef, ViewChild} from '@angular/core';
 import {OverlayHostService} from '../overlay-host/overlay-host.service';
 
 /**
@@ -24,7 +24,8 @@ import {OverlayHostService} from '../overlay-host/overlay-host.service';
  */
 @Component({
     selector: 'gtx-dropdown-list',
-    template: require('./dropdown-list.tpl.html')
+    template: require('./dropdown-list.tpl.html'),
+    changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class DropdownList {
     id: string = 'dropdown-' + Math.random().toString(36).substr(2);
@@ -90,14 +91,17 @@ export class DropdownList {
      */
     closeDropdown = () => {
         this.isOpen = false;
-        $(this.content).fadeOut(this.options.outDuration);
-        setTimeout(() => this.contentStyles.maxHeight = '', this.options.outDuration);
-        $(document).off('click scroll', this.closeDropdown);
+        setTimeout(() => {
+            this.contentStyles.maxHeight = '';
+            this.contentStyles.opacity = 0;
+        }, this.options.outDuration);
         this.destroyScrollMask();
+        if (this.embeddedView) {
+            this.embeddedView.destroy();
+        }
     };
 
     constructor(private elementRef: ElementRef,
-                private changeDetector: ChangeDetectorRef,
                 private overlayHostService: OverlayHostService) {}
 
     /**
@@ -106,16 +110,7 @@ export class DropdownList {
      */
     ngAfterViewInit(): void {
         const queryChild: Function = (selector: string): JQuery => $(this.elementRef.nativeElement).find(selector);
-
         this.$trigger = queryChild('.dropdown-trigger');
-        this.$trigger.attr('data-activates', this.id);
-
-        this.overlayHostService.getHostView().then(view => {
-            this.embeddedView = view.createEmbeddedView(this.contentsTemplate);
-            this.contentWrapper = this.embeddedView.rootNodes.filter(node => node.nodeType === Node.ELEMENT_NODE)[0];
-            this.content = <HTMLElement> this.contentWrapper.querySelector('.dropdown-content');
-            this.content.setAttribute('id', this.id);
-        });
     }
 
     /**
@@ -132,52 +127,51 @@ export class DropdownList {
      * Open the dropdown contents in the correct position.
      */
     openDropdown(): void {
-        this.createScrollMask();
+        this.overlayHostService.getHostView().then(view => {
+            this.embeddedView = view.createEmbeddedView(this.contentsTemplate);
+            this.contentWrapper = this.embeddedView.rootNodes.filter(node => node.nodeType === Node.ELEMENT_NODE)[0];
+            this.content = <HTMLElement> this.contentWrapper.querySelector('.dropdown-content');
+            this.content.setAttribute('id', this.id);
+            this.createScrollMask();
+            const $content = $(this.content);
 
-        // Constrain width
-        if (this.width === 'contents') {
-            this.contentStyles.whiteSpace = 'nowrap';
-        } else if (this.width === 'trigger') {
-            this.contentStyles.width = this.$trigger.outerWidth() + 1 + 'px';
-        } else {
-            this.contentStyles.width = this.width + 'px';
-        }
-        this.changeDetector.markForCheck();
+            let containerHeight = 0;
 
-        // needs to be wrapped in a setTimeout due to positioning issues that arise if the
-        // content re-flows after being displayed, this altering the height of the $content element.
-        // The setTimeout allows the true (re-flowed) height to be used in calculating the
-        // position of the dropdown.
-        setTimeout(() => {
+            const calculateContainerWidth = (): number => {
+                let containerWidth = 0;
+                // Set the width of the container
+                if (this.width === 'contents') {
+                    this.contentStyles.whiteSpace = 'nowrap';
+                    containerWidth = $content.outerWidth();
+                } else if (this.width === 'trigger') {
+                    containerWidth = this.$trigger.outerWidth() + 1;
+                } else {
+                    containerWidth = +this.width;
+                }
+                // pad the width so the content drop shadow is displayed
+                return containerWidth;
+            };
+
             let positionStyles = this.calculatePositionStyles();
-            let height = $(this.content).innerHeight() + 'px';
             let flowUpwards = parseInt(positionStyles.top, 10) < Math.floor(this.$trigger.offset().top);
             Object.assign(this.contentStyles, positionStyles);
-            this.changeDetector.markForCheck();
 
-            // Show dropdown
-            $(this.content).stop(true, true)
-                .css({
-                    opacity: 0,
-                    display: 'block',
-                    height: 0,
-                    'margin-top': flowUpwards ? height : 0
-                })
-                .velocity({
-                    height,
-                    'margin-top': 0
-                }, {
-                    queue: false,
-                    duration: this.options.inDuration,
-                    easing: 'easeOutCubic'
-                })
-                .velocity({
-                    opacity: 1
-                }, {
-                    queue: false,
-                    duration: this.options.inDuration,
-                    easing: 'easeOutSine'
-                });
+            this.contentStyles.height = 0;
+            this.contentStyles.marginTop = flowUpwards ? containerHeight : 0;
+            this.contentStyles.opacity = 0;
+            this.contentStyles.width = calculateContainerWidth() + 'px';
+
+
+            // Show dropdown. Wrapped in a setTimeout to allow the contents of the dropdown
+            // to re-flow (if needed) so that the true dimensions can then be re-calculated.
+            setTimeout(() => {
+                // pad the height so the content drop shadow is displayed
+                this.contentStyles.height = $content.innerHeight() + 'px';
+                this.contentStyles.width = calculateContainerWidth() + 'px';
+                this.contentStyles.marginTop = 0;
+                this.contentStyles.opacity = 1;
+            });
+
         });
     }
 
@@ -188,7 +182,8 @@ export class DropdownList {
     createScrollMask(): void {
         this.scrollMask = $('<div>')
             .addClass('scroll-mask')
-            .insertBefore(this.contentWrapper);
+            .insertBefore(this.contentWrapper)
+            .on('click', () => this.closeDropdown());
     }
 
     destroyScrollMask(): void {
@@ -218,18 +213,22 @@ export class DropdownList {
             verticalOffset = originHeight;
         }
 
-        if (offsetLeft + $content.innerWidth() > $(window).width()) {
+        const PAGE_MARGIN = 50;
+        const contentWidth =  $content.innerWidth() + PAGE_MARGIN;
+        const contentHeight = $content.innerHeight() + PAGE_MARGIN;
+
+        if (offsetLeft + contentWidth > $(window).width()) {
             // Dropdown goes past screen on right, force right alignment
             currAlignment = 'right';
 
-        } else if (offsetLeft - $content.innerWidth() + this.$trigger.innerWidth() < 0) {
+        } else if (offsetLeft - contentWidth + this.$trigger.innerWidth() < 0) {
             // Dropdown goes past screen on left, force left alignment
             currAlignment = 'left';
         }
         // Vertical bottom offscreen detection
-        if (verticalOffset + offsetTop + $content.innerHeight() > windowHeight) {
+        if (verticalOffset + offsetTop + contentHeight > windowHeight) {
             // If going upwards still goes offscreen, just crop height of dropdown.
-            if (offsetTop + originHeight - $content.innerHeight() < 0) {
+            if (offsetTop + originHeight - contentHeight < 0) {
                 let adjustedHeight: number = windowHeight - offsetTop - verticalOffset;
                 positionStyles.maxHeight = adjustedHeight;
             } else {
@@ -263,7 +262,6 @@ export class DropdownList {
         if (!this.isOpen) {
             this.isOpen = true;
             this.openDropdown();
-            setTimeout(() => $(document).on('click scroll', this.closeDropdown));
         } else {
             this.closeDropdown();
         }

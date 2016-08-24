@@ -1,7 +1,6 @@
 import {ComponentFixture, TestComponentBuilder} from '@angular/compiler/testing';
 import {Component} from '@angular/core';
 import {fakeAsync, getTestInjector, inject, tick} from '@angular/core/testing';
-import {By} from '@angular/platform-browser';
 
 import {DropdownList} from './dropdown-list.component';
 import {OverlayHost} from '../overlay-host/overlay-host.component';
@@ -17,35 +16,81 @@ describe('DropdownList:', () => {
         overlayHostService = injector.get(OverlayHostService);
     });
 
-    it('should add a matching id to trigger and content',
+    it('content should not appear in DOM before it is opened.',
         fakeAsync(inject([TestComponentBuilder], (tcb: TestComponentBuilder) =>
             tcb.createAsync(TestComponent)
             .then(fixture => {
                 fixture.detectChanges();
-                tick();
-                let trigger = <HTMLElement> fixture.nativeElement.querySelector('.dropdown-trigger');
-                let list = <HTMLUListElement> fixture.nativeElement.querySelector('.dropdown-content');
-
-                tick();
-
-                expect(trigger.dataset['activates']).toBe(list.id,
-                    'DropdownList data-activates attribute should match id');
-
-                fixture.destroy();
+                let contentWrapper: HTMLElement = fixture.nativeElement.querySelector('.dropdown-content-wrapper');
+                expect(contentWrapper).toBeNull();
             })
         ))
     );
 
-    it('content should get attached next to overlay host',
+    it('content should get attached next to overlay host when trigger is clicked',
         fakeAsync(inject([TestComponentBuilder], (tcb: TestComponentBuilder) =>
             tcb.createAsync(TestComponent)
             .then(fixture => {
                 fixture.detectChanges();
+                getTrigger(fixture, 0).click();
+                tick();
                 tick();
                 let contentWrapper: HTMLElement = fixture.nativeElement.querySelector('.dropdown-content-wrapper');
                 expect(contentWrapper.parentElement.classList).toContain('test-component-root');
+            })
+        ))
+    );
 
-                fixture.destroy();
+    it('scroll mask should get attached next to overlay host when trigger is clicked',
+        fakeAsync(inject([TestComponentBuilder], (tcb: TestComponentBuilder) =>
+            tcb.createAsync(TestComponent)
+            .then(fixture => {
+                fixture.detectChanges();
+                getTrigger(fixture, 0).click();
+                tick();
+                tick();
+                let scrollMask: HTMLElement = fixture.nativeElement.querySelector('.scroll-mask');
+                expect(scrollMask.parentElement.classList).toContain('test-component-root');
+            })
+        ))
+    );
+
+    it('clicking content should close dropdown',
+        fakeAsync(inject([TestComponentBuilder], (tcb: TestComponentBuilder) =>
+            tcb.createAsync(TestComponent)
+            .then(fixture => {
+                fixture.detectChanges();
+                getTrigger(fixture, 0).click();
+                tick();
+                tick();
+                let firstItem: HTMLElement = fixture.nativeElement.querySelector('.dropdown-content li a');
+
+                expect(fixture.nativeElement.querySelector('.dropdown-content-wrapper')).not.toBeNull();
+
+                firstItem.click();
+                tick(1000);
+
+                expect(fixture.nativeElement.querySelector('.dropdown-content-wrapper')).toBeNull();
+            })
+        ))
+    );
+
+    it('clicking scroll mask should close dropdown',
+        fakeAsync(inject([TestComponentBuilder], (tcb: TestComponentBuilder) =>
+            tcb.createAsync(TestComponent)
+            .then(fixture => {
+                fixture.detectChanges();
+                getTrigger(fixture, 0).click();
+                tick();
+                tick();
+                let scrollMask: HTMLElement = fixture.nativeElement.querySelector('.scroll-mask');
+
+                expect(fixture.nativeElement.querySelector('.dropdown-content-wrapper')).not.toBeNull();
+
+                scrollMask.click();
+                tick(1000);
+
+                expect(fixture.nativeElement.querySelector('.dropdown-content-wrapper')).toBeNull();
             })
         ))
     );
@@ -76,6 +121,10 @@ describe('DropdownList:', () => {
             .createAsync(TestComponent)
             .then(fixture => {
                 fixture.detectChanges();
+                getTrigger(fixture, 0).click();
+                getTrigger(fixture, 1).click();
+                getTrigger(fixture, 2).click();
+                tick();
                 tick();
                 expect(fixture.nativeElement.querySelectorAll('.dropdown-content-wrapper').length).toBe(3);
 
@@ -98,17 +147,21 @@ describe('DropdownList:', () => {
                         </ul>
                 </gtx-dropdown-list>
             `)
-            .createAsync(TestComponent)
-            .then(fixture => {
-                fixture.detectChanges();
-                tick();
-                expect(fixture.nativeElement.querySelectorAll('.dropdown-content-wrapper').length).toBe(3);
+                .createAsync(TestComponent)
+                .then(fixture => {
+                    fixture.detectChanges();
+                    getTrigger(fixture, 0).click();
+                    getTrigger(fixture, 1).click();
+                    getTrigger(fixture, 2).click();
+                    tick();
+                    tick();
+                    expect(fixture.nativeElement.querySelectorAll('.dropdown-content-wrapper').length).toBe(3);
 
-                fixture.destroy();
-                tick();
+                    fixture.destroy();
+                    tick();
 
-                expect(fixture.nativeElement.querySelectorAll('.dropdown-content-wrapper').length).toBe(0);
-            })
+                    expect(fixture.nativeElement.querySelectorAll('.dropdown-content-wrapper').length).toBe(0);
+                })
         ))
     );
 
@@ -137,4 +190,8 @@ describe('DropdownList:', () => {
 })
 class TestComponent {
     collection: number[] = [1, 2, 3];
+}
+
+function getTrigger(fixture: ComponentFixture<TestComponent>, index: number): HTMLElement {
+    return fixture.nativeElement.querySelectorAll('.dropdown-trigger')[index];
 }
