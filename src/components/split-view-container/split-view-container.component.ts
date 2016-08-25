@@ -1,5 +1,6 @@
 import {
     AfterViewInit,
+    ChangeDetectorRef,
     Component,
     ElementRef,
     EventEmitter,
@@ -198,7 +199,6 @@ export class SplitViewContainer implements AfterViewInit, OnDestroy {
     private _focusedPanel: FocusType = 'left';
     private resizing: boolean = false;
     private resizeMouseOffset: number;
-    private resizerXPosition: number;
     private boundBodyMouseUp: EventListener;
     private boundBodyMouseMove: EventListener;
     private hammerManager: HammerManager;
@@ -207,9 +207,10 @@ export class SplitViewContainer implements AfterViewInit, OnDestroy {
     @ViewChild('leftPanel') private leftPanel: ElementRef;
     @ViewChild('rightPanel') private rightPanel: ElementRef;
     @ViewChild('resizer') private resizer: ElementRef;
+    @ViewChild('visibleResizer') private visibleResizer: ElementRef;
 
-    constructor(private ownElement: ElementRef) {
-    }
+    constructor(private ownElement: ElementRef,
+                private changeDetector: ChangeDetectorRef) { }
 
     // (hacky) After initializing the view, make this component fill the height of the viewport
     ngAfterViewInit(): void {
@@ -274,12 +275,14 @@ export class SplitViewContainer implements AfterViewInit, OnDestroy {
     private leftPanelClicked(): void {
         if (this._focusedPanel == 'right') {
             this.focusedPanelChange.emit('left');
+            this.changeDetector.markForCheck();
         }
     }
 
     private rightPanelClicked(): void {
         if (this._focusedPanel == 'left' && this._rightPanelVisible) {
             this.focusedPanelChange.emit('right');
+            this.changeDetector.markForCheck();
         }
     }
 
@@ -299,18 +302,22 @@ export class SplitViewContainer implements AfterViewInit, OnDestroy {
         $body.on('mouseup', this.boundBodyMouseUp);
 
         // Start resizing
-        this.resizerXPosition = this.getAdjustedPosition(event.clientX);
+        let resizerXPosition = this.getAdjustedPosition(event.clientX);
         this.resizing = true;
-        this.splitDragStart.emit(this.resizerXPosition);
+        this.visibleResizer.nativeElement.style.left = resizerXPosition + '%';
+        this.changeDetector.markForCheck();
+        this.splitDragStart.emit(resizerXPosition);
     }
 
     private moveResizer(event: MouseEvent): void {
-        this.resizerXPosition = this.getAdjustedPosition(event.clientX);
+        let resizerXPosition = this.getAdjustedPosition(event.clientX);
+        this.visibleResizer.nativeElement.style.left = resizerXPosition + '%';
     }
 
     private endResizing(event: MouseEvent): void {
         this.leftContainerWidthPercent = this.getAdjustedPosition(event.clientX);
         this.resizing = false;
+        this.changeDetector.markForCheck();
         this.unbindBodyEvents();
         this.splitDragEnd.emit(this.leftContainerWidthPercent);
     }

@@ -25,11 +25,7 @@
     <div class="focus-switcher-right" (click)="rightPanelClicked()"></div>
     <div class="focus-switcher-left" (click)="leftPanelClicked()"></div>
 
-    <div
-        class="visible-resizer"
-        *ngIf="resizing"
-        [style.left.%]="resizerXPosition">
-    </div>
+    <div class="visible-resizer" [hidden]="!resizing" #visibleResizer></div>
     <div class="resizing-overlay" *ngIf="resizing"></div>
 
 </div>

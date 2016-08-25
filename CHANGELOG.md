@@ -1,3 +1,8 @@
+## 0.8.1 (2016-??-??)
+
+### Fixes
+* SplitViewContainer works with OnPush change detection
+
 ## 0.8.0 (2016-08-24)
 
 ### Features
