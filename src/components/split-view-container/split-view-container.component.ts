@@ -7,12 +7,13 @@ import {
     Input,
     OnDestroy,
     Output,
+    Renderer,
     ViewChild
 } from '@angular/core';
 
-declare var $: JQueryStatic;
-
 export type FocusType = 'left' | 'right';
+
+export const CURSOR_STYLE_CLASS = 'gtx-split-view-container-resizing';
 
 /**
  * A container that provides a ["master-detail" interface](https://en.wikipedia.org/wiki/Master%E2%80%93detail_interface)
@@ -195,13 +196,19 @@ export class SplitViewContainer implements AfterViewInit, OnDestroy {
     splitDragEnd = new EventEmitter<number>(true);
 
 
+    /** @internal EventTarget for tracking when the mouse leaves the page. */
+    globalEventTarget: any = window.document;
+
+    /** @internal The Element to which cursor styles are applied. */
+    globalCursorStyleTarget: any = window.document && window.document.body;
+
+
     private _rightPanelVisible: boolean = false;
     private _focusedPanel: FocusType = 'left';
     private resizing: boolean = false;
     private resizeMouseOffset: number;
-    private boundBodyMouseUp: EventListener;
-    private boundBodyMouseMove: EventListener;
     private hammerManager: HammerManager;
+    private cleanups: Function[] = [];
 
     @ViewChild('resizeContainer') private resizeContainer: ElementRef;
     @ViewChild('leftPanel') private leftPanel: ElementRef;
@@ -210,7 +217,8 @@ export class SplitViewContainer implements AfterViewInit, OnDestroy {
     @ViewChild('visibleResizer') private visibleResizer: ElementRef;
 
     constructor(private ownElement: ElementRef,
-                private changeDetector: ChangeDetectorRef) { }
+                private changeDetector: ChangeDetectorRef,
+                private renderer: Renderer) { }
 
     // (hacky) After initializing the view, make this component fill the height of the viewport
     ngAfterViewInit(): void {
@@ -230,7 +238,8 @@ export class SplitViewContainer implements AfterViewInit, OnDestroy {
     }
 
     ngOnDestroy(): void {
-        this.unbindBodyEvents();
+        this.cleanups.forEach(cleanup => cleanup());
+        this.cleanups = [];
         this.destroySwipeHandler();
     }
 
@@ -290,16 +299,25 @@ export class SplitViewContainer implements AfterViewInit, OnDestroy {
         if (event.which != 1 || !this.leftPanel.nativeElement) { return; }
         event.preventDefault();
 
-        const resizeHandle: HTMLElement = <HTMLElement> this.resizer.nativeElement;
+        const resizeHandle = <HTMLElement & { setCapture(): void, releaseCapture(): void }> event.currentTarget;
         this.resizeMouseOffset = event.clientX - resizeHandle.getBoundingClientRect().left;
 
-        // Bind mousemove and mouseup on body (the Angular2 way)
-        this.boundBodyMouseMove = this.moveResizer.bind(this);
-        this.boundBodyMouseUp = this.endResizing.bind(this);
-        const $body: JQuery = $('body');
-        $body.addClass('gtx-split-view-container-resizing');
-        $body.on('mousemove', this.boundBodyMouseMove);
-        $body.on('mouseup', this.boundBodyMouseUp);
+        let mouseMoveTarget = this.globalEventTarget;
+        // Use setCapture on older browsers, document:mousemove on newer browsers
+        if (resizeHandle.setCapture) {
+            mouseMoveTarget = resizeHandle;
+            resizeHandle.setCapture();
+            this.cleanups.push(() => resizeHandle.releaseCapture());
+            this.cleanups.push(this.renderer.listen(resizeHandle, 'losecapture', this.endResizing));
+        }
+
+        // Set cursor styles & bind events on document (the Angular2 way)
+        this.renderer.setElementClass(this.globalCursorStyleTarget, CURSOR_STYLE_CLASS, true);
+        this.cleanups.push(
+            () => this.renderer.setElementClass(this.globalCursorStyleTarget, CURSOR_STYLE_CLASS, false),
+            this.renderer.listen(mouseMoveTarget, 'mousemove', this.moveResizer),
+            this.renderer.listen(this.globalEventTarget, 'mouseup', this.endResizing)
+        );
 
         // Start resizing
         let resizerXPosition = this.getAdjustedPosition(event.clientX);
@@ -309,28 +327,18 @@ export class SplitViewContainer implements AfterViewInit, OnDestroy {
         this.splitDragStart.emit(resizerXPosition);
     }
 
-    private moveResizer(event: MouseEvent): void {
+    private moveResizer = (event: MouseEvent) => {
         let resizerXPosition = this.getAdjustedPosition(event.clientX);
         this.visibleResizer.nativeElement.style.left = resizerXPosition + '%';
     }
 
-    private endResizing(event: MouseEvent): void {
+    private endResizing = (event: MouseEvent) => {
         this.leftContainerWidthPercent = this.getAdjustedPosition(event.clientX);
         this.resizing = false;
         this.changeDetector.markForCheck();
-        this.unbindBodyEvents();
+        this.cleanups.forEach(cleanup => cleanup());
+        this.cleanups = [];
         this.splitDragEnd.emit(this.leftContainerWidthPercent);
-    }
-
-    private unbindBodyEvents(): void {
-        if (this.boundBodyMouseMove) {
-            const $body: JQuery = $('body');
-            $body.removeClass('gtx-split-view-container-resizing');
-            $body.off('mousemove', this.boundBodyMouseMove);
-            $body.off('mouseup', this.boundBodyMouseUp);
-            this.boundBodyMouseMove = undefined;
-            this.boundBodyMouseUp = undefined;
-        }
     }
 
     /**

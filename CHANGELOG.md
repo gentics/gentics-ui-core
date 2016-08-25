@@ -2,6 +2,7 @@
 
 ### Fixes
 * SplitViewContainer works with OnPush change detection
+* SplitViewContainer handles dragging outside of the window
 
 ## 0.8.0 (2016-08-24)
 
