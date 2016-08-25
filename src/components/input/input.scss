@@ -14,5 +14,11 @@ gtx-input {
     > input[type="number"],
     > input[type="password"] {
         @extend .input-base;
+
+        &::-ms-clear {
+            display: none;
+            width: 0;
+            height: 0;
+        }
     }
 }
