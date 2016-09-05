@@ -8,10 +8,11 @@ gtx-select {
         line-height: 1rem;
         &[readonly] {
             color: $gtx-color-very-dark-gray;
+            text-overflow: ellipsis;
         }
     }
     .select-wrapper span.caret {
-        top: 14px;
+        top: 11px;
         right: 8px;
     }
 
