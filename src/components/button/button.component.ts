@@ -28,7 +28,7 @@ export class Button {
      * Type determines the style of the button. Can be "default", "secondary",
      * "success", "warning" or "alert".
      */
-    @Input() type: 'default' | 'secondary' | 'success' | 'warning' = 'default';
+    @Input() type: 'default' | 'secondary' | 'success' | 'warning' | 'alert' = 'default';
 
     /**
      * Setting the "flat" attribute gives the button a transparent background
