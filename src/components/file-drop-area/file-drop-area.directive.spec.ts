@@ -1,9 +1,8 @@
-import {ComponentFixture, TestComponentBuilder} from '@angular/compiler/testing';
-import {Component, EventEmitter, QueryList, ViewChild, ViewChildren, WrappedValue} from '@angular/core';
+import {Component, QueryList, ViewChild, ViewChildren, WrappedValue} from '@angular/core';
 import {AsyncPipe} from '@angular/common';
-import {addProviders, async, fakeAsync, inject, tick} from '@angular/core/testing';
+import {addProviders, inject, tick} from '@angular/core/testing';
 
-import {SpyEventTarget, triggerFakeDragEvent, subscribeSpyObserver} from '../../testing';
+import {componentTest, SpyEventTarget, triggerFakeDragEvent, subscribeSpyObserver} from '../../testing';
 import {DragStateTrackerFactory} from './drag-state-tracker.service';
 import {clientReportsMimeTypesOnDrag} from './drag-drop-utils';
 import {PageFileDragHandler, PAGE_FILE_DRAG_EVENT_TARGET} from './page-file-drag-handler.service';
@@ -32,38 +31,32 @@ describe('File Drop Area:', () => {
     }));
 
     it('is created ok',
-        async(inject([TestComponentBuilder], (tcb: TestComponentBuilder) => {
-            tcb.createAsync(TestComponent).then(fixture => {
-                expect(fixture).toBeDefined();
-                const dropArea: FileDropArea = fixture.componentInstance.directive;
-                expect(dropArea).toBeDefined();
-            });
-        }))
+        componentTest(() => TestComponent, fixture => {
+            expect(fixture).toBeDefined();
+            const dropArea: FileDropArea = fixture.componentInstance.directive;
+            expect(dropArea).toBeDefined();
+        })
     );
 
     it('removes its event handlers when destroyed',
-        async(inject([TestComponentBuilder], (tcb: TestComponentBuilder) => {
-            tcb.createAsync(TestComponent).then(fixture => {
-                fixture.detectChanges();
-                fixture.destroy();
+        componentTest(() => TestComponent, fixture => {
+            fixture.detectChanges();
+            fixture.destroy();
 
-                expect(fakePageElement.listeners).toEqual([]);
-                expect(fakeElement.listeners).toEqual([]);
-            });
-        }))
+            expect(fakePageElement.listeners).toEqual([]);
+            expect(fakeElement.listeners).toEqual([]);
+        })
     );
 
     it('removes its event handlers when destroyed (multiple directives)',
-        async(inject([TestComponentBuilder], (tcb: TestComponentBuilder) => {
-            tcb.overrideTemplate(TestComponent, `
-                <div gtxFileDropArea></div>
-                <div gtxFileDropArea></div>
-                <div gtxFileDropArea></div>
-            `)
-            .createAsync(TestComponent).then(fixture => {
+        componentTest(() => TestComponent, `
+            <div gtxFileDropArea></div>
+            <div gtxFileDropArea></div>
+            <div gtxFileDropArea></div>`,
+            (fixture, instance) => {
                 fixture.detectChanges();
 
-                let directives = fixture.componentRef.instance.directives.toArray();
+                let directives = instance.directives.toArray();
                 directives[0].ngOnDestroy();
                 expect(fakePageElement.listeners).not.toEqual([]);
                 expect(fakeElement.listeners).not.toEqual([]);
@@ -75,8 +68,8 @@ describe('File Drop Area:', () => {
                 directives[2].ngOnDestroy();
                 expect(fakePageElement.listeners).toEqual([]);
                 expect(fakeElement.listeners).toEqual([]);
-            });
-        }))
+            }
+        )
     );
 
     describe('properties', () => {
@@ -84,71 +77,56 @@ describe('File Drop Area:', () => {
         describe('.dragHovered', () => {
 
             it('is false initially',
-                fakeAsync(inject([TestComponentBuilder], (tcb: TestComponentBuilder) => {
-                    tcb.createAsync(TestComponent)
-                    .then(fixture => {
-                        fixture.detectChanges();
-                        const dropArea: FileDropArea = fixture.componentInstance.directive;
-                        expect(dropArea.dragHovered).toBe(false);
-                    });
-                }))
+                componentTest(() => TestComponent, fixture => {
+                    fixture.detectChanges();
+                    const dropArea: FileDropArea = fixture.componentInstance.directive;
+                    expect(dropArea.dragHovered).toBe(false);
+                })
             );
 
             it('is true when a file is dragged over',
-                fakeAsync(inject([TestComponentBuilder], (tcb: TestComponentBuilder) => {
-                    tcb.createAsync(TestComponent)
-                    .then(fixture => {
-                        fixture.detectChanges();
-                        const dropArea: FileDropArea = fixture.componentInstance.directive;
+                componentTest(() => TestComponent, fixture => {
+                    fixture.detectChanges();
+                    const dropArea: FileDropArea = fixture.componentInstance.directive;
 
-                        triggerEventsWithFiles('dragenter dragover');
-                        fixture.detectChanges();
-                        expect(dropArea.dragHovered).toBe(true);
-                    });
-                }))
+                    triggerEventsWithFiles('dragenter dragover');
+                    fixture.detectChanges();
+                    expect(dropArea.dragHovered).toBe(true);
+                })
             );
 
             it('is false when a file is dragged out',
-                fakeAsync(inject([TestComponentBuilder], (tcb: TestComponentBuilder) => {
-                    tcb.createAsync(TestComponent)
-                    .then(fixture => {
-                        fixture.detectChanges();
-                        const dropArea: FileDropArea = fixture.componentInstance.directive;
+                componentTest(() => TestComponent, fixture => {
+                    fixture.detectChanges();
+                    const dropArea: FileDropArea = fixture.componentInstance.directive;
 
-                        triggerEventsWithFiles('dragenter dragover dragleave');
-                        fixture.detectChanges();
-                        expect(dropArea.dragHovered).toBe(false);
-                    });
-                }))
+                    triggerEventsWithFiles('dragenter dragover dragleave');
+                    fixture.detectChanges();
+                    expect(dropArea.dragHovered).toBe(false);
+                })
             );
 
             it('is false when a file is dropped',
-                fakeAsync(inject([TestComponentBuilder], (tcb: TestComponentBuilder) => {
-                    tcb.createAsync(TestComponent)
-                    .then(fixture => {
-                        fixture.detectChanges();
-                        const dropArea: FileDropArea = fixture.componentInstance.directive;
+                componentTest(() => TestComponent, fixture => {
+                    fixture.detectChanges();
+                    const dropArea: FileDropArea = fixture.componentInstance.directive;
 
-                        triggerEventsWithFiles('dragenter dragover drop');
-                        fixture.detectChanges();
-                        expect(dropArea.dragHovered).toBe(false);
-                    });
-                }))
+                    triggerEventsWithFiles('dragenter dragover drop');
+                    fixture.detectChanges();
+                    expect(dropArea.dragHovered).toBe(false);
+                })
             );
 
             it('is only true if the dragged files match the "accept" option',
-                fakeAsync(inject([TestComponentBuilder], (tcb: TestComponentBuilder) => {
-                    if (!clientReportsMimeTypesOnDrag()) {
-                        return pending('Client does not report MIME type of dragged files.');
-                    }
+                componentTest(() => TestComponent, `
+                    <div [gtxFileDropArea]="{ accept: 'image/*' }"></div>`,
+                    (fixture, instance) => {
+                        if (!clientReportsMimeTypesOnDrag()) {
+                            return pending('Client does not report MIME type of dragged files.');
+                        }
 
-                    tcb.overrideTemplate(TestComponent, `
-                        <div [gtxFileDropArea]="{ accept: 'image/*' }"></div>
-                    `)
-                    .createAsync(TestComponent)
-                    .then(fixture => {
                         fixture.detectChanges();
-                        const dropArea: FileDropArea = fixture.componentInstance.directive;
+                        const dropArea: FileDropArea = instance.directive;
 
                         triggerEventsWithFiles('dragenter dragover', 'text/plain');
                         fixture.detectChanges();
@@ -157,8 +135,8 @@ describe('File Drop Area:', () => {
                         triggerEventsWithFiles('dragleave', 'text/plain');
                         triggerEventsWithFiles('dragenter dragover', 'image/jpeg');
                         expect(dropArea.dragHovered).toBe(true);
-                    });
-                }))
+                    }
+                )
             );
 
         });
@@ -166,50 +144,38 @@ describe('File Drop Area:', () => {
         describe('.draggedFiles', () => {
 
             it('is an empty array initially',
-                fakeAsync(inject([TestComponentBuilder], (tcb: TestComponentBuilder) => {
-                    tcb.createAsync(TestComponent)
-                    .then(fixture => {
-                        fixture.detectChanges();
-                        const dropArea: FileDropArea = fixture.componentInstance.directive;
-                        expect(dropArea.draggedFiles).toEqual([]);
-                    });
-                }))
+                componentTest(() => TestComponent, fixture => {
+                    fixture.detectChanges();
+                    const dropArea: FileDropArea = fixture.componentInstance.directive;
+                    expect(dropArea.draggedFiles).toEqual([]);
+                })
             );
 
             it('is a list of mime types when a file is dragged over the FileDropArea',
-                fakeAsync(inject([TestComponentBuilder], (tcb: TestComponentBuilder) => {
-                    tcb.createAsync(TestComponent)
-                    .then(fixture => {
-                        fixture.detectChanges();
-                        const dropArea: FileDropArea = fixture.componentInstance.directive;
-                        triggerEventsWithFiles('dragenter dragover', 'text/plain');
-                        expect(dropArea.draggedFiles).toEqual([{ type: 'text/plain' }]);
-                    });
-                }))
+                componentTest(() => TestComponent, fixture => {
+                    fixture.detectChanges();
+                    const dropArea: FileDropArea = fixture.componentInstance.directive;
+                    triggerEventsWithFiles('dragenter dragover', 'text/plain');
+                    expect(dropArea.draggedFiles).toEqual([{ type: 'text/plain' }]);
+                })
             );
 
             it('is an empty array when a file is dragged out of the FileDropArea',
-                fakeAsync(inject([TestComponentBuilder], (tcb: TestComponentBuilder) => {
-                    tcb.createAsync(TestComponent)
-                    .then(fixture => {
-                        fixture.detectChanges();
-                        const dropArea: FileDropArea = fixture.componentInstance.directive;
-                        triggerEventsWithFiles('dragenter dragover dragleave', 'text/plain');
-                        expect(dropArea.draggedFiles).toEqual([]);
-                    });
-                }))
+                componentTest(() => TestComponent, fixture => {
+                    fixture.detectChanges();
+                    const dropArea: FileDropArea = fixture.componentInstance.directive;
+                    triggerEventsWithFiles('dragenter dragover dragleave', 'text/plain');
+                    expect(dropArea.draggedFiles).toEqual([]);
+                })
             );
 
             it('is an empty array when a file is dropped on the FileDropArea',
-                fakeAsync(inject([TestComponentBuilder], (tcb: TestComponentBuilder) => {
-                    tcb.createAsync(TestComponent)
-                    .then(fixture => {
-                        fixture.detectChanges();
-                        const dropArea: FileDropArea = fixture.componentInstance.directive;
-                        triggerEventsWithFiles('dragenter dragover drop', 'text/plain');
-                        expect(dropArea.draggedFiles).toEqual([]);
-                    });
-                }))
+                componentTest(() => TestComponent, fixture => {
+                    fixture.detectChanges();
+                    const dropArea: FileDropArea = fixture.componentInstance.directive;
+                    triggerEventsWithFiles('dragenter dragover drop', 'text/plain');
+                    expect(dropArea.draggedFiles).toEqual([]);
+                })
             );
 
         });
@@ -217,50 +183,38 @@ describe('File Drop Area:', () => {
         describe('.filesDraggedInPage', () => {
 
             it('is an empty array initially',
-                fakeAsync(inject([TestComponentBuilder], (tcb: TestComponentBuilder) => {
-                    tcb.createAsync(TestComponent)
-                    .then(fixture => {
-                        fixture.detectChanges();
-                        const dropArea: FileDropArea = fixture.componentInstance.directive;
-                        expect(dropArea.filesDraggedInPage).toEqual([]);
-                    });
-                }))
+                componentTest(() => TestComponent, fixture => {
+                    fixture.detectChanges();
+                    const dropArea: FileDropArea = fixture.componentInstance.directive;
+                    expect(dropArea.filesDraggedInPage).toEqual([]);
+                })
             );
 
             it('is a list of mime types when a file is dragged over the Page',
-                fakeAsync(inject([TestComponentBuilder], (tcb: TestComponentBuilder) => {
-                    tcb.createAsync(TestComponent)
-                    .then(fixture => {
-                        fixture.detectChanges();
-                        const dropArea: FileDropArea = fixture.componentInstance.directive;
-                        triggerEventsWithFiles('dragenter dragover', 'text/plain', fakePageElement);
-                        expect(dropArea.filesDraggedInPage).toEqual([{ type: 'text/plain' }]);
-                    });
-                }))
+                componentTest(() => TestComponent, fixture => {
+                    fixture.detectChanges();
+                    const dropArea: FileDropArea = fixture.componentInstance.directive;
+                    triggerEventsWithFiles('dragenter dragover', 'text/plain', fakePageElement);
+                    expect(dropArea.filesDraggedInPage).toEqual([{ type: 'text/plain' }]);
+                })
             );
 
             it('is an empty array when a file is dragged out of the Page',
-                fakeAsync(inject([TestComponentBuilder], (tcb: TestComponentBuilder) => {
-                    tcb.createAsync(TestComponent)
-                    .then(fixture => {
-                        fixture.detectChanges();
-                        const dropArea: FileDropArea = fixture.componentInstance.directive;
-                        triggerEventsWithFiles('dragenter dragover dragleave', 'text/plain', fakePageElement);
-                        expect(dropArea.filesDraggedInPage).toEqual([]);
-                    });
-                }))
+                componentTest(() => TestComponent, fixture => {
+                    fixture.detectChanges();
+                    const dropArea: FileDropArea = fixture.componentInstance.directive;
+                    triggerEventsWithFiles('dragenter dragover dragleave', 'text/plain', fakePageElement);
+                    expect(dropArea.filesDraggedInPage).toEqual([]);
+                })
             );
 
             it('is an empty array when a file is dropped on the Page',
-                fakeAsync(inject([TestComponentBuilder], (tcb: TestComponentBuilder) => {
-                    tcb.createAsync(TestComponent)
-                    .then(fixture => {
-                        fixture.detectChanges();
-                        const dropArea: FileDropArea = fixture.componentInstance.directive;
-                        triggerEventsWithFiles('dragenter dragover drop', 'text/plain', fakePageElement);
-                        expect(dropArea.filesDraggedInPage).toEqual([]);
-                    });
-                }))
+                componentTest(() => TestComponent, fixture => {
+                    fixture.detectChanges();
+                    const dropArea: FileDropArea = fixture.componentInstance.directive;
+                    triggerEventsWithFiles('dragenter dragover drop', 'text/plain', fakePageElement);
+                    expect(dropArea.filesDraggedInPage).toEqual([]);
+                })
             );
 
         });
@@ -272,78 +226,65 @@ describe('File Drop Area:', () => {
         describe('draggedFiles$', () => {
 
             it('does not emit anything before drag events happen',
-                fakeAsync(inject([TestComponentBuilder], (tcb: TestComponentBuilder) => {
-                    tcb.createAsync(TestComponent)
-                    .then(fixture => {
-                        fixture.detectChanges();
-                        const dropArea: FileDropArea = fixture.componentInstance.directive;
-                        let draggedFiles$ = subscribeSpyObserver(dropArea, dropArea.draggedFiles$);
-                        expect(draggedFiles$.next).not.toHaveBeenCalled();
-                    });
-                }))
+                componentTest(() => TestComponent, fixture => {
+                    fixture.detectChanges();
+                    const dropArea: FileDropArea = fixture.componentInstance.directive;
+                    let draggedFiles$ = subscribeSpyObserver(dropArea, dropArea.draggedFiles$);
+                    expect(draggedFiles$.next).not.toHaveBeenCalled();
+                })
             );
 
             it('emits a list of mime types when files are dragged into the directive',
-                fakeAsync(inject([TestComponentBuilder], (tcb: TestComponentBuilder) => {
-                    tcb.createAsync(TestComponent)
-                    .then(fixture => {
-                        fixture.detectChanges();
-                        const dropArea: FileDropArea = fixture.componentInstance.directive;
-                        let draggedFiles$ = subscribeSpyObserver(dropArea, dropArea.draggedFiles$);
+                componentTest(() => TestComponent, fixture => {
+                    fixture.detectChanges();
+                    const dropArea: FileDropArea = fixture.componentInstance.directive;
+                    let draggedFiles$ = subscribeSpyObserver(dropArea, dropArea.draggedFiles$);
 
-                        triggerEventsWithFiles('dragenter dragover', 'text/plain');
-                        fixture.detectChanges();
-                        expect(draggedFiles$.next).toHaveBeenCalledWith([{ type: 'text/plain' }]);
-                    });
-                }))
+                    triggerEventsWithFiles('dragenter dragover', 'text/plain');
+                    fixture.detectChanges();
+                    expect(draggedFiles$.next).toHaveBeenCalledWith([{ type: 'text/plain' }]);
+                })
             );
 
             it('emits an empty array when files are dragged out of the directive',
-                fakeAsync(inject([TestComponentBuilder], (tcb: TestComponentBuilder) => {
-                    tcb.createAsync(TestComponent)
-                    .then(fixture => {
-                        fixture.detectChanges();
-                        const dropArea: FileDropArea = fixture.componentInstance.directive;
-                        let draggedFiles$ = subscribeSpyObserver(dropArea, dropArea.draggedFiles$);
+                componentTest(() => TestComponent, fixture => {
+                    fixture.detectChanges();
+                    const dropArea: FileDropArea = fixture.componentInstance.directive;
+                    let draggedFiles$ = subscribeSpyObserver(dropArea, dropArea.draggedFiles$);
 
-                        triggerEventsWithFiles('dragenter dragover');
-                        fixture.detectChanges();
-                        draggedFiles$.next.calls.reset();
+                    triggerEventsWithFiles('dragenter dragover');
+                    fixture.detectChanges();
+                    draggedFiles$.next.calls.reset();
 
-                        triggerEventsWithFiles('dragleave');
-                        expect(draggedFiles$.next).toHaveBeenCalledWith([]);
-                    });
-                }))
+                    triggerEventsWithFiles('dragleave');
+                    expect(draggedFiles$.next).toHaveBeenCalledWith([]);
+                })
             );
 
             it('emits an empty array when files are dropped on the directive',
-                fakeAsync(inject([TestComponentBuilder], (tcb: TestComponentBuilder) => {
-                    tcb.createAsync(TestComponent)
-                    .then(fixture => {
-                        fixture.detectChanges();
-                        const dropArea: FileDropArea = fixture.componentInstance.directive;
-                        let draggedFiles$ = subscribeSpyObserver(dropArea, dropArea.draggedFiles$);
+                componentTest(() => TestComponent, fixture => {
+                    fixture.detectChanges();
+                    const dropArea: FileDropArea = fixture.componentInstance.directive;
+                    let draggedFiles$ = subscribeSpyObserver(dropArea, dropArea.draggedFiles$);
 
-                        triggerEventsWithFiles('dragenter dragover');
-                        fixture.detectChanges();
-                        draggedFiles$.next.calls.reset();
+                    triggerEventsWithFiles('dragenter dragover');
+                    fixture.detectChanges();
+                    draggedFiles$.next.calls.reset();
 
-                        triggerEventsWithFiles('drop');
-                        expect(draggedFiles$.next).toHaveBeenCalledWith([]);
-                    });
-                }))
+                    triggerEventsWithFiles('drop');
+                    expect(draggedFiles$.next).toHaveBeenCalledWith([]);
+                })
             );
 
             // TODO: This does not work in the demo - why?
             it('works with angulars AsyncPipe',
-                fakeAsync(inject([TestComponentBuilder], (tcb: TestComponentBuilder) => {
+                componentTest(() => TestComponent, fixture => {
                     let pipe: AsyncPipe;
-                    tcb.createAsync(TestComponent)
-                    .then(fixture => {
-                        const dropArea: FileDropArea = fixture.componentInstance.directive;
-                        let cd = fixture.componentRef.changeDetectorRef;
+                    const dropArea: FileDropArea = fixture.componentInstance.directive;
+                    let cd = fixture.componentRef.changeDetectorRef;
 
-                        pipe = new AsyncPipe(cd);
+                    pipe = new AsyncPipe(cd);
+                    try {
                         const callPipeTransform = () => {
                             let res = pipe.transform(dropArea.draggedFiles$);
                             return res instanceof WrappedValue ? res.wrapped : res;
@@ -362,11 +303,10 @@ describe('File Drop Area:', () => {
 
                         expect(callPipeTransform()).toEqual([],
                             'dragleave does not cause AsyncPipe to return an empty array');
-
+                    } finally {
                         pipe.ngOnDestroy();
-                    })
-                    .catch(err => { pipe && pipe.ngOnDestroy(); throw err; });
-                }))
+                    }
+                })
             );
 
         });
@@ -382,14 +322,11 @@ describe('File Drop Area:', () => {
             }
 
             it('filters result of "draggedFiles"',
-                fakeAsync(inject([TestComponentBuilder], (tcb: TestComponentBuilder) => {
-                    tcb.overrideTemplate(TestComponent, `
-                        <div [gtxFileDropArea]="{ accept: 'image/*' }"></div>
-                    `)
-                    .createAsync(TestComponent)
-                    .then(fixture => {
+                componentTest(() => TestComponent, `
+                    <div [gtxFileDropArea]="{ accept: 'image/*' }"></div>`,
+                    (fixture, instance) => {
                         fixture.detectChanges();
-                        const dropArea: FileDropArea = fixture.componentInstance.directive;
+                        const dropArea: FileDropArea = instance.directive;
 
                         triggerEventsWithFiles('dragenter dragover', 'text/plain');
                         fixture.detectChanges();
@@ -398,19 +335,16 @@ describe('File Drop Area:', () => {
                         triggerEventsWithFiles('dragleave', 'text/plain');
                         triggerEventsWithFiles('dragenter dragover', 'image/jpeg');
                         expect(dropArea.draggedFiles).toEqual([{ type: 'image/jpeg' }]);
-                    });
-                }))
+                    }
+                )
             );
 
             it('filters the result of "filesDraggedInPage"',
-                fakeAsync(inject([TestComponentBuilder], (tcb: TestComponentBuilder) => {
-                    tcb.overrideTemplate(TestComponent, `
-                        <div [gtxFileDropArea]="{ accept: 'image/*' }"></div>
-                    `)
-                    .createAsync(TestComponent)
-                    .then(fixture => {
+                componentTest(() => TestComponent, `
+                    <div [gtxFileDropArea]="{ accept: 'image/*' }"></div>`,
+                    (fixture, instance) => {
                         fixture.detectChanges();
-                        const dropArea: FileDropArea = fixture.componentInstance.directive;
+                        const dropArea: FileDropArea = instance.directive;
 
                         triggerEventsWithFiles('dragenter dragover', 'text/plain', fakePageElement);
                         fixture.detectChanges();
@@ -419,8 +353,8 @@ describe('File Drop Area:', () => {
                         triggerEventsWithFiles('dragleave', 'text/plain', fakePageElement);
                         triggerEventsWithFiles('dragenter dragover', 'image/jpeg', fakePageElement);
                         expect(dropArea.filesDraggedInPage).toEqual([{ type: 'image/jpeg' }]);
-                    });
-                }))
+                    }
+                )
             );
 
         });
@@ -428,22 +362,19 @@ describe('File Drop Area:', () => {
         describe('disabled', () => {
 
             it('denies dragging into the drop area',
-                fakeAsync(inject([TestComponentBuilder], (tcb: TestComponentBuilder) => {
-                    tcb.overrideTemplate(TestComponent, `
-                        <div [gtxFileDropArea]="{ disabled: true }"></div>
-                    `)
-                    .createAsync(TestComponent)
-                    .then(fixture => {
+                componentTest(() => TestComponent, `
+                    <div [gtxFileDropArea]="{ disabled: true }"></div>`,
+                    (fixture, instance) => {
                         fixture.detectChanges();
-                        const dropArea = fixture.componentRef.instance.directive;
+                        const dropArea = instance.directive;
                         for (let eventType of ['dragenter', 'dragover']) {
                             let event = triggerFakeDragEvent(fakeElement, eventType, ['text/plain']);
                             expect(event.dataTransfer.dropEffect).toBe('none', `dropEffect for ${eventType}`);
                             expect(event.dataTransfer.effectAllowed).toBe('none', `effectAllowed for ${eventType}`);
                             expect(event.defaultPrevented).toBe(true, `default not prevented for ${eventType}`);
                         }
-                    });
-                }))
+                    }
+                )
             );
 
         });
@@ -453,60 +384,44 @@ describe('File Drop Area:', () => {
     describe('events', () => {
 
         it('fires fileDragEnter when a files is dragged into the element',
-            fakeAsync(inject([TestComponentBuilder], (tcb: TestComponentBuilder) => {
-                tcb.createAsync(TestComponent)
-                .then(fixture => {
-                    let instance = fixture.componentRef.instance;
-                    fixture.detectChanges();
+            componentTest(() => TestComponent, (fixture, instance) => {
+                fixture.detectChanges();
 
-                    expect(instance.onFileDragEnter).not.toHaveBeenCalled();
-                    triggerEventsWithFiles('dragenter dragover', 'image/gif');
-                    expect(instance.onFileDragEnter).toHaveBeenCalledWith([{ type: 'image/gif' }]);
-                });
-            }))
+                expect(instance.onFileDragEnter).not.toHaveBeenCalled();
+                triggerEventsWithFiles('dragenter dragover', 'image/gif');
+                expect(instance.onFileDragEnter).toHaveBeenCalledWith([{ type: 'image/gif' }]);
+            })
         );
 
         it('fires fileDragLeave when a files is dragged off the element',
-            fakeAsync(inject([TestComponentBuilder], (tcb: TestComponentBuilder) => {
-                tcb.createAsync(TestComponent)
-                .then(fixture => {
-                    let instance = fixture.componentRef.instance;
-                    fixture.detectChanges();
-                    triggerEventsWithFiles('dragenter dragover', 'image/gif');
+            componentTest(() => TestComponent, (fixture, instance) => {
+                fixture.detectChanges();
+                triggerEventsWithFiles('dragenter dragover', 'image/gif');
 
-                    expect(instance.onFileDragLeave).not.toHaveBeenCalled();
-                    triggerEventsWithFiles('dragleave', 'image/gif');
-                    expect(instance.onFileDragLeave).toHaveBeenCalled();
-                });
-            }))
+                expect(instance.onFileDragLeave).not.toHaveBeenCalled();
+                triggerEventsWithFiles('dragleave', 'image/gif');
+                expect(instance.onFileDragLeave).toHaveBeenCalled();
+            })
         );
 
         it('fires fileDrop when a files is dropped on the element',
-            fakeAsync(inject([TestComponentBuilder], (tcb: TestComponentBuilder) => {
-                tcb.createAsync(TestComponent)
-                .then(fixture => {
-                    let instance = fixture.componentRef.instance;
-                    fixture.detectChanges();
-                    triggerEventsWithFiles('dragenter dragover', 'image/gif');
+            componentTest(() => TestComponent, (fixture, instance) => {
+                fixture.detectChanges();
+                triggerEventsWithFiles('dragenter dragover', 'image/gif');
 
-                    expect(instance.onFileDrop).not.toHaveBeenCalled();
-                    triggerEventsWithFiles('drop', 'image/gif');
-                    expect(instance.onFileDrop)
-                        .toHaveBeenCalledWith([jasmine.objectContaining({ type: 'image/gif' })]);
-                });
-            }))
+                expect(instance.onFileDrop).not.toHaveBeenCalled();
+                triggerEventsWithFiles('drop', 'image/gif');
+                expect(instance.onFileDrop)
+                    .toHaveBeenCalledWith([jasmine.objectContaining({ type: 'image/gif' })]);
+            })
         );
 
         it('fires fileDropReject when dropped file does not match the "accept" option',
-            fakeAsync(inject([TestComponentBuilder], (tcb: TestComponentBuilder) => {
-                tcb.overrideTemplate(TestComponent, `
-                    <div [gtxFileDropArea]="{ accept: 'image/*, !image/gif' }"
-                        (fileDropReject)="onFileDropRejected($event)"
-                    ></div>
-                `)
-                .createAsync(TestComponent)
-                .then(fixture => {
-                    let instance = fixture.componentRef.instance;
+            componentTest(() => TestComponent, `
+                <div [gtxFileDropArea]="{ accept: 'image/*, !image/gif' }"
+                    (fileDropReject)="onFileDropRejected($event)"
+                ></div>`,
+                (fixture, instance) => {
                     fixture.detectChanges();
                     triggerEventsWithFiles('dragenter dragover', 'image/gif');
 
@@ -514,21 +429,17 @@ describe('File Drop Area:', () => {
                     triggerEventsWithFiles('drop', 'image/gif');
                     expect(instance.onFileDropRejected)
                         .toHaveBeenCalledWith([jasmine.objectContaining({ type: 'image/gif' })]);
-                });
-            }))
+                }
+            )
         );
 
         it('fires fileDrop and fileDropReject when only some dropped files match the "accept" option',
-            fakeAsync(inject([TestComponentBuilder], (tcb: TestComponentBuilder) => {
-                tcb.overrideTemplate(TestComponent, `
-                    <div [gtxFileDropArea]="{ accept: 'image/*' }"
-                        (fileDrop)="onFileDrop($event)"
-                        (fileDropReject)="onFileDropRejected($event)"
-                    ></div>
-                `)
-                .createAsync(TestComponent)
-                .then(fixture => {
-                    let instance = fixture.componentRef.instance;
+            componentTest(() => TestComponent, `
+                <div [gtxFileDropArea]="{ accept: 'image/*' }"
+                    (fileDrop)="onFileDrop($event)"
+                    (fileDropReject)="onFileDropRejected($event)"
+                ></div>`,
+                (fixture, instance) => {
                     fixture.detectChanges();
                     triggerEventsWithFiles('dragenter dragover', ['text/plain', 'image/gif']);
 
@@ -543,52 +454,40 @@ describe('File Drop Area:', () => {
                     expect(instance.onFileDropRejected.calls.mostRecent().args[0])
                         .toEqual([jasmine.objectContaining({ type: 'text/plain' })],
                         'text file should be rejected but is not');
-                });
-            }))
+                }
+            )
         );
 
         it('fires pageDragEnter when a files is dragged into the page',
-            fakeAsync(inject([TestComponentBuilder], (tcb: TestComponentBuilder) => {
-                tcb.createAsync(TestComponent)
-                .then(fixture => {
-                    let instance = fixture.componentRef.instance;
-                    fixture.detectChanges();
+            componentTest(() => TestComponent, (fixture, instance) => {
+                fixture.detectChanges();
 
-                    expect(instance.onFileDragEnter).not.toHaveBeenCalled();
-                    triggerEventsWithFiles('dragenter dragover', 'image/gif');
-                    expect(instance.onFileDragEnter).toHaveBeenCalledWith([{ type: 'image/gif' }]);
-                });
-            }))
+                expect(instance.onFileDragEnter).not.toHaveBeenCalled();
+                triggerEventsWithFiles('dragenter dragover', 'image/gif');
+                expect(instance.onFileDragEnter).toHaveBeenCalledWith([{ type: 'image/gif' }]);
+            })
         );
 
         it('fires pageDragLeave when a files is dragged off the page',
-            fakeAsync(inject([TestComponentBuilder], (tcb: TestComponentBuilder) => {
-                tcb.createAsync(TestComponent)
-                .then(fixture => {
-                    let instance = fixture.componentRef.instance;
-                    fixture.detectChanges();
-                    triggerEventsWithFiles('dragenter dragover', 'image/gif');
+            componentTest(() => TestComponent, (fixture, instance) => {
+                fixture.detectChanges();
+                triggerEventsWithFiles('dragenter dragover', 'image/gif');
 
-                    expect(instance.onFileDragLeave).not.toHaveBeenCalled();
-                    triggerEventsWithFiles('dragleave', 'image/gif');
-                    expect(instance.onFileDragLeave).toHaveBeenCalled();
-                });
-            }))
+                expect(instance.onFileDragLeave).not.toHaveBeenCalled();
+                triggerEventsWithFiles('dragleave', 'image/gif');
+                expect(instance.onFileDragLeave).toHaveBeenCalled();
+            })
         );
 
         it('fires pageDragLeave when a files is dropped',
-            fakeAsync(inject([TestComponentBuilder], (tcb: TestComponentBuilder) => {
-                tcb.createAsync(TestComponent)
-                .then(fixture => {
-                    let instance = fixture.componentRef.instance;
-                    fixture.detectChanges();
-                    triggerEventsWithFiles('dragenter dragover', 'image/gif');
+            componentTest(() => TestComponent, (fixture, instance) => {
+                fixture.detectChanges();
+                triggerEventsWithFiles('dragenter dragover', 'image/gif');
 
-                    expect(instance.onFileDragLeave).not.toHaveBeenCalled();
-                    triggerEventsWithFiles('dragleave', 'image/gif');
-                    expect(instance.onFileDragLeave).toHaveBeenCalled();
-                });
-            }))
+                expect(instance.onFileDragLeave).not.toHaveBeenCalled();
+                triggerEventsWithFiles('dragleave', 'image/gif');
+                expect(instance.onFileDragLeave).toHaveBeenCalled();
+            })
         );
 
     });

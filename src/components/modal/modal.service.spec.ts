@@ -1,11 +1,13 @@
 import {Component} from '@angular/core';
 import {By} from '@angular/platform-browser';
-import {async, discardPeriodicTasks, ComponentFixture, fakeAsync,
-        getTestInjector, inject, TestComponentBuilder, tick} from '@angular/core/testing';
-import {ModalService} from './modal.service';
+import {async, discardPeriodicTasks, ComponentFixture, fakeAsync, getTestInjector, inject, tick} from '@angular/core/testing';
+
+import {componentTest} from '../../testing';
 import {OverlayHostService} from '../overlay-host/overlay-host.service';
 import {OverlayHost} from '../overlay-host/overlay-host.component';
+import {ModalService} from './modal.service';
 import {IDialogConfig, IModalDialog} from './modal-interfaces';
+
 
 let modalService: ModalService;
 let overlayHostService: OverlayHostService;
@@ -20,171 +22,148 @@ describe('ModalService:', () => {
 
     describe('dialog():', () => {
 
-        it('should return a promise',
-            fakeAsync(inject([TestComponentBuilder], (tcb: TestComponentBuilder) =>
-                tcb.createAsync(TestComponent)
-                    .then(fixture => {
-                        fixture.detectChanges();
-                        let result = modalService.dialog({ title: 'Test', buttons: []});
+        it('returns a promise',
+            componentTest(() => TestComponent, fixture => {
+                fixture.detectChanges();
+                let result = modalService.dialog({ title: 'Test', buttons: []});
 
-                        expect(result.then).toBeDefined();
-                    })
-            ))
+                expect(result.then).toBeDefined();
+            })
         );
 
-        it('should display a title and body',
-            fakeAsync(inject([TestComponentBuilder], (tcb: TestComponentBuilder) =>
-                tcb.createAsync(TestComponent)
-                    .then(fixture => {
-                        fixture.detectChanges();
-                        modalService.dialog({ title: 'Test', body: 'This is a modal', buttons: []});
-                        tick();
-                        fixture.detectChanges();
+        it('displays a title and body',
+            componentTest(() => TestComponent, fixture => {
+                fixture.detectChanges();
+                modalService.dialog({ title: 'Test', body: 'This is a modal', buttons: []});
+                tick();
+                fixture.detectChanges();
 
-                        expect(getElement(fixture, '.modal-title').innerText).toContain('Test');
-                        expect(getElement(fixture, '.modal-body').innerText).toContain('This is a modal');
-                    })
-            ))
+                expect(getElement(fixture, '.modal-title').innerText).toContain('Test');
+                expect(getElement(fixture, '.modal-body').innerText).toContain('This is a modal');
+            })
         );
 
         describe('buttons:', () => {
 
-            function setupButtonsTest(tcb: TestComponentBuilder): Promise<ComponentFixture<TestComponent>> {
-                return tcb.createAsync(TestComponent)
-                    .then(fixture => {
-                        fixture.detectChanges();
-                        modalService.dialog({ title: 'Test', buttons: [
-                            { label: 'okay', type: 'default', returnValue: true },
-                            { label: 'cancel', type: 'secondary', returnValue: false },
-                            { label: 'not sure', type: 'alert', returnValue: 'not sure' }
-                        ] });
-                        tick();
-                        fixture.detectChanges();
-
-                        return fixture;
-                    });
+            function setupButtonsTest<T>(fixture: ComponentFixture<T>): void {
+                fixture.detectChanges();
+                modalService.dialog({ title: 'Test', buttons: [
+                    { label: 'okay', type: 'default', returnValue: true },
+                    { label: 'cancel', type: 'secondary', returnValue: false },
+                    { label: 'not sure', type: 'alert', returnValue: 'not sure' }
+                ] });
+                tick();
+                fixture.detectChanges();
             }
 
-            it('should display buttons.',
-                fakeAsync(inject([TestComponentBuilder], (tcb: TestComponentBuilder) =>
-                    setupButtonsTest(tcb)
-                        .then(fixture => {
-                            let buttons = getElements(fixture, '.modal-footer button');
-                            expect(buttons.length).toBe(3);
-                        })
-                ))
+            it('displays configured buttons in the modal footer',
+                componentTest(() => TestComponent, fixture => {
+                    setupButtonsTest(fixture);
+                    let buttons = getElements(fixture, '.modal-footer button');
+                    expect(buttons.length).toBe(3);
+                })
             );
 
-            it('should label buttons correctly.',
-                fakeAsync(inject([TestComponentBuilder], (tcb: TestComponentBuilder) =>
-                    setupButtonsTest(tcb)
-                        .then(fixture => {
-                            let buttons = getElements(fixture, '.modal-footer button');
+            it('labels buttons correctly',
+                componentTest(() => TestComponent, fixture => {
+                    setupButtonsTest(fixture);
+                    let buttons = getElements(fixture, '.modal-footer button');
 
-                            expect(buttons[0].innerHTML).toContain('okay');
-                            expect(buttons[1].innerHTML).toContain('cancel');
-                            expect(buttons[2].innerHTML).toContain('not sure');
-                        })
-                ))
+                    expect(buttons[0].innerHTML).toContain('okay');
+                    expect(buttons[1].innerHTML).toContain('cancel');
+                    expect(buttons[2].innerHTML).toContain('not sure');
+                })
             );
 
-            it('should assign correct classes to buttons.',
-                fakeAsync(inject([TestComponentBuilder], (tcb: TestComponentBuilder) =>
-                    setupButtonsTest(tcb)
-                        .then(fixture => {
-                            let buttons = getElements(fixture, '.modal-footer button');
+            it('assigns correct classes to buttons',
+                componentTest(() => TestComponent, fixture => {
+                    setupButtonsTest(fixture);
+                    let buttons = getElements(fixture, '.modal-footer button');
 
-                            expect(buttons[0].classList.contains('default')).toBe(true);
-                            expect(buttons[1].classList.contains('secondary')).toBe(true);
-                            expect(buttons[2].classList.contains('alert')).toBe(true);
-                        })
-                ))
+                    expect(buttons[0].classList).toContain('default');
+                    expect(buttons[1].classList).toContain('secondary');
+                    expect(buttons[2].classList).toContain('alert');
+                })
             );
         });
 
-        it('should resolve with value when button clicked',
-            fakeAsync(inject([TestComponentBuilder], (tcb: TestComponentBuilder) => {
-                let fixture: ComponentFixture<TestComponent>;
-                return tcb.createAsync(TestComponent)
-                    .then(_fixture => {
-                        fixture = _fixture;
-                        fixture.detectChanges();
-                        return modalService.dialog({
-                            title: 'Test', buttons: [
-                                {label: 'okay', type: 'default', returnValue: 'okay'}
-                            ]
-                        });
-                    })
-                    .then(modal => {
-                        let promise = modal.open();
-                        tick();
-                        fixture.detectChanges();
+        it('resolves with value configured by "returnValue" when a button is clicked',
+            componentTest(() => TestComponent, fixture => {
+                fixture.detectChanges();
+                return modalService.dialog({
+                    title: 'Test', buttons: [
+                        { label: 'okay', type: 'default', returnValue: 'okay' }
+                    ]
+                })
+                .then(modal => {
+                    let promise = modal.open();
+                    tick();
+                    fixture.detectChanges();
 
-                        getElement(fixture, '.modal-footer button').click();
-                        tick();
+                    getElement(fixture, '.modal-footer button').click();
+                    tick();
 
-                        return promise;
-                    })
-                    .then(result => {
-                        expect(result).toBe('okay');
-                    });
-            }))
+                    return promise;
+                })
+                .then(result => {
+                    expect(result).toBe('okay');
+                });
+            })
         );
 
-        it('should reject with value when shouldReject button clicked',
-            fakeAsync(inject([TestComponentBuilder], (tcb: TestComponentBuilder) => {
-                let fixture: ComponentFixture<TestComponent>;
-                tcb.createAsync(TestComponent)
-                    .then(_fixture => {
-                        fixture = _fixture;
-                        fixture.detectChanges();
-                        return modalService.dialog({
-                            title: 'Test', buttons: [
-                                {label: 'okay', type: 'default', returnValue: 'cancelled', shouldReject: true}
-                            ]
-                        });
-                    })
-                    .then(modal => {
-                        let promise = modal.open()
-                            .then(() => expect(false).toBe(true, 'this line should never be reached.'))
-                            .catch(reason => expect(reason).toContain('cancelled'));
+        it('rejects with returnValue when a button with shouldReject: true is clicked',
+            componentTest(() => TestComponent, fixture => {
+                fixture.detectChanges();
+                return modalService.dialog({
+                    title: 'Test', buttons: [
+                        {label: 'okay', type: 'default', returnValue: 'cancelled', shouldReject: true}
+                    ]
+                })
+                .then(modal => {
+                    let promise = modal.open()
+                        .then(
+                            () => fail('Promise resolved but should reject'),
+                            reason => expect(reason).toContain('cancelled')
+                        );
 
-                        tick();
-                        fixture.detectChanges();
+                    tick();
+                    fixture.detectChanges();
 
-                        getElement(fixture, '.modal-footer button').click();
-                        tick();
+                    getElement(fixture, '.modal-footer button').click();
+                    tick();
 
-                        return promise;
-                    });
-            }))
+                    return promise;
+                });
+            })
         );
 
-        // TODO: enable once this is fixed https://github.com/angular/angular/issues/8251
-        xit('should reject with when overlay clicked',
-            fakeAsync(inject([TestComponentBuilder], (tcb: TestComponentBuilder) =>
-                tcb.createAsync(TestComponent)
-                    .then(fixture => {
-                        fixture.detectChanges();
-                        let modalRef = modalService.dialog({ title: 'Test', buttons: [{ label: 'okay' }] });
-                        tick();
-                        fixture.detectChanges();
+        it('does not reject when the overlay is clicked', () => {
+            let testWithPendingPromise = componentTest(
+                () => TestComponent,
+                fixture => {
+                    fixture.detectChanges();
 
-                        getElement(fixture, '.gtx-modal-overlay').click();
-                        tick();
-                        tick();
+                    let promiseFulfilled = false;
+                    let modalPromise = modalService.dialog({ title: 'Test', buttons: [{ label: 'okay' }] })
+                        .then(modal => modal.open())
+                        .then(
+                            () => fail('Promise resolved but should not be'),
+                            () => fail('Promise rejected but should not be')
+                        );
 
-                        return modalRef;
-                    })
-                    .then(() => {
-                        expect(false).toBe(true, 'this line should never be reached.');
-                    })
-                    .catch((reason: Error) => {
-                        expect(reason instanceof Error).toBe(true);
-                        tick();
-                    })
-            ))
-        );
+                    tick();
+                    fixture.detectChanges();
+
+                    getElement(fixture, '.gtx-modal-overlay').click();
+                    tick();
+                    tick();
+
+                    discardPeriodicTasks();
+                });
+
+            // Cancelling the modal creates a pending promise, which should be perfectly fine.
+            expect(testWithPendingPromise).toThrowError('1 timer(s) still in the queue.');
+        });
     });
 
     describe('modal options:', () => {
@@ -195,108 +174,121 @@ describe('ModalService:', () => {
             buttons: [{ label: 'okay' }]
         };
 
-        it('should fire onOpen',
-            fakeAsync(inject([TestComponentBuilder], (tcb: TestComponentBuilder) =>
-                tcb.createAsync(TestComponent)
-                    .then(fixture => {
-                        let onOpen = jasmine.createSpy('onOpen');
-                        fixture.detectChanges();
-                        return modalService.dialog(testDialogConfig, { onOpen: onOpen })
-                            .then(modal => modal.open())
-                            .then(() => {
-                                expect(onOpen).toHaveBeenCalled();
-                            });
-                    })
-            ))
+        it('calls the onOpen callback when the modal is opened',
+            componentTest(() => TestComponent, fixture => {
+                let onOpen = jasmine.createSpy('onOpen');
+                fixture.detectChanges();
+                return modalService.dialog(testDialogConfig, { onOpen: onOpen })
+                    .then(modal => modal.open())
+                    .then(() => {
+                        expect(onOpen).toHaveBeenCalled();
+                    });
+            })
         );
 
-        it('should fire onClose',
-            fakeAsync(inject([TestComponentBuilder], (tcb: TestComponentBuilder) =>
-                tcb.createAsync(TestComponent)
-                    .then(fixture => {
-                        let onClose = jasmine.createSpy('onClose');
-                        fixture.detectChanges();
-                        return modalService.dialog(testDialogConfig, { onClose: onClose })
-                            .then(modal => modal.open())
-                            .then(() => {
-                                getElement(fixture, '.modal-footer button').click();
-                                tick();
-                                expect(onClose).toHaveBeenCalled();
-                            });
-                    })
-            ))
+        it('calls the onClose callback when the modal is closed',
+            componentTest(() => TestComponent, fixture => {
+                let onClose = jasmine.createSpy('onClose');
+                fixture.detectChanges();
+                return modalService.dialog(testDialogConfig, { onClose: onClose })
+                    .then(modal => modal.open())
+                    .then(() => {
+                        getElement(fixture, '.modal-footer button').click();
+                        tick();
+                        expect(onClose).toHaveBeenCalled();
+                    });
+            })
         );
 
-        // TODO: enable once this is fixed https://github.com/angular/angular/issues/8251
-        xit('should close when closeOnOverlayClick = true',
-            fakeAsync(inject([TestComponentBuilder], (tcb: TestComponentBuilder) =>
-                tcb.createAsync(TestComponent)
-                    .then(fixture => {
-                        fixture.detectChanges();
-                        let modalRef = modalService.dialog(testDialogConfig, { closeOnOverlayClick: true });
-                        tick();
-                        fixture.detectChanges();
+        it('closes when clicking the overlay with closeOnOverlayClick = true', () => {
+            let testWithPendingPromise = componentTest(
+                () => TestComponent,
+                fixture => {
+                    fixture.detectChanges();
 
-                        getElement(fixture, '.gtx-modal-overlay').click();
-                        tick();
-                        tick();
-                    })
-                    .catch(error => {
-                        expect(error).toBeDefined();
-                    })
-            ))
+                    let modalInstance: IModalDialog;
+                    let modalPromise = modalService.dialog(testDialogConfig, { closeOnOverlayClick: true })
+                        .then(modal => {
+                            modalInstance = modal.instance;
+                            return modal.open();
+                        });
+
+                    tick();
+                    fixture.detectChanges();
+
+                    modalInstance.cancelFn = jasmine.createSpy('cancelFn');
+
+                    getElement(fixture, '.gtx-modal-overlay').click();
+                    tick();
+                    tick();
+
+                    expect(modalInstance.cancelFn).toHaveBeenCalled();
+                    discardPeriodicTasks();
+                    tick();
+                });
+
+            // Cancelling the modal creates a pending promise, which should be perfectly fine.
+            expect(testWithPendingPromise).toThrowError('1 timer(s) still in the queue.');
+        });
+
+        it('does not close when clicking the overlay with closeOnOverlayClick = false',
+            componentTest(() => TestComponent, fixture => {
+                fixture.detectChanges();
+
+                let modalComponentInstance: IModalDialog;
+                let modalPromise = modalService.dialog(testDialogConfig, { closeOnOverlayClick: false })
+                    .then(modal => {
+                        modalComponentInstance = modal.instance;
+                        return modal.open();
+                    });
+
+                tick();
+                fixture.detectChanges();
+
+                modalComponentInstance.cancelFn = jasmine.createSpy('cancelFn');
+
+                getElement(fixture, '.gtx-modal-overlay').click();
+                tick();
+                tick();
+
+                expect(modalComponentInstance.cancelFn).not.toHaveBeenCalled();
+            })
         );
 
-        // TODO: enable once this is fixed https://github.com/angular/angular/issues/8251
-        xit('should not close when closeOnOverlayClick = false',
-            fakeAsync(inject([TestComponentBuilder], (tcb: TestComponentBuilder) =>
-                tcb.createAsync(TestComponent)
-                    .then(fixture => {
-                        fixture.detectChanges();
-                        let modalRef = modalService.dialog(testDialogConfig, { closeOnOverlayClick: false });
-                        tick();
-                        fixture.detectChanges();
+        it('sets a maxWidth when passed in the modal options',
+            componentTest(() => TestComponent, fixture => {
+                fixture.detectChanges();
+                modalService.dialog(testDialogConfig, { maxWidth: '400px' });
+                tick();
+                fixture.detectChanges();
 
-                        getElement(fixture, '.gtx-modal-overlay').click();
-                        tick();
-                        tick();
-
-                        return modalRef;
-                    })
-                    .catch(error => {
-                        expect(error).toBeDefined();
-                    })
-            ))
+                let dialog = getElement(fixture, '.gtx-modal-dialog');
+                expect(dialog.style.maxWidth).toBe('400px');
+            })
         );
 
-        it('should set maxWidth',
-            fakeAsync(inject([TestComponentBuilder], (tcb: TestComponentBuilder) =>
-                tcb.createAsync(TestComponent)
-                    .then(fixture => {
-                        fixture.detectChanges();
-                        modalService.dialog(testDialogConfig, { maxWidth: '400px' });
-                        tick();
-                        fixture.detectChanges();
+        it('does not set any padding by adding a "nopad" class with padding: false',
+            componentTest(() => TestComponent, fixture => {
+                fixture.detectChanges();
+                modalService.dialog(testDialogConfig, { padding: false });
+                tick();
+                fixture.detectChanges();
 
-                        let dialog = getElement(fixture, '.gtx-modal-dialog');
-                        expect(dialog.style.maxWidth).toBe('400px');
-                    })
-            ))
+                let dialog = getElement(fixture, '.gtx-modal-dialog');
+                expect(dialog.classList).toContain('nopad');
+            })
         );
 
-        it('should set padding',
-            fakeAsync(inject([TestComponentBuilder], (tcb: TestComponentBuilder) =>
-                tcb.createAsync(TestComponent)
-                    .then(fixture => {
-                        fixture.detectChanges();
-                        modalService.dialog(testDialogConfig, { padding: false });
-                        tick();
-                        fixture.detectChanges();
+        it('sets padding by not adding a "nopad" class with padding: true',
+            componentTest(() => TestComponent, fixture => {
+                fixture.detectChanges();
+                modalService.dialog(testDialogConfig, { padding: true });
+                tick();
+                fixture.detectChanges();
 
-                        let dialog = getElement(fixture, '.gtx-modal-dialog');
-                        expect(dialog.classList.contains('nopad')).toBe(true);
-                    })
-            ))
+                let dialog = getElement(fixture, '.gtx-modal-dialog');
+                expect(dialog.classList).not.toContain('nopad');
+            })
         );
 
     });
@@ -336,161 +328,135 @@ describe('ModalService:', () => {
         })
         class BadModalCmp {}
 
-        it('should throw if the component does not implement IModalDialog',
-            fakeAsync(inject([TestComponentBuilder], (tcb: TestComponentBuilder) =>
-                tcb.createAsync(TestComponent)
-                    .then(fixture => {
-                        fixture.detectChanges();
+        it('throws if the passed component does not implement IModalDialog',
+            componentTest(() => TestComponent, fixture => {
+                fixture.detectChanges();
 
-                        function run(): void {
-                            modalService.fromComponent(BadModalCmp);
-                            tick();
-                        }
+                function run(): void {
+                    modalService.fromComponent(BadModalCmp);
+                    tick();
+                }
 
-                        expect(run).toThrow();
-                    })
-            ))
+                expect(run).toThrow();
+            })
         );
 
-        it('should return a promise',
-            fakeAsync(inject([TestComponentBuilder], (tcb: TestComponentBuilder) =>
-                tcb.createAsync(TestComponent)
-                    .then(fixture => {
-                        fixture.detectChanges();
-                        let result = modalService.fromComponent(TestModalCmp);
+        it('returns a promise',
+            componentTest(() => TestComponent, fixture => {
+                fixture.detectChanges();
+                let result = modalService.fromComponent(TestModalCmp);
 
-                        expect(result.then).toBeDefined();
-                    })
-            ))
+                expect(typeof result.then).toBe('function');
+            })
         );
 
         it('resolves the returned promise when the modal is closed',
-            fakeAsync(inject([TestComponentBuilder], (tcb: TestComponentBuilder) =>
-                tcb.createAsync(TestComponent)
-                    .then(fixture => {
-                        fixture.detectChanges();
+            componentTest(() => TestComponent, fixture => {
+                fixture.detectChanges();
 
-                        modalService.fromComponent(TestModalCmp)
-                            .then(modal => {
-                                let promise = modal.open();
+                modalService.fromComponent(TestModalCmp)
+                    .then(modal => {
+                        let promise = modal.open();
 
-                                let cmp: TestModalCmp = <any> modal.instance;
-                                cmp.closeFn('some result');
+                        let cmp: TestModalCmp = <any> modal.instance;
+                        cmp.closeFn('some result');
 
-                                return promise;
-                            })
-                            .then(
-                                (result: any) => { expect(result).toBe('some result'); },
-                                () => { fail('Promise should resolve but rejected'); }
-                            );
+                        return promise;
                     })
-            ))
+                    .then(
+                        result => { expect(result).toBe('some result'); },
+                        () => { fail('Promise should resolve but rejected'); }
+                    );
+            })
         );
 
         it('does not resolve or reject the returned promise when the modal is cancelled',
-            fakeAsync(inject([TestComponentBuilder], (tcb: TestComponentBuilder) =>
-                tcb.createAsync(TestComponent)
-                    .then(fixture => {
-                        fixture.detectChanges();
+            componentTest(() => TestComponent, fixture => {
+                fixture.detectChanges();
 
-                        modalService.fromComponent(TestModalCmp)
-                            .then(modal => {
-                                let promise = modal.open();
+                modalService.fromComponent(TestModalCmp)
+                    .then(modal => {
+                        let promise = modal.open();
 
-                                let cmp: TestModalCmp = <any> modal.instance;
-                                cmp.cancelFn('reason');
+                        let cmp: TestModalCmp = <any> modal.instance;
+                        cmp.cancelFn('reason');
 
-                                setTimeout(() => {
-                                    expect(true).toBe(true);
-                                    discardPeriodicTasks();
-                                }, 500);
+                        setTimeout(() => {
+                            expect(true).toBe(true);
+                            discardPeriodicTasks();
+                        }, 500);
 
-                                return promise;
-                            })
-                            .then(
-                                () => { fail('Promise should not resolve but did'); },
-                                () => { fail('Promise should not reject but did'); }
-                            );
-
-                        tick(500);
+                        return promise;
                     })
-            ))
+                    .then(
+                        () => { fail('Promise should not resolve but did'); },
+                        () => { fail('Promise should not reject but did'); }
+                    );
+
+                tick(500);
+            })
         );
 
         it('rejects the returned promise when the passed error handler is called',
-            fakeAsync(inject([TestComponentBuilder], (tcb: TestComponentBuilder) =>
-                tcb.createAsync(TestComponent)
-                    .then(fixture => {
-                        fixture.detectChanges();
+            componentTest(() => TestComponent, fixture => {
+                fixture.detectChanges();
 
-                        modalService.fromComponent(TestModalCmp)
-                            .then(modal => {
-                                let promise = modal.open();
+                modalService.fromComponent(TestModalCmp)
+                    .then(modal => {
+                        let promise = modal.open();
 
-                                let cmp: TestModalCmp = <any> modal.instance;
-                                cmp.errorFn(new Error('a test error'));
+                        let cmp: TestModalCmp = <any> modal.instance;
+                        cmp.errorFn(new Error('a test error'));
 
-                                return promise;
-                            })
-                            .then(
-                                () => { fail('Promise should reject but resolved'); },
-                                (err: Error) => {
-                                    expect(err.message).toBe('a test error');
-                                }
-                            );
+                        return promise;
                     })
-            ))
+                    .then(
+                        () => fail('Promise should reject but resolved'),
+                        (err: Error) => expect(err.message).toBe('a test error')
+                    );
+            })
         );
 
-        it('should contain the component',
-            fakeAsync(inject([TestComponentBuilder], (tcb: TestComponentBuilder) =>
-                tcb.createAsync(TestComponent)
-                    .then(fixture => {
-                        fixture.detectChanges();
-                        modalService.fromComponent(TestModalCmp);
-                        tick();
+        it('contains an instance of the passed component',
+            componentTest(() => TestComponent, fixture => {
+                fixture.detectChanges();
+                modalService.fromComponent(TestModalCmp);
+                tick();
 
-                        let testModalCmp = getElement(fixture, 'test-modal-cmp');
+                let testModalCmp = getElement(fixture, 'test-modal-cmp');
 
-                        expect(testModalCmp).toBeDefined();
-                        expect(testModalCmp.innerText).toContain('TestModalCmp');
-                    })
-            ))
+                expect(testModalCmp).toBeDefined();
+                expect(testModalCmp.innerText).toContain('TestModalCmp');
+            })
         );
 
-        it('should inject locals (string)',
-            fakeAsync(inject([TestComponentBuilder], (tcb: TestComponentBuilder) =>
-                tcb.createAsync(TestComponent)
-                    .then(fixture => {
-                        fixture.detectChanges();
-                        modalService.fromComponent(TestModalCmp, {}, { localValue: 'Foo' });
-                        tick();
+        it('injects local properties (string)',
+            componentTest(() => TestComponent, fixture => {
+                fixture.detectChanges();
+                modalService.fromComponent(TestModalCmp, {}, { localValue: 'Foo' });
+                tick();
 
-                        let testModalCmp = getElement(fixture, 'test-modal-cmp');
-                        fixture.detectChanges();
+                let testModalCmp = getElement(fixture, 'test-modal-cmp');
+                fixture.detectChanges();
 
-                        expect(testModalCmp).toBeDefined();
-                        expect(testModalCmp.innerText).toContain('Foo');
-                    })
-            ))
+                expect(testModalCmp).toBeDefined();
+                expect(testModalCmp.innerText).toContain('Foo');
+            })
         );
 
-        it('should inject locals (function)',
-            fakeAsync(inject([TestComponentBuilder], (tcb: TestComponentBuilder) =>
-                tcb.createAsync(TestComponent)
-                    .then(fixture => {
-                        fixture.detectChanges();
-                        const spy = jasmine.createSpy('spy');
-                        modalService.fromComponent(TestModalCmp, {}, { localFn: spy });
-                        tick();
+        it('injects local properties (function)',
+            componentTest(() => TestComponent, fixture => {
+                fixture.detectChanges();
+                const spy = jasmine.createSpy('spy');
+                modalService.fromComponent(TestModalCmp, {}, { localFn: spy });
+                tick();
 
-                        fixture.detectChanges();
-                        getElement(fixture, '.modal-button').click();
-                        tick();
+                fixture.detectChanges();
+                getElement(fixture, '.modal-button').click();
+                tick();
 
-                        expect(spy).toHaveBeenCalledWith('bar');
-                    })
-            ))
+                expect(spy).toHaveBeenCalledWith('bar');
+            })
         );
     });
 });

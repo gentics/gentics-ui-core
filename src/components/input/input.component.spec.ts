@@ -1,79 +1,65 @@
 import {Component} from '@angular/core';
-import {addProviders, async, fakeAsync, inject, tick} from '@angular/core/testing';
-import {ComponentFixture, TestComponentBuilder} from '@angular/compiler/testing';
+import {addProviders, tick} from '@angular/core/testing';
 import {FormControl, FormGroup, REACTIVE_FORM_DIRECTIVES} from '@angular/forms';
 
+import {componentTest} from '../../testing';
 import {InputField} from './input.component';
+
 
 describe('InputField', () => {
 
-    it('should bind the label',
-        async(inject([TestComponentBuilder], (tcb: TestComponentBuilder) =>
-            tcb.overrideTemplate(TestComponent, `
-                <gtx-input label="testLabel"></gtx-input>
-            `)
-            .createAsync(TestComponent)
-            .then(fixture => {
+    it('binds the label text to the "label" input',
+        componentTest(() => TestComponent, `
+            <gtx-input label="testLabel"></gtx-input>`,
+            fixture => {
                 let label: HTMLElement = fixture.nativeElement.querySelector('label');
                 fixture.detectChanges();
 
                 expect(label.innerText).toBe('testLabel');
-            })
-        ))
+            }
+        )
     );
 
-    it('should not add the "active" class to label if input is empty',
-        async(inject([TestComponentBuilder], (tcb: TestComponentBuilder) =>
-            tcb.overrideTemplate(TestComponent, `
-                <gtx-input label="testLabel"></gtx-input>
-            `)
-            .createAsync(TestComponent)
-            .then(fixture => {
+    it('does not add the "active" class to its label if the input is empty',
+        componentTest(() => TestComponent, `
+            <gtx-input label="testLabel"></gtx-input>`,
+            fixture => {
                 let label: HTMLElement = fixture.nativeElement.querySelector('label');
                 fixture.detectChanges();
 
                 expect(label.classList).not.toContain('active');
-            })
-        ))
+            }
+        )
     );
 
-    it('should add the "active" class to label if input not empty',
-        async(inject([TestComponentBuilder], (tcb: TestComponentBuilder) =>
-            tcb.overrideTemplate(TestComponent, `
-                <gtx-input label="testLabel" value="foo"></gtx-input>
-            `)
-            .createAsync(TestComponent)
-            .then(fixture => {
+    it('adds the "active" class to its label if the input is not empty',
+        componentTest(() => TestComponent, `
+            <gtx-input label="testLabel" value="foo"></gtx-input>`,
+            fixture => {
                 let label: HTMLElement = fixture.nativeElement.querySelector('label');
                 fixture.detectChanges();
 
                 expect(label.classList).toContain('active');
-            })
-        ))
+            }
+        )
     );
 
-    it('should add the "active" class to label if placeholder is set',
-        async(inject([TestComponentBuilder], (tcb: TestComponentBuilder) =>
-            tcb.overrideTemplate(TestComponent, `
-                <gtx-input label="testLabel" placeholder="foo"></gtx-input>
-            `)
-            .createAsync(TestComponent)
-            .then(fixture => {
+    it('adds the "active" class to its label if a placeholder is set',
+        componentTest(() => TestComponent, `
+            <gtx-input label="testLabel" placeholder="foo"></gtx-input>`,
+            fixture => {
                 let label: HTMLElement = fixture.nativeElement.querySelector('label');
                 fixture.detectChanges();
 
                 expect(label.classList).toContain('active');
-            })
-        ))
+            }
+        )
     );
 
-    it('should bind the id to the label and input',
-        async(inject([TestComponentBuilder], (tcb: TestComponentBuilder) =>
-            tcb.overrideTemplate(TestComponent, `
-                <gtx-input label="testLabel" id="testId"></gtx-input>
-            `)
-            .createAsync(TestComponent)
-            .then(fixture => {
+    it('binds the "id" input to the labels "for" and the inputs "id" attributes',
+        componentTest(() => TestComponent, `
+            <gtx-input label="testLabel" id="testId"></gtx-input>`,
+            fixture => {
                 let label: HTMLLabelElement = fixture.nativeElement.querySelector('label');
                 let nativeInput: HTMLInputElement = fixture.nativeElement.querySelector('input');
 
@@ -81,71 +67,57 @@ describe('InputField', () => {
 
                 expect(label.htmlFor).toBe('testId');
                 expect(nativeInput.id).toBe('testId');
-            })
-        ))
+            }
+        )
     );
 
-    it('should use defaults for undefined attributes which have a default',
-        async(inject([TestComponentBuilder], (tcb: TestComponentBuilder) =>
-            tcb.overrideTemplate(TestComponent, `
-                <gtx-input></gtx-input>
-            `)
-            .createAsync(TestComponent)
-            .then(fixture => {
-                let nativeInput: HTMLInputElement = fixture.nativeElement.querySelector('input');
-                fixture.detectChanges();
+    it('uses defaults for undefined attributes which have a default',
+        componentTest(() => TestComponent, fixture => {
+            let nativeInput: HTMLInputElement = fixture.nativeElement.querySelector('input');
+            fixture.detectChanges();
 
-                expect(nativeInput.disabled).toBe(false);
-                expect(nativeInput.readOnly).toBe(false);
-                expect(nativeInput.required).toBe(false);
-                expect(nativeInput.type).toBe('text');
-                expect(nativeInput.value).toBe('');
-            })
-        ))
+            expect(nativeInput.disabled).toBe(false);
+            expect(nativeInput.readOnly).toBe(false);
+            expect(nativeInput.required).toBe(false);
+            expect(nativeInput.type).toBe('text');
+            expect(nativeInput.value).toBe('');
+        })
     );
 
-    it('should not display undefined attributes',
-        async(inject([TestComponentBuilder], (tcb: TestComponentBuilder) =>
-            tcb.overrideTemplate(TestComponent, `
-                <gtx-input></gtx-input>
-            `)
-            .createAsync(TestComponent)
-            .then(fixture => {
-                let nativeInput: HTMLInputElement = fixture.nativeElement.querySelector('input');
-                const getAttr: Function = (name: string) => nativeInput.attributes.getNamedItem(name);
-                fixture.detectChanges();
+    it('does not add attributes which are not defined',
+        componentTest(() => TestComponent, fixture => {
+            let nativeInput: HTMLInputElement = fixture.nativeElement.querySelector('input');
+            const getAttr: Function = (name: string) => nativeInput.attributes.getNamedItem(name);
+            fixture.detectChanges();
 
-                expect(getAttr('id')).toBe(null);
-                expect(getAttr('max')).toBe(null);
-                expect(getAttr('min')).toBe(null);
-                expect(getAttr('maxLength')).toBe(null);
-                expect(getAttr('name')).toBe(null);
-                expect(getAttr('pattern')).toBe(null);
-                expect(getAttr('placeholder')).toBe(null);
-                expect(getAttr('step')).toBe(null);
-            })
-        ))
+            expect(getAttr('id')).toBe(null);
+            expect(getAttr('max')).toBe(null);
+            expect(getAttr('min')).toBe(null);
+            expect(getAttr('maxLength')).toBe(null);
+            expect(getAttr('name')).toBe(null);
+            expect(getAttr('pattern')).toBe(null);
+            expect(getAttr('placeholder')).toBe(null);
+            expect(getAttr('step')).toBe(null);
+        })
     );
 
-    it('should pass through the native attributes',
-        async(inject([TestComponentBuilder], (tcb: TestComponentBuilder) =>
-            tcb.overrideTemplate(TestComponent, `
-                <gtx-input
-                    disabled="true"
-                    max="100"
-                    min="5"
-                    maxlength="25"
-                    name="testName"
-                    pattern="testRegex"
-                    placeholder="testPlaceholder"
-                    readonly="true"
-                    required="true"
-                    step="5"
-                    type="text"
-                    value="testValue"
-                ></gtx-input>`)
-            .createAsync(TestComponent)
-            .then(fixture => {
+    it('passes native attributes to its input element',
+        componentTest(() => TestComponent, `
+            <gtx-input
+                disabled="true"
+                max="100"
+                min="5"
+                maxlength="25"
+                name="testName"
+                pattern="testRegex"
+                placeholder="testPlaceholder"
+                readonly="true"
+                required="true"
+                step="5"
+                type="text"
+                value="testValue"
+            ></gtx-input>`,
+            fixture => {
                 let nativeInput: HTMLInputElement = fixture.nativeElement.querySelector('input');
                 fixture.detectChanges();
 
@@ -161,167 +133,134 @@ describe('InputField', () => {
                 expect(Number(nativeInput.step)).toBe(5);
                 expect(nativeInput.type).toBe('text');
                 expect(nativeInput.value).toBe('testValue');
-            })
-        ))
+            }
+        )
     );
 
-    it('should bind a string value',
-        async(inject([TestComponentBuilder], (tcb: TestComponentBuilder) =>
-            tcb.overrideTemplate(TestComponent, `
-                <gtx-input [value]="value"></gtx-input>
-            `)
-            .createAsync(TestComponent)
-            .then(fixture => {
+    it('binds a string value to its input',
+        componentTest(() => TestComponent, `
+            <gtx-input [value]="value"></gtx-input>`,
+            fixture => {
                 let nativeInput: HTMLInputElement = fixture.nativeElement.querySelector('input');
                 fixture.detectChanges();
 
                 expect(nativeInput.value).toEqual('testValue');
-            })
-        ))
+            }
+        )
     );
 
-    it('should bind a number value',
-        async(inject([TestComponentBuilder], (tcb: TestComponentBuilder) =>
-            tcb.overrideTemplate(TestComponent, `
-                <gtx-input type="number" [value]="numberVal"></gtx-input>
-            `)
-            .createAsync(TestComponent)
-            .then(fixture => {
+    it('binds a number value to its type="number" input',
+        componentTest(() => TestComponent, `
+            <gtx-input type="number" [value]="numberVal"></gtx-input>`,
+            fixture => {
                 let nativeInput: HTMLInputElement = fixture.nativeElement.querySelector('input');
                 fixture.detectChanges();
 
                 expect(nativeInput.value).toEqual('42');
-            })
-        ))
+            }
+        )
     );
 
-    it('should emit "blur" when native input blurs, with current value',
-        fakeAsync(inject([TestComponentBuilder], (tcb: TestComponentBuilder) =>
-            tcb.overrideTemplate(TestComponent, `
-                <gtx-input (blur)="onBlur($event)" value="foo"></gtx-input>
-            `)
-            .createAsync(TestComponent)
-            .then(fixture => {
+    it('emits "blur" with the current value when the native input blurs',
+        componentTest(() => TestComponent, `
+            <gtx-input (blur)="onBlur($event)" value="foo"></gtx-input>`,
+            (fixture, instance) => {
                 let nativeInput: HTMLInputElement = fixture.nativeElement.querySelector('input');
-                let instance: TestComponent = fixture.componentInstance;
                 fixture.detectChanges();
-                spyOn(instance, 'onBlur');
+                instance.onBlur = jasmine.createSpy('onBlur');
 
                 triggerEvent(nativeInput, 'blur');
                 tick();
 
                 expect(instance.onBlur).toHaveBeenCalledWith('foo');
-            })
-        ))
+            }
+        )
     );
 
-    it('should emit "focus" when native input is focused, with current value',
-        fakeAsync(inject([TestComponentBuilder], (tcb: TestComponentBuilder) =>
-            tcb.overrideTemplate(TestComponent, `
-                <gtx-input (focus)="onFocus($event)" value="foo"></gtx-input>
-            `)
-            .createAsync(TestComponent)
-            .then(fixture => {
+    it('emits "focus" with the current value when the native input is focused',
+        componentTest(() => TestComponent, `
+            <gtx-input (focus)="onFocus($event)" value="foo"></gtx-input>`,
+            (fixture, instance) => {
                 let nativeInput: HTMLInputElement = fixture.nativeElement.querySelector('input');
-                let instance: TestComponent = fixture.componentInstance;
                 fixture.detectChanges();
-                spyOn(instance, 'onFocus');
+                instance.onFocus = jasmine.createSpy('onFocus');
 
                 triggerEvent(nativeInput, 'focus');
                 tick();
 
                 expect(instance.onFocus).toHaveBeenCalledWith('foo');
-            })
-        ))
+            }
+        )
     );
 
-    it('should emit "change" when native input value is changed (string)',
-        fakeAsync(inject([TestComponentBuilder], (tcb: TestComponentBuilder) =>
-            tcb.overrideTemplate(TestComponent, `
-                <gtx-input (change)="onChange($event)" value="foo"></gtx-input>
-            `)
-            .createAsync(TestComponent)
-            .then(fixture => {
+    it('emits "change" when the native input value is changed (string)',
+        componentTest(() => TestComponent, `
+            <gtx-input (change)="onChange($event)" value="foo"></gtx-input>`,
+            (fixture, instance) => {
                 let nativeInput: HTMLInputElement = fixture.nativeElement.querySelector('input');
-                let instance: TestComponent = fixture.componentInstance;
                 fixture.detectChanges();
-                spyOn(instance, 'onChange');
+                instance.onChange = jasmine.createSpy('onChange');
 
                 triggerEvent(nativeInput, 'input');
                 tick();
 
                 expect(instance.onChange).toHaveBeenCalledWith('foo');
-            })
-        ))
+            }
+        )
     );
 
-    it('should emit "change" when native input value is changed (number)',
-        fakeAsync(inject([TestComponentBuilder], (tcb: TestComponentBuilder) =>
-            tcb.overrideTemplate(TestComponent, `
-                <gtx-input (change)="onChange($event)" type="number" [value]="numberVal"></gtx-input>
-            `)
-            .createAsync(TestComponent)
-            .then(fixture => {
+    it('emit "change" when the native input value is changed (number)',
+        componentTest(() => TestComponent, `
+            <gtx-input (change)="onChange($event)" type="number" [value]="numberVal"></gtx-input>`,
+            (fixture, instance) => {
                 let nativeInput: HTMLInputElement = fixture.nativeElement.querySelector('input');
-                let instance: TestComponent = fixture.componentInstance;
                 fixture.detectChanges();
-                spyOn(instance, 'onChange');
+                instance.onChange = jasmine.createSpy('onChange');
 
                 triggerEvent(nativeInput, 'input');
                 tick();
 
                 expect(instance.onChange).toHaveBeenCalledWith(42);
-            })
-        ))
+            }
+        )
     );
 
-    it('should not emit "change" when native input is blurred',
-        fakeAsync(inject([TestComponentBuilder], (tcb: TestComponentBuilder) =>
-            tcb.overrideTemplate(TestComponent, `
-                <gtx-input (change)="onChange($event)" value="foo"></gtx-input>
-            `)
-            .createAsync(TestComponent)
-            .then(fixture => {
+    it('emits "change" when the native input is blurred',
+        componentTest(() => TestComponent, `
+            <gtx-input (change)="onChange($event)" value="foo"></gtx-input>`,
+            (fixture, instance) => {
                 let nativeInput: HTMLInputElement = fixture.nativeElement.querySelector('input');
-                let instance: TestComponent = fixture.componentInstance;
                 fixture.detectChanges();
-                spyOn(instance, 'onChange');
+                instance.onChange = jasmine.createSpy('onChange');
 
                 triggerEvent(nativeInput, 'blur');
                 tick();
 
                 expect(instance.onChange).not.toHaveBeenCalled();
-            })
-        ))
+            }
+        )
     );
 
     describe('ValueAccessor:', () => {
 
-        it('should bind the value with ngModel (inbound)',
-            fakeAsync(inject([TestComponentBuilder], (tcb: TestComponentBuilder) =>
-                tcb.overrideTemplate(TestComponent, `
-                    <gtx-input [(ngModel)]="value"></gtx-input>
-                `)
-                .createAsync(TestComponent)
-                .then(fixture => {
+        it('can bind the value with ngModel (inbound)',
+            componentTest(() => TestComponent, `
+                <gtx-input [(ngModel)]="value"></gtx-input>`,
+                fixture => {
                     fixture.detectChanges();
                     tick();
                     fixture.detectChanges();
                     let nativeInput: HTMLInputElement = fixture.nativeElement.querySelector('input');
                     expect(nativeInput.value).toBe('testValue');
-                })
-            ))
+                }
+            )
         );
 
-        it('should bind the value with ngModel (outbound)',
-            fakeAsync(inject([TestComponentBuilder], (tcb: TestComponentBuilder) =>
-                tcb.overrideTemplate(TestComponent, `
-                    <gtx-input [(ngModel)]="value"></gtx-input>
-                `)
-                .createAsync(TestComponent)
-                .then(fixture => {
+        it('can bind the value with ngModel (outbound)',
+            componentTest(() => TestComponent, `
+                <gtx-input [(ngModel)]="value"></gtx-input>`,
+                (fixture, instance) => {
                     fixture.detectChanges();
-                    let instance: TestComponent = fixture.componentInstance;
                     let nativeInput: HTMLInputElement = fixture.nativeElement.querySelector('input');
 
                     nativeInput.value = 'bar';
@@ -329,38 +268,31 @@ describe('InputField', () => {
                     tick();
 
                     expect(instance.value).toBe('bar');
-                })
-            ))
+                }
+            )
         );
 
-        it('should bind the value with formControlName (inbound)',
-            fakeAsync(inject([TestComponentBuilder], (tcb: TestComponentBuilder) =>
-                tcb.overrideTemplate(TestComponent, `
-                    <form [formGroup]="testForm">
-                        <gtx-input [formControlName]="'test'"></gtx-input>
-                    </form>
-                `)
-                .createAsync(TestComponent)
-                .then(fixture => {
+        it('can bind the value with formControlName (inbound)',
+            componentTest(() => TestComponent, `
+                <form [formGroup]="testForm">
+                    <gtx-input [formControlName]="'test'"></gtx-input>
+                </form>`,
+                fixture => {
                     fixture.detectChanges();
                     tick();
                     let nativeInput: HTMLInputElement = fixture.nativeElement.querySelector('input');
                     expect(nativeInput.value).toBe('controlValue');
-                })
-            ))
+                }
+            )
         );
 
-        it('should bind the value with formControlName (outbound)',
-            fakeAsync(inject([TestComponentBuilder], (tcb: TestComponentBuilder) =>
-                tcb.overrideTemplate(TestComponent, `
-                    <form [formGroup]="testForm">
-                        <gtx-input formControlName="test"></gtx-input>
-                    </form>
-                `)
-                .createAsync(TestComponent)
-                .then(fixture => {
+        it('can bind the value with formControlName (outbound)',
+            componentTest(() => TestComponent, `
+                <form [formGroup]="testForm">
+                    <gtx-input formControlName="test"></gtx-input>
+                </form>`,
+                (fixture, instance) => {
                     fixture.detectChanges();
-                    let instance: TestComponent = fixture.componentInstance;
                     let nativeInput: HTMLInputElement = fixture.nativeElement.querySelector('input');
 
                     nativeInput.value = 'bar';
@@ -368,21 +300,17 @@ describe('InputField', () => {
                     tick();
 
                     expect(instance.testForm.controls['test'].value).toBe('bar');
-                })
-            ))
+                }
+            )
         );
 
-        it('should mark the component as "touched" when native input blurs',
-            async(inject([TestComponentBuilder], (tcb: TestComponentBuilder) =>
-                tcb.overrideTemplate(TestComponent, `
-                    <form [formGroup]="testForm">
-                        <gtx-input formControlName="test"></gtx-input>
-                    </form>
-                `)
-                .createAsync(TestComponent)
-                .then(fixture => {
+        it('marks the component as "touched" when the native input blurs',
+            componentTest(() => TestComponent, `
+                <form [formGroup]="testForm">
+                    <gtx-input formControlName="test"></gtx-input>
+                </form>`,
+                (fixture, instance) => {
                     let nativeInput: HTMLInputElement = fixture.nativeElement.querySelector('input');
-                    let instance: TestComponent = fixture.componentInstance;
                     fixture.detectChanges();
 
                     expect(instance.testForm.controls['test'].touched).toBe(false);
@@ -394,8 +322,8 @@ describe('InputField', () => {
 
                     expect(instance.testForm.controls['test'].touched).toBe(true);
                     expect(instance.testForm.controls['test'].untouched).toBe(false);
-                })
-            ))
+                }
+            )
         );
 
     });

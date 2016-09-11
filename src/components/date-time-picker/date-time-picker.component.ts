@@ -107,6 +107,7 @@ export class DateTimePicker implements ControlValueAccessor {
     }
 
     ngOnDestroy(): void {
+        this.cal.off('data');
         this.cal.destroy();
     }
 

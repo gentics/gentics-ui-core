@@ -1,90 +1,72 @@
 import {Component, DebugElement} from '@angular/core';
-import {async, fakeAsync, inject, tick} from '@angular/core/testing';
-import {ComponentFixture, TestComponentBuilder} from '@angular/compiler/testing';
+import {tick} from '@angular/core/testing';
+import {ComponentFixture} from '@angular/compiler/testing';
 import {By} from '@angular/platform-browser';
+
+import {componentTest} from '../../testing';
 import {SideMenu} from './side-menu.component';
+
 
 describe('SideMenu', () => {
 
-    it('should not have the "opened" class when closed',
-        async(inject([TestComponentBuilder], (tcb: TestComponentBuilder) =>
-            tcb.createAsync(TestComponent)
-                .then(fixture => {
-                    let menu: HTMLElement = getMenuElement(fixture);
-                    fixture.detectChanges();
+    it('does not have the "opened" class when closed',
+        componentTest(() => TestComponent, fixture => {
+            let menu: HTMLElement = getMenuElement(fixture);
+            fixture.detectChanges();
 
-                    expect(menu.classList).not.toContain('opened');
-                })
-        ))
+            expect(menu.classList).not.toContain('opened');
+        })
     );
 
-    it('should have the "opened" class when open',
-        async(inject([TestComponentBuilder], (tcb: TestComponentBuilder) =>
-            tcb.createAsync(TestComponent)
-                .then(fixture => {
-                    let testInstance: TestComponent = fixture.componentInstance;
-                    let menu: HTMLElement = getMenuElement(fixture);
-                    testInstance.menuVisible = true;
-                    fixture.detectChanges();
+    it('has the "opened" class when open',
+        componentTest(() => TestComponent, (fixture, testInstance) => {
+            let menu: HTMLElement = getMenuElement(fixture);
+            testInstance.menuVisible = true;
+            fixture.detectChanges();
 
-                    expect(menu.classList).toContain('opened');
-                })
-        ))
+            expect(menu.classList).toContain('opened');
+        })
     );
 
+    it('emits "toggle" with new state when toggle button is clicked',
+        componentTest(() => TestComponent, (fixture, testInstance) => {
+            let buttonDel: DebugElement = getToggleButtonDebugElement(fixture);
 
-    it('clicking toggle button should invoke "toggle()" callback with new state',
-        fakeAsync(inject([TestComponentBuilder], (tcb: TestComponentBuilder) =>
-            tcb.createAsync(TestComponent)
-                .then(fixture => {
-                    let testInstance: TestComponent = fixture.componentInstance;
-                    let buttonDel: DebugElement = getToggleButtonDebugElement(fixture);
-                    spyOn(testInstance, 'menuChanged');
-                    testInstance.menuVisible = true;
-                    fixture.detectChanges();
-                    buttonDel.triggerEventHandler('click', null);
-                    tick();
+            testInstance.menuChanged = jasmine.createSpy('menuChanged');
+            testInstance.menuVisible = true;
+            fixture.detectChanges();
+            buttonDel.triggerEventHandler('click', null);
+            tick();
 
-                    expect(testInstance.menuChanged).toHaveBeenCalledWith(false);
-                })
-        ))
+            expect(testInstance.menuChanged).toHaveBeenCalledWith(false);
+        })
     );
 
+    it('emits "toggle" with new state when overlay is clicked',
+        componentTest(() => TestComponent, (fixture, testInstance) => {
+            let overlay: HTMLElement = fixture.nativeElement.querySelector('.side-menu-overlay');
+            testInstance.menuChanged = jasmine.createSpy('menuChanged');
+            testInstance.menuVisible = true;
+            fixture.detectChanges();
+            overlay.click();
+            tick();
 
-    it('clicking overlay should invoke "toggle()" callback with new state',
-        fakeAsync(inject([TestComponentBuilder], (tcb: TestComponentBuilder) =>
-            tcb.createAsync(TestComponent)
-                .then(fixture => {
-                    let testInstance: TestComponent = fixture.componentInstance;
-                    let overlay: HTMLElement = fixture.nativeElement.querySelector('.side-menu-overlay');
-                    spyOn(testInstance, 'menuChanged');
-                    testInstance.menuVisible = true;
-                    fixture.detectChanges();
-                    overlay.click();
-                    tick();
-
-
-                    expect(testInstance.menuChanged).toHaveBeenCalledWith(false);
-                    tick(500);
-                })
-        ))
+            expect(testInstance.menuChanged).toHaveBeenCalledWith(false);
+            tick(500);
+        })
     );
 
-    it('clicking overlay when opened === false should not invoke "toggle()"',
-        fakeAsync(inject([TestComponentBuilder], (tcb: TestComponentBuilder) =>
-            tcb.createAsync(TestComponent)
-                .then(fixture => {
-                    let testInstance: TestComponent = fixture.componentInstance;
-                    let overlay: HTMLElement = fixture.nativeElement.querySelector('.side-menu-overlay');
-                    spyOn(testInstance, 'menuChanged');
-                    fixture.detectChanges();
-                    overlay.click();
-                    tick();
+    it('does not emit "toggle" when clicking overlay with opened === false',
+        componentTest(() => TestComponent, (fixture, testInstance) => {
+            let overlay: HTMLElement = fixture.nativeElement.querySelector('.side-menu-overlay');
+            testInstance.menuChanged = jasmine.createSpy('menuChanged');
+            fixture.detectChanges();
+            overlay.click();
+            tick();
 
-                    expect(testInstance.menuChanged).not.toHaveBeenCalled();
-                    tick(500);
-                })
-        ))
+            expect(testInstance.menuChanged).not.toHaveBeenCalled();
+            tick(500);
+        })
     );
 
 });

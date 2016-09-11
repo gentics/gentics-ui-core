@@ -1,19 +1,17 @@
-import {ComponentFixture, TestComponentBuilder} from '@angular/compiler/testing';
-import {Component, Pipe} from '@angular/core';
-import {async, fakeAsync, inject, tick} from '@angular/core/testing';
-import {DomSanitizationService} from '@angular/platform-browser/src/security/dom_sanitization_service';
+import {ComponentFixture} from '@angular/compiler/testing';
+import {Component} from '@angular/core';
+import {tick} from '@angular/core/testing';
 
+import {componentTest} from '../../../testing';
 import {TrustedHTMLPipe} from './trusted-html.pipe';
+
 
 describe('TrustedHTMLPipe', () => {
 
-    it('should keep passed html',
-        async(inject([TestComponentBuilder], (tcb: TestComponentBuilder) =>
-            tcb.overrideTemplate(TestComponent, `
-                <div [innerHTML]="html | trustedHTML"></div>
-            `)
-            .createAsync(TestComponent).then(fixture => {
-
+    it('returns the passed html as trusted',
+        componentTest(() => TestComponent, `
+            <div [innerHTML]="html | trustedHTML"></div>`,
+            fixture => {
                 fixture.componentInstance.html = '<p>two</p><p>elements</p>';
                 fixture.detectChanges();
                 expect(fixture.nativeElement.children.length).toBe(1);
@@ -23,65 +21,55 @@ describe('TrustedHTMLPipe', () => {
                 fixture.detectChanges();
                 expect(fixture.nativeElement.children.length).toBe(1);
                 expect(fixture.nativeElement.children[0].children.length).toBe(1);
-            })
-        ))
+            }
+        )
     );
 
-    it('is pure',
-        fakeAsync(inject([TestComponentBuilder], (tcb: TestComponentBuilder) =>
-            tcb.overrideProviders(TrustedHTMLPipe, [{ provide: TrustedHTMLPipe, useClass: PipeMock }])
-            .overrideTemplate(TestComponent, `
-                <div [innerHTML]="html | pipeMock"></div>
-            `)
-            .createAsync(TestComponent).then(fixture => {
+    it('is pure', () => {
+        let pipeInstance: TrustedHTMLPipe;
+        const test = componentTest(() => TestComponent, fixture => {
+            expect(pipeInstance).not.toBeDefined();
 
-                // The transform() method should only be called when the input changes
-                fixture.componentInstance.html = 'first value';
-                fixture.detectChanges();
-                expect(PipeMock.callsOfLastPipe()).toEqual(1);
+            fixture.componentInstance.html = 'first value';
+            fixture.detectChanges();
+            expect(pipeInstance).toBeDefined();
+            expect(pipeInstance.transform).toHaveBeenCalledTimes(1);
 
-                fixture.detectChanges();
-                tick();
-                expect(PipeMock.callsOfLastPipe()).toEqual(1);
+            // The transform() method should only be called when the input changes
+            fixture.detectChanges();
+            tick();
+            expect(pipeInstance.transform).toHaveBeenCalledTimes(1);
 
-                fixture.componentInstance.html = 'other value';
-                fixture.detectChanges();
-                expect(PipeMock.callsOfLastPipe()).toEqual(2);
+            fixture.componentInstance.html = 'other value';
+            fixture.detectChanges();
+            expect(pipeInstance.transform).toHaveBeenCalledTimes(2);
 
-                fixture.componentInstance.html = 'other value';
-                fixture.detectChanges();
-                expect(PipeMock.callsOfLastPipe()).toEqual(2);
-            })
-        ))
-    );
+            fixture.componentInstance.html = 'other value';
+            fixture.detectChanges();
+            expect(pipeInstance.transform).toHaveBeenCalledTimes(2);
+        });
+
+        const originalTransform = TrustedHTMLPipe.prototype.transform;
+        TrustedHTMLPipe.prototype.transform = jasmine
+            .createSpy('transform', originalTransform)
+            .and.callFake(function (html: string): any {
+                pipeInstance = this;
+                return originalTransform.call(this, html);
+            });
+
+        try {
+            test();
+        } finally {
+            TrustedHTMLPipe.prototype.transform = originalTransform;
+        }
+    });
 
 });
 
-@Pipe({ name: 'pipeMock', pure: true })
-class PipeMock {
-
-    static lastPipe: PipeMock;
-    transformCalls: number = 0;
-    private realPipe: TrustedHTMLPipe;
-
-    static callsOfLastPipe(): number {
-        return PipeMock.lastPipe ? PipeMock.lastPipe.transformCalls : 0;
-    }
-
-    constructor (sanitizer: DomSanitizationService) {
-        this.realPipe = new TrustedHTMLPipe(sanitizer);
-    }
-
-    transform(html: string): any {
-        PipeMock.lastPipe = this;
-        this.transformCalls += 1;
-        return this.realPipe.transform(html);
-    }
-}
 
 @Component({
     template: `<div [innerHTML]="html | trustedHTML"></div>`,
-    pipes: [TrustedHTMLPipe, PipeMock]
+    pipes: [TrustedHTMLPipe]
 })
 class TestComponent {
     html: string = 'some html';

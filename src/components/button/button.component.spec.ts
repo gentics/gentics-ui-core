@@ -1,74 +1,60 @@
-import {ComponentFixture, TestComponentBuilder} from '@angular/compiler/testing';
+import {ComponentFixture} from '@angular/compiler/testing';
 import {Component} from '@angular/core';
-import {async, inject} from '@angular/core/testing';
 
+import {componentTest} from '../../testing';
 import {Button} from './button.component';
+
 
 describe('Button:', () => {
 
-    it('should be enabled by default',
-        async(inject([TestComponentBuilder], (tcb: TestComponentBuilder) =>
-            tcb.createAsync(TestComponent)
-            .then(fixture => {
-                let button: HTMLButtonElement = fixture.nativeElement.querySelector('button');
-                fixture.detectChanges();
+    it('is enabled by default',
+        componentTest(() => TestComponent, fixture => {
+            let button: HTMLButtonElement = fixture.nativeElement.querySelector('button');
+            fixture.detectChanges();
 
-                expect(button.disabled).toBe(false);
-            })
-        ))
+            expect(button.disabled).toBe(false);
+        })
     );
 
-    it('should bind the "disabled" property',
-        async(inject([TestComponentBuilder], (tcb: TestComponentBuilder) =>
-            tcb.overrideTemplate(TestComponent, `
-                <gtx-button [disabled]="true"></gtx-button>
-            `)
-            .createAsync(TestComponent)
-            .then(fixture => {
+    it('binds the "disabled" property',
+        componentTest(() => TestComponent, `
+            <gtx-button [disabled]="true"></gtx-button>`,
+            fixture => {
                 let button: HTMLButtonElement = fixture.nativeElement.querySelector('button');
                 fixture.detectChanges();
 
                 expect(button.disabled).toBe(true);
-            })
-        ))
+            }
+        )
     );
 
-    it('should accept literal "disabled" property',
-        async(inject([TestComponentBuilder], (tcb: TestComponentBuilder) =>
-            tcb.overrideTemplate(TestComponent, `
-                <gtx-button disabled="true"></gtx-button>
-            `)
-            .createAsync(TestComponent)
-            .then(fixture => {
+    it('accepts string values for the "disabled" property',
+        componentTest(() => TestComponent, `
+            <gtx-button disabled="true"></gtx-button>`,
+            fixture => {
                 let button: HTMLButtonElement = fixture.nativeElement.querySelector('button');
                 fixture.detectChanges();
 
                 expect(button.disabled).toBe(true);
-            })
-        ))
+            }
+        )
     );
 
-    it('should accept empty "disabled" property',
-        async(inject([TestComponentBuilder], (tcb: TestComponentBuilder) =>
-            tcb.overrideTemplate(TestComponent, `
-                <gtx-button disabled></gtx-button>
-            `)
-            .createAsync(TestComponent)
-            .then(fixture => {
+    it('accepts an empty "disabled" property',
+        componentTest(() => TestComponent, `
+            <gtx-button disabled></gtx-button>`,
+            fixture => {
                 let button: HTMLButtonElement = fixture.nativeElement.querySelector('button');
                 fixture.detectChanges();
                 expect(button.disabled).toBe(true);
-            })
-        ))
+            }
+        )
     );
 
     it('forwards its "click" event when enabled',
-        async(inject([TestComponentBuilder], (tcb: TestComponentBuilder) =>
-            tcb.overrideTemplate(TestComponent, `
-                <gtx-button (click)="onClick($event)"></gtx-button>
-            `)
-            .createAsync(TestComponent)
-            .then(fixture => {
+        componentTest(() => TestComponent, `
+            <gtx-button (click)="onClick($event)"></gtx-button>`,
+            fixture => {
                 let onClick = fixture.componentRef.instance.onClick = jasmine.createSpy('onClick');
                 let button: HTMLButtonElement = fixture.nativeElement.querySelector('button');
                 fixture.detectChanges();
@@ -81,19 +67,16 @@ describe('Button:', () => {
                 button.click();
 
                 expect(onClick).toHaveBeenCalledTimes(3);
-            })
-        ))
+            }
+        )
     );
 
     // Disabled elements don't fire mouse events in some browsers, but not all
     // http://stackoverflow.com/a/3100395/5460631
     it('does not forward "click" event when disabled',
-        async(inject([TestComponentBuilder], (tcb: TestComponentBuilder) =>
-            tcb.overrideTemplate(TestComponent, `
-                <gtx-button [disabled]="true" (click)="onClick($event)"></gtx-button>
-            `)
-            .createAsync(TestComponent)
-            .then(fixture => {
+        componentTest(() => TestComponent, `
+            <gtx-button [disabled]="true" (click)="onClick($event)"></gtx-button>`,
+            fixture => {
                 let onClick = fixture.componentRef.instance.onClick = jasmine.createSpy('onClick');
                 let button: HTMLButtonElement = fixture.nativeElement.querySelector('button');
                 fixture.detectChanges();
@@ -106,8 +89,8 @@ describe('Button:', () => {
                 button.click();
 
                 expect(onClick).not.toHaveBeenCalled();
-            })
-        ))
+            }
+        )
     );
 
 });

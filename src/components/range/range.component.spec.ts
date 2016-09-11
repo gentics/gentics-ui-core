@@ -1,70 +1,55 @@
-import {ComponentFixture, TestComponentBuilder} from '@angular/compiler/testing';
 import {Component, DebugElement} from '@angular/core';
-import {addProviders, async, fakeAsync, inject, tick} from '@angular/core/testing';
+import {addProviders, tick} from '@angular/core/testing';
 import {FormGroup, FormControl, REACTIVE_FORM_DIRECTIVES} from '@angular/forms';
 import {By} from '@angular/platform-browser';
 
+import {componentTest} from '../../testing';
 import {Range} from './range.component';
 
 describe('Range:', () => {
 
-    it('should use defaults for undefined attributes which have a default',
-        async(inject([TestComponentBuilder], (tcb: TestComponentBuilder) =>
-            tcb.overrideTemplate(TestComponent, `
-                <gtx-range></gtx-range>
-            `)
-            .createAsync(TestComponent)
-            .then(fixture => {
-                let nativeInput: HTMLInputElement = fixture.nativeElement.querySelector('input');
-                fixture.detectChanges();
+    it('uses defaults for undefined attributes which have a default',
+    componentTest(() => TestComponent, fixture => {
+            let nativeInput: HTMLInputElement = fixture.nativeElement.querySelector('input');
+            fixture.detectChanges();
 
-                expect(nativeInput.disabled).toBe(false);
-                expect(nativeInput.readOnly).toBe(false);
-                expect(nativeInput.required).toBe(false);
-                expect(nativeInput.value).toBe('50');
-            })
-        ))
+            expect(nativeInput.disabled).toBe(false);
+            expect(nativeInput.readOnly).toBe(false);
+            expect(nativeInput.required).toBe(false);
+            expect(nativeInput.value).toBe('50');
+        })
     );
 
-    it('should not display undefined attributes',
-        async(inject([TestComponentBuilder], (tcb: TestComponentBuilder) =>
-            tcb.overrideTemplate(TestComponent, `
-                <gtx-range></gtx-range>
-            `)
-            .createAsync(TestComponent)
-            .then(fixture => {
-                let nativeInput: HTMLInputElement = fixture.nativeElement.querySelector('input');
-                const getAttr: Function = (name: string) => nativeInput.attributes.getNamedItem(name);
-                fixture.detectChanges();
+    it('does not set attributes which are not defined',
+        componentTest(() => TestComponent, fixture => {
+            let nativeInput: HTMLInputElement = fixture.nativeElement.querySelector('input');
+            const getAttr: Function = (name: string) => nativeInput.attributes.getNamedItem(name);
+            fixture.detectChanges();
 
-                expect(getAttr('id')).toBe(null);
-                expect(getAttr('max')).toBe(null);
-                expect(getAttr('min')).toBe(null);
-                expect(getAttr('maxLength')).toBe(null);
-                expect(getAttr('name')).toBe(null);
-                expect(getAttr('pattern')).toBe(null);
-                expect(getAttr('placeholder')).toBe(null);
-                expect(getAttr('step')).toBe(null);
-            })
-        ))
+            expect(getAttr('id')).toBe(null);
+            expect(getAttr('max')).toBe(null);
+            expect(getAttr('min')).toBe(null);
+            expect(getAttr('maxLength')).toBe(null);
+            expect(getAttr('name')).toBe(null);
+            expect(getAttr('pattern')).toBe(null);
+            expect(getAttr('placeholder')).toBe(null);
+            expect(getAttr('step')).toBe(null);
+        })
     );
 
-    it('should pass through the native attributes',
-        async(inject([TestComponentBuilder], (tcb: TestComponentBuilder) =>
-            tcb.overrideTemplate(TestComponent, `
-                <gtx-range
-                    disabled="true"
-                    max="100"
-                    min="5"
-                    name="testName"
-                    readonly="true"
-                    required="true"
-                    step="5"
-                    value="35"
-                ></gtx-range>
-            `)
-            .createAsync(TestComponent)
-            .then(fixture => {
+    it('passes native attributes to its input element',
+        componentTest(() => TestComponent, `
+            <gtx-range
+                disabled="true"
+                max="100"
+                min="5"
+                name="testName"
+                readonly="true"
+                required="true"
+                step="5"
+                value="35"
+            ></gtx-range>`,
+            fixture => {
                 let nativeInput: HTMLInputElement = fixture.nativeElement.querySelector('input');
                 fixture.detectChanges();
 
@@ -76,24 +61,20 @@ describe('Range:', () => {
                 expect(nativeInput.required).toBe(true);
                 expect(parseInt(nativeInput.step, 10)).toBe(5);
                 expect(nativeInput.value).toBe('35');
-            })
-        ))
+            }
+        )
     );
 
-    it('should emit "blur" when native input blurs, with current value',
-        fakeAsync(inject([TestComponentBuilder], (tcb: TestComponentBuilder) =>
-            tcb.overrideTemplate(TestComponent, `
-                <gtx-range
-                    (blur)="onBlur($event)"
-                    [value]="value">
-                </gtx-range>
-            `)
-            .createAsync(TestComponent)
-            .then(fixture => {
+    it('emits "blur" with the current value when its native input blurs',
+        componentTest(() => TestComponent, `
+            <gtx-range
+                (blur)="onBlur($event)"
+                [value]="value">
+            </gtx-range>`,
+            (fixture, instance) => {
                 let inputDel: DebugElement = fixture.debugElement.query(By.css('input'));
-                let instance: TestComponent = fixture.componentInstance;
                 fixture.detectChanges();
-                spyOn(instance, 'onBlur');
+                instance.onBlur = jasmine.createSpy('onBlur');
 
                 let event = document.createEvent('FocusEvent');
                 event.initEvent('blur', true, true);
@@ -101,24 +82,20 @@ describe('Range:', () => {
                 tick();
 
                 expect(instance.onBlur).toHaveBeenCalledWith(75);
-            })
-        ))
+            }
+        )
     );
 
-    it('should emit "focus" when native input is focused, with current value',
-        fakeAsync(inject([TestComponentBuilder], (tcb: TestComponentBuilder) =>
-            tcb.overrideTemplate(TestComponent, `
-                <gtx-range
-                    (focus)="onFocus($event)"
-                    [value]="value">
-                </gtx-range>
-            `)
-            .createAsync(TestComponent)
-            .then(fixture => {
+    it('emits "focus" with the current value when its native input is focused',
+        componentTest(() => TestComponent, `
+            <gtx-range
+                (focus)="onFocus($event)"
+                [value]="value">
+            </gtx-range>`,
+            (fixture, instance) => {
                 let inputDel: DebugElement = fixture.debugElement.query(By.css('input'));
-                let instance: TestComponent = fixture.componentInstance;
                 fixture.detectChanges();
-                spyOn(instance, 'onFocus');
+                instance.onFocus = jasmine.createSpy('onFocus');
 
                 let event = document.createEvent('FocusEvent');
                 event.initEvent('focus', true, true);
@@ -126,45 +103,37 @@ describe('Range:', () => {
                 tick();
 
                 expect(instance.onFocus).toHaveBeenCalledWith(75);
-            })
-        ))
+            }
+        )
     );
 
-    it('should emit "change" when native input value is changed',
-        fakeAsync(inject([TestComponentBuilder], (tcb: TestComponentBuilder) =>
-            tcb.overrideTemplate(TestComponent, `
-                <gtx-range (change)="onChange($event)" value="25">
-                </gtx-range>
-            `)
-            .createAsync(TestComponent)
-            .then(fixture => {
+    it('emits "change" when the value of its native input is changed',
+        componentTest(() => TestComponent, `
+            <gtx-range (change)="onChange($event)" value="25">
+            </gtx-range>`,
+            (fixture, instance) => {
                 let nativeInput: HTMLInputElement = fixture.nativeElement.querySelector('input');
-                let instance: TestComponent = fixture.componentInstance;
                 fixture.detectChanges();
-                spyOn(instance, 'onChange');
+                instance.onChange = jasmine.createSpy('onChange');
 
                 triggerInputEvent(nativeInput);
                 tick();
 
                 expect(instance.onChange).toHaveBeenCalledWith(25);
-            })
-        ))
+            }
+        )
     );
 
-    it('should emit "change" when native input is blurred',
-        fakeAsync(inject([TestComponentBuilder], (tcb: TestComponentBuilder) =>
-            tcb.overrideTemplate(TestComponent, `
-                <gtx-range
-                    (change)="onChange($event)"
-                    value="25">
-                </gtx-range>
-            `)
-            .createAsync(TestComponent)
-            .then(fixture => {
+    it('emits "change" when its native input is blurred',
+        componentTest(() => TestComponent, `
+            <gtx-range
+                (change)="onChange($event)"
+                value="25">
+            </gtx-range>`,
+            (fixture, instance) => {
                 let inputDel: DebugElement = fixture.debugElement.query(By.css('input'));
-                let instance: TestComponent = fixture.componentInstance;
                 fixture.detectChanges();
-                spyOn(instance, 'onChange');
+                instance.onChange = jasmine.createSpy('onChange');
 
                 let event = document.createEvent('FocusEvent');
                 event.initEvent('blur', true, true);
@@ -172,37 +141,30 @@ describe('Range:', () => {
                 tick();
 
                 expect(instance.onChange).toHaveBeenCalledWith(25);
-            })
-        ))
+            }
+        )
     );
 
     describe('ValueAccessor:', () => {
 
-        it('should bind the value with ngModel (inbound)',
-            fakeAsync(inject([TestComponentBuilder], (tcb: TestComponentBuilder) =>
-                tcb.overrideTemplate(TestComponent, `
-                    <gtx-range [(ngModel)]="value"></gtx-range>
-                `)
-                .createAsync(TestComponent)
-                .then(fixture => {
+        it('can bind its value with ngModel (inbound)',
+            componentTest(() => TestComponent, `
+                <gtx-range [(ngModel)]="value"></gtx-range>`,
+                fixture => {
                     fixture.detectChanges();
                     tick();
                     fixture.detectChanges();
                     let nativeInput: HTMLInputElement = fixture.nativeElement.querySelector('input');
                     expect(nativeInput.value).toBe('75');
-                })
-            ))
+                }
+            )
         );
 
-        it('should bind the value with ngModel (outbound)',
-            fakeAsync(inject([TestComponentBuilder], (tcb: TestComponentBuilder) =>
-                tcb.overrideTemplate(TestComponent, `
-                    <gtx-range [(ngModel)]="value"></gtx-range>
-                `)
-                .createAsync(TestComponent)
-                .then(fixture => {
+        it('can bind its value with ngModel (outbound)',
+            componentTest(() => TestComponent, `
+                <gtx-range [(ngModel)]="value"></gtx-range>`,
+                (fixture, instance) => {
                     fixture.detectChanges();
-                    let instance: TestComponent = fixture.componentInstance;
                     let nativeInput: HTMLInputElement = fixture.nativeElement.querySelector('input');
 
                     nativeInput.value = '30';
@@ -210,38 +172,31 @@ describe('Range:', () => {
                     tick();
 
                     expect(instance.value).toBe(30);
-                })
-            ))
+                }
+            )
         );
 
-        it('should bind the value with formControl (inbound)',
-            fakeAsync(inject([TestComponentBuilder], (tcb: TestComponentBuilder) =>
-                tcb.overrideTemplate(TestComponent, `
-                    <form [formGroup]="testForm">
-                        <gtx-range formControlName="test"></gtx-range>
-                    </form>
-                `)
-                .createAsync(TestComponent)
-                .then(fixture => {
+        it('can bind its value with formControl (inbound)',
+            componentTest(() => TestComponent, `
+                <form [formGroup]="testForm">
+                    <gtx-range formControlName="test"></gtx-range>
+                </form>`,
+                fixture => {
                     fixture.detectChanges();
                     tick();
                     let nativeInput: HTMLInputElement = fixture.nativeElement.querySelector('input');
                     expect(nativeInput.value).toBe('75');
-                })
-            ))
+                }
+            )
         );
 
-        it('should bind the value with formControl (outbound)',
-            fakeAsync(inject([TestComponentBuilder], (tcb: TestComponentBuilder) =>
-                tcb.overrideTemplate(TestComponent, `
-                    <form [formGroup]="testForm">
-                        <gtx-range formControlName="test"></gtx-range>
-                    </form>
-                `)
-                .createAsync(TestComponent)
-                .then(fixture => {
+        it('can bind its value with formControl (outbound)',
+            componentTest(() => TestComponent, `
+                <form [formGroup]="testForm">
+                    <gtx-range formControlName="test"></gtx-range>
+                </form>`,
+                (fixture, instance) => {
                     fixture.detectChanges();
-                    let instance: TestComponent = fixture.componentInstance;
                     let nativeInput: HTMLInputElement = fixture.nativeElement.querySelector('input');
 
                     nativeInput.value = '30';
@@ -249,30 +204,22 @@ describe('Range:', () => {
                     tick();
 
                     expect(instance.testForm.controls['test'].value).toBe(30);
-                })
-            ))
+                }
+            )
         );
 
     });
 
     describe('DOM Events:', () => {
 
-        function spyWasNotCalledWithDomEvent(spy: jasmine.Spy): boolean {
-            let result = true;
-            spy.calls.all().forEach(call => {
-                result = result && expect(call.args[0] instanceof Event).toBe(false);
-            });
-            return result;
+        function calledWithDomEvent(spy: jasmine.Spy): boolean {
+            return spy.calls.all().some(call => call.args[0] instanceof Event);
         }
 
-        it('should not forward the native blur event',
-            fakeAsync(inject([TestComponentBuilder], (tcb: TestComponentBuilder) =>
-                tcb.overrideTemplate(TestComponent, `
-                    <gtx-range (blur)="onBlur($event)"></gtx-range>
-                `)
-                .createAsync(TestComponent)
-                .then(fixture => {
-                    const instance = fixture.componentRef.instance;
+        it('does not forward the native blur event',
+            componentTest(() => TestComponent, `
+                <gtx-range (blur)="onBlur($event)"></gtx-range>`,
+                (fixture, instance) => {
                     const onBlur = instance.onBlur = jasmine.createSpy('onBlur');
                     fixture.detectChanges();
 
@@ -281,19 +228,15 @@ describe('Range:', () => {
                     event.initEvent('blur', true, true);
                     nativeInput.dispatchEvent(event);
 
-                    spyWasNotCalledWithDomEvent(onBlur);
-                })
-            ))
+                    expect(calledWithDomEvent(onBlur)).toBe(false);
+                }
+            )
         );
 
-        it('should not forward the native focus event',
-            fakeAsync(inject([TestComponentBuilder], (tcb: TestComponentBuilder) =>
-                tcb.overrideTemplate(TestComponent, `
-                    <gtx-range (focus)="onFocus($event)"></gtx-range>
-                `)
-                .createAsync(TestComponent)
-                .then(fixture => {
-                    const instance = fixture.componentRef.instance;
+        it('does not forward the native focus event',
+            componentTest(() => TestComponent, `
+                <gtx-range (focus)="onFocus($event)"></gtx-range>`,
+                (fixture, instance) => {
                     const onFocus = instance.onFocus = jasmine.createSpy('onFocus');
                     fixture.detectChanges();
 
@@ -302,19 +245,15 @@ describe('Range:', () => {
                     event.initEvent('focus', true, true);
                     nativeInput.dispatchEvent(event);
 
-                    spyWasNotCalledWithDomEvent(onFocus);
-                })
-            ))
+                    expect(calledWithDomEvent(onFocus)).toBe(false);
+                }
+            )
         );
 
-        it('should not forward the native change event',
-            fakeAsync(inject([TestComponentBuilder], (tcb: TestComponentBuilder) =>
-                tcb.overrideTemplate(TestComponent, `
-                    <gtx-range (change)="onChange($event)"></gtx-range>
-                `)
-                .createAsync(TestComponent)
-                .then(fixture => {
-                    const instance = fixture.componentRef.instance;
+        it('does not forward the native change event',
+            componentTest(() => TestComponent, `
+                <gtx-range (change)="onChange($event)"></gtx-range>`,
+                (fixture, instance) => {
                     const onChange = instance.onFocus = jasmine.createSpy('onChange');
                     fixture.detectChanges();
 
@@ -323,16 +262,16 @@ describe('Range:', () => {
                     event.initEvent('change', true, false);
                     nativeInput.dispatchEvent(event);
 
-                    spyWasNotCalledWithDomEvent(onChange);
+                    calledWithDomEvent(onChange);
 
                     nativeInput.value = '15';
                     event = document.createEvent('FocusEvent');
                     event.initEvent('blur', true, false);
                     nativeInput.dispatchEvent(event);
 
-                    spyWasNotCalledWithDomEvent(onChange);
-                })
-            ))
+                    expect(calledWithDomEvent(onChange)).toBe(false);
+                }
+            )
         );
 
     });
