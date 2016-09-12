@@ -98,12 +98,18 @@ export class Range implements ControlValueAccessor {
     onChange: any = (_: any) => {};
     onTouched: any = () => {};
 
-    onBlur(): void {
+    onBlur(nativeEvent: FocusEvent): void {
+        nativeEvent.stopPropagation();
         this.blur.emit(this.value);
         this.change.emit(Number(this.value));
     }
 
-    onFocus(): void {
+    onChangeEvent(nativeEvent: Event): void {
+        nativeEvent.stopPropagation();
+    }
+
+    onFocus(nativeEvent: FocusEvent): void {
+        nativeEvent.stopPropagation();
         this.focus.emit(Number(this.value));
     }
 

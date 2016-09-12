@@ -5,6 +5,7 @@
 * SplitViewContainer handles dragging outside of the window
 * Select uses ellipses if selected item text is wider than component
 * DropdownList works inside modals
+* Range component no longer forwards native "change"/"focus"/"blur" DOM events
 * OverlayHostService: fix bug with registering multiple consumers.
 * (docs) Fix issues with PageFileDragHandler provider declaration
 

@@ -95,7 +95,9 @@ describe('Range:', () => {
                 fixture.detectChanges();
                 spyOn(instance, 'onBlur');
 
-                inputDel.triggerEventHandler('blur', null);
+                let event = document.createEvent('FocusEvent');
+                event.initEvent('blur', true, true);
+                inputDel.triggerEventHandler('blur', event);
                 tick();
 
                 expect(instance.onBlur).toHaveBeenCalledWith(75);
@@ -118,7 +120,9 @@ describe('Range:', () => {
                 fixture.detectChanges();
                 spyOn(instance, 'onFocus');
 
-                inputDel.triggerEventHandler('focus', null);
+                let event = document.createEvent('FocusEvent');
+                event.initEvent('focus', true, true);
+                inputDel.triggerEventHandler('focus', event);
                 tick();
 
                 expect(instance.onFocus).toHaveBeenCalledWith(75);
@@ -162,7 +166,9 @@ describe('Range:', () => {
                 fixture.detectChanges();
                 spyOn(instance, 'onChange');
 
-                inputDel.triggerEventHandler('blur', null);
+                let event = document.createEvent('FocusEvent');
+                event.initEvent('blur', true, true);
+                inputDel.triggerEventHandler('blur', event);
                 tick();
 
                 expect(instance.onChange).toHaveBeenCalledWith(25);
@@ -243,6 +249,88 @@ describe('Range:', () => {
                     tick();
 
                     expect(instance.testForm.controls['test'].value).toBe(30);
+                })
+            ))
+        );
+
+    });
+
+    describe('DOM Events:', () => {
+
+        function spyWasNotCalledWithDomEvent(spy: jasmine.Spy): boolean {
+            let result = true;
+            spy.calls.all().forEach(call => {
+                result = result && expect(call.args[0] instanceof Event).toBe(false);
+            });
+            return result;
+        }
+
+        it('should not forward the native blur event',
+            fakeAsync(inject([TestComponentBuilder], (tcb: TestComponentBuilder) =>
+                tcb.overrideTemplate(TestComponent, `
+                    <gtx-range (blur)="onBlur($event)"></gtx-range>
+                `)
+                .createAsync(TestComponent)
+                .then(fixture => {
+                    const instance = fixture.componentRef.instance;
+                    const onBlur = instance.onBlur = jasmine.createSpy('onBlur');
+                    fixture.detectChanges();
+
+                    const nativeInput: HTMLInputElement = fixture.nativeElement.querySelector('input');
+                    let event = document.createEvent('FocusEvent');
+                    event.initEvent('blur', true, true);
+                    nativeInput.dispatchEvent(event);
+
+                    spyWasNotCalledWithDomEvent(onBlur);
+                })
+            ))
+        );
+
+        it('should not forward the native focus event',
+            fakeAsync(inject([TestComponentBuilder], (tcb: TestComponentBuilder) =>
+                tcb.overrideTemplate(TestComponent, `
+                    <gtx-range (focus)="onFocus($event)"></gtx-range>
+                `)
+                .createAsync(TestComponent)
+                .then(fixture => {
+                    const instance = fixture.componentRef.instance;
+                    const onFocus = instance.onFocus = jasmine.createSpy('onFocus');
+                    fixture.detectChanges();
+
+                    const nativeInput: HTMLInputElement = fixture.nativeElement.querySelector('input');
+                    let event = document.createEvent('FocusEvent');
+                    event.initEvent('focus', true, true);
+                    nativeInput.dispatchEvent(event);
+
+                    spyWasNotCalledWithDomEvent(onFocus);
+                })
+            ))
+        );
+
+        it('should not forward the native change event',
+            fakeAsync(inject([TestComponentBuilder], (tcb: TestComponentBuilder) =>
+                tcb.overrideTemplate(TestComponent, `
+                    <gtx-range (change)="onChange($event)"></gtx-range>
+                `)
+                .createAsync(TestComponent)
+                .then(fixture => {
+                    const instance = fixture.componentRef.instance;
+                    const onChange = instance.onFocus = jasmine.createSpy('onChange');
+                    fixture.detectChanges();
+
+                    const nativeInput: HTMLInputElement = fixture.nativeElement.querySelector('input');
+                    let event = document.createEvent('Event');
+                    event.initEvent('change', true, false);
+                    nativeInput.dispatchEvent(event);
+
+                    spyWasNotCalledWithDomEvent(onChange);
+
+                    nativeInput.value = '15';
+                    event = document.createEvent('FocusEvent');
+                    event.initEvent('blur', true, false);
+                    nativeInput.dispatchEvent(event);
+
+                    spyWasNotCalledWithDomEvent(onChange);
                 })
             ))
         );
