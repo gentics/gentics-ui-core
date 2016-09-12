@@ -6,6 +6,7 @@
 * Select uses ellipses if selected item text is wider than component
 * DropdownList works inside modals
 * Range component no longer forwards native "change"/"focus"/"blur" DOM events
+* Button component does not forward native "click" events when disabled
 * OverlayHostService: fix bug with registering multiple consumers.
 * (docs) Fix issues with PageFileDragHandler provider declaration
 

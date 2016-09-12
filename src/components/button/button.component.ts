@@ -1,4 +1,4 @@
-import {Component, Input} from '@angular/core';
+import {Component, ElementRef, Input, OnDestroy, Renderer} from '@angular/core';
 import {isPresent} from '@angular/core/src/facade/lang';
 
 /**
@@ -17,7 +17,7 @@ import {isPresent} from '@angular/core/src/facade/lang';
     selector: 'gtx-button',
     template: require('./button.tpl.html')
 })
-export class Button {
+export class Button implements OnDestroy {
 
     /**
      * Specify the size of the button. Can be "small", "regular" or "large".
@@ -53,11 +53,44 @@ export class Button {
     set icon(val: boolean) {
         this.isIcon = isPresent(val) && val !== false;
     }
+
     /**
      * Controls whether the button is disabled.
      */
-    @Input() disabled: boolean = false;
+    @Input()
+    get disabled(): boolean {
+        return this.isDisabled;
+    }
+    set disabled(disabled: boolean) {
+        this.isDisabled = (<any> disabled) === '' || !!disabled;
+    }
 
     private isFlat: boolean = false;
     private isIcon: boolean = false;
+    private isDisabled: boolean = false;
+    private unbindClickHandler: Function;
+
+    constructor(elementRef: ElementRef,
+                renderer: Renderer) {
+
+        if (elementRef.nativeElement) {
+            // This bind call really needs to be in the constructor, not in ngOnInit. Sorry!
+            this.unbindClickHandler = renderer.listen(elementRef.nativeElement, 'click', this.onClickEvent);
+        }
+    }
+
+    ngOnDestroy(): void {
+        if (this.unbindClickHandler) {
+            this.unbindClickHandler();
+        }
+    }
+
+    // Disabled elements don't fire mouse events in some browsers, but bubble up the DOM tree.
+    // To not trigger actions when the button is disabled, we need to prevent them manually.
+    private onClickEvent = (event: Event): void => {
+        if (event && this.isDisabled) {
+            event.preventDefault();
+            event.stopImmediatePropagation();
+        }
+    }
 }
