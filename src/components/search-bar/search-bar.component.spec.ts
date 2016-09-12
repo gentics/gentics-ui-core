@@ -112,13 +112,33 @@ describe('SearchBar', () => {
                 fixture.detectChanges();
                 let testInstance: TestComponent = fixture.componentInstance;
                 let searchBar: SearchBar = testInstance.searchBar;
-                spyOn(testInstance, 'onSearch');
 
-                // Unable to test keyboard events directly - tried several approaches from
-                // http://stackoverflow.com/questions/596481/simulate-javascript-key-events,
-                // so we just directly invoke the class method.
-                // TODO: Is there a way now?
-                (<Function> searchBar.onKeyDown)({ keyCode: 13 }, 'foo');
+                testInstance.onSearch = jasmine.createSpy('onSearch');
+
+                // Cross-browser way to create a "keydown" event
+                let enterKeyEvent = document.createEvent('Event');
+                enterKeyEvent.initEvent('keydown', true, true);
+                let props: any = {
+                    altKey: false,
+                    code: 'Enter',
+                    ctrlKey: false,
+                    key: 'Enter',
+                    keyCode: 13,
+                    keyIdentifier: 'U+000D',
+                    repeat: false,
+                    shiftKey: false,
+                    which: 13
+                };
+                Object.keys(props).forEach(key => {
+                    Object.defineProperty(enterKeyEvent, key, {
+                        value: props[key],
+                        configurable: true,
+                        enumerable: true
+                    });
+                });
+
+                let nativeInput: HTMLInputElement = fixture.nativeElement.querySelector('input');
+                nativeInput.dispatchEvent(enterKeyEvent);
                 tick();
 
                 expect(testInstance.onSearch).toHaveBeenCalledWith('foo');
