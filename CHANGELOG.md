@@ -5,6 +5,8 @@
 * SplitViewContainer handles dragging outside of the window
 * Select uses ellipses if selected item text is wider than component
 * DropdownList works inside modals
+* OverlayHostService: fix bug with registering multiple consumers.
+* (docs) Fix issues with PageFileDragHandler provider declaration
 
 ## 0.8.0 (2016-08-24)
 

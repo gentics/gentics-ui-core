@@ -19,8 +19,7 @@ import {DragStateTrackerFactory, PageFileDragHandler, FileDropArea, PreventFileD
         HighlightedCode,
         GTX_FORM_DIRECTIVES,
         ROUTER_DIRECTIVES
-    ],
-    providers: [PageFileDragHandler, DragStateTrackerFactory]
+    ]
 })
 export class FileDropAreaDemo implements OnDestroy {
     directiveSource: string = require('!!raw!../../../components/file-drop-area/file-drop-area.directive.ts');
