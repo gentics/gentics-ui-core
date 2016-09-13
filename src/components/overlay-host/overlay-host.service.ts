@@ -9,7 +9,7 @@ import {Injectable, ViewContainerRef} from '@angular/core';
 export class OverlayHostService {
 
     private hostView: ViewContainerRef;
-    private promiseResolveFn: Function;
+    private promiseResolveFns: Function[] = [];
 
     /**
      * Used to pass in the ViewContainerRed from the OverlayHost component.
@@ -17,7 +17,7 @@ export class OverlayHostService {
      */
     registerHostView(viewContainerRef: ViewContainerRef): void {
         this.hostView = viewContainerRef;
-        if (typeof this.promiseResolveFn === 'function') {
+        if (0 < this.promiseResolveFns.length) {
             this.resolveHostView();
         }
     }
@@ -29,7 +29,7 @@ export class OverlayHostService {
      */
     getHostView(): Promise<ViewContainerRef> {
         return new Promise((resolve: Function) => {
-            this.promiseResolveFn = resolve;
+            this.promiseResolveFns.push(resolve);
             if (this.hostView !== undefined) {
                 this.resolveHostView();
             }
@@ -37,6 +37,7 @@ export class OverlayHostService {
     }
 
     private resolveHostView(): void {
-        this.promiseResolveFn(this.hostView);
+        this.promiseResolveFns.forEach(resolve => resolve(this.hostView));
+        this.promiseResolveFns = [];
     }
 }

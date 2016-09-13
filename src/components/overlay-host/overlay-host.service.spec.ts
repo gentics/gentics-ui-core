@@ -37,6 +37,20 @@ describe('OverlayHostService:', () => {
             );
             overlayHostService.registerHostView(dummyHostView);
         });
+
+        it('should resolve multiple consumers', (done) => {
+            let promise1 = overlayHostService.getHostView();
+            let promise2 = overlayHostService.getHostView();
+            Promise.all([promise1, promise2]).then(
+                (results: any[]) => {
+                    expect(results[0]).toBe(dummyHostView);
+                    expect(results[1]).toBe(dummyHostView);
+                    done();
+                },
+                error => done.fail(error)
+            );
+            overlayHostService.registerHostView(dummyHostView);
+        });
     });
 
 });
