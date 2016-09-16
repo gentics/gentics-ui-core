@@ -8,7 +8,8 @@
 * DropdownList works inside modals
 * Range component no longer forwards native "change"/"focus"/"blur" DOM events
 * Button component does not forward native "click" events when disabled
-* OverlayHostService: fix bug with registering multiple consumers.
+* FilePicker styles fixed to align with button appeareance
+* OverlayHostService: fix bug with registering multiple consumers
 * (docs) Fix issues with PageFileDragHandler provider declaration
 
 ## 0.8.0 (2016-08-24)

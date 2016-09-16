@@ -1,6 +1,7 @@
 gtx-file-picker {
     & {
         display: inline-block;
+        white-space: nowrap;
     }
 
     > label {
@@ -12,7 +13,7 @@ gtx-file-picker {
         height: 0px;
         width: 0px;
         overflow: hidden;
-        position: relative;
+        position: absolute;
 
         > .hidden-file-input {
             opacity: 0.00001;
