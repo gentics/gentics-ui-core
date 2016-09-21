@@ -11,9 +11,10 @@ describe('ProgressBar', () => {
 
     it('starts out as "not active"',
         fakeAsync(inject([TestComponentBuilder], (tcb: TestComponentBuilder) =>
-            tcb.createAsync(ProgressBar)
+            tcb.createAsync(TestComponent)
             .then(fixture => {
-                const progressBar = fixture.componentRef.instance;
+                fixture.detectChanges();
+                const progressBar = fixture.componentRef.instance.progressBar;
                 expect(progressBar).toBeDefined();
                 expect(progressBar.active).toBe(false);
             })
@@ -129,9 +130,58 @@ describe('ProgressBar', () => {
                         const newWidth = progressIndicator.offsetWidth;
                         progressBar.active = false;
 
-                        // This expectation might show up in other tests when it fails
+                        // This expectation previously showed up in other tests when it failed
                         expect(newWidth).toBeGreaterThan(oldWidth,
                             'ProgressBar: expected progress indicator to grow in indeterminate mode');
+                        done();
+                    } catch (err) {
+                        done.fail(err);
+                    }
+                });
+            }
+        );
+
+        it('progress indicator is visible and grows when initialized as active',
+            (done: DoneFn) => {
+                let tcb: TestComponentBuilder = getTestInjector().get(TestComponentBuilder);
+                tcb = tcb.overrideTemplate(TestComponent, `
+                    <gtx-progress-bar [active]="true"></gtx-progress-bar>
+                `);
+                const fixture = tcb.createSync(TestComponent);
+
+                const instance: TestComponent = fixture.componentInstance;
+                const progressBar: ProgressBar = instance.progressBar;
+                const wrapper: HTMLElement = fixture.debugElement
+                    .query(By.directive(ProgressBar))
+                    .nativeElement.querySelector('.progress-bar-wrapper');
+                const progressIndicator: HTMLElement = fixture.debugElement
+                    .query(By.directive(ProgressBar))
+                    .nativeElement.querySelector('.progress-indicator');
+
+                expect(wrapper).not.toBeNull(
+                    'progress bar wrapper can not be found');
+                expect(progressBar.active).toBe(false,
+                    'progressBar.active should be false before first change detection');
+                expect(wrapper.classList.contains('visible')).toBe(false,
+                    'progress bar wrapper should not have "visible" class before first change detection');
+
+                fixture.detectChanges();
+
+                expect(progressBar.active).toBe(true,
+                    'progressBar.active should be true after first change detection');
+                expect(wrapper.classList.contains('visible')).toBe(true,
+                    'progress bar wrapper should have "visible" class after first change detection');
+
+                const oldWidth = progressIndicator.offsetWidth;
+
+                requestAnimationFrame(() => {
+                    try {
+                        const newWidth = progressIndicator.offsetWidth;
+                        progressBar.active = false;
+
+                        // This expectation previously showed up in other tests when it failed
+                        expect(newWidth).toBeGreaterThan(oldWidth,
+                            'ProgressBar: expected progress indicator to grow when starting active');
                         done();
                     } catch (err) {
                         done.fail(err);

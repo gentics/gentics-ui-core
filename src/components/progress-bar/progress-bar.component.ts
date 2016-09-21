@@ -149,6 +149,17 @@ export class ProgressBar implements OnDestroy {
 
     constructor(private zone: NgZone) { }
 
+    ngAfterViewInit(): void {
+        let wrapper: HTMLElement = this.progressBarWrapper && this.progressBarWrapper.nativeElement;
+        if (wrapper) {
+            this.wrapperClasses = wrapper.classList;
+            if (this.isActive) {
+                this.wrapperClasses.add('visible', this.determinate ? 'is-determinate' : 'is-indeterminate');
+                this.setProgressBarWidth(this.determinate ? this.progressPercentage : 0, 'immediate');
+            }
+        }
+    }
+
     /**
      * Starts showing the progress bar in "indeterminate" mode.
      * Can be passed a Promise or an Observable which animates the progress bar when resolved or rejected.
@@ -194,12 +205,6 @@ export class ProgressBar implements OnDestroy {
                 sub.unsubscribe();
                 this.cleanupSubscription = noop;
             };
-        }
-    }
-
-    ngAfterViewInit(): void {
-        if (this.progressBarWrapper && this.progressBarWrapper.nativeElement) {
-            this.wrapperClasses = (<HTMLElement> this.progressBarWrapper.nativeElement).classList;
         }
     }
 
