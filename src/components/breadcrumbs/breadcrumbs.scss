@@ -1,4 +1,8 @@
 gtx-breadcrumbs {
+    display: block;
+    font-size: 1em;
+    line-height: 4em;
+    height: 4em;
     @include noselect;
 
     > nav {
@@ -7,35 +11,60 @@ gtx-breadcrumbs {
         padding-right: rem-calc(15px);
         transition-duration: $gtx-breadcrumbs-animation-duration;
         transition-property: background-color;
+        font-size: inherit;
+        line-height: inherit;
+        height: 100%;
 
         > .nav-wrapper {
-            font-size: 2rem;
-            height: 2rem;
+            display: flex;
+            flex-direction: row;
+            flex-wrap: nowrap;
+            align-items: center;
+            align-content: flex-start;
 
             > * {
                 @extend .breadcrumb;
                 vertical-align: top;
+                white-space: nowrap;
+            }
+
+            > .back-button {
+                display: none;
+            }
+
+            .back-button + *::before {
+                display: none;
+            }
+
+            > .breadcrumb {
+                &, &::before {
+                    transition-duration: $gtx-breadcrumbs-animation-duration;
+                    transition-property: color;
+                    color: $gtx-breadcrumbs-inactive-color;
+                    line-height: inherit;
+                }
+
+                &:last-child {
+                    color: $gtx-breadcrumbs-active-color;
+                }
+
+                &:not([href]) {
+                    cursor: default;
+                }
+
+                &:not(:first-child):not(:last-child) {
+                    flex-shrink: 1;
+                    min-width: 0;
+                    overflow-x: hidden;
+                    overflow-y: visible;
+                    text-overflow: ellipsis;
+                }
             }
         }
 
-        > .nav-wrapper > .breadcrumb {
-            &, &::before {
-                transition-duration: $gtx-breadcrumbs-animation-duration;
-                transition-property: color;
-                color: $gtx-breadcrumbs-inactive-color;
-            }
-
-            &:last-child {
-                color: $gtx-breadcrumbs-active-color;
-            }
-
-            &:not([href]) {
-                cursor:  default;
-            }
-        }
     }
 
-    nav.disabled {
+    > nav.disabled {
         background-color: $gtx-breadcrumbs-disabled-background-color;
         pointer-events: none;
 
@@ -48,6 +77,40 @@ gtx-breadcrumbs {
             &:last-child {
                 color: $gtx-breadcrumbs-disabled-active-color;
             }
+        }
+    }
+}
+
+@media #{$small-and-down} {
+    gtx-breadcrumbs > nav > .nav-wrapper {
+        > .back-button {
+            display: block;
+            cursor: pointer;
+
+            &::before {
+                content: '\E5CB';
+                color: $gtx-breadcrumbs-inactive-color;
+                display: inline-block;
+                margin: 0;
+            }
+        }
+
+        > .back-button ~ *,
+        > .back-button ~ *::before {
+            display: none;
+        }
+
+        > :last-child {
+            display: block;
+            margin-left: 10px;
+        }
+    }
+
+    gtx-breadcrumbs > nav.disabled > .nav-wrapper > .back-button {
+        cursor: default;
+
+        &::before {
+            color: $gtx-breadcrumbs-disabled-inactive-color;
         }
     }
 }

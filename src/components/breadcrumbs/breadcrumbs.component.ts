@@ -2,7 +2,9 @@ import {
     Component,
     EventEmitter,
     Input,
-    Output
+    Output,
+    OnChanges,
+    SimpleChanges
 } from '@angular/core';
 import {ROUTER_DIRECTIVES} from '@angular/router';
 import {isPresent} from '@angular/core/src/facade/lang';
@@ -31,7 +33,7 @@ export interface IBreadcrumbRouterLink {
     template: require('./breadcrumbs.tpl.html'),
     directives: [ROUTER_DIRECTIVES]
 })
-export class Breadcrumbs {
+export class Breadcrumbs implements OnChanges {
 
     /**
      * A list of links to display
@@ -61,6 +63,15 @@ export class Breadcrumbs {
 
 
     private isDisabled: boolean = false;
+    private backLink: IBreadcrumbLink | IBreadcrumbRouterLink;
+
+
+    ngOnChanges(changes: SimpleChanges): void {
+        if (changes['links'] || changes['routerLinks']) {
+            let allLinks = (this.links || []).concat(this.routerLinks || []);
+            this.backLink = allLinks[allLinks.length - 2];
+        }
+    }
 
     private onLinkClicked(link: IBreadcrumbLink | IBreadcrumbRouterLink, event: Event): void {
         if (this.isDisabled) {

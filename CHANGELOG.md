@@ -10,6 +10,7 @@
 * Button component does not forward native "click" events when disabled
 * FilePicker styles fixed to align with button appeareance
 * OverlayHostService: fix bug with registering multiple consumers
+* Breadcrumbs use a back button on small screens and ellipsis on medium and up
 * (docs) Fix issues with PageFileDragHandler provider declaration
 
 ## 0.8.0 (2016-08-24)

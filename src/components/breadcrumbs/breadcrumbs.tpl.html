@@ -1,22 +1,33 @@
 <nav [class.disabled]="isDisabled">
     <div class="nav-wrapper">
 
+        <a class="back-button" *ngIf="backLink && backLink.route"
+            (click)="onLinkClicked(backLink, $event)"
+            [routerLink]="backLink.route"
+            [title]="backLink.text"></a>
+        <a class="back-button" *ngIf="backLink && !backLink.route"
+            (click)="onLinkClicked(backLink, $event)"
+            [attr.href]="isDisabled ? null : backLink?.href"
+            [title]="backLink.text"></a>
+
         <ng-content></ng-content>
 
         <template [ngIf]="links">
-            <a *ngFor="let link of links; let i = index"
+            <a *ngFor="let link of links"
                 class="breadcrumb"
-                [attr.href]="isDisabled ? null : links[i]?.href"
-                (click)="onLinkClicked(links[i], $event)"
-            >{{ links[i].text }}</a>
+                [attr.href]="isDisabled ? null : link?.href"
+                (click)="onLinkClicked(link, $event)"
+                [title]="link.text"
+            >{{ link.text }}</a>
         </template>
 
         <template [ngIf]="routerLinks">
-            <a *ngFor="let rlink of routerLinks; let j = index"
+            <a *ngFor="let routerLink of routerLinks"
                 class="breadcrumb"
-                [routerLink]="routerLinks[j].route"
-                (click)="onLinkClicked(routerLinks[j], $event)"
-            >{{ routerLinks[j].text }}</a>
+                [routerLink]="routerLink.route"
+                (click)="onLinkClicked(routerLink, $event)"
+                [title]="routerLink.text"
+            >{{ routerLink.text }}</a>
         </template>
 
     </div>

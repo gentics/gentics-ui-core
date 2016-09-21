@@ -1,8 +1,9 @@
+import {LocationStrategy} from '@angular/common';
 import {ComponentFixture, TestComponentBuilder} from '@angular/compiler/testing';
 import {Component, Directive, Input} from '@angular/core';
-import {async, fakeAsync, inject, tick} from '@angular/core/testing';
+import {addProviders, async, fakeAsync, inject, tick} from '@angular/core/testing';
 import {By} from '@angular/platform-browser';
-import {RouterLink, RouterLinkWithHref} from '@angular/router';
+import {ActivatedRoute, Router, RouterLink, RouterLinkWithHref} from '@angular/router';
 
 import {
     Breadcrumbs,
@@ -16,7 +17,7 @@ import {
  */
 function linkTexts(fixture: ComponentFixture<any>): string[] {
     return Array.prototype.map.call(
-        fixture.nativeElement.querySelectorAll('a'),
+        fixture.nativeElement.querySelectorAll('a.breadcrumb'),
         (a: HTMLAnchorElement) => a.innerText
     );
 }
@@ -26,13 +27,21 @@ function linkTexts(fixture: ComponentFixture<any>): string[] {
  */
 function linkHrefs(fixture: ComponentFixture<any>): string[] {
     return Array.prototype.map.call(
-        fixture.nativeElement.querySelectorAll('a'),
+        fixture.nativeElement.querySelectorAll('a.breadcrumb'),
         (a: HTMLAnchorElement) => a.getAttribute('href')
     );
 }
 
 
 describe('Breadcrumbs:', () => {
+
+    beforeEach(() => {
+        addProviders([
+            { provide: Router, useClass: MockRouter },
+            { provide: ActivatedRoute, useClass: MockActivatedRoute },
+            { provide: LocationStrategy, useClass: MockLocationStrategy }
+        ]);
+    });
 
     it('creates a breadcrumbs bar with the link texts provided',
         async(inject([TestComponentBuilder], (tcb: TestComponentBuilder) =>
@@ -45,10 +54,10 @@ describe('Breadcrumbs:', () => {
             .createAsync(TestComponent)
             .then(fixture => {
                 fixture.detectChanges();
-                let nativeLinks: HTMLAnchorElement[] = fixture.nativeElement.querySelectorAll('a');
+                let links = linkTexts(fixture);
 
-                expect(nativeLinks.length).toBe(2);
-                expect(linkTexts(fixture)).toEqual(['A', 'B']);
+                expect(links.length).toBe(2);
+                expect(links).toEqual(['A', 'B']);
             })
         ))
     );
@@ -65,10 +74,10 @@ describe('Breadcrumbs:', () => {
             .createAsync(TestComponent)
             .then(fixture => {
                 fixture.detectChanges();
-                let nativeLinks: HTMLAnchorElement[] = fixture.nativeElement.querySelectorAll('a');
+                let hrefs = linkHrefs(fixture);
 
-                expect(nativeLinks.length).toBe(3);
-                expect(linkHrefs(fixture)).toEqual(['/absolute', './relative.html', '#hashlocation']);
+                expect(hrefs.length).toBe(3);
+                expect(hrefs).toEqual(['/absolute', './relative.html', '#hashlocation']);
             })
         ))
     );
@@ -232,6 +241,76 @@ describe('Breadcrumbs:', () => {
         ))
     );
 
+    it('does not create a back button when there is only one link',
+        fakeAsync(inject([TestComponentBuilder], (tcb: TestComponentBuilder) =>
+            tcb.overrideTemplate(TestComponent, `
+                <gtx-breadcrumbs [links]="links" [routerLinks]="routerLinks"></gtx-breadcrumbs>
+            `)
+            .createAsync(TestComponent)
+            .then(fixture => {
+                const component: TestComponent = fixture.componentInstance;
+                component.links = [
+                    { text: 'X', href: '/x', someKey: 'someValue' }
+                ];
+                component.routerLinks = [];
+
+                fixture.detectChanges();
+                expect(fixture.nativeElement.querySelector('.back-button')).toBeNull();
+
+                component.links = [];
+                component.routerLinks = [
+                    { text: 'Y', route: ['/route', 'y'] }
+                ];
+
+                fixture.detectChanges();
+                expect(fixture.nativeElement.querySelector('.back-button')).toBeNull();
+            })
+        ))
+    );
+
+    it('creates a back button when there are 2 or more links',
+        fakeAsync(inject([TestComponentBuilder], (tcb: TestComponentBuilder) =>
+            tcb.overrideTemplate(TestComponent, `
+                <gtx-breadcrumbs [links]="links" [routerLinks]="routerLinks"></gtx-breadcrumbs>
+            `)
+            .createAsync(TestComponent)
+            .then(fixture => {
+                const component: TestComponent = fixture.componentInstance;
+
+                // Links, but no router links
+                component.links = [
+                    { text: 'X', href: '/x', someKey: 'someValue' },
+                    { text: 'Y', href: '/y', someKey: 'someOtherValue' }
+                ];
+                component.routerLinks = [];
+
+                fixture.detectChanges();
+                expect(fixture.nativeElement.querySelector('.back-button')).toBeDefined();
+
+                // No links, but router links
+                component.links = [];
+                component.routerLinks = [
+                    { text: 'A', route: ['/route', 'a'] },
+                    { text: 'B', route: ['/route', 'b'] }
+                ];
+
+                fixture.detectChanges();
+                expect(fixture.nativeElement.querySelector('.back-button')).toBeDefined();
+
+                // Both links and router links
+                component.links = [
+                    { text: 'X', href: '/x', someKey: 'someValue' }
+                ];
+                component.routerLinks = [
+                    { text: 'A', route: ['/route', 'a'] }
+                ];
+
+                fixture.detectChanges();
+                expect(fixture.nativeElement.querySelector('.back-button')).toBeDefined();
+            })
+        ))
+    );
+
     it('forwards the "links" input value to the "linkClick" EventEmitter by reference',
         fakeAsync(inject([TestComponentBuilder], (tcb: TestComponentBuilder) =>
             tcb.overrideTemplate(TestComponent, `
@@ -308,10 +387,12 @@ describe('Breadcrumbs:', () => {
                 .then(fixture => {
                     fixture.detectChanges();
 
-                    expect(createdRouterLinks.length).toBe(3);
-                    expect(createdRouterLinks[0].commands).toEqual(['/TestA/TestB/TestC']);
-                    expect(createdRouterLinks[1].commands).toEqual(['./TestB']);
-                    expect(createdRouterLinks[2].commands).toEqual(['/TestA', 'TestB', 'TestC']);
+                    // A backbutton and therefore four links are created.
+                    expect(createdRouterLinks.length).toBe(4);
+                    expect(createdRouterLinks[0].commands).toEqual(['./TestB']);
+                    expect(createdRouterLinks[1].commands).toEqual(['/TestA/TestB/TestC']);
+                    expect(createdRouterLinks[2].commands).toEqual(['./TestB']);
+                    expect(createdRouterLinks[3].commands).toEqual(['/TestA', 'TestB', 'TestC']);
                 })
             ))
         );
@@ -355,6 +436,17 @@ function createClickEvent(): Event {
         clickEvent.initEvent('click', true, true);
         return clickEvent;
     }
+}
+
+
+class MockRouter {
+    createUrlTree(): void {}
+    navigateByUrl(): void {}
+}
+class MockActivatedRoute { }
+class MockLocationStrategy { }
+class MockUsageActions {
+    getTotalUsage(): void {}
 }
 
 
