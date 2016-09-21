@@ -66,7 +66,8 @@ import {IModalInstance, IDialogConfig, IModalDialog, IModalOptions} from './moda
  * ##### `.fromComponent()`
  * For more complex modals, a component can be passed to the `.fromComponent()` method which will then be
  * placed inside a modal window. The component must implement the IModalDialog interface, which allows the
- * ModalService to hook into a `closeFn` & `cancelFn` so it knows then to resolve / reject the promise.
+ * ModalService to hook into a `closeFn` & `cancelFn` so it knows to close the modal and resolve the promise.
+ * To forward errors from the modal to the caller, implement `registerErrorFn` from the IModalDialog interface.
  *
  * Example:
  * ```TypeScript
@@ -240,9 +241,15 @@ export class ModalService {
             });
 
             dialog.registerCancelFn((value: any) => {
-                reject(value);
                 modalWrapper.dismissFn();
             });
+
+            if (dialog.registerErrorFn) {
+                dialog.registerErrorFn((err: Error) => {
+                    reject(err);
+                    modalWrapper.dismissFn();
+                });
+            }
         });
     }
 

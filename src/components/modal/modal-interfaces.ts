@@ -43,8 +43,18 @@ export interface IModalInstance {
  * by the DynamicModalWrapper.
  */
 export interface IModalDialog {
+    /** Can be called to close the modal and return a value. */
     closeFn: (val: any) => void;
+
+    /** Can be called to close the modal by cancelling. */
     cancelFn: (val?: any) => void;
+
+    /** Is passed a callback which can be called by the modal to close and return a value. */
     registerCloseFn: (close: (val: any) => void) => void;
+
+    /** Is passed a callback which can be called by the modal to cancel. */
     registerCancelFn: (cancel: (val: any) => void) => void;
+
+    /** Is passed a callback which can be called by the modal to signal an error and close. */
+    registerErrorFn?: (errorFn: (err: Error) => void) => void;
 }

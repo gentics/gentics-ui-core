@@ -1,4 +1,4 @@
-## 0.8.1 (2016-??-??)
+## 0.9.0 (2016-??-??)
 
 ### Fixes
 * SplitViewContainer works with OnPush change detection
@@ -12,6 +12,7 @@
 * OverlayHostService: fix bug with registering multiple consumers
 * Breadcrumbs use a back button on small screens and ellipsis on medium and up
 * (docs) Fix issues with PageFileDragHandler provider declaration
+* [semver-minor] ModalService: promise no longer rejects when modal is cancelled
 
 ## 0.8.0 (2016-08-24)
 

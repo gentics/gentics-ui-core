@@ -1,6 +1,7 @@
 import {Component} from '@angular/core';
 import {By} from '@angular/platform-browser';
-import {async, ComponentFixture, fakeAsync, getTestInjector, inject, TestComponentBuilder, tick} from '@angular/core/testing';
+import {async, discardPeriodicTasks, ComponentFixture, fakeAsync,
+        getTestInjector, inject, TestComponentBuilder, tick} from '@angular/core/testing';
 import {ModalService} from './modal.service';
 import {OverlayHostService} from '../overlay-host/overlay-host.service';
 import {OverlayHost} from '../overlay-host/overlay-host.component';
@@ -311,6 +312,7 @@ describe('ModalService:', () => {
         class TestModalCmp implements IModalDialog {
             closeFn: (val: any) => void;
             cancelFn: (val?: any) => void;
+            errorFn: (err: Error) => void;
 
             localValue: string;
             localFn: Function;
@@ -321,6 +323,10 @@ describe('ModalService:', () => {
 
             registerCancelFn(cancel: (val: any) => void): void {
                 this.cancelFn = cancel;
+            }
+
+            registerErrorFn(error: (err: Error) => void): void {
+                this.errorFn = error;
             }
         }
 
@@ -354,6 +360,84 @@ describe('ModalService:', () => {
                         let result = modalService.fromComponent(TestModalCmp);
 
                         expect(result.then).toBeDefined();
+                    })
+            ))
+        );
+
+        it('resolves the returned promise when the modal is closed',
+            fakeAsync(inject([TestComponentBuilder], (tcb: TestComponentBuilder) =>
+                tcb.createAsync(TestComponent)
+                    .then(fixture => {
+                        fixture.detectChanges();
+
+                        modalService.fromComponent(TestModalCmp)
+                            .then(modal => {
+                                let promise = modal.open();
+
+                                let cmp: TestModalCmp = <any> modal.instance;
+                                cmp.closeFn('some result');
+
+                                return promise;
+                            })
+                            .then(
+                                (result: any) => { expect(result).toBe('some result'); },
+                                () => { fail('Promise should resolve but rejected'); }
+                            );
+                    })
+            ))
+        );
+
+        it('does not resolve or reject the returned promise when the modal is cancelled',
+            fakeAsync(inject([TestComponentBuilder], (tcb: TestComponentBuilder) =>
+                tcb.createAsync(TestComponent)
+                    .then(fixture => {
+                        fixture.detectChanges();
+
+                        modalService.fromComponent(TestModalCmp)
+                            .then(modal => {
+                                let promise = modal.open();
+
+                                let cmp: TestModalCmp = <any> modal.instance;
+                                cmp.cancelFn('reason');
+
+                                setTimeout(() => {
+                                    expect(true).toBe(true);
+                                    discardPeriodicTasks();
+                                }, 500);
+
+                                return promise;
+                            })
+                            .then(
+                                () => { fail('Promise should not resolve but did'); },
+                                () => { fail('Promise should not reject but did'); }
+                            );
+
+                        tick(500);
+                    })
+            ))
+        );
+
+        it('rejects the returned promise when the passed error handler is called',
+            fakeAsync(inject([TestComponentBuilder], (tcb: TestComponentBuilder) =>
+                tcb.createAsync(TestComponent)
+                    .then(fixture => {
+                        fixture.detectChanges();
+
+                        modalService.fromComponent(TestModalCmp)
+                            .then(modal => {
+                                let promise = modal.open();
+
+                                let cmp: TestModalCmp = <any> modal.instance;
+                                cmp.errorFn(new Error('a test error'));
+
+                                return promise;
+                            })
+                            .then(
+                                () => { fail('Promise should reject but resolved'); },
+                                (err: Error) => {
+                                    expect(err.message).toBe('a test error');
+                                }
+                            );
                     })
             ))
         );
