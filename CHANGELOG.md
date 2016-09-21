@@ -4,6 +4,7 @@
 * SplitViewContainer works with OnPush change detection
 * SplitViewContainer handles dragging outside of the window
 * Select uses ellipses if selected item text is wider than component
+* Select dropdown aligns with the input
 * DropdownList works inside modals
 * Range component no longer forwards native "change"/"focus"/"blur" DOM events
 * Button component does not forward native "click" events when disabled

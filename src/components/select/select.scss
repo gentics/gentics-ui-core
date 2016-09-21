@@ -2,23 +2,30 @@ gtx-select {
     position: relative;
     display: block;
 
-    .select-wrapper input.select-dropdown {
-        @extend .input-base;
-        padding: 0 5px;
-        line-height: 1rem;
-        &[readonly] {
-            color: $gtx-color-very-dark-gray;
-            text-overflow: ellipsis;
-        }
-    }
-    .select-wrapper span.caret {
-        top: 11px;
-        right: 8px;
-    }
+    .select-wrapper {
+        padding-top: 20px;
 
-    .select-wrapper + label {
-        top: -19px;
-        left: 0;
-        color: $gtx-color-dark-gray;
+        input.select-dropdown {
+            @extend .input-base;
+            padding: 0 5px;
+            line-height: 1rem;
+            margin-top: 0;
+
+            &[readonly] {
+                color: $gtx-color-very-dark-gray;
+                text-overflow: ellipsis;
+            }
+        }
+
+        span.caret {
+            top: 33px;
+            right: 8px;
+        }
+
+        & + label {
+            top: 1px;
+            left: 0;
+            color: $gtx-color-dark-gray;
+        }
     }
 }
