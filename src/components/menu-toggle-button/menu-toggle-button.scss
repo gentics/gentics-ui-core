@@ -1,5 +1,6 @@
 gtx-menu-toggle-button {
     $width: 40px;
+    user-select: none;
 
     @media #{$medium-and-down} {
         top: 0;
