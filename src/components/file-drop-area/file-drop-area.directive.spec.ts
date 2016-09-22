@@ -317,14 +317,15 @@ describe('File Drop Area:', () => {
 
         describe('accept', () => {
 
-            if (!clientReportsMimeTypesOnDrag()) {
-                pending('Client does not report MIME type of dragged files.');
-            }
-
             it('filters result of "draggedFiles"',
                 componentTest(() => TestComponent, `
                     <div [gtxFileDropArea]="{ accept: 'image/*' }"></div>`,
                     (fixture, instance) => {
+
+                        if (!clientReportsMimeTypesOnDrag()) {
+                            return pending('Client does not report MIME type of dragged files.');
+                        }
+
                         fixture.detectChanges();
                         const dropArea: FileDropArea = instance.directive;
 
@@ -343,6 +344,11 @@ describe('File Drop Area:', () => {
                 componentTest(() => TestComponent, `
                     <div [gtxFileDropArea]="{ accept: 'image/*' }"></div>`,
                     (fixture, instance) => {
+
+                        if (!clientReportsMimeTypesOnDrag()) {
+                            return pending('Client does not report MIME type of dragged files.');
+                        }
+
                         fixture.detectChanges();
                         const dropArea: FileDropArea = instance.directive;
 

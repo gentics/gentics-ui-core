@@ -76,8 +76,7 @@ describe('Range:', () => {
                 fixture.detectChanges();
                 instance.onBlur = jasmine.createSpy('onBlur');
 
-                let event = document.createEvent('FocusEvent');
-                event.initEvent('blur', true, true);
+                let event = createFocusEvent('blur');
                 inputDel.triggerEventHandler('blur', event);
                 tick();
 
@@ -97,8 +96,7 @@ describe('Range:', () => {
                 fixture.detectChanges();
                 instance.onFocus = jasmine.createSpy('onFocus');
 
-                let event = document.createEvent('FocusEvent');
-                event.initEvent('focus', true, true);
+                let event = createFocusEvent('focus');
                 inputDel.triggerEventHandler('focus', event);
                 tick();
 
@@ -135,8 +133,7 @@ describe('Range:', () => {
                 fixture.detectChanges();
                 instance.onChange = jasmine.createSpy('onChange');
 
-                let event = document.createEvent('FocusEvent');
-                event.initEvent('blur', true, true);
+                let event = createFocusEvent('blur');
                 inputDel.triggerEventHandler('blur', event);
                 tick();
 
@@ -224,8 +221,7 @@ describe('Range:', () => {
                     fixture.detectChanges();
 
                     const nativeInput: HTMLInputElement = fixture.nativeElement.querySelector('input');
-                    let event = document.createEvent('FocusEvent');
-                    event.initEvent('blur', true, true);
+                    let event = createFocusEvent('blur');
                     nativeInput.dispatchEvent(event);
 
                     expect(calledWithDomEvent(onBlur)).toBe(false);
@@ -241,8 +237,7 @@ describe('Range:', () => {
                     fixture.detectChanges();
 
                     const nativeInput: HTMLInputElement = fixture.nativeElement.querySelector('input');
-                    let event = document.createEvent('FocusEvent');
-                    event.initEvent('focus', true, true);
+                    let event = createFocusEvent('focus');
                     nativeInput.dispatchEvent(event);
 
                     expect(calledWithDomEvent(onFocus)).toBe(false);
@@ -265,8 +260,7 @@ describe('Range:', () => {
                     calledWithDomEvent(onChange);
 
                     nativeInput.value = '15';
-                    event = document.createEvent('FocusEvent');
-                    event.initEvent('blur', true, false);
+                    event = createFocusEvent('blur');
                     nativeInput.dispatchEvent(event);
 
                     expect(calledWithDomEvent(onChange)).toBe(false);
@@ -276,6 +270,27 @@ describe('Range:', () => {
 
     });
 });
+
+
+/** Firefox has issues with document.createEvent('FocusEvent'). */
+function createFocusEvent(type: 'focus' | 'blur'): FocusEvent {
+    let event: FocusEvent;
+    try {
+        event = document.createEvent('FocusEvent');
+        event.initFocusEvent(type, true, true, window, 0, null);
+    } catch (firefox) {
+        event = new FocusEvent('type', {
+            bubbles: true,
+            cancelable: true,
+            view: window,
+            detail: 0,
+            relatedTarget: null
+        });
+    }
+
+    return event;
+}
+
 
 @Component({
     template: `<gtx-range></gtx-range>`,
