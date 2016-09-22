@@ -1,9 +1,9 @@
 import {LocationStrategy} from '@angular/common';
 import {ComponentFixture} from '@angular/compiler/testing';
 import {Component, Directive, Input} from '@angular/core';
-import {addProviders, tick} from '@angular/core/testing';
+import {addProviders, getTestInjector, tick} from '@angular/core/testing';
 import {By} from '@angular/platform-browser';
-import {ActivatedRoute, Router, RouterLink, RouterLinkWithHref} from '@angular/router';
+import {ActivatedRoute, Router, RouterLink, RouterLinkWithHref, UrlTree} from '@angular/router';
 
 import {componentTest} from '../../testing';
 import {
@@ -297,17 +297,10 @@ describe('Breadcrumbs:', () => {
 
     describe('Router link capabilities', () => {
 
-        let createdRouterLinks: MockRouterLink[];
-        beforeEach(() => { createdRouterLinks = MockRouterLink.createdRouterLinks = []; });
-
         it('creates links with the text provided in "routerLinks"',
-            componentTest(() => TestComponent,
-                tcb =>
-                    tcb.overrideTemplate(TestComponent, `
-                        <gtx-breadcrumbs [routerLinks]="routerLinks"></gtx-breadcrumbs>
-                    `)
-                    .overrideDirective(Breadcrumbs, RouterLink, MockRouterLink)
-                    .overrideDirective(Breadcrumbs, RouterLinkWithHref, MockRouterLink),
+            componentTest(() => TestComponent, `
+                <gtx-breadcrumbs [routerLinks]="routerLinks">
+                </gtx-breadcrumbs>`,
                 (fixture, instance) => {
                     instance.routerLinks = [
                         { text: 'A', route: ['/TestA/TestB/TestC'] },
@@ -324,51 +317,74 @@ describe('Breadcrumbs:', () => {
         );
 
         it('forwards the "route" property to the routerLink directive',
-            componentTest(() => TestComponent,
-                tcb =>
-                    tcb.overrideTemplate(TestComponent, `
-                        <gtx-breadcrumbs [routerLinks]='[
-                            { text: "A", route: ["/TestA/TestB/TestC"] },
-                            { text: "B", route: "./TestB" },
-                            { text: "C", route: ["/TestA", "TestB", "TestC"] }
-                        ]'></gtx-breadcrumbs>
-                    `)
-                    .overrideDirective(Breadcrumbs, RouterLink, MockRouterLink)
-                    .overrideDirective(Breadcrumbs, RouterLinkWithHref, MockRouterLink),
+            componentTest(() => TestComponent, `
+                <gtx-breadcrumbs [routerLinks]='[
+                    { text: "A", route: ["/TestA/TestB/TestC"] },
+                    { text: "B", route: "./TestB" },
+                    { text: "C", route: ["/TestA", "TestB", "TestC"] }
+                ]'></gtx-breadcrumbs>`,
                 fixture => {
                     fixture.detectChanges();
 
-                    // A backbutton and therefore four links are created.
-                    expect(createdRouterLinks.length).toBe(4);
-                    expect(createdRouterLinks[0].commands).toEqual(['./TestB']);
-                    expect(createdRouterLinks[1].commands).toEqual(['/TestA/TestB/TestC']);
-                    expect(createdRouterLinks[2].commands).toEqual(['./TestB']);
-                    expect(createdRouterLinks[3].commands).toEqual(['/TestA', 'TestB', 'TestC']);
+                    let links = Array.from<HTMLAnchorElement>(fixture.nativeElement.querySelectorAll('a.breadcrumb'));
+                    expect(links.length).toBe(3);
+
+                    let hrefs = links.map(link => link.getAttribute('href'));
+                    expect(hrefs).toEqual(['/TestA/TestB/TestC', './TestB', '/TestA/TestB/TestC']);
                 }
             )
         );
 
-        /*
-         * The test below does not work yet - At the current angular revision,
-         * the RouterLink directive can not be disabled. A working solution is "pointer-events: none",
-         * but that does not prevent the click event in tests and is not testable.
-         * This might change with a future revision of angular.
-         */
-        xit('does not change the URL on router link click when disabled',
+        it('changes the URL on router link click when enabled',
             componentTest(() => TestComponent, `
-                <gtx-breadcrumbs disabled [routerLinks]='[
-                    { text: "C1", route: ["/TestA", "TestB", "TestC"] },
-                    { text: "C2", route: ["/TestA", "TestB", "TestC-2"] }
+                <gtx-breadcrumbs [routerLinks]='[
+                    { text: "Link1", route: ["/TestA", "TestB", "TestC"] }
                 ]'>
                 </gtx-breadcrumbs>`,
                 fixture => {
+                    let router: MockRouter = getTestInjector().get(Router);
+                    router.createUrlTree = (commands: string[], options: any) => commands;
+                    router.navigateByUrl = jasmine.createSpy('navigateByUrl');
+
                     fixture.detectChanges();
                     tick();
                     fixture.detectChanges();
 
                     let generatedLinks = fixture.debugElement.queryAll(By.css('a'));
-                    expect(generatedLinks.length).toBe(2);
-                    expect(createdRouterLinks.length).toBe(0);
+                    expect(generatedLinks.length).toBe(1);
+
+                    let nativeLink: HTMLAnchorElement = generatedLinks[0].nativeElement;
+                    let clickEvent = createClickEvent(nativeLink);
+                    nativeLink.dispatchEvent(clickEvent);
+
+                    expect(router.navigateByUrl).toHaveBeenCalledWith(['/TestA', 'TestB', 'TestC']);
+                }
+            )
+        );
+
+        it('does not change the URL on router link click when disabled',
+            componentTest(() => TestComponent, `
+                <gtx-breadcrumbs disabled [routerLinks]='[
+                    { text: "Link1", route: ["/TestA", "TestB", "TestC"] }
+                ]'>
+                </gtx-breadcrumbs>`,
+                fixture => {
+                    let router: MockRouter = getTestInjector().get(Router);
+                    router.createUrlTree = (commands: string[], options: any) => commands;
+                    router.navigateByUrl = jasmine.createSpy('navigateByUrl');
+
+                    fixture.detectChanges();
+                    tick();
+                    fixture.detectChanges();
+
+                    let generatedLinks = fixture.debugElement.queryAll(By.css('a'));
+                    expect(generatedLinks.length).toBe(1);
+
+                    let nativeLink: HTMLAnchorElement = generatedLinks[0].nativeElement;
+                    let clickEvent = createClickEvent(nativeLink);
+                    nativeLink.dispatchEvent(clickEvent);
+
+                    expect(router.navigateByUrl).not.toHaveBeenCalled();
                 }
             )
         );
@@ -377,23 +393,38 @@ describe('Breadcrumbs:', () => {
 
 });
 
-function createClickEvent(): Event {
-    try {
-        return new Event('click', { bubbles: true, cancelable: true });
-    } catch (ie11) {
-        let clickEvent: Event = document.createEvent('Event');
-        clickEvent.initEvent('click', true, true);
-        return clickEvent;
-    }
+function createClickEvent(relatedTarget: HTMLElement = null): Event {
+    let clickEvent = document.createEvent('MouseEvent');
+    clickEvent.initMouseEvent('click',
+        true, // bubble,
+        true, // cancelable
+        window, 0, 0, 0, 0, 0,
+        false, // ctrlKey
+        false, // altKey
+        false, // shiftKey
+        false, // metaKey
+        0, // button
+        relatedTarget
+    );
+    return clickEvent;
 }
 
 
 class MockRouter {
-    createUrlTree(): void {}
-    navigateByUrl(): void {}
+    createUrlTree(commands: string[], options: any): any {
+        return commands;
+    }
+    navigateByUrl(urlTree: any): void {}
+    serializeUrl(urlTree: string[]): string {
+        return urlTree.join('/');
+    }
 }
 class MockActivatedRoute { }
-class MockLocationStrategy { }
+class MockLocationStrategy {
+    prepareExternalUrl(internal: string): string {
+        return internal;
+    }
+}
 class MockUsageActions {
     getTotalUsage(): void {}
 }
@@ -412,26 +443,4 @@ class TestComponent {
     routerLinks: IBreadcrumbRouterLink[] = [];
     disableBreadcrumbs = false;
     onLinkClick(): void {}
-}
-
-
-@Directive({
-    selector: '[routerLink]'
-})
-class MockRouterLink {
-    static createdRouterLinks: MockRouterLink[] = [];
-    commands: any[] = [];
-
-    constructor() {
-        MockRouterLink.createdRouterLinks.push(this);
-    }
-
-    @Input()
-    set routerLink(data: any[]|string) {
-        if (Array.isArray(data)) {
-            this.commands = data;
-        } else {
-            this.commands = [data];
-        }
-    }
 }

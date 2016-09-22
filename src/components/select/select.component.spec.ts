@@ -2,7 +2,7 @@ import {Component, ViewChild} from '@angular/core';
 import {discardPeriodicTasks, tick} from '@angular/core/testing';
 import {FormGroup, FormControl, REACTIVE_FORM_DIRECTIVES} from '@angular/forms';
 
-import {componentTest} from '../../testing';
+import {componentTest, worksButHasPendingTimers} from '../../testing';
 import {Select} from './select.component';
 
 describe('Select:', () => {
@@ -132,29 +132,29 @@ describe('Select:', () => {
         })
     );
 
-    /**
-     * TODO: Throws "1 periodic timer(s) still in the queue." - fix, then re-enable
-     */
-    xit('emits "blur" with the current value when the native input is blurred',
-        componentTest(() => TestComponent, (fixture, instance) => {
-            fixture.detectChanges();
-            tick();
-            let fakeInput: HTMLInputElement = fixture.nativeElement.querySelector('input.select-dropdown');
-            instance.onBlur = jasmine.createSpy('onBlur');
+    // TODO: Throws "1 periodic timer(s) still in the queue."
+    it('emits "blur" with the current value when the native input is blurred',
+        worksButHasPendingTimers(
+            componentTest(() => TestComponent, (fixture, instance) => {
+                fixture.detectChanges();
+                tick();
+                let fakeInput: HTMLInputElement = fixture.nativeElement.querySelector('input.select-dropdown');
+                instance.onBlur = jasmine.createSpy('onBlur');
 
-            let event: Event = document.createEvent('Event');
-            event.initEvent('blur', true, true);
-            fakeInput.dispatchEvent(event);
-            tick();
-            fixture.detectChanges();
+                let event: Event = document.createEvent('Event');
+                event.initEvent('blur', true, true);
+                fakeInput.dispatchEvent(event);
+                tick();
+                fixture.detectChanges();
 
-            expect(instance.onBlur).toHaveBeenCalledWith('Bar');
-            tick();
-            fixture.detectChanges();
-            tick();
+                expect(instance.onBlur).toHaveBeenCalledWith('Bar');
+                tick();
+                fixture.detectChanges();
+                tick();
 
-            discardPeriodicTasks();
-        })
+                discardPeriodicTasks();
+            })
+        )
     );
 
     it('emits "change" when a list item is clicked',
@@ -300,33 +300,33 @@ describe('Select:', () => {
             )
         );
 
-        /*
-        * TODO: Throws "1 periodic timer(s) still in the queue"
-        */
-        xit('marks the component as "touched" when the native input is blurred',
-            componentTest(() => TestComponent, `
-                <form [formGroup]="testForm">
-                    <gtx-select formControlName="test">
-                        <option *ngFor="let option of options" [value]="option">{{ option }}</option>
-                    </gtx-select>
-                </form>`,
-                fixture => {
-                    fixture.detectChanges();
-                    tick();
-                    let instance: TestComponent = fixture.componentInstance;
-                    let nativeInput: HTMLInputElement = fixture.nativeElement.querySelector('input');
+        // TODO: Throws "1 periodic timer(s) still in the queue"
+        it('marks the component as "touched" when the native input is blurred',
+            worksButHasPendingTimers(
+                componentTest(() => TestComponent, `
+                    <form [formGroup]="testForm">
+                        <gtx-select formControlName="test">
+                            <option *ngFor="let option of options" [value]="option">{{ option }}</option>
+                        </gtx-select>
+                    </form>`,
+                    fixture => {
+                        fixture.detectChanges();
+                        tick();
+                        let instance: TestComponent = fixture.componentInstance;
+                        let nativeInput: HTMLInputElement = fixture.nativeElement.querySelector('input');
 
-                    expect(instance.testForm.controls['test'].touched).toBe(false);
-                    expect(instance.testForm.controls['test'].untouched).toBe(true);
+                        expect(instance.testForm.controls['test'].touched).toBe(false);
+                        expect(instance.testForm.controls['test'].untouched).toBe(true);
 
-                    triggerEvent(nativeInput, 'focus');
-                    triggerEvent(nativeInput, 'blur');
-                    tick();
-                    fixture.detectChanges();
+                        triggerEvent(nativeInput, 'focus');
+                        triggerEvent(nativeInput, 'blur');
+                        tick();
+                        fixture.detectChanges();
 
-                    expect(instance.testForm.controls['test'].touched).toBe(true);
-                    expect(instance.testForm.controls['test'].untouched).toBe(false);
-                }
+                        expect(instance.testForm.controls['test'].touched).toBe(true);
+                        expect(instance.testForm.controls['test'].untouched).toBe(false);
+                    }
+                )
             )
         );
 
