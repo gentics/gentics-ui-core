@@ -1,3 +1,9 @@
+## 0.9.1 (2016-??-??)
+
+### Features
+* Icons can now be written as "icon" element, e.g. `<icon left>wastebin</icon>`
+  instead of `<i class="material-icons left">wastebin</i>`
+
 ## 0.9.0 (2016-09-22)
 
 ### Fixes

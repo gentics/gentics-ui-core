@@ -23,11 +23,13 @@ gtx-button {
             line-height: 56px;
         }
 
+        icon[left],
         i.left {
             margin-right: 5px;
             float: left;
         }
 
+        icon[right],
         i.right {
             margin-left: 5px;
             float: right;
@@ -43,11 +45,16 @@ gtx-button {
         // default (primary)
         background-color: $gtx-color-primary;
         border: 1px solid transparent;
-        &:hover { background-color: lighten($gtx-color-primary, 5%); }
+
+        &:hover {
+            background-color: lighten($gtx-color-primary, 5%);
+        }
+
         &:active {
             @extend .z-depth-0;
             background-color: darken($gtx-color-primary, 10%);
         }
+
         &:focus {
             // background-color: darken($gtx-color-primary, 2%);
             border: 1px solid darken($gtx-color-primary, 10%);
@@ -63,6 +70,7 @@ gtx-button {
                 border: 1px solid darken($gtx-color-secondary, 8%);
             }
         }
+
         &.success {
             background-color: $gtx-color-success;
             &:hover { background-color: lighten($gtx-color-success, 7%); }
@@ -72,6 +80,7 @@ gtx-button {
                 border: 1px solid darken($gtx-color-success, 15%);
             }
         }
+
         &.warning {
             background-color: $gtx-color-warning;
             &:hover { background-color: lighten($gtx-color-warning, 10%); }
@@ -81,6 +90,7 @@ gtx-button {
                 border: 1px solid darken($gtx-color-warning, 15%);
             }
         }
+
         &.alert {
             background-color: $gtx-color-alert;
             &:hover { background-color: lighten($gtx-color-alert, 10%); }
@@ -101,8 +111,13 @@ gtx-button {
             background-color: transparentize($gtx-color-primary, 0.9);
         }
 
-        &:active { background-color: transparentize($gtx-color-primary, 0.6); }
-        &:focus { border: 1px solid transparentize($gtx-color-primary, 0.3); }
+        &:active {
+            background-color: transparentize($gtx-color-primary, 0.6);
+        }
+
+        &:focus {
+            border: 1px solid transparentize($gtx-color-primary, 0.3);
+        }
 
         &:focus:not(:hover) {
             background: none;
@@ -115,6 +130,7 @@ gtx-button {
             &:active { background-color: transparentize($gtx-color-secondary, 0.1); }
             &:focus { border: 1px solid transparentize($gtx-color-secondary, 0); }
         }
+
         &.success {
             color: darken($gtx-color-success, 10%);
             border-color: transparentize($gtx-color-success, 0.75);
@@ -122,6 +138,7 @@ gtx-button {
             &:active { background-color: transparentize($gtx-color-success, 0.5); }
             &:focus { border: 1px solid transparentize($gtx-color-success, 0.2); }
         }
+
         &.warning {
             color: darken($gtx-color-warning, 10%);
             border-color: transparentize($gtx-color-warning, 0.75);
@@ -129,6 +146,7 @@ gtx-button {
             &:active { background-color: transparentize($gtx-color-warning, 0.6); }
             &:focus { border: 1px solid transparentize($gtx-color-warning, 0.2); }
         }
+
         &.alert {
             color: darken($gtx-color-alert, 10%);
             border-color: transparentize($gtx-color-alert, 0.75);
@@ -146,6 +164,8 @@ gtx-button {
         &.small {
             height: 18px;
             line-height: 16px;
+
+            > icon,
             > i {
                 font-size: 16px;
             }
@@ -154,6 +174,8 @@ gtx-button {
         &.regular {
             height: 26px;
             line-height: 24px;
+
+            > icon,
             > i {
                 font-size: 24px;
             }
@@ -162,6 +184,8 @@ gtx-button {
         &.large {
             height: 44px;
             line-height: 42px;
+
+            > icon,
             > i {
                 font-size: 42px;
             }
@@ -185,18 +209,21 @@ gtx-button {
             &:active { color: darken($gtx-color-dark-gray, 10%); }
             &:focus { border-color: transparentize($gtx-color-secondary, 0.6); }
         }
+
         &.success {
             color: darken($gtx-color-success, 10%);
             &:hover { color: transparentize($gtx-color-success, 0.1); }
             &:active { color: darken($gtx-color-success, 15%); }
             &:focus { border-color: transparentize($gtx-color-success, 0.8); }
         }
+
         &.warning {
             color: darken($gtx-color-warning, 10%);
             &:hover { color: transparentize($gtx-color-warning, 0.1); }
             &:active { color: darken($gtx-color-warning, 15%); }
             &:focus { border-color: transparentize($gtx-color-warning, 0.8); }
         }
+
         &.alert {
             color: darken($gtx-color-alert, 10%);
             &:hover { color: $gtx-color-alert; }
@@ -204,5 +231,4 @@ gtx-button {
             &:focus { border-color: transparentize($gtx-color-alert, 0.9); }
         }
     }
-
 }

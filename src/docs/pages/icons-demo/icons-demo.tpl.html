@@ -2,14 +2,13 @@
 
 <p>
     The UI Core uses the <a href="https://design.google.com/icons/">Material Icons</a> set. To use them, add an
-    <code>i</code> element with the class <code>.material-icons</code> and then name the desired icon inside the
-    <code>i</code> tag:
+    <code>icon</code> element name the desired icon inside the tag:
 </p>
 
-<gtx-highlighted-code code='<i class="material-icons">add</i>' language="html"></gtx-highlighted-code>
+<gtx-highlighted-code code='<icon>add</icon>' language="html"></gtx-highlighted-code>
 
 <p>Often we need the icon to align to the left or the right of some text or other content. In this case the
-<code>.left</code> or <code>.right</code> class should be added to the <code>i</code> element.</p>
+<code>left</code> or <code>right</code> attribute should be added to the <code>icon</code> element.</p>
 
 <h4>Demos</h4>
 
@@ -17,9 +16,9 @@
 <gtx-demo-block demoTitle="Combining Icons With Components">
     <div class="demo-result">
         <p>Icons can be used in conjunction with other components. Here are some examples:</p>
-        <gtx-button type="alert"><i class="material-icons left">delete</i> Delete</gtx-button>
-        <gtx-button flat type="success"><i class="material-icons left">done</i> Mark as Done</gtx-button>
-        <gtx-button>Send <i class="material-icons right">send</i></gtx-button>
+        <gtx-button type="alert"><icon left>delete</icon> Delete</gtx-button>
+        <gtx-button flat type="success"><icon left>done</icon> Mark as Done</gtx-button>
+        <gtx-button>Send <icon right>send</icon></gtx-button>
 
         <br>
         <br>
@@ -27,24 +26,24 @@
         <gtx-dropdown-list>
             <a class="dropdown-trigger">Pick a mode of transport</a>
             <ul class="dropdown-content">
-                <li><a><i class="material-icons left">directions_car</i> Car</a></li>
-                <li><a><i class="material-icons left">directions_boat</i> Boat</a></li>
-                <li><a><i class="material-icons left">airplanemode_active</i> Plane</a></li>
+                <li><a><icon left>directions_car</icon> Car</a></li>
+                <li><a><icon left>directions_boat</icon> Boat</a></li>
+                <li><a><icon left>airplanemode_active</icon> Plane</a></li>
             </ul>
         </gtx-dropdown-list>
     </div>
     <div class="demo-code">
         <gtx-highlighted-code language="HTML" code='
-                <gtx-button type="alert"><i class="material-icons left">delete</i> Delete</gtx-button>
-                <gtx-button flat type="success"><i class="material-icons left">done</i> Mark as Done</gtx-button>
-                <gtx-button>Send <i class="material-icons right">send</i></gtx-button>
+                <gtx-button type="alert"><icon class="left">delete</icon> Delete</gtx-button>
+                <gtx-button flat type="success"><icon class="left">done</icon> Mark as Done</gtx-button>
+                <gtx-button>Send <icon class="right">send</icon></gtx-button>
 
                 <gtx-dropdown-list>
                     <a class="dropdown-trigger">Pick a mode of transport</a>
                     <ul class="dropdown-content">
-                        <li><a><i class="material-icons left">directions_car</i> Car</a></li>
-                        <li><a><i class="material-icons left">directions_boat</i> Boat</a></li>
-                        <li><a><i class="material-icons left">airplanemode_active</i> Plane</a></li>
+                        <li><a><icon left>directions_car</icon> Car</a></li>
+                        <li><a><icon left>directions_boat</icon> Boat</a></li>
+                        <li><a><icon left>airplanemode_active</icon> Plane</a></li>
                     </ul>
                 </gtx-dropdown-list>
         '></gtx-highlighted-code>

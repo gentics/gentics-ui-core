@@ -9,6 +9,7 @@
          url(../fonts/Material-Design-Icons.ttf) format('truetype');
 }
 
+icon,
 .material-icons {
     font-family: 'Material Icons';
     font-weight: normal;
@@ -24,4 +25,22 @@
     -webkit-font-feature-settings: 'liga';
     -webkit-font-smoothing: antialiased;
     font-feature-settings: 'liga';
+    text-rendering: optimizeLegibility
+}
+
+icon[left] {
+    float: left;
+    margin-right: 15px;
+}
+
+icon[right] {
+    float: right;
+    margin-left: 15px;
+}
+
+.btn, .btn-large, .btn-floating, .btn-large, .btn-flat {
+    icon {
+        font-size: 1.3rem;
+        line-height: inherit;
+    }
 }
