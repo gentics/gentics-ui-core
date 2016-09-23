@@ -54,6 +54,11 @@ export class SearchBar implements ControlValueAccessor {
     @Input() query: string = '';
 
     /**
+     * Placeholder text which is shown when no text is entered.
+     */
+    @Input() placeholder = 'Search';
+
+    /**
      * Setting this attribute will prevent the "clear" button from being displayed
      * when the query is non-empty.
      */

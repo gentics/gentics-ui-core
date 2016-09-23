@@ -2,7 +2,7 @@
     <ng-content></ng-content>
 </div>
 <div class="input">
-    <gtx-input placeholder="Search"
+    <gtx-input [placeholder]="placeholder"
                [value]="query"
                (keydown)="onKeyDown($event)"
                (blur)="onInputBlur($event)"
