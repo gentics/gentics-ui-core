@@ -1,0 +1,3 @@
+[type="checkbox"] + label:before, [type="checkbox"]:not(.filled-in) + label:after {
+    will-change: transform;
+}
