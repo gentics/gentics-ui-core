@@ -1,6 +1,7 @@
-## 0.9.1 (2016-??-??)
+## 0.9.1 (2016-09-26)
 
 ### Features
+* SearchBar accepts placeholder parameter to translate it
 * Icons can now be written as "icon" element, e.g. `<icon left>wastebin</icon>`
   instead of `<i class="material-icons left">wastebin</i>`
 

@@ -1,6 +1,6 @@
 {
   "name": "gentics-ui-core",
-  "version": "0.9.0",
+  "version": "0.9.1",
   "main": "dist/index.d.ts",
   "globalDependencies": {
     "hammerjs": "registry:dt/hammerjs#2.0.4+20160622233604",
