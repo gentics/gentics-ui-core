@@ -21,7 +21,7 @@
                 <gtx-select label="Basic Select" [(ngModel)]="selectVal">
                     <option *ngFor="let item of options" [value]="item">{{ item }}</option>
                 </gtx-select>
-                Value: <code(({ selectVal | json ))</code>
+                Value: <code>(( selectVal | json ))</code>
         '></gtx-highlighted-code>
     </div>
 </gtx-demo-block>
