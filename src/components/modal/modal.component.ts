@@ -40,7 +40,7 @@ export class Modal {
     /**
      * Specify a CSS max-width value for the modal.
      */
-    @Input() maxWidth: string;
+    @Input() width: string;
 
     /**
      * When true, the contents of the modal will padded. When false, the contents
@@ -67,8 +67,8 @@ export class Modal {
     ngAfterViewInit(): void {}
 
     ngOnChanges(): void {
-        if (this.maxWidth) {
-            this.modalOptions.maxWidth = this.maxWidth;
+        if (this.width) {
+            this.modalOptions.width = this.width;
         }
         this.modalOptions.padding = this._padding;
 

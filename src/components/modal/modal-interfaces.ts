@@ -25,7 +25,7 @@ export interface IModalOptions {
     onClose?: Function;
     closeOnOverlayClick?: boolean;
     closeOnEscape?: boolean;
-    maxWidth?: string;
+    width?: string;
     padding?: boolean;
 }
 

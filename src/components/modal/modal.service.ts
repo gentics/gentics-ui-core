@@ -26,8 +26,8 @@ import {IModalInstance, IDialogConfig, IModalDialog, IModalOptions} from './moda
  *     open: () => Promise<any>;
  * }
  * ```
- * Calling the `open()` method returns a promise which will be resolved or rejected when the modal is dismissed or
- * cancelled.
+ * Calling the `open()` method returns a promise which will be resolved when the modal is closed
+ * or rejected when a button is set to `shouldReject` or the modal calls the passed error handler.
  *
  * ##### `.dialog()`
  * To create a basic dialog modal, use the `.dialog()` method. This accepts an `IDialogConfig` object:
@@ -115,7 +115,7 @@ import {IModalInstance, IDialogConfig, IModalDialog, IModalOptions} from './moda
  *     onClose?: Function;
  *     closeOnOverlayClick?: boolean;
  *     closeOnEscape?: boolean;
- *     maxWidth?: string;
+ *     width?: string;
  *     padding?: boolean;
  * }
  * ```

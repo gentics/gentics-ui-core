@@ -3,7 +3,7 @@
      (click)="overlayClick()"></div>
 <div class="gtx-modal-dialog"
      [class.visible]="visible"
-     [style.max-width]="options.maxWidth"
+     [style.width]="options.width"
      [class.nopad]="options.padding === false">
-    <div #portal></div>
+    <template #portal></template>
 </div>

@@ -13,6 +13,7 @@ gtx-sortable-item {
     .gtx-drag-handle {
         height: 32px;
         cursor: ns-resize;
+        cursor: -webkit-grab;
 
         > icon,
         > i {

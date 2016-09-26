@@ -12,7 +12,7 @@ import {IModalDialog, IModalOptions} from '../../../components/modal/modal-inter
 export class ModalServiceDemo {
     componentSource: string = require('!!raw!../../../components/modal/modal.service');
     padding: boolean = true;
-    maxWidth: string = '400px';
+    width: string = '400px';
     closeOnOverlayClick: boolean = true;
     closeOnEscape: boolean = true;
 
@@ -37,7 +37,7 @@ export class ModalServiceDemo {
             onOpen: (): void => console.log('Modal was opened.'),
             onClose: (): void => console.log('Modal was closed.'),
             padding: this.padding,
-            maxWidth: this.maxWidth,
+            width: this.width,
             closeOnOverlayClick: this.closeOnOverlayClick,
             closeOnEscape: this.closeOnEscape
         };
@@ -66,9 +66,13 @@ export class ModalServiceDemo {
 @Component({
     selector: 'my-modal-component',
     template: `
-        <div>
+        <div class="modal-title">
             <h4>A Custom Component</h4>
+        </div>
+        <div class="modal-content">
             <h5>{{ greeting }}</h5>
+        </div>
+        <div class="modal-footer">
             <a (click)="closeFn('link was clicked')">Close me</a>
         </div>`
 })

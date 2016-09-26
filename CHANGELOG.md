@@ -1,3 +1,8 @@
+## 0.10.0 (2016-??-??)
+
+### Features
+* Modal CSS changed to fit all screen sizes
+
 ## 0.9.1 (2016-09-26)
 
 ### Features

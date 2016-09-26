@@ -3,6 +3,18 @@ gtx-modal {
     display: block;
 }
 
+gtx-dynamic-modal {
+    display: flex;
+    flex-direction: column;
+    align-content: center;
+    position: fixed;
+    left: 0;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 999;
+}
+
 $easeOutCubic: cubic-bezier(0.215, 0.610, 0.355, 1.000);
 
 .gtx-declarative-modal {
@@ -25,6 +37,7 @@ $easeOutCubic: cubic-bezier(0.215, 0.610, 0.355, 1.000);
     max-height: 0;
     will-change: opacity;
     transition: opacity 0.5s $easeOutCubic, visibility 0s 0.5s, max-height 0s 0.5s;
+
     &.visible {
         transition: opacity 0.5s $easeOutCubic;
         visibility: visible;
@@ -58,35 +71,74 @@ $easeOutCubic: cubic-bezier(0.215, 0.610, 0.355, 1.000);
         visibility 0s 0.5s,
         max-height 0s 0.5s;
 
-    @media #{$small-and-down} {
-        max-height: 85%;
-    }
-
     &.visible {
         transition:
             top 350ms $easeOutCubic,
             opacity 350ms $easeOutCubic,
             transform 350ms $easeOutCubic;
         visibility: visible;
-        max-height: 70%;
         opacity: 1;
         transform: scaleX(1);
         top: 10%;
+        width: fit-content;
+        max-height: 70%;
+
+        @media #{$small-and-down} {
+            position: static;
+            max-width: 96%;
+            max-height: 96%;
+            top: 0;
+
+            & > * {
+                display: flex;
+                flex-direction: column;
+                max-height: 96vh;
+            }
+        }
+
+        @media #{$medium-and-up} {
+            & > * {
+                max-height: 70vh;
+            }
+        }
     }
 
     .modal-title {
         margin-top: 0;
+        // margin: 1.5rem 0 10px;
+        padding: 0 1.5rem;
+        min-height: fit-content;
+    }
+
+    .modal-title.flex {
+        display: flex;
+        width: 100%;
+        white-space: nowrap;
+
+        .ellipsis {
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
     }
 
     .modal-content {
         padding: 24px;
+        overflow: auto;
     }
+
+    .modal-title + .modal-content {
+        padding-top: 0;
+        padding-bottom: 0;
+    }
+
+    &.nopad .modal-title,
     &.nopad .modal-content {
         padding: 0;
     }
 
     .modal-footer {
         text-align: right;
+        min-height: fit-content;
 
         > gtx-modal-footer {
             float: right;
@@ -95,6 +147,13 @@ $easeOutCubic: cubic-bezier(0.215, 0.610, 0.355, 1.000);
 
     .modal-footer button.btn {
         margin: 5px;
+    }
+
+    @media #{$small-and-down} {
+        .modal-footer button.btn {
+            padding-left: 1rem;
+            padding-right: 1rem;
+        }
     }
 
     .gtx-declarative-modal {

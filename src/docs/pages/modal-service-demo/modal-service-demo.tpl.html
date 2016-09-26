@@ -33,7 +33,7 @@
 <gtx-demo-block demoTitle="Modal Options">
     <div class="demo-result">
         <div class="row">
-            <div class="column"><gtx-input [(ngModel)]="maxWidth" label="maxWidth"></gtx-input></div>
+            <div class="column"><gtx-input [(ngModel)]="width" label="width"></gtx-input></div>
             <div class="column"><gtx-checkbox [(ngModel)]="padding" label="Padding"></gtx-checkbox></div>
             <div class="column"><gtx-checkbox [(ngModel)]="closeOnOverlayClick" label="closeOnOverlayClick"></gtx-checkbox></div>
             <div class="column"><gtx-checkbox [(ngModel)]="closeOnEscape" label="closeOnEscape"></gtx-checkbox></div>
@@ -47,7 +47,7 @@
                    onOpen: (): void => console.log("Modal was opened."),
                    onClose: (): void => console.log("Modal was closed."),
                    padding: this.padding,
-                   maxWidth: this.maxWidth,
+                   width: this.width,
                    closeOnOverlayClick: this.closeOnOverlayClick,
                    closeOnEscape: this.closeOnEscape
                };
@@ -57,7 +57,7 @@
                }, options)
                    .then(dialog => dialog.open())
                    .then(result => console.log("result:", result))
-                   .catch(reason => console.log("rejected", reason));
+                   .catch(reason => console.log("error: ", reason));
            }
            '></gtx-highlighted-code>
     </div>
@@ -70,35 +70,39 @@
     </div>
     <div class="demo-code">
         <gtx-highlighted-code language="TypeScript" code='
-          @Component({
-              selector: "my-modal-component",
-              template: `
-                  <div>
-                      <h1>A Custom Component</h1>
-                      <h5>(( greeting ))</h5>
-                      <a (click)="closeFn("link was clicked")">Close me</a>
-                  </div>`
-          })
-          class MyModal implements IModalDialog {
-              greeting: string;
+            @Component({
+                selector: "my-modal-component",
+                template: `
+                    <div class="modal-title">
+                        <h1>A Custom Component</h1>
+                    </div>
+                    <div class="modal-content">
+                        <h5>(( greeting ))</h5>
+                    </div>
+                    <div class="modal-footer">
+                        <a (click)="closeFn("link was clicked")">Close me</a>
+                    </div>`
+            })
+            class MyModal implements IModalDialog {
+                greeting: string;
 
-              closeFn: (val: any) => void;
-              cancelFn: (val?: any) => void;
-              registerCloseFn(close: (val: any) => void): void {
-                  this.closeFn = close;
-              }
-              registerCancelFn(cancel: (val?: any) => void): void {
-                  this.cancelFn = cancel;
-              }
-          }
-           '></gtx-highlighted-code>
+                closeFn: (val: any) => void;
+                cancelFn: (val?: any) => void;
+                registerCloseFn(close: (val: any) => void): void {
+                    this.closeFn = close;
+                }
+                registerCancelFn(cancel: (val?: any) => void): void {
+                    this.cancelFn = cancel;
+                }
+            }
+        '></gtx-highlighted-code>
         <gtx-highlighted-code language="TypeScript" code='
             showCustomModal(): void {
                 this.modalService.fromComponent(MyModal, {}, { greeting: "Hello!" })
                     .then(modal => modal.open())
                     .then(result => console.log("result:", result))
-                    .catch(reason => console.log("rejected", reason));
+                    .catch(reason => console.log("error: ", reason));
             }
-           '></gtx-highlighted-code>
+        '></gtx-highlighted-code>
     </div>
 </gtx-demo-block>

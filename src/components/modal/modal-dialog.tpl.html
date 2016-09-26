@@ -1,5 +1,7 @@
+<div class="modal-title">
+    <h4>{{ config.title }}</h4>
+</div>
 <div class="modal-content">
-    <h4 class="modal-title">{{ config.title }}</h4>
     <div class="modal-body" *ngIf="safeBody" [innerHTML]="safeBody"></div>
 </div>
 <div class="modal-footer">

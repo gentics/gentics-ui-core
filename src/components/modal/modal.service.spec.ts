@@ -255,15 +255,15 @@ describe('ModalService:', () => {
             })
         );
 
-        it('sets a maxWidth when passed in the modal options',
+        it('sets a width when passed in the modal options',
             componentTest(() => TestComponent, fixture => {
                 fixture.detectChanges();
-                modalService.dialog(testDialogConfig, { maxWidth: '400px' });
+                modalService.dialog(testDialogConfig, { width: '400px' });
                 tick();
                 fixture.detectChanges();
 
                 let dialog = getElement(fixture, '.gtx-modal-dialog');
-                expect(dialog.style.maxWidth).toBe('400px');
+                expect(dialog.style.width).toBe('400px');
             })
         );
 

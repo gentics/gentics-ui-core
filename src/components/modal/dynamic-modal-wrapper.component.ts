@@ -12,7 +12,7 @@ import {IModalOptions, IModalDialog} from './modal-interfaces';
 
 const defaultOptions: IModalOptions = {
     padding: true,
-    maxWidth: '100%',
+    width: '',
     closeOnEscape: true,
     closeOnOverlayClick: true
 };
