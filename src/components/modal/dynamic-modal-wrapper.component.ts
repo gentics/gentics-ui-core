@@ -12,7 +12,7 @@ import {IModalOptions, IModalDialog} from './modal-interfaces';
 
 const defaultOptions: IModalOptions = {
     padding: true,
-    width: '',
+    width: null,
     closeOnEscape: true,
     closeOnOverlayClick: true
 };
@@ -36,7 +36,7 @@ export class DynamicModalWrapper {
     constructor(private resolver: ComponentResolver) {}
 
     setOptions(options: IModalOptions): void {
-        this.options = Object.assign(defaultOptions, options);
+        this.options = Object.assign({}, defaultOptions, options);
     }
 
     /**

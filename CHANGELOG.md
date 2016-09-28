@@ -3,6 +3,9 @@
 ### Features
 * Modal CSS changed to fit all screen sizes
 
+## Fixes
+* ModalService default options no longer overwritten
+
 ## 0.9.1 (2016-09-26)
 
 ### Features
