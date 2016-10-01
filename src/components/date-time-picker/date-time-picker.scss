@@ -1,5 +1,7 @@
-gtx-date-time-picker {
-
+gtx-date-time-picker > gtx-input > input:not(:disabled) {
+    &, & + label {
+        cursor: pointer;
+    }
 }
 
 .gtx-date-time-picker-modal {
