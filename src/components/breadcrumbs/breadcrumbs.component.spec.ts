@@ -5,7 +5,7 @@ import {addProviders, getTestInjector, tick} from '@angular/core/testing';
 import {By} from '@angular/platform-browser';
 import {ActivatedRoute, Router, RouterLink, RouterLinkWithHref, UrlTree} from '@angular/router';
 
-import {componentTest} from '../../testing';
+import {componentTest, createClickEvent} from '../../testing';
 import {
     Breadcrumbs,
     IBreadcrumbLink,
@@ -286,7 +286,6 @@ describe('Breadcrumbs:', () => {
             let linkToClick = fixture.debugElement.query(By.css('a'));
             expect(linkToClick).not.toBeNull();
 
-            // linkToClick.nativeElement.dispatchEvent(createClickEvent());
             linkToClick.triggerEventHandler('click', createClickEvent());
 
             expect(onLinkClick).toHaveBeenCalledTimes(1);
@@ -392,22 +391,6 @@ describe('Breadcrumbs:', () => {
     });
 
 });
-
-function createClickEvent(relatedTarget: HTMLElement = null): Event {
-    let clickEvent = document.createEvent('MouseEvent');
-    clickEvent.initMouseEvent('click',
-        true, // bubble,
-        true, // cancelable
-        window, 0, 0, 0, 0, 0,
-        false, // ctrlKey
-        false, // altKey
-        false, // shiftKey
-        false, // metaKey
-        0, // button
-        relatedTarget
-    );
-    return clickEvent;
-}
 
 
 class MockRouter {

@@ -20,7 +20,7 @@ const GTX_DATEPICKER_VALUE_ACCESSOR = {
 };
 
 /**
- * A form control for selecting a date and (optionally) a time. Depends on [Modal](#/modal).
+ * A form control for selecting a date and (optionally) a time. Depends on [ModalService](#/modal-service).
  *
  * ```html
  * <gtx-date-time-picker [(ngModel)]="dateOfBirth"
@@ -120,7 +120,7 @@ export class DateTimePicker implements ControlValueAccessor {
         this.modalService.fromComponent(
             DateTimePickerModal,
             {
-                padding: false,
+                padding: false
             },
             {
                 timestamp: (this.value || momentjs()).unix(),
@@ -133,6 +133,7 @@ export class DateTimePicker implements ControlValueAccessor {
                 this.value = momentjs.unix(timestamp);
                 this.displayValue = this.formatTimeString(this.value, this._displayTime, this._displaySeconds);
                 this.onChange();
+                this.change.emit(timestamp);
             });
     }
 

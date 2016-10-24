@@ -1,20 +1,33 @@
 import {ComponentFixture} from '@angular/compiler/testing';
-import {Component, ViewChild} from '@angular/core';
-import {addProviders, tick} from '@angular/core/testing';
-import {FormGroup, FormControl, REACTIVE_FORM_DIRECTIVES} from '@angular/forms';
+import {Component, ComponentResolver, Injectable, ViewChild} from '@angular/core';
+import {Type} from '@angular/core/src/facade/lang';
+import {addProviders, tick, getTestInjector} from '@angular/core/testing';
+import {FormControl, FormGroup, REACTIVE_FORM_DIRECTIVES} from '@angular/forms';
 import {By} from '@angular/platform-browser';
 
-import {componentTest} from '../../testing';
+import {componentTest, createClickEvent, worksButHasPendingTimers} from '../../testing';
 import {DateTimePicker} from './date-time-picker.component';
-import {Modal} from '../modal/modal.component';
+import {DateTimePickerModal} from './date-time-picker-modal.component';
+import {OverlayHost} from '../overlay-host/overlay-host.component';
 import {OverlayHostService} from '../overlay-host/overlay-host.service';
+import {ModalService} from '../modal/modal.service';
+import {IModalInstance, IModalOptions} from '../modal/modal-interfaces';
 
 const TEST_TIMESTAMP: number = 1457971763;
+
+let modalService: SpyModalService;
+let overlayHostService: OverlayHostService;
+
 
 describe('DateTimePicker:', () => {
 
     beforeEach(() => {
-        addProviders([OverlayHostService]);
+        let injector = getTestInjector().createInjector()
+            .resolveAndCreateChild([ModalService, OverlayHostService]);
+
+        let componentResolver: ComponentResolver = injector.get(ComponentResolver);
+        overlayHostService = injector.get(OverlayHostService);
+        modalService = new SpyModalService(componentResolver, overlayHostService);
     });
 
     it('binds its label text to the label input property',
@@ -26,41 +39,46 @@ describe('DateTimePicker:', () => {
                 let label: HTMLLabelElement = fixture.nativeElement.querySelector('label');
 
                 expect(label.innerText.trim()).toBe('test');
-
-                // TODO: A pending setTimeout seems to make a tick() call necessary.
-                tick();
             }
+        )
+    );
+
+    it('shows its modal when clicked',
+        worksButHasPendingTimers(
+            componentTest(() => TestComponent, fixture => {
+                openDatepickerModal(fixture);
+                expect(modalService.lastModal).toBeDefined();
+            })
         )
     );
 
     it('displays the time-picker when displayTime=true',
-        componentTest(() => TestComponent, `
-            <gtx-date-time-picker label="test" displayTime="true">
-            </gtx-date-time-picker>`,
-            fixture => {
-                fixture.detectChanges();
-                let timePickerDiv = <HTMLElement> document.querySelector('.time-picker');
-
-                expect(timePickerDiv).not.toBeNull();
-
-                // TODO: A pending setTimeout seems to make a tick() call necessary.
-                tick();
-            }
+        worksButHasPendingTimers(
+            componentTest(() => TestComponent, `
+                <gtx-date-time-picker label="test" displayTime="true"></gtx-date-time-picker>
+                <gtx-overlay-host></gtx-overlay-host>`,
+                fixture => {
+                    openDatepickerModal(fixture);
+                    expect(modalService.lastModal).toBeDefined();
+                    let timePickerDiv = <HTMLElement> modalService.lastModal.element.querySelector('.time-picker');
+                    expect(timePickerDiv).not.toBeNull();
+                }
+            )
         )
     );
 
     it('does not display the time-picker when displayTime=false',
-        componentTest(() => TestComponent, `
-            <gtx-date-time-picker label="test" displayTime="false"></gtx-date-time-picker>`,
-            fixture => {
-                fixture.detectChanges();
-                let timePickerDiv = <HTMLElement> document.querySelector('.time-picker');
-
-                expect(timePickerDiv).toBeNull();
-
-                // TODO: A pending setTimeout seems to make a tick() call necessary.
-                tick();
-            }
+        worksButHasPendingTimers(
+            componentTest(() => TestComponent, `
+                <gtx-date-time-picker label="test" displayTime="false"></gtx-date-time-picker>
+                <gtx-overlay-host></gtx-overlay-host>`,
+                fixture => {
+                    openDatepickerModal(fixture);
+                    expect(modalService.lastModal).toBeDefined();
+                    let timePickerDiv = <HTMLElement> modalService.lastModal.element.querySelector('.time-picker');
+                    expect(timePickerDiv).toBeNull();
+                }
+            )
         )
     );
 
@@ -68,39 +86,35 @@ describe('DateTimePicker:', () => {
     describe('binding timestamp value:', () => {
 
         it('defaults to the current time if "timestamp" is not set',
-            componentTest(() => TestComponent, (fixture, instance) => {
-                fixture.detectChanges();
-                expect(instance.pickerInstance.value.date()).toBeCloseTo(new Date().getDate(), 50);
-
-                // TODO: A pending setTimeout seems to make a tick() call necessary.
-                tick();
-            })
+            worksButHasPendingTimers(
+                componentTest(() => TestComponent, (fixture, instance) => {
+                    let now = Math.floor(Date.now() / 1000);
+                    openDatepickerModal(fixture);
+                    expect(modalService.lastLocals).toBeDefined();
+                    let timestamp: number = modalService.lastLocals['timestamp'];
+                    expect(timestamp).toBeCloseTo(now, 1);
+                })
+            )
         );
 
         it('can be bound to a string value of a timestamp',
             componentTest(() => TestComponent, `
-                <gtx-date-time-picker timestamp="${TEST_TIMESTAMP}">
-                </gtx-date-time-picker>`,
+                <gtx-date-time-picker timestamp="${TEST_TIMESTAMP}"></gtx-date-time-picker>
+                <gtx-overlay-host></gtx-overlay-host>`,
                 (fixture, instance) => {
                     fixture.detectChanges();
                     expect(instance.pickerInstance.value.unix()).toEqual(TEST_TIMESTAMP);
-
-                    // TODO: A pending setTimeout seems to make a tick() call necessary.
-                    tick();
                 }
             )
         );
 
         it('"timestamp" can be bound to a variable',
             componentTest(() => TestComponent, `
-                <gtx-date-time-picker [timestamp]="testModel">
-                </gtx-date-time-picker>`,
+                <gtx-date-time-picker [timestamp]="testModel"></gtx-date-time-picker>
+                <gtx-overlay-host></gtx-overlay-host>`,
                 (fixture, instance) => {
                     fixture.detectChanges();
                     expect(instance.pickerInstance.value.unix()).toEqual(TEST_TIMESTAMP);
-
-                    // TODO: A pending setTimeout seems to make a tick() call necessary.
-                    tick();
                 }
             )
         );
@@ -117,9 +131,6 @@ describe('DateTimePicker:', () => {
         it('contains an empty input if timestamp is not set',
             componentTest(() => TestComponent, fixture => {
                 expect(inputValue(fixture)).toBe('');
-
-                // TODO: A pending setTimeout seems to make a tick() call necessary.
-                tick();
             })
         );
 
@@ -129,9 +140,6 @@ describe('DateTimePicker:', () => {
                 </gtx-date-time-picker>`,
                 fixture => {
                     expect(inputValue(fixture)).toBe('14/03/2016');
-
-                    // TODO: A pending setTimeout seems to make a tick() call necessary.
-                    tick();
                 }
             )
         );
@@ -142,9 +150,6 @@ describe('DateTimePicker:', () => {
                 </gtx-date-time-picker>`,
                 fixture => {
                     expect(inputValue(fixture)).toBe('14/03/2016, 17:09:23');
-
-                   // TODO: A pending setTimeout seems to make a tick() call necessary.
-                    tick();
                 }
             )
         );
@@ -155,9 +160,6 @@ describe('DateTimePicker:', () => {
                 </gtx-date-time-picker>`,
                 fixture => {
                     expect(inputValue(fixture)).toBe('14/03/2016, 17:09:23');
-
-                    // TODO: A pending setTimeout seems to make a tick() call necessary.
-                    tick();
                 }
             )
         );
@@ -168,182 +170,220 @@ describe('DateTimePicker:', () => {
                 </gtx-date-time-picker>`,
                 fixture => {
                     expect(inputValue(fixture)).toBe('16-03-Mon');
-
-                    // TODO: A pending setTimeout seems to make a tick() call necessary.
-                    tick();
                 }
             )
         );
     });
 
-    // describe('confirm():', () => {
+    describe('confirm():', () => {
 
-    //     function confirmTest(testFn: (fixture: ComponentFixture<TestComponent>) => void): any {
-    //         return componentTest(() => TestComponent, `
-    //             <gtx-date-time-picker
-    //                 timestamp="${TEST_TIMESTAMP}"
-    //                 (change)="onChange($event)">
-    //             </gtx-date-time-picker>`,
-    //             (fixture, instance) => {
-    //                 const onChange = instance.onChange = jasmine.createSpy('onChange');
-    //                 fixture.detectChanges();
-    //                 let nativeInput: HTMLInputElement = fixture.nativeElement.querySelector('input');
+        function confirmTest(testFn: (fixture: ComponentFixture<TestComponent>) => void): any {
+            return componentTest(() => TestComponent, `
+                <gtx-date-time-picker
+                    timestamp="${TEST_TIMESTAMP}"
+                    (change)="onChange($event)">
+                </gtx-date-time-picker>
+                <gtx-overlay-host></gtx-overlay-host>`,
+                (fixture, instance) => {
+                    const onChange = instance.onChange = jasmine.createSpy('onChange');
+                    let modal = openDatepickerModal(fixture);
 
-    //                 let firstCalendarCell: HTMLElement = <HTMLElement> document
-    //                     .querySelector('table tr:first-child td:first-child');
-    //                 firstCalendarCell.click();
-    //                 tick();
+                    let firstCalendarCell: HTMLElement = modal.query('tbody tr:first-child td:first-child');
+                    firstCalendarCell.click();
+                    modal.instance.okayClicked();
 
-    //                 instance.pickerInstance.confirm(<Modal> { closeModal: (): void => {} });
-    //                 fixture.detectChanges();
-    //                 tick();
+                    tick();
+                    fixture.detectChanges();
 
-    //                 testFn(fixture);
-    //             }
-    //         );
-    //     }
+                    testFn(fixture);
+                }
+            );
+        }
 
-    //     it('changes the displayed date when a new date is selected',
-    //         confirmTest(fixture => {
-    //             let nativeInput: HTMLInputElement = fixture.nativeElement.querySelector('input');
-    //             expect(nativeInput.value.trim()).toEqual('28/02/2016, 17:09:23');
-    //         })
-    //     );
+        it('changes the displayed date when a new date is selected',
+            confirmTest(fixture => {
+                let nativeInput: HTMLInputElement = fixture.nativeElement.querySelector('input');
+                expect(nativeInput.value.trim()).toEqual('28/02/2016, 17:09:23');
+            })
+        );
 
-    //     it('fires the "change" event when a new date is selected',
-    //         confirmTest(fixture => {
-    //             // 15 days earlier than the start timestamp
-    //             let expected: number = TEST_TIMESTAMP - (15 * 60 * 60 * 24);
-    //             expect(fixture.componentRef.instance.onChange).toHaveBeenCalledWith(expected);
-    //         })
-    //     );
-    // });
+        it('fires the "change" event when a new date is selected',
+            confirmTest(fixture => {
+                // 15 days earlier than the start timestamp
+                let expected: number = TEST_TIMESTAMP - (15 * 60 * 60 * 24);
+                expect(fixture.componentRef.instance.onChange).toHaveBeenCalledWith(expected);
+            })
+        );
+    });
 
-    // describe('time increments:', () => {
+    describe('time increments:', () => {
 
-    //     function incrementDecrementTest(testFn: (picker: DateTimePicker) => void): any {
-    //         return componentTest(() => TestComponent, `
-    //             <gtx-date-time-picker
-    //                 timestamp="${TEST_TIMESTAMP}"
-    //                 (change)="onChange($event)">
-    //             </gtx-date-time-picker>`,
-    //             (fixture, instance) => {
-    //                 fixture.detectChanges();
-    //                 tick();
+        function incrementDecrementTest(testFn: (picker: DateTimePickerModal) => void): any {
+            return worksButHasPendingTimers(
+                componentTest(() => TestComponent, `
+                    <gtx-date-time-picker
+                        timestamp="${TEST_TIMESTAMP}"
+                        (change)="onChange($event)">
+                    </gtx-date-time-picker>
+                    <gtx-overlay-host></gtx-overlay-host>`,
+                    (fixture, instance) => {
+                        let modal = openDatepickerModal(fixture);
+                        testFn(modal.instance);
+                    }
+                )
+            );
+        }
 
-    //                 testFn(instance.pickerInstance);
+        it('incrementTime("seconds") increments the time by one second',
+            incrementDecrementTest(picker => {
+                picker.incrementTime('seconds');
+                expect(picker.value.unix()).toBe(TEST_TIMESTAMP + 1);
+            })
+        );
 
-    //                 // TODO: A pending setTimeout seems to make a tick() call necessary.
-    //                 tick();
-    //             }
-    //         );
-    //     }
+        it('incrementTime("minutes") increments the time by one minute',
+            incrementDecrementTest(picker => {
+                picker.incrementTime('minutes');
+                expect(picker.value.unix()).toBe(TEST_TIMESTAMP + 60);
+            })
+        );
 
-    //     it('incrementTime("seconds") increments the time by one second',
-    //         incrementDecrementTest(picker => {
-    //             picker.incrementTime('seconds');
-    //             expect(picker.value.unix()).toBe(TEST_TIMESTAMP + 1);
-    //         })
-    //     );
+        it('incrementTime("hours") increments the time by one hour',
+            incrementDecrementTest(picker => {
+                picker.incrementTime('hours');
+                expect(picker.value.unix()).toBe(TEST_TIMESTAMP + (60 * 60));
+            })
+        );
 
-    //     it('incrementTime("minutes") increments the time by one minute',
-    //         incrementDecrementTest(picker => {
-    //             picker.incrementTime('minutes');
-    //             expect(picker.value.unix()).toBe(TEST_TIMESTAMP + 60);
-    //         })
-    //     );
+        it('decrementTime("seconds") decrement the time by one second',
+            incrementDecrementTest(picker => {
+                picker.decrementTime('seconds');
+                expect(picker.value.unix()).toBe(TEST_TIMESTAMP - 1);
+            })
+        );
 
-    //     it('incrementTime("hours") increments the time by one hour',
-    //         incrementDecrementTest(picker => {
-    //             picker.incrementTime('hours');
-    //             expect(picker.value.unix()).toBe(TEST_TIMESTAMP + (60 * 60));
-    //         })
-    //     );
+        it('decrementTime("minutes") decrements the time by one minute',
+            incrementDecrementTest(picker => {
+                picker.decrementTime('minutes');
+                expect(picker.value.unix()).toBe(TEST_TIMESTAMP - 60);
+            })
+        );
 
-    //     it('decrementTime("seconds") decrement the time by one second',
-    //         incrementDecrementTest(picker => {
-    //             picker.decrementTime('seconds');
-    //             expect(picker.value.unix()).toBe(TEST_TIMESTAMP - 1);
-    //         })
-    //     );
+        it('decrementTime("hours") decrements the time by one hour',
+            incrementDecrementTest(picker => {
+                picker.decrementTime('hours');
+                expect(picker.value.unix()).toBe(TEST_TIMESTAMP - (60 * 60));
+            })
+        );
+    });
 
-    //     it('decrementTime("minutes") decrements the time by one minute',
-    //         incrementDecrementTest(picker => {
-    //             picker.decrementTime('minutes');
-    //             expect(picker.value.unix()).toBe(TEST_TIMESTAMP - 60);
-    //         })
-    //     );
+    describe('ValueAccessor:', () => {
 
-    //     it('decrementTime("hours") decrements the time by one hour',
-    //         incrementDecrementTest(picker => {
-    //             picker.decrementTime('hours');
-    //             expect(picker.value.unix()).toBe(TEST_TIMESTAMP - (60 * 60));
-    //         })
-    //     );
-    // });
+        it('binds the timestamp to a variable with ngModel (inbound)',
+            componentTest(() => TestComponent, `
+                <gtx-date-time-picker [(ngModel)]="testModel">
+                </gtx-date-time-picker>`,
+                (fixture, instance) => {
+                    fixture.detectChanges();
+                    tick();
+                    expect(instance.pickerInstance.value.unix()).toBe(TEST_TIMESTAMP);
 
-    // describe('ValueAccessor:', () => {
+                    instance.testModel -= 10;
+                    fixture.detectChanges();
+                    tick();
+                    fixture.detectChanges();
 
-    //     it('binds the timestamp to a variable with ngModel (inbound)',
-    //         componentTest(() => TestComponent, `
-    //             <gtx-date-time-picker [(ngModel)]="testModel">
-    //             </gtx-date-time-picker>`,
-    //             (fixture, instance) => {
-    //                 fixture.detectChanges();
-    //                 tick();
+                    expect(instance.pickerInstance.value.unix()).toBe(TEST_TIMESTAMP - 10);
+                }
+            )
+        );
 
-    //                 let pickerInstance: DateTimePicker = fixture.componentInstance.pickerInstance;
+        it('binds the timestamp to a variable with ngModel (outbound)',
+            componentTest(() => TestComponent, `
+                <gtx-date-time-picker [(ngModel)]="testModel">
+                </gtx-date-time-picker>
+                <gtx-overlay-host></gtx-overlay-host>`,
+                (fixture, instance) => {
+                    fixture.detectChanges();
+                    tick();
+                    let modal = openDatepickerModal(fixture);
+                    expect(modalService.lastLocals['timestamp']).toBe(TEST_TIMESTAMP, 'local not set');
 
-    //                 expect(pickerInstance.value.unix()).toBe(TEST_TIMESTAMP);
+                    modal.instance.incrementTime('seconds');
 
-    //                 instance.testModel -= 10;
-    //                 fixture.detectChanges();
-    //                 tick();
-    //                 fixture.detectChanges();
+                    // does not update the model value yet, until we click okay
+                    expect(instance.testModel).toBe(TEST_TIMESTAMP);
 
-    //                 expect(pickerInstance.value.unix()).toBe(TEST_TIMESTAMP - 10);
-    //             }
-    //         )
-    //     );
+                    modal.instance.okayClicked();
+                    tick();
+                    fixture.detectChanges();
 
-    //     it('binds the timestamp to a variable with ngModel (outbound)',
-    //         componentTest(() => TestComponent, `
-    //             <gtx-date-time-picker [(ngModel)]="testModel">
-    //             </gtx-date-time-picker>`,
-    //             (fixture, instance) => {
-    //                 fixture.detectChanges();
-    //                 tick();
-    //                 let pickerInstance: DateTimePicker = instance.pickerInstance;
+                    expect(instance.testModel).toBe(TEST_TIMESTAMP + 1, 'second');
+                }
+            )
+        );
 
-    //                 pickerInstance.incrementTime('seconds');
-    //                 tick();
-
-    //                 // does not update the model value yet, until we confirm()
-    //                 expect(instance.testModel).toBe(TEST_TIMESTAMP);
-
-    //                 pickerInstance.confirm(<Modal> { closeModal: (): void => {} });
-    //                 fixture.detectChanges();
-    //                 tick();
-
-    //                 expect(instance.testModel).toBe(TEST_TIMESTAMP + 1);
-    //             }
-    //         )
-    //     );
-
-    // });
+    });
 
 });
 
+function openDatepickerModal(fixture: ComponentFixture<TestComponent>):
+        { instance: DateTimePickerModal, query: (selector: string) => HTMLElement } {
+
+    fixture.detectChanges();
+    let nativeInput: HTMLInputElement = fixture.nativeElement.querySelector('input');
+    nativeInput.click();
+    tick();
+    fixture.detectChanges();
+
+    let instance = modalService.lastModal.instance as DateTimePickerModal;
+    let query = (selector: string): HTMLElement => modalService.lastModal.element.querySelector(selector) as HTMLElement;
+    return { instance, query };
+}
+
+
 @Component({
-    template: `<gtx-date-time-picker></gtx-date-time-picker>`,
-    directives: [DateTimePicker, REACTIVE_FORM_DIRECTIVES]
+    template: `
+        <gtx-date-time-picker></gtx-date-time-picker>
+        <gtx-overlay-host></gtx-overlay-host>`,
+    directives: [DateTimePicker, OverlayHost, REACTIVE_FORM_DIRECTIVES],
+    providers: [
+        { provide: OverlayHostService, useFactory: (): any => overlayHostService },
+        { provide: ModalService, useFactory: (): any => modalService }
+    ]
 })
 class TestComponent {
-    showModal: boolean = false;
     testModel: number = TEST_TIMESTAMP;
     testForm: FormGroup = new FormGroup({
         test: new FormControl(TEST_TIMESTAMP)
     });
     @ViewChild(DateTimePicker) pickerInstance: DateTimePicker;
     onChange(): void {}
+}
+
+
+@Injectable()
+class SpyModalService extends ModalService {
+    lastOptions: IModalOptions;
+    lastLocals: { [key: string]: any };
+    lastModal: IModalInstance;
+    fakeModalReturnValue: any;
+
+    constructor(componentResolver: ComponentResolver,
+                overlayHostService: OverlayHostService) {
+        super(componentResolver, overlayHostService);
+    }
+
+    fromComponent(component: Type,
+                  options?: IModalOptions,
+                  locals?: { [key: string]: any }): Promise<IModalInstance> {
+        this.lastOptions = options;
+        this.lastLocals = locals;
+
+        return super.fromComponent(component, options, locals)
+            .then(modal => {
+                this.lastModal = modal;
+                return modal;
+            });
+    }
 }

@@ -1,5 +1,21 @@
 import {SpyEventTarget} from './spy-event-target';
 
+export function createClickEvent(relatedTarget: HTMLElement = null): Event {
+    let clickEvent = document.createEvent('MouseEvent');
+    clickEvent.initMouseEvent('click',
+        true, // bubble,
+        true, // cancelable
+        window, 0, 0, 0, 0, 0,
+        false, // ctrlKey
+        false, // altKey
+        false, // shiftKey
+        false, // metaKey
+        0, // button
+        relatedTarget
+    );
+    return clickEvent;
+}
+
 export function triggerFakeDragEvent(target: SpyEventTarget, eventType: string, mimeTypes: string[]): DragEvent {
     return <any> target.triggerListeners(eventType, {
         type: eventType,

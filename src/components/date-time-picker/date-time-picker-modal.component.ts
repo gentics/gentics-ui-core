@@ -17,7 +17,7 @@ const momentjs: moment.MomentStatic = rome.moment;
 @Component({
     selector: 'gtx-date-time-picker-modal',
     template: require('./date-time-picker-modal.tpl.html'),
-    directives: [InputField, Button],
+    directives: [InputField, Button]
 })
 export class DateTimePickerModal implements IModalDialog, OnDestroy {
 
@@ -74,8 +74,11 @@ export class DateTimePickerModal implements IModalDialog, OnDestroy {
     }
 
     ngOnDestroy(): void {
-        this.cal.off('data');
-        this.cal.destroy();
+        if (this.cal) {
+            this.cal.off('data');
+            this.cal.destroy();
+            this.cal = undefined;
+        }
     }
 
     /**
@@ -136,7 +139,7 @@ export class DateTimePickerModal implements IModalDialog, OnDestroy {
         this.cancelFn = cancel;
     }
 
-    private okayClicked(): void {
+    public okayClicked(): void {
         this.closeFn(this.value.unix());
     }
 
