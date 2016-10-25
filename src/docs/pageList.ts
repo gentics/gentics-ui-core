@@ -12,7 +12,6 @@ import {FilePickerDemo} from './pages/file-picker-demo/file-picker-demo';
 import {GridDemo} from './pages/grid-demo/grid-demo';
 import {IconsDemo} from './pages/icons-demo/icons-demo';
 import {InputDemo} from './pages/input-demo/input-demo';
-import {ModalDemo} from './pages/modal-demo/modal-demo';
 import {NotificationDemo} from './pages/notification-demo/notification-demo';
 import {OverlayHostDemo} from './pages/overlay-host-demo/overlay-host-demo';
 import {ProgressBarDemo} from './pages/progress-bar-demo/progress-bar-demo';
@@ -108,12 +107,6 @@ export const pages: IPageInfo[] = [
         component: MenuToggleButtonDemo,
         type: 'component',
         keywords: ['hamburger']
-    },
-    {
-        name: 'modal',
-        component: ModalDemo,
-        type: 'component',
-        keywords: ['dialog', 'overlay']
     },
     {
         name: 'modal-service',

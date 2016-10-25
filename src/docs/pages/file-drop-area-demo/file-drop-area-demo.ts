@@ -2,7 +2,7 @@ import {Component, OnDestroy} from '@angular/core';
 import {ROUTER_DIRECTIVES} from '@angular/router';
 import {Observable, Subscription} from 'rxjs';
 
-import {GTX_FORM_DIRECTIVES, Modal, Button} from '../../../index';
+import {GTX_FORM_DIRECTIVES, Button} from '../../../index';
 import {Autodocs, DemoBlock, HighlightedCode} from '../../components';
 import {SortableList, ISortableEvent} from '../../../components/sortable-list/sortable-list.component';
 import {DragStateTrackerFactory, PageFileDragHandler, FileDropArea, PreventFileDrop} from '../../../index';
