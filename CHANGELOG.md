@@ -1,4 +1,4 @@
-## 0.11.0 (in progress)
+## 0.11.0 (2016-10-25)
 
 ### Features
 * Remove Modal component in favor of `ModalService.fromComponent`
