@@ -2,11 +2,14 @@
 
 ### Fixes
 * Fix FilePicker events being emitting on wrong conditions
+* Prevent wrapping in icon buttons (GUIC-88)
+
 
 ## 0.11.0 (2016-10-25)
 
 ### Features
 * Remove Modal component in favor of `ModalService.fromComponent`
+
 
 ## 0.10.0 (2016-09-29)
 
@@ -16,12 +19,14 @@
 ## Fixes
 * ModalService default options no longer overwritten
 
+
 ## 0.9.1 (2016-09-26)
 
 ### Features
 * SearchBar accepts placeholder parameter to translate it
 * Icons can now be written as "icon" element, e.g. `<icon left>wastebin</icon>`
   instead of `<i class="material-icons left">wastebin</i>`
+
 
 ## 0.9.0 (2016-09-22)
 
@@ -39,6 +44,7 @@
 * (docs) Fix issues with PageFileDragHandler provider declaration
 * [semver-minor] ModalService: promise no longer rejects when modal is cancelled
 
+
 ## 0.8.0 (2016-08-24)
 
 ### Features
@@ -53,11 +59,13 @@
 * DropdownList performance improvements
 * (docs) Reorder polyfills so zone.js patches promises
 
+
 ## 0.7.1 (2016-08-01)
 
 ### Fixes
 * Fixed broken import names of 0.7.0 which don't work in compiled JavaScript
 * Fixed MenuToggleButton not accepting clicks / hover
+
 
 ## 0.7.0 (2016-07-29)
 
@@ -74,6 +82,7 @@
 * (docs) Renamed title attribute to prevent browsers from displaying tooltips on hover
 * (docs) Show angular template errors in console instead of silently failing
 
+
 ## 0.6.1 (2016-07-19)
 
 ### Fixes
@@ -81,12 +90,14 @@
 * ModalService styling
 * Fix layout issues with Checkbox & RadioButton
 
+
 ## 0.6.0 (2016-07-19)
 
 ### Features
 * SearchBar now has a ValueAccessor, and `hideClearButton` attribute
 * ModalService introduced for more flexible promise-based modals
 * Add version number to docs
+
 
 ## 0.5.0 (2016-07-07)
 
@@ -101,6 +112,7 @@
 * Fix "Cannot read property of undefined" in Notifications
 * (docs) Prevent angular from sanitizing strings in AutoDocs
 
+
 ## 0.4.0 (2016-06-20)
 
 ### Features
@@ -111,6 +123,7 @@
 * InputField is now marked as "touched" on blur
 * Select is now marked as "touched" on blur
 * Images in ui-core demo changed to relative urls
+
 
 ## 0.3.1
 
@@ -125,6 +138,7 @@
 * InputField no longer fires "change" event on blur
 * DropdownList now uses native Angular methods of inserting & disposing of DOM nodes, which fixes some layout issues
 
+
 ## 0.3.0 (2016-06-03)
 
 ### Features
@@ -133,6 +147,7 @@
 ### Fixes
 * Gulp tasks now exit with a non-zero code when errors occur
 * Check sass validity in npm package build process
+
 
 ## 0.2.0 (2016-06-01)
 
@@ -159,5 +174,6 @@
 * (docs) Fix docs parser regex
 * (build) Upgrade to gulp v4
 
-## v0.1.0
+
+## 0.1.0
 Basic selection of components, built on angular2 rc.0

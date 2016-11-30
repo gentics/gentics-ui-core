@@ -5,6 +5,9 @@ gtx-button {
     > button {
         &.btn {
             transition-property: color, border;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
         }
 
         &.btn:hover {
