@@ -1,3 +1,8 @@
+## 0.11.1 (in progress)
+
+### Fixes
+* Fix FilePicker events being emitting on wrong conditions
+
 ## 0.11.0 (2016-10-25)
 
 ### Features

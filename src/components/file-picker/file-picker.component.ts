@@ -156,10 +156,10 @@ export class FilePicker implements OnInit, OnDestroy {
             // Remove the Files from the input
             input.value = '';
 
-            if (accepted) {
+            if (accepted.length > 0) {
                 this.fileSelect.emit(accepted);
             }
-            if (rejected) {
+            if (rejected.length > 0) {
                 this.fileSelectReject.emit(rejected);
             }
         }
