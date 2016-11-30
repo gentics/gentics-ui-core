@@ -1,8 +1,10 @@
-import {ComponentFixture, fakeAsync, getTestInjector, TestComponentBuilder} from '@angular/core/testing';
+import {ComponentFixture, fakeAsync, TestBed, getTestBed} from '@angular/core/testing';
 
 /**
  * Use to test a component in one consistent way. The passed callback
- * will be wrapped in a `fakeAsync` zone and receive a TestComponentBuilder.
+ * will be wrapped in a `fakeAsync` zone and receive a ComponentFixture and an
+ * instance of the component under test.
+ *
  * The passed callback will be called for the test and may return a Promise
  * that succeeds/fails the unit test on resolve/reject.
  *
@@ -33,7 +35,7 @@ export function componentTest<T>(
  */
 export function componentTest<T>(
         forComponent: () => ComponentType<T>,
-        overwrites: (tcb: TestComponentBuilder) => TestComponentBuilder,
+        overwrites: (testBed: TestBed) => TestBed,
         test: (fixture: ComponentFixture<T>, instance: T) => (void | Promise<any>)
     ): () => void;
 
@@ -44,16 +46,16 @@ export function componentTest<T>(componentFn: () => ComponentType<T>, second: an
         let {template, overwritesFn, testFn} = parseOverloadArguments(args);
 
         let fakeAsyncTest = fakeAsync(() => {
-            let tcb: TestComponentBuilder = getTestInjector().get(TestComponentBuilder);
+            let testBed: TestBed = getTestBed();
             let componentType: ComponentType<T> = componentFn();
 
             if (overwritesFn) {
-                tcb = overwritesFn(tcb) || tcb;
+                testBed = overwritesFn(testBed) || testBed;
             } else if (template) {
-                tcb = tcb.overrideTemplate(componentType, template);
+                testBed.overrideComponent(componentType, { set: { template } });
             }
 
-            let fixture = tcb.createSync(componentType);
+            let fixture = testBed.createComponent(componentType);
             if (!fixture || !fixture.componentInstance) {
                 throw new Error('Component ' + (<any> componentType).name + ' can not be created.');
             }
@@ -79,7 +81,7 @@ export interface ComponentType<T> {
 
 function parseOverloadArguments<T>(args: any[]): {
                                        template?: string,
-                                       overwritesFn?: (tcb: TestComponentBuilder) => TestComponentBuilder,
+                                       overwritesFn?: (testBed: TestBed) => TestBed,
                                        testFn: (fixture: ComponentFixture<T>, instance: T) => (void | Promise<any>)
                                    } {
     if (typeof args[1] === 'function' && !args[2]) {

@@ -8,7 +8,7 @@ export type ToastType = 'default' | 'error' | 'success';
  */
 @Component({
     selector: 'gtx-toast',
-    template: require('./toast.tpl.html')
+    templateUrl: './toast.tpl.html'
 })
 export class Toast {
     message: string;

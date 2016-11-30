@@ -19,7 +19,8 @@ module.exports = function (config) {
         files: [
             ...paths.vendorJS.map(addModulePath),
             './testing-bootstrap.js',
-            { pattern: paths.src.typescript[0], watched: false, served: false, included: false }
+            // { pattern: paths.src.typescript[0], watched: false, served: false, included: false }
+            { pattern: 'src/components/button/*.ts', watched: false, served: false, included: false }
         ],
 
         // list of files to exclude
@@ -45,7 +46,7 @@ module.exports = function (config) {
             },
             module: {
                 loaders: [
-                    { test: /\.ts$/, loader: 'ts?transpileOnly=true' },
+                    { test: /\.ts$/, loaders: ['ts?transpileOnly=true', 'angular2-template-loader'] },
                     { test: /\.html/, loader: 'html' }
                 ]
             },
@@ -53,7 +54,9 @@ module.exports = function (config) {
                 compilerOptions: {
                     declaration: false,
                     noEmit: false,
-                    noEmitOnError: false
+                    noEmitOnError: false,
+                    emitDecoratorMetadata: true,
+                    experimentalDecorators: true
                 }
             },
             debug: true,

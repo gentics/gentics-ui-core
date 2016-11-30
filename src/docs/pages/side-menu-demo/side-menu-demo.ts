@@ -1,13 +1,7 @@
 import {Component} from '@angular/core';
-import {SideMenu} from '../../../index';
-import {Autodocs, DemoBlock, HighlightedCode} from '../../components';
-import {Select} from '../../../components/select/select.component';
-import {MenuToggleButton} from '../../../components/menu-toggle-button/menu-toggle-button.component';
-
 
 @Component({
     template: require('./side-menu-demo.tpl.html'),
-    directives: [SideMenu, Autodocs, DemoBlock, HighlightedCode, Select, MenuToggleButton],
     styles: [
         `.demo-container {
             height: 300px; 

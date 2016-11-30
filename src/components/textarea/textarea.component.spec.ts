@@ -1,7 +1,6 @@
-import {ComponentFixture} from '@angular/compiler/testing';
 import {Component} from '@angular/core';
-import {tick} from '@angular/core/testing';
-import {FormGroup, FormControl, REACTIVE_FORM_DIRECTIVES} from '@angular/forms';
+import {TestBed, tick} from '@angular/core/testing';
+import {FormsModule, ReactiveFormsModule, FormGroup, FormControl} from '@angular/forms';
 import {By} from '@angular/platform-browser';
 
 import {componentTest} from '../../testing';
@@ -9,6 +8,11 @@ import {Textarea} from './textarea.component';
 
 
 describe('Textarea', () => {
+
+    beforeEach(() => TestBed.configureTestingModule({
+        imports: [FormsModule, ReactiveFormsModule],
+        declarations: [Textarea, TestComponent]
+    }));
 
     it('should bind the label',
         componentTest(() => TestComponent, `
@@ -276,8 +280,7 @@ describe('Textarea', () => {
 
 
 @Component({
-    template: `<gtx-textarea></gtx-textarea>`,
-    directives: [Textarea, REACTIVE_FORM_DIRECTIVES]
+    template: `<gtx-textarea></gtx-textarea>`
 })
 class TestComponent {
 

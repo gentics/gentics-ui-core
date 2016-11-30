@@ -1,6 +1,6 @@
 import {Component, ViewChild} from '@angular/core';
-import {addProviders, tick} from '@angular/core/testing';
-import {FormGroup, FormControl, REACTIVE_FORM_DIRECTIVES} from '@angular/forms';
+import {TestBed, tick} from '@angular/core/testing';
+import {FormsModule, ReactiveFormsModule, FormGroup, FormControl} from '@angular/forms';
 import {By} from '@angular/platform-browser';
 
 import {componentTest} from '../../testing';
@@ -8,6 +8,11 @@ import {Checkbox} from './checkbox.component';
 
 
 describe('Checkbox', () => {
+
+    beforeEach(() => TestBed.configureTestingModule({
+        imports: [FormsModule, ReactiveFormsModule],
+        declarations: [TestComponent, Checkbox]
+    }));
 
     it('should bind the label',
         componentTest(() => TestComponent, `
@@ -264,27 +269,27 @@ describe('Checkbox', () => {
                 </form>`,
                 (fixture, instance) => {
                     const nativeInput: HTMLInputElement = fixture.nativeElement.querySelector('input');
-                    const control = <FormControl> instance.testForm.find('testControl');
+                    const control = <FormControl> instance.testForm.get('testControl');
 
-                    control.updateValue(false);
+                    control.setValue(false);
                     fixture.detectChanges();
                     tick();
 
                     expect(nativeInput.checked).toBe(false);
                     expect(nativeInput.indeterminate).toBe(false);
 
-                    control.updateValue(true);
+                    control.setValue(true);
                     fixture.detectChanges();
                     tick();
                     expect(nativeInput.checked).toBe(true);
                     expect(nativeInput.indeterminate).toBe(false);
 
-                    control.updateValue('indeterminate');
+                    control.setValue('indeterminate');
                     fixture.detectChanges();
                     tick();
                     expect(nativeInput.indeterminate).toBe(true);
 
-                    control.updateValue(false);
+                    control.setValue(false);
                     fixture.detectChanges();
                     tick();
                     expect(nativeInput.checked).toBe(false);
@@ -305,7 +310,7 @@ describe('Checkbox', () => {
                     fixture.detectChanges();
                     const nativeInput: HTMLInputElement = fixture.nativeElement.querySelector('input');
                     const debugInput = fixture.debugElement.query(By.css('input'));
-                    const control = <FormControl> instance.testForm.find('testControl');
+                    const control = <FormControl> instance.testForm.get('testControl');
 
                     nativeInput.checked = true;
                     debugInput.triggerEventHandler('change', null);
@@ -400,8 +405,7 @@ describe('Checkbox', () => {
 });
 
 @Component({
-    template: `<gtx-checkbox></gtx-checkbox>`,
-    directives: [Checkbox, REACTIVE_FORM_DIRECTIVES]
+    template: `<gtx-checkbox></gtx-checkbox>`
 })
 class TestComponent {
 

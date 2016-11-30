@@ -1,10 +1,7 @@
 import {Component} from '@angular/core';
-import {GTX_FORM_DIRECTIVES} from '../../../index';
-import {Autodocs, DemoBlock, HighlightedCode} from '../../components';
 
 @Component({
-    template: require('./checkbox-demo.tpl.html'),
-    directives: [GTX_FORM_DIRECTIVES, Autodocs, DemoBlock, HighlightedCode]
+    template: require('./checkbox-demo.tpl.html')
 })
 export class CheckboxDemo {
 
@@ -16,5 +13,5 @@ export class CheckboxDemo {
         B: false,
         C: 'indeterminate'
     };
-    checkText: string = 'checked'; 
+    checkText: string = 'checked';
 }

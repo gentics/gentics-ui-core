@@ -1,12 +1,14 @@
-import {ComponentFixture} from '@angular/compiler/testing';
 import {Component} from '@angular/core';
-import {tick} from '@angular/core/testing';
+import {TestBed, tick} from '@angular/core/testing';
 
 import {componentTest} from '../../../testing';
 import {TrustedHTMLPipe} from './trusted-html.pipe';
 
-
 describe('TrustedHTMLPipe', () => {
+
+    beforeEach(() => TestBed.configureTestingModule({
+        declarations: [TrustedHTMLPipe, TestComponent]
+    }));
 
     it('returns the passed html as trusted',
         componentTest(() => TestComponent, `
@@ -68,8 +70,7 @@ describe('TrustedHTMLPipe', () => {
 
 
 @Component({
-    template: `<div [innerHTML]="html | trustedHTML"></div>`,
-    pipes: [TrustedHTMLPipe]
+    template: `<div [innerHTML]="html | trustedHTML"></div>`
 })
 class TestComponent {
     html: string = 'some html';

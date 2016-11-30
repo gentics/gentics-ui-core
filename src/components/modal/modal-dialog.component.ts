@@ -1,6 +1,5 @@
 import {Component} from '@angular/core';
-import {DomSanitizationService, SafeHtml} from '@angular/platform-browser';
-import {Button} from '../button/button.component';
+import {DomSanitizer, SafeHtml} from '@angular/platform-browser';
 import {IModalDialog, IDialogConfig} from './modal-interfaces';
 
 /**
@@ -9,8 +8,7 @@ import {IModalDialog, IDialogConfig} from './modal-interfaces';
  */
 @Component({
     selector: 'gtx-modal-dialog',
-    template: require('./modal-dialog.tpl.html'),
-    directives: [Button]
+    templateUrl: './modal-dialog.tpl.html'
 })
 export class ModalDialog implements IModalDialog {
     closeFn: (val: any) => void;
@@ -19,7 +17,7 @@ export class ModalDialog implements IModalDialog {
     private config: IDialogConfig = <IDialogConfig> {};
     private safeBody: SafeHtml;
 
-    constructor(private sanitizer: DomSanitizationService) {
+    constructor(private sanitizer: DomSanitizer) {
     }
 
     setConfig(config: IDialogConfig): void {

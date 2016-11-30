@@ -1,5 +1,5 @@
 import {Component, ElementRef, Input, OnDestroy, Renderer} from '@angular/core';
-import {isPresent} from '@angular/core/src/facade/lang';
+import {isPresent} from '../../common/utils';
 
 /**
  * A Button component.
@@ -15,7 +15,7 @@ import {isPresent} from '@angular/core/src/facade/lang';
  */
 @Component({
     selector: 'gtx-button',
-    template: require('./button.tpl.html')
+    templateUrl: './button.tpl.html'
 })
 export class Button implements OnDestroy {
 

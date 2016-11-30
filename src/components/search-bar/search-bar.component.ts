@@ -1,8 +1,6 @@
 import {Component, Input, Output, EventEmitter, forwardRef} from '@angular/core';
-import {isPresent} from '@angular/core/src/facade/lang';
 import {ControlValueAccessor, NG_VALUE_ACCESSOR} from '@angular/forms';
-import {InputField} from '../input/input.component';
-import {Button} from '../button/button.component';
+import {isPresent} from '../../common/utils';
 
 const GTX_SEARCH_BAR_VALUE_ACCESSOR = {
     provide: NG_VALUE_ACCESSOR,
@@ -42,8 +40,7 @@ const GTX_SEARCH_BAR_VALUE_ACCESSOR = {
  */
 @Component({
     selector: 'gtx-search-bar',
-    template: require('./search-bar.tpl.html'),
-    directives: [InputField, Button],
+    templateUrl: './search-bar.tpl.html',
     providers: [GTX_SEARCH_BAR_VALUE_ACCESSOR]
 })
 export class SearchBar implements ControlValueAccessor {

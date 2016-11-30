@@ -137,10 +137,10 @@ function copyFontsTo(outputFolder) {
         return (
             gulp.src(paths.vendorStatics.concat(paths.src.fonts))
             .pipe(filter([
-                '*.eot',
-                '*.ttf',
-                '*.woff',
-                '*.woff2'
+                '**/*.eot',
+                '**/*.ttf',
+                '**/*.woff',
+                '**/*.woff2'
             ]))
             .pipe(gulp.dest(outputFolder))
         );

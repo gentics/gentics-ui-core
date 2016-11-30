@@ -1,4 +1,4 @@
-import {Component, ElementRef, EventEmitter, Input, Output} from '@angular/core';
+import {Component, Directive, ElementRef, EventEmitter, Input, Output} from '@angular/core';
 const sortable: typeof Sortablejs.Sortable = require('sortablejs');
 
 export type sortFn<T> = (source: T[], byReference?: boolean) => T[];
@@ -90,7 +90,7 @@ export interface ISortableMoveEvent extends ISortableEvent {
  */
 @Component({
     selector: 'gtx-sortable-list',
-    template: require('./sortable-list.tpl.html')
+    templateUrl: './sortable-list.tpl.html'
 })
 export class SortableList {
 
@@ -195,6 +195,12 @@ export class SortableList {
         }
     }
 }
+
+@Directive({
+    selector: 'gtx-sortable-item'
+})
+export class SortableItem {}
+
 
 @Component({
     selector: 'gtx-drag-handle',

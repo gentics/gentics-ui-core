@@ -31,7 +31,7 @@ const GTX_INPUT_VALUE_ACCESSOR = {
  */
 @Component({
     selector: 'gtx-input',
-    template: require('./input.tpl.html'),
+    templateUrl: './input.tpl.html',
     providers: [GTX_INPUT_VALUE_ACCESSOR]
 })
 export class InputField implements ControlValueAccessor {

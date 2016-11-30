@@ -1,11 +1,8 @@
 import {Component} from '@angular/core';
-import {REACTIVE_FORM_DIRECTIVES, FormGroup, FormControl} from '@angular/forms';
-import {GTX_FORM_DIRECTIVES} from '../../../index';
-import {Autodocs, DemoBlock, HighlightedCode} from '../../components';
+import {FormGroup, FormControl} from '@angular/forms';
 
 @Component({
-    template: require('./input-demo.tpl.html'),
-    directives: [GTX_FORM_DIRECTIVES, Autodocs, DemoBlock, HighlightedCode, REACTIVE_FORM_DIRECTIVES]
+    template: require('./input-demo.tpl.html')
 })
 export class InputDemo {
     componentSource: string = require('!!raw!../../../components/input/input.component.ts');

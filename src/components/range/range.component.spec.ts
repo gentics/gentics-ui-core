@@ -1,12 +1,17 @@
 import {Component, DebugElement} from '@angular/core';
-import {addProviders, tick} from '@angular/core/testing';
-import {FormGroup, FormControl, REACTIVE_FORM_DIRECTIVES} from '@angular/forms';
+import {TestBed, tick} from '@angular/core/testing';
+import {FormsModule, ReactiveFormsModule, FormGroup, FormControl} from '@angular/forms';
 import {By} from '@angular/platform-browser';
 
 import {componentTest} from '../../testing';
 import {Range} from './range.component';
 
 describe('Range:', () => {
+
+    beforeEach(() => TestBed.configureTestingModule({
+        imports: [FormsModule, ReactiveFormsModule],
+        declarations: [Range, TestComponent]
+    }));
 
     it('uses defaults for undefined attributes which have a default',
     componentTest(() => TestComponent, fixture => {
@@ -293,8 +298,7 @@ function createFocusEvent(type: 'focus' | 'blur'): FocusEvent {
 
 
 @Component({
-    template: `<gtx-range></gtx-range>`,
-    directives: [Range, REACTIVE_FORM_DIRECTIVES]
+    template: `<gtx-range></gtx-range>`
 })
 class TestComponent {
 

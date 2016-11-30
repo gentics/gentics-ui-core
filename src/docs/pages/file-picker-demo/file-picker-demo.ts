@@ -1,17 +1,7 @@
 import {Component} from '@angular/core';
-import {ROUTER_DIRECTIVES} from '@angular/router';
-
-import {Button, FilePicker, FileDropArea, PreventFileDrop, GTX_FORM_DIRECTIVES} from '../../../index';
-import {Autodocs, DemoBlock, HighlightedCode} from '../../components';
-
 
 @Component({
     template: require('./file-picker-demo.tpl.html'),
-    directives: [
-        FilePicker, FileDropArea, PreventFileDrop, Button,
-        Autodocs, DemoBlock, HighlightedCode,
-        GTX_FORM_DIRECTIVES, ROUTER_DIRECTIVES
-    ],
     styles: [`gtx-file-picker { margin-bottom: 10px; }`]
 })
 export class FilePickerDemo {

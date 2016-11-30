@@ -1,11 +1,8 @@
 import {Component} from '@angular/core';
 import {Observable, Observer} from 'rxjs';
-import {GTX_FORM_DIRECTIVES, ProgressBar, Button} from '../../../index';
-import {Autodocs, DemoBlock, HighlightedCode} from '../../components';
 
 @Component({
-    template: require('./progress-bar-demo.tpl.html'),
-    directives: [GTX_FORM_DIRECTIVES, ProgressBar, Button, Autodocs, DemoBlock, HighlightedCode]
+    template: require('./progress-bar-demo.tpl.html')
 })
 export class ProgressBarDemo {
     componentSource: string = require('!!raw!../../../components/progress-bar/progress-bar.component.ts');

@@ -1,5 +1,4 @@
 import {Component, ElementRef, EventEmitter, Input, Output, OnChanges, SimpleChanges} from '@angular/core';
-import {ROUTER_DIRECTIVES} from '@angular/router';
 
 export interface IBreadcrumbLink {
     href?: string;
@@ -22,8 +21,7 @@ export interface IBreadcrumbRouterLink {
  */
 @Component({
     selector: 'gtx-breadcrumbs',
-    template: require('./breadcrumbs.tpl.html'),
-    directives: [ROUTER_DIRECTIVES]
+    templateUrl: './breadcrumbs.tpl.html'
 })
 export class Breadcrumbs implements OnChanges {
 

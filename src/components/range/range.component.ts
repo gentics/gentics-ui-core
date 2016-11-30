@@ -29,7 +29,7 @@ const GTX_RANGE_VALUE_ACCESSOR = {
  */
 @Component({
     selector: 'gtx-range',
-    template: require('./range.tpl.html'),
+    templateUrl: './range.tpl.html',
     providers: [GTX_RANGE_VALUE_ACCESSOR]
 })
 export class Range implements ControlValueAccessor {

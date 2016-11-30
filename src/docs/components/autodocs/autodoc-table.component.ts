@@ -1,11 +1,9 @@
 import {Component, Input} from '@angular/core';
 import {DocBlock} from './doc-parser';
-import {TrustedHTMLPipe} from '../trusted-html/trusted-html.pipe';
 
 @Component({
     selector: 'gtx-autodoc-table',
-    template: require('./autodoc-table.tpl.html'),
-    pipes: [TrustedHTMLPipe]
+    template: require('./autodoc-table.tpl.html')
 })
 export class AutodocTable {
     @Input() docBlocks: DocBlock[];

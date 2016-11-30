@@ -1,12 +1,17 @@
 import {Component} from '@angular/core';
-import {addProviders, tick} from '@angular/core/testing';
-import {FormControl, FormGroup, REACTIVE_FORM_DIRECTIVES} from '@angular/forms';
+import {TestBed, tick} from '@angular/core/testing';
+import {FormsModule, ReactiveFormsModule, FormControl, FormGroup} from '@angular/forms';
 
 import {componentTest} from '../../testing';
 import {InputField} from './input.component';
 
 
 describe('InputField', () => {
+
+    beforeEach(() => TestBed.configureTestingModule({
+        imports: [FormsModule, ReactiveFormsModule],
+        declarations: [InputField, TestComponent]
+    }));
 
     it('binds the label text to the "label" input',
         componentTest(() => TestComponent, `
@@ -331,8 +336,7 @@ describe('InputField', () => {
 
 
 @Component({
-    template: `<gtx-input></gtx-input>`,
-    directives: [InputField, REACTIVE_FORM_DIRECTIVES]
+    template: `<gtx-input></gtx-input>`
 })
 class TestComponent {
 

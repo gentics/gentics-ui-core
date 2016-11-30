@@ -1,13 +1,16 @@
 import {Component, DebugElement} from '@angular/core';
-import {tick} from '@angular/core/testing';
-import {ComponentFixture} from '@angular/compiler/testing';
+import {ComponentFixture, TestBed, tick} from '@angular/core/testing';
 import {By} from '@angular/platform-browser';
 
 import {componentTest} from '../../testing';
-import {SideMenu} from './side-menu.component';
+import {SideMenu, SideMenuToggle} from './side-menu.component';
 
 
 describe('SideMenu', () => {
+
+    beforeEach(() => TestBed.configureTestingModule({
+        declarations: [SideMenu, TestComponent, SideMenuToggle]
+    }));
 
     it('does not have the "opened" class when closed',
         componentTest(() => TestComponent, fixture => {
@@ -75,8 +78,7 @@ describe('SideMenu', () => {
     template: `
         <gtx-side-menu [opened]="menuVisible" (toggle)="menuChanged($event)">
             <gtx-side-menu-toggle>toggle</gtx-side-menu-toggle>
-        </gtx-side-menu>`,
-    directives: [SideMenu]
+        </gtx-side-menu>`
 })
 class TestComponent {
     menuVisible: boolean = false;

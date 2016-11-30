@@ -6,27 +6,24 @@
  * test providers in a single place, allowing the testing of DOM in component tests.
  */
 require('es6-shim');
-require('zone.js');
-require('reflect-metadata');
-require('zone.js/dist/fake-async-test');
+require('reflect-metadata/Reflect');
+require('zone.js/dist/zone');
+require('zone.js/dist/long-stack-trace-zone');
+require('zone.js/dist/proxy');
+require('zone.js/dist/sync-test');
+require('zone.js/dist/jasmine-patch');
 require('zone.js/dist/async-test');
+require('zone.js/dist/fake-async-test');
 
 Error.stackTraceLimit = Infinity;
-var testing = require('@angular/core/testing');
-var browser = require('@angular/platform-browser-dynamic/testing');
-var forms = require('@angular/forms');
 
-testing.setBaseTestProviders(
-    browser.TEST_BROWSER_DYNAMIC_PLATFORM_PROVIDERS,
-    browser.TEST_BROWSER_DYNAMIC_APPLICATION_PROVIDERS
+const testing = require('@angular/core/testing');
+const browser = require('@angular/platform-browser-dynamic/testing');
+
+testing.TestBed.initTestEnvironment(
+    browser.BrowserDynamicTestingModule,
+    browser.platformBrowserDynamicTesting()
 );
-
-beforeEach(function () {
-    testing.addProviders([
-        forms.disableDeprecatedForms(),
-        forms.provideForms()
-    ]);
-});
 
 require('./src/index.ts');
 
@@ -35,5 +32,5 @@ require('./src/index.ts');
   webpack what files we actually want to require or import.
   For each .spec.ts file, require the file and load it.
  */
-var testContext = require.context('./src', true, /\.spec\.ts/);
+const testContext = require.context('./src', true, /\.spec\.ts/);
 testContext.keys().forEach(testContext);

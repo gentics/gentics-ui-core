@@ -31,7 +31,7 @@ import {TabsDemo} from './pages/tabs-demo/tabs-demo';
 
 export interface IPageInfo {
     name: string;
-    component: Type;
+    component: Type<any>;
     type: 'component' | 'service' | 'css';
     keywords?: string[];
 }

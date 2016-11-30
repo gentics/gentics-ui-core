@@ -1,25 +1,11 @@
 import {Component, OnDestroy} from '@angular/core';
-import {ROUTER_DIRECTIVES} from '@angular/router';
 import {Observable, Subscription} from 'rxjs';
 
-import {GTX_FORM_DIRECTIVES, Button} from '../../../index';
-import {Autodocs, DemoBlock, HighlightedCode} from '../../components';
-import {SortableList, ISortableEvent} from '../../../components/sortable-list/sortable-list.component';
-import {DragStateTrackerFactory, PageFileDragHandler, FileDropArea, PreventFileDrop} from '../../../index';
+import {ISortableEvent} from '../../../components/sortable-list/sortable-list.component';
+import {PageFileDragHandler} from '../../../index';
 
 @Component({
-    template: require('./file-drop-area-demo.tpl.html'),
-    directives: [
-        FileDropArea,
-        PreventFileDrop,
-        SortableList,
-        Autodocs,
-        DemoBlock,
-        Button,
-        HighlightedCode,
-        GTX_FORM_DIRECTIVES,
-        ROUTER_DIRECTIVES
-    ]
+    template: require('./file-drop-area-demo.tpl.html')
 })
 export class FileDropAreaDemo implements OnDestroy {
     directiveSource: string = require('!!raw!../../../components/file-drop-area/file-drop-area.directive.ts');

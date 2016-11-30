@@ -1,4 +1,4 @@
-import {ComponentFixture} from '@angular/compiler/testing';
+import {TestBed, ComponentFixture} from '@angular/core/testing';
 import {Component, ViewChild} from '@angular/core';
 
 import {componentTest} from '../../testing';
@@ -6,6 +6,10 @@ import {SortableList, ISortableEvent} from './sortable-list.component';
 
 
 describe('SortableList:', () => {
+
+    beforeEach(() => TestBed.configureTestingModule({
+        declarations: [SortableList, TestComponent]
+    }));
 
     describe('sort() method', () => {
 
@@ -128,8 +132,7 @@ describe('SortableList:', () => {
 
 
 @Component({
-    template: `<gtx-sortable-list [disabled]="disabled"></gtx-sortable-list>`,
-    directives: [SortableList]
+    template: `<gtx-sortable-list [disabled]="disabled"></gtx-sortable-list>`
 })
 class TestComponent {
     disabled: boolean = false;

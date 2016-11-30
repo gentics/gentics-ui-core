@@ -1,9 +1,7 @@
 import {ChangeDetectorRef, Component, EventEmitter, Input, OnInit, OnDestroy, Optional, Output, Self} from '@angular/core';
 import {Observable, Subscription} from 'rxjs';
 
-import {Button} from '../button/button.component';
 import {FileDropArea, IFileDropAreaOptions} from '../file-drop-area/file-drop-area.directive';
-import {PageFileDragHandler} from '../file-drop-area/page-file-drag-handler.service';
 import {matchesMimeType} from '../file-drop-area/matches-mime-type';
 
 
@@ -16,8 +14,7 @@ import {matchesMimeType} from '../file-drop-area/matches-mime-type';
  */
 @Component({
     selector: 'gtx-file-picker',
-    template: require('./file-picker.tpl.html'),
-    directives: [Button, FileDropArea]
+    templateUrl: './file-picker.tpl.html'
 })
 export class FilePicker implements OnInit, OnDestroy {
     /**

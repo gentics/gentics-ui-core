@@ -1,12 +1,15 @@
 import {Component, ViewChild} from '@angular/core';
-import {tick} from '@angular/core/testing';
-import {By} from '@angular/platform-browser';
-
+import {TestBed, tick} from '@angular/core/testing';
 import {componentTest} from '../../testing';
 import {SearchBar} from './search-bar.component';
-
+import {InputField} from '../input/input.component';
+import {Button} from '../button/button.component';
 
 describe('SearchBar', () => {
+
+    beforeEach(() => TestBed.configureTestingModule({
+        declarations: [SearchBar, TestComponent, InputField, Button]
+    }));
 
     it('binds the value of its native input the the "query" property',
         componentTest(() => TestComponent, fixture => {
@@ -162,8 +165,7 @@ describe('SearchBar', () => {
                         (search)="onSearch($event)"
                         (change)="onChange($event)"
                         (clear)="onClear($event)">
-        </gtx-search-bar>`,
-    directives: [SearchBar]
+        </gtx-search-bar>`
 })
 class TestComponent {
     query: string = '';

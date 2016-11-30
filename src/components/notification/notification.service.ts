@@ -1,9 +1,8 @@
 import {
-    ComponentFactory,
     ComponentRef,
     Injectable,
     EventEmitter,
-    ComponentResolver,
+    ComponentFactoryResolver,
     ViewContainerRef
 } from '@angular/core';
 import {Toast, ToastType} from './toast.component';
@@ -75,7 +74,7 @@ export class Notification {
      */
     private verticalMargin: number = 10;
 
-    constructor(private componentResolver: ComponentResolver,
+    constructor(private componentFactoryResolver: ComponentFactoryResolver,
                 overlayHostService: OverlayHostService) {
         overlayHostService.getHostView().then(view => {
             this.hostViewContainer = view;
@@ -87,12 +86,8 @@ export class Notification {
      * dismiss the toast when invoked.
      */
     public show(options: INotificationOptions): { dismiss: () => void } {
-        // TODO: add check that hostElementRef is set.
         let mergedOptions: INotificationOptions = Object.assign({}, defaultOptions, options);
-        let toast: Toast;
-        this.createToast(mergedOptions)
-            .then((t: Toast) => toast = t);
-
+        let toast = this.createToast(mergedOptions);
         return {
             dismiss: (): void => toast.dismissFn()
         };
@@ -136,36 +131,34 @@ export class Notification {
      * Dynamically create and load a new Toast component next to the
      * NotificationHost component in the DOM.
      */
-    private createToast(options: INotificationOptions): Promise<Toast> {
-        return this.componentResolver.resolveComponent(Toast)
-            .then((toastFactory: ComponentFactory<Toast>) => {
-                let ref = this.hostViewContainer.createComponent(toastFactory);
-                let toast: Toast = ref.instance;
+    private createToast(options: INotificationOptions): Toast {
+        let toastFactory = this.componentFactoryResolver.resolveComponentFactory(Toast);
+        let ref = this.hostViewContainer.createComponent(toastFactory);
+        let toast: Toast = ref.instance;
 
-                let dismissTimer: number;
-                toast.message = options.message;
-                toast.type = options.type;
-                toast.dismissOnClick = options.dismissOnClick;
-                toast.dismissFn = () => this.destroyToast(ref);
+        let dismissTimer: number;
+        toast.message = options.message;
+        toast.type = options.type;
+        toast.dismissOnClick = options.dismissOnClick;
+        toast.dismissFn = () => this.destroyToast(ref);
 
-                if (options.action && options.action.label) {
-                    toast.actionLabel = options.action.label;
-                }
-                if (options.action && options.action.onClick) {
-                    toast.actionOnClick = options.action.onClick;
-                }
+        if (options.action && options.action.label) {
+            toast.actionLabel = options.action.label;
+        }
+        if (options.action && options.action.onClick) {
+            toast.actionOnClick = options.action.onClick;
+        }
 
-                if (0 < options.delay) {
-                    dismissTimer = setTimeout(() => toast.dismissFn(), options.delay);
-                }
+        if (0 < options.delay) {
+            dismissTimer = setTimeout(() => toast.dismissFn(), options.delay);
+        }
 
-                this.openToasts.unshift({
-                    toast,
-                    dismissTimer
-                });
-                this.positionOpenToasts();
-                return toast;
-            });
+        this.openToasts.unshift({
+            toast,
+            dismissTimer
+        });
+        this.positionOpenToasts();
+        return toast;
     }
 
     private positionOpenToasts(): void {

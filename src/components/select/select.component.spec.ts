@@ -1,11 +1,16 @@
 import {Component, ViewChild} from '@angular/core';
-import {discardPeriodicTasks, tick} from '@angular/core/testing';
-import {FormGroup, FormControl, REACTIVE_FORM_DIRECTIVES} from '@angular/forms';
+import {TestBed, discardPeriodicTasks, tick} from '@angular/core/testing';
+import {FormsModule, ReactiveFormsModule, FormGroup, FormControl} from '@angular/forms';
 
 import {componentTest, worksButHasPendingTimers} from '../../testing';
 import {Select} from './select.component';
 
 describe('Select:', () => {
+
+    beforeEach(() => TestBed.configureTestingModule({
+        imports: [FormsModule, ReactiveFormsModule],
+        declarations: [Select, TestComponent]
+    }));
 
     it('binds its label to the input value',
         componentTest(() => TestComponent, `
@@ -132,7 +137,6 @@ describe('Select:', () => {
         })
     );
 
-    // TODO: Throws "1 periodic timer(s) still in the queue."
     it('emits "blur" with the current value when the native input is blurred',
         worksButHasPendingTimers(
             componentTest(() => TestComponent, (fixture, instance) => {
@@ -291,7 +295,7 @@ describe('Select:', () => {
                     expect(instance.testForm.controls['test'].value).toBe('Bar');
                     expect(input.value).toBe('Bar');
 
-                    (instance.testForm.controls['test'] as FormControl).updateValue('Baz');
+                    (instance.testForm.controls['test'] as FormControl).setValue('Baz');
                     fixture.detectChanges();
 
                     expect(instance.testForm.controls['test'].value).toBe('Baz');
@@ -300,7 +304,6 @@ describe('Select:', () => {
             )
         );
 
-        // TODO: Throws "1 periodic timer(s) still in the queue"
         it('marks the component as "touched" when the native input is blurred',
             worksButHasPendingTimers(
                 componentTest(() => TestComponent, `
@@ -342,8 +345,7 @@ describe('Select:', () => {
             [value]="value"
         >
             <option *ngFor="let option of options" [value]="option">{{ option }}</option>
-        </gtx-select>`,
-    directives: [Select, REACTIVE_FORM_DIRECTIVES]
+        </gtx-select>`
 })
 class TestComponent {
 

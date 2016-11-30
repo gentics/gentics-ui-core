@@ -1,10 +1,8 @@
 import {Component} from '@angular/core';
-import {Notification, Button, GTX_FORM_DIRECTIVES} from '../../../index';
-import {Autodocs, DemoBlock, HighlightedCode} from '../../components';
+import {Notification} from '../../../index';
 
 @Component({
-    template: require('./notification-demo.tpl.html'),
-    directives: [Button, GTX_FORM_DIRECTIVES, Autodocs, DemoBlock, HighlightedCode]
+    template: require('./notification-demo.tpl.html')
 })
 export class NotificationDemo {
     componentSource: string = require('!!raw!../../../components/notification/notification.service.ts');

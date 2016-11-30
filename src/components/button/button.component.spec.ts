@@ -1,11 +1,15 @@
-import {ComponentFixture} from '@angular/compiler/testing';
 import {Component} from '@angular/core';
+import {TestBed} from '@angular/core/testing';
 
 import {componentTest} from '../../testing';
 import {Button} from './button.component';
 
 
 describe('Button:', () => {
+
+    beforeEach(() => TestBed.configureTestingModule({
+        declarations: [TestComponent, Button]
+    }));
 
     it('is enabled by default',
         componentTest(() => TestComponent, fixture => {
@@ -96,8 +100,7 @@ describe('Button:', () => {
 });
 
 @Component({
-    template: `<gtx-button></gtx-button>`,
-    directives: [Button]
+    template: `<gtx-button></gtx-button>`
 })
 class TestComponent {
     onClick(): void {}

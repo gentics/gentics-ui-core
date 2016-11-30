@@ -40,7 +40,7 @@ const GTX_SELECT_VALUE_ACCESSOR = {
  */
 @Component({
     selector: 'gtx-select',
-    template: require('./select.tpl.html'),
+    templateUrl: './select.tpl.html',
     providers: [GTX_SELECT_VALUE_ACCESSOR]
 })
 export class Select implements ControlValueAccessor {
@@ -120,10 +120,7 @@ export class Select implements ControlValueAccessor {
         this.blur.emit(this.value);
     };
 
-    constructor(private elementRef: ElementRef,
-                @Query(NgSelectOption, {descendants: true}) query: QueryList<NgSelectOption>) {
-        this._updateValueWhenListOfOptionsChanges(query);
-    }
+    constructor(private elementRef: ElementRef) {}
 
     /**
      * If a `value` has been passed in, we mark the corresponding option as "selected".
@@ -161,6 +158,8 @@ export class Select implements ControlValueAccessor {
 
             this.registerHandlers();
         });
+
+        this._updateValueWhenListOfOptionsChanges(this.selectOptions);
 
         this.subscriptions.push(
             this.selectOptions.changes.subscribe(() => {

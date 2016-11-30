@@ -55,7 +55,7 @@ export function parseDocs(src: string, type: 'component' | 'service' = 'componen
         };
     } else if (type === 'service') {
         let blocks = parseServiceSource(src);
-        let mainBlock = blocks.filter((d: DocBlock) => d.accessModifier === '@Injectable')[0];
+        let mainBlock = blocks.filter((d: DocBlock) => d.accessModifier as any === '@Injectable')[0];
         let publicBlocks = blocks.filter((d: DocBlock) => d.accessModifier === 'public');
         return {
             type,

@@ -1,11 +1,7 @@
 import {Component} from '@angular/core';
-import {SearchBar} from '../../../index';
-import {Autodocs, DemoBlock, HighlightedCode} from '../../components';
-import {Checkbox} from '../../../components/checkbox/checkbox.component';
 
 @Component({
-    template: require('./search-bar-demo.tpl.html'),
-    directives: [SearchBar, Checkbox, Autodocs, DemoBlock, HighlightedCode]
+    template: require('./search-bar-demo.tpl.html')
 })
 export class SearchBarDemo {
     componentSource: string = require('!!raw!../../../components/search-bar/search-bar.component.ts');

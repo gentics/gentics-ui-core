@@ -63,7 +63,7 @@ export const CURSOR_STYLE_CLASS = 'gtx-split-view-container-resizing';
  */
 @Component({
     selector: 'gtx-split-view-container',
-    template: require('./split-view-container.tpl.html')
+    templateUrl: './split-view-container.tpl.html'
 })
 export class SplitViewContainer implements AfterViewInit, OnDestroy {
     /**

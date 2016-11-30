@@ -1,13 +1,9 @@
 import {Component} from '@angular/core';
-import {GTX_FORM_DIRECTIVES, Button} from '../../../index';
-import {Autodocs, DemoBlock, HighlightedCode} from '../../components';
 import {ModalService} from '../../../components/modal/modal.service';
 import {IModalDialog, IModalOptions} from '../../../components/modal/modal-interfaces';
 
 @Component({
-    template: require('./modal-service-demo.tpl.html'),
-    directives: [GTX_FORM_DIRECTIVES, Button, Autodocs, DemoBlock, HighlightedCode],
-    providers: [ModalService]
+    template: require('./modal-service-demo.tpl.html')
 })
 export class ModalServiceDemo {
     componentSource: string = require('!!raw!../../../components/modal/modal.service');

@@ -53,7 +53,7 @@ function noop(): void {}
  */
 @Component({
     selector: 'gtx-progress-bar',
-    template: require('./progress-bar.tpl.html')
+    templateUrl: './progress-bar.tpl.html'
 })
 export class ProgressBar implements OnDestroy {
 

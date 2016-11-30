@@ -1,6 +1,6 @@
 import {Component, DebugElement, ViewChild} from '@angular/core';
-import {addProviders, tick} from '@angular/core/testing';
-import {FormGroup, FormControl, REACTIVE_FORM_DIRECTIVES} from '@angular/forms';
+import {TestBed, tick} from '@angular/core/testing';
+import {FormsModule, ReactiveFormsModule, FormGroup, FormControl} from '@angular/forms';
 import {By} from '@angular/platform-browser';
 
 import {componentTest} from '../../testing';
@@ -8,6 +8,11 @@ import {RadioButton, RadioGroup} from './radio-button.component';
 
 
 describe('RadioButton', () => {
+
+    beforeEach(() => TestBed.configureTestingModule({
+        imports: [FormsModule, ReactiveFormsModule],
+        declarations: [RadioButton, RadioGroup, TestComponent]
+    }));
 
     it('binds the label text to the "label" input',
         componentTest(() => TestComponent, `
@@ -327,11 +332,11 @@ describe('RadioButton', () => {
                     fixture.detectChanges();
                     tick();
                     const nativeInput: HTMLInputElement = fixture.nativeElement.querySelector('input');
-                    const control: FormControl = <FormControl> instance.testForm.find('testControl');
+                    const control: FormControl = <FormControl> instance.testForm.get('testControl');
 
                     expect(nativeInput.checked).toBe(false);
 
-                    control.updateValue('radioValue');
+                    control.setValue('radioValue');
                     fixture.detectChanges();
                     expect(nativeInput.checked).toBe(true);
                 }
@@ -349,7 +354,7 @@ describe('RadioButton', () => {
                 </form>`,
                 (fixture, instance) => {
                     const nativeInput: HTMLInputElement = fixture.nativeElement.querySelector('input');
-                    const control: FormControl = <FormControl> instance.testForm.find('testControl');
+                    const control: FormControl = <FormControl> instance.testForm.get('testControl');
 
                     instance.checkState = false;
                     fixture.detectChanges();
@@ -438,6 +443,11 @@ describe('RadioButton', () => {
 
 describe('RadioGroup', () => {
 
+    beforeEach(() => TestBed.configureTestingModule({
+        imports: [FormsModule, ReactiveFormsModule],
+        declarations: [RadioButton, RadioGroup, TestComponent]
+    }));
+
     it('binds the check state of RadioButton children with ngModel (inbound)',
         componentTest(() => TestComponent, `
             <gtx-radio-group [(ngModel)]="boundProperty">
@@ -521,8 +531,7 @@ describe('RadioGroup', () => {
         )
     );
 
-    // TODO: Throws "Expression has changed after it was checked. Previous value: 'boundValue'. Current value: 'A'"
-    xit('sets a property bound with ngModel to null when no RadioButton children are checked (outbound)',
+    it('sets a property bound with ngModel to null when no RadioButton children are checked (outbound)',
         componentTest(() => TestComponent, `
             <gtx-radio-group [(ngModel)]="boundProperty">
                 <gtx-radio-button value="A" [checked]="checkState"></gtx-radio-button>
@@ -530,9 +539,10 @@ describe('RadioGroup', () => {
             </gtx-radio-group>`,
             (fixture, instance) => {
                 fixture.detectChanges();
-                const nativeInputs: NodeListOf<HTMLInputElement> = fixture.nativeElement.querySelectorAll('input');
-
                 instance.checkState = true;
+
+                const nativeInputs: NodeListOf<HTMLInputElement> = fixture.nativeElement.querySelectorAll('input');
+                tick();
                 fixture.detectChanges();
                 tick();
                 fixture.detectChanges();
@@ -547,6 +557,7 @@ describe('RadioGroup', () => {
                 expect(instance.boundProperty).toBe(null);
                 expect(nativeInputs[0].checked).toBe(false);
                 expect(nativeInputs[1].checked).toBe(false);
+
             }
         )
     );
@@ -563,15 +574,15 @@ describe('RadioGroup', () => {
                 fixture.detectChanges();
 
                 const nativeInputs: NodeListOf<HTMLInputElement> = fixture.nativeElement.querySelectorAll('input');
-                const control: FormControl = <FormControl> instance.testForm.find('testControl');
+                const control: FormControl = <FormControl> instance.testForm.get('testControl');
 
-                control.updateValue('A');
+                control.setValue('A');
                 fixture.detectChanges();
                 tick();
                 expect(nativeInputs[0].checked).toBe(true);
                 expect(nativeInputs[1].checked).toBe(false);
 
-                control.updateValue('B');
+                control.setValue('B');
                 fixture.detectChanges();
                 tick();
                 expect(nativeInputs[0].checked).toBe(false);
@@ -592,15 +603,15 @@ describe('RadioGroup', () => {
                 fixture.detectChanges();
 
                 const nativeInputs: NodeListOf<HTMLInputElement> = fixture.nativeElement.querySelectorAll('input');
-                const control: FormControl = <FormControl> instance.testForm.find('testControl');
+                const control: FormControl = <FormControl> instance.testForm.get('testControl');
 
-                control.updateValue('A');
+                control.setValue('A');
                 fixture.detectChanges();
                 tick();
                 expect(nativeInputs[0].checked).toBe(true);
                 expect(nativeInputs[1].checked).toBe(false);
 
-                control.updateValue('B');
+                control.setValue('B');
                 fixture.detectChanges();
                 tick();
                 expect(nativeInputs[0].checked).toBe(false);
@@ -612,8 +623,7 @@ describe('RadioGroup', () => {
 });
 
 @Component({
-    template: `<gtx-radio-button></gtx-radio-button>`,
-    directives: [RadioButton, RadioGroup, REACTIVE_FORM_DIRECTIVES]
+    template: `<gtx-radio-button></gtx-radio-button>`
 })
 class TestComponent {
 

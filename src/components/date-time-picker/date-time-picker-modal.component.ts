@@ -1,7 +1,5 @@
-import {Component, ElementRef, EventEmitter, Input, OnDestroy, Output, ViewChild} from '@angular/core';
+import {Component, ElementRef, Input, OnDestroy, ViewChild} from '@angular/core';
 
-import {InputField} from '../input/input.component';
-import {Button} from '../button/button.component';
 import {IModalDialog} from '../modal/modal-interfaces';
 import {DateTimePickerStrings} from './date-time-picker-strings';
 import {defaultStrings} from './date-time-picker-default-strings';
@@ -20,8 +18,7 @@ const momentjs: moment.MomentStatic = rome.moment;
  */
 @Component({
     selector: 'gtx-date-time-picker-modal',
-    template: require('./date-time-picker-modal.tpl.html'),
-    directives: [InputField, Button]
+    templateUrl: './date-time-picker-modal.tpl.html'
 })
 export class DateTimePickerModal implements IModalDialog, OnDestroy {
 

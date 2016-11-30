@@ -1,14 +1,16 @@
 import {Component, ViewChild, DebugElement} from '@angular/core';
-import {getTestInjector, tick} from '@angular/core/testing';
-import {TestComponentBuilder} from '@angular/compiler/testing';
+import {getTestBed, TestBed, tick} from '@angular/core/testing';
 import {By} from '@angular/platform-browser';
 import {Observable, Subject} from 'rxjs';
 
 import {componentTest} from '../../testing';
 import {ProgressBar} from './progress-bar.component';
 
-
 describe('ProgressBar', () => {
+
+    beforeEach(() => TestBed.configureTestingModule({
+        declarations: [ProgressBar, TestComponent]
+    }));
 
     it('starts out as "not active"',
         componentTest(() => TestComponent, (fixture, instance) => {
@@ -89,12 +91,10 @@ describe('ProgressBar', () => {
 
         it('grows its progress indicator in indeterminate mode',
             (done: DoneFn) => {
-                let tcb: TestComponentBuilder = getTestInjector().get(TestComponentBuilder);
-                tcb = tcb.overrideTemplate(TestComponent, `
-                    <gtx-progress-bar [active]="loadingSomething">
-                    </gtx-progress-bar>
-                `);
-                let fixture = tcb.createSync(TestComponent);
+                getTestBed().overrideComponent(TestComponent, { set: {
+                    template: `<gtx-progress-bar [active]="loadingSomething"></gtx-progress-bar>`
+                }});
+                let fixture = TestBed.createComponent(TestComponent);
                 fixture.detectChanges();
 
                 const instance: TestComponent = fixture.componentInstance;
@@ -130,11 +130,10 @@ describe('ProgressBar', () => {
 
         it('progress indicator is visible and grows when initialized as active',
             (done: DoneFn) => {
-                let tcb: TestComponentBuilder = getTestInjector().get(TestComponentBuilder);
-                tcb = tcb.overrideTemplate(TestComponent, `
-                    <gtx-progress-bar [active]="true"></gtx-progress-bar>
-                `);
-                const fixture = tcb.createSync(TestComponent);
+                getTestBed().overrideComponent(TestComponent, { set: {
+                    template: ` <gtx-progress-bar [active]="true"></gtx-progress-bar>`
+                }});
+                const fixture = TestBed.createComponent(TestComponent);
 
                 const instance: TestComponent = fixture.componentInstance;
                 const progressBar: ProgressBar = instance.progressBar;
@@ -347,7 +346,7 @@ describe('ProgressBar', () => {
                 expect(progressBar.active).toBe(true,
                     'Not active after calling start(Observable)');
 
-                observable.error();
+                observable.error(true);
                 expect(progressBar.active).toBe(false,
                     'Still active after Observable.error()');
             })
@@ -419,7 +418,7 @@ describe('ProgressBar', () => {
                 progressBar.for = observable;
                 expect(progressBar.active).toBe(true);
 
-                observable.error();
+                observable.error(true);
                 expect(progressBar.active).toBe(false);
             })
         );
@@ -495,8 +494,7 @@ function fakeRequestAnimationFrameWhenTabInBackground(): { discardPending(): voi
 
 
 @Component({
-    template: `<gtx-progress-bar></gtx-progress-bar>`,
-    directives: [ProgressBar]
+    template: `<gtx-progress-bar></gtx-progress-bar>`
 })
 class TestComponent {
     @ViewChild(ProgressBar) progressBar: ProgressBar;

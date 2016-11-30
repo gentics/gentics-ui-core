@@ -2,12 +2,12 @@ import {
     Component,
     ComponentFactory,
     ComponentRef,
-    ComponentResolver,
+    ComponentFactoryResolver,
     HostListener,
     ViewContainerRef,
-    ViewChild
+    ViewChild,
+    Type
 } from '@angular/core';
-import {Type} from '@angular/core/src/facade/lang';
 import {IModalOptions, IModalDialog} from './modal-interfaces';
 
 const defaultOptions: IModalOptions = {
@@ -22,18 +22,18 @@ const defaultOptions: IModalOptions = {
  */
 @Component({
     selector: 'gtx-dynamic-modal',
-    template: require('./dynamic-modal-wrapper.tpl.html')
+    templateUrl: './dynamic-modal-wrapper.tpl.html'
 })
-export class DynamicModalWrapper {
+export class DynamicModalWrapper<T extends IModalDialog> {
     @ViewChild('portal', {read: ViewContainerRef}) portal: ViewContainerRef;
 
     dismissFn: Function;
 
-    private cmpRef: ComponentRef<IModalDialog>;
+    private cmpRef: ComponentRef<T>;
     private visible: boolean = false;
     private options: IModalOptions = defaultOptions;
 
-    constructor(private resolver: ComponentResolver) {}
+    constructor(private componentFactoryResolver: ComponentFactoryResolver) {}
 
     setOptions(options: IModalOptions): void {
         this.options = Object.assign({}, defaultOptions, options);
@@ -42,12 +42,10 @@ export class DynamicModalWrapper {
     /**
      * Inject the component which will appear within the modal.
      */
-    injectContent(component: Type): Promise<ComponentRef<any>> {
-        return this.resolver.resolveComponent(component)
-            .then((factory: ComponentFactory<IModalDialog>) => {
-                this.cmpRef = this.portal.createComponent(factory);
-                return this.cmpRef;
-            });
+    injectContent(component: Type<T>): ComponentRef<T> {
+        let factory = this.componentFactoryResolver.resolveComponentFactory(component);
+        this.cmpRef = this.portal.createComponent(factory);
+        return this.cmpRef;
     }
 
     /**

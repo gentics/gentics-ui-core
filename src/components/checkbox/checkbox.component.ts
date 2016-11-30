@@ -1,4 +1,4 @@
-import {ChangeDetectorRef, Component, ElementRef, EventEmitter, Input, Output, Provider, ViewChild, forwardRef} from '@angular/core';
+import {ChangeDetectorRef, Component, ElementRef, EventEmitter, Input, Output, ViewChild, forwardRef} from '@angular/core';
 import {ControlValueAccessor, NG_VALUE_ACCESSOR} from '@angular/forms';
 
 export type CheckState = boolean | 'indeterminate';
@@ -35,7 +35,7 @@ const GTX_CHECKBOX_VALUE_ACCESSOR = {
  */
 @Component({
     selector: 'gtx-checkbox',
-    template: require('./checkbox.tpl.html'),
+    templateUrl: './checkbox.tpl.html',
     providers: [GTX_CHECKBOX_VALUE_ACCESSOR]
 })
 export class Checkbox implements ControlValueAccessor {

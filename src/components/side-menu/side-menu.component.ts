@@ -1,6 +1,7 @@
 import {
     ChangeDetectionStrategy,
     Component,
+    Directive,
     ElementRef,
     Input,
     Output,
@@ -38,7 +39,7 @@ import {
  */
 @Component({
     selector: 'gtx-side-menu',
-    template: require('./side-menu.tpl.html'),
+    templateUrl: './side-menu.tpl.html',
     changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class SideMenu {
@@ -103,3 +104,8 @@ export class SideMenu {
         return `translateX(${value})`;
     }
 }
+
+@Directive({
+    selector: 'gtx-side-menu-toggle'
+})
+export class SideMenuToggle {}

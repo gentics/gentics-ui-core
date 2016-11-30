@@ -1,24 +1,8 @@
 import {Component} from '@angular/core';
-import {
-    GTX_FORM_DIRECTIVES, 
-    SortableList, 
-    SortableListDragHandle, 
-    ISortableEvent, 
-    ContentsListItem
-} from '../../../index';
-import {Autodocs, DemoBlock, HighlightedCode} from '../../components';
+import {ISortableEvent} from '../../../index';
 
 @Component({
     template: require('./sortable-list-demo.tpl.html'),
-    directives: [
-        GTX_FORM_DIRECTIVES, 
-        SortableList, 
-        SortableListDragHandle, 
-        ContentsListItem, 
-        Autodocs, 
-        DemoBlock, 
-        HighlightedCode
-    ],
     styles: [
         `.auto-scroll-demo { max-height: 300px; overflow-y: scroll; }`
     ]
@@ -56,7 +40,7 @@ export class SortableListDemo {
     sortList(e: ISortableEvent): void {
         this.items = e.sort(this.items);
     }
-    
+
     sortLongList(e: ISortableEvent): void {
         this.longList = e.sort(this.longList);
     }
