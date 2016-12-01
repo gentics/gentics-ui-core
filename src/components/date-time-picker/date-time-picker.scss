@@ -1,16 +1,19 @@
 gtx-date-time-picker > gtx-input > input:not(:disabled) {
+    &[type="text"] {
+        color: inherit;
+    }
+
     &, & + label {
         cursor: pointer;
     }
 }
 
-.gtx-date-time-picker-modal {
+gtx-date-time-picker-modal {
 
-    .header {
+    .modal-header {
         text-align: center;
         background-color: $secondary-color;
         font-weight: 300;
-        margin-bottom: 10px;
 
         .day {
             color: white;
@@ -43,6 +46,12 @@ gtx-date-time-picker > gtx-input > input:not(:disabled) {
 
     .calendar-container {
         text-align: center;
+        min-width: 260px;
+        padding-top: 10px;
+
+        @media #{$medium-and-up} {
+            padding-top: 20px;
+        }
     }
 
     .rd-container {
@@ -95,7 +104,7 @@ gtx-date-time-picker > gtx-input > input:not(:disabled) {
 
         td.rd-day-selected {
             border-radius: 50%;
-            transform: scale(0.9);
+            transform: scale(0.85);
             background-color: $secondary-color;
             color: #ffffff;
         }
@@ -109,9 +118,6 @@ gtx-date-time-picker > gtx-input > input:not(:disabled) {
     .time-picker {
         @media #{$medium-and-up} {
             margin-top: 20px;
-        }
-        @media #{$small-and-down} {
-            margin-bottom: -20px;
         }
         input[type=number] {
             text-align: center;
@@ -128,6 +134,11 @@ gtx-date-time-picker > gtx-input > input:not(:disabled) {
                 margin: 0;
             }
             -moz-appearance:textfield;
+
+            & + label {
+                text-align: center;
+                width: 100%;
+            }
         }
     }
 

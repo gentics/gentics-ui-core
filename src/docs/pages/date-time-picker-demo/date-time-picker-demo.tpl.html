@@ -15,9 +15,12 @@
     </div>
     <div class="demo-code">
         <gtx-highlighted-code language="HTML" code='
-                  <gtx-date-time-picker [(ngModel)]="timestamp" label="Pick a date"></gtx-date-time-picker>
-                  timestamp: <code>(( timestamp ))</code>
-           '></gtx-highlighted-code>
+                <gtx-date-time-picker
+                    [(ngModel)]="timestamp"
+                    label="Pick a date">
+                </gtx-date-time-picker>
+                timestamp: <code>(( timestamp ))</code>
+        '></gtx-highlighted-code>
     </div>
 </gtx-demo-block>
 
@@ -28,9 +31,13 @@
     </div>
     <div class="demo-code">
         <gtx-highlighted-code language="HTML" code='
-                 <gtx-date-time-picker [(ngModel)]="timestamp" label="Pick a date" displayTime="false"></gtx-date-time-picker>
-                 timestamp: <code>(( timestamp ))</code>
-           '></gtx-highlighted-code>
+                <gtx-date-time-picker
+                    [(ngModel)]="timestamp"
+                    label="Pick a date"
+                    displayTime="false">
+                </gtx-date-time-picker>
+                timestamp: <code>(( timestamp ))</code>
+        '></gtx-highlighted-code>
     </div>
 </gtx-demo-block>
 
@@ -40,7 +47,67 @@
     </div>
     <div class="demo-code">
         <gtx-highlighted-code language="HTML" code='
-                 <gtx-date-time-picker [timestamp]="timestamp" format="Do MMM YY @ h:mm a"></gtx-date-time-picker>
-           '></gtx-highlighted-code>
+                <gtx-date-time-picker
+                    [timestamp]="timestamp"
+                    format="Do MMM YY @ h:mm a">
+                </gtx-date-time-picker>
+        '></gtx-highlighted-code>
+    </div>
+</gtx-demo-block>
+
+
+<h4>Internationalization</h4>
+
+<p>To use different texts in the DateTimePicker, provide a <code>DateTimePickerFormatProvider</code>:</p>
+
+<gtx-highlighted-code language="TypeScript" code="
+    @Injectable()
+    class DateTimePickerFormatProvider {
+        strings: DateTimePickerStrings;
+        changed$: Observable<any>;
+        format(moment: moment.MomentInstance, showTime: boolean, showSeconds: boolean): string;
+    }
+"></gtx-highlighted-code>
+
+<gtx-highlighted-code language="TypeScript" [code]="stringsInterfaceSource">
+</gtx-highlighted-code>
+
+<gtx-demo-block demoTitle="Localized Date Picker">
+    <div class="demo-result">
+        <gtx-date-time-picker demo-format-provider [timestamp]="timestamp"></gtx-date-time-picker>
+    </div>
+    <div class="demo-code">
+        <gtx-highlighted-code language="TypeScript" code="
+                @Directive({
+                    selector: '[demo-format-provider]',
+                    providers: [{
+                        provide: DateTimePickerFormatProvider,
+                        useExisting: forwardRef(() => DemoFormatProvider)
+                    }]
+                })
+                export class DemoFormatProvider extends DateTimePickerFormatProvider {
+
+                    strings: DateTimePickerStrings = {
+                        hours: 'Stunde',
+                        minutes: 'Minute',
+                        seconds: 'Sekunde',
+                        months: ['Januar', 'Februar', 'März', '...'],
+                        monthsShort: ['Jan', 'Feb', 'Mär', '...'],
+                        weekdays: ['Sonntag', 'Montag', 'Dienstag', '...'],
+                        weekdaysShort: ['So', 'Mo', 'Di', '...'],
+                        cancel: 'Abbrechen',
+                        okay: 'Okay'
+                    };
+
+                    format(moment: any, showTime: boolean, showSeconds: boolean): string {
+                        return `Tag ${moment.date()} Monat ${moment.month() + 1} Jahr ${moment.year()}`; 
+                    }
+                }
+        "></gtx-highlighted-code>
+
+        <gtx-highlighted-code language="HTML" code='
+                <gtx-date-time-picker demo-format-provider [timestamp]="timestamp">
+                </gtx-date-time-picker>
+        '></gtx-highlighted-code>
     </div>
 </gtx-demo-block>

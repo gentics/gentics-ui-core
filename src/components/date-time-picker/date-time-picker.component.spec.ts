@@ -12,11 +12,14 @@ import {OverlayHost} from '../overlay-host/overlay-host.component';
 import {OverlayHostService} from '../overlay-host/overlay-host.service';
 import {ModalService} from '../modal/modal.service';
 import {IModalInstance, IModalOptions} from '../modal/modal-interfaces';
+import {DateTimePickerFormatProvider} from './date-time-picker-format-provider.service';
+import {Observable} from 'rxjs';
 
 const TEST_TIMESTAMP: number = 1457971763;
 
 let modalService: SpyModalService;
 let overlayHostService: OverlayHostService;
+let formatProviderToUse: DateTimePickerFormatProvider = null;
 
 
 describe('DateTimePicker:', () => {
@@ -139,7 +142,7 @@ describe('DateTimePicker:', () => {
                 <gtx-date-time-picker timestamp="1457971763" displayTime="false">
                 </gtx-date-time-picker>`,
                 fixture => {
-                    expect(inputValue(fixture)).toBe('14/03/2016');
+                    expect(inputValue(fixture)).toBe('03/14/2016');
                 }
             )
         );
@@ -149,7 +152,7 @@ describe('DateTimePicker:', () => {
                 <gtx-date-time-picker timestamp="${TEST_TIMESTAMP}" displayTime="true">
                 </gtx-date-time-picker>`,
                 fixture => {
-                    expect(inputValue(fixture)).toBe('14/03/2016, 17:09:23');
+                    expect(inputValue(fixture)).toBe('03/14/2016, 5:09:23 PM');
                 }
             )
         );
@@ -159,7 +162,7 @@ describe('DateTimePicker:', () => {
                 <gtx-date-time-picker [timestamp]="testModel" displayTime="true">
                 </gtx-date-time-picker>`,
                 fixture => {
-                    expect(inputValue(fixture)).toBe('14/03/2016, 17:09:23');
+                    expect(inputValue(fixture)).toBe('03/14/2016, 5:09:23 PM');
                 }
             )
         );
@@ -203,7 +206,7 @@ describe('DateTimePicker:', () => {
         it('changes the displayed date when a new date is selected',
             confirmTest(fixture => {
                 let nativeInput: HTMLInputElement = fixture.nativeElement.querySelector('input');
-                expect(nativeInput.value.trim()).toEqual('28/02/2016, 17:09:23');
+                expect(nativeInput.value.trim()).toEqual('02/28/2016, 5:09:23 PM');
             })
         );
 
@@ -325,6 +328,69 @@ describe('DateTimePicker:', () => {
 
     });
 
+    describe('l10n/i18n support:', () => {
+
+        let formatProvider: TestFormatProvider;
+        beforeEach(() => {
+            formatProviderToUse = formatProvider = new TestFormatProvider();
+        });
+
+        it('uses a custom format provider to display the date in the input field',
+            componentTest(() => TestComponent, `
+                <gtx-date-time-picker [(ngModel)]="testModel">
+                </gtx-date-time-picker>`,
+                (fixture, instance) => {
+                    let format = formatProvider.format = jasmine.createSpy('format').and.returnValue('formatted date');
+                    fixture.detectChanges();
+                    tick();
+                    fixture.detectChanges();
+
+                    let nativeInput = fixture.nativeElement.querySelector('input');
+
+                    expect(format).toHaveBeenCalledTimes(1);
+                    expect(nativeInput.value).toBe('formatted date');
+                    expect(format).toHaveBeenCalledWith(jasmine.anything(), true, true);
+                    expect(format.calls.mostRecent().args[0]).toBeDefined();
+                    expect(format.calls.mostRecent().args[0].unix()).toEqual(instance.testModel);
+
+                    instance.testModel -= 10;
+                    fixture.detectChanges();
+                    tick();
+                    fixture.detectChanges();
+
+                    expect(format).toHaveBeenCalledTimes(2);
+                    expect(format.calls.mostRecent().args[0].unix()).toEqual(instance.testModel);
+                }
+            )
+        );
+
+        it('updates the text in the input field when the format provider signals a change',
+            componentTest(() => TestComponent, `
+                <gtx-date-time-picker timestamp="${TEST_TIMESTAMP}">
+                </gtx-date-time-picker>
+                <gtx-overlay-host></gtx-overlay-host>`,
+                (fixture, instance) => {
+                    // Change date format after 1 second
+                    formatProvider.format = () => 'date in first format';
+                    formatProvider.changed$ = Observable.timer(1000).take(1)
+                        .do(() => { formatProvider.format = () => 'date in second format'; });
+
+                    fixture.detectChanges();
+                    tick();
+
+                    let nativeInput = fixture.nativeElement.querySelector('input');
+                    expect(nativeInput.value).toBe('date in first format');
+
+                    tick(1000);
+                    fixture.detectChanges();
+                    expect(nativeInput.value).toBe('date in second format');
+                }
+            )
+        );
+
+    });
+
+
 });
 
 function openDatepickerModal(fixture: ComponentFixture<TestComponent>):
@@ -349,7 +415,8 @@ function openDatepickerModal(fixture: ComponentFixture<TestComponent>):
     directives: [DateTimePicker, OverlayHost, REACTIVE_FORM_DIRECTIVES],
     providers: [
         { provide: OverlayHostService, useFactory: (): any => overlayHostService },
-        { provide: ModalService, useFactory: (): any => modalService }
+        { provide: ModalService, useFactory: (): any => modalService },
+        { provide: DateTimePickerFormatProvider, useFactory: (): any => formatProviderToUse }
     ]
 })
 class TestComponent {
@@ -360,6 +427,9 @@ class TestComponent {
     @ViewChild(DateTimePicker) pickerInstance: DateTimePicker;
     onChange(): void {}
 }
+
+@Injectable()
+class TestFormatProvider extends DateTimePickerFormatProvider { }
 
 
 @Injectable()

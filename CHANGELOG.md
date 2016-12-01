@@ -1,8 +1,13 @@
-## 0.11.1 (in progress)
+## 0.12.0 (in progress)
+
+### Features
+
+* DateTimePicker now translatable & localizable (GCU-170)
 
 ### Fixes
 * Fix FilePicker events being emitting on wrong conditions
 * Prevent wrapping in icon buttons (GUIC-88)
+* DatePicker formatting fixed for small screen sizes
 
 
 ## 0.11.0 (2016-10-25)

@@ -3,6 +3,10 @@ import {Component, ElementRef, EventEmitter, Input, OnDestroy, Output, ViewChild
 import {InputField} from '../input/input.component';
 import {Button} from '../button/button.component';
 import {IModalDialog} from '../modal/modal-interfaces';
+import {DateTimePickerStrings} from './date-time-picker-strings';
+import {defaultStrings} from './date-time-picker-default-strings';
+import {DateTimePickerFormatProvider} from './date-time-picker-format-provider.service';
+import {Observable, Observer, Subscription} from 'rxjs';
 
 /**
  * Rome is a date picker widget: https://github.com/bevacqua/rome
@@ -21,17 +25,12 @@ const momentjs: moment.MomentStatic = rome.moment;
 })
 export class DateTimePickerModal implements IModalDialog, OnDestroy {
 
+    private static momentLocales: [DateTimePickerStrings, string][] = [[defaultStrings, 'en']];
+
     /**
      * The date/time value as a unix timestamp (in seconds)
      */
     @Input() timestamp: number;
-
-    /**
-     * A [moment.js](http://momentjs.com/)-compatible format string which determines how the
-     * date/time will be displayed in the input field.
-     * See [the moment docs](http://momentjs.com/docs/#/displaying/format/) for valid strings.
-     */
-    @Input() format: string;
 
     /**
      * Set to `false` to omit the time picker part of the component. Defaults to `true`
@@ -43,25 +42,43 @@ export class DateTimePickerModal implements IModalDialog, OnDestroy {
      */
     @Input() displaySeconds: boolean = true;
 
+    /**
+     * Set to overwrite texts and date formatting in the modal.
+     */
+    formatProvider: DateTimePickerFormatProvider = new DateTimePickerFormatProvider();
 
     value: moment.Moment = momentjs();
+
 
     /**
      * cal is an instance of a Rome calendar, for the API see https://github.com/bevacqua/rome#rome-api
      */
     private cal: any;
+
     private time: any = {
         h: 0,
         m: 0,
         s: 0
     };
 
+    private dateOrder: 'dmy' | 'ymd' | 'mdy' = 'mdy';
+    private subscription: Subscription;
+
     @ViewChild('calendarContainer')
     private calendarContainer: ElementRef;
 
+
     ngOnInit(): void {
         this.value = momentjs.unix(Number(this.timestamp));
-        this.updateTimeObject(this.value);
+
+        // Update strings and date format when format provider emits a change
+        this.subscription = Observable.of(1)
+            .concat(this.formatProvider.changed$ || Observable.never)
+            .subscribe(() => {
+                this.value.locale(this.getMomentLocale());
+                this.updateTimeObject(this.value);
+                this.determineDateOrder();
+            });
     }
 
     /**
@@ -78,6 +95,10 @@ export class DateTimePickerModal implements IModalDialog, OnDestroy {
             this.cal.off('data');
             this.cal.destroy();
             this.cal = undefined;
+        }
+
+        if (this.subscription) {
+            this.subscription.unsubscribe();
         }
     }
 
@@ -141,6 +162,50 @@ export class DateTimePickerModal implements IModalDialog, OnDestroy {
 
     public okayClicked(): void {
         this.closeFn(this.value.unix());
+    }
+
+    /**
+     * Create a momentjs locale from the (possibly localized) strings.
+     * @internal
+     */
+    private getMomentLocale(): string {
+        const localeStrings = this.formatProvider.strings;
+        const momentLocales = DateTimePickerModal.momentLocales;
+
+        for (let [strings, locale] of momentLocales) {
+            if (strings === localeStrings) {
+                return locale;
+            }
+        }
+
+        const newLocale = momentjs.locale('x-gtx-date-picker-' + momentLocales.length, {
+            months: localeStrings.months,
+            monthsShort: localeStrings.monthsShort ||
+                (localeStrings.months &&
+                localeStrings.months.map(month => month.substr(0, 3))),
+            weekdays: localeStrings.weekdays,
+            weekdaysMin: localeStrings.weekdaysMin ||
+                (localeStrings.weekdays &&
+                localeStrings.weekdays.map(weekday => weekday.substr(0, 2)))
+        });
+        momentLocales.push([localeStrings, newLocale]);
+        return newLocale;
+    }
+
+    private determineDateOrder(): void {
+        // Stringify 1999-08-22 with the dateProvider to determine the date order (D-M-Y, M-D-Y or Y-M-D).
+        const time: string = this.formatProvider.format(momentjs(935272800000), false, false);
+        const yearPos = time.indexOf('99');
+        const monthPos = time.indexOf('8');
+        const dayPos = time.indexOf('22');
+
+        if (dayPos < monthPos && monthPos < yearPos) {
+            this.dateOrder =  'dmy';
+        } else if (monthPos < dayPos) {
+            this.dateOrder =  'mdy';
+        } else {
+            this.dateOrder =  'ymd';
+        }
     }
 
     /**

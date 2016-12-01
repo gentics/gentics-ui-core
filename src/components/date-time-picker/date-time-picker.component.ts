@@ -1,10 +1,15 @@
-import {Component, Input, Output, EventEmitter, ElementRef, Optional, Provider, Self, forwardRef} from '@angular/core';
+import {Component, Input, Output, EventEmitter, ElementRef, forwardRef, Optional, OnInit, OnDestroy} from '@angular/core';
 import {ControlValueAccessor, NG_VALUE_ACCESSOR} from '@angular/forms';
 
 import {InputField} from '../input/input.component';
 import {ModalService} from '../modal/modal.service';
 import {Button} from '../button/button.component';
 import {DateTimePickerModal} from './date-time-picker-modal.component';
+import {DateTimePickerStrings} from './date-time-picker-strings';
+import {DateTimePickerFormatProvider} from './date-time-picker-format-provider.service';
+import {Subscription} from 'rxjs';
+
+export {DateTimePickerStrings};
 
 /**
  * Rome is a date picker widget: https://github.com/bevacqua/rome
@@ -36,7 +41,7 @@ const GTX_DATEPICKER_VALUE_ACCESSOR = {
     directives: [InputField, Button],
     providers: [GTX_DATEPICKER_VALUE_ACCESSOR]
 })
-export class DateTimePicker implements ControlValueAccessor {
+export class DateTimePicker implements ControlValueAccessor, OnInit, OnDestroy {
 
     /**
      * The date/time value as a unix timestamp (in seconds)
@@ -88,12 +93,19 @@ export class DateTimePicker implements ControlValueAccessor {
     private _displaySeconds: boolean = true;
     private _disabled: boolean = false;
     private displayValue: string = ' ';
+    private subscription: Subscription;
 
     // ValueAccessor members
     onChange: any = () => {};
     onTouched: any = () => {};
 
-    constructor(private modalService: ModalService) { }
+    constructor(@Optional() private formatProvider: DateTimePickerFormatProvider,
+                private modalService: ModalService) {
+
+        if (!formatProvider) {
+            this.formatProvider = new DateTimePickerFormatProvider();
+        }
+    }
 
     /**
      * If a timestamp has been passed in, initialize the value to that time.
@@ -101,7 +113,16 @@ export class DateTimePicker implements ControlValueAccessor {
     ngOnInit(): void {
         if (this.timestamp) {
             this.value = this.value || momentjs.unix(Number(this.timestamp));
-            this.displayValue = this.formatTimeString(this.value, this._displayTime, this._displaySeconds);
+            this.updateDisplayValue();
+        }
+
+        this.subscription = this.formatProvider.changed$
+            .subscribe(() => this.updateDisplayValue());
+    }
+
+    ngOnDestroy(): void {
+        if (this.subscription) {
+            this.subscription.unsubscribe();
         }
     }
 
@@ -124,14 +145,14 @@ export class DateTimePicker implements ControlValueAccessor {
             },
             {
                 timestamp: (this.value || momentjs()).unix(),
-                format: this.format,
+                formatProvider: this.formatProvider,
                 displayTime: this._displayTime,
                 displaySeconds: this._displaySeconds
             })
             .then(modal => modal.open())
             .then((timestamp: number) => {
                 this.value = momentjs.unix(timestamp);
-                this.displayValue = this.formatTimeString(this.value, this._displayTime, this._displaySeconds);
+                this.updateDisplayValue();
                 this.onChange();
                 this.change.emit(timestamp);
             });
@@ -140,7 +161,7 @@ export class DateTimePicker implements ControlValueAccessor {
     writeValue(value: number): void {
         if (value) {
             this.value = momentjs.unix(Number(value));
-            this.displayValue = this.formatTimeString(this.value, this._displayTime, this._displaySeconds);
+            this.updateDisplayValue();
         }
     }
 
@@ -153,14 +174,17 @@ export class DateTimePicker implements ControlValueAccessor {
     }
 
     /**
-     * Returns a human-readable string to be displayed in the control input field.
+     * Format date to a human-readable string for displaying in the component's input field.
      */
-    formatTimeString(date: moment.Moment, displayTime: boolean, displaySeconds: boolean): string {
-        if (this.format) {
-            return date.format(this.format);
+    updateDisplayValue(): void {
+        if (!this.value) {
+            return;
         }
-        let formatString: string = 'DD/MM/YYYY';
-        formatString += displayTime ? (displaySeconds ? ', HH:mm:ss' : ', HH:mm') : '';
-        return date.format(formatString);
+
+        if (this.format) {
+            this.displayValue = this.value.format(this.format);
+        } else {
+            this.displayValue = this.formatProvider.format(this.value, this._displayTime, this._displaySeconds);
+        }
     }
 }
