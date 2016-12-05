@@ -19,7 +19,7 @@ import {GridDemo} from './pages/grid-demo/grid-demo';
 import {IconsDemo} from './pages/icons-demo/icons-demo';
 import {InputDemo} from './pages/input-demo/input-demo';
 import {MenuToggleButtonDemo} from './pages/menu-toggle-button-demo/menu-toggle-button-demo';
-import {ModalServiceDemo} from './pages/modal-service-demo/modal-service-demo';
+import {ModalServiceDemo, MyModal} from './pages/modal-service-demo/modal-service-demo';
 import {NotificationDemo} from './pages/notification-demo/notification-demo';
 import {OverlayHostDemo} from './pages/overlay-host-demo/overlay-host-demo';
 import {ProgressBarDemo} from './pages/progress-bar-demo/progress-bar-demo';
@@ -55,6 +55,7 @@ const DEMO_APP_PAGES: any[] = [
     InputDemo,
     MenuToggleButtonDemo,
     ModalServiceDemo,
+    MyModal,
     NotificationDemo,
     OverlayHostDemo,
     ProgressBarDemo,
@@ -90,6 +91,7 @@ const DEMO_APP_DECLARATIONS: any[] = [
         GenticsUICoreModule
     ],
     declarations: DEMO_APP_PAGES.concat(DEMO_APP_DECLARATIONS),
+    entryComponents: [MyModal],
     bootstrap: [App]
 })
 export class DocsModule {}

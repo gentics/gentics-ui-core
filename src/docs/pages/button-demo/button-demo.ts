@@ -5,7 +5,7 @@ import {Component} from '@angular/core';
     styles: [`gtx-button { margin-bottom: 10px; }`]
 })
 export class ButtonDemo {
-    componentSource: string = require('!!raw!../../../components/button/button.component.ts');
+    componentSource: string = require('!!raw-loader!../../../components/button/button.component.ts');
 
     clickCount: number = 0;
     constructor() {}

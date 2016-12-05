@@ -45,11 +45,10 @@
         "do"
     ],
     "requireDollarBeforejQueryAssignment": true,
+    "maximumLineLength": 200,
     "requireDotNotation": true,
     "requireLineFeedAtFileEnd": true,
-    "requirePaddingNewLinesBeforeLineComments": {
-        "allExcept": "firstAfterCurly"
-    },
+    "requirePaddingNewLinesBeforeLineComments": false,
     "requireParenthesesAroundIIFE": true,
     "requireSemicolons": true,
     "requireSpaceAfterBinaryOperators": true,

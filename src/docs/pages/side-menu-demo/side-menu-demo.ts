@@ -16,7 +16,7 @@ import {Component} from '@angular/core';
     ]
 })
 export class SideMenuDemo {
-    componentSource: string = require('!!raw!../../../components/side-menu/side-menu.component.ts');
+    componentSource: string = require('!!raw-loader!../../../components/side-menu/side-menu.component.ts');
     displayMenu1: boolean = false;
     displayMenu2: boolean = false;
     menuPosition: string = 'left';

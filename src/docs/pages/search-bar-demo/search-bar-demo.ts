@@ -4,7 +4,7 @@ import {Component} from '@angular/core';
     template: require('./search-bar-demo.tpl.html')
 })
 export class SearchBarDemo {
-    componentSource: string = require('!!raw!../../../components/search-bar/search-bar.component.ts');
+    componentSource: string = require('!!raw-loader!../../../components/search-bar/search-bar.component.ts');
 
     changeCount: number = 0;
     searchCount: number = 0;

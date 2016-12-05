@@ -5,7 +5,7 @@ import {Component} from '@angular/core';
 })
 export class ContentsListItemDemo {
 
-    componentSource: string = require('!!raw!../../../components/contents-list-item/contents-list-item.component.ts');
+    componentSource: string = require('!!raw-loader!../../../components/contents-list-item/contents-list-item.component.ts');
 
     listItems: string[] = [
         'foo',

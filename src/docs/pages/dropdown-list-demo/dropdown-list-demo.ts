@@ -4,5 +4,5 @@ import {Component} from '@angular/core';
     template: require('./dropdown-list-demo.tpl.html')
 })
 export class DropdownListDemo {
-    componentSource: string = require('!!raw!../../../components/dropdown-list/dropdown-list.component.ts');
+    componentSource: string = require('!!raw-loader!../../../components/dropdown-list/dropdown-list.component.ts');
 }

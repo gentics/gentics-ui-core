@@ -4,5 +4,5 @@ import {Component} from '@angular/core';
     template: require('./top-bar-demo.tpl.html')
 })
 export class TopBarDemo {
-    componentSource: string = require('!!raw!../../../components/top-bar/top-bar.component.ts');
+    componentSource: string = require('!!raw-loader!../../../components/top-bar/top-bar.component.ts');
 }

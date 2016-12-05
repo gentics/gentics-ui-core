@@ -5,7 +5,7 @@ import {Component} from '@angular/core';
 })
 export class CheckboxDemo {
 
-    componentSource: string = require('!!raw!../../../components/checkbox/checkbox.component.ts');
+    componentSource: string = require('!!raw-loader!../../../components/checkbox/checkbox.component.ts');
 
     someBoolean: boolean = false;
     checkStates: any = {

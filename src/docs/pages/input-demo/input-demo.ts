@@ -5,7 +5,7 @@ import {FormGroup, FormControl} from '@angular/forms';
     template: require('./input-demo.tpl.html')
 })
 export class InputDemo {
-    componentSource: string = require('!!raw!../../../components/input/input.component.ts');
+    componentSource: string = require('!!raw-loader!../../../components/input/input.component.ts');
 
     name: string = 'Foo';
     addressForm: FormGroup = new FormGroup({

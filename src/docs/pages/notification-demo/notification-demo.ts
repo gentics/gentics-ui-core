@@ -5,7 +5,7 @@ import {Notification} from '../../../index';
     template: require('./notification-demo.tpl.html')
 })
 export class NotificationDemo {
-    componentSource: string = require('!!raw!../../../components/notification/notification.service.ts');
+    componentSource: string = require('!!raw-loader!../../../components/notification/notification.service.ts');
 
     message: string = 'Hello, this is Toast.';
     delay: number = 3000;

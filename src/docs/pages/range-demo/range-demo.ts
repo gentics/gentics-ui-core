@@ -4,6 +4,6 @@ import {Component} from '@angular/core';
     template: require('./range-demo.tpl.html')
 })
 export class RangeDemo {
-    componentSource: string = require('!!raw!../../../components/range/range.component.ts');
+    componentSource: string = require('!!raw-loader!../../../components/range/range.component.ts');
     rangeValDynamic: number = 35;
 }

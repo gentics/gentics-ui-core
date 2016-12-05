@@ -5,6 +5,6 @@ import {Component} from '@angular/core';
     styles: [`.columns + .columns { margin-top: -8px; }`]
 })
 export class BreadcrumbsDemo {
-    componentSource: string = require('!!raw!../../../components/breadcrumbs/breadcrumbs.component.ts');
+    componentSource: string = require('!!raw-loader!../../../components/breadcrumbs/breadcrumbs.component.ts');
     isDisabled: boolean = true;
 }

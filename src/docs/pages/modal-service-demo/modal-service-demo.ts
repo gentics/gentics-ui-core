@@ -6,7 +6,7 @@ import {IModalDialog, IModalOptions} from '../../../components/modal/modal-inter
     template: require('./modal-service-demo.tpl.html')
 })
 export class ModalServiceDemo {
-    componentSource: string = require('!!raw!../../../components/modal/modal.service');
+    componentSource: string = require('!!raw-loader!../../../components/modal/modal.service');
     padding: boolean = true;
     width: string = '400px';
     closeOnOverlayClick: boolean = true;
@@ -72,7 +72,7 @@ export class ModalServiceDemo {
             <a (click)="closeFn('link was clicked')">Close me</a>
         </div>`
 })
-class MyModal implements IModalDialog {
+export class MyModal implements IModalDialog {
     closeFn: (val: any) => void;
     cancelFn: (val?: any) => void;
 

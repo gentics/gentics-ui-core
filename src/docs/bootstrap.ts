@@ -1,6 +1,3 @@
-require('es6-shim');
-require('reflect-metadata');
-require('zone.js');
 require('highlight.js/styles/atelier-estuary-light.css');
 
 import {DocsModule} from './app.module';

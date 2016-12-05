@@ -5,7 +5,7 @@ import {Component} from '@angular/core';
     styles: [`gtx-file-picker { margin-bottom: 10px; }`]
 })
 export class FilePickerDemo {
-    componentSource: string = require('!!raw!../../../components/file-picker/file-picker.component.ts');
+    componentSource: string = require('!!raw-loader!../../../components/file-picker/file-picker.component.ts');
 
     isDisabled = false;
     isMultiple = true;

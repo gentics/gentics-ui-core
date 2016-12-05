@@ -4,5 +4,5 @@ import {Component} from '@angular/core';
     template: require('./tabs-demo.tpl.html')
 })
 export class TabsDemo {
-    componentSource: string = require('!!raw!../../../components/tabs/tabs.component');
+    componentSource: string = require('!!raw-loader!../../../components/tabs/tabs.component');
 }

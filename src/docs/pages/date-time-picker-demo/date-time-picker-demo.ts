@@ -5,7 +5,7 @@ import {DemoFormatProvider} from './demo-format-provider';
     template: require('./date-time-picker-demo.tpl.html')
 })
 export class DateTimePickerDemo {
-    componentSource: string = require('!!raw!../../../components/date-time-picker/date-time-picker.component.ts');
+    componentSource: string = require('!!raw-loader!../../../components/date-time-picker/date-time-picker.component.ts');
     stringsInterfaceSource: string = require('!!raw!../../../components/date-time-picker/date-time-picker-strings.ts');
 
     timestamp: number = 1457971763;

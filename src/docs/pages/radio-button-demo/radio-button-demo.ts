@@ -4,5 +4,5 @@ import {Component} from '@angular/core';
     template: require('./radio-button-demo.tpl.html')
 })
 export class RadioButtonDemo {
-    componentSource: string = require('!!raw!../../../components/radio-button/radio-button.component.ts');
+    componentSource: string = require('!!raw-loader!../../../components/radio-button/radio-button.component.ts');
 }

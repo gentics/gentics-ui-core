@@ -8,7 +8,7 @@ import {PageFileDragHandler} from '../../../index';
     template: require('./file-drop-area-demo.tpl.html')
 })
 export class FileDropAreaDemo implements OnDestroy {
-    directiveSource: string = require('!!raw!../../../components/file-drop-area/file-drop-area.directive.ts');
+    directiveSource: string = require('!!raw-loader!../../../components/file-drop-area/file-drop-area.directive.ts');
 
     draggingFileOnThis = false;
     droppedFiles: File[] = [];

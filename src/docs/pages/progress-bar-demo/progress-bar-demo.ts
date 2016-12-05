@@ -5,7 +5,7 @@ import {Observable, Observer} from 'rxjs';
     template: require('./progress-bar-demo.tpl.html')
 })
 export class ProgressBarDemo {
-    componentSource: string = require('!!raw!../../../components/progress-bar/progress-bar.component.ts');
+    componentSource: string = require('!!raw-loader!../../../components/progress-bar/progress-bar.component.ts');
 
     fileUploading = false;
     fileProgress = 0;

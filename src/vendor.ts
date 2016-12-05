@@ -23,23 +23,5 @@ require('velocity-animate');
 require('hammerjs');
 require('materialize-css/js/jquery.hammer.js');
 require('materialize-css/js/global.js');
-
-/* Uncomment the components that we want to include */
-// require('materialize-css/js/collapsible.js');
 require('materialize-css/js/dropdown.js'); // required for the form <select> input
 require('materialize-css/js/forms.js');
-// require('materialize-css/js/leanModal.js');
-// require('materialize-css/js/materialbox.js');
-// require('materialize-css/js/parallax.js');
-// require('materialize-css/js/tabs.js');
-// require('materialize-css/js/tooltip.js');
-// require('materialize-css/js/waves.js');
-// require('materialize-css/js/toasts.js');
-
-// require('materialize-css/js/sideNav.js');
-// require('materialize-css/js/scrollspy.js');
-// require('materialize-css/js/forms.js');
-// require('materialize-css/js/slider.js');
-// require('materialize-css/js/cards.js');
-// require('materialize-css/js/chips.js');
-// require('materialize-css/js/buttons.js');

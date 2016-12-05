@@ -3,7 +3,7 @@
  * All components are exported from here, so no other internal files
  * should need to be imported.
  */
-require('./materialize');
+require('./vendor');
 
 export * from './module';
 export * from './components/breadcrumbs/breadcrumbs.component';

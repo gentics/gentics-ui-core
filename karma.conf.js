@@ -2,8 +2,7 @@
 // Generated on Thu Dec 03 2015 13:23:31 GMT+0100 (W. Europe Standard Time)
 const path = require('path');
 const paths = require('./build.config.js').paths;
-
-const addModulePath = s => path.join('node_modules', s);
+const webpack = require('webpack');
 
 module.exports = function (config) {
     config.set({
@@ -17,10 +16,8 @@ module.exports = function (config) {
 
         // list of files / patterns to load in the browser
         files: [
-            ...paths.vendorJS.map(addModulePath),
             './testing-bootstrap.js',
-            // { pattern: paths.src.typescript[0], watched: false, served: false, included: false }
-            { pattern: 'src/components/button/*.ts', watched: false, served: false, included: false }
+            { pattern: paths.src.typescript[0], watched: false, served: false, included: false }
         ],
 
         // list of files to exclude
@@ -34,39 +31,36 @@ module.exports = function (config) {
         },
 
         webpack: {
-            // karma watches the test entry points
-            // (you don't need to specify the entry option)
-            // webpack watches dependencies
-
             // webpack configuration
             resolve: {
-                root: './src',
-                extensions: ['', '.js', '.ts'],
-                modulesDirectories: ['node_modules', 'src']
+                extensions: ['.js', '.ts'],
+                modules: ['node_modules', 'src']
             },
             module: {
                 loaders: [
-                    { test: /\.ts$/, loaders: ['ts?transpileOnly=true', 'angular2-template-loader'] },
-                    { test: /\.html/, loader: 'html' }
+                    {
+                        test: /\.ts$/,
+                        loaders: [
+                            'ts-loader?transpileOnly=true&configFileName=tsconfig.tests.json',
+                            'angular2-template-loader'
+                        ]
+                    },
+                    { test: /\.html/, loader: 'html-loader' },
+                    { test: /\.json/, loader: 'json-loader' }
                 ]
             },
-            ts: {
-                compilerOptions: {
-                    declaration: false,
-                    noEmit: false,
-                    noEmitOnError: false,
-                    emitDecoratorMetadata: true,
-                    experimentalDecorators: true
-                }
-            },
-            debug: true,
+            plugins: [
+                // work-around for https://github.com/angular/angular/issues/11580
+                new webpack.ContextReplacementPlugin(
+                    /angular(\\|\/)core(\\|\/)(esm(\\|\/)src|src)(\\|\/)linker/,
+                    __dirname
+                ),
+            ],
             devtool: 'inline-source-map'
         },
 
         webpackMiddleware: {
-            // webpack-dev-middleware configuration
-            // i. e.
-            noInfo: true
+            stats: { chunks: false }
         },
 
         plugins: [

@@ -8,7 +8,7 @@ import {ISortableEvent} from '../../../index';
     ]
 })
 export class SortableListDemo {
-    componentSource: string = require('!!raw!../../../components/sortable-list/sortable-list.component.ts');
+    componentSource: string = require('!!raw-loader!../../../components/sortable-list/sortable-list.component.ts');
 
     items: any[] = [
         {
