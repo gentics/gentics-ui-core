@@ -1,4 +1,4 @@
-import {Component, ContentChildren, QueryList, AfterContentInit, Input, Output, EventEmitter} from '@angular/core';
+import {Component, ContentChildren, QueryList, AfterContentInit, Input, Output, EventEmitter, SimpleChanges} from '@angular/core';
 import {Tab} from './tab.component';
 import {isPresent} from '../../common/utils';
 
@@ -76,7 +76,7 @@ export class Tabs implements AfterContentInit {
         }
     }
 
-    ngOnChanges(): void {
+    ngOnChanges(changes: SimpleChanges): void {
         this.setActiveTab();
     }
 

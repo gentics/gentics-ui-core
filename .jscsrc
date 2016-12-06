@@ -48,6 +48,7 @@
     "maximumLineLength": 200,
     "requireDotNotation": true,
     "requireLineFeedAtFileEnd": true,
+    "requirePaddingNewLinesAfterBlocks": false,
     "requirePaddingNewLinesBeforeLineComments": false,
     "requireParenthesesAroundIIFE": true,
     "requireSemicolons": true,

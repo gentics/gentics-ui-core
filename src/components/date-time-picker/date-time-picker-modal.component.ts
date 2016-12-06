@@ -62,7 +62,7 @@ export class DateTimePickerModal implements IModalDialog, OnDestroy {
     private subscription: Subscription;
 
     @ViewChild('calendarContainer')
-    private calendarContainer: ElementRef;
+    calendarContainer: ElementRef;
 
 
     ngOnInit(): void {

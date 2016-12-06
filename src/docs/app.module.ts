@@ -1,4 +1,4 @@
-import {NgModule} from '@angular/core';
+import {NgModule, ModuleWithProviders} from '@angular/core';
 import {BrowserModule} from '@angular/platform-browser';
 import {RouterModule} from '@angular/router';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
@@ -82,15 +82,18 @@ const DEMO_APP_DECLARATIONS: any[] = [
     App
 ];
 
+export const declarations = [...DEMO_APP_PAGES, ...DEMO_APP_DECLARATIONS];
+export const routerModuleForRoot: ModuleWithProviders = RouterModule.forRoot(routes, { useHash: true });
+
 @NgModule({
     imports: [
         BrowserModule,
         FormsModule,
         ReactiveFormsModule,
-        RouterModule.forRoot(routes, { useHash: true }),
+        routerModuleForRoot,
         GenticsUICoreModule
     ],
-    declarations: DEMO_APP_PAGES.concat(DEMO_APP_DECLARATIONS),
+    declarations,
     entryComponents: [MyModal],
     bootstrap: [App]
 })

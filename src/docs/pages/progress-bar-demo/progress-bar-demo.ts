@@ -2,7 +2,7 @@ import {Component} from '@angular/core';
 import {Observable, Observer} from 'rxjs';
 
 @Component({
-    template: require('./progress-bar-demo.tpl.html')
+    templateUrl: './progress-bar-demo.tpl.html'
 })
 export class ProgressBarDemo {
     componentSource: string = require('!!raw-loader!../../../components/progress-bar/progress-bar.component.ts');

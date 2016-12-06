@@ -95,10 +95,10 @@
                     <gtx-input formControlName="last" label="Last name"></gtx-input>
                 </div>
             </div>
-            <gtx-input [formControl]="addressForm.controls.address.controls.streetName" label="Street name"></gtx-input>
+            <gtx-input [formControl]="addressForm.get('address').get('streetName')" label="Street name"></gtx-input>
         </form>
         <div>
-            <pre>name.value: {{ addressForm.controls.name.value | json }}</pre>
+            <pre>name.value: {{ addressForm.get('name').value | json }}</pre>
             <pre>addressForm.value: {{ addressForm.value | json }}</pre>
         </div>
     </div>

@@ -113,14 +113,14 @@ export class Checkbox implements ControlValueAccessor {
      */
     @Output() change = new EventEmitter<CheckState>();
 
+    checkState: CheckState = false;
 
-    private checkState: CheckState = false;
+    @ViewChild('labelElement') labelElement: ElementRef;
+
     /**
      * See note above on stateless mode.
      */
     private statelessMode: boolean = false;
-
-    @ViewChild('labelElement') private labelElement: ElementRef;
 
 
     constructor(private changeDetector: ChangeDetectorRef) { }
@@ -150,13 +150,7 @@ export class Checkbox implements ControlValueAccessor {
         this.fixInitialAnimation();
     }
 
-    registerOnChange(fn: Function): void { this.onChange = fn; }
-    registerOnTouched(fn: Function): void { this.onTouched = fn; }
-
-    private onChange: Function = () => {};
-    private onTouched: Function = () => {};
-
-    private onInputChanged(e: Event, input: HTMLInputElement): boolean {
+    onInputChanged(e: Event, input: HTMLInputElement): boolean {
         if (e) {
             e.stopPropagation();
         }
@@ -175,6 +169,12 @@ export class Checkbox implements ControlValueAccessor {
             return true;
         }
     }
+
+    registerOnChange(fn: Function): void { this.onChange = fn; }
+    registerOnTouched(fn: Function): void { this.onTouched = fn; }
+
+    private onChange: Function = () => {};
+    private onTouched: Function = () => {};
 
     /**
      * This is a hacky fix to prevent Materialize from animating ticked checkboxes which

@@ -2,7 +2,7 @@ import {Component} from '@angular/core';
 import {Notification} from '../../../index';
 
 @Component({
-    template: require('./notification-demo.tpl.html')
+    templateUrl: './notification-demo.tpl.html'
 })
 export class NotificationDemo {
     componentSource: string = require('!!raw-loader!../../../components/notification/notification.service.ts');

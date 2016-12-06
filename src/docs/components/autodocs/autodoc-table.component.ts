@@ -3,7 +3,7 @@ import {DocBlock} from './doc-parser';
 
 @Component({
     selector: 'gtx-autodoc-table',
-    template: require('./autodoc-table.tpl.html')
+    templateUrl: './autodoc-table.tpl.html'
 })
 export class AutodocTable {
     @Input() docBlocks: DocBlock[];

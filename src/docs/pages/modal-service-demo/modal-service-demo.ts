@@ -3,7 +3,7 @@ import {ModalService} from '../../../components/modal/modal.service';
 import {IModalDialog, IModalOptions} from '../../../components/modal/modal-interfaces';
 
 @Component({
-    template: require('./modal-service-demo.tpl.html')
+    templateUrl: './modal-service-demo.tpl.html'
 })
 export class ModalServiceDemo {
     componentSource: string = require('!!raw-loader!../../../components/modal/modal.service');

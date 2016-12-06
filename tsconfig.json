@@ -10,11 +10,12 @@
         "moduleResolution": "node",
         "noImplicitAny": true,
         "noEmitOnError": true,
-        "noEmit": false
+        "noEmit": true
     },
     "exclude": [
         "node_modules",
         "dist/",
-        "docs/"
+        "docs/",
+        "src/docs/main.aot"
     ]
 }

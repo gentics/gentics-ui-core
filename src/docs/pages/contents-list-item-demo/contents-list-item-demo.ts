@@ -1,7 +1,7 @@
 import {Component} from '@angular/core';
 
 @Component({
-    template: require('./contents-list-item-demo.tpl.html')
+    templateUrl: './contents-list-item-demo.tpl.html'
 })
 export class ContentsListItemDemo {
 

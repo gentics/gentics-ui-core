@@ -121,8 +121,8 @@ export class InputField implements ControlValueAccessor {
      */
     @Output() change = new EventEmitter<string|number>();
 
-    @ViewChild('inputElement') private inputElement: ElementRef;
-    @ViewChild('labelElement') private labelElement: ElementRef;
+    @ViewChild('inputElement') inputElement: ElementRef;
+    @ViewChild('labelElement') labelElement: ElementRef;
 
     // ValueAccessor members
     onChange: any = (_: any) => {};
@@ -158,7 +158,7 @@ export class InputField implements ControlValueAccessor {
         this.onTouched();
     }
 
-    onFocus(): void {
+    onFocus(e: Event): void {
         this.focus.emit(this.normalizeValue(this.value));
     }
 

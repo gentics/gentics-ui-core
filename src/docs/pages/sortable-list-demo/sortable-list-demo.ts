@@ -2,7 +2,7 @@ import {Component} from '@angular/core';
 import {ISortableEvent} from '../../../index';
 
 @Component({
-    template: require('./sortable-list-demo.tpl.html'),
+    templateUrl: './sortable-list-demo.tpl.html',
     styles: [
         `.auto-scroll-demo { max-height: 300px; overflow-y: scroll; }`
     ]

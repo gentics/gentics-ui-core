@@ -1,6 +1,5 @@
 import {
     Component,
-    ComponentFactory,
     ComponentRef,
     ComponentFactoryResolver,
     HostListener,
@@ -24,14 +23,14 @@ const defaultOptions: IModalOptions = {
     selector: 'gtx-dynamic-modal',
     templateUrl: './dynamic-modal-wrapper.tpl.html'
 })
-export class DynamicModalWrapper<T extends IModalDialog> {
+export class DynamicModalWrapper {
     @ViewChild('portal', {read: ViewContainerRef}) portal: ViewContainerRef;
 
     dismissFn: Function;
 
-    private cmpRef: ComponentRef<T>;
-    private visible: boolean = false;
-    private options: IModalOptions = defaultOptions;
+    visible: boolean = false;
+    options: IModalOptions = defaultOptions;
+    private cmpRef: ComponentRef<IModalDialog>;
 
     constructor(private componentFactoryResolver: ComponentFactoryResolver) {}
 
@@ -42,7 +41,7 @@ export class DynamicModalWrapper<T extends IModalDialog> {
     /**
      * Inject the component which will appear within the modal.
      */
-    injectContent(component: Type<T>): ComponentRef<T> {
+    injectContent(component: Type<IModalDialog>): ComponentRef<IModalDialog> {
         let factory = this.componentFactoryResolver.resolveComponentFactory(component);
         this.cmpRef = this.portal.createComponent(factory);
         return this.cmpRef;
@@ -73,14 +72,14 @@ export class DynamicModalWrapper<T extends IModalDialog> {
         }, 500);
     }
 
-    private overlayClick(): void {
+    overlayClick(): void {
         if (this.options.closeOnOverlayClick) {
             this.cancel();
         }
     }
 
     @HostListener('document:keydown', ['$event'])
-    private keyHandler(e: KeyboardEvent): void {
+    keyHandler(e: KeyboardEvent): void {
         if (e.which === 27 && this.options.closeOnEscape) {
             this.cancel();
         }

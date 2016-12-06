@@ -251,13 +251,7 @@ export class RadioButton implements ControlValueAccessor, OnInit, OnDestroy {
         }
     }
 
-    registerOnChange(fn: Function): void { this.onChange = fn; }
-    registerOnTouched(fn: Function): void { this.onTouched = fn; }
-
-    private onChange: Function = (_: any) => {};
-    private onTouched: Function = () => {};
-
-    private onInputChecked(e: Event, input: HTMLInputElement): boolean {
+    onInputChecked(e: Event, input: HTMLInputElement): boolean {
         if (e) {
             e.stopPropagation();
         }
@@ -278,6 +272,12 @@ export class RadioButton implements ControlValueAccessor, OnInit, OnDestroy {
         this.onChange(this.value);
         return true;
     }
+
+    registerOnChange(fn: Function): void { this.onChange = fn; }
+    registerOnTouched(fn: Function): void { this.onTouched = fn; }
+
+    private onChange: Function = (_: any) => {};
+    private onTouched: Function = () => {};
 }
 
 function randomID(): string {

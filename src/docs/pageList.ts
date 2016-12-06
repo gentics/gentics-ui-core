@@ -30,7 +30,7 @@ import {MenuToggleButtonDemo} from './pages/menu-toggle-button-demo/menu-toggle-
 import {TabsDemo} from './pages/tabs-demo/tabs-demo';
 
 export interface IPageInfo {
-    name: string;
+    path: string;
     component: Type<any>;
     type: 'component' | 'service' | 'css';
     keywords?: string[];
@@ -38,157 +38,157 @@ export interface IPageInfo {
 
 export const pages: IPageInfo[] = [
     {
-        name: 'breadcrumbs',
+        path: 'breadcrumbs',
         component: BreadcrumbsDemo,
         type: 'component'
     },
     {
-        name: 'button',
+        path: 'button',
         component: ButtonDemo,
         type: 'component'
     },
     {
-        name: 'checkbox',
+        path: 'checkbox',
         component: CheckboxDemo,
         type: 'component'
     },
     {
-        name: 'colors',
+        path: 'colors',
         component: ColorsDemo,
         type: 'css'
     },
     {
-        name: 'contents-list-item',
+        path: 'contents-list-item',
         component: ContentsListItemDemo,
         type: 'component'
     },
     {
-        name: 'date-time-picker',
+        path: 'date-time-picker',
         component: DateTimePickerDemo,
         type: 'component',
         keywords: ['calendar']
     },
     {
-        name: 'dropdown-list',
+        path: 'dropdown-list',
         component: DropdownListDemo,
         type: 'component',
         keywords: ['menu']
     },
     {
-        name: 'file-drop-area',
+        path: 'file-drop-area',
         component: FileDropAreaDemo,
         type: 'component',
         keywords: ['file', 'upload', 'drag', 'drop']
     },
     {
-        name: 'file-picker',
+        path: 'file-picker',
         component: FilePickerDemo,
         type: 'component',
         keywords: ['file', 'pick', 'upload']
     },
     {
-        name: 'grid',
+        path: 'grid',
         component: GridDemo,
         type: 'css'
     },
     {
-        name: 'icons',
+        path: 'icons',
         component: IconsDemo,
         type: 'css'
     },
     {
-        name: 'input',
+        path: 'input',
         component: InputDemo,
         type: 'component',
         keywords: ['text', 'number']
     },
     {
-        name: 'menu-toggle-button',
+        path: 'menu-toggle-button',
         component: MenuToggleButtonDemo,
         type: 'component',
         keywords: ['hamburger']
     },
     {
-        name: 'modal-service',
+        path: 'modal-service',
         component: ModalServiceDemo,
         type: 'service',
         keywords: ['dialog', 'overlay']
     },
     {
-        name: 'notification',
+        path: 'notification',
         component: NotificationDemo,
         type: 'service',
         keywords: ['toast', 'message']
     },
     {
-        name: 'overlay-host',
+        path: 'overlay-host',
         component: OverlayHostDemo,
         type: 'component'
     },
     {
-        name: 'progress-bar',
+        path: 'progress-bar',
         component: ProgressBarDemo,
         type: 'component'
     },
     {
-        name: 'radio-button',
+        path: 'radio-button',
         component: RadioButtonDemo,
         type: 'component'
     },
     {
-        name: 'range',
+        path: 'range',
         component: RangeDemo,
         type: 'component',
         keywords: ['slider']
     },
     {
-        name: 'search-bar',
+        path: 'search-bar',
         component: SearchBarDemo,
         type: 'component'
     },
     {
-        name: 'select',
+        path: 'select',
         component: SelectDemo,
         type: 'component',
         keywords: ['options']
     },
     {
-        name: 'side-menu',
+        path: 'side-menu',
         component: SideMenuDemo,
         type: 'component',
         keywords: ['off-canvas', 'hamburger']
     },
     {
-        name: 'sortable-list',
+        path: 'sortable-list',
         component: SortableListDemo,
         type: 'component',
         keywords: ['drag', 'drop']
     },
     {
-        name: 'split-view-container',
+        path: 'split-view-container',
         component: SplitViewContainerDemo,
         type: 'component',
         keywords: ['panel', 'master-detail']
     },
     {
-        name: 'textarea',
+        path: 'textarea',
         component: TextareaDemo,
         type: 'component'
     },
     {
-        name: 'tabs',
+        path: 'tabs',
         component: TabsDemo,
         type: 'component',
         keywords: ['']
     },
     {
-        name: 'top-bar',
+        path: 'top-bar',
         component: TopBarDemo,
         type: 'component',
         keywords: ['main', 'menu']
     },
     {
-        name: 'typography',
+        path: 'typography',
         component: TypographyDemo,
         type: 'css',
         keywords: ['fonts']

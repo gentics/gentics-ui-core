@@ -2,6 +2,7 @@ import {Component, ElementRef, EventEmitter, Input, Output, OnChanges, SimpleCha
 
 export interface IBreadcrumbLink {
     href?: string;
+    route?: any;
     text: string;
     [key: string]: any;
 }
@@ -52,8 +53,8 @@ export class Breadcrumbs implements OnChanges {
     @Output() linkClick = new EventEmitter<IBreadcrumbLink | IBreadcrumbRouterLink>();
 
 
-    private isDisabled: boolean = false;
-    private backLink: IBreadcrumbLink | IBreadcrumbRouterLink;
+    isDisabled: boolean = false;
+    backLink: IBreadcrumbLink | IBreadcrumbRouterLink;
 
 
     constructor(private elementRef: ElementRef) { }
@@ -81,6 +82,15 @@ export class Breadcrumbs implements OnChanges {
         element.firstElementChild.removeEventListener('click', this.preventClicksWhenDisabled, true);
     }
 
+    onLinkClicked(link: IBreadcrumbLink | IBreadcrumbRouterLink, event: Event): void {
+        if (this.isDisabled) {
+            event.preventDefault();
+            event.stopImmediatePropagation();
+        } else {
+            this.linkClick.emit(link);
+        }
+    }
+
     private preventClicksWhenDisabled = (ev: Event): void => {
         if (this.isDisabled) {
             let target = ev.target as HTMLElement;
@@ -90,13 +100,4 @@ export class Breadcrumbs implements OnChanges {
             }
         }
     };
-
-    private onLinkClicked(link: IBreadcrumbLink | IBreadcrumbRouterLink, event: Event): void {
-        if (this.isDisabled) {
-            event.preventDefault();
-            event.stopImmediatePropagation();
-        } else {
-            this.linkClick.emit(link);
-        }
-    }
 }

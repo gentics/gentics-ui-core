@@ -55,7 +55,7 @@ export class FilePicker implements OnInit, OnDestroy {
         let usedValue = value == undefined ? '*' : value;
         if (usedValue !== this._accept) {
             this._accept = usedValue;
-            this._inputAccept = usedValue.replace(/,/g, ';');
+            this.inputAccept = usedValue.replace(/,/g, ';');
             this.setDropAreaOptions();
         }
     }
@@ -63,14 +63,20 @@ export class FilePicker implements OnInit, OnDestroy {
     /**
      * Button size - "small", "regular" or "large". Forwarded to the Button component.
      */
-    @Input() set size(val: 'small' | 'regular' | 'large') {
+    @Input() get size(): 'small' | 'regular' | 'large' {
+        return this._size;
+    }
+    set size(val: 'small' | 'regular' | 'large') {
         this._size = val == undefined ? 'regular' : val;
     }
 
     /**
      * Display the button as a flat button or not. Forwarded to the Button component.
      */
-    @Input() set flat(val: boolean) {
+    @Input() get flat(): boolean {
+        return this._flat;
+    }
+    set flat(val: boolean) {
         this._flat = val != undefined && val !== false;
     }
 
@@ -82,7 +88,10 @@ export class FilePicker implements OnInit, OnDestroy {
     /**
      * Icon button without text. Forwarded to the Button component.
      */
-    @Input() set icon(val: boolean) {
+    @Input()  get icon(): boolean {
+        return this._icon;
+    }
+    set icon(val: boolean) {
         this._icon = val !== false && <any> val !== 'false';
     }
 
@@ -97,17 +106,17 @@ export class FilePicker implements OnInit, OnDestroy {
     @Output() fileSelectReject = new EventEmitter<File[]>();
 
 
+    inputAccept: string = '*';
     private _icon: boolean = false;
-    private _size: string = 'regular';
+    private _size: 'small' | 'regular' | 'large' = 'regular';
     private _flat = false;
     private _accept: string = '*';
-    private _inputAccept: string = '*';
     private _disabled = false;
     private _multiple = true;
     private _subscriptions: Subscription[] = [];
 
 
-    constructor(@Optional() @Self() private dropArea: FileDropArea,
+    constructor(@Optional() @Self() public dropArea: FileDropArea,
                 private cd: ChangeDetectorRef) { }
 
     ngOnInit(): void {
@@ -136,8 +145,7 @@ export class FilePicker implements OnInit, OnDestroy {
         this._subscriptions.forEach(s => s.unsubscribe());
     }
 
-
-    private onChange(event: Event, input: HTMLInputElement): void {
+    onChange(event: Event, input: HTMLInputElement): void {
         let files = input && input.files;
         if (files && files.length) {
             let accepted: File[] = [];

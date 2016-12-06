@@ -1,4 +1,4 @@
-import {NgModule} from '@angular/core';
+import {NgModule, ModuleWithProviders} from '@angular/core';
 import {CommonModule} from '@angular/common';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {RouterModule} from '@angular/router';
@@ -38,8 +38,10 @@ import {TopBar} from './components/top-bar/top-bar.component';
 import {Icon} from './components/icon/icon.component';
 import {PreventFileDrop} from './components/file-drop-area/prevent-file-drop.directive';
 import {DateTimePickerModal} from './components/date-time-picker/date-time-picker-modal.component';
+import {BlankModal} from './components/modal/blank-modal.component';
 
 const UI_CORE_COMPONENTS: any[] = [
+    BlankModal,
     Breadcrumbs,
     Button,
     Checkbox,
@@ -75,7 +77,8 @@ const UI_CORE_COMPONENTS: any[] = [
     Toast
 ];
 
-const UI_CORE_ENTRY_COMPONENTS: any[] = [
+export const UI_CORE_ENTRY_COMPONENTS: any[] = [
+    BlankModal,
     DynamicModalWrapper,
     Toast,
     ModalDialog,
@@ -86,7 +89,7 @@ const UI_CORE_PIPES: any[] = [
     MatchesMimeTypePipe
 ];
 
-const UI_CORE_PROVIDERS: any[] = [
+export const UI_CORE_PROVIDERS: any[] = [
     DragStateTrackerFactory,
     ModalService,
     Notification,
@@ -94,15 +97,19 @@ const UI_CORE_PROVIDERS: any[] = [
     PageFileDragHandler
 ];
 
+export const declarations = [...UI_CORE_COMPONENTS, ...UI_CORE_PIPES];
+export const routerModuleForChild: ModuleWithProviders = RouterModule.forChild([]);
+
 @NgModule({
     imports: [
         CommonModule,
         FormsModule,
         ReactiveFormsModule,
-        RouterModule.forChild([])],
-    declarations: UI_CORE_COMPONENTS.concat(UI_CORE_PIPES),
+        routerModuleForChild
+    ],
+    declarations,
     entryComponents: UI_CORE_ENTRY_COMPONENTS,
     providers: UI_CORE_PROVIDERS,
-    exports: UI_CORE_COMPONENTS.concat(UI_CORE_PIPES)
+    exports: declarations
 })
 export class GenticsUICoreModule {}

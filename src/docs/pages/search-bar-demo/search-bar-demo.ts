@@ -1,7 +1,7 @@
 import {Component} from '@angular/core';
 
 @Component({
-    template: require('./search-bar-demo.tpl.html')
+    templateUrl: './search-bar-demo.tpl.html'
 })
 export class SearchBarDemo {
     componentSource: string = require('!!raw-loader!../../../components/search-bar/search-bar.component.ts');

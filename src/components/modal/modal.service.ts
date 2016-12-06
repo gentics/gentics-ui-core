@@ -175,7 +175,7 @@ export class ModalService {
         }
         this.checkModalDialogInterface(dialog);
         return {
-            instance: dialog,
+            instance: dialog as any,
             element: componentRef.location.nativeElement,
             open: (): Promise<any> => {
                 this.invokeOnOpenCallback(options);
@@ -199,7 +199,7 @@ export class ModalService {
      * Creates the DynamicModalWrapper in place in the DOM and returns a reference to the
      * created component.
      */
-    private createModalWrapper<T extends IModalDialog>(options?: IModalOptions): DynamicModalWrapper<T> {
+    private createModalWrapper<T extends IModalDialog>(options?: IModalOptions): DynamicModalWrapper {
         let modalFactoryFactory = this.componentFactoryResolver.resolveComponentFactory(DynamicModalWrapper);
         const ref = this.hostViewContainer.createComponent(modalFactoryFactory);
         return this.getConfiguredModalWrapper(ref, options);
@@ -208,8 +208,8 @@ export class ModalService {
     /**
      * Decorate the ModalWrapper instance with the dismissFn and return that instance.
      */
-    private getConfiguredModalWrapper<T extends IModalDialog>(wrapperComponentRef: ComponentRef<DynamicModalWrapper<T>>,
-                                      options?: IModalOptions): DynamicModalWrapper<T> {
+    private getConfiguredModalWrapper<T extends IModalDialog>(wrapperComponentRef: ComponentRef<DynamicModalWrapper>,
+                                      options?: IModalOptions): DynamicModalWrapper {
         let modalWrapper = wrapperComponentRef.instance;
         modalWrapper.dismissFn = () => {
             this.invokeOnCloseCallback(options);
@@ -223,7 +223,7 @@ export class ModalService {
      * Returns a promise which is bound to the closeFn and cancelFn of the dialog instance,
      * and will be resolved/rejected when either of those methods are invoked.
      */
-    private createPromiseFromDialog<T extends IModalDialog>(modalWrapper: DynamicModalWrapper<T>, dialog: IModalDialog): Promise<any> {
+    private createPromiseFromDialog<T extends IModalDialog>(modalWrapper: DynamicModalWrapper, dialog: IModalDialog): Promise<any> {
         return new Promise((resolve, reject) => {
             dialog.registerCloseFn((value: any) => {
                 modalWrapper.dismissFn();

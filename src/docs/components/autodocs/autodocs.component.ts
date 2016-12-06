@@ -7,7 +7,7 @@ import {parseDocs, IDocumentation} from './doc-parser';
  */
 @Component({
     selector: 'gtx-autodocs',
-    template: require('./autodocs.tpl.html')
+    templateUrl: './autodocs.tpl.html'
 })
 export class Autodocs {
 

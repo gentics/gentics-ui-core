@@ -1,8 +1,8 @@
 <button class="btn {{size}} {{type}}"
         type="button"
-        [disabled]="isDisabled"
-        [class.btn-flat]="isFlat || isIcon"
-        [class.btn-icon]="isIcon"
+        [disabled]="disabled"
+        [class.btn-flat]="flat || icon"
+        [class.btn-icon]="icon"
         (click)="onClickEvent($event)"
 ><ng-content></ng-content>
 </button>

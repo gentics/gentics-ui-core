@@ -10,7 +10,7 @@ module.exports = {
     target: 'web',
     cache: true,
     entry: {
-        app: path.join(srcPath, 'bootstrap.ts'),
+        app: path.join(srcPath, 'main.ts'),
         common: [
             'es6-shim',
             'reflect-metadata',
@@ -30,7 +30,7 @@ module.exports = {
 
     module: {
         loaders: [
-            { test: /\.ts$/, loaders: ['ts-loader?transpileOnly=false', 'angular2-template-loader'] },
+            { test: /\.ts$/, loaders: ['ts-loader?transpileOnly=false&configFileName=tsconfig.json', 'angular2-template-loader'] },
             { test: /\.css$/, loader: 'style-loader!raw-loader!autoprefixer-loader' },
             { test: /\.scss$/, loader: 'style-loader!raw-loader!autoprefixer-loader!sass-loader' },
             { test: /\.html/, loader: 'raw-loader' },
@@ -40,24 +40,27 @@ module.exports = {
     },
     plugins: [
         new webpack.LoaderOptionsPlugin({
-            test: /\.ts$/,
             options: {
-                files: [
-                    'src/index.ts',
-                    'src/docs/bootstrap.ts',
-                    'typings/index.d.ts'
-                ],
-                compilerOptions: {
-                    declaration: false,
-                    noEmit: false,
-                    noEmitOnError: false
+                context: __dirname,
+                ts: {
+                    files: [
+                        'src/index.ts',
+                        'src/docs/main.ts',
+                        'typings/index.d.ts'
+                    ],
+                    compilerOptions: {
+                        declaration: false,
+                        noEmit: false,
+                        noEmitOnError: false
+                    },
                 },
-                // https://github.com/TypeStrong/ts-loader/issues/283#issuecomment-249414784
+                // work around: https://github.com/TypeStrong/ts-loader/issues/283#issuecomment-249414784
                 resolve: {}
             }
         }),
         new webpack.DefinePlugin({
-            VERSION: JSON.stringify(require('./package.json').version)
+            VERSION: JSON.stringify(require('./package.json').version),
+            PROD: false
         }),
         new webpack.optimize.CommonsChunkPlugin({ name: 'common', filename: 'common.js' }),
         new HtmlWebpackPlugin({

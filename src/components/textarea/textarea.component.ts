@@ -102,12 +102,12 @@ export class Textarea implements ControlValueAccessor {
     private _maxlength: number;
 
 
-    onBlur(): void {
+    onBlur(e: Event): void {
         this.blur.emit(this.value);
         this.change.emit(this.value);
     }
 
-    onFocus(): void {
+    onFocus(e: Event): void {
         this.focus.emit(this.value);
     }
 

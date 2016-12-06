@@ -2,7 +2,7 @@ import {Component} from '@angular/core';
 import {DemoFormatProvider} from './demo-format-provider';
 
 @Component({
-    template: require('./date-time-picker-demo.tpl.html')
+    templateUrl: './date-time-picker-demo.tpl.html'
 })
 export class DateTimePickerDemo {
     componentSource: string = require('!!raw-loader!../../../components/date-time-picker/date-time-picker.component.ts');

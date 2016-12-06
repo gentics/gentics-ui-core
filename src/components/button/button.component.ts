@@ -87,7 +87,7 @@ export class Button implements OnDestroy {
 
     // Disabled elements don't fire mouse events in some browsers, but bubble up the DOM tree.
     // To not trigger actions when the button is disabled, we need to prevent them manually.
-    private onClickEvent = (event: Event): void => {
+    onClickEvent = (event: Event): void => {
         if (event && this.isDisabled) {
             event.preventDefault();
             event.stopImmediatePropagation();

@@ -14,8 +14,8 @@ export class ModalDialog implements IModalDialog {
     closeFn: (val: any) => void;
     cancelFn: (val?: any) => void;
 
-    private config: IDialogConfig = <IDialogConfig> {};
-    private safeBody: SafeHtml;
+    safeBody: SafeHtml;
+    config: IDialogConfig = <IDialogConfig> {};
 
     constructor(private sanitizer: DomSanitizer) {
     }

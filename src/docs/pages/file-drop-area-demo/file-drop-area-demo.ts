@@ -5,25 +5,29 @@ import {ISortableEvent} from '../../../components/sortable-list/sortable-list.co
 import {PageFileDragHandler} from '../../../index';
 
 @Component({
-    template: require('./file-drop-area-demo.tpl.html')
+    templateUrl: './file-drop-area-demo.tpl.html'
 })
 export class FileDropAreaDemo implements OnDestroy {
     directiveSource: string = require('!!raw-loader!../../../components/file-drop-area/file-drop-area.directive.ts');
 
     draggingFileOnThis = false;
     droppedFiles: File[] = [];
+    droppedFilesA: any;
+    droppedFilesC: any;
+    draggingFileOnPage: boolean;
     droppedImages: File[] = [];
     droppedTextFiles: File[] = [];
     rejectedImages: File[] = [];
     rejectedTextFiles: File[] = [];
     reorderableFiles: File[] = [];
     isDisabled = true;
+    pageDragHovered: boolean;
     preventOnPage = true;
     preventLocal = false;
     serviceEvents: string[] = [];
     subscription: Subscription;
 
-    constructor(private dragdrop: PageFileDragHandler) {
+    constructor(public dragdrop: PageFileDragHandler) {
         this.subscription = Observable.merge(
                 dragdrop.dragEnter.mapTo('dragEnter'),
                 dragdrop.dragStop.mapTo('dragStop'),

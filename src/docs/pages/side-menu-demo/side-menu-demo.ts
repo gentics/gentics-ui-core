@@ -1,7 +1,7 @@
 import {Component} from '@angular/core';
 
 @Component({
-    template: require('./side-menu-demo.tpl.html'),
+    templateUrl: './side-menu-demo.tpl.html',
     styles: [
         `.demo-container {
             height: 300px; 

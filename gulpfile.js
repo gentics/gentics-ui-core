@@ -3,6 +3,7 @@
 const autoprefixer = require('gulp-autoprefixer');
 const concat = require('gulp-concat');
 const del = require('del');
+const exec = require('child_process').exec;
 const gulp = require('gulp');
 const filter = require('gulp-filter');
 const gutil = require('gulp-util');
@@ -38,8 +39,18 @@ gulp.task('dist:watch', gulp.series(
     watchDist
 ));
 gulp.task('lint', lint);
+gulp.task('docs:build-aot', gulp.series(
+    compileDocsTemplatesAot,
+    compileDocsSASS,
+    gulp.parallel(
+        copyFontsTo(paths.out.fonts),
+        copyImagesToDocs
+    ),
+    webpackCompileDocsFromAot
+));
 gulp.task('docs:build', gulp.series(
-    runWebpack,
+    cleanDocsFolder,
+    webpackRun,
     compileDocsSASS,
     gulp.parallel(
         copyFontsTo(paths.out.fonts),
@@ -53,7 +64,7 @@ gulp.task('docs:watch', gulp.series(
         copyImagesToDocs
     ),
     gulp.parallel(
-        watchWebpack,
+        webpackWatch,
         watchDocs
     )
 ));
@@ -94,7 +105,28 @@ function compileDistTypescript() {
         tsResult.js
             .pipe(sourcemaps.write('.', { includeContent: true, sourceRoot: '../src' }))
             .pipe(gulp.dest(paths.out.dist.root))
-    ]);
+     ]);
+}
+
+/**
+ * Use `ngc` - the angular compiler cli - to pre-compile the docs templates for aot mode.
+ * TODO: this is not fully working yet.
+ */
+function compileDocsTemplatesAot() {
+    console.warn('AoT Mode is still under development!');
+    return new Promise((resolve, reject) => {
+        const cmd = path.join('node_modules', '.bin', 'ngc') + ' -p tsconfig.aot.json';
+
+        exec(cmd, (err, stdout, stderr) => {
+            console.log(stdout);
+            console.log(stderr);
+            if (err) {
+                reject(err);
+            } else {
+                resolve(stdout);
+            }
+        });
+    });
 }
 
 function copyDistTemplates() {
@@ -221,11 +253,42 @@ function watchDist(runForever) {
     gulp.watch(paths.src.fonts, copyFontsTo(paths.out.dist.fonts));
 }
 
-function runWebpack(callback) {
-    devCompiler.run(webpackOnCompleted(callback));
+/**
+ * Once the templates have been compiled by ngc, this task can be run to bundle the compiled
+ * templates into the final docs app bundle.
+ * TODO: Not yet working. Need to use @ngtools/webpack
+ */
+function webpackCompileDocsFromAot(callback) {
+    const aotConfig = Object.assign({}, webpackConfig);
+    aotConfig.entry.app = path.join(__dirname, 'src', 'docs', 'main.ts');
+    aotConfig.plugins[0] = new webpack.LoaderOptionsPlugin({
+        test: /\.ts$/,
+        options: {
+            files: [
+                'src/docs/main.aot.ts',
+                'typings/index.d.ts'
+            ],
+            compilerOptions: {
+                declaration: false,
+                noEmit: false,
+                noEmitOnError: false
+            },
+            // https://github.com/TypeStrong/ts-loader/issues/283#issuecomment-249414784
+            resolve: {}
+        }
+    });
+    webpack(aotConfig).run(webpackOnCompleted(callback));
 }
 
-function watchWebpack(callback) {
+function webpackRun(callback) {
+    const buildConfig = Object.assign({}, webpackConfig);
+    buildConfig.plugins.push(new webpack.DefinePlugin({ PROD: true }));
+    webpack(buildConfig).run(webpackOnCompleted(callback));
+}
+
+// create a single instance of the compiler to allow caching
+let devCompiler = webpack(webpackConfig);
+function webpackWatch(callback) {
     devCompiler.watch({}, webpackOnCompleted(callback));
 }
 
@@ -254,9 +317,6 @@ function runKarmaServer(watch, callback) {
 
     server.start();
 }
-
-// create a single instance of the compiler to allow caching
-let devCompiler = webpack(webpackConfig);
 
 /**
  * Returns a function which will be invoked upon completion of Webpack build.

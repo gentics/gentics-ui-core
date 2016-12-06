@@ -14,15 +14,15 @@ declare var VERSION: string;
 
 @Component({
     selector: 'app',
-    template: require('./app.tpl.html')
+    templateUrl: './app.tpl.html'
 })
 export class App {
     @ViewChild(SplitViewContainer) splitViewContainer: SplitViewContainer;
     version: string;
     contentItems: any[] = pages.map((page: IPageInfo) => {
         return {
-            title: kebabToPascal(page.name),
-            route: '/' + page.name,
+            title: kebabToPascal(page.path),
+            route: '/' + page.path,
             keywords: page.keywords || [],
             type: page.type
         };

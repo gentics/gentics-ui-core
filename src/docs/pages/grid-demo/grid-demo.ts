@@ -1,6 +1,6 @@
 import {Component} from '@angular/core';
 
 @Component({
-    template: require('!!raw-loader!./grid-demo.tpl.html')
+    templateUrl: './grid-demo.tpl.html'
 })
 export class GridDemo {}

@@ -1,7 +1,7 @@
 import {Component} from '@angular/core';
 
 @Component({
-    template: require('./file-picker-demo.tpl.html'),
+    templateUrl: './file-picker-demo.tpl.html',
     styles: [`gtx-file-picker { margin-bottom: 10px; }`]
 })
 export class FilePickerDemo {
@@ -11,6 +11,10 @@ export class FilePickerDemo {
     isMultiple = true;
     onlyImages = false;
     selectedFiles: File[] = [];
+    selectedFilesB: any;
+    rejectedFilesB: any;
+    selectedFilesC: any;
+    rejectedFilesC: any;
 
     onFilesSelected(files: File[]): void {
         console.log('onFilesSelected: ' + JSON.stringify(files.map(f => ({name: f.name, type: f.type}))));

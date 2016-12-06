@@ -1,4 +1,4 @@
-import {Component, Directive, ElementRef, EventEmitter, Input, Output} from '@angular/core';
+import {Component, Directive, ElementRef, EventEmitter, Input, Output, SimpleChanges} from '@angular/core';
 const sortable: typeof Sortablejs.Sortable = require('sortablejs');
 
 export type sortFn<T> = (source: T[], byReference?: boolean) => T[];
@@ -108,7 +108,7 @@ export class SortableList {
 
     constructor(private elementRef: ElementRef) {}
 
-    ngOnChanges(): void {
+    ngOnChanges(changes: SimpleChanges): void {
         if (this.sortable) {
             this.sortable.option('disabled', this.disabled);
         }

@@ -1,7 +1,7 @@
 import {Component} from '@angular/core';
 
 @Component({
-    template: require('./checkbox-demo.tpl.html')
+    templateUrl: './checkbox-demo.tpl.html'
 })
 export class CheckboxDemo {
 
@@ -14,4 +14,5 @@ export class CheckboxDemo {
         C: 'indeterminate'
     };
     checkText: string = 'checked';
+    statelessIsChecked: boolean = false;
 }

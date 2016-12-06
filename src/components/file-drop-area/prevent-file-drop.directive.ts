@@ -32,7 +32,7 @@ export class PreventFileDrop implements OnDestroy {
     @HostListener('dragenter', ['$event'])
     @HostListener('dragover', ['$event'])
     @HostListener('drop', ['$event'])
-    private preventAccidentalDrop(event: Event): void {
+    preventAccidentalDrop(event: Event): void {
         if (this.prevent !== true || event.defaultPrevented) { return; }
         let dataTransfer = getDataTransfer(event);
         if (transferHasFiles(dataTransfer)) {

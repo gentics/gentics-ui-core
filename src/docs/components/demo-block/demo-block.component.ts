@@ -2,7 +2,7 @@ import {Component, Input, ElementRef} from '@angular/core';
 
 @Component({
     selector: 'gtx-demo-block',
-    template: require('./demo-block.tpl.html')
+    templateUrl: './demo-block.tpl.html'
 })
 export class DemoBlock {
 
