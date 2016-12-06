@@ -45,26 +45,16 @@ export class App {
     }
 
     ngOnInit(): void {
-        // TODO: fix with new router api
-        /*this.subscription = this.router.events
+        this.subscription = this.router.events
             .filter(event => event instanceof NavigationEnd)
-            .map(_ => this.router.routerState)
-            .map(state => {
-                let route = this.route;
-                while (state.firstChild(route)) {
-                    route = state.firstChild(route);
-                }
-                return route;
-            })
-            .filter(route => route.outlet === PRIMARY_OUTLET)
-            .subscribe((route: ActivatedRoute) => {
-                const path = route.snapshot.url[0].path;
+            .subscribe((_) => {
+                const path = this.route.snapshot.firstChild.url[0].path;
                 this.hasContent = (path !== '' && path !== 'index');
                 if (this.hasContent) {
                     this.splitFocus = 'right';
                 }
                 this.splitViewContainer.scrollRightPanelTo(0);
-            });*/
+            });
     }
 
     ngOnDestroy(): void {

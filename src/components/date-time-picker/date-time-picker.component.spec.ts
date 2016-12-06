@@ -40,7 +40,8 @@ describe('DateTimePicker:', () => {
             ],
             providers: [
                 { provide: OverlayHostService, useFactory: (): any => overlayHostService },
-                { provide: ModalService, useFactory: (): any => modalService }
+                { provide: ModalService, useFactory: (): any => modalService },
+                { provide: DateTimePickerFormatProvider, useFactory: (): any => formatProviderToUse }
             ]
         });
 
@@ -462,7 +463,6 @@ function openDatepickerModal(fixture: ComponentFixture<TestComponent>):
     template: `
         <gtx-date-time-picker></gtx-date-time-picker>
         <gtx-overlay-host></gtx-overlay-host>`
-        { provide: DateTimePickerFormatProvider, useFactory: (): any => formatProviderToUse }
 })
 class TestComponent {
     testModel: number = TEST_TIMESTAMP;

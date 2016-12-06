@@ -1,10 +1,16 @@
+## 1.0.0 (in progress)
+
+#### Breaking Changes
+
+* Updated to Angular 2 final. No longer compatible with any version of Angular prior to 2.0.0-rc.6. Exporting lib as `GenticsUICoreModule`.
+
 ## 0.12.0 (2016-12-01)
 
-### Features
+#### Features
 
 * DateTimePicker now translatable & localizable (GCU-170)
 
-### Fixes
+#### Fixes
 * Fix FilePicker events being emitting on wrong conditions
 * Prevent wrapping in icon buttons (GUIC-88)
 * DatePicker formatting fixed for small screen sizes

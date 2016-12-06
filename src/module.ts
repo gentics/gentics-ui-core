@@ -39,6 +39,7 @@ import {Icon} from './components/icon/icon.component';
 import {PreventFileDrop} from './components/file-drop-area/prevent-file-drop.directive';
 import {DateTimePickerModal} from './components/date-time-picker/date-time-picker-modal.component';
 import {BlankModal} from './components/modal/blank-modal.component';
+import {DateTimePickerFormatProvider} from './components/date-time-picker/date-time-picker-format-provider.service';
 
 const UI_CORE_COMPONENTS: any[] = [
     BlankModal,
@@ -90,6 +91,7 @@ const UI_CORE_PIPES: any[] = [
 ];
 
 export const UI_CORE_PROVIDERS: any[] = [
+    DateTimePickerFormatProvider,
     DragStateTrackerFactory,
     ModalService,
     Notification,
