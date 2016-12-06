@@ -17,6 +17,8 @@ export * from './components/file-drop-area/prevent-file-drop.directive';
 export * from './components/file-drop-area/drag-state-tracker.service';
 export * from './components/file-picker/file-picker.component';
 export * from './components/dropdown-list/dropdown-list.component';
+export * from './components/dropdown-list/dropdown-content-wrapper.component';
+export * from './components/dropdown-list/scroll-mask.component';
 export * from './components/modal/modal.service';
 export * from './components/modal/modal-interfaces';
 export * from './components/notification/notification.service';

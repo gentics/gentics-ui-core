@@ -8,7 +8,10 @@ import {Button} from './components/button/button.component';
 import {Checkbox} from './components/checkbox/checkbox.component';
 import {ContentsListItem} from './components/contents-list-item/contents-list-item.component';
 import {DateTimePicker} from './components/date-time-picker/date-time-picker.component';
-import {DropdownList} from './components/dropdown-list/dropdown-list.component';
+import {
+    DropdownList, DropdownContentDirective,
+    DropdownTriggerDirective
+} from './components/dropdown-list/dropdown-list.component';
 import {FileDropArea} from './components/file-drop-area/file-drop-area.directive';
 import {DragStateTrackerFactory} from './components/file-drop-area/drag-state-tracker.service';
 import {PageFileDragHandler} from './components/file-drop-area/page-file-drag-handler.service';
@@ -40,6 +43,8 @@ import {PreventFileDrop} from './components/file-drop-area/prevent-file-drop.dir
 import {DateTimePickerModal} from './components/date-time-picker/date-time-picker-modal.component';
 import {BlankModal} from './components/modal/blank-modal.component';
 import {DateTimePickerFormatProvider} from './components/date-time-picker/date-time-picker-format-provider.service';
+import {ScrollMask} from './components/dropdown-list/scroll-mask.component';
+import {DropdownContentWrapper} from './components/dropdown-list/dropdown-content-wrapper.component';
 
 const UI_CORE_COMPONENTS: any[] = [
     BlankModal,
@@ -50,6 +55,9 @@ const UI_CORE_COMPONENTS: any[] = [
     DateTimePicker,
     DateTimePickerModal,
     DropdownList,
+    DropdownContentWrapper,
+    DropdownContentDirective,
+    DropdownTriggerDirective,
     DynamicModalWrapper,
     FileDropArea,
     FilePicker,
@@ -63,6 +71,7 @@ const UI_CORE_COMPONENTS: any[] = [
     RadioButton,
     RadioGroup,
     Range,
+    ScrollMask,
     SearchBar,
     Select,
     SideMenu,
@@ -80,10 +89,12 @@ const UI_CORE_COMPONENTS: any[] = [
 
 export const UI_CORE_ENTRY_COMPONENTS: any[] = [
     BlankModal,
+    DateTimePickerModal,
+    DropdownContentWrapper,
     DynamicModalWrapper,
+    ScrollMask,
     Toast,
-    ModalDialog,
-    DateTimePickerModal
+    ModalDialog
 ];
 
 const UI_CORE_PIPES: any[] = [

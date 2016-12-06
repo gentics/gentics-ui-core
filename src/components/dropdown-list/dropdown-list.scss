@@ -1,6 +1,9 @@
 gtx-dropdown-list {
     display: inline-block;
-    //position: relative;
+}
+
+gtx-dropdown-trigger {
+    display: inline-block;
 }
 
 $easeOutCubic: cubic-bezier(0.215, 0.610, 0.355, 1.000);
@@ -18,72 +21,75 @@ $easeOutSine: cubic-bezier(0.390, 0.575, 0.565, 1.000);
     opacity 0.3s $easeOutSine;
     overflow: hidden;
     @extend .z-depth-1;
-    z-index: 1000;
-
-    .dropdown-content {
-        background-color: white;
-        margin: 0;
-        display: inline-block;
-        min-width: 100px;
-        max-height: 650px;
-        overflow-y: auto;
-        opacity: 1;
-        z-index: 999;
-        will-change: width, height;
-
-        li {
-            clear: both;
-            color: $gtx-color-off-black;
-            cursor: pointer;
-            min-height: $dropdown-item-height;
-            line-height: 1.5rem;
-            width: 100%;
-            text-align: left;
-            text-transform: none;
-
-            &:hover, &.active, &.selected {
-                background-color: $dropdown-hover-bg-color;
-            }
-
-            &.active.selected {
-                background-color: darken($dropdown-hover-bg-color, 5%);
-            }
-
-            &.divider {
-                min-height: 0;
-                height: 1px;
-            }
-
-            & > a, & > span {
-                font-size: 16px;
-                color: $dropdown-color;
-                display: block;
-                line-height: 22px;
-                padding: (($dropdown-item-height - 22) / 2) 16px;
-            }
-
-            & > span > label {
-                top: 1px;
-                left: 3px;
-                height: 18px;
-            }
-
-            // Icon alignment override
-            & > a > i,
-            & > a > icon {
-                height: inherit;
-                line-height: inherit;
-            }
-        }
-    }
-
+    z-index: 1002;
 }
 
-.scroll-mask {
+gtx-dropdown-content {
+    background-color: white;
+    margin: 0;
+    display: inline-block;
+    min-width: 100px;
+    max-height: 650px;
+    overflow-y: auto;
+    opacity: 1;
+    will-change: width, height;
+
+
+    ul {
+        margin: 0;
+        list-style: none;
+    }
+
+    li {
+        clear: both;
+        color: $gtx-color-dark-gray;
+        cursor: pointer;
+        min-height: $dropdown-item-height;
+        line-height: 1.5rem;
+        width: 100%;
+        text-align: left;
+        text-transform: none;
+
+        &:hover, &.active, &.selected {
+            background-color: $dropdown-hover-bg-color;
+        }
+
+        &.active.selected {
+            background-color: darken($dropdown-hover-bg-color, 5%);
+        }
+
+        &.divider {
+            min-height: 0;
+            height: 1px;
+        }
+
+        & > a, & > span {
+            font-size: 16px;
+            display: block;
+            line-height: 22px;
+            padding: (($dropdown-item-height - 22) / 2) 16px;
+        }
+
+        & > span > label {
+            top: 1px;
+            left: 3px;
+            height: 18px;
+        }
+
+        // Icon alignment override
+        & > a > i,
+        & > a > icon {
+            height: inherit;
+            line-height: inherit;
+        }
+    }
+}
+
+gtx-scroll-mask {
     position: absolute;
     top: 0;
     left: 0;
     right: 0;
     bottom: 0;
-    z-index: 1000;
+    z-index: 1001;
 }

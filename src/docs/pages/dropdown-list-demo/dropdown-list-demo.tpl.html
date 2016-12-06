@@ -7,47 +7,59 @@
 <gtx-demo-block demoTitle="Button Trigger">
     <div class="demo-result">
         <gtx-dropdown-list>
-            <gtx-button class="dropdown-trigger">
-                Button trigger
-            </gtx-button>
-            <ul class="dropdown-content">
-                <li><a>First</a></li>
-                <li><a>Second</a></li>
-                <li><a>Third</a></li>
-            </ul>
+            <gtx-dropdown-trigger>
+                <gtx-button>
+                    Button trigger
+                </gtx-button>
+            </gtx-dropdown-trigger>
+            <gtx-dropdown-content>
+                <ul>
+                    <li><a>First</a></li>
+                    <li><a>Second</a></li>
+                    <li><a>Third</a></li>
+                </ul>
+            </gtx-dropdown-content>
         </gtx-dropdown-list>
         <gtx-dropdown-list>
-            <div class="dropdown-trigger">
-                <gtx-button icon><i class="material-icons">language</i></gtx-button>
-            </div>
-            <ul class="dropdown-content">
-                <li><a>English</a></li>
-                <li><a>Deutsch</a></li>
-                <li><a>Suomi</a></li>
-            </ul>
+            <gtx-dropdown-trigger>
+                <gtx-button icon><icon>language</icon></gtx-button>
+            </gtx-dropdown-trigger>
+            <gtx-dropdown-content>
+                <ul>
+                    <li><a>English</a></li>
+                    <li><a>Deutsch</a></li>
+                    <li><a>Suomi</a></li>
+                </ul>
+            </gtx-dropdown-content>
         </gtx-dropdown-list>
     </div>
     <div class="demo-code">
         <gtx-highlighted-code language="HTML" code='
             <gtx-dropdown-list>
-                <gtx-button class="dropdown-trigger">
-                    Button trigger
-                </gtx-button>
-                <ul class="dropdown-content">
-                    <li><a>First</a></li>
-                    <li><a>Second</a></li>
-                    <li><a>Third</a></li>
-                </ul>
+                <gtx-dropdown-trigger>
+                    <gtx-button>
+                        Button trigger
+                    </gtx-button>
+                </gtx-dropdown-trigger>
+                <gtx-dropdown-content>
+                    <ul>
+                        <li><a>First</a></li>
+                        <li><a>Second</a></li>
+                        <li><a>Third</a></li>
+                    </ul>
+                </gtx-dropdown-content>
             </gtx-dropdown-list>
             <gtx-dropdown-list>
-                <div class="dropdown-trigger">
-                    <gtx-button icon><i class="material-icons">language</i></gtx-button>
-                </div>
-                <ul class="dropdown-content">
-                    <li><a>English</a></li>
-                    <li><a>Deutsch</a></li>
-                    <li><a>Suomi</a></li>
-                </ul>
+                <gtx-dropdown-trigger>
+                    <gtx-button icon><icon>language</icon></gtx-button>
+                </gtx-dropdown-trigger>
+                <gtx-dropdown-content>
+                    <ul>
+                        <li><a>English</a></li>
+                        <li><a>Deutsch</a></li>
+                        <li><a>Suomi</a></li>
+                    </ul>
+                </gtx-dropdown-content>
             </gtx-dropdown-list>
         '></gtx-highlighted-code>
     </div>
@@ -57,26 +69,30 @@
     <div class="demo-result">
         <p>
             Left aligned: <gtx-dropdown-list align="left">
-            <div class="dropdown-trigger">
-                <gtx-button icon type="secondary"><i class="material-icons">more_vert</i></gtx-button>
-            </div>
-            <ul class="dropdown-content">
-                <li><a>First</a></li>
-                <li><a>Second</a></li>
-                <li><a>Third</a></li>
-            </ul>
+            <gtx-dropdown-trigger>
+                <gtx-button icon type="secondary"><icon>more_vert</icon></gtx-button>
+            </gtx-dropdown-trigger>
+            <gtx-dropdown-content>
+                <ul>
+                    <li><a>First</a></li>
+                    <li><a>Second</a></li>
+                    <li><a>Third</a></li>
+                </ul>
+            </gtx-dropdown-content>
         </gtx-dropdown-list>
         </p>
         <p>
             Right aligned: <gtx-dropdown-list align="right">
-            <div class="dropdown-trigger">
-                <gtx-button icon type="secondary"><i class="material-icons">more_vert</i></gtx-button>
-            </div>
-            <ul class="dropdown-content">
-                <li><a>First</a></li>
-                <li><a>Second</a></li>
-                <li><a>Third</a></li>
-            </ul>
+            <gtx-dropdown-trigger>
+                <gtx-button icon type="secondary"><icon>more_vert</icon></gtx-button>
+            </gtx-dropdown-trigger>
+            <gtx-dropdown-content>
+                <ul>
+                    <li><a>First</a></li>
+                    <li><a>Second</a></li>
+                    <li><a>Third</a></li>
+                </ul>
+            </gtx-dropdown-content>
         </gtx-dropdown-list>
         </p>
     </div>
@@ -84,26 +100,30 @@
         <gtx-highlighted-code language="HTML" code='
             <p>
                 Left aligned: <gtx-dropdown-list align="left">
-                <div class="dropdown-trigger">
-                    <gtx-button icon type="secondary"><i class="material-icons">more_vert</i></gtx-button>
-                </div>
-                <ul class="dropdown-content">
-                    <li><a>First</a></li>
-                    <li><a>Second</a></li>
-                    <li><a>Third</a></li>
-                </ul>
+                <gtx-dropdown-trigger>
+                    <gtx-button icon type="secondary"><icon>more_vert</icon></gtx-button>
+                </gtx-dropdown-trigger>
+                <gtx-dropdown-content>
+                    <ul>
+                        <li><a>First</a></li>
+                        <li><a>Second</a></li>
+                        <li><a>Third</a></li>
+                    </ul>
+                </gtx-dropdown-content>
             </gtx-dropdown-list>
             </p>
             <p>
                 Right aligned: <gtx-dropdown-list align="right">
-                <div class="dropdown-trigger">
-                    <gtx-button icon type="secondary"><i class="material-icons">more_vert</i></gtx-button>
-                </div>
-                <ul class="dropdown-content">
-                    <li><a>First</a></li>
-                    <li><a>Second</a></li>
-                    <li><a>Third</a></li>
-                </ul>
+                <gtx-dropdown-trigger>
+                    <gtx-button icon type="secondary"><icon>more_vert</icon></gtx-button>
+                </gtx-dropdown-trigger>
+                <gtx-dropdown-content>
+                    <ul>
+                        <li><a>First</a></li>
+                        <li><a>Second</a></li>
+                        <li><a>Third</a></li>
+                    </ul>
+                </gtx-dropdown-content>
             </gtx-dropdown-list>
             </p>
         '></gtx-highlighted-code>
@@ -114,27 +134,35 @@
 <gtx-demo-block demoTitle="belowTrigger">
     <div class="demo-result">
         <gtx-dropdown-list belowTrigger="true">
-            <gtx-button class="dropdown-trigger">
-                Please Select...
-            </gtx-button>
-            <ul class="dropdown-content">
-                <li><a>First</a></li>
-                <li><a>Second</a></li>
-                <li><a>Third</a></li>
-            </ul>
+            <gtx-dropdown-trigger>
+                <gtx-button>
+                    Please Select...
+                </gtx-button>
+            </gtx-dropdown-trigger>
+            <gtx-dropdown-content>
+                <ul>
+                    <li><a>First</a></li>
+                    <li><a>Second</a></li>
+                    <li><a>Third</a></li>
+                </ul>
+            </gtx-dropdown-content>
         </gtx-dropdown-list>
     </div>
     <div class="demo-code">
         <gtx-highlighted-code language="HTML" code='
             <gtx-dropdown-list belowTrigger="true">
-                <gtx-button class="dropdown-trigger">
-                    Please Select...
-                </gtx-button>
-                <ul class="dropdown-content">
-                    <li><a>First</a></li>
-                    <li><a>Second</a></li>
-                    <li><a>Third</a></li>
-                </ul>
+                <gtx-dropdown-trigger>
+                    <gtx-button>
+                        Please Select...
+                    </gtx-button>
+                </gtx-dropdown-trigger>
+                <gtx-dropdown-content>
+                    <ul>
+                        <li><a>First</a></li>
+                        <li><a>Second</a></li>
+                        <li><a>Third</a></li>
+                    </ul>
+                </gtx-dropdown-content>
             </gtx-dropdown-list>
            '></gtx-highlighted-code>
     </div>
@@ -144,41 +172,47 @@
     <div class="demo-result">
         <p>
             <gtx-dropdown-list width="content">
-                <div class="dropdown-trigger">
+                <gtx-dropdown-trigger>
                     <gtx-button>Width = Content</gtx-button>
-                </div>
-                <ul class="dropdown-content">
-                    <li><a>Cardiff</a></li>
-                    <li><a>Aberystwyth</a></li>
-                    <li><a>Llandudno</a></li>
-                    <li><a>Llanfair pwllgwyngyll gogery chwyrn drobwll llan tysilio gogo goch</a></li>
-                </ul>
+                </gtx-dropdown-trigger>
+                <gtx-dropdown-content>
+                    <ul>
+                        <li><a>Cardiff</a></li>
+                        <li><a>Aberystwyth</a></li>
+                        <li><a>Llandudno</a></li>
+                        <li><a>Llanfair pwllgwyngyll gogery chwyrn drobwll llan tysilio gogo goch</a></li>
+                    </ul>
+                </gtx-dropdown-content>
             </gtx-dropdown-list>
         </p>
         <p>
             <gtx-dropdown-list width="trigger">
-                <div class="dropdown-trigger">
+                <gtx-dropdown-trigger>
                     <gtx-button>Width = Trigger</gtx-button>
-                </div>
-                <ul class="dropdown-content">
-                    <li><a>Cardiff</a></li>
-                    <li><a>Aberystwyth</a></li>
-                    <li><a>Llandudno</a></li>
-                    <li><a>Llanfair pwllgwyngyll gogery chwyrn drobwll llan tysilio gogo goch</a></li>
-                </ul>
+                </gtx-dropdown-trigger>
+                <gtx-dropdown-content>
+                    <ul>
+                        <li><a>Cardiff</a></li>
+                        <li><a>Aberystwyth</a></li>
+                        <li><a>Llandudno</a></li>
+                        <li><a>Llanfair pwllgwyngyll gogery chwyrn drobwll llan tysilio gogo goch</a></li>
+                    </ul>
+                </gtx-dropdown-content>
             </gtx-dropdown-list>
         </p>
         <p>
             <gtx-dropdown-list width="300">
-                <div class="dropdown-trigger">
+                <gtx-dropdown-trigger>
                     <gtx-button>Width = 300</gtx-button>
-                </div>
-                <ul class="dropdown-content">
-                    <li><a>Cardiff</a></li>
-                    <li><a>Aberystwyth</a></li>
-                    <li><a>Llandudno</a></li>
-                    <li><a>Llanfair pwllgwyngyll gogery chwyrn drobwll llan tysilio gogo goch</a></li>
-                </ul>
+                </gtx-dropdown-trigger>
+                <gtx-dropdown-content>
+                    <ul>
+                        <li><a>Cardiff</a></li>
+                        <li><a>Aberystwyth</a></li>
+                        <li><a>Llandudno</a></li>
+                        <li><a>Llanfair pwllgwyngyll gogery chwyrn drobwll llan tysilio gogo goch</a></li>
+                    </ul>
+                </gtx-dropdown-content>
             </gtx-dropdown-list>
         </p>
     </div>
@@ -186,43 +220,195 @@
         <gtx-highlighted-code language="HTML" code='
                   <p>
                       <gtx-dropdown-list width="content">
-                          <div class="dropdown-trigger">
+                          <gtx-dropdown-trigger>
                               <gtx-button>Width = Content</gtx-button>
-                          </div>
-                          <ul class="dropdown-content">
-                              <li><a>Cardiff</a></li>
-                              <li><a>Aberystwyth</a></li>
-                              <li><a>Llandudno</a></li>
-                              <li><a>Llanfair pwllgwyngyll gogery chwyrn drobwll llan tysilio gogo goch</a></li>
-                          </ul>
+                          </gtx-dropdown-trigger>
+                          <gtx-dropdown-content>
+                              <ul>
+                                  <li><a>Cardiff</a></li>
+                                  <li><a>Aberystwyth</a></li>
+                                  <li><a>Llandudno</a></li>
+                                  <li><a>Llanfair pwllgwyngyll gogery chwyrn drobwll llan tysilio gogo goch</a></li>
+                              </ul>
+                          </gtx-dropdown-content>
                       </gtx-dropdown-list>
                   </p>
                   <p>
                       <gtx-dropdown-list width="trigger">
-                          <div class="dropdown-trigger">
+                          <gtx-dropdown-trigger>
                               <gtx-button>Width = Trigger</gtx-button>
-                          </div>
-                          <ul class="dropdown-content">
-                              <li><a>Cardiff</a></li>
-                              <li><a>Aberystwyth</a></li>
-                              <li><a>Llandudno</a></li>
-                              <li><a>Llanfair pwllgwyngyll gogery chwyrn drobwll llan tysilio gogo goch</a></li>
-                          </ul>
+                          </gtx-dropdown-trigger>
+                          <gtx-dropdown-content>
+                              <ul>
+                                  <li><a>Cardiff</a></li>
+                                  <li><a>Aberystwyth</a></li>
+                                  <li><a>Llandudno</a></li>
+                                  <li><a>Llanfair pwllgwyngyll gogery chwyrn drobwll llan tysilio gogo goch</a></li>
+                              </ul>
+                          </gtx-dropdown-content>
                       </gtx-dropdown-list>
                   </p>
                   <p>
                       <gtx-dropdown-list width="300">
-                          <div class="dropdown-trigger">
+                          <gtx-dropdown-trigger>
                               <gtx-button>Width = 300</gtx-button>
-                          </div>
-                          <ul class="dropdown-content">
-                              <li><a>Cardiff</a></li>
-                              <li><a>Aberystwyth</a></li>
-                              <li><a>Llandudno</a></li>
-                              <li><a>Llanfair pwllgwyngyll gogery chwyrn drobwll llan tysilio gogo goch</a></li>
-                          </ul>
+                          </gtx-dropdown-trigger>
+                          <gtx-dropdown-content>
+                              <ul>
+                                  <li><a>Cardiff</a></li>
+                                  <li><a>Aberystwyth</a></li>
+                                  <li><a>Llandudno</a></li>
+                                  <li><a>Llanfair pwllgwyngyll gogery chwyrn drobwll llan tysilio gogo goch</a></li>
+                              </ul>
+                          </gtx-dropdown-content>
                       </gtx-dropdown-list>
                   </p>
+           '></gtx-highlighted-code>
+    </div>
+</gtx-demo-block>
+
+<gtx-demo-block demoTitle="Long Lists">
+    <div class="demo-result">
+        <p>When the dropdown contents are very long, a scroll bar will be displayed to make all content reachable.</p>
+        <gtx-dropdown-list>
+            <gtx-dropdown-trigger>
+                <gtx-button>
+                    Select a Country
+                </gtx-button>
+            </gtx-dropdown-trigger>
+            <gtx-dropdown-content>
+                <ul>
+                    <li><a>Afghanistan</a></li>
+                    <li><a>Albania</a></li>
+                    <li><a>Algeria</a></li>
+                    <li><a>Argentina</a></li>
+                    <li><a>Armenia</a></li>
+                    <li><a>Australia</a></li>
+                    <li><a>Austria</a></li>
+                    <li><a>Azerbaijan</a></li>
+                    <li><a>Bahamas</a></li>
+                    <li><a>Belgium</a></li>
+                    <li><a>Belize</a></li>
+                    <li><a>Bolivia</a></li>
+                    <li><a>Botswana</a></li>
+                    <li><a>Brazil</a></li>
+                    <li><a>Bulgaria</a></li>
+                    <li><a>Cambodia</a></li>
+                    <li><a>Cameroon</a></li>
+                    <li><a>Canada</a></li>
+                    <li><a>Chile</a></li>
+                    <li><a>China</a></li>
+                    <li><a>Colombia</a></li>
+                    <li><a>Congo</a></li>
+                    <li><a>Croatia</a></li>
+                    <li><a>Cuba</a></li>
+                    <li><a>Cyprus</a></li>
+                    <li><a>Denmark</a></li>
+                    <li><a>Dominica</a></li>
+                    <li><a>Ecuador</a></li>
+                    <li><a>Egypt</a></li>
+                    <li><a>Estonia</a></li>
+                    <li><a>Ethiopia</a></li>
+                    <li><a>Finland</a></li>
+                    <li><a>France</a></li>
+                    <li><a>Gambia</a></li>
+                    <li><a>Georgia</a></li>
+                    <li><a>Germany</a></li>
+                    <li><a>Ghana</a></li>
+                    <li><a>Greece</a></li>
+                    <li><a>Grenada</a></li>
+                    <li><a>Guatemala</a></li>
+                    <li><a>Haiti</a></li>
+                    <li><a>Hungary</a></li>
+                    <li><a>Iceland</a></li>
+                    <li><a>India</a></li>
+                    <li><a>Indonesia</a></li>
+                    <li><a>Iran</a></li>
+                    <li><a>Iraq</a></li>
+                    <li><a>Israel</a></li>
+                    <li><a>Italy</a></li>
+                    <li><a>Jamaica</a></li>
+                    <li><a>Japan</a></li>
+                    <li><a>Jordan</a></li>
+                    <li><a>Kazakhstan</a></li>
+                    <li><a>Kenya</a></li>
+                    <li><a>Lebanon</a></li>
+                    <li><a>Liberia</a></li>
+                    <li><a>Libya</a></li>
+                    <li><a>Liechtenstein</a></li>
+                    <li><a>Lithuania</a></li>
+                    <li><a>Luxembourg</a></li>
+                    <li><a>Macedonia</a></li>
+                    <li><a>Madagascar</a></li>
+                    <li><a>Malaysia</a></li>
+                    <li><a>Maldives</a></li>
+                    <li><a>Malta</a></li>
+                    <li><a>Mexico</a></li>
+                    <li><a>Monaco</a></li>
+                    <li><a>Mongolia</a></li>
+                    <li><a>Morocco</a></li>
+                    <li><a>Mozambique</a></li>
+                    <li><a>Namibia</a></li>
+                    <li><a>Nepal</a></li>
+                    <li><a>Netherlands</a></li>
+                    <li><a>Nicaragua</a></li>
+                    <li><a>Nigeria</a></li>
+                    <li><a>Norway</a></li>
+                    <li><a>Pakistan</a></li>
+                    <li><a>Panama</a></li>
+                    <li><a>Paraguay</a></li>
+                    <li><a>Peru</a></li>
+                    <li><a>Philippines</a></li>
+                    <li><a>Poland</a></li>
+                    <li><a>Portugal</a></li>
+                    <li><a>Serbia</a></li>
+                    <li><a>Slovakia</a></li>
+                    <li><a>Slovenia</a></li>
+                    <li><a>Somalia</a></li>
+                    <li><a>Spain</a></li>
+                    <li><a>Swaziland</a></li>
+                    <li><a>Sweden</a></li>
+                    <li><a>Switzerland</a></li>
+                    <li><a>Syria</a></li>
+                    <li><a>Taiwan</a></li>
+                    <li><a>Tanzania</a></li>
+                    <li><a>Thailand</a></li>
+                    <li><a>Tunisia</a></li>
+                    <li><a>Turkey</a></li>
+                    <li><a>Turkmenistan</a></li>
+                    <li><a>Uganda</a></li>
+                    <li><a>Ukraine</a></li>
+                    <li><a>Uruguay</a></li>
+                    <li><a>Uzbekistan</a></li>
+                    <li><a>Venezuela</a></li>
+                    <li><a>Vietnam</a></li>
+                    <li><a>Yemen</a></li>
+                    <li><a>Zambia</a></li>
+                    <li><a>Zimbabwe</a></li>
+                </ul>
+            </gtx-dropdown-content>
+        </gtx-dropdown-list>
+    </div>
+    <div class="demo-code">
+        <gtx-highlighted-code language="HTML" code='
+            <gtx-dropdown-list>
+                <gtx-dropdown-trigger>
+                    <gtx-button>
+                        Select a Country
+                    </gtx-button>
+                </gtx-dropdown-trigger>
+                <gtx-dropdown-content>
+                    <ul>
+                        <li><a>Afghanistan</a></li>
+                        <li><a>Albania</a></li>
+                        <li><a>Algeria</a></li>
+                        <!-- snip -->
+                        <li><a>Yemen</a></li>
+                        <li><a>Zambia</a></li>
+                        <li><a>Zimbabwe</a></li>
+                    </ul>
+                </gtx-dropdown-content>
+            </gtx-dropdown-list>
            '></gtx-highlighted-code>
     </div>
 </gtx-demo-block>

@@ -1,8 +1,4 @@
-<div (click)="onTriggerClick()"><ng-content select=".dropdown-trigger"></ng-content></div>
+<div (click)="onTriggerClick()"><ng-content select="gtx-dropdown-trigger"></ng-content></div>
 <template>
-    <div class="dropdown-content-wrapper"
-         (click)="onContentClick()"
-         [ngStyle]="contentStyles">
-        <ng-content select=".dropdown-content"></ng-content>
-    </div>
+    <ng-content select="gtx-dropdown-content"></ng-content>
 </template>
