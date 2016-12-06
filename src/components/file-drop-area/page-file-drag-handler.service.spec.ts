@@ -1,10 +1,6 @@
-import {Observable, Subscription} from 'rxjs';
-
 import {SpyEventTarget, subscribeSpyObserver, triggerFakeDragEvent} from '../../testing';
 import {DragStateTrackerFactory} from './drag-state-tracker.service';
 import {PageFileDragHandler} from './page-file-drag-handler.service';
-
-import {EventEmitter} from '@angular/core';
 
 describe('PageDragDropFileHandler service:', () => {
 

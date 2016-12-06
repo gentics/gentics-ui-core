@@ -33,7 +33,7 @@ import {OverlayHostService} from '../overlay-host/overlay-host.service';
  */
 @Component({
     selector: 'gtx-dropdown-list',
-    template: require('./dropdown-list.tpl.html'),
+    templateUrl: './dropdown-list.tpl.html',
     changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class DropdownList {

@@ -1,10 +1,16 @@
+## 1.0.0 (in progress)
+
+#### Breaking Changes
+
+* Updated to Angular 2 final. No longer compatible with any version of Angular prior to 2.0.0-rc.6. Exporting lib as `GenticsUICoreModule`.
+
 ## 0.12.0 (2016-12-01)
 
-### Features
+#### Features
 
 * DateTimePicker now translatable & localizable (GCU-170)
 
-### Fixes
+#### Fixes
 * Fix FilePicker events being emitting on wrong conditions
 * Prevent wrapping in icon buttons (GUIC-88)
 * DatePicker formatting fixed for small screen sizes
@@ -12,22 +18,21 @@
 
 ## 0.11.0 (2016-10-25)
 
-### Features
+#### Features
 * Remove Modal component in favor of `ModalService.fromComponent`
 
 
 ## 0.10.0 (2016-09-29)
 
-### Features
+#### Features
 * Modal CSS changed to fit all screen sizes
 
-## Fixes
+#### Fixes
 * ModalService default options no longer overwritten
-
 
 ## 0.9.1 (2016-09-26)
 
-### Features
+#### Features
 * SearchBar accepts placeholder parameter to translate it
 * Icons can now be written as "icon" element, e.g. `<icon left>wastebin</icon>`
   instead of `<i class="material-icons left">wastebin</i>`
@@ -35,7 +40,7 @@
 
 ## 0.9.0 (2016-09-22)
 
-### Fixes
+#### Fixes
 * SplitViewContainer works with OnPush change detection
 * SplitViewContainer handles dragging outside of the window
 * Select uses ellipses if selected item text is wider than component
@@ -52,11 +57,11 @@
 
 ## 0.8.0 (2016-08-24)
 
-### Features
+#### Features
 * Added "for" input to ProgressBar that accepts an Observable or a Promise
 * Added Tabs component
 
-### Fixes
+#### Fixes
 * SideMenu positioning for small screens
 * ProgressBar cleans up when using start() multiple times
 * ProgressBar works more reliably and with ChangeDetection.OnPush
@@ -64,17 +69,16 @@
 * DropdownList performance improvements
 * (docs) Reorder polyfills so zone.js patches promises
 
-
 ## 0.7.1 (2016-08-01)
 
-### Fixes
+#### Fixes
 * Fixed broken import names of 0.7.0 which don't work in compiled JavaScript
 * Fixed MenuToggleButton not accepting clicks / hover
 
 
 ## 0.7.0 (2016-07-29)
 
-### Features
+#### Features
 * Added FilePicker component
 * Added FileDropArea & PreventFileDrop directives
 * Added PageDragDropFileHandler service
@@ -82,15 +86,14 @@
 * Split SideMenu and MenuToggleButton into separate components
 * SideMenu can now have its width and position configured
 
-### Fixes
+#### Fixes
 * (docs) Improved parsing & display of auto docs
 * (docs) Renamed title attribute to prevent browsers from displaying tooltips on hover
 * (docs) Show angular template errors in console instead of silently failing
 
-
 ## 0.6.1 (2016-07-19)
 
-### Fixes
+#### Fixes
 * ModalService templates named correctly and exported
 * ModalService styling
 * Fix layout issues with Checkbox & RadioButton
@@ -98,7 +101,7 @@
 
 ## 0.6.0 (2016-07-19)
 
-### Features
+#### Features
 * SearchBar now has a ValueAccessor, and `hideClearButton` attribute
 * ModalService introduced for more flexible promise-based modals
 * Add version number to docs
@@ -106,12 +109,12 @@
 
 ## 0.5.0 (2016-07-07)
 
-### Features
+#### Features
 * Upgraded to angular release candidate 4
 * Upgraded to new router and form directives
 * (build) Updated jscs version
 
-### Fixes
+#### Fixes
 * Fix resizing SplitViewContainer above iframe
 * Resolved Performance problem with innerHTML in docs
 * Fix "Cannot read property of undefined" in Notifications
@@ -120,62 +123,61 @@
 
 ## 0.4.0 (2016-06-20)
 
-### Features
+#### Features
 * Add gulp "dist:watch" task, internal tasks not exposed anymore
 * Form components can be imported individually
 
-### Fixes
+#### Fixes
 * InputField is now marked as "touched" on blur
 * Select is now marked as "touched" on blur
 * Images in ui-core demo changed to relative urls
 
-
 ## 0.3.1
 
-### Features 
+#### Features 
 * SearchBar now has a "clear" button and event
 * SearchBar can project content
 * Add OverlayHostService & refactored the way that overlays are created
 * (build) Updated tslint version
 * (tests) Add source map support for karma tests
 
-### Fixes
+#### Fixes
 * InputField no longer fires "change" event on blur
 * DropdownList now uses native Angular methods of inserting & disposing of DOM nodes, which fixes some layout issues
 
 
 ## 0.3.0 (2016-06-03)
 
-### Features
+#### Features
 * Upgrade to typings 1.0.4
 
-### Fixes
+#### Fixes
 * Gulp tasks now exit with a non-zero code when errors occur
 * Check sass validity in npm package build process
 
 
 ## 0.2.0 (2016-06-01)
 
-### Features
+#### Features
 * Add breadcrumbs component
 * Add progress-bar component
 * Use Foundation 6 grid instead of the materialize grid
 * DropdownList width and positioning are now adjustable
 
-### Fixes
+#### Fixes
 * (build) Test are only executed once
 * (tests) Fix tests for DropdownList, RadioButton
 * Fix sorting of SortableList
 
 
-## 0.1.1 (2016-05-10)
+### 0.1.1 (2016-05-10)
 
-### Features
+#### Features
 * Add icon buttons
 * Add stateless mode for Checkbox and RadioButton
 * Add show-on-hover class to ContentsListItem
 
-### Fixes
+#### Fixes
 * (docs) Fix docs parser regex
 * (build) Upgrade to gulp v4
 

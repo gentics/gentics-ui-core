@@ -2,13 +2,10 @@ import {
     Component,
     EventEmitter,
     Input,
-    Optional,
     Output,
-    Provider,
-    Self,
     forwardRef
 } from '@angular/core';
-import {isBlank, isNumber} from '@angular/core/src/facade/lang';
+import {isBlank, isNumber} from '../../common/utils';
 import {ControlValueAccessor, NG_VALUE_ACCESSOR} from '@angular/forms';
 
 
@@ -27,7 +24,7 @@ const GTX_TEXTAREA_VALUE_ACCESSOR = {
  */
 @Component({
     selector: 'gtx-textarea',
-    template: require('./textarea.tpl.html'),
+    templateUrl: './textarea.tpl.html',
     providers: [GTX_TEXTAREA_VALUE_ACCESSOR]
 })
 export class Textarea implements ControlValueAccessor {
@@ -105,12 +102,12 @@ export class Textarea implements ControlValueAccessor {
     private _maxlength: number;
 
 
-    onBlur(): void {
+    onBlur(e: Event): void {
         this.blur.emit(this.value);
         this.change.emit(this.value);
     }
 
-    onFocus(): void {
+    onFocus(e: Event): void {
         this.focus.emit(this.value);
     }
 

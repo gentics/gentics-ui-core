@@ -1,11 +1,26 @@
 import {Component, Injectable} from '@angular/core';
-import {addProviders, tick, inject, TestComponentBuilder} from '@angular/core/testing';
+import {tick, TestBed} from '@angular/core/testing';
 
 import {mustFail} from './must-fail';
 import {componentTest} from './component-test';
 
 
 describe('componentTest', () => {
+
+    beforeEach(() => {
+        TestBed.configureTestingModule({
+            declarations: [
+                SimpleComponent,
+                ComponentThatThrowsInConstructor,
+                ComponentThatNeedsAnExistingService,
+                ComponentThatNeedsAServiceThatIsNotAddedAsProvider,
+                ComponentWithOnDestroy
+            ],
+            providers: [
+                PieService
+            ]
+        });
+    });
 
     it('mark a test as passed when its expectations succeed',
         componentTest(() => SimpleComponent, fixture => {
@@ -64,7 +79,7 @@ describe('componentTest', () => {
     it('marks the test as failed if expectations are not fulfilled',
         mustFail(
             componentTest(() => SimpleComponent, fixture => {
-                expect(fixture.componentInstance.nonExistingProperty).toBe('there');
+                expect((<any> fixture.componentInstance)['nonExistingProperty']).toBe('there');
             })
         )
     );
@@ -89,12 +104,14 @@ describe('componentTest', () => {
 
     it('allows overwriting the template via the TestComponentBuilder',
         componentTest(() => SimpleComponent,
-            tcb => tcb.overrideTemplate(SimpleComponent, 'Overwritten template!'),
+            (testBed: TestBed) => {
+                testBed.overrideComponent(SimpleComponent, {set: {template: 'Overwritten template!'}});
+                return testBed;
+            },
             fixture => {
                 expect(fixture).toBeDefined();
                 expect(fixture.nativeElement.innerText).toBe('Overwritten template!');
-            }
-        )
+            })
     );
 
     it('destroys the component it creates, calling their ngOnDestroy method', () => {
@@ -108,10 +125,6 @@ describe('componentTest', () => {
 
     describe('dependency handling', () => {
 
-        beforeEach(() => addProviders([
-            PieService
-        ]));
-
         it('allows access to providers added with beforeEach(addProviders())',
             componentTest(() => ComponentThatNeedsAnExistingService, (fixture, instance) => {
                 expect(instance.service).toBeDefined();
@@ -121,9 +134,15 @@ describe('componentTest', () => {
 
         it('allows overwriting providers via the TestComponentBuilder',
             componentTest(() => ComponentThatNeedsAnExistingService,
-                tcb => tcb.overrideProviders(ComponentThatNeedsAnExistingService, [
-                    { provide: PieService, useClass: OverwrittenPieService }
-                ]),
+                (testBed: TestBed) => {
+                    testBed.overrideComponent(ComponentThatNeedsAnExistingService, {
+                            set: {
+                                providers: [ { provide: PieService, useClass: OverwrittenPieService } ]
+                            }
+                        }
+                    );
+                    return testBed;
+                },
                 (fixture, instance) => {
                     expect(instance.service).toBeDefined();
                     expect(instance.service.getPie()).toBeCloseTo(3.14, 2);

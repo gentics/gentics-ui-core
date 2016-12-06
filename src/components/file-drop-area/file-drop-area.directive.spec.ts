@@ -1,6 +1,6 @@
 import {Component, QueryList, ViewChild, ViewChildren, WrappedValue} from '@angular/core';
 import {AsyncPipe} from '@angular/common';
-import {addProviders, inject, tick} from '@angular/core/testing';
+import {TestBed, inject} from '@angular/core/testing';
 
 import {componentTest, SpyEventTarget, triggerFakeDragEvent, subscribeSpyObserver} from '../../testing';
 import {DragStateTrackerFactory} from './drag-state-tracker.service';
@@ -18,12 +18,15 @@ describe('File Drop Area:', () => {
         fakePageElement = new SpyEventTarget();
         fakeElement = new SpyEventTarget();
 
-        addProviders([
-            { provide: PAGE_FILE_DRAG_EVENT_TARGET, useValue: fakePageElement },
-            { provide: FILE_DROPAREA_DRAG_EVENT_TARGET, useValue: fakeElement },
-            PageFileDragHandler,
-            DragStateTrackerFactory
-        ]);
+        TestBed.configureTestingModule({
+            providers: [
+                { provide: PAGE_FILE_DRAG_EVENT_TARGET, useValue: fakePageElement },
+                { provide: FILE_DROPAREA_DRAG_EVENT_TARGET, useValue: fakeElement },
+                PageFileDragHandler,
+                DragStateTrackerFactory
+            ],
+            declarations: [FileDropArea, TestComponent]
+        });
     });
 
     afterEach(inject([PageFileDragHandler], (pageDrag: PageFileDragHandler) => {
@@ -511,8 +514,7 @@ describe('File Drop Area:', () => {
             (pageDragEnter)="onPageDragEnter($event)"
             (pageDragLeave)="onPageDragLeave($event)"
         >
-        </div>`,
-    directives: [FileDropArea]
+        </div>`
 })
 class TestComponent {
     @ViewChild(FileDropArea) directive: FileDropArea;

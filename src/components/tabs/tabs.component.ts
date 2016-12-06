@@ -1,7 +1,6 @@
-import {Component, ContentChildren, QueryList, AfterContentInit, Input, Output, EventEmitter} from '@angular/core';
-import {ROUTER_DIRECTIVES} from '@angular/router';
-import {isPresent} from '@angular/core/src/facade/lang';
+import {Component, ContentChildren, QueryList, AfterContentInit, Input, Output, EventEmitter, SimpleChanges} from '@angular/core';
 import {Tab} from './tab.component';
+import {isPresent} from '../../common/utils';
 
 /**
  * Tabs can be either pure or stateful. Stateful tabs will keep track of which one is active by keeping an internal
@@ -40,8 +39,7 @@ import {Tab} from './tab.component';
  */
 @Component({
     selector: 'gtx-tabs',
-    template: require('./tabs.tpl.html'),
-    directives: [ROUTER_DIRECTIVES]
+    templateUrl: './tabs.tpl.html'
 })
 export class Tabs implements AfterContentInit {
 
@@ -78,7 +76,7 @@ export class Tabs implements AfterContentInit {
         }
     }
 
-    ngOnChanges(): void {
+    ngOnChanges(changes: SimpleChanges): void {
         this.setActiveTab();
     }
 

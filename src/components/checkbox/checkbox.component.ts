@@ -1,4 +1,4 @@
-import {ChangeDetectorRef, Component, ElementRef, EventEmitter, Input, Output, Provider, ViewChild, forwardRef} from '@angular/core';
+import {ChangeDetectorRef, Component, ElementRef, EventEmitter, Input, Output, ViewChild, forwardRef} from '@angular/core';
 import {ControlValueAccessor, NG_VALUE_ACCESSOR} from '@angular/forms';
 
 export type CheckState = boolean | 'indeterminate';
@@ -35,7 +35,7 @@ const GTX_CHECKBOX_VALUE_ACCESSOR = {
  */
 @Component({
     selector: 'gtx-checkbox',
-    template: require('./checkbox.tpl.html'),
+    templateUrl: './checkbox.tpl.html',
     providers: [GTX_CHECKBOX_VALUE_ACCESSOR]
 })
 export class Checkbox implements ControlValueAccessor {
@@ -113,14 +113,14 @@ export class Checkbox implements ControlValueAccessor {
      */
     @Output() change = new EventEmitter<CheckState>();
 
+    checkState: CheckState = false;
 
-    private checkState: CheckState = false;
+    @ViewChild('labelElement') labelElement: ElementRef;
+
     /**
      * See note above on stateless mode.
      */
     private statelessMode: boolean = false;
-
-    @ViewChild('labelElement') private labelElement: ElementRef;
 
 
     constructor(private changeDetector: ChangeDetectorRef) { }
@@ -150,13 +150,7 @@ export class Checkbox implements ControlValueAccessor {
         this.fixInitialAnimation();
     }
 
-    registerOnChange(fn: Function): void { this.onChange = fn; }
-    registerOnTouched(fn: Function): void { this.onTouched = fn; }
-
-    private onChange: Function = () => {};
-    private onTouched: Function = () => {};
-
-    private onInputChanged(e: Event, input: HTMLInputElement): boolean {
+    onInputChanged(e: Event, input: HTMLInputElement): boolean {
         if (e) {
             e.stopPropagation();
         }
@@ -175,6 +169,12 @@ export class Checkbox implements ControlValueAccessor {
             return true;
         }
     }
+
+    registerOnChange(fn: Function): void { this.onChange = fn; }
+    registerOnTouched(fn: Function): void { this.onTouched = fn; }
+
+    private onChange: Function = () => {};
+    private onTouched: Function = () => {};
 
     /**
      * This is a hacky fix to prevent Materialize from animating ticked checkboxes which

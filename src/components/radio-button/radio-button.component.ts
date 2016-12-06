@@ -8,7 +8,6 @@ import {
     OnDestroy,
     Optional,
     Output,
-    Provider,
     forwardRef
 } from '@angular/core';
 import {ControlValueAccessor, NG_VALUE_ACCESSOR} from '@angular/forms';
@@ -68,7 +67,12 @@ export class RadioGroup implements ControlValueAccessor {
                 radio.writeValue(selected ? selected.value : null);
             }
         }
-        this.onChange(selected ? selected.value : null);
+        // setTimeout because this method is invoked from a child component (RadioButton), which is the wrong direction
+        // for change propagation (which should normally always be parent -> child). If we synchronously now update the
+        // ngModel value, we will cause "changed after checked" errors in dev mode.
+        setTimeout(() => {
+            this.onChange(selected ? selected.value : null);
+        });
     }
 
     writeValue(value: any): void {
@@ -113,7 +117,7 @@ export class RadioGroup implements ControlValueAccessor {
  */
 @Component({
     selector: 'gtx-radio-button',
-    template: require('./radio-button.tpl.html'),
+    templateUrl: './radio-button.tpl.html',
     providers: [GTX_RADIO_BUTTON_VALUE_ACCESSOR]
 })
 export class RadioButton implements ControlValueAccessor, OnInit, OnDestroy {
@@ -225,9 +229,6 @@ export class RadioButton implements ControlValueAccessor, OnInit, OnDestroy {
         this.inputChecked = (value === this.value);
         if (wasChecked && !this.inputChecked) {
             this.change.emit(false);
-            if (this.group) {
-                this.group.radioSelected(null);
-            }
         }
     }
 
@@ -250,13 +251,7 @@ export class RadioButton implements ControlValueAccessor, OnInit, OnDestroy {
         }
     }
 
-    registerOnChange(fn: Function): void { this.onChange = fn; }
-    registerOnTouched(fn: Function): void { this.onTouched = fn; }
-
-    private onChange: Function = (_: any) => {};
-    private onTouched: Function = () => {};
-
-    private onInputChecked(e: Event, input: HTMLInputElement): boolean {
+    onInputChecked(e: Event, input: HTMLInputElement): boolean {
         if (e) {
             e.stopPropagation();
         }
@@ -277,6 +272,12 @@ export class RadioButton implements ControlValueAccessor, OnInit, OnDestroy {
         this.onChange(this.value);
         return true;
     }
+
+    registerOnChange(fn: Function): void { this.onChange = fn; }
+    registerOnTouched(fn: Function): void { this.onTouched = fn; }
+
+    private onChange: Function = (_: any) => {};
+    private onTouched: Function = () => {};
 }
 
 function randomID(): string {

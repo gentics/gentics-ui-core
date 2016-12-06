@@ -1,13 +1,11 @@
 import {Component} from '@angular/core';
-import {Notification, Button, GTX_FORM_DIRECTIVES} from '../../../index';
-import {Autodocs, DemoBlock, HighlightedCode} from '../../components';
+import {Notification} from '../../../index';
 
 @Component({
-    template: require('./notification-demo.tpl.html'),
-    directives: [Button, GTX_FORM_DIRECTIVES, Autodocs, DemoBlock, HighlightedCode]
+    templateUrl: './notification-demo.tpl.html'
 })
 export class NotificationDemo {
-    componentSource: string = require('!!raw!../../../components/notification/notification.service.ts');
+    componentSource: string = require('!!raw-loader!../../../components/notification/notification.service.ts');
 
     message: string = 'Hello, this is Toast.';
     delay: number = 3000;

@@ -1,22 +1,32 @@
-import {ComponentFixture} from '@angular/compiler/testing';
 import {Component} from '@angular/core';
-import {getTestInjector, tick} from '@angular/core/testing';
+import {BrowserDynamicTestingModule} from '@angular/platform-browser-dynamic/testing';
+import {ComponentFixture, TestBed, tick} from '@angular/core/testing';
 
 import {componentTest} from '../../testing';
-import {OverlayHost} from './../overlay-host/overlay-host.component';
+import {OverlayHost} from '../overlay-host/overlay-host.component';
 import {OverlayHostService} from '../overlay-host/overlay-host.service';
 import {Notification} from './notification.service';
+import {Toast} from './toast.component';
 
-
-let overlayHostService: OverlayHostService;
 let notificationService: Notification;
 
 describe('Notification:', () => {
 
     beforeEach(() => {
-        let injector = getTestInjector().createInjector().resolveAndCreateChild([OverlayHostService, Notification]);
-        overlayHostService = injector.get(OverlayHostService);
-        notificationService = injector.get(Notification);
+        TestBed.configureTestingModule({
+            declarations: [OverlayHost, TestComponent, Toast],
+            providers: [
+                Notification,
+                OverlayHostService
+            ]
+        });
+        TestBed.overrideModule(BrowserDynamicTestingModule, {
+            set: {
+                entryComponents: [Toast]
+            }
+        });
+
+        notificationService = TestBed.get(Notification);
     });
 
     describe('show():', () => {
@@ -195,11 +205,6 @@ describe('Notification:', () => {
 
 
 @Component({
-    template: `<gtx-overlay-host></gtx-overlay-host>`,
-    directives: [OverlayHost],
-    providers: [
-        { provide: Notification, useFactory: (): any => notificationService },
-        { provide: OverlayHostService, useFactory: (): any => overlayHostService }
-    ]
+    template: `<gtx-overlay-host></gtx-overlay-host>`
 })
 class TestComponent {}

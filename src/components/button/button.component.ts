@@ -1,5 +1,5 @@
 import {Component, ElementRef, Input, OnDestroy, Renderer} from '@angular/core';
-import {isPresent} from '@angular/core/src/facade/lang';
+import {isPresent} from '../../common/utils';
 
 /**
  * A Button component.
@@ -15,7 +15,7 @@ import {isPresent} from '@angular/core/src/facade/lang';
  */
 @Component({
     selector: 'gtx-button',
-    template: require('./button.tpl.html')
+    templateUrl: './button.tpl.html'
 })
 export class Button implements OnDestroy {
 
@@ -87,7 +87,7 @@ export class Button implements OnDestroy {
 
     // Disabled elements don't fire mouse events in some browsers, but bubble up the DOM tree.
     // To not trigger actions when the button is disabled, we need to prevent them manually.
-    private onClickEvent = (event: Event): void => {
+    onClickEvent = (event: Event): void => {
         if (event && this.isDisabled) {
             event.preventDefault();
             event.stopImmediatePropagation();

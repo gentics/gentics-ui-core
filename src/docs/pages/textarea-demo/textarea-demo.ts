@@ -1,11 +1,12 @@
 import {Component} from '@angular/core';
-import {GTX_FORM_DIRECTIVES} from '../../../index';
-import {Autodocs, DemoBlock, HighlightedCode} from '../../components';
 
 @Component({
-    template: require('./textarea-demo.tpl.html'),
-    directives: [GTX_FORM_DIRECTIVES, Autodocs, DemoBlock, HighlightedCode]
+    templateUrl: './textarea-demo.tpl.html'
 })
 export class TextareaDemo {
-    componentSource: string = require('!!raw!../../../components/textarea/textarea.component.ts');
+    componentSource: string = require('!!raw-loader!../../../components/textarea/textarea.component.ts');
+    readonly: boolean;
+    required: boolean;
+    disabled: boolean;
+    message: string;
 }

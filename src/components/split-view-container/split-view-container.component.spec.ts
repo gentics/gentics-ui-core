@@ -1,12 +1,15 @@
-import {ComponentFixture} from '@angular/compiler/testing';
+import {TestBed, tick} from '@angular/core/testing';
 import {Component} from '@angular/core';
-import {tick} from '@angular/core/testing';
 
 import {componentTest} from '../../testing';
 import {SplitViewContainer} from './split-view-container.component';
 
 
 describe('SplitViewContainer', () => {
+
+    beforeEach(() => TestBed.configureTestingModule({
+        declarations: [SplitViewContainer, TestComponent]
+    }));
 
     it('should have a "rightPanelVisible" property that allows double-binding',
         componentTest(() => TestComponent, `
@@ -221,8 +224,7 @@ describe('SplitViewContainer', () => {
 
 
 @Component({
-    template: `<gtx-split-view-container></gtx-split-view-container>`,
-    directives: [SplitViewContainer]
+    template: `<gtx-split-view-container></gtx-split-view-container>`
 })
 class TestComponent {
     hasRight: boolean = false;

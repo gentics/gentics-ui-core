@@ -37,8 +37,7 @@ const GTX_DATEPICKER_VALUE_ACCESSOR = {
  */
 @Component({
     selector: 'gtx-date-time-picker',
-    template: require('./date-time-picker.tpl.html'),
-    directives: [InputField, Button],
+    templateUrl: './date-time-picker.tpl.html',
     providers: [GTX_DATEPICKER_VALUE_ACCESSOR]
 })
 export class DateTimePicker implements ControlValueAccessor, OnInit, OnDestroy {
@@ -89,10 +88,10 @@ export class DateTimePicker implements ControlValueAccessor, OnInit, OnDestroy {
 
     value: moment.Moment;
 
+    _disabled: boolean = false;
+    displayValue: string = ' ';
     private _displayTime: boolean = true;
     private _displaySeconds: boolean = true;
-    private _disabled: boolean = false;
-    private displayValue: string = ' ';
     private subscription: Subscription;
 
     // ValueAccessor members

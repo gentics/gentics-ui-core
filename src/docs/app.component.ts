@@ -1,11 +1,10 @@
 import {Component, ViewChild} from '@angular/core';
-import {DomSanitizationService, SafeHtml, Title} from '@angular/platform-browser';
-import {ActivatedRoute, Router, ROUTER_DIRECTIVES, NavigationEnd, PRIMARY_OUTLET} from '@angular/router';
+import {DomSanitizer, SafeHtml, Title} from '@angular/platform-browser';
+import {ActivatedRoute, Router, NavigationEnd, PRIMARY_OUTLET} from '@angular/router';
 import {Subscription} from 'rxjs';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/filter';
-import {ContentsListItem, Notification, OverlayHost, OverlayHostService,
-    PageFileDragHandler, SearchBar, SplitViewContainer, TopBar} from '../index';
+import {SplitViewContainer} from '../index';
 import {pages, kebabToPascal, IPageInfo} from './pageList';
 
 
@@ -15,24 +14,15 @@ declare var VERSION: string;
 
 @Component({
     selector: 'app',
-    template: require('./app.tpl.html'),
-    directives: [
-        ROUTER_DIRECTIVES,
-        TopBar,
-        SearchBar,
-        SplitViewContainer,
-        ContentsListItem,
-        OverlayHost
-    ],
-    providers: [Notification, OverlayHostService, PageFileDragHandler]
+    templateUrl: './app.tpl.html'
 })
 export class App {
     @ViewChild(SplitViewContainer) splitViewContainer: SplitViewContainer;
     version: string;
     contentItems: any[] = pages.map((page: IPageInfo) => {
         return {
-            title: kebabToPascal(page.name),
-            route: '/' + page.name,
+            title: kebabToPascal(page.path),
+            route: '/' + page.path,
             keywords: page.keywords || [],
             type: page.type
         };
@@ -47,7 +37,7 @@ export class App {
     constructor(private router: Router,
                 private route: ActivatedRoute,
                 private titleService: Title,
-                private sanitizer: DomSanitizationService) {
+                private sanitizer: DomSanitizer) {
         this.filteredContentItems = this.contentItems.slice(0);
         this.logoSvg = sanitizer.bypassSecurityTrustHtml(require('./assets/gentics-logo.svg'));
         titleService.setTitle(`Gentics UI Core Docs v${VERSION}`);
@@ -57,17 +47,8 @@ export class App {
     ngOnInit(): void {
         this.subscription = this.router.events
             .filter(event => event instanceof NavigationEnd)
-            .map(_ => this.router.routerState)
-            .map(state => {
-                let route = this.route;
-                while (state.firstChild(route)) {
-                    route = state.firstChild(route);
-                }
-                return route;
-            })
-            .filter(route => route.outlet === PRIMARY_OUTLET)
-            .subscribe((route: ActivatedRoute) => {
-                const path = route.snapshot.url[0].path;
+            .subscribe((_) => {
+                const path = this.route.snapshot.firstChild.url[0].path;
                 this.hasContent = (path !== '' && path !== 'index');
                 if (this.hasContent) {
                     this.splitFocus = 'right';

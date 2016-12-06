@@ -1,14 +1,11 @@
 import {Component} from '@angular/core';
-import {GTX_FORM_DIRECTIVES} from '../../../index';
-import {Autodocs, DemoBlock, HighlightedCode} from '../../components';
 
 @Component({
-    template: require('./checkbox-demo.tpl.html'),
-    directives: [GTX_FORM_DIRECTIVES, Autodocs, DemoBlock, HighlightedCode]
+    templateUrl: './checkbox-demo.tpl.html'
 })
 export class CheckboxDemo {
 
-    componentSource: string = require('!!raw!../../../components/checkbox/checkbox.component.ts');
+    componentSource: string = require('!!raw-loader!../../../components/checkbox/checkbox.component.ts');
 
     someBoolean: boolean = false;
     checkStates: any = {
@@ -16,5 +13,6 @@ export class CheckboxDemo {
         B: false,
         C: 'indeterminate'
     };
-    checkText: string = 'checked'; 
+    checkText: string = 'checked';
+    statelessIsChecked: boolean = false;
 }

@@ -1,6 +1,5 @@
-import {ComponentFixture} from '@angular/compiler/testing';
 import {Component, EventEmitter, ViewChild} from '@angular/core';
-import {addProviders, tick} from '@angular/core/testing';
+import {TestBed} from '@angular/core/testing';
 import {By} from '@angular/platform-browser';
 
 import {componentTest} from '../../testing';
@@ -8,14 +7,14 @@ import {FileDropArea} from '../file-drop-area/file-drop-area.directive';
 import {FilePicker} from './file-picker.component';
 import {Button} from '../button/button.component';
 
-
 describe('File Picker:', () => {
 
-    beforeEach(() => {
-        addProviders([
+    beforeEach(() => TestBed.configureTestingModule({
+        providers: [
             { provide: FileDropArea, useClass: MockFileDropArea }
-        ]);
-    });
+        ],
+        declarations: [FilePicker, FileDropArea, TestComponent, Button]
+    }));
 
     it('is created ok',
         componentTest(() => TestComponent, fixture => {
@@ -156,8 +155,7 @@ class MockFileDropArea {
         <gtx-file-picker
             (fileSelect)="onFileSelect($event)"
             (fileSelectReject)="onFileSelectReject($event)"
-        ></gtx-file-picker>`,
-    directives: [FilePicker, FileDropArea]
+        ></gtx-file-picker>`
 })
 class TestComponent {
     disabled = false;

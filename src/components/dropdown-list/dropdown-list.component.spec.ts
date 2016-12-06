@@ -1,18 +1,19 @@
 import {Component} from '@angular/core';
-import {tick} from '@angular/core/testing';
-import {addProviders} from '@angular/core/testing';
+import {TestBed, tick} from '@angular/core/testing';
 
 import {componentTest} from '../../testing';
 import {DropdownList} from './dropdown-list.component';
 import {OverlayHost} from '../overlay-host/overlay-host.component';
 import {OverlayHostService} from '../overlay-host/overlay-host.service';
+import {Button} from '../button/button.component';
 
 
 describe('DropdownList:', () => {
 
-    beforeEach(() => {
-        addProviders([ OverlayHostService ]);
-    });
+    beforeEach(() => TestBed.configureTestingModule({
+        declarations: [DropdownList, OverlayHost, TestComponent, Button],
+        providers: [OverlayHostService]
+    }));
 
     it('does not add content to the DOM before it is opened',
         componentTest(() => TestComponent, fixture => {
@@ -154,8 +155,7 @@ describe('DropdownList:', () => {
                     <li><a>Third</a></li>
                 </ul>
             </gtx-dropdown-list>
-        </div>`,
-    directives: [DropdownList, OverlayHost]
+        </div>`
 })
 class TestComponent {
     collection = [1, 2, 3];

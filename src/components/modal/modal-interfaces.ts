@@ -32,8 +32,8 @@ export interface IModalOptions {
 /**
  * The return value from the ModalService public methods.
  */
-export interface IModalInstance {
-    instance: IModalDialog;
+export interface IModalInstance<T extends IModalDialog> {
+    instance: T;
     element: HTMLElement;
     open: () => Promise<any>;
 }

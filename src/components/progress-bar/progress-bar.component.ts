@@ -53,7 +53,7 @@ function noop(): void {}
  */
 @Component({
     selector: 'gtx-progress-bar',
-    template: require('./progress-bar.tpl.html')
+    templateUrl: './progress-bar.tpl.html'
 })
 export class ProgressBar implements OnDestroy {
 
@@ -140,8 +140,8 @@ export class ProgressBar implements OnDestroy {
     private removePendingHandler: () => void = noop;
     private cleanupSubscription: () => void = noop;
 
-    @ViewChild('progressBarWrapper') private progressBarWrapper: ElementRef;
-    @ViewChild('progressIndicator') private progressIndicator: ElementRef;
+    @ViewChild('progressBarWrapper') progressBarWrapper: ElementRef;
+    @ViewChild('progressIndicator') progressIndicator: ElementRef;
 
     private wrapperClasses = { add(...cls: string[]): void {}, remove(...cls: string[]): void {} };
 

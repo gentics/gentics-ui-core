@@ -1,23 +1,15 @@
 import {Component} from '@angular/core';
-import {Route, provideRouter} from '@angular/router';
-import {IPageInfo, pages} from './pageList';
-
-const routes: Route[] = pages.map((demo: IPageInfo) => {
-    return {
-        path: demo.name,
-        component: demo.component
-    };
-});
+import {Route} from '@angular/router';
+import {pages} from './pageList';
 
 @Component({
     selector: 'default',
     template: ''
 })
-class DefaultRoute {}
+export class DefaultRoute {}
 
-routes.push({ path: 'index', component: DefaultRoute });
-routes.push({ path: '', redirectTo: 'index', pathMatch: 'full' });
-
-export const APP_ROUTER_PROVIDERS = [
-    provideRouter(routes)
+export const routes: Route[] = [
+    ...pages,
+    { path: 'index', component: DefaultRoute },
+    { path: '', redirectTo: 'index', pathMatch: 'full' }
 ];

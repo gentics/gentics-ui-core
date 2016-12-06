@@ -1,7 +1,5 @@
 import {Component, Input, ElementRef} from '@angular/core';
 import {parseDocs, IDocumentation} from './doc-parser';
-import {AutodocTable} from './autodoc-table.component';
-import {TrustedHTMLPipe} from '../trusted-html/trusted-html.pipe';
 
 /**
  * Accepts a string of the component's source code, parses it and renders the
@@ -9,9 +7,7 @@ import {TrustedHTMLPipe} from '../trusted-html/trusted-html.pipe';
  */
 @Component({
     selector: 'gtx-autodocs',
-    template: require('./autodocs.tpl.html'),
-    directives: [AutodocTable],
-    pipes: [TrustedHTMLPipe]
+    templateUrl: './autodocs.tpl.html'
 })
 export class Autodocs {
 

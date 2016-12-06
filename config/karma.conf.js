@@ -2,14 +2,13 @@
 // Generated on Thu Dec 03 2015 13:23:31 GMT+0100 (W. Europe Standard Time)
 const path = require('path');
 const paths = require('./build.config.js').paths;
-
-const addModulePath = s => path.join('node_modules', s);
+const webpack = require('webpack');
 
 module.exports = function (config) {
     config.set({
 
         // base path that will be used to resolve all patterns (eg. files, exclude)
-        basePath: '',
+        basePath: '../',
 
         // frameworks to use
         // available frameworks: https://npmjs.org/browse/keyword/karma-adapter
@@ -17,8 +16,7 @@ module.exports = function (config) {
 
         // list of files / patterns to load in the browser
         files: [
-            ...paths.vendorJS.map(addModulePath),
-            './testing-bootstrap.js',
+            'testing-bootstrap.js',
             { pattern: paths.src.typescript[0], watched: false, served: false, included: false }
         ],
 
@@ -33,37 +31,36 @@ module.exports = function (config) {
         },
 
         webpack: {
-            // karma watches the test entry points
-            // (you don't need to specify the entry option)
-            // webpack watches dependencies
-
             // webpack configuration
             resolve: {
-                root: './src',
-                extensions: ['', '.js', '.ts'],
-                modulesDirectories: ['node_modules', 'src']
+                extensions: ['.js', '.ts'],
+                modules: ['node_modules', 'src']
             },
             module: {
                 loaders: [
-                    { test: /\.ts$/, loader: 'ts?transpileOnly=true' },
-                    { test: /\.html/, loader: 'html' }
+                    {
+                        test: /\.ts$/,
+                        loaders: [
+                            'ts-loader?transpileOnly=true&configFileName=config/tsconfig.tests.json',
+                            'angular2-template-loader'
+                        ]
+                    },
+                    { test: /\.html/, loader: 'html-loader' },
+                    { test: /\.json/, loader: 'json-loader' }
                 ]
             },
-            ts: {
-                compilerOptions: {
-                    declaration: false,
-                    noEmit: false,
-                    noEmitOnError: false
-                }
-            },
-            debug: true,
+            plugins: [
+                // work-around for https://github.com/angular/angular/issues/11580
+                new webpack.ContextReplacementPlugin(
+                    /angular(\\|\/)core(\\|\/)(esm(\\|\/)src|src)(\\|\/)linker/,
+                    __dirname
+                ),
+            ],
             devtool: 'inline-source-map'
         },
 
         webpackMiddleware: {
-            // webpack-dev-middleware configuration
-            // i. e.
-            noInfo: true
+            stats: { chunks: false }
         },
 
         plugins: [

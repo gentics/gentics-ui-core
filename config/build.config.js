@@ -33,8 +33,9 @@ const paths = {
         }
     },
     vendorJS: [
-       /* 'node_modules/reflect-metadata/Reflect.js',
-        'node_modules/zone.js/dist/zone.js'*/
+        'node_modules/es6-shim/es6-shim.js',
+        'node_modules/reflect-metadata/Reflect.js',
+        'node_modules/zone.js/dist/zone.js'
     ],
     vendorStatics: [
         'node_modules/materialize-css/fonts/roboto/Roboto-*'

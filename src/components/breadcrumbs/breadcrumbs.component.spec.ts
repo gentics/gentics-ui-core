@@ -1,9 +1,9 @@
 import {LocationStrategy} from '@angular/common';
-import {ComponentFixture} from '@angular/compiler/testing';
-import {Component, Directive, Input} from '@angular/core';
-import {addProviders, getTestInjector, tick} from '@angular/core/testing';
+import {ComponentFixture, getTestBed, TestBed, tick} from '@angular/core/testing';
+import {Component} from '@angular/core';
 import {By} from '@angular/platform-browser';
-import {ActivatedRoute, Router, RouterLink, RouterLinkWithHref, UrlTree} from '@angular/router';
+import {ActivatedRoute, Router, RouterModule} from '@angular/router';
+import {Observable} from 'rxjs';
 
 import {componentTest, createClickEvent} from '../../testing';
 import {
@@ -37,11 +37,15 @@ function linkHrefs(fixture: ComponentFixture<any>): string[] {
 describe('Breadcrumbs:', () => {
 
     beforeEach(() => {
-        addProviders([
-            { provide: Router, useClass: MockRouter },
-            { provide: ActivatedRoute, useClass: MockActivatedRoute },
-            { provide: LocationStrategy, useClass: MockLocationStrategy }
-        ]);
+        TestBed.configureTestingModule({
+            imports: [RouterModule.forChild([])],
+            providers: [
+                { provide: Router, useClass: MockRouter },
+                { provide: ActivatedRoute, useClass: MockActivatedRoute },
+                { provide: LocationStrategy, useClass: MockLocationStrategy }
+            ],
+            declarations: [Breadcrumbs, TestComponent]
+        });
     });
 
     it('creates a breadcrumbs bar with the link texts provided',
@@ -341,7 +345,7 @@ describe('Breadcrumbs:', () => {
                 ]'>
                 </gtx-breadcrumbs>`,
                 fixture => {
-                    let router: MockRouter = getTestInjector().get(Router);
+                    let router: MockRouter = getTestBed().get(Router);
                     router.createUrlTree = (commands: string[], options: any) => commands;
                     router.navigateByUrl = jasmine.createSpy('navigateByUrl');
 
@@ -368,7 +372,7 @@ describe('Breadcrumbs:', () => {
                 ]'>
                 </gtx-breadcrumbs>`,
                 fixture => {
-                    let router: MockRouter = getTestInjector().get(Router);
+                    let router: MockRouter = getTestBed().get(Router);
                     router.createUrlTree = (commands: string[], options: any) => commands;
                     router.navigateByUrl = jasmine.createSpy('navigateByUrl');
 
@@ -394,6 +398,7 @@ describe('Breadcrumbs:', () => {
 
 
 class MockRouter {
+    events = Observable.of([]);
     createUrlTree(commands: string[], options: any): any {
         return commands;
     }
@@ -418,8 +423,7 @@ class MockUsageActions {
         <gtx-breadcrumbs
             [links]="links"
             (linkClick)="onLinkClick($event)">
-        </gtx-breadcrumbs>`,
-    directives: [Breadcrumbs]
+        </gtx-breadcrumbs>`
 })
 class TestComponent {
     links: IBreadcrumbLink[] = [];

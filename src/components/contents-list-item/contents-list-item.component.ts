@@ -24,6 +24,6 @@ import {Component} from '@angular/core';
  */
 @Component({
     selector: 'gtx-contents-list-item',
-    template: require('./contents-list-item.tpl.html')
+    templateUrl: './contents-list-item.tpl.html'
 })
 export class ContentsListItem {}

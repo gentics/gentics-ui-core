@@ -1,10 +1,8 @@
 import {Component} from '@angular/core';
-import {Autodocs, DemoBlock, HighlightedCode} from '../../components';
 
 @Component({
-    template: require('./overlay-host-demo.tpl.html'),
-    directives: [Autodocs, DemoBlock, HighlightedCode]
+    templateUrl: './overlay-host-demo.tpl.html'
 })
 export class OverlayHostDemo {
-    componentSource: string = require('!!raw!../../../components/overlay-host/overlay-host.component.ts');
+    componentSource: string = require('!!raw-loader!../../../components/overlay-host/overlay-host.component.ts');
 }

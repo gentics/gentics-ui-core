@@ -1,26 +1,42 @@
 import {Component} from '@angular/core';
+import {BrowserDynamicTestingModule} from '@angular/platform-browser-dynamic/testing';
 import {By} from '@angular/platform-browser';
-import {async, discardPeriodicTasks, ComponentFixture, fakeAsync, getTestInjector, inject, tick} from '@angular/core/testing';
+import {discardPeriodicTasks, ComponentFixture, TestBed, tick} from '@angular/core/testing';
 
 import {componentTest} from '../../testing';
 import {OverlayHostService} from '../overlay-host/overlay-host.service';
 import {OverlayHost} from '../overlay-host/overlay-host.component';
 import {ModalService} from './modal.service';
 import {IDialogConfig, IModalDialog} from './modal-interfaces';
+import {DynamicModalWrapper} from './dynamic-modal-wrapper.component';
+import {ModalDialog} from './modal-dialog.component';
+import {Button} from '../button/button.component';
 
 
 let modalService: ModalService;
-let overlayHostService: OverlayHostService;
 
 describe('ModalService:', () => {
 
     beforeEach(() => {
-        let injector = getTestInjector().createInjector().resolveAndCreateChild([OverlayHostService, ModalService]);
-        overlayHostService = injector.get(OverlayHostService);
-        modalService = injector.get(ModalService);
+        TestBed.configureTestingModule({
+            declarations: [OverlayHost, DynamicModalWrapper, ModalDialog, TestComponent, Button],
+            providers: [
+                ModalService,
+                OverlayHostService
+            ]
+        });
+        TestBed.overrideModule(BrowserDynamicTestingModule, {
+            set: {
+                entryComponents: [DynamicModalWrapper, ModalDialog]
+            }
+        });
     });
 
     describe('dialog():', () => {
+
+        beforeEach(() => {
+            modalService = TestBed.get(ModalService);
+        });
 
         it('returns a promise',
             componentTest(() => TestComponent, fixture => {
@@ -167,6 +183,10 @@ describe('ModalService:', () => {
     });
 
     describe('modal options:', () => {
+
+        beforeEach(() => {
+            modalService = TestBed.get(ModalService);
+        });
 
         const testDialogConfig: IDialogConfig = {
             title: 'Test',
@@ -328,12 +348,23 @@ describe('ModalService:', () => {
         })
         class BadModalCmp {}
 
+        beforeEach(() => {
+            TestBed.overrideModule(BrowserDynamicTestingModule, {
+                add: {
+                    declarations: [TestModalCmp, BadModalCmp],
+                    entryComponents: [TestModalCmp, BadModalCmp]
+                }
+            });
+
+            modalService = TestBed.get(ModalService);
+        });
+
         it('throws if the passed component does not implement IModalDialog',
             componentTest(() => TestComponent, fixture => {
                 fixture.detectChanges();
 
                 function run(): void {
-                    modalService.fromComponent(BadModalCmp);
+                    modalService.fromComponent(BadModalCmp as any);
                     tick();
                 }
 
@@ -477,11 +508,6 @@ function getElements(fixture: ComponentFixture<any>, selector: string): HTMLElem
 }
 
 @Component({
-    template: `<gtx-overlay-host></gtx-overlay-host>`,
-    directives: [OverlayHost],
-    providers: [
-        { provide: ModalService, useFactory: (): any => modalService },
-        { provide: OverlayHostService, useFactory: (): any => overlayHostService }
-    ]
+    template: `<gtx-overlay-host></gtx-overlay-host>`
 })
 class TestComponent {}

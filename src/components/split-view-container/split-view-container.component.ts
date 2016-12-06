@@ -63,7 +63,7 @@ export const CURSOR_STYLE_CLASS = 'gtx-split-view-container-resizing';
  */
 @Component({
     selector: 'gtx-split-view-container',
-    template: require('./split-view-container.tpl.html')
+    templateUrl: './split-view-container.tpl.html'
 })
 export class SplitViewContainer implements AfterViewInit, OnDestroy {
     /**
@@ -203,18 +203,18 @@ export class SplitViewContainer implements AfterViewInit, OnDestroy {
     globalCursorStyleTarget: any = window.document && window.document.body;
 
 
+    resizing: boolean = false;
     private _rightPanelVisible: boolean = false;
     private _focusedPanel: FocusType = 'left';
-    private resizing: boolean = false;
     private resizeMouseOffset: number;
     private hammerManager: HammerManager;
     private cleanups: Function[] = [];
 
-    @ViewChild('resizeContainer') private resizeContainer: ElementRef;
-    @ViewChild('leftPanel') private leftPanel: ElementRef;
-    @ViewChild('rightPanel') private rightPanel: ElementRef;
-    @ViewChild('resizer') private resizer: ElementRef;
-    @ViewChild('visibleResizer') private visibleResizer: ElementRef;
+    @ViewChild('resizeContainer') resizeContainer: ElementRef;
+    @ViewChild('leftPanel') leftPanel: ElementRef;
+    @ViewChild('rightPanel') rightPanel: ElementRef;
+    @ViewChild('resizer') resizer: ElementRef;
+    @ViewChild('visibleResizer') visibleResizer: ElementRef;
 
     constructor(private ownElement: ElementRef,
                 private changeDetector: ChangeDetectorRef,
@@ -257,45 +257,21 @@ export class SplitViewContainer implements AfterViewInit, OnDestroy {
         this.rightPanel.nativeElement.scrollTop = scrollTop;
     }
 
-    /**
-     * Set up a Hammerjs-based swipe gesture handler to allow swiping between two panes.
-     */
-    private initSwipeHandler(): void {
-        // set up swipe gesture handler
-        this.hammerManager = new Hammer(this.ownElement.nativeElement);
-        this.hammerManager.on('swipe', (e: HammerInput) => {
-            if (e.pointerType === 'touch') {
-                // Hammerjs represents directions with an enum,
-                // 2 = left, 4 = right.
-                if (e.direction === 4) {
-                    this.leftPanelClicked();
-                }
-                if (e.direction === 2) {
-                    this.rightPanelClicked();
-                }
-            }
-        });
-    }
-
-    private destroySwipeHandler(): void {
-        this.hammerManager.destroy();
-    }
-
-    private leftPanelClicked(): void {
+    leftPanelClicked(): void {
         if (this._focusedPanel == 'right') {
             this.focusedPanelChange.emit('left');
             this.changeDetector.markForCheck();
         }
     }
 
-    private rightPanelClicked(): void {
+    rightPanelClicked(): void {
         if (this._focusedPanel == 'left' && this._rightPanelVisible) {
             this.focusedPanelChange.emit('right');
             this.changeDetector.markForCheck();
         }
     }
 
-    private startResizer(event: MouseEvent): void {
+    startResizer(event: MouseEvent): void {
         if (event.which != 1 || !this.leftPanel.nativeElement) { return; }
         event.preventDefault();
 
@@ -325,6 +301,30 @@ export class SplitViewContainer implements AfterViewInit, OnDestroy {
         this.visibleResizer.nativeElement.style.left = resizerXPosition + '%';
         this.changeDetector.markForCheck();
         this.splitDragStart.emit(resizerXPosition);
+    }
+
+    /**
+     * Set up a Hammerjs-based swipe gesture handler to allow swiping between two panes.
+     */
+    private initSwipeHandler(): void {
+        // set up swipe gesture handler
+        this.hammerManager = new Hammer(this.ownElement.nativeElement);
+        this.hammerManager.on('swipe', (e: HammerInput) => {
+            if (e.pointerType === 'touch') {
+                // Hammerjs represents directions with an enum,
+                // 2 = left, 4 = right.
+                if (e.direction === 4) {
+                    this.leftPanelClicked();
+                }
+                if (e.direction === 2) {
+                    this.rightPanelClicked();
+                }
+            }
+        });
+    }
+
+    private destroySwipeHandler(): void {
+        this.hammerManager.destroy();
     }
 
     private moveResizer = (event: MouseEvent) => {

@@ -1,12 +1,11 @@
 import {
-    ComponentFactory,
     ComponentRef,
-    ComponentResolver,
+    ComponentFactoryResolver,
     ElementRef,
     Injectable,
-    ViewContainerRef
+    ViewContainerRef,
+    Type
 } from '@angular/core';
-import {Type} from '@angular/core/src/facade/lang';
 import {OverlayHostService} from '../overlay-host/overlay-host.service';
 import {DynamicModalWrapper} from './dynamic-modal-wrapper.component';
 import {ModalDialog} from './modal-dialog.component';
@@ -125,7 +124,7 @@ export class ModalService {
 
     private hostViewContainer: ViewContainerRef;
 
-    constructor(private componentResolver: ComponentResolver,
+    constructor(private componentFactoryResolver: ComponentFactoryResolver,
                 overlayHostService: OverlayHostService) {
         overlayHostService.getHostView().then(view => {
             this.hostViewContainer = view;
@@ -136,61 +135,54 @@ export class ModalService {
      * Create a new modal instance containing the specified component, optionally specifying "locals" which
      * will be defined on the component instance with the given value.
      */
-    public fromComponent(component: Type,
+    public fromComponent<T extends IModalDialog>(component: Type<T>,
                          options?: IModalOptions,
-                         locals?: { [key: string]: any }): Promise<IModalInstance> {
-        return this.wrapComponentInModal(component, options, locals);
+                         locals?: { [key: string]: any }): Promise<IModalInstance<T>> {
+        let modal = this.wrapComponentInModal(component, options, locals);
+        return Promise.resolve(modal);
     }
 
     /**
      * Create a new modal by appending the elementRef to a blank modal window. Primarily used internally
      * for the implementation of the declarative [Modal](#/modal) component.
      */
-    public fromElement(elementRef: ElementRef, options?: IModalOptions): Promise<IModalInstance> {
-        return this.wrapComponentInModal(BlankModal, options)
-            .then(modal => {
-                modal.element.appendChild(elementRef.nativeElement);
-                return modal;
-            });
+    public fromElement(elementRef: ElementRef, options?: IModalOptions): Promise<IModalInstance<BlankModal>> {
+        let modal = this.wrapComponentInModal(BlankModal, options);
+        modal.element.appendChild(elementRef.nativeElement);
+        return Promise.resolve(modal);
     }
 
     /**
      * Creates and displays a standard modal dialog.
      */
-    public dialog(config: IDialogConfig, options?: IModalOptions): Promise<IModalInstance> {
-        return this.wrapComponentInModal(ModalDialog, options)
-            .then(modal => {
-                (<ModalDialog> modal.instance).setConfig(config);
-                return modal;
-            });
+    public dialog(config: IDialogConfig, options?: IModalOptions): Promise<IModalInstance<ModalDialog>> {
+        let modal = this.wrapComponentInModal(ModalDialog, options);
+        modal.instance.setConfig(config);
+        return Promise.resolve(modal);
     }
 
-    private wrapComponentInModal(component: Type,
+    private wrapComponentInModal<T extends IModalDialog>(component: Type<T>,
                                  options?: IModalOptions,
-                                 locals?: { [key: string]: any }): Promise<IModalInstance> {
-        return this.createModalWrapper(options)
-            .then(modalWrapper => {
-                return modalWrapper.injectContent(component)
-                    .then(componentRef => {
-                        const dialog: IModalDialog = componentRef.instance;
-                        if (locals !== undefined) {
-                            for (let key in locals) {
-                                (<any> dialog)[key] = locals[key];
-                            }
-                            componentRef.changeDetectorRef.markForCheck();
-                        }
-                        this.checkModalDialogInterface(dialog);
-                        return {
-                            instance: dialog,
-                            element: componentRef.location.nativeElement,
-                            open: (): Promise<any> => {
-                                this.invokeOnOpenCallback(options);
-                                modalWrapper.open();
-                                return this.createPromiseFromDialog(modalWrapper, dialog);
-                            }
-                        };
-                    });
-            });
+                                 locals?: { [key: string]: any }): IModalInstance<T> {
+        const modalWrapper = this.createModalWrapper<T>(options);
+        const componentRef = modalWrapper.injectContent(component);
+        const dialog = componentRef.instance;
+        if (locals !== undefined) {
+            for (let key in locals) {
+                (<any> dialog)[key] = locals[key];
+            }
+            componentRef.changeDetectorRef.markForCheck();
+        }
+        this.checkModalDialogInterface(dialog);
+        return {
+            instance: dialog as any,
+            element: componentRef.location.nativeElement,
+            open: (): Promise<any> => {
+                this.invokeOnOpenCallback(options);
+                modalWrapper.open();
+                return this.createPromiseFromDialog(modalWrapper, dialog);
+            }
+        };
     }
 
     /**
@@ -207,18 +199,16 @@ export class ModalService {
      * Creates the DynamicModalWrapper in place in the DOM and returns a reference to the
      * created component.
      */
-    private createModalWrapper(options?: IModalOptions): Promise<DynamicModalWrapper> {
-        return this.componentResolver.resolveComponent(DynamicModalWrapper)
-            .then((modalFactory: ComponentFactory<DynamicModalWrapper>) => {
-                const ref = this.hostViewContainer.createComponent(modalFactory);
-                return this.getConfiguredModalWrapper(ref, options);
-            });
+    private createModalWrapper<T extends IModalDialog>(options?: IModalOptions): DynamicModalWrapper {
+        let modalFactoryFactory = this.componentFactoryResolver.resolveComponentFactory(DynamicModalWrapper);
+        const ref = this.hostViewContainer.createComponent(modalFactoryFactory);
+        return this.getConfiguredModalWrapper(ref, options);
     }
 
     /**
      * Decorate the ModalWrapper instance with the dismissFn and return that instance.
      */
-    private getConfiguredModalWrapper(wrapperComponentRef: ComponentRef<DynamicModalWrapper>,
+    private getConfiguredModalWrapper<T extends IModalDialog>(wrapperComponentRef: ComponentRef<DynamicModalWrapper>,
                                       options?: IModalOptions): DynamicModalWrapper {
         let modalWrapper = wrapperComponentRef.instance;
         modalWrapper.dismissFn = () => {
@@ -233,7 +223,7 @@ export class ModalService {
      * Returns a promise which is bound to the closeFn and cancelFn of the dialog instance,
      * and will be resolved/rejected when either of those methods are invoked.
      */
-    private createPromiseFromDialog(modalWrapper: DynamicModalWrapper, dialog: IModalDialog): Promise<any> {
+    private createPromiseFromDialog<T extends IModalDialog>(modalWrapper: DynamicModalWrapper, dialog: IModalDialog): Promise<any> {
         return new Promise((resolve, reject) => {
             dialog.registerCloseFn((value: any) => {
                 modalWrapper.dismissFn();

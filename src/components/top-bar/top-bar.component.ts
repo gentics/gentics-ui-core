@@ -20,6 +20,6 @@ import {Component} from '@angular/core';
  */
 @Component({
     selector: 'gtx-top-bar',
-    template: require('./top-bar.tpl.html')
+    templateUrl: './top-bar.tpl.html'
 })
 export class TopBar {}
