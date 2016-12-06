@@ -8,7 +8,7 @@ module.exports = function (config) {
     config.set({
 
         // base path that will be used to resolve all patterns (eg. files, exclude)
-        basePath: '',
+        basePath: '../',
 
         // frameworks to use
         // available frameworks: https://npmjs.org/browse/keyword/karma-adapter
@@ -16,7 +16,7 @@ module.exports = function (config) {
 
         // list of files / patterns to load in the browser
         files: [
-            './testing-bootstrap.js',
+            'testing-bootstrap.js',
             { pattern: paths.src.typescript[0], watched: false, served: false, included: false }
         ],
 
@@ -41,7 +41,7 @@ module.exports = function (config) {
                     {
                         test: /\.ts$/,
                         loaders: [
-                            'ts-loader?transpileOnly=true&configFileName=tsconfig.tests.json',
+                            'ts-loader?transpileOnly=true&configFileName=config/tsconfig.tests.json',
                             'angular2-template-loader'
                         ]
                     },

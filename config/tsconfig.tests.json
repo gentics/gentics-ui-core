@@ -8,6 +8,6 @@
         "sourceMap": true,
         "moduleResolution": "node",
         "noImplicitAny": true,
-        "noEmit": false
+        "noEmit": true
     }
 }

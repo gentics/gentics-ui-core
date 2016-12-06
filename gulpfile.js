@@ -20,9 +20,10 @@ const tslintStylish = require('tslint-stylish');
 const ts = require('gulp-typescript');
 const webpack = require('webpack');
 
-const webpackConfig = require('./webpack.config.js');
-const buildConfig = require('./build.config').config;
-const paths = require('./build.config').paths;
+const webpackDevConfig = require('./config/webpack.dev.config.js');
+const webpackDistConfig = require('./config/webpack.dist.config.js');
+const buildConfig = require('./config/build.config.js').config;
+const paths = require('./config/build.config.js').paths;
 
 gulp.task('clean', gulp.parallel(
     cleanDistFolder,
@@ -259,7 +260,7 @@ function watchDist(runForever) {
  * TODO: Not yet working. Need to use @ngtools/webpack
  */
 function webpackCompileDocsFromAot(callback) {
-    const aotConfig = Object.assign({}, webpackConfig);
+    const aotConfig = Object.assign({}, webpackDistConfig);
     aotConfig.entry.app = path.join(__dirname, 'src', 'docs', 'main.ts');
     aotConfig.plugins[0] = new webpack.LoaderOptionsPlugin({
         test: /\.ts$/,
@@ -280,14 +281,18 @@ function webpackCompileDocsFromAot(callback) {
     webpack(aotConfig).run(webpackOnCompleted(callback));
 }
 
+/**
+ * Builds the demo app with the "dist" webpack config.
+ */
 function webpackRun(callback) {
-    const buildConfig = Object.assign({}, webpackConfig);
-    buildConfig.plugins.push(new webpack.DefinePlugin({ PROD: true }));
-    webpack(buildConfig).run(webpackOnCompleted(callback));
+    webpack(webpackDistConfig).run(webpackOnCompleted(callback));
 }
 
 // create a single instance of the compiler to allow caching
-let devCompiler = webpack(webpackConfig);
+let devCompiler = webpack(webpackDevConfig);
+/**
+ * Start webpack watching with the "dev" config.
+ */
 function webpackWatch(callback) {
     devCompiler.watch({}, webpackOnCompleted(callback));
 }
@@ -303,7 +308,7 @@ function runKarmaServer(watch, callback) {
     });
 
     const server = new karma.Server({
-        configFile: path.join(__dirname, 'karma.conf.js'),
+        configFile: path.join(__dirname, 'config', 'karma.conf.js'),
         singleRun: !watch,
         browsers: testBrowsers,
         reporters: ['mocha'],

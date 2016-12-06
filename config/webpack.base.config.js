@@ -3,7 +3,7 @@
 const webpack = require('webpack');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const path = require('path');
-const srcPath = path.join(__dirname, 'src', 'docs');
+const srcPath = path.join(__dirname, '../', 'src', 'docs');
 const paths = require('./build.config.js').paths;
 
 module.exports = {
@@ -22,7 +22,7 @@ module.exports = {
         modules: ['node_modules']
     },
     output: {
-        path: path.join(__dirname, 'docs'),
+        path: path.join(__dirname, '..', 'docs'),
         publicPath: '',
         filename: '[name].js',
         pathinfo: true
@@ -43,11 +43,6 @@ module.exports = {
             options: {
                 context: __dirname,
                 ts: {
-                    files: [
-                        'src/index.ts',
-                        'src/docs/main.ts',
-                        'typings/index.d.ts'
-                    ],
                     compilerOptions: {
                         declaration: false,
                         noEmit: false,
@@ -57,10 +52,6 @@ module.exports = {
                 // work around: https://github.com/TypeStrong/ts-loader/issues/283#issuecomment-249414784
                 resolve: {}
             }
-        }),
-        new webpack.DefinePlugin({
-            VERSION: JSON.stringify(require('./package.json').version),
-            PROD: false
         }),
         new webpack.optimize.CommonsChunkPlugin({ name: 'common', filename: 'common.js' }),
         new HtmlWebpackPlugin({
