@@ -19,6 +19,8 @@ const tslint = require('gulp-tslint');
 const tslintStylish = require('tslint-stylish');
 const ts = require('gulp-typescript');
 const webpack = require('webpack');
+const inlineNg2Template = require('gulp-inline-ng2-template');
+const htmlMinifier = require('html-minifier');
 
 const webpackDevConfig = require('./config/webpack.dev.config.js');
 const webpackDistConfig = require('./config/webpack.dist.config.js');
@@ -96,6 +98,11 @@ function compileDistTypescript() {
         });
     }
     let tsResult = gulp.src(paths.src.typescript.concat(paths.src.typings))
+        .pipe(inlineNg2Template({
+            base: '/',
+            useRelativePaths: true,
+            templateProcessor: minifyTemplate
+        }))
         .pipe(sourcemaps.init())
         .pipe(tsProject());
 
@@ -107,6 +114,24 @@ function compileDistTypescript() {
             .pipe(sourcemaps.write('.', { includeContent: true, sourceRoot: '../src' }))
             .pipe(gulp.dest(paths.out.dist.root))
      ]);
+}
+
+/**
+ * Minify the component HTML before inlining it in the dist .js file.
+ */
+function minifyTemplate(path, ext, file, cb) {
+    try {
+        let minifiedFile = htmlMinifier.minify(file, {
+            collapseWhitespace: true,
+            caseSensitive: true,
+            removeComments: true,
+            removeRedundantAttributes: true,
+            maxLineLength: 200
+        });
+        cb(null, minifiedFile);
+    } catch (err) {
+        cb(err);
+    }
 }
 
 /**

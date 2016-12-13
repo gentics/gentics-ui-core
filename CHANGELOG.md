@@ -2,9 +2,13 @@
 
 ## 1.0.1 (in progress)
 
-* (build) Migrate type definitions to @types/*
-* (build) No longer leak type definition dependencies (hammerjs, sortablejs etc.)
-* (build) Add Moment as a peerDependency
+### Features
+* Migrate type definitions to @types/*
+* Add Moment as a peerDependency
+* Component templates now get inlined as strings in build step
+
+### Fixes
+* No longer leak type definition dependencies (hammerjs, sortablejs etc.)
 
 ## 1.0.0 (2016-12-06)
 
