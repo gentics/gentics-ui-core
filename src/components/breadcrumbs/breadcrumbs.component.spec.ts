@@ -360,7 +360,7 @@ describe('Breadcrumbs:', () => {
                     let clickEvent = createClickEvent(nativeLink);
                     nativeLink.dispatchEvent(clickEvent);
 
-                    expect(router.navigateByUrl).toHaveBeenCalledWith(['/TestA', 'TestB', 'TestC']);
+                    expect((router.navigateByUrl as jasmine.Spy).calls.argsFor(0)[0]).toEqual(['/TestA', 'TestB', 'TestC']);
                 }
             )
         );

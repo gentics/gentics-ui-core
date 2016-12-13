@@ -3,6 +3,7 @@
 const path = require('path');
 const paths = require('./build.config.js').paths;
 const webpack = require('webpack');
+const { CheckerPlugin } = require('awesome-typescript-loader');
 
 module.exports = function (config) {
     config.set({
@@ -21,8 +22,7 @@ module.exports = function (config) {
         ],
 
         // list of files to exclude
-        exclude: [
-        ],
+        exclude: [],
 
         // preprocess matching files before serving them to the browser
         // available preprocessors: https://npmjs.org/browse/keyword/karma-preprocessor
@@ -39,9 +39,9 @@ module.exports = function (config) {
             module: {
                 loaders: [
                     {
-                        test: /\.ts$/,
+                        test: /\.ts/,
                         loaders: [
-                            'ts-loader?transpileOnly=true&configFileName=config/tsconfig.tests.json',
+                            'awesome-typescript-loader?transpileOnly=true&configFileName=config/tsconfig.tests.json',
                             'angular2-template-loader'
                         ]
                     },
@@ -50,11 +50,23 @@ module.exports = function (config) {
                 ]
             },
             plugins: [
+                new webpack.LoaderOptionsPlugin({
+                    options: {
+                        context: __dirname,
+                        ts: {
+                            //
+                            files: ['testing-bootstrap.ts']
+                        },
+                        // work around: https://github.com/TypeStrong/ts-loader/issues/283#issuecomment-249414784
+                        resolve: {}
+                    }
+                }),
                 // work-around for https://github.com/angular/angular/issues/11580
                 new webpack.ContextReplacementPlugin(
                     /angular(\\|\/)core(\\|\/)(esm(\\|\/)src|src)(\\|\/)linker/,
                     __dirname
                 ),
+                new CheckerPlugin()
             ],
             devtool: 'inline-source-map'
         },
@@ -62,7 +74,6 @@ module.exports = function (config) {
         webpackMiddleware: {
             stats: { chunks: false }
         },
-
         plugins: [
             require('karma-webpack'),
             'karma-jasmine',
@@ -100,7 +111,7 @@ module.exports = function (config) {
         singleRun: false,
 
         // Concurrency level
-        // how many browser should be started simultanous
+        // how many browser should be started simultaneous
         concurrency: Infinity
     });
 };

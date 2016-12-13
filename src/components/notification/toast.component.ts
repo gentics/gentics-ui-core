@@ -22,9 +22,9 @@ export class Toast {
     dismissFn: Function;
     dismissOnClick: boolean = true;
     dismissing: boolean = false;
-    hammerManager: HammerManager;
-
     @ViewChild('toast') toastRef: ElementRef;
+
+    private hammerManager: HammerManager;
 
     constructor(private elementRef: ElementRef) {}
 

@@ -97,7 +97,7 @@ function compileDistTypescript() {
     }
     let tsResult = gulp.src(paths.src.typescript.concat(paths.src.typings))
         .pipe(sourcemaps.init())
-        .pipe(ts(tsProject));
+        .pipe(tsProject());
 
     tsResult.on('error', () => process.exitCode = 1);
 
@@ -316,7 +316,7 @@ function runKarmaServer(watch, callback) {
             output: 'autowatch'
         }
     }, errors => {
-        if (errors) { process.exitCode = 1; };
+        if (errors) { process.exitCode = 1; }
         callback();
     });
 

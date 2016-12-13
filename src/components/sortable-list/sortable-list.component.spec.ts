@@ -4,7 +4,6 @@ import {Component, ViewChild} from '@angular/core';
 import {componentTest} from '../../testing';
 import {SortableList, ISortableEvent} from './sortable-list.component';
 
-
 describe('SortableList:', () => {
 
     beforeEach(() => TestBed.configureTestingModule({
@@ -115,7 +114,7 @@ describe('SortableList:', () => {
         it('is forwarded to the options of its sortable instance',
             componentTest(() => TestComponent, (fixture, instance) => {
                 fixture.detectChanges();
-                let sortable: Sortablejs.Sortable = instance.listInstance.sortable;
+                let sortable: Sortable = (instance.listInstance as any).sortable;
 
                 expect(sortable.option('disabled')).toBe(false);
 

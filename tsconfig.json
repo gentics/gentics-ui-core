@@ -10,7 +10,8 @@
         "moduleResolution": "node",
         "noImplicitAny": true,
         "noEmitOnError": true,
-        "noEmit": true
+        "noEmit": true,
+        "typeRoots": ["node_modules/@types"]
     },
     "exclude": [
         "node_modules",

@@ -1,5 +1,5 @@
 import {Component, Directive, ElementRef, EventEmitter, Input, Output, SimpleChanges} from '@angular/core';
-const sortable: typeof Sortablejs.Sortable = require('sortablejs');
+import sortable = require('sortablejs');
 
 export type sortFn<T> = (source: T[], byReference?: boolean) => T[];
 
@@ -104,7 +104,7 @@ export class SortableList {
      */
     @Output() dragEnd = new EventEmitter<ISortableEvent>();
 
-    sortable: Sortablejs.Sortable;
+    private sortable: Sortable;
 
     constructor(private elementRef: ElementRef) {}
 

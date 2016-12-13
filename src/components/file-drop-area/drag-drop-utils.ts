@@ -9,16 +9,22 @@ export function getEventTarget(event: any): HTMLElement {
     return (event.originalEvent ? event.originalEvent : event).target;
 }
 
+/**
+ * Note: there are issues with current TypeScript lib defs for the DataTransfer interface, which
+ * seems to define the `types` property as a `string[]` rather than a DOMStringList.
+ * See https://github.com/Microsoft/TypeScript/issues/12069
+ */
 export function transferHasFiles(transfer: DataTransfer): boolean {
+    let types: any = transfer.types;
     if (!transfer || !transfer.types) {
         return false;
-    } else if (typeof transfer.types.contains === 'function') {
-        return transfer.types.contains('Files');
-    } else if (typeof (<any> transfer.types).indexOf === 'function') {
-        return (<any> transfer.types).indexOf('Files') >= 0;
-    } else if (typeof transfer.types.length === 'number') {
-        for (let i = 0; i < transfer.types.length; i++) {
-            if (transfer.types.item(i) === 'Files') {
+    } else if (typeof types.contains === 'function') {
+        return types.contains('Files');
+    } else if (typeof types.indexOf === 'function') {
+        return types.indexOf('Files') >= 0;
+    } else if (typeof types.length === 'number') {
+        for (let i = 0; i < types.length; i++) {
+            if (types.item(i) === 'Files') {
                 return true;
             }
         }

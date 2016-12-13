@@ -1,16 +1,17 @@
 import {Component, ElementRef, Input, OnDestroy, ViewChild} from '@angular/core';
+import {Observable, Observer, Subscription} from 'rxjs';
 
 import {IModalDialog} from '../modal/modal-interfaces';
 import {DateTimePickerStrings} from './date-time-picker-strings';
 import {defaultStrings} from './date-time-picker-default-strings';
 import {DateTimePickerFormatProvider} from './date-time-picker-format-provider.service';
-import {Observable, Observer, Subscription} from 'rxjs';
+import {MomentStatic, Moment} from './moment-types';
 
 /**
  * Rome is a date picker widget: https://github.com/bevacqua/rome
  */
 const rome: any = require('rome');
-const momentjs: moment.MomentStatic = rome.moment;
+const momentjs: MomentStatic = rome.moment;
 
 
 /**
@@ -44,8 +45,7 @@ export class DateTimePickerModal implements IModalDialog, OnDestroy {
      */
     formatProvider: DateTimePickerFormatProvider = new DateTimePickerFormatProvider();
 
-    value: moment.Moment = momentjs();
-
+    value: Moment = momentjs();
 
     /**
      * cal is an instance of a Rome calendar, for the API see https://github.com/bevacqua/rome#rome-api
@@ -217,7 +217,7 @@ export class DateTimePickerModal implements IModalDialog, OnDestroy {
     /**
      * Update the time object based on the value of this.value.
      */
-    private updateTimeObject(date: moment.Moment): void {
+    private updateTimeObject(date: Moment): void {
         this.time.h = date.hour();
         this.time.m = date.minute();
         this.time.s = date.second();
@@ -226,7 +226,7 @@ export class DateTimePickerModal implements IModalDialog, OnDestroy {
     /**
      * Update the Rome calendar widget with the current value.
      */
-    private updateCalendar(value: moment.Moment): void {
+    private updateCalendar(value: Moment): void {
         if (this.cal) {
             this.cal.setValue(value);
         }
