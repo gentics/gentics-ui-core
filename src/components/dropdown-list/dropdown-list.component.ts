@@ -103,6 +103,7 @@ export class DropdownList {
         setTimeout(() => {
             this.contentStyles.maxHeight = '';
             this.contentStyles.opacity = 0;
+            this.content.style.maxHeight = 'none';
             this.cd.markForCheck();
         }, this.options.outDuration);
         this.destroyScrollMask();
@@ -176,6 +177,16 @@ export class DropdownList {
             // Show dropdown. Wrapped in a setTimeout to allow the contents of the dropdown
             // to re-flow (if needed) so that the true dimensions can then be re-calculated.
             setTimeout(() => {
+                const maxHeight = 650;
+                const margin = 50;
+                let contentOffsetTop = Number.parseInt(this.contentStyles.top);
+                let bleed = this.content.offsetHeight + contentOffsetTop - window.innerHeight;
+                if (0 < bleed) {
+                    // the dropdown is too long to fit in the window, we make it shorter.
+                    let contentHeight = this.content.offsetHeight - bleed - margin;
+                    this.content.style.maxHeight = Math.min(contentHeight, maxHeight) + 'px';
+                }
+
                 // pad the height so the content drop shadow is displayed
                 this.contentStyles.height = $content.innerHeight() + 'px';
                 this.contentStyles.width = calculateContainerWidth() + 'px';

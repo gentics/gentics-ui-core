@@ -1,3 +1,9 @@
+## 0.12.1 (2016-12-14)
+
+### Fixes
+* Large DropDownList fixed for small screens (GCU-222)
+
+
 ## 0.12.0 (2016-12-01)
 
 ### Features
