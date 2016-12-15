@@ -82,10 +82,10 @@ $easeOutCubic: cubic-bezier(0.215, 0.610, 0.355, 1.000);
         top: 10%;
         width: fit-content;
         max-height: 70%;
+        max-width: 96%;
 
         @media #{$small-and-down} {
             position: static;
-            max-width: 96%;
             max-height: 96%;
             top: 0;
 
