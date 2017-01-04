@@ -91,8 +91,8 @@ export class DateTimePicker implements ControlValueAccessor, OnInit, OnDestroy {
 
     _disabled: boolean = false;
     displayValue: string = ' ';
+    value: Moment;
 
-    private value: Moment;
     private _displayTime: boolean = true;
     private _displaySeconds: boolean = true;
     private subscription: Subscription;
