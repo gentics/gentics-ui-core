@@ -121,12 +121,8 @@ export class InputField implements ControlValueAccessor {
      */
     @Output() change = new EventEmitter<string|number>();
 
-    @ViewChild('inputElement') inputElement: ElementRef;
-    @ViewChild('labelElement') labelElement: ElementRef;
-
-    // ValueAccessor members
-    onChange: any = (_: any) => {};
-    onTouched: any = () => {};
+    @ViewChild('inputElement') private inputElement: ElementRef;
+    @ViewChild('labelElement') private labelElement: ElementRef;
 
     /**
      * The Materialize input includes a dynamic label that changes position depending on the state of the input.
@@ -173,8 +169,11 @@ export class InputField implements ControlValueAccessor {
         this.value = value;
     }
 
+    // ValueAccessor members
     registerOnChange(fn: Function): void { this.onChange = fn; }
     registerOnTouched(fn: Function): void { this.onTouched = fn; }
+    private onChange: any = (_: any) => {};
+    private onTouched: any = () => {};
 
     private normalizeValue(val: any): string|number {
         if (this.type === 'number') {

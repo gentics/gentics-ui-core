@@ -118,7 +118,6 @@
     </div>
 </gtx-demo-block>
 
-
 <gtx-demo-block demoTitle="Text With Icons">
     <div class="demo-result">
         <p>
@@ -138,7 +137,6 @@
     </div>
 </gtx-demo-block>
 
-
 <gtx-demo-block demoTitle="Disabled State">
     <div class="demo-result">
         <p>The <code>disabled</code> attribute can be bound to:</p>
@@ -149,6 +147,32 @@
         <gtx-highlighted-code language="HTML" code='
                 <gtx-checkbox [(ngModel)]="buttonIsDisabled" label="Disable Button"></gtx-checkbox>
                 <gtx-button [disabled]="buttonIsDisabled">Button</gtx-button>
+           '></gtx-highlighted-code>
+    </div>
+</gtx-demo-block>
+
+<gtx-demo-block demoTitle="Submit button">
+    <div class="demo-result">
+        <form [formGroup]="demoForm" (ngSubmit)="formResult = demoForm.value">
+            <p>Enter some values and click submit (or press enter) to submit the values.</p>
+            <div class="row">
+                <gtx-input formControlName="firstName" label="First Name" class="small-6"></gtx-input>
+                <gtx-input formControlName="lastName" label="Last Name" class="small-6"></gtx-input>
+            </div>
+            <p>
+                <gtx-button submit>Submit</gtx-button>
+            </p>
+            <p *ngIf="formResult">Submitted data: <code>{{ formResult | json }}</code></p>
+        </form>
+    </div>
+    <div class="demo-code">
+        <gtx-highlighted-code language="HTML" code='
+                <form [formGroup]="demoForm" (ngSubmit)="formResult = demoForm.value">
+                    <gtx-input formControlName="firstName"></gtx-input>
+                    <gtx-input formControlName="lastName"></gtx-input>
+                    <gtx-button submit>Submit</gtx-button>
+                    Submitted data: (( formResult | json ))
+                </form>
            '></gtx-highlighted-code>
     </div>
 </gtx-demo-block>

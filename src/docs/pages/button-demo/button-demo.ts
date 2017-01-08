@@ -1,4 +1,5 @@
 import {Component} from '@angular/core';
+import {FormGroup, FormControl} from '@angular/forms';
 
 @Component({
     templateUrl: './button-demo.tpl.html',
@@ -8,5 +9,9 @@ export class ButtonDemo {
     componentSource: string = require('!!raw-loader!../../../components/button/button.component.ts');
     buttonIsDisabled: boolean = false;
     clickCount: number = 0;
-    constructor() {}
+    formResult: any;
+    demoForm = new FormGroup({
+        firstName: new FormControl('John'),
+        lastName: new FormControl('Doe')
+    });
 }

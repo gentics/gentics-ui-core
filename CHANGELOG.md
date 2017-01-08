@@ -1,14 +1,16 @@
 # Gentics UI Core Changelog
 
-## 1.0.1 (in progress)
+## 1.1.0 (in progress)
 
 ### Features
 * Migrate type definitions to @types/*
 * Add Moment as a peerDependency
 * Component templates now get inlined as strings in build step
+* Buttons can be declared as submit button
 
 ### Fixes
 * No longer leak type definition dependencies (hammerjs, sortablejs etc.)
+
 
 ## 1.0.0 (2016-12-06)
 

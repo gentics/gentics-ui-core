@@ -1,5 +1,4 @@
 import {Component, ElementRef, Input, OnDestroy, Renderer} from '@angular/core';
-import {isPresent} from '../../common/utils';
 
 /**
  * A Button component.
@@ -36,10 +35,10 @@ export class Button implements OnDestroy {
      */
     @Input()
     get flat(): boolean {
-        return this.isFlat === true;
+        return this.isFlat;
     }
     set flat(val: boolean) {
-        this.isFlat = isPresent(val) && val !== false;
+        this.isFlat = val != null && val !== false;
     }
 
     /**
@@ -48,10 +47,10 @@ export class Button implements OnDestroy {
      */
     @Input()
     get icon(): boolean {
-        return this.isIcon === true;
+        return this.isIcon;
     }
     set icon(val: boolean) {
-        this.isIcon = isPresent(val) && val !== false;
+        this.isIcon = val != null && val !== false;
     }
 
     /**
@@ -65,6 +64,16 @@ export class Button implements OnDestroy {
         this.isDisabled = (<any> disabled) === '' || !!disabled;
     }
 
+    /**
+     * Set button as a submit button.
+     */
+    @Input()
+    set submit(value: boolean) {
+        this.buttonType = (value != null && value !== false) ? 'submit' : 'button';
+    }
+
+
+    private buttonType = 'button';
     private isFlat: boolean = false;
     private isIcon: boolean = false;
     private isDisabled: boolean = false;
@@ -77,6 +86,7 @@ export class Button implements OnDestroy {
             // This bind call really needs to be in the constructor, not in ngOnInit. Sorry!
             this.unbindClickHandler = renderer.listen(elementRef.nativeElement, 'click', this.onClickEvent);
         }
+
     }
 
     ngOnDestroy(): void {
