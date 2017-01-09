@@ -1,4 +1,13 @@
-import {Component, TemplateRef, ElementRef, ChangeDetectorRef, EventEmitter, ChangeDetectionStrategy} from '@angular/core';
+import {
+    Component,
+    HostListener,
+    TemplateRef,
+    ElementRef,
+    ChangeDetectorRef,
+    EventEmitter,
+    ChangeDetectionStrategy
+} from '@angular/core';
+import {KeyCode} from '../../common/keycodes';
 
 const PAGE_MARGIN = 50;
 
@@ -23,41 +32,30 @@ export class DropdownContentWrapper {
     };
     trigger: HTMLElement;
     id: string = 'dropdown-' + Math.random().toString(36).substr(2);
-    close = new EventEmitter<any>();
+    clicked = new EventEmitter<any>();
+    escapeKeyPressed = new EventEmitter<any>();
 
     constructor(private elementRef: ElementRef,
                 private cd: ChangeDetectorRef) {}
 
     ngAfterViewInit(): void {
-
         let content = <HTMLElement> this.elementRef.nativeElement.querySelector('gtx-dropdown-content');
         content.setAttribute('id', this.id);
 
-        let containerHeight = 0;
-
-        const calculateContainerWidth = (): number => {
-            let containerWidth = 0;
-            // Set the width of the container
-            if (this.options.width === 'contents') {
-                this.contentStyles.whiteSpace = 'nowrap';
-                containerWidth = content.offsetWidth;
-            } else if (this.options.width === 'trigger') {
-                containerWidth = this.trigger.offsetWidth + 1;
-            } else {
-                containerWidth = +this.options.width;
-            }
-            // pad the width so the content drop shadow is displayed
-            return containerWidth;
-        };
-
         let positionStyles = this.calculatePositionStyles();
-        let flowUpwards = parseInt(positionStyles.top, 10) < Math.floor(this.trigger.offsetTop);
         Object.assign(this.contentStyles, positionStyles);
+        let flowUpwards = parseInt(positionStyles.top, 10) < Math.floor(this.trigger.getBoundingClientRect().top);
 
         this.contentStyles.height = 0;
-        this.contentStyles.marginTop = flowUpwards ? containerHeight : 0;
+        let contentHeight = this.innerHeight(this.elementRef.nativeElement.querySelector('gtx-dropdown-content'));
+
+        // when flowing upwards, we animate the `top` property, so must remember the final value.
+        const finalTop = parseInt(this.contentStyles.top);
+        if (flowUpwards) {
+            this.contentStyles.top = finalTop + contentHeight + 'px';
+        }
         this.contentStyles.opacity = 0;
-        this.contentStyles.width = calculateContainerWidth() + 'px';
+        this.contentStyles.width = this.calculateContainerWidth() + 'px';
         this.cd.markForCheck();
         this.cd.detectChanges();
 
@@ -66,8 +64,7 @@ export class DropdownContentWrapper {
         setTimeout(() => {
             // pad the height so the content drop shadow is displayed
             let contentHeight = this.innerHeight(content);
-            let contentOffsetTop = Number.parseInt(this.contentStyles.top);
-            let bleed = contentHeight + contentOffsetTop - window.innerHeight;
+            let bleed = contentHeight + finalTop - window.innerHeight;
             if (0 < bleed) {
                 // the dropdown is too long to fit in the window, we make it shorter.
                 contentHeight = contentHeight - bleed - PAGE_MARGIN;
@@ -75,13 +72,27 @@ export class DropdownContentWrapper {
             }
 
             this.contentStyles.height = contentHeight + 'px';
-            this.contentStyles.width = calculateContainerWidth() + 'px';
-            this.contentStyles.marginTop = 0;
+            this.contentStyles.width = this.calculateContainerWidth() + 'px';
+
+            if (flowUpwards) {
+                this.contentStyles.top = parseInt(this.contentStyles.top) - contentHeight + 'px';
+            }
+            this.contentStyles.transform = `translateZ(0)`;
             this.contentStyles.opacity = 1;
+
+            if (this.options.width === 'content') {
+                this.contentStyles.whiteSpace = 'nowrap';
+            }
             this.cd.markForCheck();
         }, 0);
     }
 
+    @HostListener('keydown', ['$event'])
+    clickHandler(e: KeyboardEvent): void {
+        if (e.keyCode === KeyCode.Escape) {
+            this.escapeKeyPressed.emit(true);
+        }
+    }
 
     ngOnDestroy(): void {
         this.contentStyles.maxHeight = '';
@@ -98,7 +109,7 @@ export class DropdownContentWrapper {
         let windowHeight: number = window.innerHeight;
         let originHeight: number = this.innerHeight(this.trigger);
         let offsetLeft: number = this.offset(this.trigger).left;
-        let offsetTop: number = this.offset(this.trigger).top - window.scrollY;
+        let offsetTop: number = this.offset(this.trigger).top - window.pageYOffset;
         let currAlignment: string = this.options.alignment;
 
         // Below Origin
@@ -142,7 +153,7 @@ export class DropdownContentWrapper {
         if (currAlignment === 'left') {
             leftPosition = triggerLeft;
         } else if (currAlignment === 'right') {
-            leftPosition =  triggerLeft + this.trigger.offsetWidth - content.offsetWidth;
+            leftPosition =  triggerLeft + this.trigger.offsetWidth - this.calculateContainerWidth();
         }
 
         positionStyles.top = this.trigger.getBoundingClientRect().top + verticalOffset + 'px';
@@ -152,7 +163,22 @@ export class DropdownContentWrapper {
     }
 
     onContentClick(): void {
-        this.close.emit(true);
+        this.clicked.emit(true);
+    }
+
+    private calculateContainerWidth(): number {
+        let containerWidth = 0;
+        // Set the width of the container
+        if (this.options.width === 'contents') {
+            let content = <HTMLElement> this.elementRef.nativeElement.querySelector('gtx-dropdown-content');
+            containerWidth = content.offsetWidth;
+        } else if (this.options.width === 'trigger') {
+            containerWidth = this.trigger.offsetWidth + 1;
+        } else {
+            containerWidth = +this.options.width;
+        }
+        // pad the width so the content drop shadow is displayed
+        return containerWidth;
     }
 
     /**

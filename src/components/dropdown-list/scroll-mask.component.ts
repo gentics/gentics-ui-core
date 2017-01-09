@@ -8,10 +8,10 @@ import {Component, HostListener, EventEmitter} from '@angular/core';
     template: ``
 })
 export class ScrollMask {
-    close = new EventEmitter<any>();
+    clicked = new EventEmitter<any>();
 
     @HostListener('click')
-    clicked(): void {
-        this.close.emit(true);
+    clickHandler(): void {
+        this.clicked.emit(true);
     }
 }

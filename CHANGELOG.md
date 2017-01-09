@@ -1,13 +1,32 @@
 # Gentics UI Core Changelog
 
-## 1.1.0 (in progress)
+## 2.0.0 (in progress)
+
+### Breaking Changes
+* DropdownList - list are now created with the `<gtx-dropdown-item>` component:
+```HTML
+// before
+<gtx-dropdown-content>
+    <ul>
+        <li><a>Item 1</a></li>
+        <li><a>Item 2</a></li>
+    </ul>
+</gtx-dropdown-content>
+
+
+// after
+<gtx-dropdown-content>
+    <gtx-dropdown-item>Item 1</gtx-dropdown-item>
+    <gtx-dropdown-item>Item 2</gtx-dropdown-item>
+</gtx-dropdown-content>
+```
 
 ### Features
 * Migrate type definitions to @types/*
 * Add Moment as a peerDependency
 * Component templates now get inlined as strings in build step
+* DropdownList: extend API with `sticky`, `closeOnEscape`, `isOpen` and `closeDropdown()`; add keyboard support
 * Buttons can be declared as submit button
-* Extend DropdownList programmatic API with `isOpen` and `closeDropdown()`
 * All form components support `autofocus` (GUIC-91, GCU-143, GCU-192)
 
 ### Fixes

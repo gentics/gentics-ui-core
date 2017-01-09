@@ -10,8 +10,8 @@ import {Checkbox} from './components/checkbox/checkbox.component';
 import {ContentsListItem} from './components/contents-list-item/contents-list-item.component';
 import {DateTimePicker} from './components/date-time-picker/date-time-picker.component';
 import {
-    DropdownList, DropdownContentDirective,
-    DropdownTriggerDirective
+    DropdownList, DropdownContent,
+    DropdownTriggerDirective, DropdownItem
 } from './components/dropdown-list/dropdown-list.component';
 import {FileDropArea} from './components/file-drop-area/file-drop-area.directive';
 import {DragStateTrackerFactory} from './components/file-drop-area/drag-state-tracker.service';
@@ -46,6 +46,7 @@ import {BlankModal} from './components/modal/blank-modal.component';
 import {DateTimePickerFormatProvider} from './components/date-time-picker/date-time-picker-format-provider.service';
 import {ScrollMask} from './components/dropdown-list/scroll-mask.component';
 import {DropdownContentWrapper} from './components/dropdown-list/dropdown-content-wrapper.component';
+import {SelectOption} from './components/select/option.component';
 
 const UI_CORE_COMPONENTS: any[] = [
     AutofocusDirective,
@@ -58,7 +59,8 @@ const UI_CORE_COMPONENTS: any[] = [
     DateTimePickerModal,
     DropdownList,
     DropdownContentWrapper,
-    DropdownContentDirective,
+    DropdownContent,
+    DropdownItem,
     DropdownTriggerDirective,
     DynamicModalWrapper,
     FileDropArea,
@@ -76,6 +78,7 @@ const UI_CORE_COMPONENTS: any[] = [
     ScrollMask,
     SearchBar,
     Select,
+    SelectOption,
     SideMenu,
     SideMenuToggle,
     SortableItem,
