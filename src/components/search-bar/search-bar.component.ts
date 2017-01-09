@@ -44,6 +44,10 @@ const GTX_SEARCH_BAR_VALUE_ACCESSOR = {
     providers: [GTX_SEARCH_BAR_VALUE_ACCESSOR]
 })
 export class SearchBar implements ControlValueAccessor {
+    /**
+     * Sets the input field to be auto-focused. Handled by `AutofocusDirective`.
+     */
+    @Input() autofocus: boolean = false;
 
     /**
      * Value that pre-fills the search input with a string value.

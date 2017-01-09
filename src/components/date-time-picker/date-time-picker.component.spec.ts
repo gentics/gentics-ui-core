@@ -46,12 +46,10 @@ describe('DateTimePicker:', () => {
         });
 
         TestBed.overrideModule(BrowserDynamicTestingModule, {
-          set: {
-            entryComponents: [DynamicModalWrapper, DateTimePickerModal]
-          }
+            set: {
+                entryComponents: [DynamicModalWrapper, DateTimePickerModal]
+            }
         });
-
-
     });
 
     /**
@@ -482,7 +480,6 @@ class SpyModalService extends ModalService {
     lastOptions: IModalOptions;
     lastLocals: { [key: string]: any };
     lastModal: IModalInstance<any>;
-    fakeModalReturnValue: any;
 
     constructor(componentFactoryResolver: ComponentFactoryResolver,
                 overlayHostService: OverlayHostService) {

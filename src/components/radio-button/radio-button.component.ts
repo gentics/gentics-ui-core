@@ -121,6 +121,10 @@ export class RadioGroup implements ControlValueAccessor {
     providers: [GTX_RADIO_BUTTON_VALUE_ACCESSOR]
 })
 export class RadioButton implements ControlValueAccessor, OnInit, OnDestroy {
+    /**
+     * Sets the radio button to be auto-focused. Handled by `AutofocusDirective`.
+     */
+    @Input() autofocus: boolean = false;
 
     /**
      * The checked state of the control. When set, the RadioButton will be

@@ -41,6 +41,10 @@ const GTX_DATEPICKER_VALUE_ACCESSOR = {
     providers: [GTX_DATEPICKER_VALUE_ACCESSOR]
 })
 export class DateTimePicker implements ControlValueAccessor, OnInit, OnDestroy {
+    /**
+     * Sets the date picker to be auto-focused. Handled by `AutofocusDirective`.
+     */
+    @Input() autofocus: boolean = false;
 
     /**
      * The date/time value as a unix timestamp (in seconds)

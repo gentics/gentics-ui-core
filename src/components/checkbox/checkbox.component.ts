@@ -39,6 +39,10 @@ const GTX_CHECKBOX_VALUE_ACCESSOR = {
     providers: [GTX_CHECKBOX_VALUE_ACCESSOR]
 })
 export class Checkbox implements ControlValueAccessor {
+    /**
+     * Sets the checkbox to be auto-focused. Handled by `AutofocusDirective`.
+     */
+    @Input() autofocus: boolean = false;
 
     /**
      * Checked state of the checkbox. When set, the Checkbox will be

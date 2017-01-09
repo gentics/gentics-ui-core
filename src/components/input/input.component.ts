@@ -35,6 +35,10 @@ const GTX_INPUT_VALUE_ACCESSOR = {
     providers: [GTX_INPUT_VALUE_ACCESSOR]
 })
 export class InputField implements ControlValueAccessor {
+    /**
+     * Sets the input field to be auto-focused. Handled by `AutofocusDirective`.
+     */
+    @Input() autofocus: boolean = false;
 
     /**
      * Sets the disabled state

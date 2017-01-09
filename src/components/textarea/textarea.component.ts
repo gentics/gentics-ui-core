@@ -28,6 +28,10 @@ const GTX_TEXTAREA_VALUE_ACCESSOR = {
     providers: [GTX_TEXTAREA_VALUE_ACCESSOR]
 })
 export class Textarea implements ControlValueAccessor {
+    /**
+     * Sets the textarea to be auto-focused. Handled by `AutofocusDirective`.
+     */
+    @Input() autofocus: boolean = false;
 
     /**
      * Sets the disabled state.

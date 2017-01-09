@@ -17,6 +17,10 @@ import {Component, ElementRef, Input, OnDestroy, Renderer} from '@angular/core';
     templateUrl: './button.tpl.html'
 })
 export class Button implements OnDestroy {
+    /**
+     * Sets the input field to be auto-focused. Handled by `AutofocusDirective`.
+     */
+    @Input() autofocus: boolean = false;
 
     /**
      * Specify the size of the button. Can be "small", "regular" or "large".

@@ -44,6 +44,10 @@ const GTX_SELECT_VALUE_ACCESSOR = {
     providers: [GTX_SELECT_VALUE_ACCESSOR]
 })
 export class Select implements ControlValueAccessor {
+    /**
+     * Sets the select box to be auto-focused. Handled by `AutofocusDirective`.
+     */
+    @Input() autofocus: boolean = false;
 
     /**
      * Sets the disabled state.

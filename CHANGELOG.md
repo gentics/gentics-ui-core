@@ -7,6 +7,7 @@
 * Add Moment as a peerDependency
 * Component templates now get inlined as strings in build step
 * Buttons can be declared as submit button
+* All form components support `autofocus` (GUIC-91, GCU-143, GCU-192)
 
 ### Fixes
 * No longer leak type definition dependencies (hammerjs, sortablejs etc.)
@@ -41,7 +42,8 @@
 ```
 
 ### Fixes
-* DropdownList no longer cuts off long lists (GUIC-89) (GCU-222)
+* DropdownList no longer cuts off long lists (GUIC-89, GCU-222)
+
 
 ## 0.12.0 (2016-12-01)
 

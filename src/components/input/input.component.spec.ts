@@ -4,13 +4,14 @@ import {FormsModule, ReactiveFormsModule, FormControl, FormGroup} from '@angular
 
 import {componentTest} from '../../testing';
 import {InputField} from './input.component';
+import {AutofocusDirective} from '../../directives/autofocus/autofocus.directive';
 
 
 describe('InputField', () => {
 
     beforeEach(() => TestBed.configureTestingModule({
         imports: [FormsModule, ReactiveFormsModule],
-        declarations: [InputField, TestComponent]
+        declarations: [AutofocusDirective, InputField, TestComponent]
     }));
 
     it('binds the label text to the "label" input',
@@ -81,6 +82,7 @@ describe('InputField', () => {
             let nativeInput: HTMLInputElement = fixture.nativeElement.querySelector('input');
             fixture.detectChanges();
 
+            expect(nativeInput.autofocus).toBe(false);
             expect(nativeInput.disabled).toBe(false);
             expect(nativeInput.readOnly).toBe(false);
             expect(nativeInput.required).toBe(false);
@@ -109,6 +111,7 @@ describe('InputField', () => {
     it('passes native attributes to its input element',
         componentTest(() => TestComponent, `
             <gtx-input
+                autofocus="true"
                 disabled="true"
                 max="100"
                 min="5"
@@ -126,6 +129,7 @@ describe('InputField', () => {
                 let nativeInput: HTMLInputElement = fixture.nativeElement.querySelector('input');
                 fixture.detectChanges();
 
+                expect(nativeInput.autofocus).toBe(true);
                 expect(nativeInput.disabled).toBe(true);
                 expect(Number(nativeInput.max)).toBe(100);
                 expect(Number(nativeInput.min)).toBe(5);

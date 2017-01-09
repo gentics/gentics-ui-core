@@ -18,6 +18,11 @@ import {matchesMimeType} from '../file-drop-area/matches-mime-type';
 })
 export class FilePicker implements OnInit, OnDestroy {
     /**
+     * Sets the file picker button to be auto-focused. Handled by `AutofocusDirective`.
+     */
+    @Input() autofocus: boolean = false;
+
+    /**
      * Set to a non-false value to disable the file picker. Defaults to `false` if absent.
      */
     @Input() get disabled(): boolean {

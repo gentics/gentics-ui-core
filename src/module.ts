@@ -3,6 +3,7 @@ import {CommonModule} from '@angular/common';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {RouterModule} from '@angular/router';
 
+import {AutofocusDirective} from './directives/autofocus/autofocus.directive';
 import {Breadcrumbs} from './components/breadcrumbs/breadcrumbs.component';
 import {Button} from './components/button/button.component';
 import {Checkbox} from './components/checkbox/checkbox.component';
@@ -47,6 +48,7 @@ import {ScrollMask} from './components/dropdown-list/scroll-mask.component';
 import {DropdownContentWrapper} from './components/dropdown-list/dropdown-content-wrapper.component';
 
 const UI_CORE_COMPONENTS: any[] = [
+    AutofocusDirective,
     BlankModal,
     Breadcrumbs,
     Button,
