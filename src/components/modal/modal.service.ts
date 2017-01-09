@@ -201,6 +201,9 @@ export class ModalService {
      */
     private createModalWrapper<T extends IModalDialog>(options?: IModalOptions): DynamicModalWrapper {
         let modalFactoryFactory = this.componentFactoryResolver.resolveComponentFactory(DynamicModalWrapper);
+        if (!this.hostViewContainer) {
+            throw new Error('No OverlayHost present, add a <gtx-overlay-host> element!');
+        }
         const ref = this.hostViewContainer.createComponent(modalFactoryFactory);
         return this.getConfiguredModalWrapper(ref, options);
     }
