@@ -3,6 +3,7 @@ import {
     Component,
     Directive,
     ElementRef,
+    HostListener,
     Input,
     TemplateRef,
     ViewChild,
@@ -15,6 +16,7 @@ import {
 import {OverlayHostService} from '../overlay-host/overlay-host.service';
 import {DropdownContentWrapper} from './dropdown-content-wrapper.component';
 import {ScrollMask} from './scroll-mask.component';
+import {UP_ARROW, DOWN_ARROW, PAGE_UP, PAGE_DOWN, SPACE} from '../../common/keycodes';
 
 @Directive({
     selector: 'gtx-dropdown-trigger'
@@ -35,6 +37,7 @@ export class DropdownContentDirective {}
  * * `<gtx-dropdown-trigger>` - this element is the button/label which the user will click to open the dropdown.
  * * `<gtx-dropdown-content>` - contains the contents of the dropdown. If it contains a `<ul>`, specific styles will be applied
  *
+ *
  * ```html
  * <gtx-dropdown-list>
  *     <gtx-dropdown-trigger>
@@ -49,6 +52,14 @@ export class DropdownContentDirective {}
  *     </gtx-dropdown-content>
  * </gtx-dropdown-list>
  * ```
+ *
+ * ##### Programmatic Use
+ * When used programmatically (e.g. by getting a reference to the component via `@ContentChild(DropdownList)`, the
+ * following extended API is available:
+ *
+ * - `dropdownList.isOpen: boolean`
+ * - `dropdownList.openDropdown(): void`
+ * - `dropdownList.closeDropdown(): void`
  */
 @Component({
     selector: 'gtx-dropdown-list',
@@ -108,6 +119,10 @@ export class DropdownList {
         this.options.belowTrigger = (val === true || <any> val === 'true');
     }
 
+    get isOpen(): boolean {
+        return !!this.contentComponentRef;
+    }
+
     constructor(private componentFactoryResolver: ComponentFactoryResolver,
                 overlayHostService: OverlayHostService) {
 
@@ -121,6 +136,17 @@ export class DropdownList {
      */
     ngOnDestroy(): void {
         this.closeDropdown();
+    }
+
+    /**
+     * Prevent the user from causing a scroll via the keyboard.
+     */
+    @HostListener('keydown', ['$event'])
+    keyHandler(e: KeyboardEvent): void {
+        const keysToPrevent = [UP_ARROW, DOWN_ARROW, PAGE_UP, PAGE_DOWN, SPACE];
+        if (-1 < keysToPrevent.indexOf(e.keyCode)) {
+            e.preventDefault();
+        }
     }
 
     /**
@@ -139,7 +165,7 @@ export class DropdownList {
     }
 
     onTriggerClick(): void {
-        if (!this.contentComponentRef) {
+        if (!this.isOpen) {
             this.openDropdown();
         } else {
             this.closeDropdown();
@@ -147,9 +173,9 @@ export class DropdownList {
     }
 
     /**
-     * Close the dropdown and unregister the global event handlers.
+     * Close the dropdown.
      */
-    private closeDropdown(): void {
+    closeDropdown(): void {
         if (this.scrollMaskRef) {
             this.scrollMaskRef.destroy();
         }

@@ -1,6 +1,7 @@
 import {Component} from '@angular/core';
 import {BrowserDynamicTestingModule} from '@angular/platform-browser-dynamic/testing';
 import {TestBed, tick} from '@angular/core/testing';
+import {By} from '@angular/platform-browser';
 
 import {componentTest} from '../../testing';
 import {DropdownList, DropdownContentDirective, DropdownTriggerDirective} from './dropdown-list.component';
@@ -61,6 +62,25 @@ describe('DropdownList:', () => {
             tick();
             let scrollMask: HTMLElement = fixture.nativeElement.querySelector('gtx-scroll-mask');
             expect(scrollMask.parentElement.classList).toContain('test-component-root');
+        })
+    );
+
+    it('isOpen should report the open state',
+        componentTest(() => TestComponent, (fixture) => {
+            fixture.detectChanges();
+            let dropdownInstance: DropdownList = fixture.debugElement.query(By.directive(DropdownList)).componentInstance;
+            tick();
+            expect(dropdownInstance.isOpen).toBe(false);
+
+            getTrigger(fixture, 0).click();
+            tick();
+            fixture.detectChanges();
+            expect(dropdownInstance.isOpen).toBe(true);
+
+            let firstItem: HTMLElement = fixture.nativeElement.querySelector('gtx-dropdown-content li a');
+            firstItem.click();
+            tick(1000);
+            expect(dropdownInstance.isOpen).toBe(false);
         })
     );
 

@@ -7,10 +7,12 @@
 * Add Moment as a peerDependency
 * Component templates now get inlined as strings in build step
 * Buttons can be declared as submit button
+* Extend DropdownList programmatic API with `isOpen` and `closeDropdown()`
 * All form components support `autofocus` (GUIC-91, GCU-143, GCU-192)
 
 ### Fixes
 * No longer leak type definition dependencies (hammerjs, sortablejs etc.)
+* User can no longer trigger scrolling via keyboard when DropdownList is open
 
 
 ## 1.0.0 (2016-12-06)

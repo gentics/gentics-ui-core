@@ -27,7 +27,7 @@ $easeOutSine: cubic-bezier(0.390, 0.575, 0.565, 1.000);
 gtx-dropdown-content {
     background-color: white;
     margin: 0;
-    display: inline-block;
+    display: block;
     min-width: 100px;
     max-height: 650px;
     overflow-y: auto;
