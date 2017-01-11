@@ -3,28 +3,112 @@ import {
     Component,
     Directive,
     ElementRef,
+    EventEmitter,
+    forwardRef,
+    HostBinding,
+    HostListener,
     Input,
     TemplateRef,
     ViewChild,
     ComponentFactoryResolver,
     ContentChild,
+    ContentChildren,
     ComponentRef,
     ComponentFactory,
+    QueryList,
     ViewContainerRef
 } from '@angular/core';
 import {OverlayHostService} from '../overlay-host/overlay-host.service';
 import {DropdownContentWrapper} from './dropdown-content-wrapper.component';
 import {ScrollMask} from './scroll-mask.component';
+import {KeyCode} from '../../common/keycodes';
+
+const FOCUSABLE_SELECTOR = `gtx-dropdown-item, a[href], area[href], input:not([disabled]), select:not([disabled]), 
+    textarea:not([disabled]), button:not([disabled]), iframe, object, embed, *[tabindex], *[contenteditable]`;
 
 @Directive({
     selector: 'gtx-dropdown-trigger'
 })
-export class DropdownTriggerDirective {}
+export class DropdownTriggerDirective {
+    constructor(public elementRef: ElementRef) {}
 
-@Directive({
-    selector: 'gtx-dropdown-content'
+    /**
+     * Focus the first focusable descendant of this element.
+     */
+    focus(): void {
+        const focusable = this.elementRef.nativeElement.querySelector(FOCUSABLE_SELECTOR);
+        if (focusable && focusable.focus) {
+            focusable.focus();
+        }
+    }
+}
+
+/**
+ * Wraps the content and handles keyboard control (tabbing and focus) of the contents.
+ */
+@Component({
+    selector: 'gtx-dropdown-content',
+    template: `<ng-content></ng-content>`
 })
-export class DropdownContentDirective {}
+export class DropdownContent {
+    focusLost = new EventEmitter<boolean>();
+    focusableItems: HTMLElement[] = [];
+
+    @ContentChildren(forwardRef(() => DropdownItem), { read: ElementRef }) items: QueryList<ElementRef>;
+
+    constructor(public elementRef: ElementRef) {}
+
+    @HostListener('keydown', ['$event'])
+    keyHandler(e: KeyboardEvent): void {
+        if (e.keyCode === KeyCode.Tab) {
+            if (e.shiftKey) {
+                this.focusPrevious(e.target as HTMLElement, e);
+            } else {
+                this.focusNext(e.target as HTMLElement, e);
+            }
+        }
+    }
+
+    ngAfterContentInit(): void {
+        this.focusableItems = Array.from<HTMLElement>(this.elementRef.nativeElement.querySelectorAll(FOCUSABLE_SELECTOR));
+    }
+
+    focusFirstItem(): void {
+        const firstItem = this.focusableItems[0];
+        if (firstItem && firstItem.focus) {
+            firstItem.focus();
+        }
+    }
+
+    focusNext(currentElement: HTMLElement, e: KeyboardEvent): void {
+        const items = this.focusableItems;
+        const index = this.getIndexOfElement(currentElement);
+        if (index === items.length - 1) {
+            e.preventDefault();
+            this.focusLost.emit(true);
+        }
+    }
+
+    focusPrevious(currentElement: HTMLElement, e: KeyboardEvent): void {
+        const index = this.getIndexOfElement(currentElement);
+        if (index === 0) {
+            e.preventDefault();
+            this.focusLost.emit(true);
+        }
+    }
+
+    private getIndexOfElement(element: HTMLElement): number {
+        return this.focusableItems.indexOf(element);
+    }
+}
+
+@Component({
+    selector: 'gtx-dropdown-item',
+    template: `<ng-content></ng-content>`
+})
+export class DropdownItem {
+    @HostBinding('tabindex') tabIndex = 0;
+}
 
 
 /**
@@ -35,20 +119,30 @@ export class DropdownContentDirective {}
  * * `<gtx-dropdown-trigger>` - this element is the button/label which the user will click to open the dropdown.
  * * `<gtx-dropdown-content>` - contains the contents of the dropdown. If it contains a `<ul>`, specific styles will be applied
  *
+ * The `<gtx-dropdown-content>` element may contain arbitrary content, but list items should be wrapped in `<gtx-dropdown-item>`.
+ * This will allow keyboard support for list navigation.
+ *
+ *
  * ```html
  * <gtx-dropdown-list>
  *     <gtx-dropdown-trigger>
  *         <a>Show List</a>
  *     </gtx-dropdown-trigger>
  *     <gtx-dropdown-content>
- *          <ul>
- *              <li><a>First</a></li>
- *              <li><a>Second</a></li>
- *              <li><a>Third</a></li>
- *          </ul>
+ *          <gtx-dropdown-item>First</gtx-dropdown-item>
+ *          <gtx-dropdown-item>Second</gtx-dropdown-item>
+ *          <gtx-dropdown-item>Third</gtx-dropdown-item>
  *     </gtx-dropdown-content>
  * </gtx-dropdown-list>
  * ```
+ *
+ * ##### Programmatic Use
+ * When used programmatically (e.g. by getting a reference to the component via `@ContentChild(DropdownList)`, the
+ * following extended API is available:
+ *
+ * - `dropdownList.isOpen: boolean`
+ * - `dropdownList.openDropdown(): void`
+ * - `dropdownList.closeDropdown(): void`
  */
 @Component({
     selector: 'gtx-dropdown-list',
@@ -59,11 +153,15 @@ export class DropdownList {
     options = {
         alignment: 'left',
         width: 'contents',
-        belowTrigger: false
+        belowTrigger: false,
+        sticky: false,
+        closeOnEscape: true
     };
     @ViewChild(TemplateRef) contentsTemplate: TemplateRef<any>;
-    @ContentChild(DropdownTriggerDirective, { read: ElementRef }) trigger: ElementRef;
+    @ContentChild(DropdownTriggerDirective) trigger: DropdownTriggerDirective;
+    @ContentChild(DropdownContent) content: DropdownContent;
 
+    private _disabled: boolean = false;
     private overlayHostView: ViewContainerRef;
     private scrollMaskFactory: ComponentFactory<ScrollMask>;
     private scrollMaskRef: ComponentRef<ScrollMask>;
@@ -108,6 +206,44 @@ export class DropdownList {
         this.options.belowTrigger = (val === true || <any> val === 'true');
     }
 
+    /**
+     * If true, the dropdown will not close when clicked, but may only be closed by clicking outside the dropdown or
+     * pressing escape. *Default: false*
+     */
+    @Input()
+    get sticky(): boolean {
+        return this.options.sticky;
+    }
+    set sticky(val: boolean) {
+        this.options.sticky = val === true || val as any === 'true';
+    }
+
+    /**
+     * If true, the dropdown will close when the escape key is pressed. *Default: true*
+     */
+    @Input()
+    get closeOnEscape(): boolean {
+        return this.options.closeOnEscape;
+    }
+    set closeOnEscape(val: boolean) {
+        this.options.closeOnEscape = val === true || val as any === 'true';
+    }
+
+    /**
+     * If true, the dropdown will not open when the trigger is clicked.
+     */
+    @Input()
+    get disabled(): boolean {
+        return this._disabled;
+    }
+    set disabled(val: boolean) {
+        this._disabled = val === true || val as any === 'true';
+    }
+
+    get isOpen(): boolean {
+        return !!this.contentComponentRef;
+    }
+
     constructor(private componentFactoryResolver: ComponentFactoryResolver,
                 overlayHostService: OverlayHostService) {
 
@@ -124,22 +260,74 @@ export class DropdownList {
     }
 
     /**
+     * Prevent the user from causing a scroll via the keyboard.
+     */
+    @HostListener('keydown', ['$event'])
+    keyHandler(e: KeyboardEvent): void {
+        const keyCode = e.keyCode;
+        const toPrevent = [
+            KeyCode.UpArrow,
+            KeyCode.DownArrow,
+            KeyCode.PageUp,
+            KeyCode.PageDown,
+            KeyCode.Space,
+            KeyCode.Home,
+            KeyCode.End
+        ];
+
+        if (-1 < toPrevent.indexOf(keyCode)) {
+            e.preventDefault();
+        }
+
+        switch (keyCode) {
+            case KeyCode.Escape:
+                if (this.options.closeOnEscape === true) {
+                    this.closeDropdown();
+                }
+                break;
+            case KeyCode.Tab:
+                if (this.isOpen) {
+                    e.preventDefault();
+                    this.content.focusFirstItem();
+                }
+        }
+    }
+
+    /**
      * Open the dropdown contents in the correct position.
      */
     openDropdown(): void {
+        if (this._disabled) {
+            return;
+        }
         this.contentComponentRef = this.overlayHostView.createComponent(this.contentComponentFactory, null);
         const contentInstance = this.contentComponentRef.instance;
         contentInstance.content = this.contentsTemplate;
-        contentInstance.trigger = this.trigger.nativeElement;
+        contentInstance.trigger = this.trigger.elementRef.nativeElement;
         Object.assign(contentInstance.options, this.options);
-        contentInstance.close.take(1).subscribe(() => this.closeDropdown());
+        contentInstance.clicked.take(1).subscribe(() => {
+            if (!this.sticky) {
+                this.closeDropdown();
+            }
+        });
+        contentInstance.escapeKeyPressed.take(1).subscribe(() => {
+            if (this.closeOnEscape) {
+                this.closeDropdown();
+            }
+        });
+        // When focus is lost from the list items (by tabbing), close the dropdown and focus the
+        // first child of the trigger is possible.
+        this.content.focusLost.take(1).subscribe(() => {
+            this.closeDropdown();
+            this.trigger.focus();
+        });
 
         this.scrollMaskRef = this.overlayHostView.createComponent(this.scrollMaskFactory, null);
-        this.scrollMaskRef.instance.close.take(1).subscribe(() => this.closeDropdown());
+        this.scrollMaskRef.instance.clicked.take(1).subscribe(() => this.closeDropdown());
     }
 
     onTriggerClick(): void {
-        if (!this.contentComponentRef) {
+        if (!this.isOpen) {
             this.openDropdown();
         } else {
             this.closeDropdown();
@@ -147,9 +335,9 @@ export class DropdownList {
     }
 
     /**
-     * Close the dropdown and unregister the global event handlers.
+     * Close the dropdown.
      */
-    private closeDropdown(): void {
+    closeDropdown(): void {
         if (this.scrollMaskRef) {
             this.scrollMaskRef.destroy();
         }
