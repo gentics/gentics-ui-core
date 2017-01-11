@@ -91,6 +91,21 @@ describe('DropdownList:', () => {
         })
     );
 
+    it('clicking the trigger does not open dropdown when disabled == true',
+        componentTest(() => TestComponent, (fixture, instance) => {
+            instance.disabled = true;
+            fixture.detectChanges();
+            tick();
+            getTrigger(fixture, 0).click();
+            tick();
+            fixture.detectChanges();
+
+            expect(fixture.nativeElement.querySelector('.dropdown-content-wrapper')).toBeFalsy();
+
+            tick(1000);
+        })
+    );
+
     it('clicking content closes the dropdown when sticky === false',
         componentTest(() => TestComponent, (fixture, instance) => {
             instance.sticky = false;
@@ -353,6 +368,7 @@ describe('DropdownList:', () => {
         <div class="test-component-root">
             <gtx-overlay-host></gtx-overlay-host>
             <gtx-dropdown-list [sticky]="sticky"
+                               [disabled]="disabled"
                                [closeOnEscape]="closeOnEscape">
                 <gtx-dropdown-trigger>
                     <button>Choose An Option</button>
@@ -367,6 +383,7 @@ describe('DropdownList:', () => {
 })
 class TestComponent {
     sticky = false;
+    disabled = false;
     closeOnEscape = true;
     collection = [1, 2, 3];
 }

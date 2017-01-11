@@ -161,7 +161,7 @@ export class DropdownList {
     @ContentChild(DropdownTriggerDirective) trigger: DropdownTriggerDirective;
     @ContentChild(DropdownContent) content: DropdownContent;
 
-
+    private _disabled: boolean = false;
     private overlayHostView: ViewContainerRef;
     private scrollMaskFactory: ComponentFactory<ScrollMask>;
     private scrollMaskRef: ComponentRef<ScrollMask>;
@@ -229,6 +229,17 @@ export class DropdownList {
         this.options.closeOnEscape = val === true || val as any === 'true';
     }
 
+    /**
+     * If true, the dropdown will not open when the trigger is clicked.
+     */
+    @Input()
+    get disabled(): boolean {
+        return this._disabled;
+    }
+    set disabled(val: boolean) {
+        this._disabled = val === true || val as any === 'true';
+    }
+
     get isOpen(): boolean {
         return !!this.contentComponentRef;
     }
@@ -286,6 +297,9 @@ export class DropdownList {
      * Open the dropdown contents in the correct position.
      */
     openDropdown(): void {
+        if (this._disabled) {
+            return;
+        }
         this.contentComponentRef = this.overlayHostView.createComponent(this.contentComponentFactory, null);
         const contentInstance = this.contentComponentRef.instance;
         contentInstance.content = this.contentsTemplate;

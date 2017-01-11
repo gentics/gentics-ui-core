@@ -10,4 +10,5 @@ import {Component} from '@angular/core';
 })
 export class DropdownListDemo {
     componentSource: string = require('!!raw-loader!../../../components/dropdown-list/dropdown-list.component.ts');
+    dropdownIsDisabled = false;
 }
