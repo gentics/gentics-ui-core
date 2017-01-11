@@ -4,12 +4,11 @@
 
 <h4>Demos</h4>
 
-
 <gtx-demo-block demoTitle="Basic Select">
     <div class="demo-result">
         <div class="column small-8">
             <gtx-select label="Basic Select" [(ngModel)]="selectVal">
-                <option *ngFor="let item of options" [value]="item"></option>
+                <gtx-option *ngFor="let item of options" [value]="item"></gtx-option>
             </gtx-select>
         </div>
         <div class="column small-4">
@@ -19,23 +18,23 @@
     <div class="demo-code">
         <gtx-highlighted-code language="HTML" code='
                 <gtx-select label="Basic Select" [(ngModel)]="selectVal">
-                    <option *ngFor="let item of options" [value]="item">{{ item }}</option>
+                    <gtx-option *ngFor="let item of options" [value]="item"></gtx-option>
                 </gtx-select>
                 Value: <code>(( selectVal | json ))</code>
         '></gtx-highlighted-code>
     </div>
 </gtx-demo-block>
 
-<gtx-demo-block demoTitle="Events">
+<gtx-demo-block demoTitle="Multiple Select">
     <div class="demo-result">
         <p>
-            When working with multiple selects, the inputs and outputs are of type <code>string[]</code>:
+            Selects with `multiple` set to `true` will render with checkboxes to allow the selection of multiple options.
         </p>
 
         <div class="row">
             <div class="column small-8">
                 <gtx-select label="Multiple Select" [(ngModel)]="selectMultiVal" multiple="true">
-                    <option *ngFor="let item of options" [value]="item"></option>
+                    <gtx-option *ngFor="let item of options" [value]="item"></gtx-option>
                 </gtx-select>
             </div>
             <div class="column small-4">
@@ -46,26 +45,60 @@
     <div class="demo-code">
         <gtx-highlighted-code language="HTML" code='
                  <gtx-select label="Multiple Select" [(ngModel)]="selectMultiVal" multiple="true">
-                     <option *ngFor="let item of options" [value]="item">{{ item }}</option>
+                    <gtx-option *ngFor="let item of options" [value]="item"></gtx-option>
                  </gtx-select>
-                 Value: <code>{{ selectMultiVal | json }}</code>
+                 Value: <code>(( selectMultiVal | json ))</code>
+        '></gtx-highlighted-code>
+    </div>
+</gtx-demo-block>
+
+<gtx-demo-block demoTitle="Complex values">
+    <div class="demo-result">
+        <p>Regular HTML selects can only have string values, but this component allows any kind of value.</p>
+        <div class="row">
+            <div class="column small-8">
+                <gtx-select label="Select a person" [(ngModel)]="selectedPerson">
+                    <gtx-option *ngFor="let person of people"
+                                [value]="person"
+                                [disabled]="person.disabled">{{ person?.name }} ({{ person?.age }})</gtx-option>
+                </gtx-select>
+            </div>
+            <div class="column small-4">
+                Value: <pre><code>{{ selectedPerson | json }}</code></pre>
+            </div>
+        </div>
+
+    </div>
+    <div class="demo-code">
+        <gtx-highlighted-code language="HTML" code='
+                 <gtx-select label="Select a person" [(ngModel)]="selectedPerson">
+                     <gtx-option *ngFor="let person of people"
+                                 [value]="person"
+                                 [disabled]="person.disabled">(( person.name )) ((( person.age )))</gtx-option>
+                 </gtx-select>
+                 Value: <pre><code>(( selectedPerson | json ))</code></pre>
         '></gtx-highlighted-code>
     </div>
 </gtx-demo-block>
 
 <gtx-demo-block demoTitle="Option Groups">
     <div class="demo-result">
+        <p>Options may be grouped with the `gtx-optgroup` element, which accepts a `label` and an optional `disabled` attribute.</p>
         <div class="row">
             <div class="column small-8">
-                <gtx-select label="Select With Option Groups" [(ngModel)]="selectGroup" >
-                    <optgroup label="Foos">
-                        <option value="foo1">Foo 1</option>
-                        <option value="foo2">Foo 2</option>
-                    </optgroup>
-                    <optgroup label="Bars">
-                        <option value="bar1">Bar 1</option>
-                        <option value="bar2">Bar 2</option>
-                    </optgroup>
+                <gtx-select label="Select With Option Groups" [(ngModel)]="selectGroup">
+                    <gtx-optgroup label="Foos">
+                        <gtx-option value="foo1">Foo 1</gtx-option>
+                        <gtx-option value="foo2">Foo 2</gtx-option>
+                    </gtx-optgroup>
+                    <gtx-optgroup label="Bars">
+                        <gtx-option value="bar1">Bar 1</gtx-option>
+                        <gtx-option value="bar2">Bar 2</gtx-option>
+                    </gtx-optgroup>
+                    <gtx-optgroup label="Quuxs" disabled="true">
+                        <gtx-option value="bar1">Quux 1</gtx-option>
+                        <gtx-option value="bar2">Quux 2</gtx-option>
+                    </gtx-optgroup>
                 </gtx-select>
             </div>
             <div class="column small-4">
@@ -76,17 +109,199 @@
     </div>
     <div class="demo-code">
         <gtx-highlighted-code language="HTML" code='
-                 <gtx-select label="Select With Option Groups" [(ngModel)]="selectGroup" >
-                     <optgroup label="Foos">
-                         <option value="foo1">Foo 1</option>
-                         <option value="foo2">Foo 2</option>
-                     </optgroup>
-                     <optgroup label="Bars">
-                         <option value="bar1">Bar 1</option>
-                         <option value="bar2">Bar 2</option>
-                     </optgroup>
+                 <gtx-select label="Select With Option Groups" [(ngModel)]="selectGroup">
+                     <gtx-optgroup label="Foos">
+                         <gtx-option value="foo1">Foo 1</gtx-option>
+                         <gtx-option value="foo2">Foo 2</gtx-option>
+                     </gtx-optgroup>
+                     <gtx-optgroup label="Bars">
+                         <gtx-option value="bar1">Bar 1</gtx-option>
+                         <gtx-option value="bar2">Bar 2</gtx-option>
+                     </gtx-optgroup>
+                     <gtx-optgroup label="Quuxs" disabled="true">
+                         <gtx-option value="quux1">Quux 1</gtx-option>
+                         <gtx-option value="quux2">Quux 2</gtx-option>
+                     </gtx-optgroup>
                  </gtx-select>
-                 Value: <code>{{ selectGroup | json }}</code>
+                 Value: <code>(( selectGroup | json ))</code>
+        '></gtx-highlighted-code>
+    </div>
+</gtx-demo-block>
+
+
+<gtx-demo-block demoTitle="Disabled States">
+    <div class="demo-result">
+        <p>When disabled, the Select is not clickable or focusable. Individual options or groups can also be set to
+            `disabled`.</p>
+        <div class="column small-8">
+            <gtx-select label="Select an Option" [disabled]="disableEntireControl">
+                <gtx-option [disabled]="disableSingleOption">A Single Option</gtx-option>
+                <gtx-optgroup label="An Option Group" [disabled]="disableOptionGroup">
+                    <gtx-option>Group option 1</gtx-option>
+                    <gtx-option>Group option 2</gtx-option>
+                    <gtx-option>Group option 3</gtx-option>
+                </gtx-optgroup>
+            </gtx-select>
+        </div>
+        <div class="column small-4">
+            <gtx-checkbox [(ngModel)]="disableEntireControl" label="Disable Select"></gtx-checkbox>
+            <gtx-checkbox [(ngModel)]="disableSingleOption" label="Disable Single Option"></gtx-checkbox>
+            <gtx-checkbox [(ngModel)]="disableOptionGroup" label="Disable Option Group"></gtx-checkbox>
+        </div>
+    </div>
+    <div class="demo-code">
+        <gtx-highlighted-code language="HTML" code='
+            <gtx-select label="Select an Option" [disabled]="disableEntireControl">
+                <gtx-option [disabled]="disableSingleOption">A Single Option</gtx-option>
+                <gtx-optgroup label="An Option Group" [disabled]="disableOptionGroup">
+                    <gtx-option>Group option 1</gtx-option>
+                    <gtx-option>Group option 2</gtx-option>
+                    <gtx-option>Group option 3</gtx-option>
+                </gtx-optgroup>
+            </gtx-select>
+
+            <gtx-checkbox [(ngModel)]="disableEntireControl" label="Disable Select"></gtx-checkbox>
+            <gtx-checkbox [(ngModel)]="disableSingleOption" label="Disable Single Option"></gtx-checkbox>
+            <gtx-checkbox [(ngModel)]="disableOptionGroup" label="Disable Option Group"></gtx-checkbox>
+        '></gtx-highlighted-code>
+    </div>
+</gtx-demo-block>
+
+<gtx-demo-block demoTitle="Keyboard Controls">
+    <div class="demo-result">
+        <p>The keyboard may be used to navigate the options, such as using the arrow keys or tying a letter.</p>
+        <div class="row">
+            <div class="column small-8">
+                <gtx-select label="Select a Country">
+                    <gtx-option>Afghanistan</gtx-option>
+                    <gtx-option>Albania</gtx-option>
+                    <gtx-option>Algeria</gtx-option>
+                    <gtx-option>Argentina</gtx-option>
+                    <gtx-option>Armenia</gtx-option>
+                    <gtx-option>Australia</gtx-option>
+                    <gtx-option>Austria</gtx-option>
+                    <gtx-option>Azerbaijan</gtx-option>
+                    <gtx-option>Bahamas</gtx-option>
+                    <gtx-option>Belgium</gtx-option>
+                    <gtx-option>Belize</gtx-option>
+                    <gtx-option>Bolivia</gtx-option>
+                    <gtx-option>Botswana</gtx-option>
+                    <gtx-option>Brazil</gtx-option>
+                    <gtx-option>Bulgaria</gtx-option>
+                    <gtx-option>Cambodia</gtx-option>
+                    <gtx-option>Cameroon</gtx-option>
+                    <gtx-option>Canada</gtx-option>
+                    <gtx-option>Chile</gtx-option>
+                    <gtx-option>China</gtx-option>
+                    <gtx-option>Colombia</gtx-option>
+                    <gtx-option>Congo</gtx-option>
+                    <gtx-option>Croatia</gtx-option>
+                    <gtx-option>Cuba</gtx-option>
+                    <gtx-option>Cyprus</gtx-option>
+                    <gtx-option>Denmark</gtx-option>
+                    <gtx-option>Dominica</gtx-option>
+                    <gtx-option>Ecuador</gtx-option>
+                    <gtx-option>Egypt</gtx-option>
+                    <gtx-option>Estonia</gtx-option>
+                    <gtx-option>Ethiopia</gtx-option>
+                    <gtx-option>Finland</gtx-option>
+                    <gtx-option>France</gtx-option>
+                    <gtx-option>Gambia</gtx-option>
+                    <gtx-option>Georgia</gtx-option>
+                    <gtx-option>Germany</gtx-option>
+                    <gtx-option>Ghana</gtx-option>
+                    <gtx-option>Greece</gtx-option>
+                    <gtx-option>Grenada</gtx-option>
+                    <gtx-option>Guatemala</gtx-option>
+                    <gtx-option>Haiti</gtx-option>
+                    <gtx-option>Hungary</gtx-option>
+                    <gtx-option>Iceland</gtx-option>
+                    <gtx-option>India</gtx-option>
+                    <gtx-option>Indonesia</gtx-option>
+                    <gtx-option>Iran</gtx-option>
+                    <gtx-option>Iraq</gtx-option>
+                    <gtx-option>Israel</gtx-option>
+                    <gtx-option>Italy</gtx-option>
+                    <gtx-option>Jamaica</gtx-option>
+                    <gtx-option>Japan</gtx-option>
+                    <gtx-option>Jordan</gtx-option>
+                    <gtx-option>Kazakhstan</gtx-option>
+                    <gtx-option>Kenya</gtx-option>
+                    <gtx-option>Lebanon</gtx-option>
+                    <gtx-option>Liberia</gtx-option>
+                    <gtx-option>Libya</gtx-option>
+                    <gtx-option>Liechtenstein</gtx-option>
+                    <gtx-option>Lithuania</gtx-option>
+                    <gtx-option>Luxembourg</gtx-option>
+                    <gtx-option>Macedonia</gtx-option>
+                    <gtx-option>Madagascar</gtx-option>
+                    <gtx-option>Malaysia</gtx-option>
+                    <gtx-option>Maldives</gtx-option>
+                    <gtx-option>Malta</gtx-option>
+                    <gtx-option>Mexico</gtx-option>
+                    <gtx-option>Monaco</gtx-option>
+                    <gtx-option>Mongolia</gtx-option>
+                    <gtx-option>Morocco</gtx-option>
+                    <gtx-option>Mozambique</gtx-option>
+                    <gtx-option>Namibia</gtx-option>
+                    <gtx-option>Nepal</gtx-option>
+                    <gtx-option>Netherlands</gtx-option>
+                    <gtx-option>Nicaragua</gtx-option>
+                    <gtx-option>Nigeria</gtx-option>
+                    <gtx-option>Norway</gtx-option>
+                    <gtx-option>Pakistan</gtx-option>
+                    <gtx-option>Panama</gtx-option>
+                    <gtx-option>Paraguay</gtx-option>
+                    <gtx-option>Peru</gtx-option>
+                    <gtx-option>Philippines</gtx-option>
+                    <gtx-option>Poland</gtx-option>
+                    <gtx-option>Portugal</gtx-option>
+                    <gtx-option>Serbia</gtx-option>
+                    <gtx-option>Slovakia</gtx-option>
+                    <gtx-option>Slovenia</gtx-option>
+                    <gtx-option>Somalia</gtx-option>
+                    <gtx-option>Spain</gtx-option>
+                    <gtx-option>Swaziland</gtx-option>
+                    <gtx-option>Sweden</gtx-option>
+                    <gtx-option>Switzerland</gtx-option>
+                    <gtx-option>Syria</gtx-option>
+                    <gtx-option>Taiwan</gtx-option>
+                    <gtx-option>Tanzania</gtx-option>
+                    <gtx-option>Thailand</gtx-option>
+                    <gtx-option>Tunisia</gtx-option>
+                    <gtx-option>Turkey</gtx-option>
+                    <gtx-option>Turkmenistan</gtx-option>
+                    <gtx-option>Uganda</gtx-option>
+                    <gtx-option>Ukraine</gtx-option>
+                    <gtx-option>Uruguay</gtx-option>
+                    <gtx-option>Uzbekistan</gtx-option>
+                    <gtx-option>Venezuela</gtx-option>
+                    <gtx-option>Vietnam</gtx-option>
+                    <gtx-option>Yemen</gtx-option>
+                    <gtx-option>Zambia</gtx-option>
+                    <gtx-option>Zimbabwe</gtx-option>
+                </gtx-select>
+            </div>
+        </div>
+
+    </div>
+    <div class="demo-code">
+        <gtx-highlighted-code language="HTML" code='
+                 <gtx-select label="Select With Option Groups" [(ngModel)]="selectGroup">
+                     <gtx-optgroup label="Foos">
+                         <gtx-option value="foo1">Foo 1</gtx-option>
+                         <gtx-option value="foo2">Foo 2</gtx-option>
+                     </gtx-optgroup>
+                     <gtx-optgroup label="Bars">
+                         <gtx-option value="bar1">Bar 1</gtx-option>
+                         <gtx-option value="bar2">Bar 2</gtx-option>
+                     </gtx-optgroup>
+                     <gtx-optgroup label="Quuxs" disabled="true">
+                         <gtx-option value="quux1">Quux 1</gtx-option>
+                         <gtx-option value="quux2">Quux 2</gtx-option>
+                     </gtx-optgroup>
+                 </gtx-select>
+                 Value: <code>(( selectGroup | json ))</code>
         '></gtx-highlighted-code>
     </div>
 </gtx-demo-block>

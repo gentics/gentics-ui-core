@@ -3,7 +3,7 @@
 ## 2.0.0 (in progress)
 
 ### Breaking Changes
-* DropdownList - list are now created with the `<gtx-dropdown-item>` component:
+* DropdownList - lists are now created with the `<gtx-dropdown-item>` component:
 ```HTML
 // before
 <gtx-dropdown-content>
@@ -20,18 +20,46 @@
     <gtx-dropdown-item>Item 2</gtx-dropdown-item>
 </gtx-dropdown-content>
 ```
+* Select - options and option groups now have a "gtx-" prefix:
+```HTML
+// before
+<gtx-select label="Pick an option">
+    <optgroup label="Foos">
+        <option value="foo1">Foo 1</option>
+        <option value="foo2">Foo 2</option>
+    </optgroup>
+    <optgroup label="Bars">
+        <option value="bar1">Bar 1</option>
+        <option value="bar2">Bar 2</option>
+    </optgroup>
+</gtx-select>
+
+// after
+<gtx-select label="Pick an option">
+    <gtx-optgroup label="Foos">
+        <gtx-option value="foo1">Foo 1</gtx-option>
+        <gtx-option value="foo2">Foo 2</gtx-option>
+    </gtx-optgroup>
+    <gtx-optgroup label="Bars">
+        <gtx-option value="bar1">Bar 1</gtx-option>
+        <gtx-option value="bar2">Bar 2</gtx-option>
+    </gtx-optgroup>
+</gtx-select>
+```
 
 ### Features
 * Migrate type definitions to @types/*
 * Add Moment as a peerDependency
 * Component templates now get inlined as strings in build step
-* DropdownList: extend API with `sticky`, `closeOnEscape`, `isOpen` and `closeDropdown()`; add keyboard support
+* DropdownList: extend API with `sticky`, `closeOnEscape`, `isOpen`, `disabled` and `closeDropdown()`; add keyboard support
 * Buttons can be declared as submit button
+* Select: add ability to bind to complex values (GUIC-86); add full keyboard control support
 * All form components support `autofocus` (GUIC-91, GCU-143, GCU-192)
 
 ### Fixes
 * No longer leak type definition dependencies (hammerjs, sortablejs etc.)
 * User can no longer trigger scrolling via keyboard when DropdownList is open
+* Fixed z-index issues with Select component (GUIC-86)
 
 
 ## 1.0.0 (2016-12-06)

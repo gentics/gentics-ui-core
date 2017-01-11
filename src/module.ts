@@ -46,7 +46,7 @@ import {BlankModal} from './components/modal/blank-modal.component';
 import {DateTimePickerFormatProvider} from './components/date-time-picker/date-time-picker-format-provider.service';
 import {ScrollMask} from './components/dropdown-list/scroll-mask.component';
 import {DropdownContentWrapper} from './components/dropdown-list/dropdown-content-wrapper.component';
-import {SelectOption} from './components/select/option.component';
+import {SelectOption, SelectOptionGroup} from './components/select/option.component';
 
 const UI_CORE_COMPONENTS: any[] = [
     AutofocusDirective,
@@ -79,6 +79,7 @@ const UI_CORE_COMPONENTS: any[] = [
     SearchBar,
     Select,
     SelectOption,
+    SelectOptionGroup,
     SideMenu,
     SideMenuToggle,
     SortableItem,

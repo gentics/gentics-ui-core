@@ -1,19 +1,19 @@
 import {
     Component,
     ContentChildren,
-    ElementRef,
     EventEmitter,
     forwardRef,
+    HostListener,
     Input,
     Output,
-    Query,
-    QueryList
+    QueryList,
+    ViewChild
 } from '@angular/core';
-import {ControlValueAccessor, NgSelectOption, NG_VALUE_ACCESSOR} from '@angular/forms';
+import {ControlValueAccessor, NG_VALUE_ACCESSOR} from '@angular/forms';
 import {Subscription} from 'rxjs';
-
-declare var $: JQueryStatic;
-
+import {SelectOption, SelectOptionGroup} from './option.component';
+import {DropdownList, DropdownContent} from '../dropdown-list/dropdown-list.component';
+import {KeyCode} from '../../common/keycodes';
 
 const GTX_SELECT_VALUE_ACCESSOR = {
     provide: NG_VALUE_ACCESSOR,
@@ -21,22 +21,25 @@ const GTX_SELECT_VALUE_ACCESSOR = {
     multi: true
 };
 
+export interface NormalizedOptionGroup {
+    options: SelectOption[];
+    label: string;
+    disabled: boolean;
+    isDefaultGroup: boolean;
+}
 
 /**
- * The Select wraps the Materialize `<select>` element, which dynamically generates a styled list rather than use
- * the native HTML `<select>`.
- *
- * The value of the component (as specified by the `value` attribute or via ngModel etc.) should be a string, or in
- * the case of a multiple select (multiple="true"), it should be an array of strings.
- *
- * Likewise the outputs passed to the event handlers will be a string or an array of strings, depending on whether
- * multiple === true.
+ * A Select form control which works with any kind of value - as opposed to the native HTML `<select>` which only works
+ * with strings.
  *
  * ```html
  * <gtx-select label="Choose an option" [(ngModel)]="selectVal">
- *     <option *ngFor="let item of options" [value]="item">{{ item }}</option>
+ *     <gtx-option *ngFor="let item of options"
+ *                 [value]="item"
+ *                 [disabled]="item.disabled">{{ item.label }}</gtx-option>
  * </gtx-select>
  * ```
+ *
  */
 @Component({
     selector: 'gtx-select',
@@ -52,18 +55,19 @@ export class Select implements ControlValueAccessor {
     /**
      * Sets the disabled state.
      */
-    @Input() disabled: boolean = false;
+    @Input()
+    get disabled(): boolean {
+        return this._disabled;
+    }
+    set disabled(value: boolean) {
+        this._disabled = value === true || value as any === 'true';
+    }
 
     /**
      * When set to true, allows multiple options to be selected. In this case, the input value should be
      * an array of strings; events will emit an array of strings.
      */
     @Input() multiple: boolean = false;
-
-    /**
-     * Name of the input.
-     */
-    @Input() name: string;
 
     /**
      * Sets the required state.
@@ -73,7 +77,7 @@ export class Select implements ControlValueAccessor {
     /**
      * The value determines which of the options are selected.
      */
-    @Input() value: string|string[];
+    @Input() value: any;
 
     /**
      * A text label for the input.
@@ -81,181 +85,338 @@ export class Select implements ControlValueAccessor {
     @Input() label: string = '';
 
     /**
-     * Sets the id for the input.
+     * Blur event.
      */
-    @Input() id: string;
-
+    @Output() blur = new EventEmitter<any>();
     /**
-     * Blur event. Output depends on the "multiple" attribute.
+     * Focus event.
      */
-    @Output() blur = new EventEmitter<string|string[]>();
+    @Output() focus = new EventEmitter<any>();
     /**
-     * Focus event. Output depends on the "multiple" attribute.
+     * Change event.
      */
-    @Output() focus = new EventEmitter<string|string[]>();
-    /**
-     * Change event. Output depends on the "multiple" attribute.
-     */
-    @Output() change = new EventEmitter<string|string[]>();
+    @Output() change = new EventEmitter<any>();
 
-    @ContentChildren(NgSelectOption, { descendants: true }) selectOptions: QueryList<NgSelectOption>;
+    // An array of abstracted containers for options, which allows us to treat options and groups in a
+    // consistent way.
+    optionGroups: NormalizedOptionGroup[] = [];
 
-    $nativeSelect: any;
     subscriptions: Subscription[] = [];
+    selectedOptions: SelectOption[] = [];
+    viewValue: string = '';
+
+    // Keeps track of the selected option. Two dimensional because options may be nested inside groups. The first
+    // value is the index of the group (-1 is the default "no group" group), and the second number is the index
+    // of the option within that group.
+    selectedIndex: [number, number] = [0, -1];
+
+    private _disabled: boolean = false;
+    @ViewChild(DropdownList) private dropdownList: DropdownList;
+    @ViewChild(DropdownContent) private dropdownContent: DropdownContent;
+    @ContentChildren(SelectOption, { descendants: false }) private _selectOptions: QueryList<SelectOption>;
+    @ContentChildren(SelectOptionGroup, { descendants: false }) private _selectOptionGroups: QueryList<SelectOptionGroup>;
 
     // ValueAccessor members
     onChange: any = () => {};
     onTouched: any = () => {};
 
-    /**
-     * Event handler for when one of the Materialize-generated LI elements is clicked.
-     */
-    selectItemClick: (e: Event) => void = (e: Event) => {
-        const fakeInput: HTMLInputElement = this.elementRef.nativeElement.querySelector('input.select-dropdown');
-        this.value = this.normalizeValue(fakeInput.value);
-        this.change.emit(this.value);
-        this.onChange();
-    };
-
-    inputBlur: (e: Event) => void = (e: Event) => {
-        e.stopPropagation();
-        e.preventDefault();
-        this.onTouched();
-        this.blur.emit(this.value);
-    };
-
-    constructor(private elementRef: ElementRef) {}
-
-    /**
-     * If a `value` has been passed in, we mark the corresponding option as "selected".
-     */
-    ngAfterContentInit(): void {
-        this.updateValue(this.value);
-    }
-
-    /**
-     * We need to init the Materialize select, (see http://materializecss.com/forms.html)
-     * and add our own event listeners to the LI elements that Materialize creates to
-     * replace the native <select> element, and listeners for blur, focus and change
-     * events on the fakeInput which Materialize creates in the place of the native <select>.
-     */
     ngAfterViewInit(): void {
-        const nativeSelect: HTMLSelectElement = this.elementRef.nativeElement.querySelector('select');
-
-        this.$nativeSelect = $(nativeSelect);
-
-        // in a setTimeout to get around a weird issue where the first option was
-        // always being selected. I think it has to do with the fact that the ValueAccessor
-        // needs to run to update the nativeSelect value to the correct value before we
-        // init the Materialize magic.
-        // TODO: Refactor to no longer use the Materialize implementation, but to use the
-        // overlay host to append to DOM in a more Angular-y way.
-        setTimeout(() => {
-            this.$nativeSelect.material_select();
-
-            // the Materialize material_select() function annoyingly sets the value of the nativeSelect and the
-            // fakeInput to the first option in the list, if the value is empty:
-            // https://github.com/Dogfalo/materialize/blob/418eaa13efff765a2d68dcc0bc1b3fabf8484183/js/forms.js#L587-L591
-            // This is not what we want, so we need to override this and set the values back to what they were before
-            // material_select() was invoked.
-            this.updateValue(this.value);
-
-            this.registerHandlers();
-        });
-
-        this._updateValueWhenListOfOptionsChanges(this.selectOptions);
-
+        // Update the value if there are any changes to the options
         this.subscriptions.push(
-            this.selectOptions.changes.subscribe(() => {
-                this.unregisterHandlers();
-                nativeSelect.value = <string> this.value;
-                this.$nativeSelect.material_select();
-                this.registerHandlers();
-            })
+            this._selectOptions.changes.subscribe((_: any) => this.writeValue(this.value))
         );
     }
 
-    /**
-     * Clean up our manually-added event listeners.
-     */
+    ngAfterContentInit(): void {
+        this.optionGroups = this.buildOptionGroups();
+        this.selectedOptions = this.getInitiallySelectedOptions();
+        this.updateViewValue();
+    }
+
     ngOnDestroy(): void {
-        this.unregisterHandlers();
-        this.$nativeSelect.material_select('destroy');
         this.subscriptions.forEach(s => s.unsubscribe());
     }
 
     /**
-     * Updates the value of the select component, setting the correct properties on the native DOM elements
-     * depending on whether or not we are in "multiple" mode.
+     * Event handler for when one of the Materialize-generated LI elements is clicked.
      */
-    updateValue(value: string|string[]): void {
-        if (value === undefined) {
-            return;
+    selectItem(groupIndex: number, optionIndex: number): void {
+        const option = this.optionGroups[groupIndex] && this.optionGroups[groupIndex].options[optionIndex];
+        if (!this.optionGroups[groupIndex].disabled && option && !option.disabled) {
+            this.toggleSelectedOption(option);
+            const selectedValues = this.selectedOptions.map(o => o.value);
+            this.value = this.multiple ? selectedValues : selectedValues[0];
+            this.change.emit(this.value);
+            this.onChange();
+            this.updateViewValue();
+            this.scrollToSelectedOption();
         }
-        const nativeSelect: HTMLSelectElement = this.elementRef.nativeElement.querySelector('select');
-        const fakeInput: HTMLInputElement = this.elementRef.nativeElement.querySelector('input.select-dropdown');
-        this.value = value;
+    }
 
-        if (value instanceof Array) {
-            const optionNodes: NodeListOf<HTMLOptionElement> = this.elementRef.nativeElement.querySelectorAll('option');
-            const options: HTMLOptionElement[] = Array.prototype.slice.call(optionNodes);
-            // The `multiple` property may not have been bound yet on the nativeSelect. Without this being
-            // set to "true", we cannot select multiple options below.
-            if (this.multiple && !nativeSelect.multiple) {
-                nativeSelect.multiple = true;
-            }
-            options.forEach((option: HTMLOptionElement) => {
-                option.selected = (-1 < this.value.indexOf(option.value));
-            });
-        } else {
-            nativeSelect.value = <string> value;
-        }
+    inputBlur(e: Event): void {
+        e.stopPropagation();
+        this.onTouched();
+        this.blur.emit(this.value);
+    }
 
-        if (fakeInput) {
-            fakeInput.value = value !== null ? String(value) : '';
+    /**
+     * Handle keydown events to enable keyboard navigation and selection of options.
+     */
+    @HostListener('keydown', ['$event'])
+    handleKeydown(event: KeyboardEvent): void {
+        const keyCode = event.keyCode;
+
+        switch (keyCode) {
+            case KeyCode.UpArrow:
+                this.updateSelectedIndex(this.getPreviousIndex(this.selectedIndex));
+                break;
+            case KeyCode.DownArrow:
+                this.updateSelectedIndex(this.getNextIndex(this.selectedIndex));
+                break;
+            case KeyCode.PageUp:
+            case KeyCode.Home:
+                this.updateSelectedIndex(this.getFirstIndex());
+                break;
+            case KeyCode.PageDown:
+            case KeyCode.End:
+                this.updateSelectedIndex(this.getLastIndex());
+                break;
+            case KeyCode.Enter:
+            case KeyCode.Space:
+                if (!this.dropdownList.isOpen) {
+                    this.dropdownList.openDropdown();
+                } else {
+                    this.selectItem(this.selectedIndex[0], this.selectedIndex[1]);
+                    if (!this.multiple) {
+                        this.dropdownList.closeDropdown();
+                    }
+                }
+                break;
+            default:
+                // Other keys are treated as if the user is trying to jump to an option by character
+                let indexOfMatch = this.searchByKeyCode(keyCode);
+                if (indexOfMatch) {
+                    this.updateSelectedIndex(indexOfMatch);
+                }
+
         }
+    }
+
+    isSelected(option: SelectOption): boolean {
+        return -1 < this.selectedOptions.indexOf(option);
+    }
+
+    deselect(): void {
+        this.selectedIndex = [0, -1];
     }
 
     // ValueAccessor members
     writeValue(value: string|string[]): void {
-        this.updateValue(value);
+        this.value = value;
+
+        if (this._selectOptions) {
+            // select any options matching the initial value
+            this.selectedOptions = [];
+            const optionsArray = this._selectOptions.toArray();
+
+            if (this.multiple && this.value instanceof Array) {
+                optionsArray.forEach(o => {
+                    if (-1 < this.value.indexOf(o.value)) {
+                        this.selectedOptions.push(o);
+                    }
+                });
+            } else {
+                this.selectedOptions = optionsArray.filter(o => this.value === o.value);
+            }
+            this.updateViewValue();
+        }
     }
+
     registerOnChange(fn: (_: any) => any): void {
         this.onChange = () => {
             fn(this.value);
         };
     }
+
     registerOnTouched(fn: () => any): void {
         this.onTouched = fn;
     }
 
+    setDisabledState(isDisabled: boolean): void {
+        console.log(`setting disabled state to`, isDisabled);
+        this._disabled = isDisabled;
+    }
 
     /**
-     * If this is a multiple select, turn the string value of the input into an array
-     * of strings.
+     * Once the contents have been compiled, we can build up the optionGroups array, grouping options into
+     * a "default" group, i.e. the group of options which are not children of a <gtx-optgroup>, and then any
+     * other groups as specified by optgroups.
      */
-    private normalizeValue(value: string): string|string[] {
-        const stringToArray: Function = (str: string) => {
-            return str.split(',')
-                .map((s: string) => s.trim())
-                .filter((s: string) => s !== '');
-        };
-        return this.multiple ? stringToArray(value) : value;
+    private buildOptionGroups(): NormalizedOptionGroup[] {
+        let groups = [
+            ...this._selectOptionGroups.toArray().map(g => ({
+                get options(): SelectOption[] { return g.options; },
+                get label(): string { return g.label; },
+                get disabled(): boolean { return g.disabled; },
+                isDefaultGroup: false
+            }))
+        ];
+
+        if (0 < this._selectOptions.length) {
+            groups.unshift({
+                options: this._selectOptions.toArray(),
+                label: '',
+                isDefaultGroup: true,
+                disabled: false
+            });
+        }
+        return groups;
     }
 
-    private registerHandlers(): void {
-        $(this.elementRef.nativeElement).find('li').on('click', this.selectItemClick);
-        $(this.elementRef.nativeElement).find('input.select-dropdown').on('blur', this.inputBlur);
+    /**
+     * Select any options which match the value passed in via the `value` attribute.
+     */
+    private getInitiallySelectedOptions(): SelectOption[] {
+        let selectedOptions: SelectOption[] = [];
+        const flatOptionsList = this.optionGroups.reduce((options, group) => options.concat(group.options), []);
+
+        if (this.value !== undefined) {
+            if (this.multiple) {
+                if (this.value instanceof Array) {
+                    selectedOptions = flatOptionsList.filter(o => -1 < this.value.indexOf(o.value));
+                }
+            } else {
+                selectedOptions = flatOptionsList.filter(o => this.value === o.value) || [];
+            }
+        }
+        return selectedOptions;
     }
 
-    private unregisterHandlers(): void {
-        $(this.elementRef.nativeElement).find('li').off('click', this.selectItemClick);
-        $(this.elementRef.nativeElement).find('input.select-dropdown').off('blur', this.inputBlur);
+    /**
+     * Toggle the selection of the given SelectOption, taking into account whether this is a multiple
+     * select.
+     */
+    private toggleSelectedOption(option: SelectOption): void {
+        if (!this.multiple) {
+            this.selectedOptions = [];
+        }
+        let index = this.selectedOptions.indexOf(option);
+        if (-1 < index) {
+            // de-select the existing option
+            this.selectedOptions.splice(index, 1);
+        } else {
+            this.selectedOptions.push(option);
+        }
     }
 
-    private _updateValueWhenListOfOptionsChanges(query: QueryList<NgSelectOption>): void {
-        this.subscriptions.push(
-            query.changes.subscribe((_: any) => this.writeValue(this.value))
-        );
+    private updateViewValue(): void {
+        this.viewValue = this.selectedOptions.map(o => o.viewValue).join(', ');
+    }
+
+    /**
+     * When a list of options is too long, there will be a scroll bar. This method ensures that the currently-selected
+     * options is scrolled into view in the options list.
+     */
+    private scrollToSelectedOption(): void {
+        setTimeout(() => {
+            const container = this.dropdownContent.elementRef.nativeElement;
+            const selectedLi = container.querySelector('li.selected');
+            if (selectedLi) {
+                const belowContainer = container.offsetHeight + container.scrollTop < selectedLi.offsetTop + selectedLi.offsetHeight;
+                const aboveContainer = selectedLi.offsetTop < container.scrollTop;
+                if (belowContainer) {
+                    container.scrollTop = selectedLi.offsetTop + selectedLi.offsetHeight - container.offsetHeight;
+                }
+                if (aboveContainer) {
+                    container.scrollTop = selectedLi.offsetTop;
+                }
+            }
+        });
+    }
+
+    /**
+     * Searches through the available options and locates the next option with a viewValue whose first character
+     * matches the character passed in. Useful for jumping to options quickly by typing the first letter of the
+     * option view value.
+     */
+    private searchByKeyCode(keyCode: number): [number, number] {
+        // normalize from JavaScript keycodes to unicode charcode (numpad keys are interpreted as numbers)
+        // See http://stackoverflow.com/a/5829387/772859
+        const isNumPad = (96 <= keyCode && keyCode <= 105);
+        const char = String.fromCharCode(isNumPad ? keyCode - 48 : keyCode);
+
+        const totalOptionCount = this.optionGroups.reduce((total, group) => total + group.options.length, 0);
+        let testIndex = this.selectedIndex.slice() as [number, number];
+        let foundMatch = false;
+        let optionsChecked = 0;
+
+        do {
+            testIndex = this.getNextIndex(testIndex);
+            let testOption = this.optionGroups[testIndex[0]].options[testIndex[1]];
+            foundMatch = testOption.viewValue.charAt(0).toUpperCase() === char;
+            optionsChecked ++;
+        } while (!foundMatch && optionsChecked <= totalOptionCount);
+
+        if (foundMatch) {
+            return testIndex;
+        }
+    }
+
+    private getFirstIndex(): [number, number] {
+        return [0, 0];
+    }
+
+    private getLastIndex(): [number, number] {
+        const lastGroupIndex = this.optionGroups.length - 1;
+        return [lastGroupIndex, this.optionGroups[lastGroupIndex].options.length - 1];
+    }
+
+    private getNextIndex(currentIndex: [number, number]): [number, number] {
+        let nextIndex = currentIndex.slice() as [number, number];
+        const isLastGroup = currentIndex[0] === this.optionGroups.length - 1;
+        const isLastOptionInGroup = currentIndex[1] === this.optionGroups[currentIndex[0]].options.length - 1;
+        if (isLastOptionInGroup) {
+            if (isLastGroup) {
+                nextIndex = this.getFirstIndex();
+            } else {
+                nextIndex[0] ++;
+                nextIndex[1] = 0;
+            }
+        } else {
+            nextIndex[1]++;
+        }
+        return nextIndex;
+    }
+
+    private getPreviousIndex(currentIndex: [number, number]): [number, number] {
+        let nextIndex = currentIndex.slice() as [number, number];
+        if (currentIndex[0] <= 0) {
+            if (0 < currentIndex[1]) {
+                nextIndex[1] --;
+            } else {
+                nextIndex = this.getLastIndex();
+            }
+        } else {
+            if (0 < currentIndex[1]) {
+                nextIndex[1] --;
+            } else {
+                nextIndex[0] --;
+                nextIndex[1] = this.optionGroups[currentIndex[0]].options.length - 1;
+            }
+        }
+        return nextIndex;
+    }
+
+    /**
+     * Sets the `selectedOptions` array to contain the single option at the selectedIndex.
+     */
+    private updateSelectedIndex(index: [number, number]): void {
+        this.selectedIndex = index;
+        if (!this.multiple) {
+            const options = this.optionGroups[index[0]].options;
+            if (options && 0 <= index[1] && index[1] < options.length) {
+                this.selectItem(index[0], index[1]);
+            }
+        }
     }
 }

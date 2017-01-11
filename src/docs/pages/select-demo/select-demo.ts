@@ -8,6 +8,15 @@ export class SelectDemo {
 
     options: string[] = ['foo', 'bar', 'baz', 'quux'];
     selectMultiVal: string[] = ['bar', 'baz'];
+    people: any[] = [
+        { name: 'John', age: 22, disabled: false },
+        { name: 'Susan', age: 34, disabled: true },
+        { name: 'Paul', age: 30, disabled: false }
+    ];
     selectVal: string = 'bar';
     selectGroup: any;
+    selectedPerson: any;
+    disableEntireControl: boolean = false;
+    disableSingleOption: boolean = false;
+    disableOptionGroup: boolean = false;
 }

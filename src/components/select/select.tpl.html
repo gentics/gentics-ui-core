@@ -1,11 +1,35 @@
-<div>
-    <select
-        [disabled]="disabled"
-        [attr.id]="id"
-        [multiple]="multiple"
-        [attr.name]="name"
-        [required]="required">
-        <ng-content></ng-content>
-    </select>
-    <label [attr.for]="id">{{ label }}</label>
-</div>
+<gtx-dropdown-list width="trigger" belowTrigger="false" [sticky]="multiple" [disabled]="disabled">
+
+    <gtx-dropdown-trigger>
+        <div class="view-value"
+             [attr.tabindex]="disabled ? null : 0"
+             [attr.disabled]="disabled ? true : null"
+             (blur)="inputBlur($event)"
+             #viewValueContainer>
+            <div>{{ viewValue }}</div>
+            <icon>arrow_drop_down</icon>
+        </div><label (click)="viewValueContainer.focus()">{{ label }}</label>
+    </gtx-dropdown-trigger>
+
+    <gtx-dropdown-content (keydown)="handleKeydown($event)">
+         <ul class="select-options"
+             (click)="viewValueContainer.focus()"
+             (mouseover)="deselect()">
+             <template ngFor [ngForOf]="optionGroups" let-group let-groupIndex="index">
+                 <li *ngIf="!group.isDefaultGroup"
+                     class="group-label">{{ group.label }}</li>
+                 <li *ngFor="let option of group.options; let optionIndex = index"
+                     [class.disabled]="group.disabled || option.disabled"
+                     [class.selected]="selectedIndex[0] === groupIndex && selectedIndex[1] === optionIndex"
+                     class="select-option"
+                     (click)="selectItem(groupIndex, optionIndex)">
+                     <gtx-checkbox *ngIf="multiple"
+                                   [checked]="isSelected(option)"
+                                   (change)="selectItem(groupIndex, optionIndex)"></gtx-checkbox>
+                     {{ option.viewValue }}
+                 </li>
+             </template>
+         </ul>
+    </gtx-dropdown-content>
+
+</gtx-dropdown-list>
