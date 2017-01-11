@@ -243,7 +243,6 @@ export class Select implements ControlValueAccessor {
     }
 
     setDisabledState(isDisabled: boolean): void {
-        console.log(`setting disabled state to`, isDisabled);
         this._disabled = isDisabled;
     }
 

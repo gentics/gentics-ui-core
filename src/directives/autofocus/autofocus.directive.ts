@@ -25,7 +25,7 @@ export class AutofocusDirective implements AfterViewInit, OnChanges, OnDestroy {
     }
 
     private _autofocus: boolean = false;
-    private inputElement: HTMLButtonElement | HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement;
+    private inputElement: HTMLButtonElement | HTMLInputElement | HTMLDivElement | HTMLTextAreaElement;
     private timeout: number;
 
 
@@ -33,10 +33,12 @@ export class AutofocusDirective implements AfterViewInit, OnChanges, OnDestroy {
 
     ngAfterViewInit(): void {
         if (this.element && this.element.nativeElement) {
-            this.inputElement = this.element.nativeElement.querySelector('input, select, textarea, button');
+            this.inputElement = this.element.nativeElement.querySelector('input, .select-input, textarea, button');
 
             if (this._autofocus) {
-                this.inputElement.autofocus = true;
+                if (!(this.inputElement instanceof HTMLDivElement)) {
+                    this.inputElement.autofocus = true;
+                }
                 this.focusNativeInput();
             }
         }
@@ -45,7 +47,9 @@ export class AutofocusDirective implements AfterViewInit, OnChanges, OnDestroy {
     ngOnChanges(changes: SimpleChanges): void {
         const change = changes['autofocus'];
         if (change && this.inputElement) {
-            this.inputElement.autofocus = change.currentValue;
+            if (!(this.inputElement instanceof HTMLDivElement)) {
+                this.inputElement.autofocus = change.currentValue;
+            }
         }
     }
 
@@ -54,7 +58,7 @@ export class AutofocusDirective implements AfterViewInit, OnChanges, OnDestroy {
         this.inputElement = undefined;
     }
 
-    // HTML autocomplete does not work with ngIf or modals.
+    // HTML autofocus does not work with ngIf or modals.
     // Therefore, the input element is focused programatically.
     private focusNativeInput(): void {
         this.cleanupTimer();

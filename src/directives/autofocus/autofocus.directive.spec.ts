@@ -1,6 +1,6 @@
 import {Component} from '@angular/core';
 import {TestBed, tick} from '@angular/core/testing';
-import {FormsModule, ReactiveFormsModule, FormControl, FormGroup} from '@angular/forms';
+import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 
 import {componentTest} from '../../testing';
 import {AutofocusDirective} from './autofocus.directive';
@@ -19,6 +19,13 @@ import {IModalDialog} from '../../components/modal/modal-interfaces';
 import {OverlayHostService} from '../../components/overlay-host/overlay-host.service';
 import {BrowserDynamicTestingModule} from '@angular/platform-browser-dynamic/testing';
 import {DynamicModalWrapper} from '../../components/modal/dynamic-modal-wrapper.component';
+import {
+    DropdownList, DropdownTriggerDirective,
+    DropdownContent
+} from '../../components/dropdown-list/dropdown-list.component';
+import {Icon} from '../../components/icon/icon.component';
+import {DropdownContentWrapper} from '../../components/dropdown-list/dropdown-content-wrapper.component';
+import {ScrollMask} from '../../components/dropdown-list/scroll-mask.component';
 
 
 describe('AutofocusDirective', () => {
@@ -31,11 +38,17 @@ describe('AutofocusDirective', () => {
                 Button,
                 Checkbox,
                 DateTimePicker,
+                DropdownList,
+                DropdownTriggerDirective,
+                DropdownContent,
+                DropdownContentWrapper,
                 DynamicModalWrapper,
                 FilePicker,
+                Icon,
                 InputField,
                 OverlayHost,
                 RadioButton,
+                ScrollMask,
                 SearchBar,
                 Select,
                 TestComponent,
@@ -50,7 +63,7 @@ describe('AutofocusDirective', () => {
 
         TestBed.overrideModule(BrowserDynamicTestingModule, {
             set: {
-                entryComponents: [DynamicModalWrapper, TestModal]
+                entryComponents: [DropdownContentWrapper, DynamicModalWrapper, TestModal, ScrollMask]
             }
         });
     });
@@ -184,19 +197,17 @@ describe('AutofocusDirective', () => {
         )
     );
 
-    // TODO: (GUIC-86) Uncomment test, should work with the new Select implementation
-    xit('works for Select',
+    it('works for Select',
         componentTest(() => TestComponent, `
             <gtx-select label="first"></gtx-select>
             <gtx-select label="second" autofocus></gtx-select>`,
             fixture => {
-                let [first, second] = fixture.nativeElement.querySelectorAll('select') as HTMLSelectElement[];
+                let [first, second] = fixture.nativeElement.querySelectorAll('gtx-select .select-input') as HTMLElement[];
                 fixture.detectChanges();
                 tick();
 
                 expect(isFocused(first)).toBe(false);
                 expect(isFocused(second)).toBe(true);
-                expect(second.autofocus).toBe(true, 'autofocus attribute not set');
             }
         )
     );
