@@ -1,14 +1,12 @@
 import {
     Component,
+    ElementRef,
     EventEmitter,
+    forwardRef,
     Input,
-    Output,
-    forwardRef
+    Output
 } from '@angular/core';
 import {ControlValueAccessor, NG_VALUE_ACCESSOR} from '@angular/forms';
-
-declare var $: JQueryStatic;
-
 
 const GTX_RANGE_VALUE_ACCESSOR = {
     provide: NG_VALUE_ACCESSOR,
@@ -29,6 +27,10 @@ const GTX_RANGE_VALUE_ACCESSOR = {
     providers: [GTX_RANGE_VALUE_ACCESSOR]
 })
 export class Range implements ControlValueAccessor {
+    /**
+     * Sets the input field to be auto-focused. Handled by `AutofocusDirective`.
+     */
+    @Input() autofocus: boolean = false;
 
     /**
      * Sets the disabled state of the input.
@@ -90,9 +92,14 @@ export class Range implements ControlValueAccessor {
      */
     @Output() change = new EventEmitter<number>();
 
+    active: boolean = false;
+    thumbLeft: string = '';
+
     // ValueAccessor members
     onChange: any = (_: any) => {};
     onTouched: any = () => {};
+
+    constructor(private elementRef: ElementRef) {}
 
     onBlur(nativeEvent: FocusEvent): void {
         nativeEvent.stopPropagation();
@@ -111,8 +118,24 @@ export class Range implements ControlValueAccessor {
 
     onInput(e: Event): void {
         const target: HTMLInputElement = <HTMLInputElement> e.target;
-        this.change.emit(Number(target.value));
-        this.onChange(target.value);
+        this.value = Number(target.value);
+        this.change.emit(this.value);
+        this.onChange(this.value);
+    }
+
+    onMousedown(e: MouseEvent): void {
+        this.active = true;
+        this.setThumbPosition(e);
+    }
+
+    onMouseup(): void {
+        this.active = false;
+    }
+
+    onMousemove(e: MouseEvent): void {
+        if (this.active) {
+            this.setThumbPosition(e);
+        }
     }
 
     writeValue(value: any): void {
@@ -122,4 +145,19 @@ export class Range implements ControlValueAccessor {
         this.onChange = (val: any) => fn(Number(val));
     }
     registerOnTouched(fn: Function): void { this.onTouched = fn; }
+
+    private setThumbPosition(e: MouseEvent): void {
+        const endMargin = 8;
+        const rangeWrapper = this.elementRef.nativeElement.querySelector('.range-field') as HTMLDivElement;
+        const boundingRect = rangeWrapper.getBoundingClientRect();
+        const wrapperLeft = boundingRect.left;
+        const wrapperWidth = boundingRect.width;
+        let left = e.pageX - wrapperLeft;
+        if (left < endMargin) {
+            left = endMargin;
+        } else if (left > wrapperWidth - endMargin) {
+            left = wrapperWidth - endMargin;
+        }
+        this.thumbLeft = left + 'px';
+    }
 }

@@ -55,6 +55,7 @@
 * Buttons can be declared as submit button
 * Select: add ability to bind to complex values (GUIC-86); add full keyboard control support
 * All form components support `autofocus` (GUIC-91, GCU-143, GCU-192)
+* Remove jQuery dependency (GUIC-98)
 
 ### Fixes
 * No longer leak type definition dependencies (hammerjs, sortablejs etc.)

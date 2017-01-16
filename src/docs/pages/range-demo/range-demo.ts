@@ -6,5 +6,5 @@ import {Component} from '@angular/core';
 export class RangeDemo {
     componentSource: string = require('!!raw-loader!../../../components/range/range.component.ts');
     rangeValDynamic: number = 35;
-    rangeVal: any;
+    rangeVal: any = 0;
 }

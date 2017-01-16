@@ -1,21 +1,29 @@
 <div class="range-field">
     <input type="range"
-        [disabled]="disabled"
-        [attr.max]="max"
-        [attr.min]="min"
-        [attr.name]="name"
-        [readonly]="readonly"
-        [required]="required"
-        [attr.step]="step"
+           [disabled]="disabled"
+           [attr.max]="max"
+           [attr.min]="min"
+           [attr.name]="name"
+           [readonly]="readonly"
+           [required]="required"
+           [attr.step]="step"
 
-        [attr.id]="id"
-        [value]="value"
+           [attr.id]="id"
+           [value]="value"
 
-        (blur)="onBlur($event)"
-        (change)="onChangeEvent($event)"
-        (focus)="onFocus($event)"
-        (input)="onInput($event)"
+           (blur)="onBlur($event)"
+           (change)="onChangeEvent($event)"
+           (focus)="onFocus($event)"
+           (input)="onInput($event)"
+           (mousedown)="onMousedown($event)"
+           (mouseup)="onMouseup()"
+           (mousemove)="onMousemove($event)"
 
-        #input
+           #input
     >
+    <span class="thumb"
+          [class.active]="active"
+          [style.left]="thumbLeft">
+        <span class="value">{{ value }}</span>
+    </span>
 </div>

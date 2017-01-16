@@ -18,4 +18,17 @@ gtx-range {
     &[disabled] input::-webkit-slider-thumb {
         background-color: gray;
     }
+
+    input[type=range] + .thumb {
+        transition: transform 200ms cubic-bezier(1, 0, 0, 1);
+        will-change: transform, left;
+        height: 30px;
+        width: 30px;
+        top: -23px;
+        margin-left: -15px;
+        transform: scale(0, 0) rotate(-45deg);
+        &.active {
+            transform: scale(1, 1) rotate(-45deg);
+        }
+    }
 }
