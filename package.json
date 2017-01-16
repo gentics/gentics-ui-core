@@ -111,7 +111,6 @@
     "sortablejs": "^1.4.2"
   },
   "peerDependencies": {
-    "@angular/core": "^2.4.2",
-    "moment": "2.13.0"
+    "@angular/core": "^2.4.2"
   }
 }

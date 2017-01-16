@@ -155,7 +155,7 @@ describe('DateTimePicker:', () => {
                 <gtx-overlay-host></gtx-overlay-host>`,
                 (fixture, instance) => {
                     fixture.detectChanges();
-                    expect(instance.pickerInstance.value.unix()).toEqual(TEST_TIMESTAMP);
+                    expect(instance.pickerInstance.getUnixTimestamp()).toEqual(TEST_TIMESTAMP);
                 }
             )
         );
@@ -166,7 +166,7 @@ describe('DateTimePicker:', () => {
                 <gtx-overlay-host></gtx-overlay-host>`,
                 (fixture, instance) => {
                     fixture.detectChanges();
-                    expect(instance.pickerInstance.value.unix()).toEqual(TEST_TIMESTAMP);
+                    expect(instance.pickerInstance.getUnixTimestamp()).toEqual(TEST_TIMESTAMP);
                 }
             )
         );
@@ -289,42 +289,42 @@ describe('DateTimePicker:', () => {
         it('incrementTime("seconds") increments the time by one second',
             incrementDecrementTest(picker => {
                 picker.incrementTime('seconds');
-                expect(picker.value.unix()).toBe(TEST_TIMESTAMP + 1);
+                expect(picker.getUnixTimestamp()).toBe(TEST_TIMESTAMP + 1);
             })
         );
 
         it('incrementTime("minutes") increments the time by one minute',
             incrementDecrementTest(picker => {
                 picker.incrementTime('minutes');
-                expect(picker.value.unix()).toBe(TEST_TIMESTAMP + 60);
+                expect(picker.getUnixTimestamp()).toBe(TEST_TIMESTAMP + 60);
             })
         );
 
         it('incrementTime("hours") increments the time by one hour',
             incrementDecrementTest(picker => {
                 picker.incrementTime('hours');
-                expect(picker.value.unix()).toBe(TEST_TIMESTAMP + (60 * 60));
+                expect(picker.getUnixTimestamp()).toBe(TEST_TIMESTAMP + (60 * 60));
             })
         );
 
         it('decrementTime("seconds") decrement the time by one second',
             incrementDecrementTest(picker => {
                 picker.decrementTime('seconds');
-                expect(picker.value.unix()).toBe(TEST_TIMESTAMP - 1);
+                expect(picker.getUnixTimestamp()).toBe(TEST_TIMESTAMP - 1);
             })
         );
 
         it('decrementTime("minutes") decrements the time by one minute',
             incrementDecrementTest(picker => {
                 picker.decrementTime('minutes');
-                expect(picker.value.unix()).toBe(TEST_TIMESTAMP - 60);
+                expect(picker.getUnixTimestamp()).toBe(TEST_TIMESTAMP - 60);
             })
         );
 
         it('decrementTime("hours") decrements the time by one hour',
             incrementDecrementTest(picker => {
                 picker.decrementTime('hours');
-                expect(picker.value.unix()).toBe(TEST_TIMESTAMP - (60 * 60));
+                expect(picker.getUnixTimestamp()).toBe(TEST_TIMESTAMP - (60 * 60));
             })
         );
     });
@@ -338,14 +338,14 @@ describe('DateTimePicker:', () => {
                 (fixture, instance) => {
                     fixture.detectChanges();
                     tick();
-                    expect(instance.pickerInstance.value.unix()).toBe(TEST_TIMESTAMP);
+                    expect(instance.pickerInstance.getUnixTimestamp()).toBe(TEST_TIMESTAMP);
 
                     instance.testModel -= 10;
                     fixture.detectChanges();
                     tick();
                     fixture.detectChanges();
 
-                    expect(instance.pickerInstance.value.unix()).toBe(TEST_TIMESTAMP - 10);
+                    expect(instance.pickerInstance.getUnixTimestamp()).toBe(TEST_TIMESTAMP - 10);
                 }
             )
         );

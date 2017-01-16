@@ -1,10 +1,10 @@
 <div class="modal-header">
-    <div class="day">{{ value.format('dddd') }}</div>
-    <div class="year" *ngIf="dateOrder === 'ymd'">{{ value.format('YYYY') }}</div>
-    <div class="month" *ngIf="dateOrder !== 'dmy'">{{ value.format('MMM') }}</div>
-    <div class="date">{{ value.format('D') }}</div>
-    <div class="month" *ngIf="dateOrder === 'dmy'">{{ value.format('MMM') }}</div>
-    <div class="year" *ngIf="dateOrder !== 'ymd'">{{ value.format('YYYY') }}</div>
+    <div class="day">{{ formatWith('dddd') }}</div>
+    <div class="year" *ngIf="dateOrder === 'ymd'">{{ formatWith('YYYY') }}</div>
+    <div class="month" *ngIf="dateOrder !== 'dmy'">{{ formatWith('MMM') }}</div>
+    <div class="date">{{ formatWith('D') }}</div>
+    <div class="month" *ngIf="dateOrder === 'dmy'">{{ formatWith('MMM') }}</div>
+    <div class="year" *ngIf="dateOrder !== 'ymd'">{{ formatWith('YYYY') }}</div>
 </div>
 <div class="modal-content">
     <div #calendarContainer class="calendar-container"></div>

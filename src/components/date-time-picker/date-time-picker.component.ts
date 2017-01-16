@@ -91,7 +91,8 @@ export class DateTimePicker implements ControlValueAccessor, OnInit, OnDestroy {
 
     _disabled: boolean = false;
     displayValue: string = ' ';
-    value: Moment;
+    /** @internal */
+    private value: Moment;
 
     private _displayTime: boolean = true;
     private _displaySeconds: boolean = true;
@@ -158,6 +159,10 @@ export class DateTimePicker implements ControlValueAccessor, OnInit, OnDestroy {
                 this.onChange();
                 this.change.emit(timestamp);
             });
+    }
+
+    getUnixTimestamp(): number {
+        return this.value.unix();
     }
 
     writeValue(value: number): void {

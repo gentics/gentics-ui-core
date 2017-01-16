@@ -2,8 +2,40 @@ import {Injectable} from '@angular/core';
 import {Observable} from 'rxjs';
 import {DateTimePickerStrings} from './date-time-picker-strings';
 import {defaultStrings} from './date-time-picker-default-strings';
-import {Moment} from './moment-types';
 
+/**
+ * A simplified subset of the Moment interface which we expose via the first arg of the
+ * DateTimePickerFormatProvider.format() method.
+ */
+export interface MomentLike {
+    format(format: string): string;
+    format(): string;
+
+    year(): number;
+    quarter(): number;
+    month(): number;
+    day(): number;
+    date(): number;
+    hour(): number;
+    hours(): number;
+    minute(): number;
+    minutes(): number;
+    second(): number;
+    seconds(): number;
+    millisecond(): number;
+    milliseconds(): number;
+    weekday(): number;
+    isoWeekday(): number;
+    weekYear(): number;
+    isoWeekYear(): number;
+    week(): number;
+    weeks(): number;
+    isoWeek(): number;
+    isoWeeks(): number;
+    weeksInYear(): number;
+    isoWeeksInYear(): number;
+    dayOfYear(): number;
+}
 
 /**
  * Format provider to localize the DateTimePicker component.
@@ -18,7 +50,7 @@ export class DateTimePickerFormatProvider {
     changed$: Observable<any> = Observable.never();
 
     /** Formats a human-readable string to be displayed in the control input field. */
-    format(date: Moment, displayTime: boolean, displaySeconds: boolean): string {
+    format(date: MomentLike, displayTime: boolean, displaySeconds: boolean): string {
         let formatString = displayTime ? (displaySeconds ? 'L, LTS' : 'L, LT') : 'L';
         return date.format(formatString);
     }

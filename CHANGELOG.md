@@ -58,10 +58,9 @@
 * Remove jQuery dependency (GUIC-98)
 
 ### Fixes
-* No longer leak type definition dependencies (hammerjs, sortablejs etc.)
+* No longer leak type definition dependencies (moment, hammerjs, sortablejs etc.)
 * User can no longer trigger scrolling via keyboard when DropdownList is open
 * Fixed z-index issues with Select component (GUIC-86)
-
 
 ## 1.0.0 (2016-12-06)
 

@@ -13,7 +13,6 @@ import {MomentStatic, Moment} from './moment-types';
 const rome: any = require('rome');
 const momentjs: MomentStatic = rome.moment;
 
-
 /**
  * The modal powering the `DateTimePicker` component.
  */
@@ -45,10 +44,11 @@ export class DateTimePickerModal implements IModalDialog, OnDestroy {
      */
     formatProvider: DateTimePickerFormatProvider = new DateTimePickerFormatProvider();
 
-    value: Moment = momentjs();
-
     @ViewChild('calendarContainer')
     calendarContainer: ElementRef;
+
+    /** @internal */
+    private value: Moment = momentjs();
 
     /**
      * cal is an instance of a Rome calendar, for the API see https://github.com/bevacqua/rome#rome-api
@@ -141,6 +141,14 @@ export class DateTimePickerModal implements IModalDialog, OnDestroy {
 
     decrementTime(segment: string): void {
         this.addToTime(segment, -1);
+    }
+
+    formatWith(formatString: string): string {
+        return this.value.format(formatString);
+    }
+
+    getUnixTimestamp(): number {
+        return this.value.unix();
     }
 
     closeFn(timestamp: number): void { }
