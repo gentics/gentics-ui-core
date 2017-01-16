@@ -5,54 +5,53 @@
 ### Fixes
 * Add some missing methods to the `MomentLike` interface in `DateTimePickerFormatProvider`
 
+
 ## 2.0.0 (2017-01-16)
 
 ### Breaking Changes
 * DropdownList - lists are now created with the `<gtx-dropdown-item>` component:
-
-  ```html
-  <!-- before -->
-  <gtx-dropdown-content>
-      <ul>
-          <li><a>Item 1</a></li>
-          <li><a>Item 2</a></li>
-      </ul>
-  </gtx-dropdown-content>
-
-  <!-- after -->
-  <gtx-dropdown-content>
-      <gtx-dropdown-item>Item 1</gtx-dropdown-item>
-      <gtx-dropdown-item>Item 2</gtx-dropdown-item>
-  </gtx-dropdown-content>
-  ```
+    ```html
+    <!-- before -->
+    <gtx-dropdown-content>
+        <ul>
+            <li><a>Item 1</a></li>
+            <li><a>Item 2</a></li>
+        </ul>
+    </gtx-dropdown-content>
+    
+    <!-- now -->
+    <gtx-dropdown-content>
+        <gtx-dropdown-item>Item 1</gtx-dropdown-item>
+        <gtx-dropdown-item>Item 2</gtx-dropdown-item>
+    </gtx-dropdown-content>
+    ```
 
 * Select - options and option groups now have a "gtx-" prefix:
-
-  ```html
-  <!-- before -->
-  <gtx-select label="Pick an option">
-      <optgroup label="Foos">
-          <option value="foo1">Foo 1</option>
-          <option value="foo2">Foo 2</option>
-      </optgroup>
-      <optgroup label="Bars">
-          <option value="bar1">Bar 1</option>
-          <option value="bar2">Bar 2</option>
-      </optgroup>
-  </gtx-select>
-
-  <!-- after -->
-  <gtx-select label="Pick an option">
-      <gtx-optgroup label="Foos">
-          <gtx-option value="foo1">Foo 1</gtx-option>
-          <gtx-option value="foo2">Foo 2</gtx-option>
-      </gtx-optgroup>
-      <gtx-optgroup label="Bars">
-          <gtx-option value="bar1">Bar 1</gtx-option>
-          <gtx-option value="bar2">Bar 2</gtx-option>
-      </gtx-optgroup>
-  </gtx-select>
-  ```
+    ```html
+    <!-- before -->
+    <gtx-select label="Pick an option">
+        <optgroup label="Foos">
+            <option value="foo1">Foo 1</option>
+            <option value="foo2">Foo 2</option>
+        </optgroup>
+        <optgroup label="Bars">
+            <option value="bar1">Bar 1</option>
+            <option value="bar2">Bar 2</option>
+        </optgroup>
+    </gtx-select>
+    
+    <!-- now -->
+    <gtx-select label="Pick an option">
+        <gtx-optgroup label="Foos">
+            <gtx-option value="foo1">Foo 1</gtx-option>
+            <gtx-option value="foo2">Foo 2</gtx-option>
+        </gtx-optgroup>
+        <gtx-optgroup label="Bars">
+            <gtx-option value="bar1">Bar 1</gtx-option>
+            <gtx-option value="bar2">Bar 2</gtx-option>
+        </gtx-optgroup>
+    </gtx-select>
+    ```
 
 ### Features
 * Migrate type definitions to @types/*
@@ -76,28 +75,27 @@
 
 * Updated to Angular 2 final. No longer compatible with any version of Angular prior to 2.0.0-rc.6. Exporting lib as `GenticsUICoreModule`.
 * DropdownList now uses elements rather than classes to contain the trigger and contents:
-
-  ```html
-  <!-- before -->
-  <gtx-dropdown-list>
-      <a class="dropdown-trigger">trigger</a>
-      <ul class="dropdown-content">
-          <li><a>Content</a></li>
-      </ul>
-  </gtx-dropdown-list>
-  
-  <!-- after -->
-  <gtx-dropdown-list>
-      <gtx-dropdown-trigger>
-          <a>Trigger</a>
-      </gtx-dropdown-trigger>
-      <gtx-dropdown-content>
-          <ul>
-              <li><a>Content</a></li>
-          </ul>
-      </gtx-dropdown-content>
-  </gtx-dropdown-list>
-  ```
+    ```html
+    <!-- before -->
+    <gtx-dropdown-list>
+        <a class="dropdown-trigger">trigger</a>
+        <ul class="dropdown-content">
+            <li><a>Content</a></li>
+        </ul>
+    </gtx-dropdown-list>
+    
+    <!-- now -->
+    <gtx-dropdown-list>
+        <gtx-dropdown-trigger>
+            <a>Trigger</a>
+        </gtx-dropdown-trigger>
+        <gtx-dropdown-content>
+            <ul>
+                <li><a>Content</a></li>
+            </ul>
+        </gtx-dropdown-content>
+    </gtx-dropdown-list>
+    ```
 
 ### Fixes
 * DropdownList no longer cuts off long lists (GUIC-89, GCU-222)
