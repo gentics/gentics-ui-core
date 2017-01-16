@@ -1,5 +1,16 @@
-import {ChangeDetectorRef, Component, ElementRef, EventEmitter, Input, Output, ViewChild, forwardRef} from '@angular/core';
+import {
+    ChangeDetectorRef,
+    Component,
+    ElementRef,
+    EventEmitter,
+    forwardRef,
+    HostListener,
+    Input,
+    Output,
+    ViewChild
+} from '@angular/core';
 import {ControlValueAccessor, NG_VALUE_ACCESSOR} from '@angular/forms';
+import {KeyCode} from '../../common/keycodes';
 
 export type CheckState = boolean | 'indeterminate';
 
@@ -118,6 +129,7 @@ export class Checkbox implements ControlValueAccessor {
     @Output() change = new EventEmitter<CheckState>();
 
     checkState: CheckState = false;
+    tabbedFocus: boolean = false;
 
     @ViewChild('labelElement') labelElement: ElementRef;
 
@@ -132,10 +144,20 @@ export class Checkbox implements ControlValueAccessor {
     onBlur(): void {
         this.blur.emit(this.checkState);
         this.onTouched();
+        this.tabbedFocus = false;
     }
 
     onFocus(): void {
         this.focus.emit(this.checkState);
+    }
+
+    @HostListener('keyup', ['$event'])
+    focusHandler(e: KeyboardEvent): void {
+        if (e.keyCode === KeyCode.Tab) {
+            if (!this.tabbedFocus) {
+                this.tabbedFocus = true;
+            }
+        }
     }
 
     writeValue(value: any): void {
