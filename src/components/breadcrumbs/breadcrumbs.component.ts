@@ -99,5 +99,5 @@ export class Breadcrumbs implements OnChanges {
                 ev.stopImmediatePropagation();
             }
         }
-    };
+    }
 }

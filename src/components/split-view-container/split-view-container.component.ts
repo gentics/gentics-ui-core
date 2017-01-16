@@ -205,6 +205,11 @@ export class SplitViewContainer implements AfterViewInit, OnDestroy {
     /** @internal The Element to which cursor styles are applied. */
     globalCursorStyleTarget: any = window.document && window.document.body;
 
+    @ViewChild('resizeContainer') resizeContainer: ElementRef;
+    @ViewChild('leftPanel') leftPanel: ElementRef;
+    @ViewChild('rightPanel') rightPanel: ElementRef;
+    @ViewChild('resizer') resizer: ElementRef;
+    @ViewChild('visibleResizer') visibleResizer: ElementRef;
 
     resizing: boolean = false;
     private _rightPanelVisible: boolean = false;
@@ -212,12 +217,6 @@ export class SplitViewContainer implements AfterViewInit, OnDestroy {
     private resizeMouseOffset: number;
     private hammerManager: HammerManager;
     private cleanups: Function[] = [];
-
-    @ViewChild('resizeContainer') resizeContainer: ElementRef;
-    @ViewChild('leftPanel') leftPanel: ElementRef;
-    @ViewChild('rightPanel') rightPanel: ElementRef;
-    @ViewChild('resizer') resizer: ElementRef;
-    @ViewChild('visibleResizer') visibleResizer: ElementRef;
 
     constructor(private ownElement: ElementRef,
                 private changeDetector: ChangeDetectorRef,

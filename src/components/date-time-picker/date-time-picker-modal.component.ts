@@ -47,6 +47,9 @@ export class DateTimePickerModal implements IModalDialog, OnDestroy {
 
     value: Moment = momentjs();
 
+    @ViewChild('calendarContainer')
+    calendarContainer: ElementRef;
+
     /**
      * cal is an instance of a Rome calendar, for the API see https://github.com/bevacqua/rome#rome-api
      */
@@ -57,13 +60,8 @@ export class DateTimePickerModal implements IModalDialog, OnDestroy {
         m: 0,
         s: 0
     };
-
     private dateOrder: 'dmy' | 'ymd' | 'mdy' = 'mdy';
     private subscription: Subscription;
-
-    @ViewChild('calendarContainer')
-    calendarContainer: ElementRef;
-
 
     ngOnInit(): void {
         this.value = momentjs.unix(Number(this.timestamp));

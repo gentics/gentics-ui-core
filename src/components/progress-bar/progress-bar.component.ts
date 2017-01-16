@@ -72,7 +72,6 @@ export class ProgressBar implements OnDestroy {
             this.complete();
         }
     }
-    private isActive: boolean = false;
 
     /**
      * Sets the progress of the progress bar as a fraction [0...1].
@@ -132,6 +131,10 @@ export class ProgressBar implements OnDestroy {
         }
     }
 
+    @ViewChild('progressBarWrapper') progressBarWrapper: ElementRef;
+    @ViewChild('progressIndicator') progressIndicator: ElementRef;
+
+    private isActive: boolean = false;
     private progressPercentage: number = 0;
     private indeterminateSpeed: number = 500;
     private determinate: boolean = false;
@@ -139,13 +142,7 @@ export class ProgressBar implements OnDestroy {
     private lastAnimationFrame: number = undefined;
     private removePendingHandler: () => void = noop;
     private cleanupSubscription: () => void = noop;
-
-    @ViewChild('progressBarWrapper') progressBarWrapper: ElementRef;
-    @ViewChild('progressIndicator') progressIndicator: ElementRef;
-
     private wrapperClasses = { add(...cls: string[]): void {}, remove(...cls: string[]): void {} };
-
-
 
     constructor(private zone: NgZone) { }
 
