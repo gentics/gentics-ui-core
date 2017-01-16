@@ -35,6 +35,18 @@ export interface MomentLike {
     weeksInYear(): number;
     isoWeeksInYear(): number;
     dayOfYear(): number;
+
+    toArray(): number[];
+    toDate(): Date;
+    toISOString(): string;
+    toJSON(): string;
+    unix(): number;
+
+    isLeapYear(): boolean;
+    zone(): number;
+    utcOffset(): number;
+    daysInMonth(): number;
+    isDST(): boolean;
 }
 
 /**

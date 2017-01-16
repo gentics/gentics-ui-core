@@ -1,5 +1,10 @@
 # Gentics UI Core Changelog
 
+## 2.0.1 (in progress)
+
+### Fixes
+* Add some missing methods to the `MomentLike` interface in `DateTimePickerFormatProvider`
+
 ## 2.0.0 (2017-01-16)
 
 ### Breaking Changes
