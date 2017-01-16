@@ -1,12 +1,8 @@
 import {
     Component,
-    ElementRef,
     EventEmitter,
     Input,
-    Optional,
     Output,
-    Provider,
-    Self,
     forwardRef
 } from '@angular/core';
 import {ControlValueAccessor, NG_VALUE_ACCESSOR} from '@angular/forms';
