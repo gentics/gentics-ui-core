@@ -1,18 +1,20 @@
 <div>
     <input type="radio"
-        [attr.id]="id"
-        [attr.name]="name"
-        [checked]="checked"
-        [disabled]="disabled"
-        [readonly]="readonly"
-        [required]="required"
-        [value]="value"
+           [attr.id]="id"
+           [attr.name]="name"
+           [checked]="checked"
+           [disabled]="disabled"
+           [readonly]="readonly"
+           [required]="required"
+           [value]="value"
 
-        (blur)="onBlur()"
-        (focus)="onFocus()"
-        (change)="onInputChecked($event, input)"
+           (blur)="onBlur()"
+           (focus)="onFocus()"
+           (change)="onInputChecked($event, input)"
 
-        #input
+           [class.tabbed]="tabbedFocus"
+
+           #input
     >
     <label [attr.for]="id" (click)="input.focus()">{{ label }}</label>
 </div>

@@ -20,6 +20,11 @@ export class Autodocs {
 
     ngOnInit(): void {
         this.docs = parseDocs(this.source, this.type);
-        setTimeout(() => $(this.elementRef.nativeElement).find('pre>code').addClass('hljs'));
+        setTimeout(() => this.addClassToElements('pre>code', 'hljs'));
+    }
+
+    private addClassToElements(selector: string, className: string): void {
+        const elements = this.elementRef.nativeElement.querySelectorAll(selector);
+        Array.from<HTMLElement>(elements).forEach(el => el.classList.add(className));
     }
 }

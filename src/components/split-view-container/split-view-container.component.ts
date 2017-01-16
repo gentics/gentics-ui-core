@@ -11,6 +11,9 @@ import {
     ViewChild
 } from '@angular/core';
 
+// Hammerjs always creates a global Hammer, see https://github.com/hammerjs/hammer.js/issues/1027
+require('hammerjs');
+
 export type FocusType = 'left' | 'right';
 
 export const CURSOR_STYLE_CLASS = 'gtx-split-view-container-resizing';

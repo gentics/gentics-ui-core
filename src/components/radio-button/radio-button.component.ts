@@ -3,14 +3,16 @@ import {
     Component,
     Directive,
     EventEmitter,
+    HostListener,
     Input,
-    OnInit,
     OnDestroy,
+    OnInit,
     Optional,
     Output,
     forwardRef
 } from '@angular/core';
 import {ControlValueAccessor, NG_VALUE_ACCESSOR} from '@angular/forms';
+import {KeyCode} from '../../common/keycodes';
 
 
 const GTX_RADIO_GROUP_VALUE_ACCESSOR = {
@@ -202,6 +204,7 @@ export class RadioButton implements ControlValueAccessor, OnInit, OnDestroy {
      */
     @Output() change = new EventEmitter<any>(true);
 
+    tabbedFocus: boolean = false;
     private inputChecked: boolean = false;
     /**
      * See note above on stateless mode.
@@ -222,11 +225,21 @@ export class RadioButton implements ControlValueAccessor, OnInit, OnDestroy {
     onBlur(): void {
         this.blur.emit(this.checked);
         this.onTouched();
+        this.tabbedFocus = false;
     }
 
     onFocus(): void {
         this.focus.emit(this.checked);
     }
+
+    @HostListener('keyup', ['$event'])
+      focusHandler(e: KeyboardEvent): void {
+          if (e.keyCode === KeyCode.Tab) {
+              if (!this.tabbedFocus) {
+                  this.tabbedFocus = true;
+              }
+          }
+      }
 
     writeValue(value: any): void {
         let wasChecked: boolean = this.checked;
