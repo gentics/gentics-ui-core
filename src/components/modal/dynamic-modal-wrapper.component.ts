@@ -31,6 +31,7 @@ export class DynamicModalWrapper {
     visible: boolean = false;
     options: IModalOptions = defaultOptions;
     private cmpRef: ComponentRef<IModalDialog>;
+    private openTimer: number;
 
     constructor(private componentFactoryResolver: ComponentFactoryResolver) {}
 
@@ -51,7 +52,8 @@ export class DynamicModalWrapper {
      * Display the modal
      */
     open(): void {
-        this.visible = true;
+        clearTimeout(this.openTimer);
+        this.openTimer = setTimeout(() => this.visible = true, 50);
     }
 
     /**
@@ -65,11 +67,10 @@ export class DynamicModalWrapper {
      * Close the modal and call the cancelFn of the embedded component.
      */
     cancel(): void {
+        clearTimeout(this.openTimer);
         this.visible = false;
         this.cmpRef.instance.cancelFn();
-        setTimeout(() => {
-            this.cmpRef.destroy();
-        }, 500);
+        this.cmpRef.destroy();
     }
 
     overlayClick(): void {

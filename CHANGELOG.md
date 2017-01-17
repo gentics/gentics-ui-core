@@ -4,6 +4,7 @@
 
 ### Fixes
 * Add some missing methods to the `MomentLike` interface in `DateTimePickerFormatProvider`
+* Fix Modal animations
 
 
 ## 2.0.0 (2017-01-16)

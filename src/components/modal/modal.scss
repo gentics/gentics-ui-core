@@ -51,7 +51,7 @@ $easeOutCubic: cubic-bezier(0.215, 0.610, 0.355, 1.000);
     position: fixed;
     left: 0;
     right: 0;
-    top: 4%;
+    top: 8%;
     opacity: 0;
     background-color: #fafafa;
     padding: 0;
@@ -62,20 +62,20 @@ $easeOutCubic: cubic-bezier(0.215, 0.610, 0.355, 1.000);
     border-radius: 2px;
     will-change: top, opacity;
     z-index: 1000;
-    transform: scaleX(0.7);
+    transform: scaleX(0.8);
     box-shadow: 0 16px 28px 0 rgba(0, 0, 0, 0.22), 0 25px 55px 0 rgba(0, 0, 0, 0.21);
     transition:
-        top 350ms $easeOutCubic,
-        opacity 350ms $easeOutCubic,
-        transform 350ms $easeOutCubic,
+        opacity 250ms $easeOutCubic,
         visibility 0s 0.5s,
+        top 0s 0.5s,
+        transform 0s 0.5s,
         max-height 0s 0.5s;
 
     &.visible {
         transition:
-            top 350ms $easeOutCubic,
-            opacity 350ms $easeOutCubic,
-            transform 350ms $easeOutCubic;
+            top 250ms $easeOutCubic,
+            opacity 250ms $easeOutCubic,
+            transform 250ms $easeOutCubic;
         visibility: visible;
         opacity: 1;
         transform: scaleX(1);
