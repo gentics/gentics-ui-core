@@ -35,6 +35,10 @@ export class DynamicModalWrapper {
 
     constructor(private componentFactoryResolver: ComponentFactoryResolver) {}
 
+    ngOnDestroy(): void {
+        clearTimeout(this.openTimer);
+    }
+
     setOptions(options: IModalOptions): void {
         this.options = Object.assign({}, defaultOptions, options);
     }

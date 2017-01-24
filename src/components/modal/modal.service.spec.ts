@@ -113,7 +113,7 @@ describe('ModalService:', () => {
                 })
                 .then(modal => {
                     let promise = modal.open();
-                    tick();
+                    tick(50);
                     fixture.detectChanges();
 
                     getElement(fixture, '.modal-footer button').click();
@@ -142,7 +142,7 @@ describe('ModalService:', () => {
                             reason => expect(reason).toContain('cancelled')
                         );
 
-                    tick();
+                    tick(50);
                     fixture.detectChanges();
 
                     getElement(fixture, '.modal-footer button').click();
@@ -159,7 +159,6 @@ describe('ModalService:', () => {
                 fixture => {
                     fixture.detectChanges();
 
-                    let promiseFulfilled = false;
                     let modalPromise = modalService.dialog({ title: 'Test', buttons: [{ label: 'okay' }] })
                         .then(modal => modal.open())
                         .then(
@@ -167,18 +166,14 @@ describe('ModalService:', () => {
                             () => fail('Promise rejected but should not be')
                         );
 
-                    tick();
+                    tick(100);
                     fixture.detectChanges();
 
                     getElement(fixture, '.gtx-modal-overlay').click();
                     tick();
                     tick();
-
-                    discardPeriodicTasks();
                 });
-
-            // Cancelling the modal creates a pending promise, which should be perfectly fine.
-            expect(testWithPendingPromise).toThrowError('1 timer(s) still in the queue.');
+            expect(testWithPendingPromise).not.toThrow();
         });
     });
 
@@ -199,8 +194,8 @@ describe('ModalService:', () => {
                 let onOpen = jasmine.createSpy('onOpen');
                 fixture.detectChanges();
                 return modalService.dialog(testDialogConfig, { onOpen: onOpen })
-                    .then(modal => modal.open())
-                    .then(() => {
+                    .then(modal => {
+                        modal.open();
                         expect(onOpen).toHaveBeenCalled();
                     });
             })
@@ -211,8 +206,10 @@ describe('ModalService:', () => {
                 let onClose = jasmine.createSpy('onClose');
                 fixture.detectChanges();
                 return modalService.dialog(testDialogConfig, { onClose: onClose })
-                    .then(modal => modal.open())
-                    .then(() => {
+                    .then(modal => {
+                        modal.open();
+                        tick(100);
+                        fixture.detectChanges();
                         getElement(fixture, '.modal-footer button').click();
                         tick();
                         expect(onClose).toHaveBeenCalled();
@@ -233,7 +230,7 @@ describe('ModalService:', () => {
                             return modal.open();
                         });
 
-                    tick();
+                    tick(100);
                     fixture.detectChanges();
 
                     modalInstance.cancelFn = jasmine.createSpy('cancelFn');
@@ -247,8 +244,7 @@ describe('ModalService:', () => {
                     tick();
                 });
 
-            // Cancelling the modal creates a pending promise, which should be perfectly fine.
-            expect(testWithPendingPromise).toThrowError('1 timer(s) still in the queue.');
+            expect(testWithPendingPromise).not.toThrow();
         });
 
         it('does not close when clicking the overlay with closeOnOverlayClick = false',
