@@ -1,5 +1,12 @@
 # Gentics UI Core Changelog
 
+## 2.0.2 (in progress)
+
+### Fixes
+
+* Remove leaking core-js typings reference from generated d.ts files
+* Correctly interpolate font paths in icons Sass file
+
 ## 2.0.1 (2017-01-23)
 
 ### Fixes

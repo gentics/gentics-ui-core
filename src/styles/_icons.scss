@@ -3,10 +3,10 @@
     font-style: normal;
     font-weight: 400;
     src: local('Material Icons'),
-         local('MaterialIcons-Regular'),
-         url(../fonts/material-design-icons.woff2) format('woff2'),
-         url(../fonts/Material-Design-Icons.woff) format('woff'),
-         url(../fonts/Material-Design-Icons.ttf) format('truetype');
+    local('MaterialIcons-Regular'),
+        url("#{$icons-font-path}material-design-icons.woff2") format('woff2'),
+        url("#{$icons-font-path}Material-Design-Icons.woff") format('woff'),
+        url("#{$icons-font-path}Material-Design-Icons.ttf") format('truetype');
 }
 
 icon,

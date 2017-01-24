@@ -2,8 +2,8 @@
  * This is the main GUIC styles file. It should be imported once
  * by any app that consumes GUIC.
  */
-$icons-font-path: '../fonts/';
-$roboto-font-path: '../fonts/';
+$icons-font-path: '../fonts/' !default;
+$roboto-font-path: '../fonts/' !default;
 @import "variables";
 @import "mixins";
 @import "materialize";
