@@ -1,19 +1,24 @@
 gtx-select {
     display: block;
     position: relative;
-    margin: 20px 0;
+    margin: 0 0 20px 0;
 
     gtx-dropdown-list {
         display: block;
 
         gtx-dropdown-trigger {
+            margin-top: 20px;
             width: 100%;
         }
     }
 
     .view-value {
         @extend .input-base;
+        cursor: pointer;
         display: flex;
+        margin-top: 0;
+        user-select: none;
+
         > div {
             flex-grow: 1;
         }
@@ -57,6 +62,12 @@ gtx-dropdown-content {
             color: $gtx-color-primary;
             font-size: 16px;
             padding: (($dropdown-item-height - 22) / 2) 16px;
+            user-select: none;
+
+            > * {
+                user-select: text; // IE11
+                user-select: initial;
+            }
 
             gtx-checkbox {
                 flex-shrink: 1;
