@@ -105,7 +105,6 @@ $easeOutCubic: cubic-bezier(0.215, 0.610, 0.355, 1.000);
 
     .modal-title {
         margin-top: 0;
-        // margin: 1.5rem 0 10px;
         padding: 0 1.5rem;
         min-height: fit-content;
     }
@@ -140,13 +139,9 @@ $easeOutCubic: cubic-bezier(0.215, 0.610, 0.355, 1.000);
         text-align: right;
         min-height: fit-content;
 
-        > gtx-modal-footer {
-            float: right;
+        gtx-button {
+            margin: 5px;
         }
-    }
-
-    .modal-footer button.btn {
-        margin: 5px;
     }
 
     @media #{$small-and-down} {
@@ -154,9 +149,5 @@ $easeOutCubic: cubic-bezier(0.215, 0.610, 0.355, 1.000);
             padding-left: 1rem;
             padding-right: 1rem;
         }
-    }
-
-    .gtx-declarative-modal {
-        display: block;
     }
 }
