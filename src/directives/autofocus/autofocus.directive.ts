@@ -68,10 +68,26 @@ export class AutofocusDirective implements AfterViewInit, OnChanges, OnDestroy {
             if (typeof (<any> HTMLInputElement.prototype).scrollIntoViewIfNeeded === 'function') {
                 (<any> this.inputElement).scrollIntoViewIfNeeded();
             } else {
-                this.inputElement.scrollIntoView({
-                    block: 'nearest',
-                    inline: 'nearest'
-                });
+                // Browser support varies
+                try {
+                    this.inputElement.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'nearest',
+                        inline: 'nearest'
+                    });
+                } catch (err) {
+                    try {
+                        this.inputElement.scrollIntoView({
+                            behavior: 'smooth',
+                            block: 'start',
+                            inline: 'start'
+                        });
+                    } catch (err) {
+                        this.inputElement.scrollIntoView({
+                            block: 'start'
+                        });
+                    }
+                }
             }
         });
     }
