@@ -7,7 +7,7 @@ gtx-select {
         display: block;
 
         gtx-dropdown-trigger {
-            margin-top: 20px;
+            margin-top: 19px;
             width: 100%;
         }
     }
@@ -16,7 +16,7 @@ gtx-select {
         @extend .input-base;
         cursor: pointer;
         display: flex;
-        margin-top: 0;
+        margin-top: 1px;
         user-select: none;
 
         > div {
