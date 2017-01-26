@@ -46,6 +46,7 @@ gtx-dropdown-content {
         color: $gtx-color-primary;
         font-size: 16px;
         padding: (($dropdown-item-height - 22) / 2) 16px;
+        white-space: nowrap;
 
         &:hover {
             outline-width: 0;
