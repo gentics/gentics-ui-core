@@ -128,6 +128,12 @@ $easeOutCubic: cubic-bezier(0.215, 0.610, 0.355, 1.000);
     .modal-title + .modal-content {
         padding-top: 0;
         padding-bottom: 0;
+
+        // GUIC-68
+        > * > form > gtx-input:first-child,
+        > * > gtx-input:first-child {
+            margin-top: 10px;
+        }
     }
 
     &.nopad .modal-title,
