@@ -165,6 +165,7 @@ export class InputField implements ControlValueAccessor {
     onInput(e: Event): void {
         const target: HTMLInputElement = <HTMLInputElement> e.target;
         let value = this.normalizeValue(target.value);
+        this.value = value;
         this.change.emit(value);
         this.onChange(value);
     }

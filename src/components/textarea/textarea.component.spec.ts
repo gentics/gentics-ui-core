@@ -210,6 +210,26 @@ describe('Textarea', () => {
         )
     );
 
+    it('updates the instance value when the native input value changes',
+        componentTest(() => TestComponent, `
+               <gtx-textarea value="foo"></gtx-textarea>`,
+            (fixture, instance) => {
+                const nativeTextarea: HTMLTextAreaElement = fixture.nativeElement.querySelector('textarea');
+                let textareaDebugElement = fixture.debugElement.query(By.css('textarea'));
+                const textareaInstance = fixture.debugElement.query(By.directive(Textarea)).componentInstance;
+                fixture.detectChanges();
+
+                expect(textareaInstance.value).toBe('foo');
+
+                nativeTextarea.value = 'bar';
+                textareaDebugElement.triggerEventHandler('input', { target: nativeTextarea });
+                tick();
+
+                expect(textareaInstance.value).toBe('bar');
+            }
+        )
+    );
+
     describe('ValueAccessor:', () => {
 
         it('should bind the value with ngModel (inbound)',

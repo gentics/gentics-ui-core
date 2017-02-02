@@ -1,10 +1,11 @@
 # Gentics UI Core Changelog
 
-## 2.0.4 (in progress)
+## 2.0.4 (2017-02-02)
 
 ## Fixes
 
 * Fix AutofocusDirective exception in Firefox (GCU-269)
+* Fix InputField and Textarea values not being correctly updated
 
 
 ## 2.0.3 (2017-01-25)

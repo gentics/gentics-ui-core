@@ -1,4 +1,5 @@
 import {Component} from '@angular/core';
+import {By} from '@angular/platform-browser';
 import {TestBed, tick} from '@angular/core/testing';
 import {FormsModule, ReactiveFormsModule, FormControl, FormGroup} from '@angular/forms';
 
@@ -246,6 +247,25 @@ describe('InputField', () => {
                 tick();
 
                 expect(instance.onChange).not.toHaveBeenCalled();
+            }
+        )
+    );
+
+    it('updates the instance value when the native input value changes',
+        componentTest(() => TestComponent, `
+            <gtx-input value="foo"></gtx-input>`,
+            (fixture, instance) => {
+                const nativeInput: HTMLInputElement = fixture.nativeElement.querySelector('input');
+                const inputInstance = fixture.debugElement.query(By.directive(InputField)).componentInstance;
+                fixture.detectChanges();
+
+                expect(inputInstance.value).toBe('foo');
+
+                nativeInput.value = 'bar';
+                triggerEvent(nativeInput, 'input');
+                tick();
+
+                expect(inputInstance.value).toBe('bar');
             }
         )
     );
