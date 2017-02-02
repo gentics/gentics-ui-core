@@ -1,6 +1,20 @@
 # Gentics UI Core Changelog
 
-## 2.0.2 (in progress)
+## 2.0.4 (in progress)
+
+## Fixes
+
+* Fix AutofocusDirective exception in Firefox (GCU-269)
+
+
+## 2.0.3 (2017-01-25)
+
+### Fixes
+
+* Fix smaller styling issues of Select, Modals and DropdownList
+
+
+## 2.0.2 (2017-01-25)
 
 ### Fixes
 
