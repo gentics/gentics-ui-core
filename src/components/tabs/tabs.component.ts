@@ -1,6 +1,5 @@
 import {Component, ContentChildren, QueryList, AfterContentInit, Input, Output, EventEmitter, SimpleChanges} from '@angular/core';
 import {Tab} from './tab.component';
-import {isPresent} from '../../common/utils';
 
 /**
  * Tabs can be either pure or stateful. Stateful tabs will keep track of which one is active by keeping an internal
@@ -58,7 +57,7 @@ export class Tabs implements AfterContentInit {
      * When present, sets the tabs to pure (stateless) mode.
      */
     @Input() set pure(val: any) {
-        this.isPure = isPresent(val);
+        this.isPure = val != null;
     }
 
     private isPure: boolean = false;

@@ -251,25 +251,6 @@ describe('InputField', () => {
         )
     );
 
-    it('updates the instance value when the native input value changes',
-        componentTest(() => TestComponent, `
-            <gtx-input value="foo"></gtx-input>`,
-            (fixture, instance) => {
-                const nativeInput: HTMLInputElement = fixture.nativeElement.querySelector('input');
-                const inputInstance = fixture.debugElement.query(By.directive(InputField)).componentInstance;
-                fixture.detectChanges();
-
-                expect(inputInstance.value).toBe('foo');
-
-                nativeInput.value = 'bar';
-                triggerEvent(nativeInput, 'input');
-                tick();
-
-                expect(inputInstance.value).toBe('bar');
-            }
-        )
-    );
-
     describe('ValueAccessor:', () => {
 
         it('can bind the value with ngModel (inbound)',
@@ -281,6 +262,20 @@ describe('InputField', () => {
                     fixture.detectChanges();
                     let nativeInput: HTMLInputElement = fixture.nativeElement.querySelector('input');
                     expect(nativeInput.value).toBe('testValue');
+                }
+            )
+        );
+
+        it('starts with the value specified by ngModel (inbound)',
+            componentTest(() => TestComponent, `
+                <gtx-input [(ngModel)]="value"></gtx-input>`,
+                (fixture, instance) => {
+                    instance.value = 'initial value';
+                    fixture.detectChanges();
+                    tick();
+                    fixture.detectChanges();
+                    let nativeInput: HTMLInputElement = fixture.nativeElement.querySelector('input');
+                    expect(nativeInput.value).toBe('initial value');
                 }
             )
         );
@@ -351,6 +346,85 @@ describe('InputField', () => {
 
                     expect(instance.testForm.controls['test'].touched).toBe(true);
                     expect(instance.testForm.controls['test'].untouched).toBe(false);
+                }
+            )
+        );
+
+        it('does not change the user selection when typing',
+            componentTest(() => TestComponent, `
+                <gtx-input [(ngModel)]="value"></gtx-input>`,
+                (fixture, instance) => {
+                    const nativeInput: HTMLInputElement = fixture.nativeElement.querySelector('input');
+
+                    instance.value = 'foo';
+                    fixture.detectChanges();
+                    tick();
+                    fixture.detectChanges();
+                    expect(nativeInput.value).toBe('foo');
+
+                    // Set cursor to f|oo
+                    nativeInput.setSelectionRange(1, 1);
+
+                    // Type 'x' => fx|oo
+                    nativeInput.value = 'fxoo';
+                    nativeInput.setSelectionRange(2, 2);
+                    triggerEvent(nativeInput, 'input');
+                    fixture.detectChanges();
+                    tick();
+
+                    // Cursor should still be at fx|oo
+                    expect(nativeInput.value).toBe('fxoo');
+                    expect(instance.value).toBe('fxoo');
+                    expect([nativeInput.selectionStart, nativeInput.selectionEnd]).toEqual([2, 2]);
+                }
+            )
+        );
+
+        it('correctly marks the Input as untouched/touched',
+            componentTest(() => TestComponent, `
+                <form [formGroup]="testForm">
+                    <gtx-input formControlName="test"></gtx-input>
+                </form>`,
+                (fixture, instance) => {
+                    fixture.detectChanges();
+
+                    expect(instance.testForm.get('test').touched).toBe(false);
+                    expect(instance.testForm.get('test').untouched).toBe(true);
+
+                    const input = fixture.debugElement.query(By.css('input'));
+                    input.triggerEventHandler('focus', { target: input.nativeElement });
+
+                    expect(instance.testForm.get('test').touched).toBe(false);
+                    expect(instance.testForm.get('test').untouched).toBe(true);
+
+                    input.triggerEventHandler('blur', {
+                        stopPropagation(): void {},
+                        target: input.nativeElement
+                    });
+
+                    expect(instance.testForm.get('test').touched).toBe(true);
+                    expect(instance.testForm.get('test').untouched).toBe(false);
+                }
+            )
+        );
+
+        it('correctly marks the Input as pristine/dirty',
+            componentTest(() => TestComponent, `
+                <form [formGroup]="testForm">
+                    <gtx-input formControlName="test"></gtx-input>
+                </form>`,
+                (fixture, instance) => {
+                    fixture.detectChanges();
+
+                    expect(instance.testForm.get('test').dirty).toBe(false);
+                    expect(instance.testForm.get('test').pristine).toBe(true);
+
+                    const input = fixture.debugElement.query(By.css('input'));
+                    (input.nativeElement as HTMLInputElement).value = 'some different value';
+                    input.triggerEventHandler('input', { target: input.nativeElement });
+
+                    expect(instance.testForm.get('test').dirty).toBe(true);
+                    expect(instance.testForm.get('test').pristine).toBe(false);
                 }
             )
         );

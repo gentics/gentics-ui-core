@@ -5,8 +5,8 @@ import {
     Output,
     forwardRef
 } from '@angular/core';
-import {isBlank, isNumber} from '../../common/utils';
 import {ControlValueAccessor, NG_VALUE_ACCESSOR} from '@angular/forms';
+import { OnChanges, SimpleChanges } from '@angular/core';
 
 
 const GTX_TEXTAREA_VALUE_ACCESSOR = {
@@ -41,15 +41,14 @@ export class Textarea implements ControlValueAccessor {
     /**
      * Sets the maximum number of characters permitted.
      */
-    @Input() set maxlength(val: number) {
-        let num = Number(val);
-        if (isNumber(num) && 0 < val) {
-            this._maxlength = val;
+    @Input() set maxlength(val: any) {
+        if (val != null && !isNaN(val) && val > 0) {
+            this._maxlength = Number(val);
         } else {
             this._maxlength = undefined;
         }
     }
-    get maxlength(): number {
+    get maxlength(): any {
         return this._maxlength;
     }
 
@@ -109,6 +108,7 @@ export class Textarea implements ControlValueAccessor {
     onBlur(e: Event): void {
         this.blur.emit(this.value);
         this.change.emit(this.value);
+        this.onTouched();
     }
 
     onFocus(e: Event): void {
@@ -116,14 +116,13 @@ export class Textarea implements ControlValueAccessor {
     }
 
     onInput(e: Event): void {
-        const target: HTMLInputElement = <HTMLInputElement> e.target;
-        this.change.emit(target.value);
-        this.value = target.value;
-        this.onChange(target.value);
+        const value = (e.target as HTMLTextAreaElement).value;
+        this.change.emit(value);
+        this.onChange(value);
     }
 
     writeValue(value: any): void {
-        this.value = isBlank(value) ? '' : value;
+        this.value = value == null ? '' : value;
     }
 
     registerOnChange(fn: Function): void { this.onChange = fn; }

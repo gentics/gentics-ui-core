@@ -1,6 +1,5 @@
 import {Component, Input, Output, EventEmitter, forwardRef} from '@angular/core';
 import {ControlValueAccessor, NG_VALUE_ACCESSOR} from '@angular/forms';
-import {isPresent} from '../../common/utils';
 
 const GTX_SEARCH_BAR_VALUE_ACCESSOR = {
     provide: NG_VALUE_ACCESSOR,
@@ -68,7 +67,7 @@ export class SearchBar implements ControlValueAccessor {
         return this._hideClearButton === true;
     }
     set hideClearButton(val: boolean) {
-        this._hideClearButton = isPresent(val) && val !== false;
+        this._hideClearButton = val != null && val !== false;
     }
 
     /**

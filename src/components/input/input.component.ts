@@ -139,8 +139,8 @@ export class InputField implements ControlValueAccessor {
      * when the input component is created.
      */
     ngAfterViewInit(): void {
-        let input: HTMLInputElement = this.inputElement.nativeElement;
-        let label: HTMLLabelElement = this.labelElement.nativeElement;
+        const input: HTMLInputElement = this.inputElement.nativeElement;
+        const label: HTMLLabelElement = this.labelElement.nativeElement;
 
         if (input && label) {
             if (String(this.value).length > 0 || this.placeholder) {
@@ -164,8 +164,7 @@ export class InputField implements ControlValueAccessor {
 
     onInput(e: Event): void {
         const target: HTMLInputElement = <HTMLInputElement> e.target;
-        let value = this.normalizeValue(target.value);
-        this.value = value;
+        const value = this.normalizeValue(target.value);
         this.change.emit(value);
         this.onChange(value);
     }

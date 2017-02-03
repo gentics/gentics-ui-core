@@ -14,7 +14,7 @@ describe('Textarea', () => {
         declarations: [Textarea, TestComponent]
     }));
 
-    it('should bind the label',
+    it('binds the label',
         componentTest(() => TestComponent, `
             <gtx-textarea label="testLabel"></gtx-textarea>`,
             fixture => {
@@ -26,7 +26,7 @@ describe('Textarea', () => {
         )
     );
 
-    it('should bind the id to the label and input',
+    it('binds the id to the label and input',
         componentTest(() => TestComponent, `
             <gtx-textarea label="testLabel" id="testId">
             </gtx-textarea>`,
@@ -41,7 +41,7 @@ describe('Textarea', () => {
         )
     );
 
-    it('should use defaults for undefined attributes which have a default',
+    it('uses defaults for undefined attributes which have a default',
         componentTest(() => TestComponent, `
             <gtx-textarea></gtx-textarea>`,
             fixture => {
@@ -56,7 +56,7 @@ describe('Textarea', () => {
         )
     );
 
-    it('should not display undefined attributes',
+    it('does not set undefined attributes',
         componentTest(() => TestComponent,
             `<gtx-textarea></gtx-textarea>`,
             fixture => {
@@ -76,7 +76,7 @@ describe('Textarea', () => {
         )
     );
 
-    it('should pass through the native attributes',
+    it('passes native attributes to its textarea element',
         componentTest(() => TestComponent, `
             <gtx-textarea
                 disabled="true"
@@ -102,7 +102,7 @@ describe('Textarea', () => {
         )
     );
 
-    it('should ignore maxLength if not positive integer [0]',
+    it('ignores maxLength if not positive integer [0]',
         componentTest(() => TestComponent, `
             <gtx-textarea [maxlength]="0"></gtx-textarea>`,
             fixture => {
@@ -114,7 +114,7 @@ describe('Textarea', () => {
         )
     );
 
-    it('should ignore maxLength if not positive integer [-1]',
+    it('ignores maxLength if not positive integer [-1]',
         componentTest(() => TestComponent, `
             <gtx-textarea [maxlength]="-1"></gtx-textarea>`,
             fixture => {
@@ -126,7 +126,7 @@ describe('Textarea', () => {
         )
     );
 
-    it('should ignore maxLength if not positive integer [null]',
+    it('ignores maxLength if not positive integer [null]',
         componentTest(() => TestComponent, `
             <gtx-textarea [maxlength]="null"></gtx-textarea>`,
             fixture => {
@@ -138,7 +138,7 @@ describe('Textarea', () => {
         )
     );
 
-    it('should emit "blur" when native input blurs, with current value',
+    it('emits "blur" when native input blurs, with current value',
         componentTest(() => TestComponent, `
             <gtx-textarea (blur)="onBlur($event)" value="foo">
             </gtx-textarea>`,
@@ -156,7 +156,7 @@ describe('Textarea', () => {
         )
     );
 
-    it('should emit "focus" when native input is focused, with current value',
+    it('emits "focus" when native input is focused, with current value',
         componentTest(() => TestComponent, `
             <gtx-textarea (focus)="onFocus($event)" value="foo">
             </gtx-textarea>`,
@@ -174,7 +174,7 @@ describe('Textarea', () => {
         )
     );
 
-    it('should emit "change" when native input value is changed',
+    it('emits "change" when native input value is changed',
         componentTest(() => TestComponent, `
             <gtx-textarea (change)="onChange($event)" value="foo">
             </gtx-textarea>`,
@@ -192,7 +192,7 @@ describe('Textarea', () => {
         )
     );
 
-    it('should emit "change" when native input is blurred',
+    it('emits "change" when native input is blurred',
         componentTest(() => TestComponent, `
             <gtx-textarea (change)="onChange($event)" value="foo">
             </gtx-textarea>`,
@@ -210,29 +210,9 @@ describe('Textarea', () => {
         )
     );
 
-    it('updates the instance value when the native input value changes',
-        componentTest(() => TestComponent, `
-               <gtx-textarea value="foo"></gtx-textarea>`,
-            (fixture, instance) => {
-                const nativeTextarea: HTMLTextAreaElement = fixture.nativeElement.querySelector('textarea');
-                let textareaDebugElement = fixture.debugElement.query(By.css('textarea'));
-                const textareaInstance = fixture.debugElement.query(By.directive(Textarea)).componentInstance;
-                fixture.detectChanges();
-
-                expect(textareaInstance.value).toBe('foo');
-
-                nativeTextarea.value = 'bar';
-                textareaDebugElement.triggerEventHandler('input', { target: nativeTextarea });
-                tick();
-
-                expect(textareaInstance.value).toBe('bar');
-            }
-        )
-    );
-
     describe('ValueAccessor:', () => {
 
-        it('should bind the value with ngModel (inbound)',
+        it('binds the value with ngModel (inbound)',
             componentTest(() => TestComponent, `
                 <gtx-textarea [(ngModel)]="value"></gtx-textarea>`,
                 fixture => {
@@ -245,7 +225,7 @@ describe('Textarea', () => {
             )
         );
 
-        it('should bind the value with ngModel (outbound)',
+        it('binds the value with ngModel (outbound)',
             componentTest(() => TestComponent, `
                 <gtx-textarea [(ngModel)]="value"></gtx-textarea>`,
                 fixture => {
@@ -262,7 +242,7 @@ describe('Textarea', () => {
             )
         );
 
-        it('should bind the value with formControl (inbound)',
+        it('binds the value with formControl (inbound)',
             componentTest(() => TestComponent, `
                 <form [formGroup]="testForm">
                     <gtx-textarea formControlName="test"></gtx-textarea>
@@ -276,7 +256,7 @@ describe('Textarea', () => {
             )
         );
 
-        it('should bind the value with formControl (outbound)',
+        it('binds the value with formControl (outbound)',
             componentTest(() => TestComponent, `
                 <form [formGroup]="testForm">
                     <gtx-textarea formControlName="test"></gtx-textarea>
@@ -291,6 +271,132 @@ describe('Textarea', () => {
                     tick();
 
                     expect(instance.testForm.controls['test'].value).toBe('bar');
+                }
+            )
+        );
+
+        it('updates the native input value when the bound value changes (inbound)',
+            componentTest(() => TestComponent, `
+                <gtx-textarea [(ngModel)]="value"></gtx-textarea>`,
+                (fixture, instance) => {
+                    instance.value = 'first';
+                    const nativeTextarea: HTMLTextAreaElement = fixture.nativeElement.querySelector('textarea');
+                    fixture.detectChanges();
+                    tick();
+                    fixture.detectChanges();
+
+                    expect(nativeTextarea.value).toBe('first');
+
+                    instance.value = 'second';
+                    fixture.detectChanges();
+                    tick();
+                    fixture.detectChanges();
+                    expect(nativeTextarea.value).toBe('second');
+
+                    instance.value = 'third';
+                    fixture.detectChanges();
+                    tick();
+                    fixture.detectChanges();
+                    expect(nativeTextarea.value).toBe('third');
+                }
+            )
+        );
+
+        it('updates the bound value when the native input value changes (outbound)',
+            componentTest(() => TestComponent, `
+                <gtx-textarea [(ngModel)]="value"></gtx-textarea>`,
+                (fixture, instance) => {
+                    instance.value = 'first';
+                    const nativeTextarea: HTMLTextAreaElement = fixture.nativeElement.querySelector('textarea');
+                    fixture.detectChanges();
+
+                    expect(instance.value).toBe('first');
+
+                    nativeTextarea.value = 'second';
+                    triggerInputEvent(nativeTextarea);
+                    tick();
+                    expect(instance.value).toBe('second');
+
+                    nativeTextarea.value = 'third';
+                    triggerInputEvent(nativeTextarea);
+                    tick();
+                    expect(instance.value).toBe('third');
+                }
+            )
+        );
+
+        it('does not change the user selection when typing',
+            componentTest(() => TestComponent, `
+                <gtx-textarea [(ngModel)]="value"></gtx-textarea>`,
+                (fixture, instance) => {
+                    const nativeTextarea: HTMLTextAreaElement = fixture.nativeElement.querySelector('textarea');
+
+                    instance.value = 'foo';
+                    fixture.detectChanges();
+                    tick();
+                    fixture.detectChanges();
+                    expect(nativeTextarea.value).toBe('foo');
+
+                    // Set cursor to f|oo
+                    nativeTextarea.setSelectionRange(1, 1);
+
+                    // Type 'x' => fx|oo
+                    nativeTextarea.value = 'fxoo';
+                    nativeTextarea.setSelectionRange(2, 2);
+                    triggerInputEvent(nativeTextarea);
+                    fixture.detectChanges();
+                    tick();
+
+                    // Cursor should still be at fx|oo
+                    expect(nativeTextarea.value).toBe('fxoo');
+                    expect(instance.value).toBe('fxoo');
+                    expect([nativeTextarea.selectionStart, nativeTextarea.selectionEnd]).toEqual([2, 2]);
+                }
+            )
+        );
+
+        it('correctly marks the Textarea as untouched/touched',
+            componentTest(() => TestComponent, `
+                <form [formGroup]="testForm">
+                    <gtx-textarea formControlName="test"></gtx-textarea>
+                </form>`,
+                (fixture, instance) => {
+                    fixture.detectChanges();
+
+                    expect(instance.testForm.get('test').touched).toBe(false);
+                    expect(instance.testForm.get('test').untouched).toBe(true);
+
+                    const debugTextarea = fixture.debugElement.query(By.css('textarea'));
+                    debugTextarea.triggerEventHandler('focus', { target: debugTextarea.nativeElement });
+
+                    expect(instance.testForm.get('test').touched).toBe(false);
+                    expect(instance.testForm.get('test').untouched).toBe(true);
+
+                    debugTextarea.triggerEventHandler('blur', { target: debugTextarea.nativeElement });
+
+                    expect(instance.testForm.get('test').touched).toBe(true);
+                    expect(instance.testForm.get('test').untouched).toBe(false);
+                }
+            )
+        );
+
+        it('correctly marks the Textarea as pristine/dirty',
+            componentTest(() => TestComponent, `
+                <form [formGroup]="testForm">
+                    <gtx-textarea formControlName="test"></gtx-textarea>
+                </form>`,
+                (fixture, instance) => {
+                    fixture.detectChanges();
+
+                    expect(instance.testForm.get('test').dirty).toBe(false);
+                    expect(instance.testForm.get('test').pristine).toBe(true);
+
+                    const debugTextarea = fixture.debugElement.query(By.css('textarea'));
+                    (debugTextarea.nativeElement as HTMLTextAreaElement).value = 'some different value';
+                    debugTextarea.triggerEventHandler('input', { target: debugTextarea.nativeElement });
+
+                    expect(instance.testForm.get('test').dirty).toBe(true);
+                    expect(instance.testForm.get('test').pristine).toBe(false);
                 }
             )
         );
