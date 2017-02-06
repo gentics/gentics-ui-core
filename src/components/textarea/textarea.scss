@@ -12,5 +12,8 @@ gtx-textarea {
 
     > textarea.materialize-textarea {
         @extend .input-base;
+        min-height: 2.5rem;
+        line-height: 1.5;
+        overflow-y: auto;
     }
 }

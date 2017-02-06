@@ -1,5 +1,13 @@
 # Gentics UI Core Changelog
 
+## 2.0.6 (2017-02-06)
+
+### Fixes
+
+* Fix Textarea height no longer adapting to contained text
+* Fix InputField and Textarea value binding with NgModel/FormControlName
+
+
 ## 2.0.5 (2017-02-03)
 
 ### Fixes

@@ -136,20 +136,42 @@ export class Textarea implements ControlValueAccessor, OnChanges, OnInit {
 
     onInput(e: Event): void {
         const value = this.currentValue = (e.target as HTMLTextAreaElement).value;
+        this.setHeight(value);
         this.change.emit(value);
         this.onChange(value);
     }
 
     writeValue(valueToWrite: any): void {
-        const value = valueToWrite == null ? '' : String(valueToWrite);
+        const value = this.normalizeValue(valueToWrite);
         if (value !== this.currentValue) {
             this.renderer.setElementProperty(this.nativeTextarea.nativeElement, 'value', this.currentValue = value);
+            this.setHeight(value);
         }
     }
 
-    registerOnChange(fn: Function): void { this.onChange = fn; }
-    registerOnTouched(fn: Function): void { this.onTouched = fn; }
 
-    private onChange: any = (_: any) => {};
-    private onTouched: any = () => {};
+    registerOnChange(fn: (newValue: string) => void): void {
+        this.onChange = fn;
+    }
+    registerOnTouched(fn: () => void): void {
+        this.onTouched = fn;
+    }
+
+    private onChange(newValue: string): void  { }
+    private onTouched(): void { }
+
+    private normalizeValue(value: any): string {
+        return (value == null ? '' : String(value)).replace(/\r\n?/g, '\n');
+    }
+
+    private setHeight(text: string): void {
+        let lines = 1;
+        for (let index = text.length - 1; index >= 0; --index) {
+            if (text[index] === '\n') {
+                lines++;
+            }
+        }
+        const newHeight = (1 + lines * 1.5) + 'em';
+        this.renderer.setElementStyle(this.nativeTextarea.nativeElement, 'height', newHeight);
+    }
 }
