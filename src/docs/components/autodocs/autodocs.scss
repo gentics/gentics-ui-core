@@ -15,6 +15,10 @@ gtx-autodocs {
         padding: 5px 3px;
     }
 
+    td {
+        vertical-align: baseline;
+    }
+
     $bg-color: desaturate(darken($gtx-color-secondary, 20%), 10%);
 
     .autodoc-section {
