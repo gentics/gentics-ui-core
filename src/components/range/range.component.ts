@@ -1,4 +1,5 @@
 import {
+    ChangeDetectorRef,
     Component,
     ElementRef,
     EventEmitter,
@@ -99,7 +100,8 @@ export class Range implements ControlValueAccessor {
     onChange: any = (_: any) => {};
     onTouched: any = () => {};
 
-    constructor(private elementRef: ElementRef) {}
+    constructor(private changeDetector: ChangeDetectorRef,
+                private elementRef: ElementRef) {}
 
     onBlur(nativeEvent: FocusEvent): void {
         nativeEvent.stopPropagation();
@@ -140,6 +142,7 @@ export class Range implements ControlValueAccessor {
 
     writeValue(value: any): void {
         this.value = value;
+        this.changeDetector.markForCheck();
     }
     registerOnChange(fn: Function): void {
         this.onChange = (val: any) => fn(Number(val));

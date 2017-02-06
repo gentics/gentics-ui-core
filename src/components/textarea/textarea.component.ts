@@ -1,12 +1,17 @@
 import {
     Component,
+    ElementRef,
     EventEmitter,
+    forwardRef,
     Input,
+    OnInit,
+    OnChanges,
     Output,
-    forwardRef
+    Renderer,
+    SimpleChanges,
+    ViewChild
 } from '@angular/core';
 import {ControlValueAccessor, NG_VALUE_ACCESSOR} from '@angular/forms';
-import { OnChanges, SimpleChanges } from '@angular/core';
 
 
 const GTX_TEXTAREA_VALUE_ACCESSOR = {
@@ -27,7 +32,7 @@ const GTX_TEXTAREA_VALUE_ACCESSOR = {
     templateUrl: './textarea.tpl.html',
     providers: [GTX_TEXTAREA_VALUE_ACCESSOR]
 })
-export class Textarea implements ControlValueAccessor {
+export class Textarea implements ControlValueAccessor, OnChanges, OnInit {
     /**
      * Sets the textarea to be auto-focused. Handled by `AutofocusDirective`.
      */
@@ -102,8 +107,22 @@ export class Textarea implements ControlValueAccessor {
      */
     @Output() change = new EventEmitter<string>();
 
+    @ViewChild('textarea') private nativeTextarea: ElementRef;
     private _maxlength: number;
+    private currentValue: string;
 
+    constructor(private renderer: Renderer) { }
+
+    ngOnInit(): void {
+        this.writeValue(this.value);
+    }
+
+    ngOnChanges(changes: SimpleChanges): void {
+        const valueChange = changes['value'];
+        if (valueChange) {
+            this.writeValue(valueChange.currentValue);
+        }
+    }
 
     onBlur(e: Event): void {
         this.blur.emit(this.value);
@@ -116,13 +135,16 @@ export class Textarea implements ControlValueAccessor {
     }
 
     onInput(e: Event): void {
-        const value = (e.target as HTMLTextAreaElement).value;
+        const value = this.currentValue = (e.target as HTMLTextAreaElement).value;
         this.change.emit(value);
         this.onChange(value);
     }
 
-    writeValue(value: any): void {
-        this.value = value == null ? '' : value;
+    writeValue(valueToWrite: any): void {
+        const value = valueToWrite == null ? '' : String(valueToWrite);
+        if (value !== this.currentValue) {
+            this.renderer.setElementProperty(this.nativeTextarea.nativeElement, 'value', this.currentValue = value);
+        }
     }
 
     registerOnChange(fn: Function): void { this.onChange = fn; }
