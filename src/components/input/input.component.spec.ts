@@ -259,7 +259,6 @@ describe('InputField', () => {
                 fixture => {
                     fixture.detectChanges();
                     tick();
-                    fixture.detectChanges();
                     let nativeInput: HTMLInputElement = fixture.nativeElement.querySelector('input');
                     expect(nativeInput.value).toBe('testValue');
                 }
@@ -273,7 +272,6 @@ describe('InputField', () => {
                     instance.value = 'initial value';
                     fixture.detectChanges();
                     tick();
-                    fixture.detectChanges();
                     let nativeInput: HTMLInputElement = fixture.nativeElement.querySelector('input');
                     expect(nativeInput.value).toBe('initial value');
                 }
@@ -289,7 +287,6 @@ describe('InputField', () => {
 
                     nativeInput.value = 'bar';
                     triggerEvent(nativeInput, 'input');
-                    tick();
 
                     expect(instance.value).toBe('bar');
                 }
@@ -303,7 +300,6 @@ describe('InputField', () => {
                 </form>`,
                 fixture => {
                     fixture.detectChanges();
-                    tick();
                     let nativeInput: HTMLInputElement = fixture.nativeElement.querySelector('input');
                     expect(nativeInput.value).toBe('controlValue');
                 }
@@ -359,7 +355,6 @@ describe('InputField', () => {
                     instance.value = 'foo';
                     fixture.detectChanges();
                     tick();
-                    fixture.detectChanges();
                     expect(nativeInput.value).toBe('foo');
 
                     // Set cursor to f|oo

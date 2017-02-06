@@ -1,18 +1,17 @@
 <input
-    [disabled]="disabled"
+    [attr.id]="id"
     [attr.max]="max"
-    [attr.min]="min"
     [attr.maxlength]="maxlength"
+    [attr.min]="min"
     [attr.name]="name"
     [attr.pattern]="pattern"
     [attr.placeholder]="placeholder"
+    [attr.step]="step"
+
+    [disabled]="disabled"
     [readonly]="readonly"
     [required]="required"
-    [attr.step]="step"
     [type]="type"
-
-    [attr.id]="id"
-    [value]="value"
 
     (blur)="onBlur($event)"
     (change)="onBlur($event)"

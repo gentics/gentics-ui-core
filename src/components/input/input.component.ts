@@ -8,6 +8,7 @@ import {
     forwardRef
 } from '@angular/core';
 import {ControlValueAccessor, NG_VALUE_ACCESSOR} from '@angular/forms';
+import {Renderer, OnInit, AfterViewInit, OnChanges, SimpleChanges} from '@angular/core';
 
 const GTX_INPUT_VALUE_ACCESSOR = {
     provide: NG_VALUE_ACCESSOR,
@@ -34,7 +35,7 @@ const GTX_INPUT_VALUE_ACCESSOR = {
     templateUrl: './input.tpl.html',
     providers: [GTX_INPUT_VALUE_ACCESSOR]
 })
-export class InputField implements ControlValueAccessor {
+export class InputField implements AfterViewInit, ControlValueAccessor, OnChanges, OnInit {
     /**
      * Sets the input field to be auto-focused. Handled by `AutofocusDirective`.
      */
@@ -103,7 +104,7 @@ export class InputField implements ControlValueAccessor {
     /**
      * Can be "text", "number" or "password".
      */
-    @Input() type: 'text'|'number'|'password' = 'text';
+    @Input() type: 'text' | 'number' | 'password' = 'text';
 
     /**
      * Sets the value of the input.
@@ -128,6 +129,14 @@ export class InputField implements ControlValueAccessor {
     @ViewChild('inputElement') private inputElement: ElementRef;
     @ViewChild('labelElement') private labelElement: ElementRef;
 
+    private currentValue: string | number;
+
+    constructor(private renderer: Renderer) { }
+
+    ngOnInit(): void {
+        this.writeValue(this.value);
+    }
+
     /**
      * The Materialize input includes a dynamic label that changes position depending on the state of the input.
      * When the label has the "active" class, it moves above the input, otherwise it resides inside the input
@@ -143,17 +152,21 @@ export class InputField implements ControlValueAccessor {
         const label: HTMLLabelElement = this.labelElement.nativeElement;
 
         if (input && label) {
-            if (String(this.value).length > 0 || this.placeholder) {
-                label.classList.add('active');
-            } else {
-                label.classList.remove('active');
-            }
+            const isAdd = String(this.value).length > 0 || !!this.placeholder;
+            this.renderer.setElementClass(label, 'active', isAdd);
+        }
+    }
+
+    ngOnChanges(changes: SimpleChanges): void {
+        const valueChange = changes['value']
+        if (valueChange) {
+            this.writeValue(valueChange.currentValue);
         }
     }
 
     onBlur(e: Event): void {
         e.stopPropagation();
-        const target: HTMLInputElement = <HTMLInputElement> e.target;
+        const target = e.target as HTMLInputElement;
         this.blur.emit(this.normalizeValue(target.value));
         this.onTouched();
     }
@@ -163,27 +176,34 @@ export class InputField implements ControlValueAccessor {
     }
 
     onInput(e: Event): void {
-        const target: HTMLInputElement = <HTMLInputElement> e.target;
-        const value = this.normalizeValue(target.value);
+        const target = e.target as HTMLInputElement;
+        const value = this.currentValue = this.normalizeValue(target.value);
         this.change.emit(value);
         this.onChange(value);
     }
 
-    writeValue(value: any): void {
-        this.value = value;
+    writeValue(valueToWrite: any): void {
+        const value = this.normalizeValue(valueToWrite);
+        if (value !== this.currentValue) {
+            this.renderer.setElementProperty(this.inputElement.nativeElement, 'value', this.currentValue = value);
+        }
     }
 
     // ValueAccessor members
-    registerOnChange(fn: Function): void { this.onChange = fn; }
-    registerOnTouched(fn: Function): void { this.onTouched = fn; }
-    private onChange: any = (_: any) => {};
-    private onTouched: any = () => {};
+    registerOnChange(fn: (newValue: string | number) => void): void {
+        this.onChange = fn;
+    }
+    registerOnTouched(fn: () => void): void {
+        this.onTouched = fn;
+    }
+    private onChange = (newValue: string | number): void => {};
+    private onTouched = (): void => {};
 
     private normalizeValue(val: any): string|number {
         if (this.type === 'number') {
-            return Number(val);
+            return val == null ? 0 : Number(val);
         } else {
-            return val;
+            return val == null ? '' : String(val);
         }
     }
 }
