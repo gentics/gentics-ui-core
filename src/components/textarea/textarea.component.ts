@@ -125,13 +125,14 @@ export class Textarea implements ControlValueAccessor, OnChanges, OnInit {
     }
 
     onBlur(e: Event): void {
-        this.blur.emit(this.value);
-        this.change.emit(this.value);
+        const value = (e.target as HTMLTextAreaElement).value;
+        this.blur.emit(value);
         this.onTouched();
     }
 
     onFocus(e: Event): void {
-        this.focus.emit(this.value);
+        const value = (e.target as HTMLTextAreaElement).value;
+        this.focus.emit(value);
     }
 
     onInput(e: Event): void {

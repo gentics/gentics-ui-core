@@ -148,10 +148,12 @@ describe('Textarea', () => {
                 fixture.detectChanges();
                 instance.onBlur = jasmine.createSpy('onBlur');
 
-                textareaDebugElement.triggerEventHandler('blur', null);
+                textareaDebugElement.nativeElement.value = 'bar';
+
+                triggerEvent(textareaDebugElement.nativeElement, 'blur');
                 tick();
 
-                expect(instance.onBlur).toHaveBeenCalledWith('foo');
+                expect(instance.onBlur).toHaveBeenCalledWith('bar');
             }
         )
     );
@@ -166,10 +168,12 @@ describe('Textarea', () => {
                 fixture.detectChanges();
                 instance.onFocus = jasmine.createSpy('onFocus');
 
-                textareaDebugElement.triggerEventHandler('focus', null);
+                textareaDebugElement.nativeElement.value = 'bar';
+
+                triggerEvent(textareaDebugElement.nativeElement, 'focus');
                 tick();
 
-                expect(instance.onFocus).toHaveBeenCalledWith('foo');
+                expect(instance.onFocus).toHaveBeenCalledWith('bar');
             }
         )
     );
@@ -184,7 +188,7 @@ describe('Textarea', () => {
                 fixture.detectChanges();
                 instance.onChange = jasmine.createSpy('onChange');
 
-                triggerInputEvent(nativeTextarea);
+                triggerEvent(nativeTextarea, 'input');
                 tick();
 
                 expect(instance.onChange).toHaveBeenCalledWith('foo');
@@ -192,7 +196,7 @@ describe('Textarea', () => {
         )
     );
 
-    it('emits "change" when native input is blurred',
+    it('does not emit "change" when native input is blurred',
         componentTest(() => TestComponent, `
             <gtx-textarea (change)="onChange($event)" value="foo">
             </gtx-textarea>`,
@@ -202,10 +206,10 @@ describe('Textarea', () => {
                 fixture.detectChanges();
                 instance.onChange = jasmine.createSpy('onChange');
 
-                textareaDebugElement.triggerEventHandler('blur', null);
+                triggerEvent(textareaDebugElement.nativeElement, 'blur');
                 tick();
 
-                expect(instance.onChange).toHaveBeenCalledWith('foo');
+                expect(instance.onChange).not.toHaveBeenCalledWith('foo');
             }
         )
     );
@@ -234,7 +238,7 @@ describe('Textarea', () => {
                     let nativeTextarea: HTMLTextAreaElement = fixture.nativeElement.querySelector('textarea');
 
                     nativeTextarea.value = 'bar';
-                    triggerInputEvent(nativeTextarea);
+                    triggerEvent(nativeTextarea, 'input');
                     tick();
 
                     expect(instance.value).toBe('bar');
@@ -267,7 +271,7 @@ describe('Textarea', () => {
                     let nativeTextarea: HTMLTextAreaElement = fixture.nativeElement.querySelector('textarea');
 
                     nativeTextarea.value = 'bar';
-                    triggerInputEvent(nativeTextarea);
+                    triggerEvent(nativeTextarea, 'input');
                     tick();
 
                     expect(instance.testForm.controls['test'].value).toBe('bar');
@@ -313,12 +317,12 @@ describe('Textarea', () => {
                     expect(instance.value).toBe('first');
 
                     nativeTextarea.value = 'second';
-                    triggerInputEvent(nativeTextarea);
+                    triggerEvent(nativeTextarea, 'input');
                     tick();
                     expect(instance.value).toBe('second');
 
                     nativeTextarea.value = 'third';
-                    triggerInputEvent(nativeTextarea);
+                    triggerEvent(nativeTextarea, 'input');
                     tick();
                     expect(instance.value).toBe('third');
                 }
@@ -343,7 +347,7 @@ describe('Textarea', () => {
                     // Type 'x' => fx|oo
                     nativeTextarea.value = 'fxoo';
                     nativeTextarea.setSelectionRange(2, 2);
-                    triggerInputEvent(nativeTextarea);
+                    triggerEvent(nativeTextarea, 'input');
                     fixture.detectChanges();
                     tick();
 
@@ -367,12 +371,12 @@ describe('Textarea', () => {
                     expect(instance.testForm.get('test').untouched).toBe(true);
 
                     const debugTextarea = fixture.debugElement.query(By.css('textarea'));
-                    debugTextarea.triggerEventHandler('focus', { target: debugTextarea.nativeElement });
+                    triggerEvent(debugTextarea.nativeElement, 'focus');
 
                     expect(instance.testForm.get('test').touched).toBe(false);
                     expect(instance.testForm.get('test').untouched).toBe(true);
 
-                    debugTextarea.triggerEventHandler('blur', { target: debugTextarea.nativeElement });
+                    triggerEvent(debugTextarea.nativeElement, 'blur');
 
                     expect(instance.testForm.get('test').touched).toBe(true);
                     expect(instance.testForm.get('test').untouched).toBe(false);
@@ -393,7 +397,7 @@ describe('Textarea', () => {
 
                     const debugTextarea = fixture.debugElement.query(By.css('textarea'));
                     (debugTextarea.nativeElement as HTMLTextAreaElement).value = 'some different value';
-                    debugTextarea.triggerEventHandler('input', { target: debugTextarea.nativeElement });
+                    triggerEvent(debugTextarea.nativeElement, 'input');
 
                     expect(instance.testForm.get('test').dirty).toBe(true);
                     expect(instance.testForm.get('test').pristine).toBe(false);
@@ -423,8 +427,8 @@ class TestComponent {
 /**
  * Create an dispatch an 'input' event on the <input> element
  */
-function triggerInputEvent(el: HTMLTextAreaElement): void {
+function triggerEvent(el: HTMLTextAreaElement, eventName: string = 'input'): void {
     let event: Event = document.createEvent('Event');
-    event.initEvent('input', true, true);
+    event.initEvent(eventName, true, true);
     el.dispatchEvent(event);
 }

@@ -158,7 +158,7 @@ export class InputField implements AfterViewInit, ControlValueAccessor, OnChange
     }
 
     ngOnChanges(changes: SimpleChanges): void {
-        const valueChange = changes['value']
+        const valueChange = changes['value'];
         if (valueChange) {
             this.writeValue(valueChange.currentValue);
         }

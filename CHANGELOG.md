@@ -1,5 +1,11 @@
 # Gentics UI Core Changelog
 
+## 2.0.7 (in progress)
+
+### Fixes
+
+* Fix values emitted by Textarea "blur" and "focus" events (GUIC-102)
+
 ## 2.0.6 (2017-02-06)
 
 ### Fixes

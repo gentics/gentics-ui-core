@@ -235,7 +235,7 @@ describe('InputField', () => {
         )
     );
 
-    it('emits "change" when the native input is blurred',
+    it('does not emit "change" when the native input is blurred',
         componentTest(() => TestComponent, `
             <gtx-input (change)="onChange($event)" value="foo"></gtx-input>`,
             (fixture, instance) => {
