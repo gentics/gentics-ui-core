@@ -13,6 +13,6 @@ distConfig.plugins = distConfig.plugins.concat([
         }
     })
 ]);
-distConfig.devtool = 'cheap-module-source-map';
+distConfig.devtool = 'source-map';
 
 module.exports = distConfig;
