@@ -9,10 +9,10 @@ import {Button} from './components/button/button.component';
 import {Checkbox} from './components/checkbox/checkbox.component';
 import {ContentsListItem} from './components/contents-list-item/contents-list-item.component';
 import {DateTimePicker} from './components/date-time-picker/date-time-picker.component';
-import {
-    DropdownList, DropdownContent,
-    DropdownTriggerDirective, DropdownItem
-} from './components/dropdown-list/dropdown-list.component';
+import {DropdownList} from './components/dropdown-list/dropdown-list.component';
+import {DropdownTriggerDirective} from './components/dropdown-list/dropdown-trigger.directive';
+import {DropdownItem} from './components/dropdown-list/dropdown-item.component';
+import {DropdownContent} from './components/dropdown-list/dropdown-content.component';
 import {FileDropArea} from './components/file-drop-area/file-drop-area.directive';
 import {DragStateTrackerFactory} from './components/file-drop-area/drag-state-tracker.service';
 import {PageFileDragHandler} from './components/file-drop-area/page-file-drag-handler.service';

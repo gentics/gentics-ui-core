@@ -7,11 +7,10 @@ import {FormsModule, ReactiveFormsModule, FormGroup, FormControl} from '@angular
 import {componentTest} from '../../testing';
 import {Select} from './select.component';
 import {InputField} from '../input/input.component';
-import {
-    DropdownList, DropdownContent,
-    DropdownTriggerDirective
-} from '../dropdown-list/dropdown-list.component';
+import {DropdownList} from '../dropdown-list/dropdown-list.component';
 import {DropdownContentWrapper} from '../dropdown-list/dropdown-content-wrapper.component';
+import {DropdownContent} from '../dropdown-list/dropdown-content.component';
+import {DropdownTriggerDirective} from '../dropdown-list/dropdown-trigger.directive';
 import {ScrollMask} from '../dropdown-list/scroll-mask.component';
 import {SelectOption, SelectOptionGroup} from './option.component';
 import {Icon} from '../icon/icon.component';

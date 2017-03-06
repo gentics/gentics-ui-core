@@ -19,10 +19,9 @@ import {IModalDialog} from '../../components/modal/modal-interfaces';
 import {OverlayHostService} from '../../components/overlay-host/overlay-host.service';
 import {BrowserDynamicTestingModule} from '@angular/platform-browser-dynamic/testing';
 import {DynamicModalWrapper} from '../../components/modal/dynamic-modal-wrapper.component';
-import {
-    DropdownList, DropdownTriggerDirective,
-    DropdownContent
-} from '../../components/dropdown-list/dropdown-list.component';
+import {DropdownList} from '../../components/dropdown-list/dropdown-list.component';
+import {DropdownContent} from '../../components/dropdown-list/dropdown-content.component';
+import {DropdownTriggerDirective} from '../../components/dropdown-list/dropdown-trigger.directive';
 import {Icon} from '../../components/icon/icon.component';
 import {DropdownContentWrapper} from '../../components/dropdown-list/dropdown-content-wrapper.component';
 import {ScrollMask} from '../../components/dropdown-list/scroll-mask.component';

@@ -4,7 +4,10 @@ import {ComponentFixture, TestBed, tick} from '@angular/core/testing';
 import {By} from '@angular/platform-browser';
 
 import {componentTest} from '../../testing';
-import {DropdownList, DropdownContent, DropdownTriggerDirective, DropdownItem} from './dropdown-list.component';
+import {DropdownList} from './dropdown-list.component';
+import {DropdownContent} from './dropdown-content.component';
+import {DropdownTriggerDirective} from './dropdown-trigger.directive';
+import {DropdownItem} from './dropdown-item.component';
 import {OverlayHost} from '../overlay-host/overlay-host.component';
 import {OverlayHostService} from '../overlay-host/overlay-host.service';
 import {Button} from '../button/button.component';
@@ -12,7 +15,6 @@ import {ScrollMask} from './scroll-mask.component';
 import {DropdownContentWrapper} from './dropdown-content-wrapper.component';
 import {KeyCode} from '../../common/keycodes';
 import {crossBrowserInitKeyboardEvent, KeyboardEventConfig} from '../../testing/keyboard-event';
-
 
 describe('DropdownList:', () => {
 
