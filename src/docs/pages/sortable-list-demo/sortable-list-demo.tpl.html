@@ -168,3 +168,63 @@
         '></gtx-highlighted-code>
     </div>
 </gtx-demo-block>
+
+<gtx-demo-block demoTitle="Group Option">
+    <div class="demo-result">
+        <p>
+            By setting the <code>group</code> option, items may be dragged between different SortableList components.
+        </p>
+        List 1
+        <gtx-sortable-list (dragEnd)="sortLongList($event)" group="myGroup">
+            <gtx-sortable-item>
+                <gtx-contents-list-item><div class="item-primary"><strong>List 1, item 1</strong></div></gtx-contents-list-item>
+            </gtx-sortable-item>
+            <gtx-sortable-item>
+                <gtx-contents-list-item><div class="item-primary"><strong>List 1, item 2</strong></div></gtx-contents-list-item>
+            </gtx-sortable-item>
+            <gtx-sortable-item>
+                <gtx-contents-list-item><div class="item-primary"><strong>List 1, item 3</strong></div></gtx-contents-list-item>
+            </gtx-sortable-item>
+        </gtx-sortable-list>
+        List 2
+        <gtx-sortable-list (dragEnd)="sortLongList($event)" group="myGroup">
+            <gtx-sortable-item>
+                <gtx-contents-list-item><div class="item-primary"><strong>List 2, item 1</strong></div></gtx-contents-list-item>
+            </gtx-sortable-item>
+            <gtx-sortable-item>
+                <gtx-contents-list-item><div class="item-primary"><strong>List 2, item 2</strong></div></gtx-contents-list-item>
+            </gtx-sortable-item>
+            <gtx-sortable-item>
+                <gtx-contents-list-item><div class="item-primary"><strong>List 2, item 3</strong></div></gtx-contents-list-item>
+            </gtx-sortable-item>
+        </gtx-sortable-list>
+    </div>
+    <div class="demo-code">
+        <gtx-highlighted-code language="HTML" code='
+                List 1
+                <gtx-sortable-list (dragEnd)="sortLongList($event)" group="myGroup">
+                    <gtx-sortable-item>
+                        <gtx-contents-list-item><div class="item-primary"><strong>List 1, item 1</strong></div></gtx-contents-list-item>
+                    </gtx-sortable-item>
+                    <gtx-sortable-item>
+                        <gtx-contents-list-item><div class="item-primary"><strong>List 1, item 2</strong></div></gtx-contents-list-item>
+                    </gtx-sortable-item>
+                    <gtx-sortable-item>
+                        <gtx-contents-list-item><div class="item-primary"><strong>List 1, item 3</strong></div></gtx-contents-list-item>
+                    </gtx-sortable-item>
+                </gtx-sortable-list>
+                List 2
+                <gtx-sortable-list (dragEnd)="sortLongList($event)" group="myGroup">
+                    <gtx-sortable-item>
+                        <gtx-contents-list-item><div class="item-primary"><strong>List 2, item 1</strong></div></gtx-contents-list-item>
+                    </gtx-sortable-item>
+                    <gtx-sortable-item>
+                        <gtx-contents-list-item><div class="item-primary"><strong>List 2, item 2</strong></div></gtx-contents-list-item>
+                    </gtx-sortable-item>
+                    <gtx-sortable-item>
+                        <gtx-contents-list-item><div class="item-primary"><strong>List 2, item 3</strong></div></gtx-contents-list-item>
+                    </gtx-sortable-item>
+                </gtx-sortable-list>
+        '></gtx-highlighted-code>
+    </div>
+</gtx-demo-block>

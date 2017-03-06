@@ -37,6 +37,26 @@ export interface ISortableMoveEvent extends ISortableEvent {
     relatedRect: ClientRect;
 }
 
+export interface SortableInstance {
+    el: HTMLElement;
+    nativeDraggable: boolean;
+    options: any;
+}
+
+export type PutPullType = true | false | 'clone';
+export interface PutPullFn {
+    (to: SortableInstance, from: SortableInstance): PutPullType;
+}
+
+export interface ISortableGroupOptions {
+    name: string;
+    put?: PutPullType | PutPullFn;
+    pull?: PutPullType | PutPullFn;
+    revertClone?: boolean;
+}
+
+export type SortableGroup = string | ISortableGroupOptions;
+
 /**
  * Enables the creation of lists which can be re-ordered by dragging the items. Built on top of
  * [sortablejs](https://github.com/RubaXa/Sortable). Note that this component does not do the actual
@@ -100,9 +120,42 @@ export class SortableList {
     @Input() disabled: boolean = false;
 
     /**
+     * Specify a group to allow dragging items between SortableLists. See
+     * [the Sortable docs](https://github.com/RubaXa/Sortable/blob/473bd8fecfd2f2834e4187fb033dfa6912eb3b98/README.md#group-option)
+     * for more information.
+     */
+    @Input() group: SortableGroup;
+
+    /**
+     * Invoked when an item is moved in the list or between lists. Return `false` to cancel the move.
+     */
+    @Input() onMove: (e: ISortableMoveEvent) => boolean;
+
+    /**
+     * Fired when an item drag is started.
+     */
+    @Output() dragStart = new EventEmitter<ISortableEvent>();
+
+    /**
      * Fired when an item has been dragged and dropped to a new position in the list.
      */
     @Output() dragEnd = new EventEmitter<ISortableEvent>();
+
+    /**
+     * Fired when an item has been dropped onto this list from a different list.
+     */
+    @Output() addItem = new EventEmitter<ISortableEvent>();
+
+    /**
+     * Fired when creating a clone of element.
+     */
+    @Output() cloneItem = new EventEmitter<ISortableEvent>();
+
+
+    /**
+     * Fired when an item has been remove from this list to a different list.
+     */
+    @Output() removeItem = new EventEmitter<ISortableEvent>();
 
     private sortable: Sortable;
 
@@ -121,33 +174,43 @@ export class SortableList {
                 this.setInvisibleDragImage(dataTransfer);
             },
             // dragging started
-            onStart: (e: ISortableEvent): void => {},
+            onStart: (e: ISortableEvent): void => {
+                this.dragStart.emit(e);
+            },
             // dragging ended
             onEnd: (e: ISortableEvent): void => {
                 e.sort = this.sortFactory(e);
                 this.dragEnd.emit(e);
             },
             // Element is dropped into the list from another list
-            onAdd: (e: ISortableEvent): void => {},
+            onAdd: (e: ISortableEvent): void => {
+                this.addItem.emit(e);
+            },
             // Changed sorting within list
             onUpdate: (e: ISortableEvent): void => {},
             // Called by any change to the list (add / update / remove)
             onSort: (e: ISortableEvent): void => {},
             // Element is removed from the list into another list
-            onRemove: (e: ISortableEvent): void => {},
+            onRemove: (e: ISortableEvent): void => {
+                this.removeItem.emit(e);
+            },
             // Attempt to drag a filtered element
             onFilter: (e: ISortableEvent): void => {},
             // Event when you move an item in the list or between lists
             onMove: (e: ISortableMoveEvent): boolean => {
-                // Example: http://jsbin.com/tuyafe/1/edit?js,output
-                e.dragged; // dragged HTMLElement
-                e.draggedRect; // TextRectangle {left, top, right и bottom}
-                e.related; // HTMLElement on which have guided
-                e.relatedRect; // TextRectangle
-                // return false; — for cancel
-                return true;
+                if (typeof this.onMove === 'function') {
+                    return this.onMove(e);
+                }
             }
         });
+
+        this.sortable.option('onClone', (e: ISortableEvent) => {
+            this.cloneItem.emit(e);
+        });
+
+        if (this.group) {
+            this.sortable.option('group', this.group);
+        }
     }
 
     ngAfterContentInit(): void {
