@@ -1,10 +1,10 @@
 # Gentics UI Core Changelog
 
-## 2.1.0 (in progress)
+## 2.1.0 (2017-03-07)
 
 ### Features
 
-* SortableList allows dragging between lists with the `group` attribute, add more callback attributes (GUIC-104)
+* SortableList allows dragging between lists with the `group` attribute, expose sortable API (GUIC-104)
 
 ### Fixes
 
