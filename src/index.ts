@@ -13,7 +13,9 @@ export * from './components/date-time-picker/date-time-picker-format-provider.se
 export * from './components/date-time-picker/date-time-picker-strings';
 export * from './components/date-time-picker/date-time-picker.component';
 export * from './components/dropdown-list/dropdown-content-wrapper.component';
+export * from './components/dropdown-list/dropdown-item.component';
 export * from './components/dropdown-list/dropdown-list.component';
+export * from './components/dropdown-list/dropdown-trigger.directive';
 export * from './components/dropdown-list/scroll-mask.component';
 export * from './components/file-drop-area/drag-state-tracker.service';
 export * from './components/file-drop-area/file-drop-area.directive';
