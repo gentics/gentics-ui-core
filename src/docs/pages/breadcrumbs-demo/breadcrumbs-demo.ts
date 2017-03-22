@@ -1,8 +1,7 @@
 import {Component} from '@angular/core';
 
 @Component({
-    templateUrl: './breadcrumbs-demo.tpl.html',
-    styles: [`.columns + .columns { margin-top: -8px; }`]
+    templateUrl: './breadcrumbs-demo.tpl.html'
 })
 export class BreadcrumbsDemo {
     componentSource: string = require('!!raw-loader!../../../components/breadcrumbs/breadcrumbs.component.ts');

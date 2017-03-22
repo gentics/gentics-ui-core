@@ -23,7 +23,6 @@ gtx-breadcrumbs {
             align-content: flex-start;
 
             > * {
-                @extend .breadcrumb;
                 vertical-align: top;
                 white-space: nowrap;
             }
@@ -32,11 +31,17 @@ gtx-breadcrumbs {
                 display: none;
             }
 
-            .back-button + *::before {
+            > .other-content {
+                display: block;
+                flex-shrink: 0;
+                line-height: inherit;
+            }
+
+            > .other-content + *::before {
                 display: none;
             }
 
-            > .breadcrumb {
+            > a.breadcrumb {
                 &, &::before {
                     transition-duration: $gtx-breadcrumbs-animation-duration;
                     transition-property: color;
@@ -48,11 +53,7 @@ gtx-breadcrumbs {
                     color: $gtx-breadcrumbs-active-color;
                 }
 
-                &:not([href]) {
-                    cursor: default;
-                }
-
-                &:not(:first-child):not(:last-child) {
+                & ~ a.breadcrumb:not(:last-child) {
                     flex-shrink: 1;
                     min-width: 0;
                     overflow-x: hidden;
@@ -91,7 +92,13 @@ gtx-breadcrumbs {
                 content: '\E5CB';
                 color: $gtx-breadcrumbs-inactive-color;
                 display: inline-block;
+                font-family: 'Material Icons';
+                font-weight: normal;
+                font-style: normal;
+                font-size: 25px;
                 margin: 0;
+                vertical-align: top;
+                -webkit-font-smoothing: antialiased;
             }
         }
 

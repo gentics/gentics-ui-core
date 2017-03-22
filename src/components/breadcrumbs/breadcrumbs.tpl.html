@@ -10,7 +10,9 @@
             [attr.href]="isDisabled ? null : backLink?.href"
             [title]="backLink.text"></a>
 
-        <ng-content></ng-content>
+        <div class="other-content">
+            <ng-content></ng-content>
+        </div>
 
         <template [ngIf]="links">
             <a *ngFor="let link of links"

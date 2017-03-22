@@ -1,10 +1,18 @@
 # Gentics UI Core Changelog
 
+## 2.1.2 (in progress)
+
+### Fixes
+
+* Breadcrumb component is easier to use with transcluded components (GCU-308)
+
+
 ## 2.1.1 (2017-03-20)
 
 ### Fixes
 
 * Add exports of DropdownItem & DropdownTrigger missing in 2.1.0 (GUIC-104)
+
 
 ## 2.1.0 (2017-03-07)
 
@@ -15,6 +23,7 @@
 ### Fixes
 
 * Fix values emitted by Textarea "blur" and "focus" events (GUIC-102)
+
 
 ## 2.0.6 (2017-02-06)
 
@@ -114,7 +123,7 @@
 * Component templates now get inlined as strings in build step
 * DropdownList: extend API with `sticky`, `closeOnEscape`, `isOpen`, `disabled` and `closeDropdown()`; add keyboard support
 * Buttons can be declared as submit button
-* Select: add ability to bind to complex values (GUIC-86); add full keyboard control support
+* Selects can bind to object values, full keyboard control support (GUIC-86)
 * All form components support `autofocus` (GUIC-91, GCU-143, GCU-192)
 * Remove jQuery dependency (GUIC-98)
 
