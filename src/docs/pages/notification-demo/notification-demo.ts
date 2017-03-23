@@ -7,9 +7,13 @@ import {Notification} from '../../../index';
 export class NotificationDemo {
     componentSource: string = require('!!raw-loader!../../../components/notification/notification.service.ts');
 
-    message: string = 'Hello, this is Toast.';
-    delay: number = 3000;
-    type: string = 'default';
+    message = 'Hello, this is Toast.';
+    multilineMessage = 'Notifications may have'
+        + '\nmulti-line messages'
+        + '\n    and white-space for indentation'
+        + '\nas well, but auto-wrap when lines are too long';
+    delay = 3000;
+    type = 'default';
 
     constructor(private notification: Notification) {}
 
@@ -31,6 +35,18 @@ export class NotificationDemo {
                     message: 'Cancelled sending',
                     type: 'success'
                 })
+            }
+        });
+    }
+
+    showMultiline(): void {
+        const toast = this.notification.show({
+            message: this.multilineMessage,
+            type: this.type,
+            delay: 10000,
+            action: {
+                label: 'Dismiss',
+                onClick: () => toast.dismiss()
             }
         });
     }

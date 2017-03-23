@@ -22,6 +22,7 @@ gtx-toast {
         border-radius: 3px;
         top: 10px;
         right: 10px;
+        margin-left: 10px;
         padding: 20px;
         background-color: $gtx-color-off-black;
         color: $gtx-color-off-white;
@@ -32,28 +33,47 @@ gtx-toast {
             opacity: 0;
         }
 
+        > .message > .line {
+            white-space: pre-wrap;
+        }
+
+        > .action {
+            float: right;
+
+            > button {
+                background-color: transparent;
+                border: none;
+                border-radius: 2px;
+                margin: -2px -5px 0 20px;
+                padding: 2px 5px;
+                text-transform: uppercase;
+                transition: background-color 0.2s, color 0.2s;
+
+                &:hover {
+                    background-color: $gtx-color-primary;
+                }
+            }
+        }
+
         &.success {
             background-color: $gtx-color-success;
             color: white;
+
+            > .action > button:hover {
+                background-color: white;
+                color: $gtx-color-success;
+            }
         }
 
         &.error {
             background-color: $gtx-color-alert;
             color: white;
-        }
 
-        > .action {
-            background-color: transparent;
-            border: none;
-            border-radius: 2px;
-            margin-left: 20px;
-            text-transform: uppercase;
-            padding: 2px 5px;
-            transition: background 0.2s;
-
-            &:hover {
-                background-color: $gtx-color-primary;
+            > .action > button:hover {
+                background-color: white;
+                color: $gtx-color-alert;
             }
         }
+
     }
 }

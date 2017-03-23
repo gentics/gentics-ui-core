@@ -15,6 +15,7 @@ export type ToastType = 'default' | 'error' | 'success';
 })
 export class Toast {
     message: string;
+    messageLines: string[];
     type: ToastType|string;
     position: any = {
         top: 10,
@@ -30,6 +31,10 @@ export class Toast {
     private hammerManager: HammerManager;
 
     constructor(private elementRef: ElementRef) {}
+
+    ngOnInit(): void {
+        this.messageLines = (this.message || '').split('\n');
+    }
 
     ngAfterViewInit(): void {
         this.initSwipeHandler();

@@ -69,3 +69,41 @@
            '></gtx-highlighted-code>
     </div>
 </gtx-demo-block>
+
+
+<gtx-demo-block demoTitle="Multi-Line Notifications">
+    <div class="demo-result">
+        <div class="row">
+            <div class="columns small-12 large-6">
+                <gtx-textarea label="Message" [(ngModel)]="multilineMessage"></gtx-textarea>
+            </div>
+            <div class="columns small-8 large-4">
+                <gtx-select label="Toast Type" [(ngModel)]="type">
+                    <gtx-option value="default">default</gtx-option>
+                    <gtx-option value="success">success</gtx-option>
+                    <gtx-option value="error">error</gtx-option>
+                </gtx-select>
+            </div>
+            <div class="columns small-3 small-push-1 large-2 large-push-0">
+                <gtx-button (click)="showMultiline()" style="float: right; margin-top: 20px">show</gtx-button>
+            </div>
+        </div>
+    </div>
+    <div class="demo-code">
+        <gtx-highlighted-code language="HTML" code='
+                <gtx-button (click)="showMultiline()">show</gtx-button>
+        '></gtx-highlighted-code>
+        <gtx-highlighted-code language="typescript" code='
+                showMultiline(): void {
+                    const toast = this.notification.show({
+                        message: this.multilineMessage,
+                        type: this.type,
+                        action: {
+                            label: "Dismiss",
+                            onClick: () => toast.dismiss()
+                        }
+                    });
+                }
+        '></gtx-highlighted-code>
+    </div>
+</gtx-demo-block>

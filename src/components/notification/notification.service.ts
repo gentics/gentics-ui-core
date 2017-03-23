@@ -124,7 +124,6 @@ export class Notification {
             componentRef.destroy();
             this.positionOpenToasts();
         }, 200);
-
     }
 
     /**

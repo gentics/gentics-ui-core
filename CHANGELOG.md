@@ -6,6 +6,7 @@
 
 * Breadcrumb component is easier to use with transcluded components (GCU-308)
 * Prevent focus of links and items in SideMenu when hidden
+* Notification messages may contain newlines and indentation
 
 
 ## 2.1.1 (2017-03-20)
