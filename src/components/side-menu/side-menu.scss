@@ -7,17 +7,17 @@ gtx-side-menu {
         top: 0;
         bottom: 0;
         width: 300px;
-        transition: transform 0.3s;
-        transition-timing-function: cubic-bezier(0.215, 0.61, 0.355, 1);
+        transition: transform 0.3s cubic-bezier(0.215, 0.61, 0.355, 1);
 
         > .menu-content {
-            opacity: 0;
             background-color: white;
-            height: 100%;
-            width: 100%;
             position: absolute;
             top: 0;
-            transition: opacity 0s 0.3s;
+            height: 100%;
+            width: 100%;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0s 0.3s, visibility 0s 0.3s;
         }
 
         > .toggle-button {
@@ -73,7 +73,8 @@ gtx-side-menu {
 
             > .menu-content {
                 opacity: 1;
-                transition: opacity 0s;
+                visibility: visible;
+                transition: opacity 0s, visibility 0s;
             }
         }
 
