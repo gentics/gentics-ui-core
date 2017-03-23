@@ -13,12 +13,22 @@ gtx-input {
     > input[type="text"],
     > input[type="number"],
     > input[type="password"] {
-        @extend .input-base;
+        @include input-base;
 
         &::-ms-clear {
             display: none;
             width: 0;
             height: 0;
+        }
+    }
+
+    &.ng-touched.ng-invalid {
+        > input {
+            border-color: $gtx-color-alert;
+        }
+
+        > label {
+            color: $gtx-color-alert;
         }
     }
 }

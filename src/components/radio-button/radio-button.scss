@@ -1,0 +1,17 @@
+gtx-radio-button {
+    &.ng-touched.ng-invalid {
+        > label::before {
+            // Border when selected / not selected
+            border-color: $gtx-color-alert;
+        }
+
+        > label::after {
+            // Fill color when selected
+            background-color: $gtx-color-alert;
+        }
+
+        > label {
+            color: $gtx-color-alert;
+        }
+    }
+}

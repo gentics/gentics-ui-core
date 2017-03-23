@@ -13,7 +13,7 @@ gtx-select {
     }
 
     .view-value {
-        @extend .input-base;
+        @include input-base;
         cursor: pointer;
         display: flex;
         margin-top: 1px;
@@ -33,6 +33,16 @@ gtx-select {
         display: block;
         color: $gtx-color-dark-gray;
         transition: color 0.2s;
+    }
+
+    &.ng-touched.ng-invalid {
+        .view-value {
+            border-color: $gtx-color-alert;
+        }
+
+        > label {
+            color: $gtx-color-alert;
+        }
     }
 }
 

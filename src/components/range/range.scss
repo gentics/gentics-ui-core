@@ -10,13 +10,25 @@ gtx-range {
         input {
             cursor: default;
         }
-        input::-webkit-slider-thumb,  input::-webkit-slider-runnable-track {
+
+        input::-webkit-slider-thumb,
+        input::-webkit-slider-runnable-track {
             cursor: default;
         }
     }
 
     &[disabled] input::-webkit-slider-thumb {
         background-color: gray;
+    }
+
+    &.ng-touched.ng-invalid {
+        input::-webkit-slider-thumb {
+            background-color: $gtx-color-alert;
+        }
+
+        label {
+            color: $gtx-color-alert;
+        }
     }
 
     input[type=range] + .thumb {

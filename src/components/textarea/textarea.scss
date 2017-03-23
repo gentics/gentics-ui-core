@@ -11,9 +11,19 @@ gtx-textarea {
     }
 
     > textarea.materialize-textarea {
-        @extend .input-base;
+        @include input-base;
         min-height: 2.5rem;
         line-height: 1.5;
         overflow-y: auto;
+    }
+
+    &.ng-touched.ng-invalid {
+        > textarea.materialize-textarea {
+            border-color: $gtx-color-alert;
+        }
+
+        > label {
+            color: $gtx-color-alert;
+        }
     }
 }

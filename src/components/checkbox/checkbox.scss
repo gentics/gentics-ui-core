@@ -1,3 +1,14 @@
-[type="checkbox"] + label:before, [type="checkbox"]:not(.filled-in) + label:after {
+[type="checkbox"] + label:before,
+[type="checkbox"]:not(.filled-in) + label:after {
     will-change: transform;
+}
+
+gtx-checkbox.ng-touched.ng-invalid {
+    label::before {
+        border-color: $gtx-color-alert;
+    }
+
+    label {
+        color: $gtx-color-alert;
+    }
 }

@@ -1,6 +1,10 @@
 # Gentics UI Core Changelog
 
-## 2.1.2 (in progress)
+## 2.2.0 (in progress)
+
+### Features
+
+* All form components provide styling for "invalid" state when used with ngModel validators
 
 ### Fixes
 

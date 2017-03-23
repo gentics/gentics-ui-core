@@ -6,6 +6,16 @@ gtx-date-time-picker > gtx-input > input:not(:disabled) {
     &, & + label {
         cursor: pointer;
     }
+
+    &.ng-touched.ng-invalid {
+        input {
+            border-color: $gtx-color-alert;
+        }
+
+        label {
+            color: $gtx-color-alert;
+        }
+    }
 }
 
 gtx-date-time-picker-modal {
