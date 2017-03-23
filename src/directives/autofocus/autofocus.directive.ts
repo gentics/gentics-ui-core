@@ -66,6 +66,7 @@ export class AutofocusDirective implements AfterViewInit, OnChanges, OnDestroy {
             this.inputElement.focus();
 
             if (typeof (<any> HTMLInputElement.prototype).scrollIntoViewIfNeeded === 'function') {
+                // Chrome only (1/2017)
                 (<any> this.inputElement).scrollIntoViewIfNeeded();
             } else {
                 // Browser support varies
@@ -89,7 +90,7 @@ export class AutofocusDirective implements AfterViewInit, OnChanges, OnDestroy {
                     }
                 }
             }
-        });
+        }, 50);
     }
 
     private cleanupTimer(): void {
