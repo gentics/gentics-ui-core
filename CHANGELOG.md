@@ -5,6 +5,7 @@
 ### Features
 
 * All form components provide styling for "invalid" state when used with ngModel validators
+* Range slider supports label and has consistent styling with other inputs
 
 ### Fixes
 

@@ -1,12 +1,28 @@
 gtx-range {
-    > .range-field label {
-        left: 0;
+    display: block;
+    position: relative;
+
+    > label {
+        position: absolute;
+        top: -20px;
+        display: block;
+        color: $gtx-color-dark-gray;
+        transition: color 0.2s;
+    }
+
+    > .range-field {
+        margin: 20px 0;
     }
 
     &[readonly], &[disabled] {
-        > .range-field .thumb {
-            display: none;
+        > .range-field {
+            user-select: none;
+
+            .thumb {
+                display: none;
+            }
         }
+
         input {
             cursor: default;
         }
@@ -39,6 +55,7 @@ gtx-range {
         top: -23px;
         margin-left: -15px;
         transform: scale(0, 0) rotate(-45deg);
+
         &.active {
             transform: scale(1, 1) rotate(-45deg);
         }

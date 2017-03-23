@@ -39,6 +39,11 @@ export class Range implements ControlValueAccessor {
     @Input() disabled: boolean = false;
 
     /**
+     * Sets a label for the slider.
+     */
+    @Input() label: string = '';
+
+    /**
      * Maximum allowed value.
      */
     @Input() max: number;

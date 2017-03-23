@@ -34,11 +34,11 @@
             A readonly or disabled range input will not be draggable, but the value can be set dynamically.
         </p>
         <div class="row">
-            <div class="column small-8">
-                <gtx-range [(ngModel)]="rangeValDynamic" readonly="true"></gtx-range>
+            <div class="column small-12 medium-8">
+                <gtx-range [(ngModel)]="rangeValDynamic" readonly="true" label="This range is readonly..."></gtx-range>
             </div>
-            <div class="column small-4">
-                <gtx-input [(ngModel)]="rangeValDynamic" type="number" min="0" max="100" step="1"></gtx-input>
+            <div class="column small-12 medium-4">
+                <gtx-input [(ngModel)]="rangeValDynamic" type="number" label="...but can be changed here." min="0" max="100" step="1"></gtx-input>
             </div>
         </div>
     </div>
