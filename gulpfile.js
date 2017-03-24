@@ -71,8 +71,8 @@ gulp.task('docs:watch', gulp.series(
         watchDocs
     )
 ));
-gulp.task('test:run', callback => runKarmaServer(false, callback));
-gulp.task('test:watch', callback => runKarmaServer(true, callback));
+gulp.task('test:run', runTests);
+gulp.task('test:watch', watchTests);
 gulp.task('package', gulp.series('clean', 'lint', 'test:run', 'dist:build'));
 
 function cleanDistFolder() {
@@ -329,6 +329,24 @@ function webpackWatch(callback) {
     devCompiler.watch({}, webpackOnCompleted(callback));
 }
 
+function runTests(callback) {
+    runKarmaServer(false, (err, stats) => {
+        if (err) {
+            console.error('\nWebpack error: ', err.message || err.toString());
+            process.exit(1);
+        } else if (stats && stats.hasErrors) {
+            console.error('\nWebpack errors: ', stats.toJSON().errors);
+            process.exit(1);
+        }
+
+        callback(err);
+    });
+}
+
+function watchTests(callback) {
+    runKarmaServer(true, callback);
+}
+
 // Pass a command line argument to gulp to change browsers
 // e.g. gulp test:watch --browsers=Chrome,Firefox,PhantomJS
 function runKarmaServer(watch, callback) {
@@ -345,12 +363,9 @@ function runKarmaServer(watch, callback) {
         browsers: testBrowsers,
         reporters: ['mocha'],
         mochaReporter: {
-            output: 'autowatch'
+            output: watch ? 'autowatch' : 'spec'
         }
-    }, errors => {
-        if (errors) { process.exitCode = 1; }
-        callback();
-    });
+    }, callback);
 
     server.start();
 }
