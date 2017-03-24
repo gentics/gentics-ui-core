@@ -100,7 +100,10 @@ function compileDistTypescript() {
     let tsResult = gulp.src(paths.src.typescript.concat(paths.src.typings))
         .pipe(inlineNg2Template({
             base: '/',
+            indent: 0,
+            removeLineBreaks: true,
             useRelativePaths: true,
+            target: 'es5',
             templateProcessor: minifyTemplate
         }))
         .pipe(sourcemaps.init())
@@ -121,14 +124,18 @@ function compileDistTypescript() {
  */
 function minifyTemplate(path, ext, file, cb) {
     try {
-        let minifiedFile = htmlMinifier.minify(file, {
+        let minifiedHtml = htmlMinifier.minify(file, {
             collapseWhitespace: true,
             caseSensitive: true,
             removeComments: true,
-            removeRedundantAttributes: true,
-            maxLineLength: 200
+            removeRedundantAttributes: true
         });
-        cb(null, minifiedFile);
+
+        // The maxLineLength option of html-minifier may break lines
+        // within the content of  HTML elements, so we wrap overly long lines ourselves.
+        minifiedHtml = minifiedHtml.replace(/(.{150,200})>(?=.{10,})/g, '$1\n>');
+
+        cb(null, minifiedHtml);
     } catch (err) {
         cb(err);
     }
