@@ -179,7 +179,22 @@ export class Textarea implements ControlValueAccessor, OnChanges, OnInit {
                 lines++;
             }
         }
+
+        // Height is approximately 1em padding plus 1.5em per line
         const newHeight = (1 + lines * 1.5) + 'em';
-        this.renderer.setElementStyle(this.nativeTextarea.nativeElement, 'height', newHeight);
+
+        const nativeElement: HTMLTextAreaElement = this.nativeTextarea.nativeElement;
+        this.renderer.setElementStyle(nativeElement, 'height', newHeight);
+
+        // When text overflows the textarea, it wraps to the next line. When that happens,
+        // we calculate the amount of extra lines needed and set a suitable height.
+        const { offsetHeight, scrollHeight } = nativeElement;
+        if (scrollHeight > offsetHeight) {
+            // Calculate preferred height as "lines x 1.5em", set height css in em.
+            const emHeight = offsetHeight / (1 + lines * 1.5);
+            const newLineCount = Math.round((scrollHeight / emHeight - 1) / 1.5);
+            const newHeight = (1 + newLineCount * 1.5) + 'em';
+            this.renderer.setElementStyle(nativeElement, 'height', newHeight);
+        }
     }
 }

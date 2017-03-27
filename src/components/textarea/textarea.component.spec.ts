@@ -424,6 +424,86 @@ describe('Textarea', () => {
         );
 
     });
+
+    describe('automatic height:', () => {
+
+        it('changes its own height to fit the lines of text',
+            componentTest(() => TestComponent, `
+                <div style="width: 100px; height: 300px">
+                    <gtx-textarea [value]="value"></gtx-textarea>
+                </div>`,
+                (fixture, instance) => {
+                    instance.value = 'single line';
+                    fixture.detectChanges();
+
+                    const textarea: HTMLTextAreaElement = fixture.nativeElement.querySelector('textarea');
+                    const firstHeight = textarea.offsetHeight;
+
+                    instance.value = 'two\nlines';
+                    fixture.detectChanges();
+                    tick();
+                    const secondHeight = textarea.offsetHeight;
+                    expect(secondHeight).toBeGreaterThan(firstHeight, 'two lines should be larger than one line');
+
+                    instance.value = 'three\nlines\ntext';
+                    fixture.detectChanges();
+                    tick();
+                    const thirdHeight = textarea.offsetHeight;
+                    expect(thirdHeight).toBeGreaterThan(secondHeight, 'three lines should be larger than two lines');
+                }
+            )
+        );
+
+        it('shrinks its own height if it is larger than necessary',
+            componentTest(() => TestComponent, `
+                <div style="width: 100px; height: 300px">
+                    <gtx-textarea [value]="value"></gtx-textarea>
+                </div>`,
+                (fixture, instance) => {
+                    instance.value = 'two\nlines';
+                    fixture.detectChanges();
+
+                    const textarea: HTMLTextAreaElement = fixture.nativeElement.querySelector('textarea');
+                    const firstHeight = textarea.offsetHeight;
+
+                    instance.value = 'single line';
+                    fixture.detectChanges();
+                    tick();
+                    const secondHeight = textarea.offsetHeight;
+                    expect(secondHeight).toBeLessThan(firstHeight, 'one line should be smaller than two lines');
+                }
+            )
+        );
+
+        it('changes its own height to fit overly long lines of text which wrap',
+            componentTest(() => TestComponent, `
+                <div style="width: 100px; height: 300px">
+                    <gtx-textarea [value]="value"></gtx-textarea>
+                </div>`,
+                (fixture, instance) => {
+                    instance.value = 'short text';
+                    fixture.detectChanges();
+
+                    const textarea: HTMLTextAreaElement = fixture.nativeElement.querySelector('textarea');
+                    const firstHeight = textarea.offsetHeight;
+
+                    instance.value = 'very long single-line text which should wrap to a second line, increasing the textarea height';
+                    fixture.detectChanges();
+                    tick();
+                    const secondHeight = textarea.offsetHeight;
+                    expect(secondHeight).toBeGreaterThan(firstHeight);
+
+                    instance.value = 'short again';
+                    fixture.detectChanges();
+                    tick();
+                    const thirdHeight = textarea.offsetHeight;
+                    expect(thirdHeight).toBeLessThan(secondHeight, 'does not change height when text no longer wraps');
+                }
+            )
+        );
+
+    });
+
 });
 
 
