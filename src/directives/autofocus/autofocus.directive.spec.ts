@@ -74,7 +74,7 @@ describe('AutofocusDirective', () => {
             fixture => {
                 let [first, second] = fixture.nativeElement.querySelectorAll('button') as HTMLButtonElement[];
                 fixture.detectChanges();
-                tick();
+                tick(50);
 
                 expect(isFocused(first)).toBe(false);
                 expect(isFocused(second)).toBe(true);
@@ -90,7 +90,7 @@ describe('AutofocusDirective', () => {
             fixture => {
                 let [first, second] = fixture.nativeElement.querySelectorAll('input') as HTMLInputElement[];
                 fixture.detectChanges();
-                tick();
+                tick(50);
 
                 expect(isFocused(first)).toBe(false);
                 expect(isFocused(second)).toBe(true);
@@ -106,7 +106,7 @@ describe('AutofocusDirective', () => {
             fixture => {
                 let [first, second] = fixture.nativeElement.querySelectorAll('input') as HTMLInputElement[];
                 fixture.detectChanges();
-                tick();
+                tick(50);
 
                 expect(isFocused(first)).toBe(false);
                 expect(isFocused(second)).toBe(true);
@@ -122,7 +122,7 @@ describe('AutofocusDirective', () => {
             fixture => {
                 let [first, second] = fixture.nativeElement.querySelectorAll('input') as HTMLInputElement[];
                 fixture.detectChanges();
-                tick();
+                tick(50);
 
                 expect(isFocused(first)).toBe(false);
                 expect(isFocused(second)).toBe(true);
@@ -138,7 +138,7 @@ describe('AutofocusDirective', () => {
             fixture => {
                 let [first, second] = fixture.nativeElement.querySelectorAll('input') as HTMLInputElement[];
                 fixture.detectChanges();
-                tick();
+                tick(50);
 
                 expect(isFocused(first)).toBe(false);
                 expect(isFocused(second)).toBe(true);
@@ -154,7 +154,7 @@ describe('AutofocusDirective', () => {
             fixture => {
                 let [first, second] = fixture.nativeElement.querySelectorAll('input') as HTMLInputElement[];
                 fixture.detectChanges();
-                tick();
+                tick(50);
 
                 expect(isFocused(first)).toBe(false);
                 expect(isFocused(second)).toBe(true);
@@ -170,7 +170,7 @@ describe('AutofocusDirective', () => {
             fixture => {
                 let [first, second] = fixture.nativeElement.querySelectorAll('input') as HTMLInputElement[];
                 fixture.detectChanges();
-                tick();
+                tick(50);
 
                 expect(isFocused(first)).toBe(false);
                 expect(isFocused(second)).toBe(true);
@@ -187,7 +187,7 @@ describe('AutofocusDirective', () => {
                 testComponent.boolProp = true;
                 let [first, second] = fixture.nativeElement.querySelectorAll('input') as HTMLInputElement[];
                 fixture.detectChanges();
-                tick();
+                tick(50);
 
                 expect(isFocused(first)).toBe(false);
                 expect(isFocused(second)).toBe(true);
@@ -203,7 +203,7 @@ describe('AutofocusDirective', () => {
             fixture => {
                 let [first, second] = fixture.nativeElement.querySelectorAll('gtx-select .select-input') as HTMLElement[];
                 fixture.detectChanges();
-                tick();
+                tick(50);
 
                 expect(isFocused(first)).toBe(false);
                 expect(isFocused(second)).toBe(true);
@@ -218,7 +218,7 @@ describe('AutofocusDirective', () => {
             fixture => {
                 let [first, second] = fixture.nativeElement.querySelectorAll('textarea') as HTMLTextAreaElement[];
                 fixture.detectChanges();
-                tick();
+                tick(50);
 
                 expect(isFocused(first)).toBe(false);
                 expect(isFocused(second)).toBe(true);
@@ -236,14 +236,14 @@ describe('AutofocusDirective', () => {
             (fixture, testComponent) => {
                 testComponent.boolProp = false;
                 fixture.detectChanges();
-                tick();
+                tick(50);
 
                 expect(fixture.nativeElement.querySelectorAll('input').length).toBe(1);
 
                 tick(1000);
                 testComponent.boolProp = true;
                 fixture.detectChanges();
-                tick();
+                tick(50);
 
                 let [first, second] = fixture.nativeElement.querySelectorAll('input') as HTMLInputElement[];
                 expect(isFocused(first)).toBe(false);
@@ -264,7 +264,7 @@ describe('AutofocusDirective', () => {
                         opened = true;
 
                         fixture.detectChanges();
-                        tick();
+                        tick(50);
                         let [first, second] = Array.from(modal.element.querySelectorAll('input'));
 
                         expect(isFocused(first)).toBe(false);
@@ -274,7 +274,7 @@ describe('AutofocusDirective', () => {
                         modal.instance.closeFn(undefined);
                     });
 
-                tick();
+                tick(50);
                 expect(opened).toBe(true, 'was not opened');
             }
         )
@@ -289,7 +289,7 @@ describe('AutofocusDirective', () => {
 
                 expect(isInView(input)).toBe(false);
                 fixture.detectChanges();
-                tick();
+                tick(50);
                 expect(isInView(input)).toBe(true);
             }
         )

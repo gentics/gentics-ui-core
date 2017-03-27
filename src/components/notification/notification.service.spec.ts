@@ -153,7 +153,7 @@ describe('Notification:', () => {
 
         describe('action option:', () => {
 
-            it('should display the label.',
+            it('displays the action label',
                 componentTest(() => TestComponent, fixture => {
                     fixture.detectChanges();
                     notificationService.show({
@@ -165,14 +165,14 @@ describe('Notification:', () => {
                     });
                     runShowAsyncTasks(fixture);
 
-                    let actionDiv: HTMLElement = fixture.nativeElement.querySelector('.action');
+                    const actionDiv: HTMLElement = fixture.nativeElement.querySelector('.action');
 
                     expect(actionDiv.innerText).toContain('testLabel');
                     cleanUp(fixture);
                 })
             );
 
-            it('should invoke the onClick method when clicked',
+            it('calls the onClick method when clicked',
                 componentTest(() => TestComponent, fixture => {
                     fixture.detectChanges();
                     let spy = jasmine.createSpy('spy');
@@ -186,10 +186,10 @@ describe('Notification:', () => {
                     });
                     runShowAsyncTasks(fixture);
 
-                    let actionDiv: HTMLElement = fixture.nativeElement.querySelector('.action');
+                    const actionButton: HTMLElement = fixture.nativeElement.querySelector('button');
 
                     expect(spy).not.toHaveBeenCalled();
-                    actionDiv.click();
+                    actionButton.click();
                     tick();
                     tick(500);
 

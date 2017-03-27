@@ -48,7 +48,7 @@ export class AutofocusDirective implements AfterViewInit, OnChanges, OnDestroy {
         const change = changes['autofocus'];
         if (change && this.inputElement) {
             if (!(this.inputElement instanceof HTMLDivElement)) {
-                this.inputElement.autofocus = change.currentValue;
+                this.inputElement.autofocus = this._autofocus;
             }
         }
     }
