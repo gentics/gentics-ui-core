@@ -1,6 +1,19 @@
 # Gentics UI Core Changelog
 
-## 2.2.0 (in progress)
+## 3.0.0 (in progress)
+
+### Breaking changes
+
+* SplitViewContainer state management moved to the parent container with double-binding (GUIC-82):
+  ```
+  <split-view-container [(focusedPanel)]="panelToFocus" [rightPanelVisible]="hasContent">
+  </split-view-container>
+  ```
+  `leftContainerWidthPercent` is renamed to `split` (double-binding) / `initialSplit` (one-time default):
+  ```
+  <split-view-container [(split)]="percentageControlledByParent"></split-view-container>
+  <split-view-container [initialSplit]="30"></split-view-container>
+  ```
 
 ### Features
 

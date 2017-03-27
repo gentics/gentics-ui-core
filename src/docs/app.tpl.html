@@ -14,7 +14,7 @@
                     [(ngModel)]="searchQuery"></gtx-search-bar>
 
     <gtx-split-view-container class="split-view-container"
-                              leftContainerWidthPercent="35"
+                              [initialSplit]="35"
                               [minPanelSizePixels]="320"
                               [rightPanelVisible]="hasContent"
                               [(focusedPanel)]="splitFocus">

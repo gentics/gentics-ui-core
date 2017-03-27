@@ -5,9 +5,11 @@ import {
     ElementRef,
     EventEmitter,
     Input,
+    OnChanges,
     OnDestroy,
     Output,
     Renderer,
+    SimpleChanges,
     ViewChild
 } from '@angular/core';
 
@@ -26,7 +28,7 @@ export const CURSOR_STYLE_CLASS = 'gtx-split-view-container-resizing';
  * main structural container of the "master/detail" part of the app - i.e. the content listing and editing view.
  *
  * ```html
- * <gtx-split-view-container class="split-view-container"
+ * <gtx-split-view-container
  *     [rightPanelVisible]="hasContent"
  *     [(focusedPanel)]="splitFocus">
  *
@@ -68,66 +70,38 @@ export const CURSOR_STYLE_CLASS = 'gtx-split-view-container-resizing';
     selector: 'gtx-split-view-container',
     templateUrl: './split-view-container.tpl.html'
 })
-export class SplitViewContainer implements AfterViewInit, OnDestroy {
+export class SplitViewContainer implements AfterViewInit, OnChanges, OnDestroy {
     /**
      * Tells if a panel is opened on the right side in the split view.
      * Setting to false will also change {@link focusedPanel}.
      */
-    @Input() get rightPanelVisible(): boolean {
-        return this._rightPanelVisible;
-    }
-    set rightPanelVisible(visible: boolean) {
-        if (visible != this._rightPanelVisible) {
-            this._rightPanelVisible = visible;
-            if (visible) {
-                this.rightPanelOpened.emit(null);
-            } else {
-                this.rightPanelClosed.emit(null);
-                if (this._focusedPanel == 'right') {
-                    this._focusedPanel = 'left';
-                    this.leftPanelFocused.emit(null);
-                    this.focusedPanelChange.emit('left');
-                }
-            }
-            this.rightPanelVisibleChange.emit(visible);
-        }
-    }
+    @Input() rightPanelVisible: boolean;
 
     /**
-     * Tells the SplitViewContainer which side is focused.
-     * Valid values are "left" and "right".
+     * Tells the SplitViewContainer which side should be focused.
+     * Can be used to double-bind the property:
+     * `<split-view-container [(focusedPanel)]="property">`
      */
-    @Input()
-    get focusedPanel(): FocusType {
-        return this._focusedPanel;
-    }
-    set focusedPanel(panel: FocusType) {
-        let newFocus: FocusType;
-        if (panel == 'right' && this._rightPanelVisible) {
-            newFocus = 'right';
-        } else {
-            newFocus = 'left';
-        }
-
-        if (newFocus != this._focusedPanel) {
-            this._focusedPanel = newFocus;
-
-            if (newFocus == 'right') {
-                this.rightPanelFocused.emit(null);
-            } else {
-                this.leftPanelFocused.emit(null);
-            }
-            this.focusedPanelChange.emit(newFocus);
-        } else if (newFocus != panel) {
-            this.focusedPanelChange.emit(newFocus);
-        }
-    }
+    @Input() focusedPanel: 'left' | 'right' = 'left';
 
     /**
-     * Changes the container split in "large" layout.
+     * Width of the left panel in "large" layout in percent of the container width.
+     * Use to control split percentage from the parent by double-binding with {@link splitChange}:
+     * `<gtx-split-view-container [(split)]="leftWidthPercent">...</gtx-split-view-container>`
      */
     @Input()
-    leftContainerWidthPercent: number = 50;
+    split: number;
+
+    /** Initial width of the left panel in "large" layout in percent of the container width. */
+    @Input()
+    initialSplit: number = 50;
+
+    /**
+     * Emits when the split between the panels is changed. Allows double-binding:
+     * `<split-view-container [(split)]="leftWidth">...</split-view-container>`
+     */
+    @Output()
+    splitChange = new EventEmitter<number>();
 
     /**
      * The smallest panel size in percent the left
@@ -143,7 +117,6 @@ export class SplitViewContainer implements AfterViewInit, OnDestroy {
     @Input()
     minPanelSizePixels: number = 20;
 
-
     /**
      * Triggers when the right panel is closed.
      */
@@ -157,32 +130,24 @@ export class SplitViewContainer implements AfterViewInit, OnDestroy {
     rightPanelOpened = new EventEmitter<void>(true);
 
     /**
-     * Triggers when the value of {@link rightPanelVisible} changes.
-     * Allows to double-bind the property.
-     * `<split-view-container [(rightPanelVisible)]="property">`
-     */
-    @Output()
-    rightPanelVisibleChange = new EventEmitter<boolean>(true);
-
-    /**
      * Triggers when the left panel is focused.
      */
     @Output()
-    leftPanelFocused = new EventEmitter<void>(true);
+    leftPanelFocused = new EventEmitter<void>();
 
     /**
      * Triggers when the right panel is focused.
      */
     @Output()
-    rightPanelFocused = new EventEmitter<void>(true);
+    rightPanelFocused = new EventEmitter<void>();
 
     /**
-     * Triggers when the value of {@link focusedPanel} changes.
-     * Allows to double-bind the property.
+     * Triggers when the focused panel changes.
+     * Can be used to double-bind the property:
      * `<split-view-container [(focusedPanel)]="property">`
      */
     @Output()
-    focusedPanelChange = new EventEmitter<FocusType>(true);
+    focusedPanelChange = new EventEmitter<'left' | 'right'>();
 
     /**
      * Triggers when the user starts resizing the split amount between the panels.
@@ -198,7 +163,6 @@ export class SplitViewContainer implements AfterViewInit, OnDestroy {
     @Output()
     splitDragEnd = new EventEmitter<number>(true);
 
-
     /** @internal EventTarget for tracking when the mouse leaves the page. */
     globalEventTarget: any = window.document;
 
@@ -212,8 +176,17 @@ export class SplitViewContainer implements AfterViewInit, OnDestroy {
     @ViewChild('visibleResizer') visibleResizer: ElementRef;
 
     resizing: boolean = false;
-    private _rightPanelVisible: boolean = false;
-    private _focusedPanel: FocusType = 'left';
+
+    // Actual value used in the template. If the focus is set to the right panel,
+    // but the right panel has no content, the left panel is focused instead.
+    rightPanelActuallyFocused: boolean = false;
+
+    /**
+     * When leftContainerWidthPercent is passed by the parent component, only emit events on resize.
+     * Otherwise, the width is managed by the SplitViewContainer.
+     */
+    private widthHandledExternally = false;
+
     private resizeMouseOffset: number;
     private hammerManager: HammerManager;
     private cleanups: Function[] = [];
@@ -222,21 +195,54 @@ export class SplitViewContainer implements AfterViewInit, OnDestroy {
                 private changeDetector: ChangeDetectorRef,
                 private renderer: Renderer) { }
 
-    // (hacky) After initializing the view, make this component fill the height of the viewport
+    ngOnInit(): void {
+        if (!this.split) {
+            this.split = this.initialSplit;
+        }
+    }
+
     ngAfterViewInit(): void {
         if (!this.ownElement || !this.ownElement.nativeElement) {
             return;
         }
-        // inside a setTimeout to allow any layout changes to stabilize (e.g. divs with ngIf showing/hiding)
+
+        // Allow any layout changes to stabilize (e.g. divs with ngIf showing/hiding)
         // before we calculate the final position of the SplitViewContainer
-        setTimeout(() => {
-            const element: HTMLElement = this.ownElement.nativeElement;
-            const css: CSSStyleDeclaration = element.style;
-            css.top = element.offsetTop + 'px';
-            css.bottom = css.left = css.right = '0';
-            css.position = 'absolute';
-        });
+        const timeout = setTimeout(() => this.fitContainerToViewport());
+        this.cleanups.push(() => clearTimeout(timeout));
+
         this.initSwipeHandler();
+    }
+
+    ngOnChanges(changes: SimpleChanges): void {
+        if (changes['focusedPanel'] || changes['rightPanelVisible']) {
+            // Prevent an invalid state where the SplitViewContainer
+            // has no right panel, but the right panel should be focused.
+            const shouldFocusRightPanel = this.focusedPanel === 'right' && this.rightPanelVisible;
+
+            if (shouldFocusRightPanel !== this.rightPanelActuallyFocused) {
+                this.rightPanelActuallyFocused = shouldFocusRightPanel;
+
+                if (shouldFocusRightPanel) {
+                    this.rightPanelFocused.emit();
+                } else {
+                    this.leftPanelFocused.emit();
+                }
+            }
+        }
+
+        const rightPanelVisibleChange = changes['rightPanelVisible'];
+        if (rightPanelVisibleChange && !rightPanelVisibleChange.isFirstChange()) {
+            if (rightPanelVisibleChange.currentValue) {
+                this.rightPanelOpened.emit();
+            } else {
+                this.rightPanelClosed.emit();
+            }
+        }
+
+        if (changes['leftContainerWidthPercent']) {
+            this.widthHandledExternally = true;
+        }
     }
 
     ngOnDestroy(): void {
@@ -260,16 +266,15 @@ export class SplitViewContainer implements AfterViewInit, OnDestroy {
     }
 
     leftPanelClicked(): void {
-        if (this._focusedPanel == 'right') {
+        if (this.rightPanelActuallyFocused) {
             this.focusedPanelChange.emit('left');
-            this.changeDetector.markForCheck();
+            this.leftPanelFocused.emit();
         }
     }
 
     rightPanelClicked(): void {
-        if (this._focusedPanel == 'left' && this._rightPanelVisible) {
+        if (!this.rightPanelActuallyFocused && this.rightPanelVisible) {
             this.focusedPanelChange.emit('right');
-            this.changeDetector.markForCheck();
         }
     }
 
@@ -281,6 +286,7 @@ export class SplitViewContainer implements AfterViewInit, OnDestroy {
         this.resizeMouseOffset = event.clientX - resizeHandle.getBoundingClientRect().left;
 
         let mouseMoveTarget = this.globalEventTarget;
+
         // Use setCapture on older browsers, document:mousemove on newer browsers
         if (resizeHandle.setCapture) {
             mouseMoveTarget = resizeHandle;
@@ -303,6 +309,15 @@ export class SplitViewContainer implements AfterViewInit, OnDestroy {
         this.visibleResizer.nativeElement.style.left = resizerXPosition + '%';
         this.changeDetector.markForCheck();
         this.splitDragStart.emit(resizerXPosition);
+    }
+
+    /** (hacky) After initializing the view, make this component fill the height of the viewport. */
+    private fitContainerToViewport(): void {
+        const element: HTMLElement = this.ownElement.nativeElement;
+        const css: CSSStyleDeclaration = element.style;
+        css.top = element.offsetTop + 'px';
+        css.bottom = css.left = css.right = '0';
+        css.position = 'absolute';
     }
 
     /**
@@ -335,12 +350,17 @@ export class SplitViewContainer implements AfterViewInit, OnDestroy {
     }
 
     private endResizing = (event: MouseEvent) => {
-        this.leftContainerWidthPercent = this.getAdjustedPosition(event.clientX);
+        const adjustedWith = this.getAdjustedPosition(event.clientX);
+        this.splitChange.emit(adjustedWith);
+        if (!this.widthHandledExternally) {
+            this.split = adjustedWith;
+        }
+
         this.resizing = false;
         this.changeDetector.markForCheck();
         this.cleanups.forEach(cleanup => cleanup());
         this.cleanups = [];
-        this.splitDragEnd.emit(this.leftContainerWidthPercent);
+        this.splitDragEnd.emit(this.split);
     }
 
     /**

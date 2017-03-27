@@ -11,58 +11,78 @@ describe('SplitViewContainer', () => {
         declarations: [SplitViewContainer, TestComponent]
     }));
 
-    it('should have a "rightPanelVisible" property that allows double-binding',
+    it('sets classes depending on the "rightPanelVisible" property',
         componentTest(() => TestComponent, `
-            <gtx-split-view-container
-                [rightPanelVisible]="hasRight"
-                (rightPanelVisibleChange)="testHandler($event)">
-            </gtx-split-view-container>`,
-            fixture => {
-                const instance: TestComponent = fixture.componentInstance;
+            <gtx-split-view-container [rightPanelVisible]="hasRight"></gtx-split-view-container>`,
+            (fixture, instance) => {
                 instance.hasRight = false;
-
                 fixture.detectChanges();
                 tick();
 
-                instance.testHandler = jasmine.createSpy('rightPanelVisibleChange');
+                const slideable: HTMLElement = fixture.nativeElement.querySelector('.slideable');
+                expect(slideable.classList).not.toContain('hasRightPanel');
+                expect(slideable.classList).toContain('hasNoRightPanel');
+
                 instance.hasRight = true;
                 fixture.detectChanges();
                 tick();
-                expect(instance.testHandler).toHaveBeenCalledWith(true);
 
-                instance.testHandler = jasmine.createSpy('rightPanelVisibleChange');
-                instance.hasRight = false;
-                fixture.detectChanges();
-                tick();
-                expect(instance.testHandler).toHaveBeenCalledWith(false);
+                expect(slideable.classList).toContain('hasRightPanel');
+                expect(slideable.classList).not.toContain('hasNoRightPanel');
             }
         )
     );
 
-    it('should have a "focusedPanel" property that allows double-binding',
+    it('sets classes depending on the "focusedPanel" property',
+        componentTest(() => TestComponent, `
+            <gtx-split-view-container
+                [rightPanelVisible]="true"
+                [focusedPanel]="focusedSide">
+            </gtx-split-view-container>`,
+            (fixture, instance) => {
+                instance.focusedSide = 'left';
+                fixture.detectChanges();
+                tick();
+
+                const slideable: HTMLElement = fixture.nativeElement.querySelector('.slideable');
+                expect(slideable.classList).not.toContain('focusedRight');
+                expect(slideable.classList).toContain('focusedLeft');
+
+                instance.focusedSide = 'right';
+                fixture.detectChanges();
+                tick();
+
+                expect(slideable.classList).toContain('focusedRight');
+                expect(slideable.classList).not.toContain('focusedLeft');
+            }
+        )
+    );
+
+    it('"focusedPanel" allows double-binding',
         componentTest(() => TestComponent, `
             <gtx-split-view-container
                 [rightPanelVisible]="true"
                 [focusedPanel]="focusedSide"
                 (focusedPanelChange)="testHandler($event)">
             </gtx-split-view-container>`,
-            fixture => {
-                const instance: TestComponent = fixture.componentInstance;
+            (fixture, instance) => {
                 instance.focusedSide = 'left';
 
                 fixture.detectChanges();
                 tick();
 
+                const focusSwitcherLeft = fixture.nativeElement.querySelector('.focus-switcher-left') as HTMLElement;
+                const focusSwitcherRight = fixture.nativeElement.querySelector('.focus-switcher-right') as HTMLElement;
+
                 instance.testHandler = jasmine.createSpy('focusedPanelChange');
-                instance.focusedSide = 'right';
                 fixture.detectChanges();
-                tick();
+                focusSwitcherRight.click();
                 expect(instance.testHandler).toHaveBeenCalledWith('right');
 
+                instance.focusedSide = 'right';
                 instance.testHandler = jasmine.createSpy('focusedPanelChange');
-                instance.focusedSide = 'left';
                 fixture.detectChanges();
-                tick();
+                focusSwitcherLeft.click();
                 expect(instance.testHandler).toHaveBeenCalledWith('left');
             }
         )
@@ -99,30 +119,29 @@ describe('SplitViewContainer', () => {
         )
     );
 
-    it('should change "focusedPanel" to "left" when the right panel is hidden/closed',
+    it('focuses the left panel when the right panel is hidden/closed',
         componentTest(() => TestComponent, `
             <gtx-split-view-container
                 [(focusedPanel)]="focusedSide"
                 [rightPanelVisible]="hasRight">
             </gtx-split-view-container>`,
-            fixture => {
-                const instance: TestComponent = fixture.componentInstance;
+            (fixture, instance) => {
+                const slideable: HTMLElement = fixture.nativeElement.querySelector('.slideable');
+
                 instance.hasRight = true;
-                fixture.detectChanges();
-                tick();
-
-                expect(instance.focusedSide).toBe('left');
-
                 instance.focusedSide = 'right';
                 fixture.detectChanges();
                 tick();
-                expect(instance.focusedSide).toBe('right');
+
+                expect(slideable.classList).toContain('focusedRight');
+                expect(slideable.classList).not.toContain('focusedLeft');
 
                 instance.hasRight = false;
                 fixture.detectChanges();
                 tick();
-                expect(instance.hasRight).toBe(false);
-                expect(instance.focusedSide).toBe('left');
+
+                expect(slideable.classList).not.toContain('focusedRight');
+                expect(slideable.classList).toContain('focusedLeft');
             }
         )
     );
@@ -133,8 +152,7 @@ describe('SplitViewContainer', () => {
                 [rightPanelVisible]="hasRight"
                 (rightPanelOpened)="testHandler($event)">
             </gtx-split-view-container>`,
-            fixture => {
-                const instance: TestComponent = fixture.componentInstance;
+            (fixture, instance) => {
                 instance.hasRight = false;
                 fixture.detectChanges();
                 tick();
@@ -155,8 +173,7 @@ describe('SplitViewContainer', () => {
                 [rightPanelVisible]="hasRight"
                 (rightPanelClosed)="testHandler($event)">
             </gtx-split-view-container>`,
-            fixture => {
-                const instance: TestComponent = fixture.componentInstance;
+            (fixture, instance) => {
                 instance.hasRight = true;
                 fixture.detectChanges();
                 tick();
@@ -178,10 +195,7 @@ describe('SplitViewContainer', () => {
                 [focusedPanel]="focusedSide"
                 (leftPanelFocused)="testHandler($event)">
             </gtx-split-view-container>`,
-            fixture => {
-                fixture.detectChanges();
-
-                const instance: TestComponent = fixture.componentInstance;
+            (fixture, instance) => {
                 instance.focusedSide = 'right';
                 fixture.detectChanges();
                 tick();
@@ -202,10 +216,7 @@ describe('SplitViewContainer', () => {
                 [focusedPanel]="focusedSide"
                 (rightPanelFocused)="testHandler($event)">
             </gtx-split-view-container>`,
-            fixture => {
-                fixture.detectChanges();
-
-                const instance: TestComponent = fixture.componentInstance;
+            (fixture, instance) => {
                 instance.focusedSide = 'left';
                 fixture.detectChanges();
                 tick();

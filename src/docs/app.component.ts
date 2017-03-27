@@ -47,7 +47,7 @@ export class App {
     ngOnInit(): void {
         this.subscription = this.router.events
             .filter(event => event instanceof NavigationEnd)
-            .subscribe((_) => {
+            .subscribe(() => {
                 const path = this.route.snapshot.firstChild.url[0].path;
                 this.hasContent = (path !== '' && path !== 'index');
                 if (this.hasContent) {
