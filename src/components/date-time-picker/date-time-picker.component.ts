@@ -1,11 +1,11 @@
-import {Component, Input, Output, EventEmitter, forwardRef, Optional, OnInit, OnDestroy} from '@angular/core';
+import { Component, Input, Output, EventEmitter, forwardRef, Optional, OnInit, OnDestroy, ChangeDetectorRef } from '@angular/core';
 import {ControlValueAccessor, NG_VALUE_ACCESSOR} from '@angular/forms';
+import {Subscription} from 'rxjs';
 
 import {ModalService} from '../modal/modal.service';
 import {DateTimePickerModal} from './date-time-picker-modal.component';
 import {DateTimePickerStrings} from './date-time-picker-strings';
 import {DateTimePickerFormatProvider} from './date-time-picker-format-provider.service';
-import {Subscription} from 'rxjs';
 import {MomentStatic, Moment} from './moment-types';
 
 export {DateTimePickerStrings};
@@ -103,7 +103,8 @@ export class DateTimePicker implements ControlValueAccessor, OnInit, OnDestroy {
     onTouched: any = () => {};
 
     constructor(@Optional() private formatProvider: DateTimePickerFormatProvider,
-                private modalService: ModalService) {
+                private modalService: ModalService,
+                private changeDetector: ChangeDetectorRef) {
 
         if (!formatProvider) {
             this.formatProvider = new DateTimePickerFormatProvider();
@@ -178,6 +179,11 @@ export class DateTimePicker implements ControlValueAccessor, OnInit, OnDestroy {
 
     registerOnTouched(fn: Function): void {
         this.onTouched = fn;
+    }
+
+    setDisabledState(disabled: boolean): void {
+        this.disabled = disabled;
+        this.changeDetector.markForCheck();
     }
 
     /**

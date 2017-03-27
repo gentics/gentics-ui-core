@@ -1,4 +1,5 @@
 import {
+    ChangeDetectorRef,
     Component,
     ContentChildren,
     EventEmitter,
@@ -11,6 +12,7 @@ import {
 } from '@angular/core';
 import {ControlValueAccessor, NG_VALUE_ACCESSOR} from '@angular/forms';
 import {Subscription} from 'rxjs';
+
 import {SelectOption, SelectOptionGroup} from './option.component';
 import {DropdownList} from '../dropdown-list/dropdown-list.component';
 import {DropdownContent} from '../dropdown-list/dropdown-content.component';
@@ -118,13 +120,15 @@ export class Select implements ControlValueAccessor {
     @ContentChildren(SelectOptionGroup, { descendants: false }) private _selectOptionGroups: QueryList<SelectOptionGroup>;
 
     // ValueAccessor members
-    onChange: any = () => {};
-    onTouched: any = () => {};
+    onChange = (): void => { };
+    onTouched = (): void => { };
+
+    constructor(private changeDetector: ChangeDetectorRef) { }
 
     ngAfterViewInit(): void {
         // Update the value if there are any changes to the options
         this.subscriptions.push(
-            this._selectOptions.changes.subscribe((_: any) => this.writeValue(this.value))
+            this._selectOptions.changes.subscribe(() => this.writeValue(this.value))
         );
     }
 
@@ -233,7 +237,7 @@ export class Select implements ControlValueAccessor {
         }
     }
 
-    registerOnChange(fn: (_: any) => any): void {
+    registerOnChange(fn: (newValue: any) => any): void {
         this.onChange = () => {
             fn(this.value);
         };
@@ -245,6 +249,7 @@ export class Select implements ControlValueAccessor {
 
     setDisabledState(isDisabled: boolean): void {
         this._disabled = isDisabled;
+        this.changeDetector.markForCheck();
     }
 
     /**
@@ -287,6 +292,7 @@ export class Select implements ControlValueAccessor {
                 }
             } else {
                 selectedOptions = flatOptionsList.filter(o => this.value === o.value) || [];
+                return flatOptionsList.filter(o => this.value === o.value) || [];
             }
         }
         return selectedOptions;

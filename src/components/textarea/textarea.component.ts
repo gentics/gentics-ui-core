@@ -1,4 +1,5 @@
 import {
+    ChangeDetectorRef,
     Component,
     ElementRef,
     EventEmitter,
@@ -111,7 +112,8 @@ export class Textarea implements ControlValueAccessor, OnChanges, OnInit {
     private _maxlength: number;
     private currentValue: string;
 
-    constructor(private renderer: Renderer) { }
+    constructor(private renderer: Renderer,
+                private changeDetector: ChangeDetectorRef) { }
 
     ngOnInit(): void {
         this.writeValue(this.value);
@@ -150,15 +152,20 @@ export class Textarea implements ControlValueAccessor, OnChanges, OnInit {
         }
     }
 
-
     registerOnChange(fn: (newValue: string) => void): void {
         this.onChange = fn;
     }
+
     registerOnTouched(fn: () => void): void {
         this.onTouched = fn;
     }
 
-    private onChange(newValue: string): void  { }
+    setDisabledState(disabled: boolean): void {
+        this.disabled = disabled;
+        this.changeDetector.markForCheck();
+    }
+
+    private onChange(newValue: string): void { }
     private onTouched(): void { }
 
     private normalizeValue(value: any): string {

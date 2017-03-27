@@ -1,14 +1,19 @@
 import {
+    AfterViewInit,
+    ChangeDetectorRef,
     Component,
-    Input,
-    Output,
-    EventEmitter,
     ElementRef,
-    ViewChild,
-    forwardRef
+    EventEmitter,
+    forwardRef,
+    Input,
+    OnChanges,
+    OnInit,
+    Output,
+    Renderer,
+    SimpleChanges,
+    ViewChild
 } from '@angular/core';
 import {ControlValueAccessor, NG_VALUE_ACCESSOR} from '@angular/forms';
-import {Renderer, OnInit, AfterViewInit, OnChanges, SimpleChanges} from '@angular/core';
 
 const GTX_INPUT_VALUE_ACCESSOR = {
     provide: NG_VALUE_ACCESSOR,
@@ -131,7 +136,8 @@ export class InputField implements AfterViewInit, ControlValueAccessor, OnChange
 
     private currentValue: string | number;
 
-    constructor(private renderer: Renderer) { }
+    constructor(private renderer: Renderer,
+                private changeDetector: ChangeDetectorRef) { }
 
     ngOnInit(): void {
         this.writeValue(this.value);
@@ -195,6 +201,10 @@ export class InputField implements AfterViewInit, ControlValueAccessor, OnChange
     }
     registerOnTouched(fn: () => void): void {
         this.onTouched = fn;
+    }
+    setDisabledState(disabled: boolean): void {
+        this.disabled = disabled;
+        this.changeDetector.markForCheck();
     }
     private onChange = (newValue: string | number): void => {};
     private onTouched = (): void => {};

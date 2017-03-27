@@ -375,6 +375,24 @@ describe('DateTimePicker:', () => {
             )
         );
 
+        it('can be disabled via the form control',
+            componentTest(() => TestComponent, `
+                <form [formGroup]="testForm">
+                    <gtx-date-time-picker formControlName="test"></gtx-date-time-picker>
+                </form>`,
+                (fixture, instance) => {
+                    fixture.detectChanges();
+
+                    const input: HTMLInputElement = fixture.nativeElement.querySelector('input');
+                    expect(input.disabled).toBe(false);
+
+                    instance.testForm.get('test').disable();
+                    fixture.detectChanges();
+                    expect(input.disabled).toBe(true);
+                }
+            )
+        );
+
     });
 
     describe('l10n/i18n support:', () => {

@@ -102,8 +102,8 @@ export class Range implements ControlValueAccessor {
     thumbLeft: string = '';
 
     // ValueAccessor members
-    onChange: any = (_: any) => {};
-    onTouched: any = () => {};
+    onChange = (value: any): void => { };
+    onTouched = (): void => { };
 
     constructor(private changeDetector: ChangeDetectorRef,
                 private elementRef: ElementRef) {}
@@ -149,10 +149,19 @@ export class Range implements ControlValueAccessor {
         this.value = value;
         this.changeDetector.markForCheck();
     }
-    registerOnChange(fn: Function): void {
-        this.onChange = (val: any) => fn(Number(val));
+
+    registerOnChange(fn: (newValue: number) => void): void {
+        this.onChange = (value: any) => fn(Number(value));
     }
-    registerOnTouched(fn: Function): void { this.onTouched = fn; }
+
+    registerOnTouched(fn: () => void): void {
+        this.onTouched = fn;
+    }
+
+    setDisabledState(disabled: boolean): void {
+        this.disabled = disabled;
+        this.changeDetector.markForCheck();
+    }
 
     private setThumbPosition(e: MouseEvent): void {
         const endMargin = 8;

@@ -424,6 +424,24 @@ describe('InputField', () => {
             )
         );
 
+        it('can be disabled via the form control',
+            componentTest(() => TestComponent, `
+                <form [formGroup]="testForm">
+                    <gtx-input formControlName="test"></gtx-input>
+                </form>`,
+                (fixture, instance) => {
+                    fixture.detectChanges();
+
+                    const input: HTMLInputElement = fixture.nativeElement.querySelector('input');
+                    expect(input.disabled).toBe(false);
+
+                    instance.testForm.get('test').disable();
+                    fixture.detectChanges();
+                    expect(input.disabled).toBe(true);
+                }
+            )
+        );
+
     });
 });
 

@@ -1,5 +1,6 @@
 import {
     Attribute,
+    ChangeDetectorRef,
     Component,
     Directive,
     EventEmitter,
@@ -83,8 +84,13 @@ export class RadioGroup implements ControlValueAccessor {
         }
     }
 
-    registerOnChange(fn: Function): void { this.onChange = fn; }
-    registerOnTouched(fn: Function): void { this.onTouched = fn; }
+    registerOnChange(fn: Function): void {
+        this.onChange = fn;
+    }
+
+    registerOnTouched(fn: Function): void {
+        this.onTouched = fn;
+    }
 
     private onTouched: Function = () => {};
     private onChange: Function = (_: any) => {};
@@ -212,7 +218,8 @@ export class RadioButton implements ControlValueAccessor, OnInit, OnDestroy {
     private statelessMode: boolean = false;
 
     constructor(@Optional() private group: RadioGroup,
-                @Attribute('ngModel') modelAttrib: string) {
+                @Attribute('ngModel') modelAttrib: string,
+                private changeDetector: ChangeDetectorRef) {
 
         // Pre-set a common input name for grouped input elements
         if (group) {
@@ -292,6 +299,10 @@ export class RadioButton implements ControlValueAccessor, OnInit, OnDestroy {
 
     registerOnChange(fn: Function): void { this.onChange = fn; }
     registerOnTouched(fn: Function): void { this.onTouched = fn; }
+    setDisabledState(disabled: boolean): void {
+        this.disabled = disabled;
+        this.changeDetector.markForCheck();
+    }
 
     private onChange: Function = (_: any) => {};
     private onTouched: Function = () => {};

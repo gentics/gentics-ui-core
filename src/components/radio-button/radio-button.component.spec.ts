@@ -370,6 +370,24 @@ describe('RadioButton', () => {
             )
         );
 
+        it('can be disabled via the form control',
+            componentTest(() => TestComponent, `
+                <form [formGroup]="testForm">
+                    <gtx-radio-button formControlName="testControl"></gtx-radio-button>
+                </form>`,
+                (fixture, instance) => {
+                    fixture.detectChanges();
+
+                    const input: HTMLInputElement = fixture.nativeElement.querySelector('input');
+                    expect(input.disabled).toBe(false);
+
+                    instance.testForm.get('testControl').disable();
+                    fixture.detectChanges();
+                    expect(input.disabled).toBe(true);
+                }
+            )
+        );
+
     });
 
     describe('stateless mode:', () => {

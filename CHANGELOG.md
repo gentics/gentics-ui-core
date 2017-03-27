@@ -18,6 +18,7 @@
 ### Features
 
 * All form components provide styling for "invalid" state when used with ngModel validators
+* All form components provide setDisabledState of the ControlValueAccessor interface (GUIC-100)
 * Range slider supports label and has consistent styling with other inputs
 
 ### Fixes

@@ -405,6 +405,24 @@ describe('Textarea', () => {
             )
         );
 
+        it('can be disabled via the form control',
+            componentTest(() => TestComponent, `
+                <form [formGroup]="testForm">
+                    <gtx-textarea formControlName="test"></gtx-textarea>
+                </form>`,
+                (fixture, instance) => {
+                    fixture.detectChanges();
+
+                    const textarea: HTMLTextAreaElement = fixture.nativeElement.querySelector('textarea');
+                    expect(textarea.disabled).toBe(false);
+
+                    instance.testForm.get('test').disable();
+                    fixture.detectChanges();
+                    expect(textarea.disabled).toBe(true);
+                }
+            )
+        );
+
     });
 });
 

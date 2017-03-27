@@ -518,6 +518,26 @@ describe('Select:', () => {
                 })
         );
 
+        it('can be disabled via the form control',
+            componentTest(() => TestComponent, `
+                <form [formGroup]="testForm">
+                    <gtx-select formControlName="test">
+                        <gtx-option *ngFor="let option of options" [value]="option">{{ option }}</gtx-option>
+                    </gtx-select>
+                </form>`,
+                (fixture, instance) => {
+                    fixture.detectChanges();
+
+                    const div: HTMLDivElement = fixture.nativeElement.querySelector('.view-value');
+                    expect(div.getAttribute('disabled')).not.toBe('true');
+
+                    instance.testForm.get('test').disable();
+                    fixture.detectChanges();
+                    expect(div.getAttribute('disabled')).toBe('true');
+                }
+            )
+        );
+
     });
 
 });

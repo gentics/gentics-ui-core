@@ -198,6 +198,10 @@ export class Checkbox implements ControlValueAccessor {
 
     registerOnChange(fn: Function): void { this.onChange = fn; }
     registerOnTouched(fn: Function): void { this.onTouched = fn; }
+    setDisabledState(disabled: boolean): void {
+        this.disabled = disabled;
+        this.changeDetector.markForCheck();
+    }
 
     private onChange: Function = () => {};
     private onTouched: Function = () => {};
