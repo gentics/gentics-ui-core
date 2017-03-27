@@ -14,7 +14,7 @@ marked.setOptions({
 // noinspection TsLint
 const COMPONENT_RE = /[^\S\r\n]*\/(?:\*{2})([\W\w]+?)\*\/[\r\n\s]*(?:@|)(\w+)(?:\(([\w']*)\)\s+(?:\s*(?:get|set)\s*)?(\w*)(?:\([\w:\s]*\))?(?:(?::\s*([\w<>\|\[\]'\s]+))?(?:\s*=\s*([^;]+))?)?)?/g;
 // noinspection TsLint
-const SERVICE_RE = /[^\S\r\n]*\/(?:\*{2})([\W\w]+?)\*\/ *(?:\r\n?|\n) *(private|public|@Injectable)? *([\w\-]*)(?:\(([\w :,\?\[\]\{\}\r\n\t]*)\))?(?:: ([\w<>\{} :\(\)=]*))?[^\r\n]+/g;
+const SERVICE_RE = /[^\S\r\n]*\/(?:\*{2})([\W\w]+?)\*\/ *(?:\r\n?|\n) *(private|public|@Injectable)? *([\w\-< >]*)(?:\(([\w :,\?\[\]\{\}\r\n\t<>]*)\))?(?:: ([\w<>\{} :\(\)=]*))?[^\r\n]+/g;
 /* tslint:enable */
 
 
@@ -62,8 +62,8 @@ export function parseDocs(src: string, type: 'component' | 'service' = 'componen
             main: mainBlock.body,
             inputs: [],
             outputs: [],
-            properties: publicBlocks.filter((d: DocBlock) => d.methodArgs === undefined),
-            methods: publicBlocks.filter((d: DocBlock) => d.methodArgs !== undefined)
+            properties: publicBlocks.filter((d: DocBlock) => d.methodArgs === undefined || d.identifier.indexOf('get ') === 0),
+            methods: publicBlocks.filter((d: DocBlock) => d.methodArgs !== undefined && d.identifier.indexOf('get ') !== 0)
         };
     }
 }

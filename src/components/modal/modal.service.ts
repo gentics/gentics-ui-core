@@ -123,6 +123,14 @@ import {IModalInstance, IDialogConfig, IModalDialog, IModalOptions} from './moda
 export class ModalService {
 
     private hostViewContainer: ViewContainerRef;
+    private openModalComponents: ComponentRef<IModalDialog>[] = [];
+
+    /**
+     * Returns an array of ComponentRefs for each currently-opened modal.
+     */
+    public get openModals(): Array<ComponentRef<IModalDialog>> {
+        return this.openModalComponents;
+    }
 
     constructor(private componentFactoryResolver: ComponentFactoryResolver,
                 overlayHostService: OverlayHostService) {
@@ -179,6 +187,13 @@ export class ModalService {
             element: componentRef.location.nativeElement,
             open: (): Promise<any> => {
                 this.invokeOnOpenCallback(options);
+                this.openModalComponents.push(componentRef);
+                componentRef.onDestroy(() => {
+                    const index = this.openModalComponents.indexOf(componentRef);
+                    if (-1 < index) {
+                        this.openModalComponents.splice(index, 1);
+                    }
+                });
                 modalWrapper.open();
                 return this.createPromiseFromDialog(modalWrapper, dialog);
             }

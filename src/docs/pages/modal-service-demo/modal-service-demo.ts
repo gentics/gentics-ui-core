@@ -12,7 +12,7 @@ export class ModalServiceDemo {
     closeOnOverlayClick: boolean = true;
     closeOnEscape: boolean = true;
 
-    constructor(private modalService: ModalService) {}
+    constructor(public modalService: ModalService) {}
 
      showBasicDialog(): void {
         this.modalService.dialog({

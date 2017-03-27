@@ -106,3 +106,23 @@
         '></gtx-highlighted-code>
     </div>
 </gtx-demo-block>
+
+<gtx-demo-block demoTitle="openModals">
+    <div class="demo-result">
+        <p>Open Modals:</p>
+        <ul>
+            <li *ngFor="let openModal of modalService.openModals">
+                <pre>{{ openModal.instance | json }}</pre>
+            </li>
+        </ul>
+    </div>
+    <div class="demo-code">
+        <gtx-highlighted-code language="TypeScript" code='
+            <ul>
+                <li *ngFor="let openModal of modalService.openModals">
+                    <pre>(( openModal.instance | json ))</pre>
+                </li>
+            </ul>
+        '></gtx-highlighted-code>
+    </div>
+</gtx-demo-block>

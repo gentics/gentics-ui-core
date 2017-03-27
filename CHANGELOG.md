@@ -21,6 +21,7 @@
 * All form components provide setDisabledState of the ControlValueAccessor interface (GUIC-100)
 * Range slider supports label and has consistent styling with other inputs
 * Textarea resizes itself when the text exceeds the width and wraps into another line (GUIC-106)
+* ModalService exposes `openModals` property for querying currently-open modal components.
 
 ### Fixes
 

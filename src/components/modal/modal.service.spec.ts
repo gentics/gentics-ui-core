@@ -486,6 +486,76 @@ describe('ModalService:', () => {
             })
         );
     });
+
+    describe('openModals', () => {
+
+        beforeEach(() => {
+            modalService = TestBed.get(ModalService);
+        });
+
+        it('is initially empty', () => {
+            expect(modalService.openModals).toEqual([]);
+        });
+
+        it('contains ComponentRef once dialog opened', componentTest(() => TestComponent, fixture => {
+            fixture.detectChanges();
+            let result = modalService.dialog({ title: 'Test', buttons: []});
+
+            expect(modalService.openModals).toEqual([]);
+            return result.then(modal => {
+                modal.open();
+                tick(50);
+                expect(modalService.openModals.length).toBe(1);
+                expect(modalService.openModals[0].instance).toBe(modal.instance);
+            });
+        }));
+
+        it('is empty after dialog is closed', componentTest(() => TestComponent, fixture => {
+            fixture.detectChanges();
+            let result = modalService.dialog({ title: 'Test', buttons: []});
+
+            expect(modalService.openModals).toEqual([]);
+            return result.then(modal => {
+                modal.open();
+                const cmp: ModalDialog = <any> modal.instance;
+                tick(50);
+
+                expect(modalService.openModals.length).toBe(1);
+                cmp.closeFn('some result');
+                tick();
+                expect(modalService.openModals.length).toBe(0);
+            });
+        }));
+
+        it('works with multiple dialogs open at once', componentTest(() => TestComponent, fixture => {
+            fixture.detectChanges();
+            let result1 = modalService.dialog({ title: 'Test1', buttons: []});
+            let result2 = modalService.dialog({ title: 'Test2', buttons: []});
+
+            expect(modalService.openModals).toEqual([]);
+            return Promise.all([result1, result2]).then(([modal1, modal2]) => {
+                modal1.open();
+                const cmp1: ModalDialog = <any> modal1.instance;
+                tick(50);
+                expect(modalService.openModals.length).toBe(1);
+
+                modal2.open();
+                const cmp2: ModalDialog = <any> modal2.instance;
+                expect(modalService.openModals.length).toBe(2);
+
+                expect(modalService.openModals[0].instance).toBe(cmp1);
+                expect(modalService.openModals[1].instance).toBe(cmp2);
+
+                cmp1.closeFn('some result');
+                tick();
+                expect(modalService.openModals.length).toBe(1);
+
+                cmp2.closeFn('some result');
+                tick();
+                expect(modalService.openModals.length).toBe(0);
+            });
+        }));
+    });
 });
 
 
