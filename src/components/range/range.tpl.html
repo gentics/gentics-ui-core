@@ -9,7 +9,6 @@
            [attr.step]="step"
 
            [attr.id]="id"
-           [value]="value"
 
            (blur)="onBlur($event)"
            (change)="onChangeEvent($event)"
@@ -24,7 +23,7 @@
     <span class="thumb"
           [class.active]="active"
           [style.left]="thumbLeft">
-        <span class="value">{{ value }}</span>
+        <span class="value">{{ currentValue }}</span>
     </span>
 </div>
 <label [attr.for]="id">{{ label }}</label>

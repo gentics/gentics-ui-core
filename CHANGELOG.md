@@ -29,6 +29,7 @@
 * Prevent focus of links and items in SideMenu when hidden
 * Notification messages may contain newlines and indentation
 * Autofocus directive fixed for generated content (ngIf, ngFor)
+* Fix Range input in IE11 and Edge (GUIC-101)
 
 
 ## 2.1.1 (2017-03-20)

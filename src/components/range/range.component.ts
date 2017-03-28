@@ -5,7 +5,10 @@ import {
     EventEmitter,
     forwardRef,
     Input,
-    Output
+    Output,
+    Renderer,
+    SimpleChange,
+    ViewChild
 } from '@angular/core';
 import {ControlValueAccessor, NG_VALUE_ACCESSOR} from '@angular/forms';
 
@@ -100,54 +103,100 @@ export class Range implements ControlValueAccessor {
 
     active: boolean = false;
     thumbLeft: string = '';
+    currentValue: number;
+
+
+    @ViewChild('input') private inputElement: ElementRef;
+
+    private get canModify(): boolean {
+        return !this.disabled && !this.readonly;
+    }
 
     // ValueAccessor members
     onChange = (value: any): void => { };
     onTouched = (): void => { };
 
-    constructor(private changeDetector: ChangeDetectorRef,
-                private elementRef: ElementRef) {}
+    constructor(private elementRef: ElementRef,
+                private changeDetector: ChangeDetectorRef,
+                private renderer: Renderer) {}
 
-    onBlur(nativeEvent: FocusEvent): void {
-        nativeEvent.stopPropagation();
-        this.blur.emit(this.value);
-        this.change.emit(Number(this.value));
+    ngOnInit(): void {
+        this.writeValue(this.value);
     }
 
-    onChangeEvent(nativeEvent: Event): void {
-        nativeEvent.stopPropagation();
+    ngOnChanges(changes: { [K in keyof this]: SimpleChange }): void {
+        if (changes.readonly) {
+            // IE11 and Edge do not support the `readonly` property on a range input, and cancelling or preventing
+            // the `change` event also does not work. See https://developer.microsoft.com/en-us/microsoft-edge/platform/issues/11421194/
+            // Thus we do some browser sniffing and for IE and Edge we convert `readonly` into `disabled`.
+            const edgeOrIE = (/rv:11\.0/i.test(navigator.userAgent)) || (/Edge\/\d./i.test(navigator.userAgent));
+            if (edgeOrIE) {
+                const readonly = changes.readonly.currentValue;
+                this.disabled = (readonly === true || readonly === 'true');
+            }
+        }
     }
 
-    onFocus(nativeEvent: FocusEvent): void {
-        nativeEvent.stopPropagation();
-        this.focus.emit(Number(this.value));
+    onBlur(e: FocusEvent): void {
+        e.stopPropagation();
+        const value = this.getValueFromEvent(e);
+        this.blur.emit(value);
+        this.change.emit(value);
     }
 
+    /**
+     * IE11 only fires the 'change' event rather than the 'input' event as the range input value is changed.
+     */
+    onChangeEvent(e: Event): void | boolean {
+        e.stopPropagation();
+        if (this.canModify) {
+            const value = this.currentValue = this.getValueFromEvent(e);
+            this.change.emit(value);
+            this.onChange(value);
+        }
+    }
+
+    onFocus(e: FocusEvent): void {
+        e.stopPropagation();
+        this.focus.emit(this.value);
+    }
+
+    /**
+     * Browsers other than IE11 fire 'input' continuously as the range value is changed, and fires 'change' on mouseup.
+     */
     onInput(e: Event): void {
-        const target: HTMLInputElement = <HTMLInputElement> e.target;
-        this.value = Number(target.value);
-        this.change.emit(this.value);
-        this.onChange(this.value);
+        e.stopPropagation();
+        if (this.canModify) {
+            const value = this.currentValue = this.getValueFromEvent(e);
+            this.change.emit(value);
+            this.onChange(value);
+        }
     }
 
     onMousedown(e: MouseEvent): void {
-        this.active = true;
-        this.setThumbPosition(e);
-    }
-
-    onMouseup(): void {
-        this.active = false;
-    }
-
-    onMousemove(e: MouseEvent): void {
-        if (this.active) {
+        if (this.canModify) {
+            this.active = true;
             this.setThumbPosition(e);
         }
     }
 
+    onMouseup(): void {
+        this.active = false;
+
+    }
+
+    onMousemove(e: MouseEvent): void {
+        if (this.canModify) {
+            if (this.active) {
+                this.setThumbPosition(e);
+            }
+        }
+    }
+
     writeValue(value: any): void {
-        this.value = value;
-        this.changeDetector.markForCheck();
+        if (value !== this.currentValue) {
+            this.renderer.setElementProperty(this.inputElement.nativeElement, 'value', this.currentValue = value);
+        }
     }
 
     registerOnChange(fn: (newValue: number) => void): void {
@@ -161,6 +210,11 @@ export class Range implements ControlValueAccessor {
     setDisabledState(disabled: boolean): void {
         this.disabled = disabled;
         this.changeDetector.markForCheck();
+    }
+
+    private getValueFromEvent(e: Event): number {
+        const target: HTMLInputElement = <HTMLInputElement> e.target;
+        return Number(target.value);
     }
 
     private setThumbPosition(e: MouseEvent): void {

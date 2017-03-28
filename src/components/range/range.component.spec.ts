@@ -80,9 +80,9 @@ describe('Range:', () => {
                 let inputDel: DebugElement = fixture.debugElement.query(By.css('input'));
                 fixture.detectChanges();
                 instance.onBlur = jasmine.createSpy('onBlur');
-
                 let event = createFocusEvent('blur');
-                inputDel.triggerEventHandler('blur', event);
+                inputDel.nativeElement.dispatchEvent(event);
+                tick();
                 tick();
 
                 expect(instance.onBlur).toHaveBeenCalledWith(75);
@@ -139,7 +139,7 @@ describe('Range:', () => {
                 instance.onChange = jasmine.createSpy('onChange');
 
                 let event = createFocusEvent('blur');
-                inputDel.triggerEventHandler('blur', event);
+                inputDel.nativeElement.dispatchEvent(event);
                 tick();
 
                 expect(instance.onChange).toHaveBeenCalledWith(25);
@@ -302,7 +302,7 @@ function createFocusEvent(type: 'focus' | 'blur'): FocusEvent {
         event = document.createEvent('FocusEvent');
         event.initFocusEvent(type, true, true, window, 0, null);
     } catch (firefox) {
-        event = new FocusEvent('type', {
+        event = new FocusEvent(type, {
             bubbles: true,
             cancelable: true,
             view: window,

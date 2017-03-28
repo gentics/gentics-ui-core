@@ -14,6 +14,11 @@ gtx-range {
         margin: 20px 0;
     }
 
+    // remove the value label in IE11
+    input[type=range]::-ms-tooltip {
+        display: none;
+    }
+
     &[readonly], &[disabled] {
         > .range-field {
             user-select: none;
