@@ -1,6 +1,6 @@
 # Gentics UI Core Changelog
 
-## 3.0.0 (in progress)
+## 3.0.0 (2017-03-29)
 
 ### Breaking changes
 
