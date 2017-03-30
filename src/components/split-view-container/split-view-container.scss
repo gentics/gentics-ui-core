@@ -1,5 +1,6 @@
 gtx-split-view-container {
     box-sizing: border-box;
+    display: block;
 
     > .slideable {
         @extend .z-depth-1;

@@ -182,7 +182,7 @@ export class SplitViewContainer implements AfterViewInit, OnChanges, OnDestroy {
     rightPanelActuallyFocused: boolean = false;
 
     /**
-     * When leftContainerWidthPercent is passed by the parent component, only emit events on resize.
+     * When split is passed by the parent component, only emit events on resize.
      * Otherwise, the width is managed by the SplitViewContainer.
      */
     private widthHandledExternally = false;
@@ -240,7 +240,7 @@ export class SplitViewContainer implements AfterViewInit, OnChanges, OnDestroy {
             }
         }
 
-        if (changes['leftContainerWidthPercent']) {
+        if (changes['split']) {
             this.widthHandledExternally = true;
         }
     }
@@ -311,13 +311,18 @@ export class SplitViewContainer implements AfterViewInit, OnChanges, OnDestroy {
         this.splitDragStart.emit(resizerXPosition);
     }
 
-    /** (hacky) After initializing the view, make this component fill the height of the viewport. */
+    /**
+     * (hacky) After initializing the view, make this component fill the height of the viewport.
+     * Only applied if the split-view-container element is not styled in the consuming application.
+     */
     private fitContainerToViewport(): void {
         const element: HTMLElement = this.ownElement.nativeElement;
-        const css: CSSStyleDeclaration = element.style;
-        css.top = element.offsetTop + 'px';
-        css.bottom = css.left = css.right = '0';
-        css.position = 'absolute';
+        if ((element.firstElementChild as HTMLElement).offsetParent !== element) {
+            const css: CSSStyleDeclaration = element.style;
+            css.top = element.offsetTop + 'px';
+            css.bottom = css.left = css.right = '0';
+            css.position = 'absolute';
+        }
     }
 
     /**

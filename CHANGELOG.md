@@ -1,5 +1,12 @@
 # Gentics UI Core Changelog
 
+## 3.0.1 (2017-03-30)
+
+### Fixes
+
+* SplitViewContainer can be styled in consuming applications instead of detecting its position (GUIC-107)
+
+
 ## 3.0.0 (2017-03-29)
 
 ### Breaking changes
