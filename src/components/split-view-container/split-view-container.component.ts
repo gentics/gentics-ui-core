@@ -187,6 +187,15 @@ export class SplitViewContainer implements AfterViewInit, OnChanges, OnDestroy {
      */
     private widthHandledExternally = false;
 
+    /**
+     * To prevent race conditions by click events, do not emit a focusedPanelChange
+     * when the last change detection changed the focus. Example:
+     *  1. element in left panel is clicked, sets focus to "right"
+     *  2. click event bubbles to the SplitViewContainer, leftPanelClicked
+     *  3. focus would be set to the left panel again, but should be ignored
+     */
+    private focusChangedInLastTick = false;
+
     private resizeMouseOffset: number;
     private hammerManager: HammerManager;
     private cleanups: Function[] = [];
@@ -222,6 +231,7 @@ export class SplitViewContainer implements AfterViewInit, OnChanges, OnDestroy {
 
             if (shouldFocusRightPanel !== this.rightPanelActuallyFocused) {
                 this.rightPanelActuallyFocused = shouldFocusRightPanel;
+                this.focusChangedInLastTick = true;
 
                 if (shouldFocusRightPanel) {
                     this.rightPanelFocused.emit();
@@ -245,6 +255,10 @@ export class SplitViewContainer implements AfterViewInit, OnChanges, OnDestroy {
         }
     }
 
+    ngAfterContentChecked(): void {
+        this.focusChangedInLastTick = false;
+    }
+
     ngOnDestroy(): void {
         this.cleanups.forEach(cleanup => cleanup());
         this.cleanups = [];
@@ -266,14 +280,14 @@ export class SplitViewContainer implements AfterViewInit, OnChanges, OnDestroy {
     }
 
     leftPanelClicked(): void {
-        if (this.rightPanelActuallyFocused) {
+        if (this.rightPanelActuallyFocused && !this.focusChangedInLastTick) {
             this.focusedPanelChange.emit('left');
             this.leftPanelFocused.emit();
         }
     }
 
     rightPanelClicked(): void {
-        if (!this.rightPanelActuallyFocused && this.rightPanelVisible) {
+        if (!this.rightPanelActuallyFocused && !this.focusChangedInLastTick && this.rightPanelVisible) {
             this.focusedPanelChange.emit('right');
         }
     }

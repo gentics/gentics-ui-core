@@ -3,6 +3,7 @@ import {Component} from '@angular/core';
 
 import {componentTest} from '../../testing';
 import {SplitViewContainer} from './split-view-container.component';
+import { By } from '@angular/platform-browser';
 
 
 describe('SplitViewContainer', () => {
@@ -226,6 +227,74 @@ describe('SplitViewContainer', () => {
                 fixture.detectChanges();
                 tick();
                 expect(instance.testHandler).toHaveBeenCalled();
+            }
+        )
+    );
+
+    it('allows changing focus when elements in the left panel are clicked',
+        componentTest(() => TestComponent, `
+            <gtx-split-view-container [rightPanelVisible]="hasRight" [(focusedPanel)]="focusedSide">
+                <div class="left-panel" left>
+                    <a class="link-to-click" (click)="focusedSide = 'right'">Focus right panel</a>
+                </div>
+                <div class="right-panel" right>
+                    <p>Right panel</p>
+                </div>
+            </gtx-split-view-container>`,
+            (fixture, instance) => {
+                instance.focusedSide = 'left';
+                instance.hasRight = true;
+                fixture.detectChanges();
+                tick();
+
+                expect(instance.focusedSide).toBe('left');
+
+                const link = fixture.debugElement.query(By.css('.link-to-click'));
+                link.triggerEventHandler('click', { });
+
+                for (let counter of ['first', 'second', 'third', 'fourth']) {
+                    fixture.detectChanges();
+                    tick();
+                    expect(instance.focusedSide).toBe('right', `left panel focused after ${counter} change detection`);
+                }
+            }
+        )
+    );
+
+    it('allows changing focus when elements in the left panel are clicked (async)',
+        componentTest(() => TestComponent, `
+            <gtx-split-view-container [rightPanelVisible]="hasRight" [(focusedPanel)]="focusedSide">
+                <div class="left-panel" left>
+                    <a class="link-to-click" (click)="testHandler()">Focus right panel</a>
+                </div>
+                <div class="right-panel" right>
+                    <p>Right panel</p>
+                </div>
+            </gtx-split-view-container>`,
+            (fixture, instance) => {
+                instance.focusedSide = 'left';
+                instance.hasRight = true;
+                instance.testHandler = () => setTimeout(() => instance.focusedSide = 'right', 1000);
+
+                fixture.detectChanges();
+                tick();
+                expect(instance.focusedSide).toBe('left');
+
+                const link = fixture.debugElement.query(By.css('.link-to-click'));
+                link.triggerEventHandler('click', { });
+
+                expect(instance.focusedSide).toBe('left');
+
+                tick(1000);
+                fixture.detectChanges();
+
+                expect(instance.focusedSide).toBe('right');
+
+                for (let counter of ['first', 'second', 'third', 'fourth']) {
+                    fixture.detectChanges();
+                    tick(1000);
+                    expect(instance.focusedSide).toBe('right', `left panel focused after ${counter} change detection`);
+                }
             }
         )
     );

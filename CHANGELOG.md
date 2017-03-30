@@ -5,6 +5,7 @@
 ### Fixes
 
 * SplitViewContainer can be styled in consuming applications instead of detecting its position (GUIC-107)
+* SplitViewContainer focus changing in a `click` event no longer resets the focus (GUIC-82)
 
 
 ## 3.0.0 (2017-03-29)
