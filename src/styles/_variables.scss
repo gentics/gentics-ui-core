@@ -50,6 +50,11 @@ $gtx-progress-bar-fade-duration: ($gtx-animation-duration / 2) !default;
 $gtx-progress-bar-height: 3px !default;
 
 $gtx-split-view-container-animation-duration: $gtx-animation-duration !default;
+$gtx-split-view-container-focus-switcher-background-color: rgba(255, 255, 255, 0.5) !default;
+$gtx-split-view-container-focus-switcher-background-hover-color: rgba(0, 0, 0, 0.0001) !default;
+$gtx-split-view-container-focus-switcher-icon: 'chevron_left' !default;
+$gtx-split-view-container-focus-switcher-icon-color: rgba($gtx-color-primary, 0.5) !default;
+$gtx-split-view-container-focus-switcher-icon-hover-color: $gtx-color-primary !default;
 $gtx-split-view-container-opacity-focused: 1 !default;
 $gtx-split-view-container-opacity-inactive: 0.66 !default;
 $gtx-split-view-container-opacity-hidden: 0 !default;

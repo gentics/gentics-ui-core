@@ -106,16 +106,23 @@ gtx-split-view-container {
             max-width: 100% !important;
         }
 
+        // The focus switcher which appears on small/medium breakpoints
+        // and "slides" the active panel on click
         & > * > .focus-switcher-left,
         & > * > .focus-switcher-right {
+            background: $gtx-split-view-container-focus-switcher-background-color;
+            bottom: 0;
+            cursor: pointer;
             display: none;
             position: absolute;
             top: 0;
-            bottom: 0;
             width: 9%;
             z-index: 1;
-            // Fix click events in IE
-            background: rgba(0,0,0,0.00001);
+
+            &:hover {
+                background: $gtx-split-view-container-focus-switcher-background-hover-color;
+            }
+
         }
 
         & > .focusedRight > .focus-switcher-left {
@@ -126,6 +133,31 @@ gtx-split-view-container {
         & > .focusedLeft.hasRightPanel > .focus-switcher-right {
             display: block;
             right: 0;
+        }
+
+        @if ($gtx-split-view-container-focus-switcher-icon) {
+            & > * > .focus-switcher-left::before,
+            & > * > .focus-switcher-right::before {
+                color: $gtx-split-view-container-focus-switcher-icon-color;
+                content: $gtx-split-view-container-focus-switcher-icon;
+                display: block;
+                font-family: 'Material Icons';
+                font-size: 4rem;
+                line-height: 0;
+                position: absolute;
+                text-align: center;
+                top: 50%;
+                width: 100%;
+            }
+
+            & > * > .focus-switcher-right::before {
+                transform: scaleX(-1);
+            }
+
+            & > * > .focus-switcher-left:hover::before,
+            & > * > .focus-switcher-right:hover::before {
+                color: $gtx-split-view-container-focus-switcher-icon-hover-color
+            }
         }
     }
 
