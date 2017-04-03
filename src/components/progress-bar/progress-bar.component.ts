@@ -27,6 +27,23 @@ function noop(): void {}
  * <gtx-progress-bar [for]="backgroundProgress$"></gtx-progress-bar>
  * ```
  *
+ * ##### Using the progress bar with observables
+ *
+ * When an observable is assigned to the ProgressBar with "for", the observable should emit numbers
+ * in the range [0..1] for a determinate progress bar or boolean values for indeterminate progress.
+ * This will instantly animate the progress bar instead of relying on angular change detection.
+ *
+ * ```html
+ * <gtx-progress-bar [for]="uploadProgress$"></gtx-progress-bar>
+ * <gtx-progress-bar [for]="anythingLoading$"></gtx-progress-bar>
+ * ```
+ * ```typescript
+ * class MyComponent {
+ *     uploadProgress$: Observable<number>;
+ *     anythingLoading$: Observable<boolean>;
+ * }
+ * ```
+ *
  * ##### Using the progress bar programmatically inside another component
  *
  * The ProgressBar instance exposes two public methods, `start()`, `complete()` which can be used
@@ -120,13 +137,16 @@ export class ProgressBar implements OnDestroy {
      * Automatically starts, stops and updates the progress bar for a Promise
      * or when an Observable emits values or completes.
      */
-    @Input() set for(promiseOrObservable: Promise<any> | Subscribable<number>) {
+    @Input() set for(promiseOrObservable: PromiseLike<any> | Subscribable<number>  | Subscribable<boolean>) {
         this.cleanup();
 
         if (promiseOrObservable) {
-            this.setProgressBarWidth(0, 'immediate');
-            this.start(promiseOrObservable);
-        } else if (this.isActive) {
+            if (promiseOrObservable !== this.currentPromiseOrObservable) {
+                this.setProgressBarWidth(0, 'immediate');
+                this.start(promiseOrObservable);
+            }
+        } else if (this.isActive && this.currentPromiseOrObservable) {
+            this.cleanupSubscription();
             this.complete();
         }
     }
@@ -142,6 +162,7 @@ export class ProgressBar implements OnDestroy {
     private lastAnimationFrame: number = undefined;
     private removePendingHandler: () => void = noop;
     private cleanupSubscription: () => void = noop;
+    private currentPromiseOrObservable: PromiseLike<any> | Subscribable<any>;
     private wrapperClasses = { add(...cls: string[]): void {}, remove(...cls: string[]): void {} };
 
     constructor(private zone: NgZone) { }
@@ -157,12 +178,27 @@ export class ProgressBar implements OnDestroy {
         }
     }
 
+    /** Starts showing the progress bar in "indeterminate" mode. */
+    public start(): void;
+
+    /** Starts animating the progress bar, animates as "finished" when the passed Promise resolves. */
+    public start(promise: PromiseLike<any>): void;
+
+    /** Animates the progress bar by discrete values ([0...1]) emitted by the passed observable. */
+    public start(progressObservable: Subscribable<number>): void;
+
     /**
-     * Starts showing the progress bar in "indeterminate" mode.
-     * Can be passed a Promise or an Observable which animates the progress bar when resolved or rejected.
+     * Animates the progress bar based on the values emitted by the passed observable.
+     * `true` animates as "active", `false` as "completed".
      */
+    public start(progressObservable: Subscribable<boolean>): void;
+
+    public start(promiseOrObservable?: PromiseLike<any> | Subscribable<number> | Subscribable<boolean>): void;
+
     public start(promiseOrObservable?: PromiseLike<any> | Subscribable<any>): void {
-        this.cleanupSubscription();
+        if (promiseOrObservable !== this.currentPromiseOrObservable) {
+            this.cleanupSubscription();
+        }
 
         if (!this.isActive) {
             this.isActive = true;
@@ -188,11 +224,16 @@ export class ProgressBar implements OnDestroy {
                 observing = false;
                 this.cleanupSubscription = noop;
             };
+            this.currentPromiseOrObservable = promiseOrObservable;
         } else if (isSubscribable(promiseOrObservable)) {
             let sub = promiseOrObservable.subscribe(
-                (value: any) => {
+                (value: number | boolean) => {
                     if (typeof value === 'number') {
                         this.progress = value;
+                    } else if (value === true && !this.isActive) {
+                        this.start(promiseOrObservable);
+                    } else if (value === false && this.isActive) {
+                        this.complete();
                     }
                 },
                 (error: any) => this.complete(),
@@ -202,6 +243,7 @@ export class ProgressBar implements OnDestroy {
                 sub.unsubscribe();
                 this.cleanupSubscription = noop;
             };
+            this.currentPromiseOrObservable = promiseOrObservable;
         }
     }
 

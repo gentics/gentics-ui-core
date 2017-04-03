@@ -371,30 +371,57 @@ describe('ProgressBar', () => {
             )
         );
 
-        it('"for" animates the progress bar based on an observable',
+        it('"for" animates the progress bar based on a number observable',
             componentTest(() => TestComponent, `
                 <gtx-progress-bar [for]="observable"></gtx-progress-bar>`,
                 (fixture, testComponent) => {
                     const progressBar = testComponent.progressBar;
-                    const observable = new Subject<number>();
-                    testComponent.observable = observable;
+                    const subject = new Subject<number>();
+                    testComponent.observable = subject;
                     fixture.detectChanges();
 
                     const progressIndicator: HTMLElement = fixture.nativeElement.querySelector('.progress-indicator');
                     expect(progressIndicator).toBeDefined('Progress indicator element not found.');
-                    observable.next(0.25);
+                    subject.next(0.25);
                     fixture.detectChanges();
                     const oldWidth = progressIndicator.offsetWidth;
 
-                    observable.next(0.75);
+                    subject.next(0.75);
                     fixture.detectChanges();
                     const newWidth = progressIndicator.offsetWidth;
                     expect(newWidth).toBeGreaterThan(oldWidth,
                         'Progress bar did not grow after emitting values.');
 
-                    observable.complete();
+                    subject.complete();
                     expect(progressBar.active).toBe(false,
                         'Still active after Observable.complete()');
+                }
+            )
+        );
+
+        it('"for" animates the progress bar based on a boolean observable',
+            componentTest(() => TestComponent, `
+                <gtx-progress-bar [for]="observable"></gtx-progress-bar>`,
+                (fixture, testComponent) => {
+                    const progressBar = testComponent.progressBar;
+                    const subject = new Subject<boolean>();
+                    testComponent.observable = subject;
+                    fixture.detectChanges();
+
+                    const progressIndicator: HTMLElement = fixture.nativeElement.querySelector('.progress-indicator');
+                    expect(progressIndicator).toBeDefined('Progress indicator element not found.');
+
+                    subject.next(false);
+                    expect(progressBar.active).toBe(false, 'active after emitting false (#1)');
+
+                    subject.next(true);
+                    expect(progressBar.active).toBe(true, 'not active after emitting true (#2)');
+
+                    subject.next(false);
+                    expect(progressBar.active).toBe(false, 'active after emitting false (#3)');
+
+                    subject.next(true);
+                    expect(progressBar.active).toBe(true, 'not active after emitting true (#4)');
                 }
             )
         );
@@ -499,7 +526,7 @@ function fakeRequestAnimationFrameWhenTabInBackground(): { discardPending(): voi
 class TestComponent {
     @ViewChild(ProgressBar) progressBar: ProgressBar;
     promise: Promise<any>;
-    observable: Observable<number>;
+    observable: Observable<number> | Observable<boolean>;
     loadingSomething: boolean = false;
     loadProgress: number = 0;
 }

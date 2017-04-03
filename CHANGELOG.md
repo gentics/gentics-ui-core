@@ -1,5 +1,12 @@
 # Gentics UI Core Changelog
 
+## 3.1.0 (2017-04-03)
+
+### Features
+
+* ProgressBar accepts an observable via `[for]` which starts/completes the progress bar on `true`/`false`.
+
+
 ## 3.0.1 (2017-03-30)
 
 ### Fixes
