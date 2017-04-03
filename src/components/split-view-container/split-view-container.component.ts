@@ -194,7 +194,8 @@ export class SplitViewContainer implements AfterViewInit, OnChanges, OnDestroy {
      *  2. click event bubbles to the SplitViewContainer, leftPanelClicked
      *  3. focus would be set to the left panel again, but should be ignored
      */
-    private focusChangedInLastTick = false;
+    private focusJustChanged = false;
+    private focusJustChangedTimeout: number;
 
     private resizeMouseOffset: number;
     private hammerManager: HammerManager;
@@ -231,13 +232,18 @@ export class SplitViewContainer implements AfterViewInit, OnChanges, OnDestroy {
 
             if (shouldFocusRightPanel !== this.rightPanelActuallyFocused) {
                 this.rightPanelActuallyFocused = shouldFocusRightPanel;
-                this.focusChangedInLastTick = true;
 
                 if (shouldFocusRightPanel) {
                     this.rightPanelFocused.emit();
                 } else {
                     this.leftPanelFocused.emit();
                 }
+
+                clearTimeout(this.focusJustChangedTimeout);
+                this.focusJustChanged = true;
+                this.focusJustChangedTimeout = setTimeout(() => {
+                    this.focusJustChanged = false;
+                }, 50);
             }
         }
 
@@ -255,13 +261,10 @@ export class SplitViewContainer implements AfterViewInit, OnChanges, OnDestroy {
         }
     }
 
-    ngAfterContentChecked(): void {
-        this.focusChangedInLastTick = false;
-    }
-
     ngOnDestroy(): void {
         this.cleanups.forEach(cleanup => cleanup());
         this.cleanups = [];
+        clearTimeout(this.focusJustChangedTimeout);
         this.destroySwipeHandler();
     }
 
@@ -280,14 +283,13 @@ export class SplitViewContainer implements AfterViewInit, OnChanges, OnDestroy {
     }
 
     leftPanelClicked(): void {
-        if (this.rightPanelActuallyFocused && !this.focusChangedInLastTick) {
+        if (this.rightPanelActuallyFocused && !this.focusJustChanged) {
             this.focusedPanelChange.emit('left');
-            this.leftPanelFocused.emit();
         }
     }
 
     rightPanelClicked(): void {
-        if (!this.rightPanelActuallyFocused && !this.focusChangedInLastTick && this.rightPanelVisible) {
+        if (!this.rightPanelActuallyFocused && !this.focusJustChanged && this.rightPanelVisible) {
             this.focusedPanelChange.emit('right');
         }
     }

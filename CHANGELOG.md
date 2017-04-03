@@ -5,6 +5,7 @@
 ### Features
 
 * ProgressBar accepts an observable via `[for]` which starts/completes the progress bar on `true`/`false`.
+* SplitViewContainer focus changing in a `click` event no longer resets the focus (GUIC-82)
 
 
 ## 3.0.1 (2017-03-30)

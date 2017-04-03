@@ -59,7 +59,7 @@ describe('SplitViewContainer', () => {
         )
     );
 
-    it('"focusedPanel" allows double-binding',
+    it('emits "focusedPanelChange" when the left or right panels are clicked',
         componentTest(() => TestComponent, `
             <gtx-split-view-container
                 [rightPanelVisible]="true"
@@ -70,7 +70,7 @@ describe('SplitViewContainer', () => {
                 instance.focusedSide = 'left';
 
                 fixture.detectChanges();
-                tick();
+                tick(100);
 
                 const focusSwitcherLeft = fixture.nativeElement.querySelector('.focus-switcher-left') as HTMLElement;
                 const focusSwitcherRight = fixture.nativeElement.querySelector('.focus-switcher-right') as HTMLElement;
@@ -80,9 +80,13 @@ describe('SplitViewContainer', () => {
                 focusSwitcherRight.click();
                 expect(instance.testHandler).toHaveBeenCalledWith('right');
 
+                tick();
+
                 instance.focusedSide = 'right';
                 instance.testHandler = jasmine.createSpy('focusedPanelChange');
                 fixture.detectChanges();
+                tick(100);
+
                 focusSwitcherLeft.click();
                 expect(instance.testHandler).toHaveBeenCalledWith('left');
             }
