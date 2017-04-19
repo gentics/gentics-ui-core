@@ -71,7 +71,7 @@ gulp.task('docs:watch', gulp.series(
         watchDocs
     )
 ));
-gulp.task('test:run', runTests);
+gulp.task('test:run', gulp.series(runTests, forceExit));
 gulp.task('test:watch', watchTests);
 gulp.task('package', gulp.series('clean', 'lint', 'test:run', 'dist:build'));
 
@@ -341,6 +341,12 @@ function runTests(callback) {
 
         callback(err);
     });
+}
+
+// Hacky workaround to fix lingering timeouts which prevent "test:run" from exiting
+function forceExit(callback) {
+    callback();
+    process.exit(0);
 }
 
 function watchTests(callback) {
