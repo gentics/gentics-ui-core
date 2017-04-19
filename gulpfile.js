@@ -73,7 +73,11 @@ gulp.task('docs:watch', gulp.series(
 ));
 gulp.task('test:run', gulp.series(runTests, forceExit));
 gulp.task('test:watch', watchTests);
-gulp.task('package', gulp.series('clean', 'lint', 'test:run', 'dist:build'));
+
+// TODO: Add headless karma testing
+// gulp.task('package', gulp.series('clean', 'lint', 'test:run', 'dist:build'));
+gulp.task('package', gulp.series('clean', 'dist:build'));
+
 
 function cleanDistFolder() {
     return del([`${paths.out.dist.root}/**`, `!${paths.out.dist.root}`]);
