@@ -1,4 +1,4 @@
-import {Component, ElementRef, Input, OnDestroy, Renderer} from '@angular/core';
+import {Component, ElementRef, Input, OnDestroy} from '@angular/core';
 
 /**
  * A Button component.
@@ -83,12 +83,13 @@ export class Button implements OnDestroy {
     private isDisabled: boolean = false;
     private unbindClickHandler: Function;
 
-    constructor(elementRef: ElementRef,
-                renderer: Renderer) {
+    constructor(elementRef: ElementRef) {
 
         if (elementRef.nativeElement) {
             // This bind call really needs to be in the constructor, not in ngOnInit. Sorry!
-            this.unbindClickHandler = renderer.listen(elementRef.nativeElement, 'click', this.onClickEvent);
+            const handler = (event: Event) => this.onClickEvent(event);
+            elementRef.nativeElement.addEventListener('click', handler, true);
+            this.unbindClickHandler = () => elementRef.nativeElement.removeEventListener('click', handler, true);
         }
 
     }
@@ -101,7 +102,7 @@ export class Button implements OnDestroy {
 
     // Disabled elements don't fire mouse events in some browsers, but bubble up the DOM tree.
     // To not trigger actions when the button is disabled, we need to prevent them manually.
-    onClickEvent = (event: Event): void => {
+    onClickEvent(event: Event): void {
         if (event && this.isDisabled) {
             event.preventDefault();
             event.stopImmediatePropagation();

@@ -14,23 +14,23 @@
             <ng-content></ng-content>
         </div>
 
-        <template [ngIf]="links">
+        <ng-template [ngIf]="links">
             <a *ngFor="let link of links"
                 class="breadcrumb"
                 [attr.href]="isDisabled ? null : link?.href"
                 (click)="onLinkClicked(link, $event)"
                 [title]="link.text"
             >{{ link.text }}</a>
-        </template>
+        </ng-template>
 
-        <template [ngIf]="routerLinks">
+        <ng-template [ngIf]="routerLinks">
             <a *ngFor="let routerLink of routerLinks"
                 class="breadcrumb"
                 [routerLink]="routerLink.route"
                 (click)="onLinkClicked(routerLink, $event)"
                 [title]="routerLink.text"
             >{{ routerLink.text }}</a>
-        </template>
+        </ng-template>
 
     </div>
 </nav>

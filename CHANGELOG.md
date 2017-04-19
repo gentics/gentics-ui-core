@@ -1,5 +1,11 @@
 # Gentics UI Core Changelog
 
+## 4.0.0 (2017-04-19)
+
+### Breaking Changes
+* Update to Angular 4
+* Update to TypeScript 2.2.2
+
 ## 3.1.0 (2017-04-03)
 
 ### Features

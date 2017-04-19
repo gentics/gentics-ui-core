@@ -16,7 +16,7 @@ const PAGE_MARGIN = 50;
     template: `<div class="dropdown-content-wrapper"
                     (click)="onContentClick()"
                     [ngStyle]="contentStyles">
-                    <template [ngTemplateOutlet]="content"></template>
+                    <ng-template [ngTemplateOutlet]="content"></ng-template>
                </div>`,
     changeDetection: ChangeDetectionStrategy.OnPush
 })

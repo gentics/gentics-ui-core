@@ -40,14 +40,14 @@
     "user-interface"
   ],
   "devDependencies": {
-    "@angular/common": "^2.4.2",
-    "@angular/compiler": "^2.4.2",
-    "@angular/compiler-cli": "^2.4.2",
-    "@angular/core": "^2.4.2",
-    "@angular/forms": "^2.4.2",
-    "@angular/platform-browser": "^2.4.2",
-    "@angular/platform-browser-dynamic": "^2.4.2",
-    "@angular/router": "^3.4.2",
+    "@angular/common": "^4.0.2",
+    "@angular/compiler": "^4.0.2",
+    "@angular/compiler-cli": "^4.0.2",
+    "@angular/core": "^4.0.2",
+    "@angular/forms": "^4.0.2",
+    "@angular/platform-browser": "^4.0.2",
+    "@angular/platform-browser-dynamic": "^4.0.2",
+    "@angular/router": "^4.0.2",
     "@types/hammerjs": "^2.0.33",
     "@types/jasmine": "^2.5.38",
     "@types/jquery": "^2.0.34",
@@ -84,7 +84,7 @@
     "karma-mocha-reporter": "^2.0.3",
     "karma-phantomjs-launcher": "^1.0.0",
     "karma-sourcemap-loader": "^0.3.7",
-    "karma-webpack": "^1.7.0",
+    "karma-webpack": "2.0.3",
     "marked": "^0.3.5",
     "merge-stream": "^1.0.0",
     "moment": "2.13.0",
@@ -98,9 +98,9 @@
     "tslint": "^4.0.2",
     "tslint-eslint-rules": "^3.1.0",
     "tslint-stylish": "^2.1.0-beta",
-    "typescript": ">= 2.1.4 < 2.2.0",
-    "webpack": "2.1.0-beta.27",
-    "zone.js": "^0.7.2"
+    "typescript": "2.2.2",
+    "webpack": "2.4.1",
+    "zone.js": "^0.8.5"
   },
   "dependencies": {
     "core-js": "^2.4.1",
@@ -110,6 +110,6 @@
     "sortablejs": "^1.4.2"
   },
   "peerDependencies": {
-    "@angular/core": "^2.4.2"
+    "@angular/core": "^4.0.0"
   }
 }

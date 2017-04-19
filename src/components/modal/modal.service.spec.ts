@@ -111,7 +111,7 @@ describe('ModalService:', () => {
                         { label: 'okay', type: 'default', returnValue: 'okay' }
                     ]
                 })
-                .then(modal => {
+                .then<string>(modal => {
                     let promise = modal.open();
                     tick(50);
                     fixture.detectChanges();
@@ -382,7 +382,7 @@ describe('ModalService:', () => {
                 fixture.detectChanges();
 
                 modalService.fromComponent(TestModalCmp)
-                    .then(modal => {
+                    .then<string>(modal => {
                         let promise = modal.open();
 
                         let cmp: TestModalCmp = <any> modal.instance;

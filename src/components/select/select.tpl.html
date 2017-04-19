@@ -15,7 +15,7 @@
          <ul class="select-options"
              (click)="viewValueContainer.focus()"
              (mouseover)="deselect()">
-             <template ngFor [ngForOf]="optionGroups" let-group let-groupIndex="index">
+             <ng-template ngFor [ngForOf]="optionGroups" let-group let-groupIndex="index">
                  <li *ngIf="!group.isDefaultGroup"
                      class="group-label">{{ group.label }}</li>
                  <li *ngFor="let option of group.options; let optionIndex = index"
@@ -28,7 +28,7 @@
                                    (change)="selectItem(groupIndex, optionIndex)"></gtx-checkbox>
                      {{ option.viewValue }}
                  </li>
-             </template>
+             </ng-template>
          </ul>
     </gtx-dropdown-content>
 

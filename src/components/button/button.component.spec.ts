@@ -132,14 +132,14 @@ describe('Button:', () => {
                 let onClick = fixture.componentRef.instance.onClick = jasmine.createSpy('onClick');
                 let button: HTMLButtonElement = fixture.nativeElement.querySelector('button');
                 fixture.detectChanges();
+                tick();
 
                 let event = document.createEvent('MouseEvent');
                 event.initEvent('click', true, true);
-
                 button.dispatchEvent(event);
-                button.parentElement.dispatchEvent(event);
                 button.click();
 
+                expect(event.defaultPrevented).toBe(true, 'default not prevented');
                 expect(onClick).not.toHaveBeenCalled();
             }
         )

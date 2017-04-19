@@ -71,7 +71,7 @@ describe('componentTest', () => {
             componentTest(() => SimpleComponent, fixture => {
                 expect(1).toBe(1);
                 expect('yes').toBe('yes');
-                expect('something totally different').toBe(3.14);
+                expect('something totally different').toBe(3.14 as any);
             })
         )
     );
@@ -88,7 +88,7 @@ describe('componentTest', () => {
         mustFail(
             componentTest(() => SimpleComponent, fixture => {
                 expect('black').toBe('a very bright white');
-                expect(23).toBe('the last digit of PI');
+                expect(23).toBe('the last digit of PI' as any);
                 expect('a truth').toBe('a truth');
                 expect('a lie').toBe('a lie');
             })

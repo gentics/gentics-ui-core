@@ -22,7 +22,7 @@ describe('PageDragDropFileHandler service:', () => {
     it('adds event listeners to the page', () => {
         expect(spyPageElement.addEventListener).toHaveBeenCalled();
         let listenerTypes = spyPageElement.listeners.map(l => l.type);
-        expect(listenerTypes).toEqual(jasmine.arrayContaining(['dragenter', 'dragover', 'drop']));
+        expect<any>(listenerTypes).toEqual(jasmine.arrayContaining(['dragenter', 'dragover', 'drop']));
     });
 
     it('allows removing its event listeners with destroy()', () => {

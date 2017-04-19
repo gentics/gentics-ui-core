@@ -10,9 +10,9 @@
         </button>
     </span>
     <span class="message">
-        <template ngFor let-line [ngForOf]="messageLines" let-i="index">
+        <ng-template ngFor let-line [ngForOf]="messageLines" let-i="index">
             <br *ngIf="i > 0">
             <span class="line">{{ line }}</span>
-        </template>
+        </ng-template>
     </span>
 </div>
