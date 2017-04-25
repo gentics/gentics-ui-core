@@ -29,13 +29,23 @@ module.exports = {
     },
 
     module: {
-        loaders: [
-            { test: /\.ts$/, loaders: ['awesome-typescript-loader?transpileOnly=false&configFileName=tsconfig.json', 'angular2-template-loader'] },
-            { test: /\.css$/, loader: 'style-loader!raw-loader!autoprefixer-loader' },
-            { test: /\.scss$/, loader: 'style-loader!raw-loader!autoprefixer-loader!sass-loader' },
-            { test: /\.html/, loader: 'raw-loader' },
-            { test: /\.svg/, loader: 'svg-inline-loader' },
-            { test: /\.json/, loader: 'json-loader' },
+        rules: [
+            { test: /\.ts$/, use: [
+                {
+                    loader: 'awesome-typescript-loader',
+                    options: {
+                        transpileOnly: false,
+                        configFileName: 'tsconfig.json',
+                        declaration: false
+                    }
+                },
+                'angular2-template-loader'
+            ] },
+            { test: /\.css$/, use: ['style-loader', 'raw-loader', 'autoprefixer-loader'] },
+            { test: /\.scss$/, use: ['style-loader', 'raw-loader', 'autoprefixer-loader', 'sass-loader'] },
+            { test: /\.html/, use: 'raw-loader' },
+            { test: /\.svg/, use: 'svg-inline-loader' },
+            { test: /\.json/, use: 'json-loader' },
         ]
     },
     plugins: [
