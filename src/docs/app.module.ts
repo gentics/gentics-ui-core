@@ -93,7 +93,7 @@ export const routerModuleForRoot: ModuleWithProviders = RouterModule.forRoot(rou
         FormsModule,
         ReactiveFormsModule,
         routerModuleForRoot,
-        GenticsUICoreModule
+        GenticsUICoreModule.forRoot()
     ],
     declarations,
     entryComponents: [MyModal],

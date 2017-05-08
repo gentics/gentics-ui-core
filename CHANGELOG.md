@@ -1,5 +1,12 @@
 # Gentics UI Core Changelog
 
+## 5.0.0 (2017-05-08)
+
+### Breaking Changes
+* Add static `forRoot()` method to `GenticsUICoreModule` to enable use in apps with lazy-loaded child modules. 
+Importing without the `forRoot()` call will not include the providers, only the declarations and pipes.
+
+
 ## 4.0.0 (2017-04-19)
 
 ### Breaking Changes

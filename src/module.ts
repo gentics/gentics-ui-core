@@ -48,7 +48,7 @@ import {ScrollMask} from './components/dropdown-list/scroll-mask.component';
 import {DropdownContentWrapper} from './components/dropdown-list/dropdown-content-wrapper.component';
 import {SelectOption, SelectOptionGroup} from './components/select/option.component';
 
-const UI_CORE_COMPONENTS: any[] = [
+export const UI_CORE_COMPONENTS: any[] = [
     AutofocusDirective,
     BlankModal,
     Breadcrumbs,
@@ -103,7 +103,7 @@ export const UI_CORE_ENTRY_COMPONENTS: any[] = [
     ModalDialog
 ];
 
-const UI_CORE_PIPES: any[] = [
+export const UI_CORE_PIPES: any[] = [
     MatchesMimeTypePipe
 ];
 
@@ -128,7 +128,22 @@ export const routerModuleForChild: ModuleWithProviders = RouterModule.forChild([
     ],
     declarations,
     entryComponents: UI_CORE_ENTRY_COMPONENTS,
-    providers: UI_CORE_PROVIDERS,
     exports: declarations
 })
-export class GenticsUICoreModule {}
+export class GenticsUICoreModule {
+    /**
+     * Gentics UI Core exposes several providers which are intended to be used a singleton services, i.e. there should only
+     * be a single instance of each in an app. When this module is imported into lazy-loaded child modules, we do not want
+     * to include those providers, otherwise the app injector would create new instances of them to use in that child
+     * module.
+     *
+     * Therefore this method should be used only once in the app, at the level of the root module to ensure that only one
+     * instance of each provider is instantiated.
+     */
+    static forRoot(): ModuleWithProviders {
+        return {
+            ngModule: GenticsUICoreModule,
+            providers: UI_CORE_PROVIDERS
+        };
+    }
+}
