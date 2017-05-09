@@ -1,4 +1,4 @@
-import {Injectable, ViewContainerRef} from '@angular/core';
+import {Injectable, ViewContainerRef, Optional, SkipSelf} from '@angular/core';
 
 /**
  * The OverlayHostService is used to get a reference to the ViewConainerRef of the
@@ -8,8 +8,21 @@ import {Injectable, ViewContainerRef} from '@angular/core';
 @Injectable()
 export class OverlayHostService {
 
-    private hostView: ViewContainerRef;
-    private promiseResolveFns: Function[] = [];
+    public hostView: ViewContainerRef;
+    public promiseResolveFns: Function[] = [];
+
+    /**
+     * The OverlayHostService expects to be used by the OverlayHostComponent in the root module of the app.
+     * In the case that the GenticsUICore is imported into a lazy-loaded child module, this service may be
+     * instantiated a second time. This second instance will not have been registered with the OverlayHostComponent,
+     * so we need to check out the injector tree and grab the hostView from the parent OverlayHostService.
+     */
+    constructor(@Optional() @SkipSelf() private parentInstance: OverlayHostService) {
+        if (parentInstance) {
+            this.hostView = parentInstance.hostView;
+            this.promiseResolveFns = parentInstance.promiseResolveFns;
+        }
+    }
 
     /**
      * Used to pass in the ViewContainerRed from the OverlayHost component.

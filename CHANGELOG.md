@@ -1,5 +1,10 @@
 # Gentics UI Core Changelog
 
+## 5.0.1 (in progress)
+
+### Fixes
+* OverlayHostService no longer breaks when instantiated in a child module.
+
 ## 5.0.0 (2017-05-08)
 
 ### Breaking Changes
