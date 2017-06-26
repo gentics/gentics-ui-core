@@ -1,4 +1,4 @@
-import {OverlayHostService} from './../overlay-host/overlay-host.service';
+import {OverlayHostService} from './overlay-host.service';
 
 let overlayHostService: OverlayHostService;
 const dummyHostView: any = 'dummy_hostview';
@@ -6,7 +6,7 @@ const dummyHostView: any = 'dummy_hostview';
 describe('OverlayHostService:', () => {
 
     beforeEach(() => {
-        overlayHostService = new OverlayHostService();
+        overlayHostService = new OverlayHostService(undefined as any);
     });
 
     describe('getHostView()', () => {

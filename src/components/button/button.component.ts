@@ -77,10 +77,10 @@ export class Button implements OnDestroy {
     }
 
 
-    private buttonType = 'button';
-    private isFlat: boolean = false;
-    private isIcon: boolean = false;
-    private isDisabled: boolean = false;
+    buttonType = 'button';
+    isFlat: boolean = false;
+    isIcon: boolean = false;
+    isDisabled: boolean = false;
     private unbindClickHandler: Function;
 
     constructor(elementRef: ElementRef) {

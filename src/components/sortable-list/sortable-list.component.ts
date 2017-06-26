@@ -1,5 +1,5 @@
 import {Component, Directive, ElementRef, EventEmitter, Input, Output, SimpleChanges} from '@angular/core';
-import sortable = require('sortablejs');
+const sortable = require('sortablejs');
 
 export type sortFn<T> = (source: T[], byReference?: boolean) => T[];
 

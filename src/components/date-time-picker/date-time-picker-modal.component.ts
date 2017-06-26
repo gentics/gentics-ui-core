@@ -47,6 +47,8 @@ export class DateTimePickerModal implements IModalDialog, OnDestroy {
     @ViewChild('calendarContainer')
     calendarContainer: ElementRef;
 
+    dateOrder: 'dmy' | 'ymd' | 'mdy' = 'mdy';
+
     /** @internal */
     private value: Moment = momentjs();
 
@@ -60,7 +62,6 @@ export class DateTimePickerModal implements IModalDialog, OnDestroy {
         m: 0,
         s: 0
     };
-    private dateOrder: 'dmy' | 'ymd' | 'mdy' = 'mdy';
     private subscription: Subscription;
 
     ngOnInit(): void {
