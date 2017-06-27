@@ -17,7 +17,6 @@ const sass = require('gulp-sass');
 const sourcemaps = require('gulp-sourcemaps');
 const tslint = require('gulp-tslint');
 const tslintStylish = require('tslint-stylish');
-const ts = require('gulp-typescript');
 const webpack = require('webpack');
 const inlineNg2Template = require('gulp-inline-ng2-template');
 const htmlMinifier = require('html-minifier');
@@ -31,12 +30,15 @@ gulp.task('clean', gulp.parallel(
     cleanDistFolder,
     cleanDocsFolder
 ));
-gulp.task('dist:build', gulp.parallel(
-    compileDistStyles,
-    compileDistTypescript,
-    copyDistTemplates,
-    copyFontsTo(paths.out.dist.fonts)
-));
+gulp.task('dist:build', gulp.series(
+    gulp.parallel(cleanTempFolder, cleanDistFolder),
+    gulp.parallel(
+        buildTypeScript,
+        compileDistStyles,
+        copyFontsTo(paths.out.dist.fonts)
+    )
+    )
+);
 gulp.task('dist:watch', gulp.series(
     'dist:build',
     watchDist
@@ -53,7 +55,7 @@ gulp.task('docs:build-aot', gulp.series(
 ));
 gulp.task('docs:build', gulp.series(
     cleanDocsFolder,
-    webpackRun,
+    webpackBuildDocs,
     compileDocsSASS,
     gulp.parallel(
         copyFontsTo(paths.out.fonts),
@@ -67,7 +69,7 @@ gulp.task('docs:watch', gulp.series(
         copyImagesToDocs
     ),
     gulp.parallel(
-        webpackWatch,
+        webpackWatchDocs,
         watchDocs
     )
 ));
@@ -78,9 +80,12 @@ gulp.task('test:watch', watchTests);
 // gulp.task('package', gulp.series('clean', 'lint', 'test:run', 'dist:build'));
 gulp.task('package', gulp.series('clean', 'dist:build'));
 
-
 function cleanDistFolder() {
     return del([`${paths.out.dist.root}/**`, `!${paths.out.dist.root}`]);
+}
+
+function cleanTempFolder() {
+    return del([`${paths.out.temp}/**`]);
 }
 
 function cleanDocsFolder() {
@@ -91,36 +96,13 @@ function compileDistStyles() {
     return checkDistSASS().then(copyDistSASS);
 }
 
-let tsProject;
-function compileDistTypescript() {
-    if (!tsProject) {
-        tsProject = ts.createProject('tsconfig.json', {
-            declaration: true,
-            noEmit: false,
-            outDir: 'dist',
-            typescript: require('typescript')
-        });
-    }
-    let tsResult = gulp.src(paths.src.typescript.concat(paths.src.typings))
-        .pipe(inlineNg2Template({
-            base: '/',
-            indent: 0,
-            removeLineBreaks: true,
-            useRelativePaths: true,
-            target: 'es5',
-            templateProcessor: minifyTemplate
-        }))
-        .pipe(sourcemaps.init())
-        .pipe(tsProject());
-
-    tsResult.on('error', () => process.exitCode = 1);
-
-    return merge([
-        tsResult.dts.pipe(gulp.dest(paths.out.dist.root)),
-        tsResult.js
-            .pipe(sourcemaps.write('.', { includeContent: true, sourceRoot: '../src' }))
-            .pipe(gulp.dest(paths.out.dist.root))
-     ]);
+function buildTypeScript(done) {
+    return gulp.series(
+        copyTypeScriptToTemp,
+        ngc,
+        copyCompiledCodeToDist,
+        cleanTempFolder
+    )(done);
 }
 
 /**
@@ -169,20 +151,20 @@ function compileDocsTemplatesAot() {
 function copyDistTemplates() {
     return (
         gulp.src(paths.src.templates)
-        .pipe(gulp.dest(paths.out.dist.root))
+            .pipe(gulp.dest(paths.out.dist.root))
     );
 }
 
 function checkDistSASS() {
     let stream = (
         gulp.src(paths.src.scssMain, { base: '.' })
-        .pipe(sass({
-            errLogToConsole: true,
-            outputStyle: 'expanded',
-            includePaths: ['node_modules']
-        }))
-        .on('error', () => { process.exitCode = 1; })
-        .on('error', sass.logError)
+            .pipe(sass({
+                errLogToConsole: true,
+                outputStyle: 'expanded',
+                includePaths: ['node_modules']
+            }))
+            .on('error', () => { process.exitCode = 1; })
+            .on('error', sass.logError)
     );
     stream.pipe(gutil.noop());
     return streamToPromise(stream);
@@ -192,11 +174,11 @@ function copyDistSASS() {
     return Promise.all([
         streamToPromise(
             gulp.src(paths.src.scss)
-            .pipe(gulp.dest(paths.out.dist.root))
+                .pipe(gulp.dest(paths.out.dist.root))
         ),
         streamToPromise(
             gulp.src('node_modules/materialize-css/sass/**/*.scss')
-            .pipe(gulp.dest(path.join(paths.out.dist.styles, 'materialize-css/sass')))
+                .pipe(gulp.dest(path.join(paths.out.dist.styles, 'materialize-css/sass')))
         )
     ]);
 }
@@ -205,13 +187,13 @@ function copyFontsTo(outputFolder) {
     return function copyFonts() {
         return (
             gulp.src(paths.vendorStatics.concat(paths.src.fonts))
-            .pipe(filter([
-                '**/*.eot',
-                '**/*.ttf',
-                '**/*.woff',
-                '**/*.woff2'
-            ]))
-            .pipe(gulp.dest(outputFolder))
+                .pipe(filter([
+                    '**/*.eot',
+                    '**/*.ttf',
+                    '**/*.woff',
+                    '**/*.woff2'
+                ]))
+                .pipe(gulp.dest(outputFolder))
         );
     };
 }
@@ -222,71 +204,71 @@ function lint() {
     return Promise.all([
         new Promise((resolve, reject) => {
             files.pipe(filter('**/*.js'))
-            .pipe(jscs())
-            .on('error', reject)
-            .on('end', resolve)
-            .pipe(jscsStylish())
-            .pipe(jscs.reporter('fail'));
+                .pipe(jscs())
+                .on('error', reject)
+                .on('end', resolve)
+                .pipe(jscsStylish())
+                .pipe(jscs.reporter('fail'));
         }),
         new Promise((resolve, reject) => {
             files.pipe(filter('**/*.json'))
-            .pipe(jsonlint())
-            .on('error', reject)
-            .on('end', resolve)
-            .pipe(jsonlint.reporter())
-            .pipe(jsonlint.failAfterError());
+                .pipe(jsonlint())
+                .on('error', reject)
+                .on('end', resolve)
+                .pipe(jsonlint.reporter())
+                .pipe(jsonlint.failAfterError());
         }),
         new Promise((resolve, reject) => {
             files.pipe(filter('**/*.ts'))
-            .pipe(tslint())
-            .pipe(tslint.report(tslintStylish, {
-                emitError: true,
-                summarizeFailureOutput: false
-            }))
-            .on('error', reject)
-            .on('end', resolve);
+                .pipe(tslint())
+                .pipe(tslint.report(tslintStylish, {
+                    emitError: true,
+                    summarizeFailureOutput: false
+                }))
+                .on('error', reject)
+                .on('end', resolve);
         })
     ])
-    .catch(() => { process.exitCode = 1; });
+        .catch(() => { process.exitCode = 1; });
 }
 
 function copyImagesToDocs() {
     return (
         gulp.src(paths.docs.assets)
-        .pipe(gulp.dest(paths.out.images))
+            .pipe(gulp.dest(paths.out.images))
     );
 }
 
 function compileDocsSASS() {
     return (
         gulp.src(paths.docs.scssMain, { base: '.' })
-        .pipe(sourcemaps.init())
-        .pipe(sass({
-            errLogToConsole: true,
-            outputStyle: 'expanded',
-            includePaths: ['node_modules']
-        }))
-        .on('error', sass.logError)
-        .on('error', () => { process.exitCode = 1; })
-        .pipe(autoprefixer(buildConfig.autoprefixer))
-        .pipe(concat('app.css'))
-        .pipe(sourcemaps.write('.', {
-            includeContent: true,
-            sourceRoot: relativeRoot(paths.out.css)
-        }))
-        .pipe(gulp.dest(paths.out.css))
+            .pipe(sourcemaps.init())
+            .pipe(sass({
+                errLogToConsole: true,
+                outputStyle: 'expanded',
+                includePaths: ['node_modules']
+            }))
+            .on('error', sass.logError)
+            .on('error', () => { process.exitCode = 1; })
+            .pipe(autoprefixer(buildConfig.autoprefixer))
+            .pipe(concat('app.css'))
+            .pipe(sourcemaps.write('.', {
+                includeContent: true,
+                sourceRoot: relativeRoot(paths.out.css)
+            }))
+            .pipe(gulp.dest(paths.out.css))
     );
 }
 
-function watchDocs(runForever) {
+function watchDocs() {
     gulp.watch(paths.docs.scss, gulp.series(compileDocsSASS));
     gulp.watch(paths.src.vendorStatics, gulp.parallel(copyFontsTo(paths.out.fonts), copyImagesToDocs));
 }
 
-function watchDist(runForever) {
+function watchDist() {
     gulp.watch(paths.src.scss, gulp.series(compileDistStyles));
-    gulp.watch([paths.src.typescript, paths.src.typings], compileDistTypescript);
-    gulp.watch(paths.src.templates, copyDistTemplates);
+    // This is super slow for a watch task. Tracking solutions here: https://github.com/angular/angular/issues/13475
+    gulp.watch([paths.src.typescript, paths.src.typings, paths.src.templates], buildTypeScript);
     gulp.watch(paths.src.fonts, copyFontsTo(paths.out.dist.fonts));
 }
 
@@ -318,9 +300,9 @@ function webpackCompileDocsFromAot(callback) {
 }
 
 /**
- * Builds the demo app with the "dist" webpack config.
+ * Builds the docs app with the "dist" webpack config.
  */
-function webpackRun(callback) {
+function webpackBuildDocs(callback) {
     webpack(webpackDistConfig).run(webpackOnCompleted(callback));
 }
 
@@ -329,7 +311,7 @@ let devCompiler = webpack(webpackDevConfig);
 /**
  * Start webpack watching with the "dev" config.
  */
-function webpackWatch(callback) {
+function webpackWatchDocs(callback) {
     devCompiler.watch({}, webpackOnCompleted(callback));
 }
 
@@ -408,6 +390,48 @@ function webpackOnCompleted(callback) {
             hasRun = true;
         }
     };
+}
+
+/**
+ * Copy the TypeScript sources to a temp folder and inline the templates.
+ */
+function copyTypeScriptToTemp() {
+    return gulp.src(paths.src.typescript)
+        .pipe(inlineNg2Template({
+            base: '/',
+            indent: 0,
+            removeLineBreaks: true,
+            useRelativePaths: true,
+            target: 'es5',
+            templateProcessor: minifyTemplate
+        }))
+        .pipe(gulp.dest(paths.out.temp));
+}
+
+/**
+ * Run ngc to compile the TypeScript source into AoT-compatible js & metadata files.
+ */
+function ngc(done) {
+    exec('npm run ngc', (err) => {
+        if (err) {
+            throw err;
+        } else {
+            done();
+        }
+    });
+}
+
+/**
+ * Once ngc has compiled the TypeScript source, we move the generated files to the final destination.
+ */
+function copyCompiledCodeToDist() {
+    return gulp.src([
+        `${paths.out.temp}/**/*.d.ts`,
+        `${paths.out.temp}/**/*.js`,
+        `${paths.out.temp}/**/*.map`,
+        `${paths.out.temp}/**/*.json`,
+    ])
+        .pipe(gulp.dest(paths.out.dist.root));
 }
 
 /**

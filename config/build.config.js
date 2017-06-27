@@ -26,6 +26,7 @@ const paths = {
         fonts: 'docs/fonts',
         images: 'docs/images',
         js: 'docs/js',
+        temp: 'temp',
         dist: {
             root: 'dist',
             styles: 'dist/styles',
