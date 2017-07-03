@@ -25,7 +25,7 @@ export class OverlayHostService {
     }
 
     /**
-     * Used to pass in the ViewContainerRed from the OverlayHost component.
+     * Used to pass in the ViewContainerRef from the OverlayHost component.
      * Should not be used by any other component.
      */
     registerHostView(viewContainerRef: ViewContainerRef): void {
