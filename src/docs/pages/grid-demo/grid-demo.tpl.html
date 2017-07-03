@@ -50,8 +50,20 @@
 </div>
 <p>
     Resize the page to see the column width change due to
-    <code>small-#</code> and <code>large-#</code> classes.
+    <code>small-#</code>, <code>medium-#</code> and <code>large-#</code> classes.
 </p>
+
+<hr>
+
+<h5>Advanced Sizing</h5>
+<p>If no sizing class is added to the column, it will simply expand to fill the leftover space.</p>
+<gtx-highlighted-code language="HTML" [code]="example2.innerHTML"></gtx-highlighted-code>
+<div class="grid-demo" #example2>
+    <div class="row">
+        <div class="small-4 columns">4 columns</div>
+        <div class="columns">whatever is left</div>
+    </div>
+</div>
 
 <hr>
 
@@ -59,8 +71,8 @@
 <p>
     Small grids expand to large screens easier than large grids cram into small screens.
 </p>
-<gtx-highlighted-code language="HTML" [code]="example2.innerHTML"></gtx-highlighted-code>
-<div class="grid-demo show-grid-width" #example2>
+<gtx-highlighted-code language="HTML" [code]="example3.innerHTML"></gtx-highlighted-code>
+<div class="grid-demo show-grid-width" #example3>
     <div class="row">
         <div class="small-2 columns"></div>
         <div class="small-10 columns"></div>
@@ -78,8 +90,8 @@
     Medium sized screens will inherit styles from small, unless you
     specify a different layout using the <code>.medium-#</code> grid classes.
 </p>
-<gtx-highlighted-code language="HTML" [code]="example3.innerHTML"></gtx-highlighted-code>
-<div class="grid-demo show-grid-width" #example3>
+<gtx-highlighted-code language="HTML" [code]="example4.innerHTML"></gtx-highlighted-code>
+<div class="grid-demo show-grid-width" #example4>
     <div class="row">
         <div class="medium-2 columns"></div>
         <div class="medium-10 columns"></div>
@@ -103,8 +115,8 @@
     Column rows can use sizing classes like <code>.small-8</code>, but only when used
     as a top-level container — not when nested inside another row.
 </p>
-<gtx-highlighted-code language="HTML" [code]="example4.innerHTML"></gtx-highlighted-code>
-<div class="grid-demo" #example4>
+<gtx-highlighted-code language="HTML" [code]="example5.innerHTML"></gtx-highlighted-code>
+<div class="grid-demo" #example5>
     <div class="column row">
         Row column
     </div>
@@ -117,8 +129,8 @@
     Normally, a row is always 1200 pixels wide. Make a row
     completely fluid by adding the <code>.expanded</code> class.
 </p>
-<gtx-highlighted-code language="HTML" [code]="example5.innerHTML"></gtx-highlighted-code>
-<div class="grid-demo" #example5>
+<gtx-highlighted-code language="HTML" [code]="example6.innerHTML"></gtx-highlighted-code>
+<div class="grid-demo" #example6>
     <div class="expanded row">
         <div class="column">Expanded to the full width</div>
     </div>
@@ -130,8 +142,8 @@
 <p>
     You can nest the grids indefinitely, though at a certain point it will get absurd.
 </p>
-<gtx-highlighted-code language="HTML" [code]="example6.innerHTML"></gtx-highlighted-code>
-<div class="grid-demo show-grid-width" #example6>
+<gtx-highlighted-code language="HTML" [code]="example7.innerHTML"></gtx-highlighted-code>
+<div class="grid-demo show-grid-width" #example7>
     <div class="row">
         <div class="small-8 columns">
             <div class="row">
@@ -155,8 +167,8 @@
     Move blocks up to 11 columns to the right by using classes like
     <code>.large-offset-1</code> and <code>.small-offset-3</code>.
 </p>
-<gtx-highlighted-code language="HTML" [code]="example7.innerHTML"></gtx-highlighted-code>
-<div class="grid-demo show-grid-width" #example7>
+<gtx-highlighted-code language="HTML" [code]="example8.innerHTML"></gtx-highlighted-code>
+<div class="grid-demo show-grid-width" #example8>
     <div class="row">
         <div class="large-1 columns"></div>
         <div class="large-11 columns"></div>
@@ -210,11 +222,11 @@
     to your row element. Example shows no gutter at small media size and then adds the gutter
     to columns at medium.
 </p>
-<gtx-highlighted-code language="HTML" [code]="example8.innerHTML"></gtx-highlighted-code>
+<gtx-highlighted-code language="HTML" [code]="example9.innerHTML"></gtx-highlighted-code>
 <p>
     Scale the browser down to a medium size to see the difference.
 </p>
-<div class="grid-demo" #example8>
+<div class="grid-demo" #example9>
     <div class="row medium-uncollapse large-collapse">
         <div class="small-6 columns">
             Removes gutter at large media query
@@ -234,13 +246,13 @@
     by applying a <code>.large-centered</code> class. To uncenter on large screens,
     use <code>.large-uncentered</code>.
 </p>
-<gtx-highlighted-code language="HTML" [code]="example9.innerHTML"></gtx-highlighted-code>
-<div class="grid-demo show-grid-width" #example9>
+<gtx-highlighted-code language="HTML" [code]="example10.innerHTML"></gtx-highlighted-code>
+<div class="grid-demo show-grid-width" #example10>
     <div class="row">
         <div class="small-3 small-centered columns">centered</div>
     </div>
     <div class="row">
-        <div class="small-6 large-centered columns">centered</div>
+        <div class="small-6 large-centered columns">centered large</div>
     </div>
     <div class="row">
         <div class="small-9 small-centered large-uncentered columns">centered small and medium</div>
@@ -261,8 +273,8 @@
     <code>.medium-push-#</code>, <code>.large-push-#</code> is the syntax you'll use. Use the number
     0 instead to reset a push/pull, such as <code>.medium-push-0</code> or <code>.large-pull-0</code>.
 </p>
-<gtx-highlighted-code language="HTML" [code]="example10.innerHTML"></gtx-highlighted-code>
-<div class="grid-demo" #example10>
+<gtx-highlighted-code language="HTML" [code]="example11.innerHTML"></gtx-highlighted-code>
+<div class="grid-demo" #example11>
     <div class="row">
         <div class="small-10 small-push-2 columns">10</div>
         <div class="small-2 small-pull-10 columns">2, last</div>
@@ -292,8 +304,8 @@
     Add a class of the format <code>[size]-up-[n]</code> to change the size of all columns
     within the row. By default, the max number of columns you can use with block grid are 8.
 </p>
-<gtx-highlighted-code language="HTML" [code]="example11.innerHTML"></gtx-highlighted-code>
-<div class="grid-demo no-border" #example11>
+<gtx-highlighted-code language="HTML" [code]="example12.innerHTML"></gtx-highlighted-code>
+<div class="grid-demo no-border" #example12>
     <div class="row small-up-1 medium-up-2 large-up-4">
         <div class="column">
             <img src="images/placeholder.png" class="thumbnail" alt="">
@@ -332,8 +344,8 @@
         @include flex-grid-row;
     }
 '></gtx-highlighted-code>
-<gtx-highlighted-code language="HTML" [code]="example12.innerHTML"></gtx-highlighted-code>
-<div class="grid-demo show-grid-width" #example12>
+<gtx-highlighted-code language="HTML" [code]="example13.innerHTML"></gtx-highlighted-code>
+<div class="grid-demo show-grid-width" #example13>
     <div class="my-container">
         <div class="columns small-4"></div>
         <div class="columns small-8"></div>
@@ -459,8 +471,8 @@
         }
     }
 '></gtx-highlighted-code>
-<gtx-highlighted-code language="HTML" [code]="example13.innerHTML"></gtx-highlighted-code>
-<div class="grid-demo no-border" #example13>
+<gtx-highlighted-code language="HTML" [code]="example14.innerHTML"></gtx-highlighted-code>
+<div class="grid-demo no-border" #example14>
     <div class="people">
         <div class="vcard">
             <div class="vcard-picture">
@@ -490,5 +502,5 @@
 <h4>SASS Reference</h4>
 <p>
     For the full reference of variables and mixins the grid offers, refer to the
-    <a href="//foundation.zurb.com/sites/docs/grid.html#sass-reference">Foundation documentation</a>.
+    <a href="//foundation.zurb.com/sites/docs/flex-grid.html#sass-reference">Foundation documentation</a>.
 </p>
