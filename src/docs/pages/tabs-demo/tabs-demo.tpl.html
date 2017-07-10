@@ -28,9 +28,9 @@
         <div class="row">
             <div class="column">
                 <gtx-select label="Select Active Tab" [(ngModel)]="activeTab">
-                    <gtx-option>tab1</gtx-option>
-                    <gtx-option>tab2</gtx-option>
-                    <gtx-option>tab3</gtx-option>
+                    <gtx-option value="tab1">tab1</gtx-option>
+                    <gtx-option value="tab2">tab2</gtx-option>
+                    <gtx-option value="tab3">tab3</gtx-option>
                 </gtx-select>
             </div>
             <div class="column">
@@ -45,9 +45,9 @@
     <div class="demo-code">
         <gtx-highlighted-code language="HTML" code='
                     <gtx-select label="Select Active Tab" [(ngModel)]="activeTab">
-                        <gtx-option>tab1</gtx-option>
-                        <gtx-option>tab2</gtx-option>
-                        <gtx-option>tab3</gtx-option>
+                        <gtx-option value="tab1">tab1</gtx-option>
+                        <gtx-option value="tab2">tab2</gtx-option>
+                        <gtx-option value="tab3">tab3</gtx-option>
                     </gtx-select>
                     <gtx-tabs pure [activeId]="activeTab">
                         <gtx-tab title="Tab 1" id="tab1">Tab 1 Content</gtx-tab>

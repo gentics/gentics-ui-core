@@ -5,5 +5,5 @@ import {Component} from '@angular/core';
 })
 export class TabsDemo {
     componentSource: string = require('!!raw-loader!../../../components/tabs/tabs.component');
-    activeTab: string;
+    activeTab: string = 'tab1';
 }
