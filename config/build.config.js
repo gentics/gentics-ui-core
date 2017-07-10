@@ -17,8 +17,9 @@ const paths = {
     docs: {
         scss: ['src/**/*.scss'],
         scssMain: 'src/docs/app.scss',
-        typescriptMain: 'src/docs/bootstrap.ts',
-        assets: 'src/docs/assets/**/*.*'
+        typescript: 'src/docs/**/*.ts',
+        assets: 'src/docs/assets/**/*.*',
+        temp: 'src/docs-temp'
     },
     out: {
         css: 'docs/css',

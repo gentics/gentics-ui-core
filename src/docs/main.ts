@@ -1,8 +1,8 @@
-require('highlight.js/styles/atelier-estuary-light.css');
+//require('highlight.js/styles/atelier-estuary-light.css');
 
-import {DocsModule} from './app.module';
 import {enableProdMode} from '@angular/core';
 import {platformBrowserDynamic} from '@angular/platform-browser-dynamic';
+import {DocsModule} from './app.module';
 
 declare const PROD: boolean;
 if (PROD) {

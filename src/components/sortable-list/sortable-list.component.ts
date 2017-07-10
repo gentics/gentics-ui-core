@@ -1,3 +1,4 @@
+/// <reference path="../../../node_modules/@types/sortablejs/index.d.ts"/>
 import {Component, Directive, ElementRef, EventEmitter, Input, Output, SimpleChanges} from '@angular/core';
 const sortable = require('sortablejs');
 

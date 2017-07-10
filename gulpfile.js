@@ -45,13 +45,13 @@ gulp.task('dist:watch', gulp.series(
 ));
 gulp.task('lint', lint);
 gulp.task('docs:build-aot', gulp.series(
-    compileDocsTemplatesAot,
+    cleanDocsFolder,
+    webpackCompileDocsFromAot,
     compileDocsSASS,
     gulp.parallel(
         copyFontsTo(paths.out.fonts),
         copyImagesToDocs
-    ),
-    webpackCompileDocsFromAot
+    )
 ));
 gulp.task('docs:build', gulp.series(
     cleanDocsFolder,
@@ -134,7 +134,7 @@ function minifyTemplate(path, ext, file, cb) {
 function compileDocsTemplatesAot() {
     console.warn('AoT Mode is still under development!');
     return new Promise((resolve, reject) => {
-        const cmd = path.join('node_modules', '.bin', 'ngc') + ' -p tsconfig.aot.json';
+        const cmd = path.join('node_modules', '.bin', 'ngc') + ' -p .tsconfig.aot.json';
 
         exec(cmd, (err, stdout, stderr) => {
             console.log(stdout);
@@ -279,23 +279,6 @@ function watchDist() {
  */
 function webpackCompileDocsFromAot(callback) {
     const aotConfig = Object.assign({}, webpackDistConfig);
-    aotConfig.entry.app = path.join(__dirname, 'src', 'docs', 'main.ts');
-    aotConfig.plugins[0] = new webpack.LoaderOptionsPlugin({
-        test: /\.ts$/,
-        options: {
-            files: [
-                'src/docs/main.aot.ts',
-                'typings/index.d.ts'
-            ],
-            compilerOptions: {
-                declaration: false,
-                noEmit: false,
-                noEmitOnError: false
-            },
-            // https://github.com/TypeStrong/ts-loader/issues/283#issuecomment-249414784
-            resolve: {}
-        }
-    });
     webpack(aotConfig).run(webpackOnCompleted(callback));
 }
 
@@ -392,11 +375,15 @@ function webpackOnCompleted(callback) {
     };
 }
 
+function copyTypeScriptToTemp() {
+    return copyTypeScriptTo(paths.src.typescript, paths.out.temp)();
+}
+
 /**
  * Copy the TypeScript sources to a temp folder and inline the templates.
  */
-function copyTypeScriptToTemp() {
-    return gulp.src(paths.src.typescript)
+function copyTypeScriptTo(src, dest) {
+    return () => gulp.src(src)
         .pipe(inlineNg2Template({
             base: '/',
             indent: 0,
@@ -405,7 +392,7 @@ function copyTypeScriptToTemp() {
             target: 'es5',
             templateProcessor: minifyTemplate
         }))
-        .pipe(gulp.dest(paths.out.temp));
+        .pipe(gulp.dest(dest));
 }
 
 /**
@@ -413,6 +400,16 @@ function copyTypeScriptToTemp() {
  */
 function ngc(done) {
     exec('npm run ngc', (err) => {
+        if (err) {
+            throw err;
+        } else {
+            done();
+        }
+    });
+}
+
+function ngcDocs(done) {
+    exec('npm run ngc:docs', (err) => {
         if (err) {
             throw err;
         } else {

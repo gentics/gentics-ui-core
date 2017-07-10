@@ -7,6 +7,7 @@
   "typings": "dist/index.d.ts",
   "scripts": {
     "ngc": "ngc -p config/tsconfig.aot.json",
+    "ngc:docs": "ngc -p config/tsconfig.aot-docs.json",
     "temp": "gulp dist:build",
     "prepare-package": "gulp package",
     "test": "gulp test:run",
@@ -49,6 +50,7 @@
     "@angular/platform-browser": "^4.2.3",
     "@angular/platform-browser-dynamic": "^4.2.3",
     "@angular/router": "^4.2.3",
+    "@ngtools/webpack": "^1.5.0",
     "@types/hammerjs": "^2.0.33",
     "@types/jasmine": "^2.5.38",
     "@types/jquery": "^2.0.34",
