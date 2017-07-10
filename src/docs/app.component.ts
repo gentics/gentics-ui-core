@@ -1,11 +1,11 @@
-import {Component, ViewChild} from '@angular/core';
-import {DomSanitizer, SafeHtml, Title} from '@angular/platform-browser';
-import {ActivatedRoute, Router, NavigationEnd, PRIMARY_OUTLET} from '@angular/router';
-import {Subscription} from 'rxjs';
+import { Component, ViewChild } from '@angular/core';
+import { DomSanitizer, SafeHtml, Title } from '@angular/platform-browser';
+import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
+import { Subscription } from 'rxjs/Subscription';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/filter';
-import {SplitViewContainer} from '../index';
-import {pages, kebabToPascal, IPageInfo} from './pageList';
+import { SplitViewContainer } from '../index';
+import { IPageInfo, kebabToPascal, pages } from './pageList';
 
 
 // Exposed globally by the Webpack DefinePlugin

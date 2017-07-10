@@ -1,7 +1,8 @@
 import {Injectable} from '@angular/core';
-import {Observable} from 'rxjs';
+import {Observable} from 'rxjs/Observable';
 import {DateTimePickerStrings} from './date-time-picker-strings';
 import {defaultStrings} from './date-time-picker-default-strings';
+import 'rxjs/add/observable/never';
 
 /**
  * A simplified subset of the Moment interface which we expose via the first arg of the

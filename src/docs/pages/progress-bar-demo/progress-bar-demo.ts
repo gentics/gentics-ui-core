@@ -1,5 +1,6 @@
 import {Component} from '@angular/core';
-import {Observable, Observer} from 'rxjs';
+import {Observable} from 'rxjs/Observable';
+import {Observer} from 'rxjs/Observer';
 
 @Component({
     templateUrl: './progress-bar-demo.tpl.html'

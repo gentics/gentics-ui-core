@@ -11,6 +11,8 @@ import {
     ViewChild,
     ViewContainerRef
 } from '@angular/core';
+import 'rxjs/add/operator/take';
+
 import {OverlayHostService} from '../overlay-host/overlay-host.service';
 import {DropdownContentWrapper} from './dropdown-content-wrapper.component';
 import {ScrollMask} from './scroll-mask.component';

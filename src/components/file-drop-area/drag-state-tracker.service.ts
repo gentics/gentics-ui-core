@@ -1,5 +1,6 @@
-import {Injectable, EventEmitter} from '@angular/core';
-import {Observable, Subscriber} from 'rxjs';
+import {Injectable} from '@angular/core';
+import {Observable} from 'rxjs/Observable';
+import {Subscriber} from 'rxjs/Subscriber';
 
 import {getDataTransfer, getEventTarget, getTransferMimeTypes, transferHasFiles} from './drag-drop-utils';
 

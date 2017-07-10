@@ -1,6 +1,6 @@
 import { Component, Input, Output, EventEmitter, forwardRef, Optional, OnInit, OnDestroy, ChangeDetectorRef } from '@angular/core';
 import {ControlValueAccessor, NG_VALUE_ACCESSOR} from '@angular/forms';
-import {Subscription} from 'rxjs';
+import {Subscription} from 'rxjs/Subscription';
 
 import {ModalService} from '../modal/modal.service';
 import {DateTimePickerModal} from './date-time-picker-modal.component';

@@ -1,4 +1,4 @@
-//require('highlight.js/styles/atelier-estuary-light.css');
+require('highlight.js/styles/atelier-estuary-light.css');
 
 import {enableProdMode} from '@angular/core';
 import {platformBrowserDynamic} from '@angular/platform-browser-dynamic';

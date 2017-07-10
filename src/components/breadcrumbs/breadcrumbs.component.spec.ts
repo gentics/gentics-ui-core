@@ -3,7 +3,8 @@ import {ComponentFixture, getTestBed, TestBed, tick} from '@angular/core/testing
 import {Component} from '@angular/core';
 import {By} from '@angular/platform-browser';
 import {ActivatedRoute, Router, RouterModule} from '@angular/router';
-import {Observable} from 'rxjs';
+import {Observable} from 'rxjs/Observable';
+import 'rxjs/add/observable/of';
 
 import {componentTest, createClickEvent} from '../../testing';
 import {

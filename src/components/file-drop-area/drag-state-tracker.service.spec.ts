@@ -1,4 +1,4 @@
-import {Observable} from 'rxjs';
+import {Observable} from 'rxjs/Observable';
 
 import {SpyEventTarget, subscribeSpyObserver, triggerFakeDragEvent} from '../../testing';
 import {DragStateTrackerFactory, FileDragState} from './drag-state-tracker.service';

@@ -2,6 +2,9 @@ import {Component, ComponentFactoryResolver, Injectable, ReflectiveInjector, Vie
 import {BrowserDynamicTestingModule} from '@angular/platform-browser-dynamic/testing';
 import {TestBed, tick, ComponentFixture} from '@angular/core/testing';
 import {FormsModule, ReactiveFormsModule, FormControl, FormGroup} from '@angular/forms';
+import 'rxjs/add/observable/timer';
+import 'rxjs/add/operator/take';
+import 'rxjs/add/operator/do';
 
 import {componentTest, worksButHasPendingTimers} from '../../testing';
 import {DateTimePicker} from './date-time-picker.component';
@@ -11,7 +14,7 @@ import {OverlayHostService} from '../overlay-host/overlay-host.service';
 import {ModalService} from '../modal/modal.service';
 import {IModalInstance, IModalOptions} from '../modal/modal-interfaces';
 import {DateTimePickerFormatProvider} from './date-time-picker-format-provider.service';
-import {Observable} from 'rxjs';
+import {Observable} from 'rxjs/Observable';
 import {InputField} from '../input/input.component';
 import {DynamicModalWrapper} from '../modal/dynamic-modal-wrapper.component';
 import {Button} from '../button/button.component';

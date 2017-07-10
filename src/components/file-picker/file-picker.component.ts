@@ -1,5 +1,7 @@
 import {ChangeDetectorRef, Component, EventEmitter, Input, OnInit, OnDestroy, Optional, Output, Self} from '@angular/core';
-import {Observable, Subscription} from 'rxjs';
+import {Observable} from 'rxjs/Observable';
+import {Subscription} from 'rxjs/Subscription';
+import 'rxjs/add/observable/merge';
 
 import {FileDropArea, IFileDropAreaOptions} from '../file-drop-area/file-drop-area.directive';
 import {matchesMimeType} from '../file-drop-area/matches-mime-type';

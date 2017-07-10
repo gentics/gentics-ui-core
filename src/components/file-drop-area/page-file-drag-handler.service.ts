@@ -1,9 +1,12 @@
-import {EventEmitter, Inject, Injectable, Input, OnInit, OnDestroy, Output, OpaqueToken, Optional} from '@angular/core';
-import {Observable, Subscription} from 'rxjs';
+import { EventEmitter, Inject, Injectable, OpaqueToken, Optional, Output } from '@angular/core';
+import { Observable } from 'rxjs/Observable';
+import { Subscription } from 'rxjs/Subscription';
+import 'rxjs/add/operator/mapTo';
+import 'rxjs/add/operator/filter';
 
-import {DragStateTrackerFactory, FileDragState} from './drag-state-tracker.service';
-import {getDataTransfer, getEventTarget, getTransferMimeTypes, transferHasFiles} from './drag-drop-utils';
-import {matchesMimeType} from './matches-mime-type';
+import { DragStateTrackerFactory, FileDragState } from './drag-state-tracker.service';
+import { getDataTransfer, transferHasFiles } from './drag-drop-utils';
+import { matchesMimeType } from './matches-mime-type';
 
 
 /**

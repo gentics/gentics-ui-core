@@ -1,4 +1,5 @@
-import {Observable, Subscriber} from 'rxjs';
+import {Observable} from 'rxjs/Observable';
+import {Subscriber} from 'rxjs/Subscriber';
 
 import {SpyObserver, subscribeSpyObserver} from './spy-observer';
 

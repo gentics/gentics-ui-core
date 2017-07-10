@@ -1,5 +1,9 @@
 import {Component, ElementRef, Input, OnDestroy, ViewChild} from '@angular/core';
-import {Observable, Observer, Subscription} from 'rxjs';
+import {Observable} from 'rxjs/Observable';
+import {Subscription} from 'rxjs/Subscription';
+import 'rxjs/add/operator/concat';
+import 'rxjs/add/observable/of';
+import 'rxjs/add/observable/never';
 
 import {IModalDialog} from '../modal/modal-interfaces';
 import {DateTimePickerStrings} from './date-time-picker-strings';
