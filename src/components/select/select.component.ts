@@ -128,7 +128,11 @@ export class Select implements ControlValueAccessor {
     ngAfterViewInit(): void {
         // Update the value if there are any changes to the options
         this.subscriptions.push(
-            this._selectOptions.changes.subscribe(() => this.writeValue(this.value))
+            this._selectOptions.changes.subscribe(() => {
+                this.writeValue(this.value);
+                this.optionGroups = this.buildOptionGroups();
+                this.selectedOptions = this.getInitiallySelectedOptions();
+            })
         );
     }
 

@@ -1,9 +1,13 @@
 # Gentics UI Core Changelog
 
-## 5.0.1 (in progress)
+## 5.1.0 (in progress)
+
+### Features
+* Library is now built with ngc, generating metadata files required for AoT-compiled projects.
 
 ### Fixes
 * OverlayHostService no longer breaks when instantiated in a child module.
+* Select options are updated upon <gtx-option> changes (GUIC-120).
 
 ## 5.0.0 (2017-05-08)
 
