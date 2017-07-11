@@ -7,8 +7,6 @@
   "typings": "dist/index.d.ts",
   "scripts": {
     "ngc": "ngc -p config/tsconfig.aot.json",
-    "ngc:docs": "ngc -p config/tsconfig.aot-docs.json",
-    "temp": "gulp dist:build",
     "prepare-package": "gulp package",
     "test": "gulp test:run",
     "watch": "gulp test:watch dist:watch docs:watch"
@@ -103,6 +101,7 @@
     "tslint-stylish": "^2.1.0-beta",
     "typescript": "2.2.2",
     "webpack": "2.4.1",
+    "webpack-merge": "^4.1.0",
     "zone.js": "^0.8.5"
   },
   "dependencies": {

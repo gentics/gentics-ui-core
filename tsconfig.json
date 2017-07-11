@@ -6,7 +6,7 @@
         "declaration": true,
         "emitDecoratorMetadata": true,
         "experimentalDecorators": true,
-        "lib": ["dom", "es6"],
+        "lib": ["dom", "es2015"],
         "sourceMap": true,
         "moduleResolution": "node",
         "noImplicitAny": true,

@@ -3,6 +3,4 @@
 !/.npmignore
 !/package.json
 !/npm-shrinkwrap.json
-!/tsproject.json
-!/typings.json
 !/README.md

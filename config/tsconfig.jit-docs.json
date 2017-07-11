@@ -1,0 +1,10 @@
+{
+    "extends": "../tsconfig",
+    "include": [
+        "../src/docs/**/*",
+        "../typings/*"
+    ],
+    "exclude": [
+        "../src/docs/**/*.spec.ts"
+    ]
+}

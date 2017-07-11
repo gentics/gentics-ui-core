@@ -30,17 +30,6 @@ module.exports = {
 
     module: {
         rules: [
-            { test: /\.ts$/, use: [
-                {
-                    loader: 'awesome-typescript-loader',
-                    options: {
-                        transpileOnly: false,
-                        configFileName: 'tsconfig.json',
-                        declaration: false
-                    }
-                },
-                'angular2-template-loader'
-            ] },
             { test: /\.css$/, use: ['style-loader', 'raw-loader', 'autoprefixer-loader'] },
             { test: /\.scss$/, use: ['style-loader', 'raw-loader', 'autoprefixer-loader', 'sass-loader'] },
             { test: /\.html/, use: 'raw-loader' },

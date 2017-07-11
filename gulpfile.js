@@ -44,18 +44,9 @@ gulp.task('dist:watch', gulp.series(
     watchDist
 ));
 gulp.task('lint', lint);
-gulp.task('docs:build-aot', gulp.series(
-    cleanDocsFolder,
-    webpackCompileDocsFromAot,
-    compileDocsSASS,
-    gulp.parallel(
-        copyFontsTo(paths.out.fonts),
-        copyImagesToDocs
-    )
-));
 gulp.task('docs:build', gulp.series(
     cleanDocsFolder,
-    webpackBuildDocs,
+    webpackCompileDocsFromAot,
     compileDocsSASS,
     gulp.parallel(
         copyFontsTo(paths.out.fonts),
@@ -125,34 +116,6 @@ function minifyTemplate(path, ext, file, cb) {
     } catch (err) {
         cb(err);
     }
-}
-
-/**
- * Use `ngc` - the angular compiler cli - to pre-compile the docs templates for aot mode.
- * TODO: this is not fully working yet.
- */
-function compileDocsTemplatesAot() {
-    console.warn('AoT Mode is still under development!');
-    return new Promise((resolve, reject) => {
-        const cmd = path.join('node_modules', '.bin', 'ngc') + ' -p .tsconfig.aot.json';
-
-        exec(cmd, (err, stdout, stderr) => {
-            console.log(stdout);
-            console.log(stderr);
-            if (err) {
-                reject(err);
-            } else {
-                resolve(stdout);
-            }
-        });
-    });
-}
-
-function copyDistTemplates() {
-    return (
-        gulp.src(paths.src.templates)
-            .pipe(gulp.dest(paths.out.dist.root))
-    );
 }
 
 function checkDistSASS() {
@@ -273,20 +236,11 @@ function watchDist() {
 }
 
 /**
- * Once the templates have been compiled by ngc, this task can be run to bundle the compiled
- * templates into the final docs app bundle.
- * TODO: Not yet working. Need to use @ngtools/webpack
+ * Use @ngtools/webpack to build an AoT-compiled docs app
  */
 function webpackCompileDocsFromAot(callback) {
     const aotConfig = Object.assign({}, webpackDistConfig);
     webpack(aotConfig).run(webpackOnCompleted(callback));
-}
-
-/**
- * Builds the docs app with the "dist" webpack config.
- */
-function webpackBuildDocs(callback) {
-    webpack(webpackDistConfig).run(webpackOnCompleted(callback));
 }
 
 // create a single instance of the compiler to allow caching
@@ -408,16 +362,6 @@ function ngc(done) {
     });
 }
 
-function ngcDocs(done) {
-    exec('npm run ngc:docs', (err) => {
-        if (err) {
-            throw err;
-        } else {
-            done();
-        }
-    });
-}
-
 /**
  * Once ngc has compiled the TypeScript source, we move the generated files to the final destination.
  */
@@ -448,7 +392,7 @@ function relativeRoot(filepath) {
  */
 function streamToPromise(stream) {
     return new Promise((resolve, reject) => {
-        stream.on('error', reject);;
+        stream.on('error', reject);
         stream.on('end', resolve);
     });
 }
