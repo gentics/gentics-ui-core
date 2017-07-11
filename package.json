@@ -2,7 +2,6 @@
   "name": "gentics-ui-core",
   "version": "5.1.0",
   "description": "Gentics UI Core Framework",
-  "private": true,
   "main": "dist/index.js",
   "module": "dist/index.js",
   "typings": "dist/index.d.ts",
@@ -10,13 +9,14 @@
     "ngc": "ngc -p config/tsconfig.aot.json",
     "prepare-package": "gulp package",
     "test": "gulp test:run",
-    "watch": "gulp test:watch dist:watch docs:watch"
+    "watch": "gulp test:watch dist:watch docs:watch",
+    "prepublishOnly": "gulp test:run"
   },
   "repository": {
     "type": "git",
     "url": "git@git.gentics.com:psc/gentics-ui-core.git"
   },
-  "homepage": "http://dev.office/gentics-ui-core/",
+  "homepage": "https://dev.gentics.com/gentics-ui-core/",
   "bugs": {
     "url": "http://git.gentics.com/psc/gentics-ui-core/issues"
   },

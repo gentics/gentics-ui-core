@@ -4,15 +4,11 @@ This is the common core framework for the Gentics CMS and Mesh UI apps.
 
 ## Using ui-core in a project
 
-1. Add ui-core to the projects package.json:
+1. Install via npm:
 ```
-"gentics-ui-core": "git+ssh://git@git.gentics.com:psc/gentics-ui-core-npm-package.git#v5.0.0"
+npm install gentics-ui-core
 ```
-2. Install it using npm:
-```
-npm install
-```
-3. Import the module and add it to your apps root module:
+2. Import the module and add it to your apps root module:
 ```TypeScript
 // app.module.ts
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
@@ -28,6 +24,10 @@ import { GenticsUICoreModule } from 'gentics-ui-core';
 }
 export class AppModule { }
 ```
+
+## Documentation
+
+Full documentation and examples are available at [https://dev.gentics.com/gentics-ui-core/](https://dev.gentics.com/gentics-ui-core/)
 
 ## Building the docs app
 
