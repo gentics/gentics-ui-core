@@ -254,6 +254,24 @@ describe('Select:', () => {
         )
     );
 
+    it('updates options when the gtx-options elements change asynchronously',
+        componentTest(() => TestComponent, (fixture, instance) => {
+                fixture.detectChanges();
+                tick();
+                clickSelectAndOpen(fixture);
+                const getOptionText = () => getListItems(fixture).map(el => el.innerText);
+                expect(getOptionText()).toEqual(['Foo', 'Bar', 'Baz']);
+
+                setTimeout(() => instance.options.push('Quux'), 500);
+                tick(500);
+
+                fixture.detectChanges();
+                expect(getOptionText()).toEqual(['Foo', 'Bar', 'Baz', 'Quux']);
+                tick(1000);
+            }
+        )
+    );
+
     describe('keyboard controls', () => {
 
         it('should open when enter is pressed',  componentTest(() => TestComponent, fixture => {
