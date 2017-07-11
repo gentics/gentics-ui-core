@@ -1,5 +1,10 @@
 # Gentics UI Core Changelog
 
+## 5.1.1 (2017-07-11)
+
+### Fixes 
+* Library had not been rebuilt before last npm publish, so some changes were not there.
+
 ## 5.1.0 (2017-07-11)
 
 ### Features
