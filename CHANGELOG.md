@@ -1,6 +1,6 @@
 # Gentics UI Core Changelog
 
-## 5.1.0 (in progress)
+## 5.1.0 (2017-07-11)
 
 ### Features
 * Library is now built with ngc, generating metadata files required for AoT-compiled projects.
