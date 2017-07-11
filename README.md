@@ -46,5 +46,5 @@ A fairly recent version of the docs app is also [availiable on dev.gentics.com](
 1. `npm shrinkwrap`
 2. `git commit -am 'vX.Y.Z'`
 3. `git tag vX.Y.Z`
-4. `git checkout HEAD^`
+4. `git reset --hard HEAD^`
 5. `git push origin vX.Y.Z master`
