@@ -57,7 +57,7 @@ module.exports = {
             inject: true,
             template: path.join(srcPath, 'index.html')
         }),
-        new webpack.NoErrorsPlugin(),
+        new webpack.NoEmitOnErrorsPlugin(),
         new CheckerPlugin()
     ],
     devtool: 'eval-source-map'
