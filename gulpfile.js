@@ -37,8 +37,7 @@ gulp.task('dist:build', gulp.series(
         compileDistStyles,
         copyFontsTo(paths.out.dist.fonts)
     )
-    )
-);
+));
 gulp.task('dist:watch', gulp.series(
     'dist:build',
     watchDist
@@ -126,7 +125,9 @@ function checkDistSASS() {
                 outputStyle: 'expanded',
                 includePaths: ['node_modules']
             }))
-            .on('error', () => { process.exitCode = 1; })
+            .on('error', () => {
+                process.exitCode = 1;
+            })
             .on('error', sass.logError)
     );
     stream.pipe(gutil.noop());
@@ -191,8 +192,9 @@ function lint() {
                 .on('error', reject)
                 .on('end', resolve);
         })
-    ])
-        .catch(() => { process.exitCode = 1; });
+    ]).catch(() => {
+        process.exitCode = 1;
+    });
 }
 
 function copyImagesToDocs() {
@@ -212,7 +214,9 @@ function compileDocsSASS() {
                 includePaths: ['node_modules']
             }))
             .on('error', sass.logError)
-            .on('error', () => { process.exitCode = 1; })
+            .on('error', () => {
+                process.exitCode = 1;
+            })
             .pipe(autoprefixer(buildConfig.autoprefixer))
             .pipe(concat('app.css'))
             .pipe(sourcemaps.write('.', {
@@ -257,7 +261,7 @@ function runTests(callback) {
         if (err) {
             console.error('\nWebpack error: ', err.message || err.toString());
             process.exit(1);
-        } else if (stats && stats.hasErrors) {
+        } else if (stats && stats.hasErrors()) {
             console.error('\nWebpack errors: ', stats.toJSON().errors);
             process.exit(1);
         }
@@ -312,10 +316,17 @@ function webpackOnCompleted(callback) {
             throw new gutil.PluginError('[webpack]', err);
         }
 
-        if (stats.hasErrors) {
-            stats.toJson().errors.map(e => {
-                gutil.log(gutil.colors.red(e));
+        if (stats.hasWarnings()) {
+            stats.toJson().warnings.forEach(warning => {
+                gutil.log(gutil.colors.yellow(warning));
             });
+        }
+
+        if (stats.hasErrors()) {
+            stats.toJson().errors.forEach(error => {
+                gutil.log(gutil.colors.red(error));
+            });
+
             process.exitCode = 1;
         }
 
