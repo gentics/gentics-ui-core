@@ -137,20 +137,6 @@
     </div>
 </gtx-demo-block>
 
-<gtx-demo-block demoTitle="Disabled State">
-    <div class="demo-result">
-        <p>The <code>disabled</code> attribute can be bound to:</p>
-        <gtx-checkbox [(ngModel)]="buttonIsDisabled" label="Disable Button"></gtx-checkbox>
-        <p><gtx-button [disabled]="buttonIsDisabled">Button</gtx-button></p>
-    </div>
-    <div class="demo-code">
-        <gtx-highlighted-code language="HTML" code='
-                <gtx-checkbox [(ngModel)]="buttonIsDisabled" label="Disable Button"></gtx-checkbox>
-                <gtx-button [disabled]="buttonIsDisabled">Button</gtx-button>
-           '></gtx-highlighted-code>
-    </div>
-</gtx-demo-block>
-
 <gtx-demo-block demoTitle="Submit button">
     <div class="demo-result">
         <form [formGroup]="demoForm" (ngSubmit)="formResult = demoForm.value">
@@ -184,12 +170,15 @@
             standard events which apply regular HTML button elements will bubble up and can
             be bound to.
         </p>
-        <p><gtx-button (click)="clickCount = clickCount + 1">Click Me</gtx-button></p>
+        <p><strong>Note:</strong> there is an open issue where disabled buttons still fire the (click) handlers. See <a href="https://jira.gentics.com/browse/GUIC-124">the issue on Jira</a>.</p>
+        <gtx-checkbox [(ngModel)]="buttonIsDisabled" label="Disable Button"></gtx-checkbox>
+        <p><gtx-button [disabled]="buttonIsDisabled" (click)="clickCount = clickCount + 1">Click Me</gtx-button></p>
         Click count: {{ clickCount }}
     </div>
     <div class="demo-code">
         <gtx-highlighted-code language="HTML" code='
-                <gtx-button (click)="clickCount = clickCount + 1">Click Me</gtx-button>
+                <gtx-checkbox [(ngModel)]="buttonIsDisabled" label="Disable Button"></gtx-checkbox>
+                <p><gtx-button [disabled]="buttonIsDisabled" (click)="clickCount = clickCount + 1">Click Me</gtx-button></p>
                 Click count: (( clickCount ))
            '></gtx-highlighted-code>
     </div>
