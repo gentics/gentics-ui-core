@@ -145,7 +145,7 @@ export class ModalService {
      */
     public fromComponent<T extends IModalDialog>(component: Type<T>,
                          options?: IModalOptions,
-                         locals?: { [key: string]: any }): Promise<IModalInstance<T>> {
+                         locals?: { [K in keyof T]?: T[K] }): Promise<IModalInstance<T>> {
         let modal = this.wrapComponentInModal(component, options, locals);
         return Promise.resolve(modal);
     }

@@ -1,5 +1,10 @@
 # Gentics UI Core Changelog
 
+## 5.2.0 (in progress)
+
+### Features
+* Improve type safety of ModalService.fromComponent() method
+
 ## 5.1.1 (2017-07-11)
 
 ### Fixes 
