@@ -5,6 +5,9 @@
 ### Features
 * Improve type safety of ModalService.fromComponent() method
 
+### Fixes
+* Fix SplitViewContainer incorrectly switching in IE11 (GUIC-126)
+
 ## 5.1.1 (2017-07-11)
 
 ### Fixes 

@@ -143,11 +143,12 @@ gtx-split-view-container {
                 display: block;
                 font-family: 'Material Icons';
                 font-size: 4rem;
-                line-height: 0;
+                height: 70px;
                 position: absolute;
                 text-align: center;
-                top: 50%;
+                top: calc(50% - 35px);
                 width: 100%;
+                overflow: hidden;
             }
 
             & > * > .focus-switcher-right::before {
