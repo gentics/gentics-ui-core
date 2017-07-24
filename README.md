@@ -48,3 +48,8 @@ A fairly recent version of the docs app is also [availiable on dev.gentics.com](
 3. `git tag vX.Y.Z`
 4. `git reset --hard HEAD^`
 5. `git push origin vX.Y.Z master`
+
+### Publish to npm
+
+1. `gulp dist:build`
+2. `npm publish`

@@ -1,6 +1,6 @@
 {
   "name": "gentics-ui-core",
-  "version": "5.2.0",
+  "version": "5.2.1",
   "description": "Gentics UI Core Framework",
   "main": "dist/index.js",
   "module": "dist/index.js",
@@ -9,8 +9,7 @@
     "ngc": "ngc -p config/tsconfig.aot.json",
     "prepare-package": "gulp package",
     "test": "gulp test:run",
-    "watch": "gulp test:watch dist:watch docs:watch",
-    "prepublishOnly": "gulp test:run && gulp dist:build"
+    "watch": "gulp test:watch dist:watch docs:watch"
   },
   "repository": {
     "type": "git",
