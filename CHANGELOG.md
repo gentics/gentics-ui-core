@@ -1,6 +1,6 @@
 # Gentics UI Core Changelog
 
-## 5.2.2 (in progress)
+## 5.2.2 (2017-07-24)
 
 ### Fixes
 * ModalService no longer attempts to open modal before the host view is registered.
@@ -8,7 +8,6 @@
 
 ## 5.2.1 (2017-07-24)
 
-### Fixes
 * Fixed bad publish to npm, no source changes.
 
 ## 5.2.0 (2017-07-24)
@@ -21,7 +20,6 @@
 
 ## 5.1.1 (2017-07-11)
 
-### Fixes 
 * Library had not been rebuilt before last npm publish, so some changes were not there.
 
 ## 5.1.0 (2017-07-11)
