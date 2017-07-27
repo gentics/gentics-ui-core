@@ -51,7 +51,6 @@ describe('Checkbox', () => {
 
             expect(nativeInput.checked).toBe(false);
             expect(nativeInput.disabled).toBe(false);
-            expect(nativeInput.readOnly).toBe(false);
             expect(nativeInput.required).toBe(false);
             expect(nativeInput.value).toBe('');
         })
@@ -92,7 +91,6 @@ describe('Checkbox', () => {
                 disabled="true"
                 [checked]="true"
                 name="testName"
-                readonly="true"
                 required="true"
                 value="testValue"
             ></gtx-checkbox>`,
@@ -103,7 +101,6 @@ describe('Checkbox', () => {
                 expect(nativeInput.disabled).toBe(true);
                 expect(nativeInput.checked).toBe(true);
                 expect(nativeInput.name).toBe('testName');
-                expect(nativeInput.readOnly).toBe(true);
                 expect(nativeInput.required).toBe(true);
                 expect(nativeInput.value).toBe('testValue');
             }

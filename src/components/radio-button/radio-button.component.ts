@@ -181,11 +181,6 @@ export class RadioButton implements ControlValueAccessor, OnInit, OnDestroy {
     @Input() name: string;
 
     /**
-     * Sets the readonly state
-     */
-    @Input() readonly: boolean = false;
-
-    /**
      * Sets the required state
      */
     @Input() required: boolean = false;

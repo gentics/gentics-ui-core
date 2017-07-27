@@ -19,7 +19,6 @@ describe('Range:', () => {
             fixture.detectChanges();
 
             expect(nativeInput.disabled).toBe(false);
-            expect(nativeInput.readOnly).toBe(false);
             expect(nativeInput.required).toBe(false);
             expect(nativeInput.value).toBe('50');
         })
@@ -49,7 +48,6 @@ describe('Range:', () => {
                 max="100"
                 min="5"
                 name="testName"
-                readonly="true"
                 required="true"
                 step="5"
                 value="35"
@@ -62,7 +60,6 @@ describe('Range:', () => {
                 expect(parseInt(nativeInput.max, 10)).toBe(100);
                 expect(parseInt(nativeInput.min, 10)).toBe(5);
                 expect(nativeInput.name).toBe('testName');
-                expect(nativeInput.readOnly).toBe(true);
                 expect(nativeInput.required).toBe(true);
                 expect(parseInt(nativeInput.step, 10)).toBe(5);
                 expect(nativeInput.value).toBe('35');

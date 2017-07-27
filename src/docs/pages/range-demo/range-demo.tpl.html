@@ -31,11 +31,11 @@
 <gtx-demo-block demoTitle="Setting Value Programmatically">
     <div class="demo-result">
         <p>
-            A readonly or disabled range input will not be draggable, but the value can be set dynamically.
+            A disabled range input will not be draggable, but the value can be set dynamically.
         </p>
         <div class="row">
             <div class="column small-12 medium-8">
-                <gtx-range [(ngModel)]="rangeValDynamic" readonly="true" label="This range is readonly..."></gtx-range>
+                <gtx-range [(ngModel)]="rangeValDynamic" disabled="true" label="This range is disabled..."></gtx-range>
             </div>
             <div class="column small-12 medium-4">
                 <gtx-input [(ngModel)]="rangeValDynamic" type="number" label="...but can be changed here." min="0" max="100" step="1"></gtx-input>
@@ -44,7 +44,7 @@
     </div>
     <div class="demo-code">
         <gtx-highlighted-code language="HTML" code='
-                <gtx-range [(ngModel)]="rangeValDynamic" readonly="true"></gtx-range>
+                <gtx-range [(ngModel)]="rangeValDynamic" disabled="true"></gtx-range>
                 <gtx-input [(ngModel)]="rangeValDynamic" type="number" min="0" max="100" step="1"></gtx-input>
         '></gtx-highlighted-code>
     </div>

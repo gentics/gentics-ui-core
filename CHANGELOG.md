@@ -1,14 +1,20 @@
 # Gentics UI Core Changelog
 
-## 5.2.1 (2017-07-27)
+## 5.2.2 (in progress)
 
 ### Fixes
 * ModalService no longer attempts to open modal before the host view is registered.
+* Remove redundant "readonly" inputs on Checkbox, Range and RadioButton.
+
+## 5.2.1 (2017-07-24)
+
+### Fixes
+* Fixed bad publish to npm, no source changes.
 
 ## 5.2.0 (2017-07-24)
 
 ### Features
-* Improve type safety of ModalService.fromComponent() method
+* Improve type safety of ModalService.fromComponent() method.
 
 ### Fixes
 * Fix SplitViewContainer incorrectly switching in IE11 (GUIC-126)

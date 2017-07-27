@@ -62,11 +62,6 @@ export class Range implements ControlValueAccessor {
     @Input() name: string;
 
     /**
-     * Sets the readonly state.
-     */
-    @Input() readonly: boolean = false;
-
-    /**
      * Sets the required state.
      */
     @Input() required: boolean = false;
@@ -109,7 +104,7 @@ export class Range implements ControlValueAccessor {
     @ViewChild('input') private inputElement: ElementRef;
 
     private get canModify(): boolean {
-        return !this.disabled && !this.readonly;
+        return !this.disabled;
     }
 
     // ValueAccessor members
@@ -122,19 +117,6 @@ export class Range implements ControlValueAccessor {
 
     ngOnInit(): void {
         this.writeValue(this.value);
-    }
-
-    ngOnChanges(changes: { [K in keyof this]: SimpleChange }): void {
-        if (changes.readonly) {
-            // IE11 and Edge do not support the `readonly` property on a range input, and cancelling or preventing
-            // the `change` event also does not work. See https://developer.microsoft.com/en-us/microsoft-edge/platform/issues/11421194/
-            // Thus we do some browser sniffing and for IE and Edge we convert `readonly` into `disabled`.
-            const edgeOrIE = (/rv:11\.0/i.test(navigator.userAgent)) || (/Edge\/\d./i.test(navigator.userAgent));
-            if (edgeOrIE) {
-                const readonly = changes.readonly.currentValue;
-                this.disabled = (readonly === true || readonly === 'true');
-            }
-        }
     }
 
     onBlur(e: FocusEvent): void {
