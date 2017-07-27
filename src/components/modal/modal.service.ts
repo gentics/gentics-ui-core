@@ -122,8 +122,8 @@ import {IModalInstance, IDialogConfig, IModalDialog, IModalOptions} from './moda
 @Injectable()
 export class ModalService {
 
-    private hostViewContainer: ViewContainerRef;
     private openModalComponents: ComponentRef<IModalDialog>[] = [];
+    private getHostViewContainer: () => Promise<ViewContainerRef>;
 
     /**
      * Returns an array of ComponentRefs for each currently-opened modal.
@@ -134,9 +134,7 @@ export class ModalService {
 
     constructor(private componentFactoryResolver: ComponentFactoryResolver,
                 overlayHostService: OverlayHostService) {
-        overlayHostService.getHostView().then(view => {
-            this.hostViewContainer = view;
-        });
+        this.getHostViewContainer = () => overlayHostService.getHostView();
     }
 
     /**
@@ -155,49 +153,55 @@ export class ModalService {
      * for the implementation of the declarative [Modal](#/modal) component.
      */
     public fromElement(elementRef: ElementRef, options?: IModalOptions): Promise<IModalInstance<BlankModal>> {
-        let modal = this.wrapComponentInModal(BlankModal, options);
-        modal.element.appendChild(elementRef.nativeElement);
-        return Promise.resolve(modal);
+        return this.wrapComponentInModal(BlankModal, options)
+            .then(modal => {
+                modal.element.appendChild(elementRef.nativeElement);
+                return modal;
+            });
     }
 
     /**
      * Creates and displays a standard modal dialog.
      */
     public dialog(config: IDialogConfig, options?: IModalOptions): Promise<IModalInstance<ModalDialog>> {
-        let modal = this.wrapComponentInModal(ModalDialog, options);
-        modal.instance.setConfig(config);
-        return Promise.resolve(modal);
+       return this.wrapComponentInModal(ModalDialog, options)
+           .then(modal => {
+               modal.instance.setConfig(config);
+               return modal;
+           });
     }
 
     private wrapComponentInModal<T extends IModalDialog>(component: Type<T>,
-                                 options?: IModalOptions,
-                                 locals?: { [key: string]: any }): IModalInstance<T> {
-        const modalWrapper = this.createModalWrapper<T>(options);
-        const componentRef = modalWrapper.injectContent(component);
-        const dialog = componentRef.instance;
-        if (locals !== undefined) {
-            for (let key in locals) {
-                (<any> dialog)[key] = locals[key];
-            }
-            componentRef.changeDetectorRef.markForCheck();
-        }
-        this.checkModalDialogInterface(dialog);
-        return {
-            instance: dialog as any,
-            element: componentRef.location.nativeElement,
-            open: (): Promise<any> => {
-                this.invokeOnOpenCallback(options);
-                this.openModalComponents.push(componentRef);
-                componentRef.onDestroy(() => {
-                    const index = this.openModalComponents.indexOf(componentRef);
-                    if (-1 < index) {
-                        this.openModalComponents.splice(index, 1);
+                                                         options?: IModalOptions,
+                                                         locals?: { [key: string]: any }): Promise<IModalInstance<T>> {
+        return this.createModalWrapper<T>(options)
+            .then(modalWrapper => {
+                const componentRef = modalWrapper.injectContent(component);
+                const dialog = componentRef.instance;
+                if (locals !== undefined) {
+                    for (let key in locals) {
+                        (<any> dialog)[key] = locals[key];
                     }
-                });
-                modalWrapper.open();
-                return this.createPromiseFromDialog(modalWrapper, dialog);
-            }
-        };
+                    componentRef.changeDetectorRef.markForCheck();
+                }
+                this.checkModalDialogInterface(dialog);
+                return {
+                    instance: dialog as any,
+                    element: componentRef.location.nativeElement,
+                    open: (): Promise<any> => {
+                        this.invokeOnOpenCallback(options);
+                        this.openModalComponents.push(componentRef);
+                        componentRef.onDestroy(() => {
+                            const index = this.openModalComponents.indexOf(componentRef);
+                            if (-1 < index) {
+                                this.openModalComponents.splice(index, 1);
+                            }
+                        });
+                        modalWrapper.open();
+                        return this.createPromiseFromDialog(modalWrapper, dialog);
+                    }
+                };
+            });
     }
 
     /**
@@ -214,13 +218,16 @@ export class ModalService {
      * Creates the DynamicModalWrapper in place in the DOM and returns a reference to the
      * created component.
      */
-    private createModalWrapper<T extends IModalDialog>(options?: IModalOptions): DynamicModalWrapper {
-        let modalFactoryFactory = this.componentFactoryResolver.resolveComponentFactory(DynamicModalWrapper);
-        if (!this.hostViewContainer) {
-            throw new Error('No OverlayHost present, add a <gtx-overlay-host> element!');
-        }
-        const ref = this.hostViewContainer.createComponent(modalFactoryFactory);
-        return this.getConfiguredModalWrapper(ref, options);
+    private createModalWrapper<T extends IModalDialog>(options?: IModalOptions): Promise<DynamicModalWrapper> {
+        return this.getHostViewContainer()
+            .then(hostViewContainer => {
+                let modalFactoryFactory = this.componentFactoryResolver.resolveComponentFactory(DynamicModalWrapper);
+                if (!hostViewContainer) {
+                    throw new Error('No OverlayHost present, add a <gtx-overlay-host> element!');
+                }
+                const ref = hostViewContainer.createComponent(modalFactoryFactory);
+                return this.getConfiguredModalWrapper(ref, options);
+            });
     }
 
     /**

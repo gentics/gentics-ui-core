@@ -1,5 +1,10 @@
 # Gentics UI Core Changelog
 
+## 5.2.1 (2017-07-27)
+
+### Fixes
+* ModalService no longer attempts to open modal before the host view is registered.
+
 ## 5.2.0 (2017-07-24)
 
 ### Features

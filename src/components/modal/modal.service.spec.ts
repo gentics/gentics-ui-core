@@ -1,7 +1,7 @@
-import {Component} from '@angular/core';
+import {Component, ComponentRef} from '@angular/core';
 import {BrowserDynamicTestingModule} from '@angular/platform-browser-dynamic/testing';
 import {By} from '@angular/platform-browser';
-import {discardPeriodicTasks, ComponentFixture, TestBed, tick} from '@angular/core/testing';
+import {discardPeriodicTasks, ComponentFixture, TestBed, tick, fakeAsync} from '@angular/core/testing';
 
 import {componentTest} from '../../testing';
 import {OverlayHostService} from '../overlay-host/overlay-host.service';
@@ -30,6 +30,48 @@ describe('ModalService:', () => {
                 entryComponents: [DynamicModalWrapper, ModalDialog]
             }
         });
+    });
+
+    describe('order of initialization', () => {
+
+        it('use of the hostViewContainer should be deferred until one is available', fakeAsync(() => {
+            const overlayHostService: OverlayHostService = TestBed.get(OverlayHostService);
+            const modalService: ModalService = TestBed.get(ModalService);
+            const dialogConfig = { title: 'Test', buttons: [{label: 'okay'}]};
+
+            let promise: Promise<any>;
+            let resolved = false;
+            let rejected = false;
+
+            function openDialog(): void {
+                promise = modalService.dialog(dialogConfig)
+                    .then(() => resolved = true)
+                    .catch((err) => rejected = true);
+            }
+            expect(openDialog).not.toThrow();
+            tick();
+            expect(resolved).toBe(false);
+
+            class MockViewContainerRef {
+                createComponent(): any {
+                    return {
+                        instance: {
+                            setOptions(): void {},
+                            injectContent(): ComponentRef<IModalDialog> {
+                                return TestBed.createComponent(ModalDialog).componentRef;
+                            }
+                        },
+                        destroy(): void {}
+                    };
+                }
+            }
+
+            overlayHostService.registerHostView(new MockViewContainerRef() as any);
+            tick();
+            expect(resolved).toBe(true);
+            expect(rejected).toBe(false);
+        }));
+
     });
 
     describe('dialog():', () => {
@@ -394,6 +436,7 @@ describe('ModalService:', () => {
                         result => { expect(result).toBe('some result'); },
                         () => { fail('Promise should resolve but rejected'); }
                     );
+                tick();
             })
         );
 
@@ -441,6 +484,7 @@ describe('ModalService:', () => {
                         () => fail('Promise should reject but resolved'),
                         (err: Error) => expect(err.message).toBe('a test error')
                     );
+                tick();
             })
         );
 
