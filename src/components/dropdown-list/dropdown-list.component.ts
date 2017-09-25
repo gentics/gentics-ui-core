@@ -5,8 +5,10 @@ import {
     ComponentFactoryResolver,
     ComponentRef,
     ContentChild,
+    EventEmitter,
     HostListener,
     Input,
+    Output,
     TemplateRef,
     ViewChild,
     ViewContainerRef
@@ -69,6 +71,16 @@ export class DropdownList {
     @ViewChild(TemplateRef) contentsTemplate: TemplateRef<any>;
     @ContentChild(DropdownTriggerDirective) trigger: DropdownTriggerDirective;
     @ContentChild(DropdownContent) content: DropdownContent;
+
+    /**
+     * Fired whenever the dropdown contents are opened.
+     */
+    @Output() open = new EventEmitter<void>();
+
+    /**
+     * Fired whenever the dropdown contents are closed.
+     */
+    @Output() close = new EventEmitter<void>();
 
     private _disabled: boolean = false;
     private overlayHostView: ViewContainerRef;
@@ -233,6 +245,7 @@ export class DropdownList {
 
         this.scrollMaskRef = this.overlayHostView.createComponent(this.scrollMaskFactory, null);
         this.scrollMaskRef.instance.clicked.take(1).subscribe(() => this.closeDropdown());
+        this.open.emit();
     }
 
     onTriggerClick(): void {
@@ -254,5 +267,6 @@ export class DropdownList {
             this.contentComponentRef.destroy();
             this.contentComponentRef = null;
         }
+        this.close.emit();
     }
 }

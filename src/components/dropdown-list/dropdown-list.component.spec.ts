@@ -93,6 +93,38 @@ describe('DropdownList:', () => {
         })
     );
 
+    it('open is fired when dropdown opens',
+        componentTest(() => TestComponent, (fixture, instance) => {
+            fixture.detectChanges();
+            expect(instance.onOpen).not.toHaveBeenCalled();
+
+            getTrigger(fixture, 0).click();
+            tick();
+            fixture.detectChanges();
+            expect(instance.onOpen).toHaveBeenCalled();
+
+            tick();
+        })
+    );
+
+    it('close is fired when dropdown closes',
+        componentTest(() => TestComponent, (fixture, instance) => {
+            fixture.detectChanges();
+            expect(instance.onClose).not.toHaveBeenCalled();
+
+            getTrigger(fixture, 0).click();
+            tick();
+            fixture.detectChanges();
+            expect(instance.onClose).not.toHaveBeenCalled();
+
+            let firstItem: HTMLElement = getContentListFirstItem(fixture);
+            firstItem.click();
+            tick(1000);
+
+            expect(instance.onClose).toHaveBeenCalled();
+        })
+    );
+
     it('clicking the trigger does not open dropdown when disabled == true',
         componentTest(() => TestComponent, (fixture, instance) => {
             instance.disabled = true;
@@ -371,7 +403,10 @@ describe('DropdownList:', () => {
             <gtx-overlay-host></gtx-overlay-host>
             <gtx-dropdown-list [sticky]="sticky"
                                [disabled]="disabled"
-                               [closeOnEscape]="closeOnEscape">
+                               [closeOnEscape]="closeOnEscape"
+                               (open)="onOpen()"
+                               (close)="onClose()"
+                               >
                 <gtx-dropdown-trigger>
                     <button>Choose An Option</button>
                 </gtx-dropdown-trigger>
@@ -388,6 +423,8 @@ class TestComponent {
     disabled = false;
     closeOnEscape = true;
     collection = [1, 2, 3];
+    onOpen = jasmine.createSpy('onOpen');
+    onClose = jasmine.createSpy('onClose');
 }
 
 function getTrigger(fixture: any, index: number): HTMLElement {
