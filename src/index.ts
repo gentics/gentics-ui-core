@@ -11,6 +11,8 @@ export * from './components/checkbox/checkbox.component';
 export * from './components/contents-list-item/contents-list-item.component';
 export * from './components/date-time-picker/date-time-picker-format-provider.service';
 export * from './components/date-time-picker/date-time-picker-strings';
+export * from './components/date-time-picker/date-time-picker-controls.component';
+export * from './components/date-time-picker/date-time-picker-modal.component';
 export * from './components/date-time-picker/date-time-picker.component';
 export * from './components/dropdown-list/dropdown-content-wrapper.component';
 export * from './components/dropdown-list/dropdown-item.component';

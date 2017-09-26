@@ -5,6 +5,8 @@
 ### Features
 * Add `open` and `close` events to DropdownList.
 * Large Select menus are initialized to the selected item (GUIC-131).
+* Implement max, min and year selection in DateTimePicker (GUIC 130).
+* Split up DateTimePicker into standalone DateTimePickerControls component.
 
 ## 5.2.2 (2017-07-24)
 

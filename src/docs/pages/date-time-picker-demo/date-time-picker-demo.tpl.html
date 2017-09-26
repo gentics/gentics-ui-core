@@ -41,6 +41,18 @@
     </div>
 </gtx-demo-block>
 
+<gtx-demo-block demoTitle="Selecting a Year">
+    <div class="demo-result">
+        <gtx-date-time-picker [(ngModel)]="timestamp" label="Pick a date" displayTime="false" selectYear="true"></gtx-date-time-picker>
+        timestamp: <code>{{ timestamp }}</code>
+    </div>
+    <div class="demo-code">
+        <gtx-highlighted-code language="HTML" code='
+               TBC
+        '></gtx-highlighted-code>
+    </div>
+</gtx-demo-block>
+
 <gtx-demo-block demoTitle="Custom Format">
     <div class="demo-result">
         <gtx-date-time-picker [timestamp]="timestamp" format="Do MMM YY @ h:mm a"></gtx-date-time-picker>
@@ -100,7 +112,7 @@
                     };
 
                     format(moment: any, showTime: boolean, showSeconds: boolean): string {
-                        return `Tag ${moment.date()} Monat ${moment.month() + 1} Jahr ${moment.year()}`; 
+                        return `Tag ${moment.date()} Monat ${moment.month() + 1} Jahr ${moment.year()}`;
                     }
                 }
         "></gtx-highlighted-code>

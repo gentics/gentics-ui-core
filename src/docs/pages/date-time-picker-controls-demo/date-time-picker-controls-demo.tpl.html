@@ -1,0 +1,78 @@
+<h3>DateTimePickerControls</h3>
+
+<gtx-autodocs [source]="componentSource"></gtx-autodocs>
+
+<h4>Demos</h4>
+
+<gtx-demo-block demoTitle="Date And Time">
+    <div class="demo-result">
+        <gtx-date-time-picker-controls (change)="timestamp = $event"
+                                       [timestamp]="timestamp"
+                                       displayTime="true"
+                                       displaySeconds="true"></gtx-date-time-picker-controls>
+        timestamp: <code>{{ timestamp }}</code>
+    </div>
+    <div class="demo-code">
+        <gtx-highlighted-code language="HTML" code='
+        <gtx-date-time-picker-controls (change)="timestamp = $event"
+                                       [timestamp]="timestamp"
+                                       displayTime="true"
+                                       displaySeconds="true"></gtx-date-time-picker-controls>
+        '></gtx-highlighted-code>
+    </div>
+</gtx-demo-block>
+
+<gtx-demo-block demoTitle="Compact Mode">
+    <div class="demo-result">
+        <gtx-date-time-picker-controls (change)="timestamp = $event"
+                                       [timestamp]="timestamp"
+                                       compact="true"></gtx-date-time-picker-controls>
+        timestamp: <code>{{ timestamp }}</code>
+    </div>
+    <div class="demo-code">
+        <gtx-highlighted-code language="HTML" code='
+                <gtx-date-time-picker-controls (change)="timestamp = $event"
+                                               [timestamp]="timestamp"
+                                               compact="true"></gtx-date-time-picker-controls>
+        '></gtx-highlighted-code>
+    </div>
+</gtx-demo-block>
+
+
+<gtx-demo-block demoTitle="Min and Max">
+    <div class="demo-result">
+        <gtx-date-time-picker-controls [timestamp]="timestamp"
+                                       (change)="timestamp = $event"
+                                       [min]="min"
+                                       [max]="max"
+                                       displayTime="true"
+                                       displaySeconds="true"></gtx-date-time-picker-controls>
+        timestamp: <code>{{ timestamp }}</code>
+    </div>
+    <div class="demo-code">
+        <gtx-highlighted-code language="HTML" code='
+               <gtx-date-time-picker-controls [timestamp]="timestamp"
+                                              (change)="timestamp = $event"
+                                              [min]="min"
+                                              [max]="max"
+                                              displayTime="true"
+                                              displaySeconds="true"></gtx-date-time-picker-controls>
+        '></gtx-highlighted-code>
+    </div>
+</gtx-demo-block>
+
+<gtx-demo-block demoTitle="Selecting a Year">
+    <div class="demo-result">
+        <gtx-date-time-picker-controls (change)="timestamp = $event"
+                                       [timestamp]="timestamp"
+                                       selectYear="true"></gtx-date-time-picker-controls>
+        timestamp: <code>{{ timestamp }}</code>
+    </div>
+    <div class="demo-code">
+        <gtx-highlighted-code language="HTML" code='
+               <gtx-date-time-picker-controls (change)="timestamp = $event"
+                                              [timestamp]="timestamp"
+                                              selectYear="true"></gtx-date-time-picker-controls>
+        '></gtx-highlighted-code>
+    </div>
+</gtx-demo-block>

@@ -1,0 +1,53 @@
+<div class="controls-header">
+    <div class="day">{{ formatWith('dddd') }}</div>
+    <div class="year" *ngIf="!selectYear && dateOrder === 'ymd'">{{ formatWith('YYYY') }}</div>
+    <div class="month" *ngIf="dateOrder !== 'dmy'">{{ formatWith('MMM') }}</div>
+    <div class="date">{{ formatWith('D') }}</div>
+    <div class="month" *ngIf="dateOrder === 'dmy'">{{ formatWith('MMM') }}</div>
+    <div class="year" *ngIf="!selectYear && dateOrder !== 'ymd'">{{ formatWith('YYYY') }}</div>
+    <div *ngIf="selectYear" class="year-selector">
+        <gtx-select (change)="setYear($event)" [ngModel]="value.year()">
+            <gtx-option *ngFor="let year of years" [value]="year">{{ year }}</gtx-option>
+        </gtx-select>
+    </div>
+</div>
+<div class="controls-content">
+    <div #calendarContainer class="calendar-container"></div>
+    <div class="time-picker" *ngIf="displayTime">
+        <div class="row">
+            <div class="column hours" [ngClass]="displaySeconds ? 'small-4' : 'small-6'">
+                <button class="increment-button" (click)="incrementTime('hours')"><i class="material-icons">arrow_drop_up</i></button>
+                <gtx-input [(ngModel)]="time.h"
+                            [label]="formatProvider.strings.hours"
+                            (blur)="updateTime('hours', time.h)"
+                            (keydown)="timeKeyHandler('hours', $event)"
+                            type="number"
+                            min="0"
+                            max="23"></gtx-input>
+                <button class="increment-button" (click)="decrementTime('hours')"><i class="material-icons">arrow_drop_down</i></button>
+            </div>
+            <div class="column minutes" [ngClass]="displaySeconds ? 'small-4' : 'small-6'">
+                <button class="increment-button" (click)="incrementTime('minutes')"><i class="material-icons">arrow_drop_up</i></button>
+                <gtx-input [(ngModel)]="time.m"
+                            [label]="formatProvider.strings.minutes"
+                            (blur)="updateTime('minutes', time.m)"
+                            (keydown)="timeKeyHandler('minutes', $event)"
+                            type="number"
+                            min="0"
+                            max="59"></gtx-input>
+                <button class="increment-button" (click)="decrementTime('minutes')"><i class="material-icons">arrow_drop_down</i></button>
+            </div>
+            <div class="column seconds small-4" *ngIf="displaySeconds">
+                <button class="increment-button" (click)="incrementTime('seconds')"><i class="material-icons">arrow_drop_up</i></button>
+                <gtx-input [(ngModel)]="time.s"
+                            [label]="formatProvider.strings.seconds"
+                            (blur)="updateTime('seconds', time.s)"
+                            (keydown)="timeKeyHandler('seconds', $event)"
+                            type="number"
+                            min="0"
+                            max="59"></gtx-input>
+                <button class="increment-button" (click)="decrementTime('seconds')"><i class="material-icons">arrow_drop_down</i></button>
+            </div>
+        </div>
+    </div>
+</div>

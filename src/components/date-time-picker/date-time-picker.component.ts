@@ -1,4 +1,4 @@
-import { Component, Input, Output, EventEmitter, forwardRef, Optional, OnInit, OnDestroy, ChangeDetectorRef } from '@angular/core';
+import {Component, Input, Output, EventEmitter, forwardRef, Optional, OnInit, OnDestroy, ChangeDetectorRef} from '@angular/core';
 import {ControlValueAccessor, NG_VALUE_ACCESSOR} from '@angular/forms';
 import {Subscription} from 'rxjs/Subscription';
 
@@ -7,6 +7,7 @@ import {DateTimePickerModal} from './date-time-picker-modal.component';
 import {DateTimePickerStrings} from './date-time-picker-strings';
 import {DateTimePickerFormatProvider} from './date-time-picker-format-provider.service';
 import {MomentStatic, Moment} from './moment-types';
+import {coerceToBoolean} from '../../common/coerce-to-boolean';
 
 export {DateTimePickerStrings};
 
@@ -16,7 +17,6 @@ export {DateTimePickerStrings};
  */
 const rome: any = require('rome');
 const momentjs: MomentStatic = rome.moment;
-
 
 const GTX_DATEPICKER_VALUE_ACCESSOR = {
     provide: NG_VALUE_ACCESSOR,
@@ -64,24 +64,41 @@ export class DateTimePicker implements ControlValueAccessor, OnInit, OnDestroy {
     @Input() format: string;
 
     /**
+     * The minimum date allowable. E.g. `new Date(2015, 2, 12)`
+     */
+    @Input() min: Date;
+
+    /**
+     * The maximum date allowable. E.g. `new Date(2031, 1, 30)`
+     */
+    @Input() max: Date;
+
+    /**
+     * If true, the year may be selected from a Select control
+     */
+    @Input() set selectYear(val: any) {
+        this._selectYear = coerceToBoolean(val);
+    }
+
+    /**
      * Set to `true` to disable the input field and not show the date picker on click.
      */
     @Input() set disabled(val: any) {
-        this._disabled = val === true || val === 'true';
+        this._disabled = coerceToBoolean(val);
     }
 
     /**
      * Set to `false` to omit the time picker part of the component. Defaults to `true`
      */
     @Input() set displayTime(val: any) {
-        this._displayTime = val === true || val === 'true';
+        this._displayTime = coerceToBoolean(val);
     }
 
     /**
      * Set to `false` to omit the seconds of the time picker part. Defaults to `true`
      */
     @Input() set displaySeconds(val: any) {
-        this._displaySeconds = val === true || val === 'true';
+        this._displaySeconds = coerceToBoolean(val);
     }
 
     /**
@@ -89,6 +106,7 @@ export class DateTimePicker implements ControlValueAccessor, OnInit, OnDestroy {
      */
     @Output() change = new EventEmitter<number>();
 
+    _selectYear: boolean = false;
     _disabled: boolean = false;
     displayValue: string = ' ';
     /** @internal */
@@ -142,6 +160,7 @@ export class DateTimePicker implements ControlValueAccessor, OnInit, OnDestroy {
     }
 
     showModal(): void {
+
         this.modalService.fromComponent(
             DateTimePickerModal,
             {
@@ -151,7 +170,10 @@ export class DateTimePicker implements ControlValueAccessor, OnInit, OnDestroy {
                 timestamp: (this.value || momentjs()).unix(),
                 formatProvider: this.formatProvider,
                 displayTime: this._displayTime,
-                displaySeconds: this._displaySeconds
+                displaySeconds: this._displaySeconds,
+                min: this.min,
+                max: this.max,
+                selectYear: this._selectYear
             })
             .then<number>(modal => modal.open())
             .then((timestamp: number) => {

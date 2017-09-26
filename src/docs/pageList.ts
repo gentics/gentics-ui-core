@@ -5,6 +5,7 @@ import {ButtonDemo} from './pages/button-demo/button-demo';
 import {CheckboxDemo} from './pages/checkbox-demo/checkbox-demo';
 import {ColorsDemo} from './pages/colors-demo/colors-demo';
 import {ContentsListItemDemo} from './pages/contents-list-item-demo/contents-list-item-demo';
+import {DateTimePickerControlsDemo} from './pages/date-time-picker-controls-demo/date-time-picker-controls-demo';
 import {DateTimePickerDemo} from './pages/date-time-picker-demo/date-time-picker-demo';
 import {DropdownListDemo} from './pages/dropdown-list-demo/dropdown-list-demo';
 import {FileDropAreaDemo} from './pages/file-drop-area-demo/file-drop-area-demo';
@@ -12,6 +13,8 @@ import {FilePickerDemo} from './pages/file-picker-demo/file-picker-demo';
 import {GridDemo} from './pages/grid-demo/grid-demo';
 import {IconsDemo} from './pages/icons-demo/icons-demo';
 import {InputDemo} from './pages/input-demo/input-demo';
+import {MenuToggleButtonDemo} from './pages/menu-toggle-button-demo/menu-toggle-button-demo';
+import {ModalServiceDemo} from './pages/modal-service-demo/modal-service-demo';
 import {NotificationDemo} from './pages/notification-demo/notification-demo';
 import {OverlayHostDemo} from './pages/overlay-host-demo/overlay-host-demo';
 import {ProgressBarDemo} from './pages/progress-bar-demo/progress-bar-demo';
@@ -20,14 +23,12 @@ import {RangeDemo} from './pages/range-demo/range-demo';
 import {SearchBarDemo} from './pages/search-bar-demo/search-bar-demo';
 import {SelectDemo} from './pages/select-demo/select-demo';
 import {SideMenuDemo} from './pages/side-menu-demo/side-menu-demo';
-import {SplitViewContainerDemo} from './pages/split-view-container-demo/split-view-container-demo';
 import {SortableListDemo} from './pages/sortable-list-demo/sortable-list-demo';
+import {SplitViewContainerDemo} from './pages/split-view-container-demo/split-view-container-demo';
+import {TabsDemo} from './pages/tabs-demo/tabs-demo';
 import {TextareaDemo} from './pages/textarea-demo/textarea-demo';
 import {TopBarDemo} from './pages/top-bar-demo/top-bar-demo';
 import {TypographyDemo} from './pages/typography-demo/typography-demo';
-import {ModalServiceDemo} from './pages/modal-service-demo/modal-service-demo';
-import {MenuToggleButtonDemo} from './pages/menu-toggle-button-demo/menu-toggle-button-demo';
-import {TabsDemo} from './pages/tabs-demo/tabs-demo';
 
 export interface IPageInfo {
     path: string;
@@ -65,6 +66,12 @@ export const pages: IPageInfo[] = [
     {
         path: 'date-time-picker',
         component: DateTimePickerDemo,
+        type: 'component',
+        keywords: ['calendar']
+    },
+    {
+        path: 'date-time-picker-controls',
+        component: DateTimePickerControlsDemo,
         type: 'component',
         keywords: ['calendar']
     },

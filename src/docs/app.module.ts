@@ -12,6 +12,7 @@ import {CheckboxDemo} from './pages/checkbox-demo/checkbox-demo';
 import {ColorsDemo} from './pages/colors-demo/colors-demo';
 import {ContentsListItemDemo} from './pages/contents-list-item-demo/contents-list-item-demo';
 import {DateTimePickerDemo} from './pages/date-time-picker-demo/date-time-picker-demo';
+import {DateTimePickerControlsDemo} from './pages/date-time-picker-controls-demo/date-time-picker-controls-demo';
 import {DemoFormatProvider} from './pages/date-time-picker-demo/demo-format-provider';
 import {DropdownListDemo} from './pages/dropdown-list-demo/dropdown-list-demo';
 import {FileDropAreaDemo} from './pages/file-drop-area-demo/file-drop-area-demo';
@@ -48,6 +49,7 @@ const DEMO_APP_PAGES: any[] = [
     ColorsDemo,
     ContentsListItemDemo,
     DateTimePickerDemo,
+    DateTimePickerControlsDemo,
     DemoFormatProvider,
     DropdownListDemo,
     FileDropAreaDemo,

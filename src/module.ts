@@ -4,49 +4,50 @@ import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {RouterModule} from '@angular/router';
 
 import {AutofocusDirective} from './directives/autofocus/autofocus.directive';
+import {BlankModal} from './components/modal/blank-modal.component';
 import {Breadcrumbs} from './components/breadcrumbs/breadcrumbs.component';
 import {Button} from './components/button/button.component';
 import {Checkbox} from './components/checkbox/checkbox.component';
 import {ContentsListItem} from './components/contents-list-item/contents-list-item.component';
+import {DateTimePickerControls} from './components/date-time-picker/date-time-picker-controls.component';
+import {DateTimePickerFormatProvider} from './components/date-time-picker/date-time-picker-format-provider.service';
+import {DateTimePickerModal} from './components/date-time-picker/date-time-picker-modal.component';
 import {DateTimePicker} from './components/date-time-picker/date-time-picker.component';
+import {DragStateTrackerFactory} from './components/file-drop-area/drag-state-tracker.service';
+import {DropdownContentWrapper} from './components/dropdown-list/dropdown-content-wrapper.component';
+import {DropdownContent} from './components/dropdown-list/dropdown-content.component';
+import {DropdownItem} from './components/dropdown-list/dropdown-item.component';
 import {DropdownList} from './components/dropdown-list/dropdown-list.component';
 import {DropdownTriggerDirective} from './components/dropdown-list/dropdown-trigger.directive';
-import {DropdownItem} from './components/dropdown-list/dropdown-item.component';
-import {DropdownContent} from './components/dropdown-list/dropdown-content.component';
-import {FileDropArea} from './components/file-drop-area/file-drop-area.directive';
-import {DragStateTrackerFactory} from './components/file-drop-area/drag-state-tracker.service';
-import {PageFileDragHandler} from './components/file-drop-area/page-file-drag-handler.service';
-import {MatchesMimeTypePipe} from './components/file-drop-area/matches-mime-type.pipe';
-import {FilePicker} from './components/file-picker/file-picker.component';
-import {InputField} from './components/input/input.component';
-import {MenuToggleButton} from './components/menu-toggle-button/menu-toggle-button.component';
 import {DynamicModalWrapper} from './components/modal/dynamic-modal-wrapper.component';
-import {ModalService} from './components/modal/modal.service';
+import {FileDropArea} from './components/file-drop-area/file-drop-area.directive';
+import {FilePicker} from './components/file-picker/file-picker.component';
+import {Icon} from './components/icon/icon.component';
+import {InputField} from './components/input/input.component';
+import {MatchesMimeTypePipe} from './components/file-drop-area/matches-mime-type.pipe';
+import {MenuToggleButton} from './components/menu-toggle-button/menu-toggle-button.component';
 import {ModalDialog} from './components/modal/modal-dialog.component';
-import {Toast} from './components/notification/toast.component';
+import {ModalService} from './components/modal/modal.service';
 import {Notification} from './components/notification/notification.service';
-import {OverlayHost} from './components/overlay-host/overlay-host.component';
 import {OverlayHostService} from './components/overlay-host/overlay-host.service';
+import {OverlayHost} from './components/overlay-host/overlay-host.component';
+import {PageFileDragHandler} from './components/file-drop-area/page-file-drag-handler.service';
+import {PreventFileDrop} from './components/file-drop-area/prevent-file-drop.directive';
 import {ProgressBar} from './components/progress-bar/progress-bar.component';
 import {RadioButton, RadioGroup} from './components/radio-button/radio-button.component';
 import {Range} from './components/range/range.component';
+import {ScrollMask} from './components/dropdown-list/scroll-mask.component';
 import {SearchBar} from './components/search-bar/search-bar.component';
+import {SelectOption, SelectOptionGroup} from './components/select/option.component';
 import {Select} from './components/select/select.component';
 import {SideMenu, SideMenuToggle} from './components/side-menu/side-menu.component';
 import {SortableList, SortableListDragHandle, SortableItem} from './components/sortable-list/sortable-list.component';
 import {SplitViewContainer} from './components/split-view-container/split-view-container.component';
-import {Tab} from './components/tabs/tab.component';
 import {Tabs} from './components/tabs/tabs.component';
+import {Tab} from './components/tabs/tab.component';
 import {Textarea} from './components/textarea/textarea.component';
+import {Toast} from './components/notification/toast.component';
 import {TopBar} from './components/top-bar/top-bar.component';
-import {Icon} from './components/icon/icon.component';
-import {PreventFileDrop} from './components/file-drop-area/prevent-file-drop.directive';
-import {DateTimePickerModal} from './components/date-time-picker/date-time-picker-modal.component';
-import {BlankModal} from './components/modal/blank-modal.component';
-import {DateTimePickerFormatProvider} from './components/date-time-picker/date-time-picker-format-provider.service';
-import {ScrollMask} from './components/dropdown-list/scroll-mask.component';
-import {DropdownContentWrapper} from './components/dropdown-list/dropdown-content-wrapper.component';
-import {SelectOption, SelectOptionGroup} from './components/select/option.component';
 
 export const UI_CORE_COMPONENTS: any[] = [
     AutofocusDirective,
@@ -56,6 +57,7 @@ export const UI_CORE_COMPONENTS: any[] = [
     Checkbox,
     ContentsListItem,
     DateTimePicker,
+    DateTimePickerControls,
     DateTimePickerModal,
     DropdownList,
     DropdownContentWrapper,
