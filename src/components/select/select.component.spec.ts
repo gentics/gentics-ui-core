@@ -97,6 +97,18 @@ describe('Select:', () => {
         })
     );
 
+    it('marks the initial value as selected.',
+        componentTest(() => TestComponent, fixture => {
+            fixture.detectChanges();
+            tick();
+            clickSelectAndOpen(fixture);
+            let viewValue: HTMLElement = fixture.debugElement.query(By.css('li.selected')).nativeElement;
+            expect(viewValue.innerText).toContain('Bar');
+
+            tick(1000);
+        })
+    );
+
     it('if no value is set, the viewValue is empty.',
         componentTest(() => TestComponent, `
             <gtx-select>
@@ -294,11 +306,12 @@ describe('Select:', () => {
             })
         );
 
-        it('no item should be initially selected',  componentTest(() => TestComponent, fixture => {
+        it('initial value should be initially selected',  componentTest(() => TestComponent, fixture => {
                 fixture.detectChanges();
                 tick();
                 sendKeyDown(fixture, KeyCode.Enter);
-                expect(fixture.debugElement.query(By.css('.select-option.selected'))).toBeNull();
+                const selected = fixture.debugElement.nativeElement.querySelector('li.selected');
+                expect(selected.innerHTML).toContain('Bar');
                 tick(1000);
             })
         );
@@ -309,6 +322,9 @@ describe('Select:', () => {
                 sendKeyDown(fixture, KeyCode.Enter);
 
                 sendKeyDown(fixture, KeyCode.DownArrow);
+                expect(getSelectedItem(fixture).textContent).toContain('Baz');
+
+                sendKeyDown(fixture, KeyCode.DownArrow);
                 expect(getSelectedItem(fixture).textContent).toContain('Foo');
 
                 sendKeyDown(fixture, KeyCode.DownArrow);
@@ -316,9 +332,6 @@ describe('Select:', () => {
 
                 sendKeyDown(fixture, KeyCode.DownArrow);
                 expect(getSelectedItem(fixture).textContent).toContain('Baz');
-
-                sendKeyDown(fixture, KeyCode.DownArrow);
-                expect(getSelectedItem(fixture).textContent).toContain('Foo');
 
                 tick(1000);
             })
@@ -330,6 +343,9 @@ describe('Select:', () => {
                 sendKeyDown(fixture, KeyCode.Enter);
 
                 sendKeyDown(fixture, KeyCode.UpArrow);
+                expect(getSelectedItem(fixture).textContent).toContain('Foo');
+
+                sendKeyDown(fixture, KeyCode.UpArrow);
                 expect(getSelectedItem(fixture).textContent).toContain('Baz');
 
                 sendKeyDown(fixture, KeyCode.UpArrow);
@@ -337,9 +353,6 @@ describe('Select:', () => {
 
                 sendKeyDown(fixture, KeyCode.UpArrow);
                 expect(getSelectedItem(fixture).textContent).toContain('Foo');
-
-                sendKeyDown(fixture, KeyCode.UpArrow);
-                expect(getSelectedItem(fixture).textContent).toContain('Baz');
 
                 tick(1000);
             })

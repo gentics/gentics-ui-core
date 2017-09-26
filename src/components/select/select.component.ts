@@ -169,6 +169,40 @@ export class Select implements ControlValueAccessor {
     }
 
     /**
+     * Select the initial value when the dropdown is opened.
+     */
+    dropdownOpened(): void {
+        if (0 < this.selectedOptions.length) {
+            const selected = this.selectedOptions[0];
+            this.selectedIndex = this.getIndexFromSelectOption(selected);
+            this.scrollToSelectedOption();
+        }
+    }
+
+    /**
+     * Given a SelectOption, returns the position in the 2D selectedIndex array.
+     */
+    private getIndexFromSelectOption(selected: SelectOption): [number, number] {
+        if (selected) {
+            let selectedGroup = 0;
+            let selectedOption = 0;
+            for (let i = 0; i < this.optionGroups.length; i++) {
+                const group = this.optionGroups[i];
+                selectedGroup = i;
+                for (let j = 0; j < group.options.length; j++) {
+                    const option = group.options[j];
+                    selectedOption = j;
+                    if (option === selected) {
+                        return [selectedGroup, selectedOption];
+                    }
+                }
+            }
+        } else {
+            return [0, 0];
+        }
+    }
+
+    /**
      * Handle keydown events to enable keyboard navigation and selection of options.
      */
     @HostListener('keydown', ['$event'])

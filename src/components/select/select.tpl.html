@@ -1,4 +1,8 @@
-<gtx-dropdown-list width="trigger" belowTrigger="false" [sticky]="multiple" [disabled]="disabled">
+<gtx-dropdown-list width="trigger"
+                   belowTrigger="false"
+                   [sticky]="multiple"
+                   [disabled]="disabled"
+                   (open)="dropdownOpened()">
 
     <gtx-dropdown-trigger>
         <div class="view-value select-input"

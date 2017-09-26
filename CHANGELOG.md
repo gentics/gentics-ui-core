@@ -4,6 +4,7 @@
 
 ### Features
 * Add `open` and `close` events to DropdownList.
+* Large Select menus are initialized to the selected item (GUIC-131).
 
 ## 5.2.2 (2017-07-24)
 
