@@ -21,6 +21,7 @@ import {ScrollMask} from './scroll-mask.component';
 import {KeyCode} from '../../common/keycodes';
 import {DropdownTriggerDirective} from './dropdown-trigger.directive';
 import {DropdownContent} from './dropdown-content.component';
+import {coerceToBoolean} from '../../common/coerce-to-boolean';
 
 /**
  * A Dropdown component.
@@ -124,7 +125,7 @@ export class DropdownList {
         return this.options.belowTrigger;
     }
     set belowTrigger(val: boolean) {
-        this.options.belowTrigger = (val === true || <any> val === 'true');
+        this.options.belowTrigger = coerceToBoolean(val);
     }
 
     /**
@@ -136,7 +137,7 @@ export class DropdownList {
         return this.options.sticky;
     }
     set sticky(val: boolean) {
-        this.options.sticky = val === true || val as any === 'true';
+        this.options.sticky = coerceToBoolean(val);
     }
 
     /**
@@ -147,7 +148,7 @@ export class DropdownList {
         return this.options.closeOnEscape;
     }
     set closeOnEscape(val: boolean) {
-        this.options.closeOnEscape = val === true || val as any === 'true';
+        this.options.closeOnEscape = coerceToBoolean(val);
     }
 
     /**
@@ -158,7 +159,7 @@ export class DropdownList {
         return this._disabled;
     }
     set disabled(val: boolean) {
-        this._disabled = val === true || val as any === 'true';
+        this._disabled = coerceToBoolean(val);
     }
 
     get isOpen(): boolean {

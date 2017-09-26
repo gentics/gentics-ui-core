@@ -17,6 +17,7 @@ import {SelectOption, SelectOptionGroup} from './option.component';
 import {DropdownList} from '../dropdown-list/dropdown-list.component';
 import {DropdownContent} from '../dropdown-list/dropdown-content.component';
 import {KeyCode} from '../../common/keycodes';
+import {coerceToBoolean} from '../../common/coerce-to-boolean';
 
 const GTX_SELECT_VALUE_ACCESSOR = {
     provide: NG_VALUE_ACCESSOR,
@@ -63,7 +64,7 @@ export class Select implements ControlValueAccessor {
         return this._disabled;
     }
     set disabled(value: boolean) {
-        this._disabled = value === true || value as any === 'true';
+        this._disabled = coerceToBoolean(value);
     }
 
     /**

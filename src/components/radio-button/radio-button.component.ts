@@ -14,6 +14,7 @@ import {
 } from '@angular/core';
 import {ControlValueAccessor, NG_VALUE_ACCESSOR} from '@angular/forms';
 import {KeyCode} from '../../common/keycodes';
+import {coerceToBoolean} from '../../common/coerce-to-boolean';
 
 
 const GTX_RADIO_GROUP_VALUE_ACCESSOR = {
@@ -144,7 +145,7 @@ export class RadioButton implements ControlValueAccessor, OnInit, OnDestroy {
     set checked(val: boolean) {
         this.statelessMode = true;
         if (val != this.inputChecked) {
-            this.inputChecked = val === true || <any> val === 'true';
+            this.inputChecked = coerceToBoolean(val);
             this.change.emit(this.value);
             if (val && this.group) {
                 this.group.radioSelected(this);

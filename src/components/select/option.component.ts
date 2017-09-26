@@ -1,4 +1,5 @@
 import {Input, Directive, ElementRef, ContentChildren, QueryList} from '@angular/core';
+import {coerceToBoolean} from '../../common/coerce-to-boolean';
 
 @Directive({
     selector: 'gtx-option'
@@ -19,7 +20,7 @@ export class SelectOption {
 
     @Input()
     set disabled(value: boolean) {
-        this._disabled = value === true || value as any === 'true';
+        this._disabled = coerceToBoolean(value);
     }
     get disabled(): boolean {
         return this._disabled;
@@ -52,7 +53,7 @@ export class SelectOptionGroup {
 
     @Input()
     set disabled(value: boolean) {
-        this._disabled = value === true || value as any === 'true';
+        this._disabled = coerceToBoolean(value);
     }
     get disabled(): boolean {
         return this._disabled;
