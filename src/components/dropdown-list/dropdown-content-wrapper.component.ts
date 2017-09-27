@@ -10,6 +10,7 @@ import {
 import {KeyCode} from '../../common/keycodes';
 
 const PAGE_MARGIN = 50;
+const DROPDOWN_MAX_HEIGHT = 650;
 
 @Component({
     selector: 'gtx-dropdown-content-wrapper',
@@ -46,25 +47,25 @@ export class DropdownContentWrapper {
      * Positions and resizes the dropdown contents container.
      */
     setPositionAndSize(initialOpening: boolean = false): void {
-        let content = <HTMLElement> this.elementRef.nativeElement.querySelector('gtx-dropdown-content');
-        content.setAttribute('id', this.id);
+        const content = this.getDropdownContent();
+        if (initialOpening) {
+            // When opening for the first time, some extra logic is required
+            this.contentStyles.height = 0;
+            this.contentStyles.opacity = 0;
+            content.setAttribute('id', this.id);
+        }
 
-        let positionStyles = this.calculatePositionStyles();
+        const positionStyles = this.calculatePositionStyles();
         Object.assign(this.contentStyles, positionStyles);
-        let flowUpwards = parseInt(positionStyles.top, 10) < Math.floor(this.trigger.getBoundingClientRect().top);
-        let contentHeight = this.innerHeight(this.elementRef.nativeElement.querySelector('gtx-dropdown-content'));
+        // const flowUpwards = parseInt(positionStyles.top, 10) < Math.floor(this.trigger.getBoundingClientRect().top);
+        const contentHeight = this.innerHeight(this.elementRef.nativeElement.querySelector('gtx-dropdown-content'));
 
         // when flowing upwards, we animate the `top` property, so must remember the final value.
         const finalTop = parseInt(this.contentStyles.top);
-        if (flowUpwards) {
-            this.contentStyles.top = finalTop + contentHeight + 'px';
+        if (positionStyles.flowUpwards) {
+            this.contentStyles.top = finalTop + Math.min(contentHeight, parseInt(positionStyles.maxHeight)) + 'px';
         }
-        if (initialOpening) {
-            // when resizing after the initial opening, these would cause a flicker
-            // and are not needed.
-            this.contentStyles.height = 0;
-            this.contentStyles.opacity = 0;
-        }
+
         this.contentStyles.width = this.calculateContainerWidth() + 'px';
         this.cd.markForCheck();
         this.cd.detectChanges();
@@ -72,20 +73,18 @@ export class DropdownContentWrapper {
         // Show dropdown. Wrapped in a setTimeout to allow the contents of the dropdown
         // to re-flow (if needed) so that the true dimensions can then be re-calculated.
         setTimeout(() => {
-            // pad the height so the content drop shadow is displayed
+            const maxHeightValue = parseInt(positionStyles.maxHeight);
             let contentHeight = this.innerHeight(content);
-            let bleed = contentHeight + finalTop - window.innerHeight;
-            if (0 < bleed) {
-                // the dropdown is too long to fit in the window, we make it shorter.
-                contentHeight = contentHeight - bleed - PAGE_MARGIN;
-                content.style.maxHeight = contentHeight + 'px';
+            if (maxHeightValue < contentHeight) {
+                contentHeight = maxHeightValue;
             }
+            content.style.maxHeight = Math.max(contentHeight, maxHeightValue) + 'px';
 
             this.contentStyles.height = contentHeight + 'px';
             this.contentStyles.width = this.calculateContainerWidth() + 'px';
 
-            if (flowUpwards) {
-                this.contentStyles.top = parseInt(this.contentStyles.top) - contentHeight + 'px';
+            if (positionStyles.flowUpwards) {
+                this.contentStyles.top = finalTop + 'px';
             }
             this.contentStyles.transform = `translateZ(0)`;
             this.contentStyles.opacity = 1;
@@ -94,6 +93,7 @@ export class DropdownContentWrapper {
                 this.contentStyles.whiteSpace = 'nowrap';
             }
             this.cd.markForCheck();
+            this.cd.detectChanges();
         }, 0);
     }
 
@@ -105,61 +105,88 @@ export class DropdownContentWrapper {
     }
 
     ngOnDestroy(): void {
-        this.contentStyles.maxHeight = '';
+        const content = this.getDropdownContent();
+        if (content) {
+            content.style.maxHeight = 'none';
+        }
         this.contentStyles.opacity = 0;
+        this.contentStyles.maxHeight = 'none';
     }
     /**
      * Calculates the position of the dropdown based on the height, width. alignment and screen boundaries.
      */
-    calculatePositionStyles(): { top: string, left: string, maxHeight?: number } {
-        let positionStyles: any = {};
-        let content = <HTMLElement> this.elementRef.nativeElement.querySelector('gtx-dropdown-content');
+    calculatePositionStyles(): { top: string, left: string, maxHeight: string, flowUpwards: boolean; } {
+        const positionStyles: any = {
+            flowUpwards: false,
+            maxHeight: DROPDOWN_MAX_HEIGHT + 'px'
+        };
+        const content = this.getDropdownContent();
+        const fullHeightContent = content.querySelector('.scroller') as HTMLElement;
 
         // Offscreen detection
-        let windowHeight: number = window.innerHeight;
-        let originHeight: number = this.innerHeight(this.trigger);
-        let offsetLeft: number = this.offset(this.trigger).left;
-        let offsetTop: number = this.offset(this.trigger).top - window.pageYOffset;
+        const windowHeight: number = window.innerHeight;
+        const triggerHeight: number = this.innerHeight(this.trigger);
+        const offset = this.offset(this.trigger);
+        const triggerLeft = offset.left;
+        const triggerTop = offset.top;
         let currAlignment: string = this.options.alignment;
 
         // Below Origin
-        let verticalOffset: number = 0;
+        let verticalOffset = 0;
         if (this.options.belowTrigger === true) {
-            verticalOffset = originHeight;
+            verticalOffset = triggerHeight;
         }
 
-        const contentWidth =  this.innerWidth(content) + PAGE_MARGIN;
-        const contentHeight = this.innerHeight(content) + PAGE_MARGIN;
+        const contentWidth =  this.innerWidth(fullHeightContent) + PAGE_MARGIN;
+        const contentHeight = this.innerHeight(fullHeightContent) + PAGE_MARGIN;
 
-        if (offsetLeft + contentWidth > window.innerWidth) {
+        if (triggerLeft + contentWidth > window.innerWidth) {
             // Dropdown goes past screen on right, force right alignment
             currAlignment = 'right';
 
-        } else if (offsetLeft - contentWidth + this.innerWidth(this.trigger) < 0) {
+        } else if (triggerLeft - contentWidth + this.innerWidth(this.trigger) < 0) {
             // Dropdown goes past screen on left, force left alignment
             currAlignment = 'left';
         }
+
+
         // Vertical bottom offscreen detection
-        if (verticalOffset + offsetTop + contentHeight > windowHeight) {
-            // If going upwards still goes offscreen, just crop height of dropdown.
-            if (offsetTop + originHeight - contentHeight < 0) {
-                let adjustedHeight: number = windowHeight - offsetTop - verticalOffset;
-                positionStyles.maxHeight = adjustedHeight;
+        if (verticalOffset + triggerTop + contentHeight > windowHeight) {
+            let adjustedHeight = this.limitHeight(this.innerHeight(content));
+            const contentLargerThanWindow = windowHeight <= adjustedHeight;
+            // If content is greater than half of the window height, it should
+            // flow upward if the trigger is below the half-way point
+            if (contentLargerThanWindow) {
+                positionStyles.flowUpwards = windowHeight / 2 < triggerTop;
             } else {
-                // Flow upwards.
+                positionStyles.flowUpwards = windowHeight <= triggerTop + adjustedHeight;
+            }
+
+            if (!positionStyles.flowUpwards) {
+                // If going upwards still goes offscreen, just crop height of dropdown.
+                if (triggerTop + triggerHeight - contentHeight < 0) {
+                    adjustedHeight = windowHeight - triggerTop - verticalOffset - PAGE_MARGIN;
+                }
+            } else {
                 if (!verticalOffset) {
-                    verticalOffset += originHeight + 1;
+                    verticalOffset += triggerHeight + 1;
                 }
                 if (this.options.belowTrigger === true) {
-                    verticalOffset -= originHeight;
+                    verticalOffset -= triggerHeight;
                 }
-                verticalOffset -= this.innerHeight(content);
+
+                if (triggerTop + triggerHeight - PAGE_MARGIN < adjustedHeight) {
+                    adjustedHeight = (triggerTop + triggerHeight) - PAGE_MARGIN;
+                }
+                adjustedHeight = this.limitHeight(adjustedHeight);
+                verticalOffset -= adjustedHeight;
             }
+            positionStyles.maxHeight = this.limitHeight(adjustedHeight) + 'px';
         }
 
         // Handle edge alignment
         let leftPosition: number = 0;
-        let triggerLeft: number = Math.floor(this.trigger.getBoundingClientRect().left);
+        // const triggerLeft: number = Math.floor(this.trigger.getBoundingClientRect().left);
         if (currAlignment === 'left') {
             leftPosition = triggerLeft;
         } else if (currAlignment === 'right') {
@@ -174,6 +201,19 @@ export class DropdownContentWrapper {
 
     onContentClick(): void {
         this.clicked.emit(true);
+    }
+
+    /**
+     * Given a true height of an element, returns a new height which is limited by both
+     * the height of the window and the value of DROPDOWN_MAX_HEIGHT.
+     */
+    private limitHeight(trueHeight: number): number {
+        const windowHeight = window.innerHeight - PAGE_MARGIN * 2;
+        return Math.min(trueHeight, DROPDOWN_MAX_HEIGHT, windowHeight);
+    }
+
+    private getDropdownContent(): HTMLElement | null {
+        return this.elementRef.nativeElement.querySelector('gtx-dropdown-content');
     }
 
     private calculateContainerWidth(): number {

@@ -8,7 +8,7 @@ import {FOCUSABLE_SELECTOR} from './dropdown-trigger.directive';
  */
 @Component({
     selector: 'gtx-dropdown-content',
-    template: `<ng-content></ng-content>`
+    template: `<div class="scroller"><ng-content></ng-content></div>`
 })
 export class DropdownContent {
     focusLost = new EventEmitter<boolean>();

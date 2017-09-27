@@ -115,6 +115,7 @@ export class Select implements ControlValueAccessor {
     selectedIndex: [number, number] = [0, -1];
 
     private _disabled: boolean = false;
+    private preventDeselect: boolean = false;
     @ViewChild(DropdownList) private dropdownList: DropdownList;
     @ViewChild(DropdownContent) private dropdownContent: DropdownContent;
     @ContentChildren(SelectOption, { descendants: false }) private _selectOptions: QueryList<SelectOption>;
@@ -174,32 +175,13 @@ export class Select implements ControlValueAccessor {
      */
     dropdownOpened(): void {
         if (0 < this.selectedOptions.length) {
+            this.preventDeselect = true;
             const selected = this.selectedOptions[0];
             this.selectedIndex = this.getIndexFromSelectOption(selected);
-            this.scrollToSelectedOption();
-        }
-    }
-
-    /**
-     * Given a SelectOption, returns the position in the 2D selectedIndex array.
-     */
-    private getIndexFromSelectOption(selected: SelectOption): [number, number] {
-        if (selected) {
-            let selectedGroup = 0;
-            let selectedOption = 0;
-            for (let i = 0; i < this.optionGroups.length; i++) {
-                const group = this.optionGroups[i];
-                selectedGroup = i;
-                for (let j = 0; j < group.options.length; j++) {
-                    const option = group.options[j];
-                    selectedOption = j;
-                    if (option === selected) {
-                        return [selectedGroup, selectedOption];
-                    }
-                }
-            }
-        } else {
-            return [0, 0];
+            setTimeout(() => {
+                this.scrollToSelectedOption();
+                this.preventDeselect = false;
+            }, 100);
         }
     }
 
@@ -251,7 +233,9 @@ export class Select implements ControlValueAccessor {
     }
 
     deselect(): void {
-        this.selectedIndex = [0, -1];
+        if (!this.preventDeselect) {
+            this.selectedIndex = [0, -1];
+        }
     }
 
     // ValueAccessor members
@@ -289,6 +273,29 @@ export class Select implements ControlValueAccessor {
     setDisabledState(isDisabled: boolean): void {
         this._disabled = isDisabled;
         this.changeDetector.markForCheck();
+    }
+
+    /**
+     * Given a SelectOption, returns the position in the 2D selectedIndex array.
+     */
+    private getIndexFromSelectOption(selected: SelectOption): [number, number] {
+        if (selected) {
+            let selectedGroup = 0;
+            let selectedOption = 0;
+            for (let i = 0; i < this.optionGroups.length; i++) {
+                const group = this.optionGroups[i];
+                selectedGroup = i;
+                for (let j = 0; j < group.options.length; j++) {
+                    const option = group.options[j];
+                    selectedOption = j;
+                    if (option === selected) {
+                        return [selectedGroup, selectedOption];
+                    }
+                }
+            }
+        } else {
+            return [0, 0];
+        }
     }
 
     /**

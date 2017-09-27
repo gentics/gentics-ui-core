@@ -5,6 +5,9 @@
 ### Features
 * DropdownList exposes a `.resize()` method
 
+### Fixes
+* Fix positioning issues with DropdownList (GUIC-118)
+
 ## 5.3.0 (2017-09-17)
 
 ### Features
