@@ -19,6 +19,7 @@ $easeOutSine: cubic-bezier(0.390, 0.575, 0.565, 1.000);
                 top 0.3s $easeOutCubic,
                 opacity 0.3s $easeOutSine;
     overflow: hidden;
+    background-color: white;
     @extend .z-depth-1;
     z-index: 1002;
 }

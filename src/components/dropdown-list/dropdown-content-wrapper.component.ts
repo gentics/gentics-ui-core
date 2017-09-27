@@ -39,14 +39,19 @@ export class DropdownContentWrapper {
                 private cd: ChangeDetectorRef) {}
 
     ngAfterViewInit(): void {
+        this.setPositionAndSize(true);
+    }
+
+    /**
+     * Positions and resizes the dropdown contents container.
+     */
+    setPositionAndSize(initialOpening: boolean = false): void {
         let content = <HTMLElement> this.elementRef.nativeElement.querySelector('gtx-dropdown-content');
         content.setAttribute('id', this.id);
 
         let positionStyles = this.calculatePositionStyles();
         Object.assign(this.contentStyles, positionStyles);
         let flowUpwards = parseInt(positionStyles.top, 10) < Math.floor(this.trigger.getBoundingClientRect().top);
-
-        this.contentStyles.height = 0;
         let contentHeight = this.innerHeight(this.elementRef.nativeElement.querySelector('gtx-dropdown-content'));
 
         // when flowing upwards, we animate the `top` property, so must remember the final value.
@@ -54,7 +59,12 @@ export class DropdownContentWrapper {
         if (flowUpwards) {
             this.contentStyles.top = finalTop + contentHeight + 'px';
         }
-        this.contentStyles.opacity = 0;
+        if (initialOpening) {
+            // when resizing after the initial opening, these would cause a flicker
+            // and are not needed.
+            this.contentStyles.height = 0;
+            this.contentStyles.opacity = 0;
+        }
         this.contentStyles.width = this.calculateContainerWidth() + 'px';
         this.cd.markForCheck();
         this.cd.detectChanges();

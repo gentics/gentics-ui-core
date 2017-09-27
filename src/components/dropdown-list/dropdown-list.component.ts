@@ -55,6 +55,7 @@ import {coerceToBoolean} from '../../common/coerce-to-boolean';
  * - `dropdownList.isOpen: boolean`
  * - `dropdownList.openDropdown(): void`
  * - `dropdownList.closeDropdown(): void`
+ * - `dropdownList.resize(): void`
  */
 @Component({
     selector: 'gtx-dropdown-list',
@@ -247,6 +248,12 @@ export class DropdownList {
         this.scrollMaskRef = this.overlayHostView.createComponent(this.scrollMaskFactory, null);
         this.scrollMaskRef.instance.clicked.take(1).subscribe(() => this.closeDropdown());
         this.open.emit();
+    }
+
+    resize(): void {
+        if (this.contentComponentRef) {
+            this.contentComponentRef.instance.setPositionAndSize();
+        }
     }
 
     onTriggerClick(): void {

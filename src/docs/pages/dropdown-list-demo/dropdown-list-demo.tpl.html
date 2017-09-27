@@ -297,6 +297,56 @@
     </div>
 </gtx-demo-block>
 
+<gtx-demo-block demoTitle="Resizing">
+    <div class="demo-result">
+        The dropdown can be resized when open by calling the `.resize()` method of the DropDownList instance.
+        <gtx-dropdown-list [disabled]="dropdownIsDisabled" #variableDropdown sticky="true">
+            <gtx-dropdown-trigger>
+                <gtx-button>Display Items</gtx-button>
+            </gtx-dropdown-trigger>
+            <gtx-dropdown-content>
+                <div class="resize-buttons">
+                    <gtx-button (click)="add(variableDropdown)" flat size="small">Add item</gtx-button>
+                    <gtx-button (click)="remove(variableDropdown)" flat size="small">Remove item</gtx-button>
+                </div>
+                <gtx-dropdown-item *ngFor="let item of variableItems">{{ item }}</gtx-dropdown-item>
+            </gtx-dropdown-content>
+        </gtx-dropdown-list>
+    </div>
+    <div class="demo-code">
+        <gtx-highlighted-code language="HTML" code='
+         <gtx-dropdown-list [disabled]="dropdownIsDisabled" #variableDropdown sticky="true">
+            <gtx-dropdown-trigger>
+                <gtx-button>Display Items</gtx-button>
+            </gtx-dropdown-trigger>
+            <gtx-dropdown-content>
+                <div class="resize-buttons">
+                    <gtx-button (click)="add(variableDropdown)" flat size="small">Add item</gtx-button>
+                    <gtx-button (click)="remove(variableDropdown)" flat size="small">Remove item</gtx-button>
+                </div>
+                <gtx-dropdown-item *ngFor="let item of variableItems">{{ item }}</gtx-dropdown-item>
+            </gtx-dropdown-content>
+        </gtx-dropdown-list>
+        '></gtx-highlighted-code>
+        <gtx-highlighted-code language="TypeScript" code='
+         variableItems: string[] = ["Item 1", "Item 2", "Item 3"];
+
+         add(dropdown: DropdownList): void {
+             const count = this.variableItems.length;
+             this.variableItems.push(`Item ${count + 1}`);
+             dropdown.resize();
+         }
+
+         remove(dropdown: DropdownList): void {
+             if (0 < this.variableItems.length) {
+                 this.variableItems.pop();
+                 dropdown.resize();
+             }
+         }
+        '></gtx-highlighted-code>
+    </div>
+</gtx-demo-block>
+
 <gtx-demo-block demoTitle="Arbitrary Content">
     <div class="demo-result">
         <p>A DropdownList may contain arbitrary content, not just lists.</p>

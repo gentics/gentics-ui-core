@@ -1,5 +1,10 @@
 # Gentics UI Core Changelog
 
+## 5.4.0 (in progress)
+
+### Features
+* DropdownList exposes a `.resize()` method
+
 ## 5.3.0 (2017-09-17)
 
 ### Features
