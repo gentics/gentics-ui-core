@@ -1,6 +1,6 @@
 {
   "name": "gentics-ui-core",
-  "version": "5.3.0",
+  "version": "5.4.0",
   "description": "Gentics UI Core Framework",
   "main": "dist/index.js",
   "module": "dist/index.js",
@@ -15,7 +15,7 @@
     "type": "git",
     "url": "git@git.gentics.com:psc/gentics-ui-core.git"
   },
-  "homepage": "https://dev.gentics.com/gentics-ui-core/",
+  "homepage": "https://gentics-ui-core.neocities.org",
   "bugs": {
     "url": "http://git.gentics.com/psc/gentics-ui-core/issues"
   },
