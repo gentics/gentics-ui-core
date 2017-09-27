@@ -1,6 +1,6 @@
 # Gentics UI Core Changelog
 
-## 5.3.0 (in progress)
+## 5.3.0 (2017-09-17)
 
 ### Features
 * Add `open` and `close` events to DropdownList.

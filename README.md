@@ -29,7 +29,7 @@ export class AppModule { }
 
 ## Documentation
 
-Full documentation and examples are available at [https://dev.gentics.com/gentics-ui-core/](https://dev.gentics.com/gentics-ui-core/)
+Full documentation and examples are available at [https://gentics-ui-core.neocities.org/](https://gentics-ui-core.neocities.org/)
 
 ## Building the docs app
 
@@ -40,8 +40,6 @@ as well as a way to manually test each of the core components.
 1. `npm install`
 2. `gulp docs:build`
 3. Serve the contents of the `docs/` folder
-
-A fairly recent version of the docs app is also [availiable on dev.gentics.com](https://dev.gentics.com/gentics-ui-core/).
 
 ## Releasing
 
