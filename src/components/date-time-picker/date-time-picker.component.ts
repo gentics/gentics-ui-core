@@ -1,4 +1,4 @@
-import {Component, Input, Output, EventEmitter, forwardRef, Optional, OnInit, OnDestroy, ChangeDetectorRef} from '@angular/core';
+import {ChangeDetectorRef, Component, EventEmitter, forwardRef, Input, OnDestroy, OnInit, Optional, Output} from '@angular/core';
 import {ControlValueAccessor, NG_VALUE_ACCESSOR} from '@angular/forms';
 import {Subscription} from 'rxjs/Subscription';
 
@@ -6,17 +6,10 @@ import {ModalService} from '../modal/modal.service';
 import {DateTimePickerModal} from './date-time-picker-modal.component';
 import {DateTimePickerStrings} from './date-time-picker-strings';
 import {DateTimePickerFormatProvider} from './date-time-picker-format-provider.service';
-import {MomentStatic, Moment} from './moment-types';
 import {coerceToBoolean} from '../../common/coerce-to-boolean';
+import * as momentjs from 'moment';
 
 export {DateTimePickerStrings};
-
-
-/**
- * Rome is a date picker widget: https://github.com/bevacqua/rome
- */
-const rome: any = require('rome');
-const momentjs: MomentStatic = rome.moment;
 
 const GTX_DATEPICKER_VALUE_ACCESSOR = {
     provide: NG_VALUE_ACCESSOR,
@@ -110,7 +103,7 @@ export class DateTimePicker implements ControlValueAccessor, OnInit, OnDestroy {
     _disabled: boolean = false;
     displayValue: string = ' ';
     /** @internal */
-    private value: Moment;
+    private value: momentjs.Moment;
 
     private _displayTime: boolean = true;
     private _displaySeconds: boolean = true;

@@ -1,4 +1,4 @@
-import {Component, ElementRef, EventEmitter, HostBinding, Input, OnDestroy, Output, ViewChild, SimpleChanges} from '@angular/core';
+import {Component, ElementRef, EventEmitter, HostBinding, Input, OnDestroy, Output, SimpleChanges, ViewChild} from '@angular/core';
 import {Observable} from 'rxjs/Observable';
 import {Subscription} from 'rxjs/Subscription';
 import 'rxjs/add/operator/concat';
@@ -8,14 +8,21 @@ import 'rxjs/add/observable/never';
 import {DateTimePickerStrings} from './date-time-picker-strings';
 import {defaultStrings} from './date-time-picker-default-strings';
 import {DateTimePickerFormatProvider} from './date-time-picker-format-provider.service';
-import {Moment, MomentStatic} from './moment-types';
 import {coerceToBoolean} from '../../common/coerce-to-boolean';
+import * as momentjs from 'moment';
 
 /**
  * Rome is a date picker widget: https://github.com/bevacqua/rome
+ *
+ * Note that Rome comes with its own (outdated) version of Moment.js, which we do not want to use.
+ * Therefore we use the "standalone" distribution of Rome. However, this comes with the caveat that it
+ * expects a global "moment" object to be defined (https://github.com/bevacqua/rome/issues/31)
+ * So we define it, instantiate Rome, and then delete the global.
  */
-const rome: any = require('rome');
-const momentjs: MomentStatic = rome.moment;
+(window as any).moment = momentjs;
+const rome: any = require('rome/src/rome.standalone');
+rome.use(momentjs);
+delete (window as any).moment;
 
 // http://ecma-international.org/ecma-262/5.1/#sec-15.9.1.1
 const MAX_DATE_MILLISECONDS = 8640000000000000;
@@ -113,7 +120,7 @@ export class DateTimePickerControls implements OnDestroy {
     _compact: boolean = false;
 
     /** @internal */
-    private value: Moment = momentjs();
+    private value = momentjs();
 
     /**
      * cal is an instance of a Rome calendar, for the API see https://github.com/bevacqua/rome#rome-api
@@ -268,7 +275,7 @@ export class DateTimePickerControls implements OnDestroy {
         this.updateCalendar(this.value);
     }
 
-    private updateByUnits(moment: Moment, unit: TimeUnit, value: number): Moment {
+    private updateByUnits(moment: momentjs.Moment, unit: TimeUnit, value: number): momentjs.Moment {
         switch (unit) {
             case 'hours':
                 moment.hour(value);
@@ -345,7 +352,7 @@ export class DateTimePickerControls implements OnDestroy {
     /**
      * Update the time object based on the value of this.value.
      */
-    private updateTimeObject(date: Moment): void {
+    private updateTimeObject(date: momentjs.Moment): void {
         this.time.h = date.hour();
         this.time.m = date.minute();
         this.time.s = date.second();
@@ -354,7 +361,7 @@ export class DateTimePickerControls implements OnDestroy {
     /**
      * Update the Rome calendar widget with the current value.
      */
-    private updateCalendar(value: Moment): void {
+    private updateCalendar(value: momentjs.Moment): void {
         if (this.cal) {
             this.cal.setValue(value);
             this.change.emit(value.unix());
