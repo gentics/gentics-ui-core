@@ -13,24 +13,26 @@
   },
   "repository": {
     "type": "git",
-    "url": "git@git.gentics.com:psc/gentics-ui-core.git"
+    "url": "git@github.com:gentics/gentics-ui-core.git"
   },
-  "homepage": "https://gentics-ui-core.neocities.org",
+  "homepage": "https://gentics.github.io/gentics-ui-core/",
   "bugs": {
-    "url": "http://git.gentics.com/psc/gentics-ui-core/issues"
+    "url": "https://github.com/gentics/gentics-ui-core/issues"
   },
   "author": "Gentics PSC",
   "contributors": [
     {
       "name": "Leon Adler",
-      "email": "l.adler@gentics.com"
+      "email": "l.adler@gentics.com",
+      "url": "https://github.com/leonadler"
     },
     {
       "name": "Michael Bromley",
-      "email": "m.bromley@gentics.com"
+      "email": "m.bromley@gentics.com",
+      "url": "https://github.com/michaelbromley"
     }
   ],
-  "license": "Commercial",
+  "license": "Apache 2.0",
   "engines": {
     "node": ">= 6.0.0"
   },
