@@ -9737,56 +9737,75 @@ gtx-date-time-picker > gtx-input > input:not(:disabled).ng-touched.ng-invalid la
   color: #c9302c;
 }
 
-gtx-date-time-picker-modal .modal-header {
+gtx-date-time-picker-controls .controls-header {
   text-align: center;
   background-color: #0096DC;
   font-weight: 300;
 }
 
-gtx-date-time-picker-modal .modal-header .day {
+gtx-date-time-picker-controls .controls-header .day {
   color: white;
   padding: 5px;
   background-color: #0073a9;
 }
 
-gtx-date-time-picker-modal .modal-header .month {
+gtx-date-time-picker-controls .controls-header .month {
   text-transform: uppercase;
   color: white;
   font-size: 24px;
 }
 
-gtx-date-time-picker-modal .modal-header .date {
+gtx-date-time-picker-controls .controls-header .date {
   color: white;
   font-size: 48px;
   line-height: 48px;
 }
 
-gtx-date-time-picker-modal .modal-header .year {
+gtx-date-time-picker-controls .controls-header .year {
   color: #76d3ff;
   font-size: 24px;
 }
 
 @media only screen and (max-width: 600px) {
-  gtx-date-time-picker-modal .modal-header .month, gtx-date-time-picker-modal .modal-header .date, gtx-date-time-picker-modal .modal-header .year {
+  gtx-date-time-picker-controls .controls-header .month, gtx-date-time-picker-controls .controls-header .date, gtx-date-time-picker-controls .controls-header .year {
     display: inline-block;
     font-size: 16px;
     margin: 0 2px;
   }
 }
 
-gtx-date-time-picker-modal .calendar-container {
+gtx-date-time-picker-controls .year-selector gtx-select .view-value {
+  color: #76d3ff;
+  font-size: 24px;
+  padding-left: 28px;
+  border-color: transparent;
+  display: -webkit-box;
+  display: flex;
+  -webkit-box-align: center;
+  align-items: center;
+}
+
+gtx-date-time-picker-controls .year-selector gtx-select .view-value icon {
+  color: #f5f5f5;
+}
+
+gtx-date-time-picker-controls .year-selector gtx-select gtx-dropdown-trigger {
+  margin-top: 0;
+}
+
+gtx-date-time-picker-controls .calendar-container {
   text-align: center;
-  min-width: 260px;
+  min-width: 210px;
   padding-top: 10px;
 }
 
 @media only screen and (min-width: 601px) {
-  gtx-date-time-picker-modal .calendar-container {
+  gtx-date-time-picker-controls .calendar-container {
     padding-top: 20px;
   }
 }
 
-gtx-date-time-picker-modal .rd-container .rd-back, gtx-date-time-picker-modal .rd-container .rd-next {
+gtx-date-time-picker-controls .rd-container .rd-back, gtx-date-time-picker-controls .rd-container .rd-next {
   background-color: transparent;
   color: #0096DC;
   font-size: 24px;
@@ -9796,47 +9815,47 @@ gtx-date-time-picker-modal .rd-container .rd-back, gtx-date-time-picker-modal .r
   transition: background 0.2s;
 }
 
-gtx-date-time-picker-modal .rd-container .rd-back:hover, gtx-date-time-picker-modal .rd-container .rd-next:hover {
+gtx-date-time-picker-controls .rd-container .rd-back:hover, gtx-date-time-picker-controls .rd-container .rd-next:hover {
   background-color: rgba(0, 150, 220, 0.5);
 }
 
-gtx-date-time-picker-modal .rd-container .rd-back {
+gtx-date-time-picker-controls .rd-container .rd-back {
   float: left;
 }
 
-gtx-date-time-picker-modal .rd-container .rd-back:before {
+gtx-date-time-picker-controls .rd-container .rd-back:before {
   content: '◀';
 }
 
-gtx-date-time-picker-modal .rd-container .rd-next {
+gtx-date-time-picker-controls .rd-container .rd-next {
   float: right;
 }
 
-gtx-date-time-picker-modal .rd-container .rd-next:before {
+gtx-date-time-picker-controls .rd-container .rd-next:before {
   content: '▶';
 }
 
-gtx-date-time-picker-modal .rd-container .rd-month-label {
+gtx-date-time-picker-controls .rd-container .rd-month-label {
   text-align: center;
   line-height: 30px;
   padding-top: 3px;
 }
 
-gtx-date-time-picker-modal .rd-container td, gtx-date-time-picker-modal .rd-container th {
+gtx-date-time-picker-controls .rd-container td, gtx-date-time-picker-controls .rd-container th {
   padding: 5px 6px;
   text-align: center;
 }
 
-gtx-date-time-picker-modal .rd-container .rd-days-row td {
+gtx-date-time-picker-controls .rd-container .rd-days-row td {
   color: #555;
   cursor: pointer;
 }
 
-gtx-date-time-picker-modal .rd-container .rd-days-row td:not(.rd-day-selected):hover {
+gtx-date-time-picker-controls .rd-container .rd-days-row td:not(.rd-day-selected):hover {
   color: #111;
 }
 
-gtx-date-time-picker-modal .rd-container td.rd-day-selected {
+gtx-date-time-picker-controls .rd-container td.rd-day-selected {
   border-radius: 50%;
   -webkit-transform: scale(0.85);
   transform: scale(0.85);
@@ -9844,17 +9863,21 @@ gtx-date-time-picker-modal .rd-container td.rd-day-selected {
   color: #ffffff;
 }
 
-gtx-date-time-picker-modal .rd-container td.rd-day-prev-month, gtx-date-time-picker-modal .rd-container td.rd-day-next-month {
+gtx-date-time-picker-controls .rd-container td.rd-day-prev-month, gtx-date-time-picker-controls .rd-container td.rd-day-next-month {
   color: #9a9a9a;
 }
 
+gtx-date-time-picker-controls .rd-container td.rd-day-disabled {
+  color: #d6d6d6;
+}
+
 @media only screen and (min-width: 601px) {
-  gtx-date-time-picker-modal .time-picker {
+  gtx-date-time-picker-controls .time-picker {
     margin-top: 20px;
   }
 }
 
-gtx-date-time-picker-modal .time-picker input[type=number] {
+gtx-date-time-picker-controls .time-picker input[type=number] {
   text-align: center;
   font-size: 24px;
   height: 40px;
@@ -9863,23 +9886,23 @@ gtx-date-time-picker-modal .time-picker input[type=number] {
 }
 
 @media only screen and (max-width: 600px) {
-  gtx-date-time-picker-modal .time-picker input[type=number] {
+  gtx-date-time-picker-controls .time-picker input[type=number] {
     font-size: 18px;
     height: 34px;
   }
 }
 
-gtx-date-time-picker-modal .time-picker input[type=number]::-webkit-outer-spin-button, gtx-date-time-picker-modal .time-picker input[type=number]::-webkit-inner-spin-button {
+gtx-date-time-picker-controls .time-picker input[type=number]::-webkit-outer-spin-button, gtx-date-time-picker-controls .time-picker input[type=number]::-webkit-inner-spin-button {
   -webkit-appearance: none;
   margin: 0;
 }
 
-gtx-date-time-picker-modal .time-picker input[type=number] + label {
+gtx-date-time-picker-controls .time-picker input[type=number] + label {
   text-align: center;
   width: 100%;
 }
 
-gtx-date-time-picker-modal .increment-button {
+gtx-date-time-picker-controls .increment-button {
   width: 100%;
   text-align: center;
   border: none;
@@ -9890,8 +9913,31 @@ gtx-date-time-picker-modal .increment-button {
   transition: background 0.2s;
 }
 
-gtx-date-time-picker-modal .increment-button:hover {
+gtx-date-time-picker-controls .increment-button:hover {
   background-color: rgba(0, 150, 220, 0.5);
+}
+
+gtx-date-time-picker-controls.compact .controls-header .month, gtx-date-time-picker-controls.compact .controls-header .date, gtx-date-time-picker-controls.compact .controls-header .year {
+  display: inline-block;
+  font-size: 16px;
+  margin: 0 2px;
+}
+
+@media only screen and (min-width: 601px) {
+  gtx-date-time-picker-controls.compact .calendar-container {
+    padding-top: 10px;
+  }
+}
+
+@media only screen and (min-width: 601px) {
+  gtx-date-time-picker-controls.compact .time-picker {
+    margin-top: 0;
+  }
+}
+
+gtx-date-time-picker-controls.compact .time-picker input[type=number] {
+  font-size: 18px;
+  height: 34px;
 }
 
 gtx-dropdown-list {
@@ -9906,6 +9952,7 @@ gtx-dropdown-trigger {
   position: relative;
   transition: height 0.3s cubic-bezier(0.215, 0.61, 0.355, 1), top 0.3s cubic-bezier(0.215, 0.61, 0.355, 1), opacity 0.3s cubic-bezier(0.39, 0.575, 0.565, 1);
   overflow: hidden;
+  background-color: white;
   z-index: 1002;
 }
 
@@ -9929,7 +9976,6 @@ gtx-dropdown-content {
   margin: 0;
   display: block;
   min-width: 100px;
-  max-height: 650px;
   overflow-y: auto;
   overflow-x: hidden;
   opacity: 1;
@@ -10976,11 +11022,12 @@ gtx-split-view-container > .resizing > .resizing-overlay {
     display: block;
     font-family: 'Material Icons';
     font-size: 4rem;
-    line-height: 0;
+    height: 70px;
     position: absolute;
     text-align: center;
-    top: 50%;
+    top: calc(50% - 35px);
     width: 100%;
+    overflow: hidden;
   }
   gtx-split-view-container > * > .focus-switcher-right::before {
     -webkit-transform: scaleX(-1);
@@ -11927,6 +11974,13 @@ body {
   color: white;
 }
 
+.top-bar h1 {
+  font-size: 1.64rem;
+  font-weight: normal;
+  line-height: 1.1;
+  margin: 0.82rem 0 0.656rem 0;
+}
+
 .top-bar a.title, .top-bar a.title:link {
   color: white;
 }
@@ -11984,6 +12038,10 @@ gtx-contents-list-item .type-label.css {
 
 gtx-contents-list-item .type-label.component {
   background-color: #99bdd0;
+}
+
+gtx-contents-list-item .type-label.info {
+  background-color: #88b683;
 }
 
 gtx-contents-list-item .type-label.service {
