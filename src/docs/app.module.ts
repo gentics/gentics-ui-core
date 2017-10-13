@@ -5,7 +5,7 @@ import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 
 import {GenticsUICoreModule} from '../module';
 import {App} from './app.component';
-import {routes, DefaultRoute} from './app.routes';
+import {routes} from './app.routes';
 import {BreadcrumbsDemo} from './pages/breadcrumbs-demo/breadcrumbs-demo';
 import {ButtonDemo} from './pages/button-demo/button-demo';
 import {CheckboxDemo} from './pages/checkbox-demo/checkbox-demo';
@@ -20,6 +20,7 @@ import {FilePickerDemo} from './pages/file-picker-demo/file-picker-demo';
 import {GridDemo} from './pages/grid-demo/grid-demo';
 import {IconsDemo} from './pages/icons-demo/icons-demo';
 import {InputDemo} from './pages/input-demo/input-demo';
+import {Instructions} from './pages/instructions/instructions';
 import {MenuToggleButtonDemo} from './pages/menu-toggle-button-demo/menu-toggle-button-demo';
 import {ModalServiceDemo, MyModal} from './pages/modal-service-demo/modal-service-demo';
 import {NotificationDemo} from './pages/notification-demo/notification-demo';
@@ -57,6 +58,7 @@ const DEMO_APP_PAGES: any[] = [
     GridDemo,
     IconsDemo,
     InputDemo,
+    Instructions,
     MenuToggleButtonDemo,
     ModalServiceDemo,
     MyModal,
@@ -81,7 +83,6 @@ const DEMO_APP_DECLARATIONS: any[] = [
     AutodocTable,
     DemoBlock,
     HighlightedCode,
-    DefaultRoute,
     TrustedHTMLPipe,
     App
 ];

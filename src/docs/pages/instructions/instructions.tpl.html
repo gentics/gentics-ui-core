@@ -1,0 +1,31 @@
+<h2>Gentics UI Core</h2>
+
+<p>This is the common core framework for the Gentics CMS and Mesh UI, and other Angular applications.</p>
+
+<h3>Using ui-core in a project</h3>
+
+1. Install via npm:
+
+<gtx-highlighted-code language="bash" code="
+    npm install gentics-ui-core --save
+"></gtx-highlighted-code>
+
+2. Import the module and add it to your apps root module:
+
+<gtx-highlighted-code language="TypeScript" code="
+// app.module.ts
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { GenticsUICoreModule } from 'gentics-ui-core';
+
+@NgModule({
+    // ...
+    imports: [
+        FormsModule,
+        GenticsUICoreModule.forRoot(),
+        ReactiveFormsModule
+    ]
+}
+export class AppModule { }
+"></gtx-highlighted-code>
+
+For detailed documentation of a library component, click its name on the left.

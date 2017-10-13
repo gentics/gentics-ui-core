@@ -6,7 +6,7 @@ This is the common core framework for the Gentics CMS and Mesh UI, and other Ang
 
 1. Install via npm:
 ```
-npm install gentics-ui-core
+npm install gentics-ui-core --save
 ```
 
 2. Import the module and add it to your apps root module:
@@ -29,7 +29,7 @@ export class AppModule { }
 
 ## Documentation
 
-Full documentation and examples are available at [https://gentics-ui-core.neocities.org/](https://gentics-ui-core.neocities.org/)
+Full documentation and examples are available at [https://gentics.github.io/gentics-ui-core/](https://gentics.github.io/gentics-ui-core/)
 
 ## Building the docs app
 

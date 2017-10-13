@@ -13,6 +13,7 @@ import {FilePickerDemo} from './pages/file-picker-demo/file-picker-demo';
 import {GridDemo} from './pages/grid-demo/grid-demo';
 import {IconsDemo} from './pages/icons-demo/icons-demo';
 import {InputDemo} from './pages/input-demo/input-demo';
+import {Instructions} from './pages/instructions/instructions';
 import {MenuToggleButtonDemo} from './pages/menu-toggle-button-demo/menu-toggle-button-demo';
 import {ModalServiceDemo} from './pages/modal-service-demo/modal-service-demo';
 import {NotificationDemo} from './pages/notification-demo/notification-demo';
@@ -33,11 +34,16 @@ import {TypographyDemo} from './pages/typography-demo/typography-demo';
 export interface IPageInfo {
     path: string;
     component: Type<any>;
-    type: 'component' | 'service' | 'css';
+    type: 'component' | 'service' | 'css' | 'info';
     keywords?: string[];
 }
 
 export const pages: IPageInfo[] = [
+    {
+        path: 'instructions',
+        component: Instructions,
+        type: 'info'
+    },
     {
         path: 'breadcrumbs',
         component: BreadcrumbsDemo,

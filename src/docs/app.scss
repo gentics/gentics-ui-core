@@ -12,6 +12,12 @@ body {
 .top-bar {
     background-color: $gtx-color-primary;
     color: white;
+    h1 {
+        font-size: 1.64rem;
+        font-weight: normal;
+        line-height: 1.1;
+        margin: 0.82rem 0 0.656rem 0;
+    }
     a.title {
         &, &:link {
             color: white;
@@ -34,7 +40,7 @@ body {
         g {
             fill: white;
         }
-    }
+    }    
 }
 
 .menu-button {
@@ -65,6 +71,9 @@ gtx-contents-list-item {
         }
         &.component {
             background-color: #99bdd0;
+        }
+        &.info {
+            background-color: #88b683;
         }
         &.service {
             background-color: #bc9f9f;

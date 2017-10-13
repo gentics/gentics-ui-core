@@ -1,10 +1,10 @@
 <gtx-top-bar class="top-bar">
-    <h5>
+    <h1>
         <a class="title" [routerLink]="['index']">Gentics UI Core Docs</a>
-            <span class="version-info" title="Click to see changelog">
-                <a href="https://git.gentics.com/psc/gentics-ui-core/blob/master/CHANGELOG.md">v{{ version }}</a>
-            </span>
-    </h5>
+        <span class="version-info" title="Click to see changelog">
+            <a href="https://github.com/gentics/gentics-ui-core/blob/master/CHANGELOG.md">v{{ version }}</a>
+        </span>
+    </h1>
     <div class="gtx-top-bar-right gentics-logo" [innerHTML]="logoSvg"></div>
 </gtx-top-bar>
 
@@ -21,10 +21,11 @@
 
         <div class="list-pane" left>
             <gtx-contents-list-item *ngFor="let item of filteredContentItems">
-                <div class="item-avatar">
-                    <i class="material-icons" *ngIf="item.type === 'css'">style</i>
-                    <i class="material-icons" *ngIf="item.type === 'component'">code</i>
-                    <i class="material-icons" *ngIf="item.type === 'service'">share</i>
+                <div class="item-avatar" [ngSwitch]="item.type">
+                    <i class="material-icons" *ngSwitchCase="'css'">style</i>
+                    <i class="material-icons" *ngSwitchCase="'info'">info_outline</i>
+                    <i class="material-icons" *ngSwitchCase="'component'">code</i>
+                    <i class="material-icons" *ngSwitchCase="'service'">share</i>
                 </div>
                 <div class="item-primary">
                     <a [routerLink]="[item.route]" (click)="focusRightPanel()">
