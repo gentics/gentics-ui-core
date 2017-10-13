@@ -324,7 +324,7 @@
                     <gtx-button (click)="add(variableDropdown)" flat size="small">Add item</gtx-button>
                     <gtx-button (click)="remove(variableDropdown)" flat size="small">Remove item</gtx-button>
                 </div>
-                <gtx-dropdown-item *ngFor="let item of variableItems">{{ item }}</gtx-dropdown-item>
+                <gtx-dropdown-item *ngFor="let item of variableItems">(( item ))</gtx-dropdown-item>
             </gtx-dropdown-content>
         </gtx-dropdown-list>
         '></gtx-highlighted-code>

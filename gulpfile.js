@@ -366,7 +366,7 @@ function copyTypeScriptTo(src, dest) {
 function ngc(done) {
     exec('npm run ngc', (err) => {
         if (err) {
-            throw err;
+            done(err);
         } else {
             done();
         }
