@@ -13,7 +13,7 @@ import {DropdownContent} from '../dropdown-list/dropdown-content.component';
 import {DropdownTriggerDirective} from '../dropdown-list/dropdown-trigger.directive';
 import {ScrollMask} from '../dropdown-list/scroll-mask.component';
 import {SelectOption, SelectOptionGroup} from './option.component';
-import {Icon} from '../icon/icon.component';
+import {Icon} from '../icon/icon.directive';
 import {Checkbox} from '../checkbox/checkbox.component';
 import {OverlayHostService} from '../overlay-host/overlay-host.service';
 import {OverlayHost} from '../overlay-host/overlay-host.component';

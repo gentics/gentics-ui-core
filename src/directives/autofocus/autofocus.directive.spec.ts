@@ -22,7 +22,7 @@ import {DynamicModalWrapper} from '../../components/modal/dynamic-modal-wrapper.
 import {DropdownList} from '../../components/dropdown-list/dropdown-list.component';
 import {DropdownContent} from '../../components/dropdown-list/dropdown-content.component';
 import {DropdownTriggerDirective} from '../../components/dropdown-list/dropdown-trigger.directive';
-import {Icon} from '../../components/icon/icon.component';
+import {Icon} from '../../components/icon/icon.directive';
 import {DropdownContentWrapper} from '../../components/dropdown-list/dropdown-content-wrapper.component';
 import {ScrollMask} from '../../components/dropdown-list/scroll-mask.component';
 

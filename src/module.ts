@@ -22,7 +22,7 @@ import {DropdownTriggerDirective} from './components/dropdown-list/dropdown-trig
 import {DynamicModalWrapper} from './components/modal/dynamic-modal-wrapper.component';
 import {FileDropArea} from './components/file-drop-area/file-drop-area.directive';
 import {FilePicker} from './components/file-picker/file-picker.component';
-import {Icon} from './components/icon/icon.component';
+import {Icon} from './components/icon/icon.directive';
 import {InputField} from './components/input/input.component';
 import {MatchesMimeTypePipe} from './components/file-drop-area/matches-mime-type.pipe';
 import {MenuToggleButton} from './components/menu-toggle-button/menu-toggle-button.component';

@@ -24,7 +24,7 @@ export * from './components/file-drop-area/file-drop-area.directive';
 export * from './components/file-drop-area/page-file-drag-handler.service';
 export * from './components/file-drop-area/prevent-file-drop.directive';
 export * from './components/file-picker/file-picker.component';
-export * from './components/icon/icon.component';
+export * from './components/icon/icon.directive';
 export * from './components/input/input.component';
 export * from './components/modal/modal-interfaces';
 export * from './components/modal/modal.service';
