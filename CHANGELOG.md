@@ -1,5 +1,10 @@
 # Gentics UI Core Changelog
 
+## 5.4.1 (2017-10-16)
+
+### Fixes
+* Fix downstream build issues introduced by an update to moment.js (GUIC-138)
+
 ## 5.4.0 (2017-09-17)
 
 ### Features
