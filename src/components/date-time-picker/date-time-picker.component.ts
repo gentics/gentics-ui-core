@@ -40,6 +40,13 @@ export class DateTimePicker implements ControlValueAccessor, OnInit, OnDestroy {
     @Input() autofocus: boolean = false;
 
     /**
+     * If true the clear button is displayed, which allows the user to clear the selected date
+     */
+    @Input() set clearable(val: any) {
+        this._clearable = coerceToBoolean(val);
+    }
+
+    /**
      * The date/time value as a unix timestamp (in seconds)
      */
     @Input() timestamp: number;
@@ -97,8 +104,9 @@ export class DateTimePicker implements ControlValueAccessor, OnInit, OnDestroy {
     /**
      * Fires when the "okay" button is clicked to close the picker.
      */
-    @Output() change = new EventEmitter<number>();
+    @Output() change = new EventEmitter<number|null>();
 
+    _clearable: boolean = false;
     _selectYear: boolean = false;
     _disabled: boolean = false;
     displayValue: string = ' ';
@@ -189,7 +197,7 @@ export class DateTimePicker implements ControlValueAccessor, OnInit, OnDestroy {
     }
 
     registerOnChange(fn: Function): void {
-        this.onChange = () => fn(this.value.unix());
+        this.onChange = (value?: number | null) => fn(value === undefined ? this.value.unix() : value);
     }
 
     registerOnTouched(fn: Function): void {
@@ -214,5 +222,15 @@ export class DateTimePicker implements ControlValueAccessor, OnInit, OnDestroy {
         } else {
             this.displayValue = this.formatProvider.format(this.value, this._displayTime, this._displaySeconds);
         }
+    }
+
+    /**
+     * Clear input value of datetimepicker and emit value of null
+     */
+    clearDateTime() {
+        this.timestamp = null;
+        this.displayValue = '';
+        this.onChange(this.timestamp);
+        this.change.emit(this.timestamp);
     }
 }

@@ -1,5 +1,11 @@
 # Gentics UI Core Changelog
 
+## 5.5.0 (in progress)
+
+### Features
+
+* Make DateTimePicker clearable (GUIC-139)
+
 ## 5.4.1 (2017-10-16)
 
 ### Fixes

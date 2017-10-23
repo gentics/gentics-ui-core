@@ -20,6 +20,7 @@ import {Observable} from 'rxjs/Observable';
 import {InputField} from '../input/input.component';
 import {DynamicModalWrapper} from '../modal/dynamic-modal-wrapper.component';
 import {Button} from '../button/button.component';
+import {Icon} from '../icon/icon.directive';
 
 const TEST_TIMESTAMP: number = 1457971763;
 
@@ -38,6 +39,7 @@ describe('DateTimePicker:', () => {
                 TestComponent,
                 DateTimePicker,
                 OverlayHost,
+                Icon,
                 InputField,
                 DynamicModalWrapper,
                 DateTimePickerModal,
@@ -222,6 +224,60 @@ describe('DateTimePicker:', () => {
                 }
             )
         );
+
+        it('does not show the button if clearable is false',
+            componentTest(() => TestComponent, `
+                <gtx-date-time-picker timestamp="${TEST_TIMESTAMP}" clearable="false" format="YY-MM-ddd">
+                </gtx-date-time-picker>`,
+                (fixture, instance) => {
+                    fixture.detectChanges();
+                    const dateTimePickerInstance: DateTimePicker =
+                        fixture.debugElement.query(By.directive(DateTimePicker)).componentInstance;
+                    expect(dateTimePickerInstance._clearable).toBe(false);
+                    const buttonClear = fixture.debugElement.query(By.css('gtx-button'));
+                    expect(buttonClear).toBeNull();
+                }
+            )
+        );
+
+        it('shows the button if clearable is true',
+            componentTest(() => TestComponent, `
+                <gtx-date-time-picker timestamp="${TEST_TIMESTAMP}" clearable="true" format="YY-MM-ddd">
+                </gtx-date-time-picker>`,
+                (fixture, instance) => {
+                    fixture.detectChanges();
+                    const dateTimePickerInstance: DateTimePicker =
+                        fixture.debugElement.query(By.directive(DateTimePicker)).componentInstance;
+                    expect(dateTimePickerInstance._clearable).toBe(true);
+                    const buttonClear = fixture.debugElement.query(By.css('gtx-button'));
+                    expect(buttonClear).toBeTruthy();
+                }
+            )
+        );
+
+        it('clears the value of the input if icon clicked',
+            componentTest(() => TestComponent, `
+                <gtx-date-time-picker timestamp="${TEST_TIMESTAMP}" clearable="true" (change)="onChange($event)" format="YY-MM-ddd">
+                </gtx-date-time-picker>`,
+                (fixture, instance) => {
+                    instance.onChange = jasmine.createSpy('onChange');
+                    fixture.detectChanges();
+                    const dateTimePickerInstance: DateTimePicker =
+                        fixture.debugElement.query(By.directive(DateTimePicker)).componentInstance;
+                    spyOn(dateTimePickerInstance, 'clearDateTime').and.callThrough();
+                    const buttonClear = fixture.debugElement.query(By.css('gtx-button'));
+                    buttonClear.triggerEventHandler('click', {});
+                    tick();
+                    fixture.detectChanges();
+                    expect(dateTimePickerInstance.clearDateTime).toHaveBeenCalled();
+                    expect(dateTimePickerInstance.timestamp).toBeNull;
+                    expect(dateTimePickerInstance.displayValue).toBe('');
+
+                    expect(instance.onChange).toHaveBeenCalledWith(dateTimePickerInstance.timestamp);
+                }
+            )
+        );
+
     });
 
     describe('confirm():', () => {

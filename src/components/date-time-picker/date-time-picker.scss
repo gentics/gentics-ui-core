@@ -17,3 +17,32 @@ gtx-date-time-picker > gtx-input > input:not(:disabled) {
         }
     }
 }
+
+gtx-date-time-picker {
+    display: flex;
+    flex-direction: row;
+
+    gtx-input {
+        flex-basis: 100%;
+    }
+
+    gtx-input.clearable input[type="text"] {
+        border-top-right-radius: 0px;
+        border-bottom-right-radius: 0px;
+        border-right-width: 1px;
+    }
+
+    .clear-button {
+        align-self: center;
+        border-top: 2px solid $gtx-color-light-gray;
+        border-right: 2px solid $gtx-color-light-gray;
+        border-bottom: 2px solid $gtx-color-light-gray;
+        border-top-right-radius: 3px;
+        border-bottom-right-radius: 3px;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        height: 2.5rem;
+        background: $gtx-color-very-light-gray;
+    }
+}
