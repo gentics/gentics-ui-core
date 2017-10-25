@@ -93,7 +93,6 @@ export class DropdownContentWrapper {
                 this.contentStyles.whiteSpace = 'nowrap';
             }
             this.cd.markForCheck();
-            this.cd.detectChanges();
         }, 0);
     }
 

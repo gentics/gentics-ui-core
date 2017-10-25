@@ -619,7 +619,7 @@ class TestComponent {
 
 function clickSelectAndOpen(fixture: ComponentFixture<TestComponent>): void {
     fixture.debugElement.query(By.directive(DropdownTriggerDirective)).nativeElement.click();
-    tick();
+    tick(100);
     fixture.detectChanges();
 }
 
