@@ -9737,6 +9737,42 @@ gtx-date-time-picker > gtx-input > input:not(:disabled).ng-touched.ng-invalid la
   color: #c9302c;
 }
 
+gtx-date-time-picker {
+  display: -webkit-box;
+  display: flex;
+  -webkit-box-orient: horizontal;
+  -webkit-box-direction: normal;
+  flex-direction: row;
+}
+
+gtx-date-time-picker gtx-input {
+  flex-basis: 100%;
+}
+
+gtx-date-time-picker gtx-input.clearable input[type="text"] {
+  border-top-right-radius: 0px;
+  border-bottom-right-radius: 0px;
+  border-right-width: 1px;
+}
+
+gtx-date-time-picker .clear-button {
+  align-self: center;
+  border-top: 2px solid #d6d6d6;
+  border-right: 2px solid #d6d6d6;
+  border-bottom: 2px solid #d6d6d6;
+  border-top-right-radius: 3px;
+  border-bottom-right-radius: 3px;
+  display: -webkit-box;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+  flex-direction: column;
+  -webkit-box-pack: center;
+  justify-content: center;
+  height: 2.5rem;
+  background: #efefef;
+}
+
 gtx-date-time-picker-controls .controls-header {
   text-align: center;
   background-color: #0096DC;
