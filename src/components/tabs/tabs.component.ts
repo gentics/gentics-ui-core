@@ -26,8 +26,7 @@ import {Tab} from './tab.component';
  * ```
  *
  * ##### With `routerLink`
- * A gtx-tab can take an optional [routerLink] binding, which should be an array of instructions to create
- * a router link.
+ * A gtx-tab can take an optional `[routerLink]` binding which will set router links for the tabs.
  * ```
  * <gtx-tabs pure [activeId]="activeTab">
  *     <gtx-tab title="Details" id="1" [routerLink]="['customer', 'details']"></gtx-tab>

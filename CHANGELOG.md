@@ -1,10 +1,15 @@
 # Gentics UI Core Changelog
 
-## 5.5.1 (in progress)
+## 5.6.0 (in progress)
 
 ### Features
 
 * Remove padding from select with no label
+* Tabs support icons (GUIC-140)
+
+### Fixes
+
+* Long text in tabs are truncated with text ellipsis (GUIC-143)
 
 
 ## 5.5.0 (2017-10-25)

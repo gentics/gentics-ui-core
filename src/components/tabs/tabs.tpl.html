@@ -1,11 +1,17 @@
 <ul class="tab-links">
-  <li class="tab-link" role="presentation"
-      *ngFor="let tab of tabs"
-      (click)="selectTab(tab)"
-      [class.disabled]="tab.disabled"
-      [class.is-active]="tab.active">
-      <a role="tab" *ngIf="tab.routerLink && !tab.disabled" [routerLink]="tab.routerLink">{{ tab.title }}</a>
-      <a role="tab" *ngIf="!tab.routerLink || tab.disabled">{{ tab.title }}</a>
-  </li>
+    <li class="tab-link" role="presentation"
+            *ngFor="let tab of tabs"
+            (click)="selectTab(tab)"
+            [ngClass]="{
+                disabled: tab.disabled,
+                'is-active': tab.active,
+                'has-icon': !!tab.icon,
+                'icon-only': tab.icon && !tab.title
+            }">
+        <a role="tab" *ngIf="tab.routerLink && !tab.disabled" [routerLink]="tab.routerLink"
+            ><icon *ngIf="tab.icon">{{tab.icon}}</icon>{{ tab.title }}</a>
+        <a role="tab" *ngIf="!tab.routerLink || tab.disabled"
+            ><icon *ngIf="tab.icon">{{tab.icon}}</icon>{{ tab.title }}</a>
+    </li>
 </ul>
 <ng-content></ng-content>

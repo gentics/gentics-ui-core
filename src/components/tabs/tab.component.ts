@@ -13,6 +13,7 @@ import {Component, Input, Output, EventEmitter} from '@angular/core';
 })
 export class Tab {
     @Input() title: string;
+    @Input() icon: string;
     @Input() id: string;
     @Input() routerLink: any[];
     @Input() disabled: boolean;
