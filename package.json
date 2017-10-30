@@ -109,9 +109,9 @@
     "core-js": "^2.4.1",
     "hammerjs": "^2.0.6",
     "materialize-css": "^0.97.6",
+    "moment": "2.18.1",
     "rome": "^2.1.22",
-    "sortablejs": "^1.4.2",
-    "moment": "2.18.1"
+    "sortablejs": "^1.4.2"
   },
   "peerDependencies": {
     "@angular/core": "^4.0.0"
