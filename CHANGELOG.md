@@ -1,15 +1,24 @@
 # Gentics UI Core Changelog
 
+## 5.5.1 (in progress)
+
+### Features
+
+* Remove padding from select with no label
+
+
 ## 5.5.0 (2017-10-25)
 
 ### Features
 
 * Make DateTimePicker clearable (GUIC-139)
 
+
 ## 5.4.1 (2017-10-16)
 
 ### Fixes
 * Fix downstream build issues introduced by an update to moment.js (GUIC-138)
+
 
 ## 5.4.0 (2017-09-17)
 
@@ -18,6 +27,7 @@
 
 ### Fixes
 * Fix positioning issues with DropdownList (GUIC-118)
+
 
 ## 5.3.0 (2017-09-17)
 
@@ -33,9 +43,11 @@
 * ModalService no longer attempts to open modal before the host view is registered.
 * Remove redundant "readonly" inputs on Checkbox, Range and RadioButton.
 
+
 ## 5.2.1 (2017-07-24)
 
 * Fixed bad publish to npm, no source changes.
+
 
 ## 5.2.0 (2017-07-24)
 
@@ -45,9 +57,11 @@
 ### Fixes
 * Fix SplitViewContainer incorrectly switching in IE11 (GUIC-126)
 
+
 ## 5.1.1 (2017-07-11)
 
 * Library had not been rebuilt before last npm publish, so some changes were not there.
+
 
 ## 5.1.0 (2017-07-11)
 
@@ -57,6 +71,7 @@
 ### Fixes
 * OverlayHostService no longer breaks when instantiated in a child module.
 * Select options are updated upon <gtx-option> changes (GUIC-120).
+
 
 ## 5.0.0 (2017-05-08)
 
@@ -70,6 +85,7 @@ Importing without the `forRoot()` call will not include the providers, only the 
 ### Breaking Changes
 * Update to Angular 4
 * Update to TypeScript 2.2.2
+
 
 ## 3.1.0 (2017-04-03)
 

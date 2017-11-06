@@ -7,8 +7,11 @@ gtx-select {
         display: block;
 
         gtx-dropdown-trigger {
-            margin-top: 19px;
             width: 100%;
+        }
+
+        .with-label {
+            margin-top: 19px;
         }
     }
 

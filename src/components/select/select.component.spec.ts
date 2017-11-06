@@ -61,6 +61,30 @@ describe('Select:', () => {
         )
     );
 
+    it('contains class with-label if label is present',
+        componentTest(() => TestComponent, `
+        <gtx-select label="testLabel"></gtx-select>`,
+            fixture => {
+                fixture.detectChanges();
+                let dropdown: HTMLElement = fixture.nativeElement.querySelector('gtx-dropdown-trigger');
+
+                expect(dropdown.classList).toContain('with-label');
+            }
+        )
+    );
+
+    it('does not contain class with-label if label is not present',
+        componentTest(() => TestComponent, `
+        <gtx-select></gtx-select>`,
+            fixture => {
+                fixture.detectChanges();
+                let dropdown: HTMLElement = fixture.nativeElement.querySelector('gtx-dropdown-trigger');
+
+                expect(dropdown.classList).not.toContain('with-label');
+            }
+        )
+    );
+
     it('adds a "disabled" attribute to the view-value div if the disabled attribute is true.',
         componentTest(() => TestComponent, `
             <gtx-select label="testLabel" disabled="true"></gtx-select>`,

@@ -86,7 +86,7 @@ export class Select implements ControlValueAccessor {
     /**
      * A text label for the input.
      */
-    @Input() label: string = '';
+    @Input() label: string;
 
     /**
      * Blur event.

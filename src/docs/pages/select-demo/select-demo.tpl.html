@@ -25,6 +25,27 @@
     </div>
 </gtx-demo-block>
 
+<gtx-demo-block demoTitle="Select without label">
+    <div class="demo-result">
+        <div class="column small-8">
+            <gtx-select [(ngModel)]="selectVal">
+                <gtx-option *ngFor="let item of options" [value]="item"></gtx-option>
+            </gtx-select>
+        </div>
+        <div class="column small-4">
+            Value: <code>{{ selectVal | json }}</code>
+        </div>
+    </div>
+    <div class="demo-code">
+        <gtx-highlighted-code language="HTML" code='
+                <gtx-select [(ngModel)]="selectVal">
+                    <gtx-option *ngFor="let item of options" [value]="item"></gtx-option>
+                </gtx-select>
+                Value: <code>(( selectVal | json ))</code>
+        '></gtx-highlighted-code>
+    </div>
+</gtx-demo-block>
+
 <gtx-demo-block demoTitle="Multiple Select">
     <div class="demo-result">
         <p>

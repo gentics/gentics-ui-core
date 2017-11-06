@@ -4,7 +4,7 @@
                    [disabled]="disabled"
                    (open)="dropdownOpened()">
 
-    <gtx-dropdown-trigger>
+    <gtx-dropdown-trigger [class.with-label]="label != null">
         <div class="view-value select-input"
              [attr.tabindex]="disabled ? null : 0"
              [attr.disabled]="disabled ? true : null"
@@ -12,7 +12,7 @@
              #viewValueContainer>
             <div>{{ viewValue }}</div>
             <icon>arrow_drop_down</icon>
-        </div><label (click)="viewValueContainer.focus()">{{ label }}</label>
+        </div><label *ngIf="label != null" (click)="viewValueContainer.focus()">{{ label }}</label>
     </gtx-dropdown-trigger>
 
     <gtx-dropdown-content (keydown)="handleKeydown($event)">
