@@ -45,10 +45,12 @@ export function clientReportsMimeTypesOnDrag(): boolean {
  */
 export const FALLBACK_MIME_TYPE = 'unknown/unknown';
 
+let warnedThatBrowserDoesNotProvideNumberOfItems = false;
+
 /**
  * Returns a list of mime types in a DataTransfer if supported by the browser.
  *
- * This is a workaround for missing DataTransfer.items support in Firefox
+ * This is a workaround for missing DataTransfer.items support in Firefox < 52
  * https://bugzilla.mozilla.org/show_bug.cgi?id=906420
  */
 export function getTransferMimeTypes(transfer: DataTransfer): string[] {
@@ -60,8 +62,14 @@ export function getTransferMimeTypes(transfer: DataTransfer): string[] {
             .map(item => item.type || FALLBACK_MIME_TYPE);
     } else if ('mozItemCount' in transfer) {
         return new Array((<any> transfer).mozItemCount).fill(FALLBACK_MIME_TYPE);
+    } else if (!transfer.items && transfer.types.length === 1 && transfer.types[0] === 'Files') {
+        // IE11
+        return [FALLBACK_MIME_TYPE];
     } else {
-        console.error('Client does not provide number of items during drag event');
-        return [];
+        if (!warnedThatBrowserDoesNotProvideNumberOfItems) {
+            console.warn('Client does not provide number of items during drag event');
+            warnedThatBrowserDoesNotProvideNumberOfItems = true;
+        }
+        return [FALLBACK_MIME_TYPE];
     }
 }
