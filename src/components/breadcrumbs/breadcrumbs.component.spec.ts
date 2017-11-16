@@ -361,18 +361,19 @@ describe('Breadcrumbs:', () => {
                     let clickEvent = createClickEvent(nativeLink);
                     nativeLink.dispatchEvent(clickEvent);
 
-                    expect((router.navigateByUrl as jasmine.Spy).calls.argsFor(0)[0]).toEqual(['/TestA', 'TestB', 'TestC']);
+                    expect(router.navigateByUrl)
+                        .toHaveBeenCalledWith(['/TestA', 'TestB', 'TestC'], jasmine.anything());
                 }
             )
         );
 
         it('does not change the URL on router link click when disabled',
             componentTest(() => TestComponent, `
-                <gtx-breadcrumbs disabled [routerLinks]='[
-                    { text: "Link1", route: ["/TestA", "TestB", "TestC"] }
-                ]'>
+                <gtx-breadcrumbs disabled [routerLinks]="[
+                    { text: 'Link1', route: ['/TestA', 'TestB', 'TestC'] }
+                ]">
                 </gtx-breadcrumbs>`,
-                fixture => {
+                (fixture, testComponent) => {
                     let router: MockRouter = getTestBed().get(Router);
                     router.createUrlTree = (commands: string[], options: any) => commands;
                     router.navigateByUrl = jasmine.createSpy('navigateByUrl');
@@ -384,9 +385,12 @@ describe('Breadcrumbs:', () => {
                     let generatedLinks = fixture.debugElement.queryAll(By.css('a'));
                     expect(generatedLinks.length).toBe(1);
 
+                    expect(router.navigateByUrl).toHaveBeenCalledTimes(0);
+
                     let nativeLink: HTMLAnchorElement = generatedLinks[0].nativeElement;
                     let clickEvent = createClickEvent(nativeLink);
                     nativeLink.dispatchEvent(clickEvent);
+                    expect(clickEvent.defaultPrevented).toBe(true);
 
                     expect(router.navigateByUrl).not.toHaveBeenCalled();
                 }

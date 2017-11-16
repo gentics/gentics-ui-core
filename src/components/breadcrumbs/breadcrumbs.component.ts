@@ -1,4 +1,7 @@
-import {Component, ElementRef, EventEmitter, Input, Output, OnChanges, SimpleChanges} from '@angular/core';
+import { AfterViewInit, Component, ElementRef, EventEmitter, Input, Output } from '@angular/core';
+import { OnChanges, QueryList, SimpleChanges, ViewChildren } from '@angular/core';
+import { RouterLinkWithHref } from '@angular/router';
+import { Observable } from 'rxjs/Observable';
 
 export interface IBreadcrumbLink {
     href?: string;
@@ -55,7 +58,7 @@ export class Breadcrumbs implements OnChanges {
 
     isDisabled: boolean = false;
     backLink: IBreadcrumbLink | IBreadcrumbRouterLink;
-
+    @ViewChildren(RouterLinkWithHref) routerLinkChildren: QueryList<RouterLinkWithHref>;
 
     constructor(private elementRef: ElementRef) { }
 
@@ -64,9 +67,6 @@ export class Breadcrumbs implements OnChanges {
         if (element) {
             // Listen in the "capture" phase to prevent routerLinks when disabled
             element.firstElementChild.addEventListener('click', this.preventClicksWhenDisabled, true);
-        } else {
-            debugger;
-            throw 'wtf';
         }
     }
 
@@ -91,6 +91,11 @@ export class Breadcrumbs implements OnChanges {
         }
     }
 
+    ngAfterViewInit(): void {
+        this.preventDisabledRouterLinks();
+        this.routerLinkChildren.changes.subscribe(() => this.preventDisabledRouterLinks());
+    }
+
     private preventClicksWhenDisabled = (ev: Event): void => {
         if (this.isDisabled) {
             let target = ev.target as HTMLElement;
@@ -100,4 +105,24 @@ export class Breadcrumbs implements OnChanges {
             }
         }
     }
+
+    /**
+     * Workaround/Hack for the native angular "RouterLink" having no way to disable navigation on click.
+     */
+    private preventDisabledRouterLinks(): void {
+        const thisComponent = this;
+        const createsCompileErrorIfRouterLinkAPIChanges: keyof RouterLinkWithHref = 'onClick';
+
+        for (const link of this.routerLinkChildren.filter(link => !link.hasOwnProperty('onClick'))) {
+            const originalOnClick = link.onClick;
+            link.onClick = function interceptedOnClick(...args: any[]): boolean {
+                if (thisComponent.isDisabled) {
+                    return true;
+                } else {
+                    return originalOnClick.apply(this, args);
+                }
+            };
+        }
+    }
+
 }

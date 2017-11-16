@@ -11,6 +11,7 @@
 
 * Long text in tabs are truncated with text ellipsis (GUIC-143)
 * Buttons no longer forward click events when disabled (GUIC-124)
+* Ignore clicks on disabled routerLink breadcrumbs
 
 
 ## 5.5.0 (2017-10-25)
