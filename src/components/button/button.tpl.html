@@ -1,8 +1,9 @@
-<button class="btn {{size}} {{type}}"
-        [type]="buttonType"
-        [disabled]="disabled"
-        [class.btn-flat]="flat || icon"
-        [class.btn-icon]="icon"
-        (click)="onClickEvent($event)"
-><ng-content></ng-content>
-</button>
+<div class="button-event-wrapper" (click)="preventDisabledClick($event)">
+    <button class="btn {{size}} {{type}}"
+            [type]="buttonType"
+            [disabled]="disabled"
+            [class.btn-flat]="flat || icon"
+            [class.btn-icon]="icon"
+            (click)="preventDisabledClick($event)"
+    ><ng-content></ng-content></button>
+</div>

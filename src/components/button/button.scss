@@ -1,8 +1,9 @@
 gtx-button {
 
     display: inline-block;
+    user-select: none;
 
-    > button {
+    button {
         &.btn {
             transition-property: color, border;
             overflow: hidden;
@@ -43,7 +44,7 @@ gtx-button {
         opacity: 0.5;
     }
 
-    > button:not(.btn-flat) {
+    button:not(.btn-flat) {
 
         // default (primary)
         background-color: $gtx-color-primary;
@@ -105,7 +106,7 @@ gtx-button {
         }
     }
 
-    > button.btn-flat {
+    button.btn-flat {
         border: 1px solid transparentize($gtx-color-primary, 0.8);
         color: darken($gtx-color-primary, 20%);
 
@@ -159,7 +160,7 @@ gtx-button {
         }
     }
 
-    > button.btn-flat.btn-icon {
+    button.btn-flat.btn-icon {
         padding: 0;
         border: 1px solid transparent;
         background: none !important;

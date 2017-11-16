@@ -10,6 +10,7 @@
 ### Fixes
 
 * Long text in tabs are truncated with text ellipsis (GUIC-143)
+* Buttons no longer forward click events when disabled (GUIC-124)
 
 
 ## 5.5.0 (2017-10-25)
@@ -41,6 +42,7 @@
 * Large Select menus are initialized to the selected item (GUIC-131).
 * Implement max, min and year selection in DateTimePicker (GUIC 130).
 * Split up DateTimePicker into standalone DateTimePickerControls component.
+
 
 ## 5.2.2 (2017-07-24)
 

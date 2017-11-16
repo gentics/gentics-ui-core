@@ -125,7 +125,7 @@ describe('Button:', () => {
 
     // Disabled elements don't fire mouse events in some browsers, but not all
     // http://stackoverflow.com/a/3100395/5460631
-    it('does not forward button "click" event when disabled',
+    it('does not forward button "click" events when disabled',
         componentTest(() => TestComponent, `
             <gtx-button [disabled]="true" (click)="onClick($event)"></gtx-button>`,
             fixture => {
@@ -145,21 +145,21 @@ describe('Button:', () => {
         )
     );
 
-    // TODO: Need to find a way to prevent "click" from the <gtx-button> firing when disabled.
-    // See https://jira.gentics.com/browse/GUIC-124
-    xit('does not fire host element "click" event when disabled',
+    // Other browsers fire mouse events on the parent of disabled <button> elements
+    // http://stackoverflow.com/a/3100395/5460631
+    it('does not forward bubbled "click" events when disabled',
         componentTest(() => TestComponent, `
             <gtx-button [disabled]="true" (click)="onClick($event)"></gtx-button>`,
             fixture => {
                 let onClick = fixture.componentRef.instance.onClick = jasmine.createSpy('onClick');
-                let gtxButton: HTMLElement = fixture.nativeElement.querySelector('gtx-button');
+                let eventParent: HTMLElement = fixture.nativeElement.querySelector('button').parentNode;
                 fixture.detectChanges();
                 tick();
 
                 let event = document.createEvent('MouseEvent');
                 event.initEvent('click', true, true);
-                gtxButton.dispatchEvent(event);
-                gtxButton.click();
+                eventParent.dispatchEvent(event);
+                eventParent.click();
 
                 expect(event.defaultPrevented).toBe(true, 'default not prevented');
                 expect(onClick).not.toHaveBeenCalled();

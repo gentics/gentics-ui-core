@@ -170,7 +170,6 @@
             standard events which apply regular HTML button elements will bubble up and can
             be bound to.
         </p>
-        <p><strong>Note:</strong> there is an open issue where disabled buttons still fire the (click) handlers. See <a href="https://jira.gentics.com/browse/GUIC-124">the issue on Jira</a>.</p>
         <gtx-checkbox [(ngModel)]="buttonIsDisabled" label="Disable Button"></gtx-checkbox>
         <p><gtx-button [disabled]="buttonIsDisabled" (click)="clickCount = clickCount + 1">Click Me</gtx-button></p>
         Click count: {{ clickCount }}

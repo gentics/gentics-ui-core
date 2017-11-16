@@ -1,4 +1,4 @@
-import {Component, ElementRef, Input, OnDestroy, HostListener} from '@angular/core';
+import { Component, Input, HostListener } from '@angular/core';
 
 /**
  * A Button component.
@@ -16,7 +16,7 @@ import {Component, ElementRef, Input, OnDestroy, HostListener} from '@angular/co
     selector: 'gtx-button',
     templateUrl: './button.tpl.html'
 })
-export class Button implements OnDestroy {
+export class Button {
     /**
      * Sets the input field to be auto-focused. Handled by `AutofocusDirective`.
      */
@@ -76,37 +76,19 @@ export class Button implements OnDestroy {
         this.buttonType = (value != null && value !== false) ? 'submit' : 'button';
     }
 
-
     buttonType = 'button';
     isFlat: boolean = false;
     isIcon: boolean = false;
     isDisabled: boolean = false;
-    private unbindClickHandler: Function;
 
-    constructor(elementRef: ElementRef) {
-
-        if (elementRef.nativeElement) {
-            // This bind call really needs to be in the constructor, not in ngOnInit. Sorry!
-            const handler = (event: Event) => this.onClickEvent(event);
-            elementRef.nativeElement.addEventListener('click', handler, true);
-            this.unbindClickHandler = () => elementRef.nativeElement.removeEventListener('click', handler, true);
-        }
-
-    }
-
-    ngOnDestroy(): void {
-        if (this.unbindClickHandler) {
-            this.unbindClickHandler();
-        }
-    }
-
-    // Disabled elements don't fire mouse events in some browsers, but bubble up the DOM tree.
+    // In some browsers, disabled elements don't fire mouse events, but bubble them up the DOM tree.
     // To not trigger actions when the button is disabled, we need to prevent them manually.
     @HostListener('click', ['$event'])
-    onClickEvent(event: Event): void {
+    preventDisabledClick(event: Event): void {
         if (event && this.isDisabled) {
             event.preventDefault();
             event.stopImmediatePropagation();
+            event.stopPropagation();
         }
     }
 }
