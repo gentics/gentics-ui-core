@@ -1,14 +1,26 @@
 import {Component, ViewChild} from '@angular/core';
 import {TestBed, tick} from '@angular/core/testing';
+import {BehaviorSubject} from 'rxjs';
+
 import {componentTest} from '../../testing';
 import {SearchBar} from './search-bar.component';
 import {InputField} from '../input/input.component';
 import {Button} from '../button/button.component';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 describe('SearchBar', () => {
 
     beforeEach(() => TestBed.configureTestingModule({
-        declarations: [SearchBar, TestComponent, InputField, Button]
+        imports: [
+            FormsModule,
+            ReactiveFormsModule
+        ],
+        declarations: [
+            Button,
+            InputField,
+            SearchBar,
+            TestComponent
+        ]
     }));
 
     it('binds the value of its native input the the "query" property',
@@ -157,6 +169,57 @@ describe('SearchBar', () => {
         })
     );
 
+    it('works when binding to a Subject',
+        componentTest(() => TestComponent, `
+            <gtx-search-bar
+                [ngModel]="subject | async"
+                (ngModelChange)="subject.next($event)">
+            </gtx-search-bar>`,
+            (fixture, testInstance) => {
+                testInstance.subject.next('A');
+                fixture.detectChanges();
+                tick();
+                fixture.detectChanges();
+                let input: HTMLInputElement = fixture.nativeElement.querySelector('input');
+
+                expect(input.value).toBe('A');
+
+                input.value = 'B';
+                const event = document.createEvent('Event');
+                event.initEvent('input', true, true);
+                input.dispatchEvent(event);
+
+                tick();
+
+                expect(testInstance.subject.value).toBe('B');
+            }
+        )
+    );
+
+    it('can be cleared when binding to a Subject',
+        componentTest(() => TestComponent, `
+            <gtx-search-bar
+                [ngModel]="subject | async"
+                (ngModelChange)="subject.next($event)"
+                (clear)="subject.next('')">
+            </gtx-search-bar>`,
+            (fixture, testInstance) => {
+                testInstance.subject.next('A');
+                fixture.detectChanges();
+                tick();
+                fixture.detectChanges();
+                const clearButton = Array.from<HTMLButtonElement>(fixture.nativeElement.querySelectorAll('button'))
+                    .find(button => /close/.test(button.innerText));
+
+                expect(testInstance.subject.value).toBe('A');
+                clearButton.click();
+                expect(testInstance.subject.value).toBe('');
+
+                tick();
+            }
+        )
+    );
+
 });
 
 @Component({
@@ -169,6 +232,7 @@ describe('SearchBar', () => {
 })
 class TestComponent {
     query: string = '';
+    subject = new BehaviorSubject<string>('initial value of subject');
     @ViewChild(SearchBar) searchBar: SearchBar;
     onSearch(): void {}
     onChange(): void {}

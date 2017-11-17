@@ -1,4 +1,4 @@
-import {Component, Input, Output, EventEmitter, forwardRef} from '@angular/core';
+import {Component, ChangeDetectorRef, Input, Output, EventEmitter, forwardRef} from '@angular/core';
 import {ControlValueAccessor, NG_VALUE_ACCESSOR} from '@angular/forms';
 
 const GTX_SEARCH_BAR_VALUE_ACCESSOR = {
@@ -92,6 +92,8 @@ export class SearchBar implements ControlValueAccessor {
     onChange: any = (_: any) => {};
     onTouched: any = () => {};
 
+    constructor(private changeDetector: ChangeDetectorRef) { }
+
     doSearch(): void {
         this.search.emit(this.query);
     }
@@ -121,6 +123,7 @@ export class SearchBar implements ControlValueAccessor {
 
     writeValue(value: any): void {
         this.query = value;
+        this.changeDetector.markForCheck();
     }
 
     registerOnChange(fn: Function): void { this.onChange = fn; }

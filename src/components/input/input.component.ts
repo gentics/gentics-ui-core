@@ -40,7 +40,7 @@ const GTX_INPUT_VALUE_ACCESSOR = {
     templateUrl: './input.tpl.html',
     providers: [GTX_INPUT_VALUE_ACCESSOR]
 })
-export class InputField implements AfterViewInit, ControlValueAccessor, OnChanges, OnInit {
+export class InputField implements AfterViewInit, ControlValueAccessor, OnChanges {
     /**
      * Sets the input field to be auto-focused. Handled by `AutofocusDirective`.
      */
@@ -138,10 +138,6 @@ export class InputField implements AfterViewInit, ControlValueAccessor, OnChange
 
     constructor(private renderer: Renderer,
                 private changeDetector: ChangeDetectorRef) { }
-
-    ngOnInit(): void {
-        this.writeValue(this.value);
-    }
 
     /**
      * The Materialize input includes a dynamic label that changes position depending on the state of the input.

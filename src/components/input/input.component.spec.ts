@@ -2,6 +2,7 @@ import {Component} from '@angular/core';
 import {By} from '@angular/platform-browser';
 import {TestBed, tick} from '@angular/core/testing';
 import {FormsModule, ReactiveFormsModule, FormControl, FormGroup} from '@angular/forms';
+import {BehaviorSubject} from 'rxjs';
 
 import {componentTest} from '../../testing';
 import {InputField} from './input.component';
@@ -143,6 +144,8 @@ describe('InputField', () => {
                 expect(Number(nativeInput.step)).toBe(5);
                 expect(nativeInput.type).toBe('text');
                 expect(nativeInput.value).toBe('testValue');
+
+                tick(50);
             }
         )
     );
@@ -442,6 +445,32 @@ describe('InputField', () => {
             )
         );
 
+        it('works when binding to a Subject',
+            componentTest(() => TestComponent, `
+                <gtx-input
+                    [ngModel]="subject | async"
+                    (ngModelChange)="subject.next($event)">
+                </gtx-input>`,
+                (fixture, testInstance) => {
+                    testInstance.subject.next('A');
+                    fixture.detectChanges();
+                    tick();
+                    let input: HTMLInputElement = fixture.nativeElement.querySelector('input');
+
+                    expect(input.value).toBe('A');
+
+                    input.value = 'B';
+                    const event = document.createEvent('Event');
+                    event.initEvent('input', true, true);
+                    input.dispatchEvent(event);
+
+                    tick();
+
+                    expect(testInstance.subject.value).toBe('B');
+                }
+            )
+        );
+
     });
 });
 
@@ -453,6 +482,7 @@ class TestComponent {
 
     value: string = 'testValue';
     numberVal: number = 42;
+    subject = new BehaviorSubject('testValue');
     testForm: FormGroup = new FormGroup({
         test: new FormControl('controlValue')
     });
