@@ -18,7 +18,7 @@ import {Icon} from '../icon/icon.directive';
 import {Checkbox} from '../checkbox/checkbox.component';
 import {OverlayHostService} from '../overlay-host/overlay-host.service';
 import {OverlayHost} from '../overlay-host/overlay-host.component';
-import {crossBrowserInitKeyboardEvent} from '../../testing/keyboard-event';
+import { crossBrowserInitKeyboardEvent, KeyboardEventConfig } from '../../testing/keyboard-event';
 import {KeyCode} from '../../common/keycodes';
 
 
@@ -426,8 +426,8 @@ describe('Select:', () => {
                 fixture.detectChanges();
                 tick();
                 sendKeyDown(fixture, KeyCode.Enter);
-                const F = 70;
-                const B = 66;
+                const F = { key: 'f', keyCode: 70 };
+                const B = { key: 'b', keyCode: 66 };
 
                 sendKeyDown(fixture, F);
                 expect(getSelectedItem(fixture).textContent).toContain('Foo');
@@ -445,10 +445,50 @@ describe('Select:', () => {
             })
         );
 
-        function sendKeyDown(fixture: ComponentFixture<TestComponent>, keyCode: number): void {
-            let viewValue: HTMLElement = fixture.debugElement.query(By.css('.view-value')).nativeElement;
-            let enterKeydownEvent = crossBrowserInitKeyboardEvent('keydown', { keyCode, bubbles: true });
-            viewValue.dispatchEvent(enterKeydownEvent);
+        it('umlauts should work as expected',
+            componentTest(() => TestComponent, (fixture, testComponent) => {
+                testComponent.options = [
+                    'Ägypten',
+                    'Äquatorialguinea',
+                    'Äthiopien',
+                    'Österreich'
+                ];
+                testComponent.value = 'Ägypten';
+
+                fixture.detectChanges();
+                tick();
+                sendKeyDown(fixture, KeyCode.Enter);
+                const A_UMLAUT = { key: 'ä', keyCode: 222 };
+                const O_UMLAUT = { key: 'ö', keyCode: 192 };
+
+                sendKeyDown(fixture, O_UMLAUT);
+                expect(getSelectedItem(fixture).textContent).toContain('Österreich');
+
+                sendKeyDown(fixture, A_UMLAUT);
+                expect(getSelectedItem(fixture).textContent).toContain('Ägypten');
+
+                sendKeyDown(fixture, A_UMLAUT);
+                expect(getSelectedItem(fixture).textContent).toContain('Äquatorialguinea');
+
+                sendKeyDown(fixture, A_UMLAUT);
+                expect(getSelectedItem(fixture).textContent).toContain('Äthiopien');
+
+                tick(1000);
+            })
+        );
+
+        function sendKeyDown(fixture: ComponentFixture<any>, keyToSend: number | { key: string, keyCode: number }): void {
+            const eventTarget: HTMLElement = fixture.debugElement.query(By.css('.view-value')).nativeElement;
+            const eventProps: KeyboardEventConfig = { bubbles: true };
+            if (typeof keyToSend === 'number') {
+                eventProps.key = KeyCode[keyToSend];
+                eventProps.keyCode = keyToSend;
+            } else {
+                eventProps.key = keyToSend.key;
+                eventProps.keyCode = keyToSend.keyCode;
+            }
+            const keydownEvent = crossBrowserInitKeyboardEvent('keydown', eventProps);
+            eventTarget.dispatchEvent(keydownEvent);
             tick();
             fixture.detectChanges();
         }

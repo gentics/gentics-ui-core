@@ -32,6 +32,8 @@ export interface NormalizedOptionGroup {
     isDefaultGroup: boolean;
 }
 
+export type SelectedSelectOption = [number, number];
+
 /**
  * A Select form control which works with any kind of value - as opposed to the native HTML `<select>` which only works
  * with strings.
@@ -112,7 +114,7 @@ export class Select implements ControlValueAccessor {
     // Keeps track of the selected option. Two dimensional because options may be nested inside groups. The first
     // value is the index of the group (-1 is the default "no group" group), and the second number is the index
     // of the option within that group.
-    selectedIndex: [number, number] = [0, -1];
+    selectedIndex: SelectedSelectOption = [0, -1];
 
     private _disabled: boolean = false;
     private preventDeselect: boolean = false;
@@ -190,6 +192,10 @@ export class Select implements ControlValueAccessor {
      */
     @HostListener('keydown', ['$event'])
     handleKeydown(event: KeyboardEvent): void {
+        if (event.ctrlKey || event.altKey || event.metaKey) {
+            return;
+        }
+
         const keyCode = event.keyCode;
 
         switch (keyCode) {
@@ -220,7 +226,7 @@ export class Select implements ControlValueAccessor {
                 break;
             default:
                 // Other keys are treated as if the user is trying to jump to an option by character
-                let indexOfMatch = this.searchByKeyCode(keyCode);
+                const indexOfMatch = this.searchByKey(event.key);
                 if (indexOfMatch) {
                     this.updateSelectedIndex(indexOfMatch);
                 }
@@ -278,7 +284,7 @@ export class Select implements ControlValueAccessor {
     /**
      * Given a SelectOption, returns the position in the 2D selectedIndex array.
      */
-    private getIndexFromSelectOption(selected: SelectOption): [number, number] {
+    private getIndexFromSelectOption(selected: SelectOption): SelectedSelectOption {
         if (selected) {
             let selectedGroup = 0;
             let selectedOption = 0;
@@ -304,16 +310,16 @@ export class Select implements ControlValueAccessor {
      * other groups as specified by optgroups.
      */
     private buildOptionGroups(): NormalizedOptionGroup[] {
-        let groups = [
-            ...this._selectOptionGroups.toArray().map(g => ({
+        const groups = this._selectOptionGroups.map(g => {
+            return {
                 get options(): SelectOption[] { return g.options; },
                 get label(): string { return g.label; },
                 get disabled(): boolean { return g.disabled; },
                 isDefaultGroup: false
-            }))
-        ];
+            };
+        });
 
-        if (0 < this._selectOptions.length) {
+        if (this._selectOptions.length) {
             groups.unshift({
                 options: this._selectOptions.toArray(),
                 label: '',
@@ -329,7 +335,8 @@ export class Select implements ControlValueAccessor {
      */
     private getInitiallySelectedOptions(): SelectOption[] {
         let selectedOptions: SelectOption[] = [];
-        const flatOptionsList = this.optionGroups.reduce((options, group) => options.concat(group.options), []);
+        const flatOptionsList = this.optionGroups.reduce(
+            (options, group) => options.concat(group.options), []);
 
         if (this.value !== undefined) {
             if (this.multiple) {
@@ -391,40 +398,33 @@ export class Select implements ControlValueAccessor {
      * matches the character passed in. Useful for jumping to options quickly by typing the first letter of the
      * option view value.
      */
-    private searchByKeyCode(keyCode: number): [number, number] {
-        // normalize from JavaScript keycodes to unicode charcode (numpad keys are interpreted as numbers)
-        // See http://stackoverflow.com/a/5829387/772859
-        const isNumPad = (96 <= keyCode && keyCode <= 105);
-        const char = String.fromCharCode(isNumPad ? keyCode - 48 : keyCode);
-
+    private searchByKey(key: string): SelectedSelectOption {
+        const keyUpperCase = key.toLocaleUpperCase();
         const totalOptionCount = this.optionGroups.reduce((total, group) => total + group.options.length, 0);
-        let testIndex = this.selectedIndex.slice() as [number, number];
-        let foundMatch = false;
-        let optionsChecked = 0;
+        let currentIndex = this.selectedIndex.slice() as SelectedSelectOption;
 
-        do {
-            testIndex = this.getNextIndex(testIndex);
-            let testOption = this.optionGroups[testIndex[0]].options[testIndex[1]];
-            foundMatch = testOption.viewValue.charAt(0).toUpperCase() === char;
-            optionsChecked ++;
-        } while (!foundMatch && optionsChecked <= totalOptionCount);
+        for (let counter = 0; counter < totalOptionCount; counter++) {
+            currentIndex = this.getNextIndex(currentIndex);
+            const option = this.optionGroups[currentIndex[0]].options[currentIndex[1]];
+            const firstLetterUppercase = option.viewValue.charAt(0).toLocaleUpperCase();
 
-        if (foundMatch) {
-            return testIndex;
+            if (firstLetterUppercase === keyUpperCase) {
+                return currentIndex;
+            }
         }
     }
 
-    private getFirstIndex(): [number, number] {
+    private getFirstIndex(): SelectedSelectOption {
         return [0, 0];
     }
 
-    private getLastIndex(): [number, number] {
+    private getLastIndex(): SelectedSelectOption {
         const lastGroupIndex = this.optionGroups.length - 1;
         return [lastGroupIndex, this.optionGroups[lastGroupIndex].options.length - 1];
     }
 
-    private getNextIndex(currentIndex: [number, number]): [number, number] {
-        let nextIndex = currentIndex.slice() as [number, number];
+    private getNextIndex(currentIndex: SelectedSelectOption): SelectedSelectOption {
+        let nextIndex = currentIndex.slice() as SelectedSelectOption;
         const isLastGroup = currentIndex[0] === this.optionGroups.length - 1;
         const isLastOptionInGroup = currentIndex[1] === this.optionGroups[currentIndex[0]].options.length - 1;
         if (isLastOptionInGroup) {
@@ -440,8 +440,8 @@ export class Select implements ControlValueAccessor {
         return nextIndex;
     }
 
-    private getPreviousIndex(currentIndex: [number, number]): [number, number] {
-        let nextIndex = currentIndex.slice() as [number, number];
+    private getPreviousIndex(currentIndex: SelectedSelectOption): SelectedSelectOption {
+        let nextIndex = currentIndex.slice() as SelectedSelectOption;
         if (currentIndex[0] <= 0) {
             if (0 < currentIndex[1]) {
                 nextIndex[1] --;
@@ -462,7 +462,7 @@ export class Select implements ControlValueAccessor {
     /**
      * Sets the `selectedOptions` array to contain the single option at the selectedIndex.
      */
-    private updateSelectedIndex(index: [number, number]): void {
+    private updateSelectedIndex(index: SelectedSelectOption): void {
         this.selectedIndex = index;
         if (!this.multiple) {
             const options = this.optionGroups[index[0]].options;
