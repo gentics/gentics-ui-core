@@ -659,6 +659,45 @@ describe('Select:', () => {
             )
         );
 
+        it('renders the correct value as selected when used with reactive forms (string values)',
+            componentTest(() => TestComponent, `
+                <form [formGroup]="testForm">
+                    <gtx-select formControlName="test">
+                        <gtx-option *ngFor="let option of options" [value]="option">{{ option }}</gtx-option>
+                    </gtx-select>
+                </form>
+                <gtx-overlay-host></gtx-overlay-host>`,
+                (fixture, instance) => {
+                    instance.testForm.reset({ test: 'Bar' }, { emitEvent: false });
+                    fixture.detectChanges();
+                    tick();
+                    const displayedText: string = fixture.nativeElement.querySelector('.view-value').innerText;
+                    expect(displayedText).toContain('Bar');
+                }
+            )
+        );
+
+        it('renders the correct value as selected when used with reactive forms (number values)',
+        componentTest(() => TestComponent, `
+            <form [formGroup]="testForm">
+                <gtx-select formControlName="test">
+                    <gtx-option [value]="1">One</gtx-option>
+                    <gtx-option [value]="2">Two</gtx-option>
+                    <gtx-option [value]="3">Three</gtx-option>
+                    <gtx-option [value]="4">Four</gtx-option>
+                </gtx-select>
+            </form>
+            <gtx-overlay-host></gtx-overlay-host>`,
+            (fixture, instance) => {
+                instance.testForm.reset({ test: 3 }, { emitEvent: false });
+                fixture.detectChanges();
+                tick();
+                const displayedText: string = fixture.nativeElement.querySelector('.view-value').innerText;
+                expect(displayedText).toContain('Three');
+            }
+        )
+    );
+
         it('works as expected when value is provided with a subject',
             componentTest(() => TestComponent, `
                 <gtx-select [value]="valueSubject | async" (change)="valueSubject.next($event)">

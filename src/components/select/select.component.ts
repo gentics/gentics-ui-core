@@ -370,6 +370,7 @@ export class Select implements ControlValueAccessor {
 
     private updateViewValue(): void {
         this.viewValue = this.selectedOptions.map(o => o.viewValue).join(', ');
+        this.changeDetector.markForCheck();
     }
 
     /**
@@ -379,15 +380,16 @@ export class Select implements ControlValueAccessor {
     private scrollToSelectedOption(): void {
         setTimeout(() => {
             const container = this.dropdownContent.elementRef.nativeElement;
-            const selectedLi = container.querySelector('li.selected');
-            if (selectedLi) {
-                const belowContainer = container.offsetHeight + container.scrollTop < selectedLi.offsetTop + selectedLi.offsetHeight;
-                const aboveContainer = selectedLi.offsetTop < container.scrollTop;
+            const selectedItem = container.querySelector('li.selected');
+            if (selectedItem) {
+                const belowContainer = container.offsetHeight + container.scrollTop < selectedItem.offsetTop + selectedItem.offsetHeight;
+                const aboveContainer = selectedItem.offsetTop < container.scrollTop;
+
                 if (belowContainer) {
-                    container.scrollTop = selectedLi.offsetTop + selectedLi.offsetHeight - container.offsetHeight;
+                    container.scrollTop = selectedItem.offsetTop + selectedItem.offsetHeight - container.offsetHeight;
                 }
                 if (aboveContainer) {
-                    container.scrollTop = selectedLi.offsetTop;
+                    container.scrollTop = selectedItem.offsetTop;
                 }
             }
         });
