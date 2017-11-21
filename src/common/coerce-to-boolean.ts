@@ -4,5 +4,5 @@
  * In the latter case, we want to ensure that the string version is correctly coerced to its boolean counterpart.
  */
 export function coerceToBoolean(val: any): boolean {
-    return val === true || val === 'true';
+    return val === true || val === 'true' || val === '';
 }
