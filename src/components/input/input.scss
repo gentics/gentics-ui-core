@@ -2,17 +2,11 @@ gtx-input {
     position: relative;
     display: block;
 
-    > label {
-        position: absolute;
-        top: 0;
-        display: block;
-        color: $gtx-color-dark-gray;
-        transition: color 0.2s;
-    }
+    @include input-label-styles('> label');
 
-    > input[type="text"],
-    > input[type="number"],
-    > input[type="password"] {
+    > input[type=text],
+    > input[type=number],
+    > input[type=password] {
         @include input-base;
 
         &::-ms-clear {
@@ -25,10 +19,6 @@ gtx-input {
     &.ng-touched.ng-invalid {
         > input {
             border-color: $gtx-color-alert;
-        }
-
-        > label {
-            color: $gtx-color-alert;
         }
     }
 }

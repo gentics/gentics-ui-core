@@ -1,12 +1,11 @@
 /* disable text selection on the element */
 @mixin noselect {
-    -webkit-touch-callout: none; /* iOS Safari */
-    -webkit-user-select: none;   /* Chrome/Safari/Opera */
-    -khtml-user-select: none;    /* Konqueror */
-    -moz-user-select: none;      /* Firefox */
-    -ms-user-select: none;       /* IE/Edge */
-    user-select: none;           /* non-prefixed version, currently
-                                   not supported by any browser */
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
 }
 
 /* Define font sizes that react to smaller screens */
@@ -55,5 +54,24 @@
         & + label {
             color: $gtx-color-dark-gray;
         }
+    }
+}
+
+@mixin input-label-styles($selector: 'label') {
+    & #{$selector} {
+        position: absolute;
+        top: 0;
+        display: block;
+        color: $gtx-color-dark-gray;
+        transition: color 0.2s;
+        max-width: 100%;
+        overflow: hidden;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+        user-select: none;
+    }
+
+    &.ng-touched.ng-invalid #{$selector} {
+        color: $gtx-color-alert;
     }
 }

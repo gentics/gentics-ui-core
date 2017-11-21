@@ -3,6 +3,7 @@ gtx-select {
     position: relative;
     margin: 0 0 20px 0;
 
+
     gtx-dropdown-list {
         display: block;
 
@@ -30,22 +31,10 @@ gtx-select {
         }
     }
 
-    label {
-        position: absolute;
-        top: 0;
-        display: block;
-        color: $gtx-color-dark-gray;
-        transition: color 0.2s;
-    }
+    @include input-label-styles;
 
-    &.ng-touched.ng-invalid {
-        .view-value {
-            border-color: $gtx-color-alert;
-        }
-
-        > label {
-            color: $gtx-color-alert;
-        }
+    &.ng-touched.ng-invalid .view-value {
+        border-color: $gtx-color-alert;
     }
 }
 

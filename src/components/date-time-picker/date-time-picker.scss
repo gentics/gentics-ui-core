@@ -1,5 +1,5 @@
 gtx-date-time-picker > gtx-input > input:not(:disabled) {
-    &[type="text"] {
+    &[type=text] {
         color: inherit;
     }
 
@@ -26,7 +26,7 @@ gtx-date-time-picker {
         flex-basis: 100%;
     }
 
-    gtx-input.clearable input[type="text"] {
+    gtx-input.clearable input[type=text] {
         border-top-right-radius: 0px;
         border-bottom-right-radius: 0px;
         border-right-width: 1px;

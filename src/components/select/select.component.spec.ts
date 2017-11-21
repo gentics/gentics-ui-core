@@ -18,7 +18,7 @@ import {Icon} from '../icon/icon.directive';
 import {Checkbox} from '../checkbox/checkbox.component';
 import {OverlayHostService} from '../overlay-host/overlay-host.service';
 import {OverlayHost} from '../overlay-host/overlay-host.component';
-import { crossBrowserInitKeyboardEvent, KeyboardEventConfig } from '../../testing/keyboard-event';
+import {crossBrowserInitKeyboardEvent, KeyboardEventConfig} from '../../testing/keyboard-event';
 import {KeyCode} from '../../common/keycodes';
 
 

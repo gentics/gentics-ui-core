@@ -2,13 +2,7 @@ gtx-textarea {
     position: relative;
     display: block;
 
-    > label {
-        position: absolute;
-        top: 0;
-        display: block;
-        color: $gtx-color-dark-gray;
-        transition: color 0.2s;
-    }
+    @include input-label-styles('> label');
 
     > textarea.materialize-textarea {
         @include input-base;
@@ -17,13 +11,7 @@ gtx-textarea {
         overflow-y: auto;
     }
 
-    &.ng-touched.ng-invalid {
-        > textarea.materialize-textarea {
-            border-color: $gtx-color-alert;
-        }
-
-        > label {
-            color: $gtx-color-alert;
-        }
+    &.ng-touched.ng-invalid > textarea.materialize-textarea {
+        border-color: $gtx-color-alert;
     }
 }
