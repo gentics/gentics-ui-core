@@ -58,7 +58,8 @@ module.exports = {
             template: path.join(srcPath, 'index.html')
         }),
         new webpack.NoEmitOnErrorsPlugin(),
-        new CheckerPlugin()
+        new CheckerPlugin(),
+        new webpack.ContextReplacementPlugin(/angular(\\|\/)core(\\|\/)/, path.resolve(__dirname, '../src')),
     ],
     devtool: 'eval-source-map'
 };
