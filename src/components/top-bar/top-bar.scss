@@ -3,9 +3,6 @@ gtx-top-bar {
 
     > .content {
         @extend .container;
-        // @include flex-grid-column(12);
-        // @include flex-grid-row(12);
-        // @include grid-column-offset(1);
 
         display: flex;
         align-items: center;
@@ -17,7 +14,7 @@ gtx-top-bar {
 
         > *:not(.content-right) {
             display: inline-block;
-            flex: 1;
+            flex: 1 1 auto;
             @media #{$medium-and-down} {
                 text-align: center;
             }

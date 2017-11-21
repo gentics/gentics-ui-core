@@ -12,6 +12,7 @@ body {
 .top-bar {
     background-color: $gtx-color-primary;
     color: white;
+
     h1 {
         font-size: 1.64rem;
         font-weight: normal;
@@ -21,11 +22,13 @@ body {
             font-size: 1.2rem;
         }
     }
+
     a.title {
         &, &:link {
             color: white;
         }
     }
+
     .version-info {
         font-size: $gtx-font-size-lead;
         display: inline-block;
@@ -40,6 +43,7 @@ body {
             font-size: $gtx-font-size-small;
         }
     }
+
     .gentics-logo {
         flex: 0 !important;
         height: 38px;
@@ -55,6 +59,7 @@ body {
             display: none !important;
         }
     }
+
     .github-logo {
         width: 32px;
         height: 32px;
@@ -129,7 +134,7 @@ gtx-sortable-list[gtxFileDropArea] {
     border: 1px solid $gtx-color-very-light-gray;
 
     .filename {
-        flex: 1;
+        flex: 1 1 auto;
         padding-left: 10px;
     }
 

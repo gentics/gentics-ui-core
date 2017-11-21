@@ -4,7 +4,7 @@ import {DropdownList} from '../../../components/dropdown-list/dropdown-list.comp
 @Component({
     templateUrl: './dropdown-list-demo.tpl.html',
     styles: [`
-        .sticky-demo gtx-dropdown-item { 
+        .sticky-demo gtx-dropdown-item {
             display: flex;
         }
         .resize-buttons {
@@ -13,7 +13,7 @@ import {DropdownList} from '../../../components/dropdown-list/dropdown-list.comp
             align-items: center;
         }
         .resize-buttons gtx-button {
-            flex: 1;
+            flex: 1 1 auto;
         }
     `]
 })
