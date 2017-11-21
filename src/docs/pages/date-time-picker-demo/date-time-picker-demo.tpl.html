@@ -26,17 +26,14 @@
 
 <gtx-demo-block demoTitle="Date And Time with Clear Option">
     <div class="demo-result">
-        <gtx-date-time-picker [(ngModel)]="timestamp" label="Pick a time" clearable="true"></gtx-date-time-picker>
-        timestamp: <code>{{ timestamp }}</code>
+        <gtx-date-time-picker [(ngModel)]="timestamp" data-no-label="Pick a time" clearable></gtx-date-time-picker>
+        timestamp: <code>{{ timestamp | json }}</code>
     </div>
     <div class="demo-code">
         <gtx-highlighted-code language="HTML" code='
-                <gtx-date-time-picker
-                    [(ngModel)]="timestamp"
-                    label="Pick a date"
-                    clearable="true">
+                <gtx-date-time-picker [(ngModel)]="timestamp" label="Pick a date" clearable>
                 </gtx-date-time-picker>
-                timestamp: <code>(( timestamp ))</code>
+                timestamp: <code>(( timestamp | json ))</code>
         '></gtx-highlighted-code>
     </div>
 </gtx-demo-block>

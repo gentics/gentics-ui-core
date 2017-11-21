@@ -10,6 +10,7 @@
 ### Fixes
 
 * Long text in tabs are truncated with text ellipsis (GUIC-143)
+* DateTimePicker clear button aligned independent of parent height (GUIC-148)
 * Buttons no longer forward click events when disabled (GUIC-124)
 * Ignore clicks on disabled routerLink breadcrumbs
 * InputField and SearchBar correctly communicate with ngModel (GUIC-149, GCU-377)

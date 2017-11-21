@@ -33,7 +33,8 @@ gtx-date-time-picker {
     }
 
     .clear-button {
-        align-self: center;
+        align-self: flex-start;
+        background: $gtx-color-very-light-gray;
         border-top: 2px solid $gtx-color-light-gray;
         border-right: 2px solid $gtx-color-light-gray;
         border-bottom: 2px solid $gtx-color-light-gray;
@@ -41,8 +42,8 @@ gtx-date-time-picker {
         border-bottom-right-radius: 3px;
         display: flex;
         flex-direction: column;
-        justify-content: center;
         height: 2.5rem;
-        background: $gtx-color-very-light-gray;
+        justify-content: center;
+        margin-top: 20px;
     }
 }
