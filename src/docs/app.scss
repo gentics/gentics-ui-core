@@ -17,6 +17,9 @@ body {
         font-weight: normal;
         line-height: 1.1;
         margin: 0.82rem 0 0.656rem 0;
+        @media screen and (max-width: $small-screen) {
+            font-size: 1.2rem;
+        }
     }
     a.title {
         &, &:link {
@@ -33,14 +36,29 @@ body {
         a {
             color: #b6d8e8;
         }
+        @media screen and (max-width: $small-screen) {
+            font-size: $gtx-font-size-small;
+        }
     }
     .gentics-logo {
-        width: 32px;
+        flex: 0 !important;
         height: 38px;
-        g {
-            fill: white;
+        padding-right: 10px;
+        > svg {
+            width: 32px;
+            height: 38px;
+            g {
+                fill: white;
+            }
         }
-    }    
+        @media screen and (max-width: $small-screen) {
+            display: none !important;
+        }
+    }
+    .github-logo {
+        width: 32px;
+        height: 32px;
+    }
 }
 
 .menu-button {

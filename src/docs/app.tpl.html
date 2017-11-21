@@ -1,11 +1,14 @@
 <gtx-top-bar class="top-bar">
+    <div class="gentics-logo" [innerHTML]="genticsLogoSvg"></div>
     <h1>
         <a class="title" [routerLink]="['index']">Gentics UI Core Docs</a>
         <span class="version-info" title="Click to see changelog">
             <a href="https://github.com/gentics/gentics-ui-core/blob/master/CHANGELOG.md">v{{ version }}</a>
         </span>
     </h1>
-    <div class="gtx-top-bar-right gentics-logo" [innerHTML]="logoSvg"></div>
+    <a class="gtx-top-bar-right github-logo"
+       title="Gentics UI Core on GitHub"
+       href="https://github.com/gentics/gentics-ui-core/" [innerHTML]="githubLogoSvg"></a>
 </gtx-top-bar>
 
 <div class="container">
@@ -43,3 +46,4 @@
     </gtx-split-view-container>
 
     <gtx-overlay-host></gtx-overlay-host>
+</div>

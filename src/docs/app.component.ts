@@ -32,14 +32,16 @@ export class App {
     splitFocus: string = 'left';
     searchQuery: string = '';
     subscription: Subscription;
-    logoSvg: SafeHtml;
+    genticsLogoSvg: SafeHtml;
+    githubLogoSvg: SafeHtml;
 
     constructor(private router: Router,
                 private route: ActivatedRoute,
                 private titleService: Title,
                 private sanitizer: DomSanitizer) {
         this.filteredContentItems = this.contentItems.slice(0);
-        this.logoSvg = sanitizer.bypassSecurityTrustHtml(require('./assets/gentics-logo.svg'));
+        this.genticsLogoSvg = sanitizer.bypassSecurityTrustHtml(require('./assets/gentics-logo.svg'));
+        this.githubLogoSvg = sanitizer.bypassSecurityTrustHtml(require('./assets/github-logo.svg'));
         titleService.setTitle(`Gentics UI Core Docs v${VERSION}`);
         this.version = VERSION;
     }
