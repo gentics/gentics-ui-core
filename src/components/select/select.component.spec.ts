@@ -1,8 +1,9 @@
 import {Component} from '@angular/core';
-import {By} from '@angular/platform-browser';
 import {ComponentFixture, TestBed, tick} from '@angular/core/testing';
-import {BrowserDynamicTestingModule} from '@angular/platform-browser-dynamic/testing';
 import {FormsModule, ReactiveFormsModule, FormGroup, FormControl} from '@angular/forms';
+import {By} from '@angular/platform-browser';
+import {BrowserDynamicTestingModule} from '@angular/platform-browser-dynamic/testing';
+import {BehaviorSubject} from 'rxjs';
 
 import {componentTest} from '../../testing';
 import {Select} from './select.component';
@@ -19,6 +20,7 @@ import {OverlayHostService} from '../overlay-host/overlay-host.service';
 import {OverlayHost} from '../overlay-host/overlay-host.component';
 import {crossBrowserInitKeyboardEvent} from '../../testing/keyboard-event';
 import {KeyCode} from '../../common/keycodes';
+
 
 describe('Select:', () => {
 
@@ -310,7 +312,8 @@ describe('Select:', () => {
 
     describe('keyboard controls', () => {
 
-        it('should open when enter is pressed',  componentTest(() => TestComponent, fixture => {
+        it('should open when enter is pressed',
+            componentTest(() => TestComponent, fixture => {
                 fixture.detectChanges();
                 tick();
                 sendKeyDown(fixture, KeyCode.Enter);
@@ -320,7 +323,8 @@ describe('Select:', () => {
             })
         );
 
-        it('should open when space is pressed',  componentTest(() => TestComponent, fixture => {
+        it('should open when space is pressed',
+            componentTest(() => TestComponent, fixture => {
                 fixture.detectChanges();
                 tick();
                 sendKeyDown(fixture, KeyCode.Space);
@@ -330,7 +334,8 @@ describe('Select:', () => {
             })
         );
 
-        it('initial value should be initially selected',  componentTest(() => TestComponent, fixture => {
+        it('initial value should be initially selected',
+            componentTest(() => TestComponent, fixture => {
                 fixture.detectChanges();
                 tick();
                 sendKeyDown(fixture, KeyCode.Enter);
@@ -340,7 +345,8 @@ describe('Select:', () => {
             })
         );
 
-        it('down arrow should select subsequent items',  componentTest(() => TestComponent, fixture => {
+        it('down arrow should select subsequent items',
+            componentTest(() => TestComponent, fixture => {
                 fixture.detectChanges();
                 tick();
                 sendKeyDown(fixture, KeyCode.Enter);
@@ -361,7 +367,8 @@ describe('Select:', () => {
             })
         );
 
-        it('up arrow should select previous items',  componentTest(() => TestComponent, fixture => {
+        it('up arrow should select previous items',
+            componentTest(() => TestComponent, fixture => {
                 fixture.detectChanges();
                 tick();
                 sendKeyDown(fixture, KeyCode.Enter);
@@ -382,7 +389,8 @@ describe('Select:', () => {
             })
         );
 
-        it('home and end should select first and last items',  componentTest(() => TestComponent, fixture => {
+        it('home and end should select first and last items',
+            componentTest(() => TestComponent, fixture => {
                 fixture.detectChanges();
                 tick();
                 sendKeyDown(fixture, KeyCode.Enter);
@@ -397,7 +405,8 @@ describe('Select:', () => {
             })
         );
 
-        it('page up and page down should select first and last items',  componentTest(() => TestComponent, fixture => {
+        it('page up and page down should select first and last items',
+            componentTest(() => TestComponent, fixture => {
                 fixture.detectChanges();
                 tick();
                 sendKeyDown(fixture, KeyCode.Enter);
@@ -412,7 +421,8 @@ describe('Select:', () => {
             })
         );
 
-        it('characters should select subsequent matching options',  componentTest(() => TestComponent, fixture => {
+        it('characters should select subsequent matching options',
+            componentTest(() => TestComponent, fixture => {
                 fixture.detectChanges();
                 tick();
                 sendKeyDown(fixture, KeyCode.Enter);
@@ -609,6 +619,75 @@ describe('Select:', () => {
             )
         );
 
+        it('works as expected when value is provided with a subject',
+            componentTest(() => TestComponent, `
+                <gtx-select [value]="valueSubject | async" (change)="valueSubject.next($event)">
+                    <gtx-option *ngFor="let option of optionsSubject | async" [value]="option">
+                        {{ option.name }}
+                    </gtx-option>
+                </gtx-select>
+                <gtx-overlay-host></gtx-overlay-host>`,
+                (fixture, instance) => {
+                    let lastEmittedValue: any;
+                    instance.valueSubject.subscribe(v => lastEmittedValue = v);
+
+                    const options = [
+                        { name: 'First option' },
+                        { name: 'Second option' },
+                        { name: 'Third option' }
+                    ];
+                    instance.optionsSubject.next(options);
+                    instance.valueSubject.next(options[1]);
+                    fixture.detectChanges();
+                    tick();
+
+                    expect(lastEmittedValue).toBe(options[1]);
+
+                    clickSelectAndOpen(fixture);
+                    getListItems(fixture)[2].click();
+                    fixture.detectChanges();
+
+                    expect(lastEmittedValue).toBe(options[2]);
+
+                    tick(1000);
+                }
+            )
+        );
+
+        it('works as expected when ngModel is provided with a subject',
+            componentTest(() => TestComponent, `
+                <gtx-select [ngModel]="valueSubject | async" (ngModelChange)="valueSubject.next($event)">
+                    <gtx-option *ngFor="let option of optionsSubject | async" [value]="option">
+                        {{ option.name }}
+                    </gtx-option>
+                </gtx-select>
+                <gtx-overlay-host></gtx-overlay-host>`,
+                (fixture, instance) => {
+                    let lastEmittedValue: any;
+                    instance.valueSubject.subscribe(v => lastEmittedValue = v);
+
+                    const options = [
+                        { name: 'First option' },
+                        { name: 'Second option' },
+                        { name: 'Third option' }
+                    ];
+                    instance.optionsSubject.next(options);
+                    instance.valueSubject.next(options[1]);
+                    fixture.detectChanges();
+                    tick();
+
+                    expect(lastEmittedValue).toBe(options[1]);
+
+                    clickSelectAndOpen(fixture);
+                    getListItems(fixture)[2].click();
+                    fixture.detectChanges();
+
+                    expect(lastEmittedValue).toBe(options[2]);
+
+                    tick(1000);
+                }
+            )
+        );
     });
 
 });
@@ -631,6 +710,8 @@ class TestComponent {
     multiValue: string[] = ['Bar', 'Baz'];
     ngModelValue: string = 'Bar';
     options: string[] = ['Foo', 'Bar', 'Baz'];
+    optionsSubject = new BehaviorSubject<any[]>([]);
+    valueSubject = new BehaviorSubject<any>('Initial value');
     testForm: FormGroup = new FormGroup({
         test: new FormControl('Bar')
     });
