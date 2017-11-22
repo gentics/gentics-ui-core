@@ -1,4 +1,5 @@
-import { Directive, ElementRef, EventEmitter, Inject, Input, NgZone, OnDestroy, OnInit, OpaqueToken, Optional, Output } from '@angular/core';
+import { Directive, ElementRef, EventEmitter, Inject, Input, NgZone } from '@angular/core';
+import { OnDestroy, OnInit, OpaqueToken, Optional, Output } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 import { Subscription } from 'rxjs/Subscription';
 import 'rxjs/add/operator/map';

@@ -227,7 +227,7 @@ export class DateTimePicker implements ControlValueAccessor, OnInit, OnDestroy {
     /**
      * Clear input value of datetimepicker and emit value of null
      */
-    clearDateTime() {
+    clearDateTime(): void {
         this.timestamp = null;
         this.displayValue = '';
         this.onChange(this.timestamp);
