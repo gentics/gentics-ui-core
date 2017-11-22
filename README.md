@@ -53,3 +53,20 @@ as well as a way to manually test each of the core components.
 
 1. `gulp dist:build`
 2. `npm publish`
+
+## Maintaining documentation on GitHub pages
+
+Documentation is built as a static Angular app into "docs" and maintained on the branch "gh-pages".
+The easiest way to manage the branch is to check it out in the "docs" subfolder:
+
+```sh
+# check out ui-core twice, master in ./ and gh-pages in ./docs
+git clone -o github -b gh-pages git@github.com:gentics/gentics-ui-core ./docs
+# build the docs
+gulp docs:build
+# commit and push gh-pages
+cd docs
+git add .
+git commit -m "Update docs to vX.Y.Z"
+git push github
+```
