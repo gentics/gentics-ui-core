@@ -2579,11 +2579,11 @@ a {
   clear: both;
 }
 
-.z-depth-0, gtx-button > button:not(.btn-flat):active, gtx-menu-toggle-button.active .bar {
+.z-depth-0, gtx-button button:not(.btn-flat):active, gtx-menu-toggle-button.active .bar {
   box-shadow: none !important;
 }
 
-.z-depth-1, nav, .card-panel, .card, .toast, .btn, .btn-large, .btn-floating, .collapsible, .side-nav, gtx-button > button.btn:hover, gtx-button > button.btn-large:hover, .dropdown-content-wrapper, gtx-menu-toggle-button .bar, gtx-search-bar, gtx-split-view-container > .slideable {
+.z-depth-1, nav, .card-panel, .card, .toast, .btn, .btn-large, .btn-floating, .collapsible, .side-nav, gtx-button button.btn:hover, gtx-button button.btn-large:hover, .dropdown-content-wrapper, gtx-menu-toggle-button .bar, gtx-search-bar, gtx-split-view-container > .slideable {
   box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 1px 5px 0 rgba(0, 0, 0, 0.12), 0 3px 1px -2px rgba(0, 0, 0, 0.2);
 }
 
@@ -9235,17 +9235,10 @@ gtx-breadcrumbs {
   line-height: 4em;
   height: 4em;
   -webkit-touch-callout: none;
-  /* iOS Safari */
   -webkit-user-select: none;
-  /* Chrome/Safari/Opera */
-  /* Konqueror */
   -moz-user-select: none;
-  /* Firefox */
   -ms-user-select: none;
-  /* IE/Edge */
   user-select: none;
-  /* non-prefixed version, currently
-                                   not supported by any browser */
 }
 
 gtx-breadcrumbs > nav {
@@ -9358,35 +9351,39 @@ gtx-breadcrumbs > nav.disabled > .nav-wrapper > .breadcrumb:last-child {
 
 gtx-button {
   display: inline-block;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
 }
 
-gtx-button > button.btn, gtx-button > button.btn-large {
+gtx-button button.btn, gtx-button button.btn-large {
   transition-property: color, border;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
 }
 
-gtx-button > button.small {
+gtx-button button.small {
   font-size: 12px;
   padding: 0 5px;
   height: 24px;
   line-height: 24px;
 }
 
-gtx-button > button.large {
+gtx-button button.large {
   height: 54px;
   line-height: 56px;
 }
 
-gtx-button > button icon[left],
-gtx-button > button i.left {
+gtx-button button icon[left],
+gtx-button button i.left {
   margin-right: 5px;
   float: left;
 }
 
-gtx-button > button icon[right],
-gtx-button > button i.right {
+gtx-button button icon[right],
+gtx-button button i.right {
   margin-left: 5px;
   float: right;
 }
@@ -9395,287 +9392,287 @@ gtx-button button[disabled] {
   opacity: 0.5;
 }
 
-gtx-button > button:not(.btn-flat) {
+gtx-button button:not(.btn-flat) {
   background-color: #0096DC;
   border: 1px solid transparent;
 }
 
-gtx-button > button:not(.btn-flat):hover {
+gtx-button button:not(.btn-flat):hover {
   background-color: #00a7f6;
 }
 
-gtx-button > button:not(.btn-flat):active {
+gtx-button button:not(.btn-flat):active {
   background-color: #0073a9;
 }
 
-gtx-button > button:not(.btn-flat):focus {
+gtx-button button:not(.btn-flat):focus {
   border: 1px solid #0073a9;
 }
 
-gtx-button > button:not(.btn-flat).secondary {
+gtx-button button:not(.btn-flat).secondary {
   background-color: #e3e4da;
   color: #3d3d3d;
 }
 
-gtx-button > button:not(.btn-flat).secondary:hover {
+gtx-button button:not(.btn-flat).secondary:hover {
   background-color: #e9eae3;
 }
 
-gtx-button > button:not(.btn-flat).secondary:active {
+gtx-button button:not(.btn-flat).secondary:active {
   background-color: #bdc0a7;
 }
 
-gtx-button > button:not(.btn-flat).secondary:focus {
+gtx-button button:not(.btn-flat).secondary:focus {
   border: 1px solid #c1c4ad;
 }
 
-gtx-button > button:not(.btn-flat).success {
+gtx-button button:not(.btn-flat).success {
   background-color: #449d44;
 }
 
-gtx-button > button:not(.btn-flat).success:hover {
+gtx-button button:not(.btn-flat).success:hover {
   background-color: #51b451;
 }
 
-gtx-button > button:not(.btn-flat).success:active {
+gtx-button button:not(.btn-flat).success:active {
   background-color: #357935;
 }
 
-gtx-button > button:not(.btn-flat).success:focus {
+gtx-button button:not(.btn-flat).success:focus {
   border: 1px solid #2d682d;
 }
 
-gtx-button > button:not(.btn-flat).warning {
+gtx-button button:not(.btn-flat).warning {
   background-color: #ec971f;
 }
 
-gtx-button > button:not(.btn-flat).warning:hover {
+gtx-button button:not(.btn-flat).warning:hover {
   background-color: #f0ad4e;
 }
 
-gtx-button > button:not(.btn-flat).warning:active {
+gtx-button button:not(.btn-flat).warning:active {
   background-color: #c77c11;
 }
 
-gtx-button > button:not(.btn-flat).warning:focus {
+gtx-button button:not(.btn-flat).warning:focus {
   border: 1px solid #b06d0f;
 }
 
-gtx-button > button:not(.btn-flat).alert {
+gtx-button button:not(.btn-flat).alert {
   background-color: #c9302c;
 }
 
-gtx-button > button:not(.btn-flat).alert:hover {
+gtx-button button:not(.btn-flat).alert:hover {
   background-color: #d9534f;
 }
 
-gtx-button > button:not(.btn-flat).alert:active {
+gtx-button button:not(.btn-flat).alert:active {
   background-color: #9f2623;
 }
 
-gtx-button > button:not(.btn-flat).alert:focus {
+gtx-button button:not(.btn-flat).alert:focus {
   border: 1px solid #751c1a;
 }
 
-gtx-button > button.btn-flat {
+gtx-button button.btn-flat {
   border: 1px solid rgba(0, 150, 220, 0.2);
   color: #005076;
 }
 
-gtx-button > button.btn-flat:hover, gtx-button > button.btn-flat:active {
+gtx-button button.btn-flat:hover, gtx-button button.btn-flat:active {
   box-shadow: none;
   background-color: rgba(0, 150, 220, 0.1);
 }
 
-gtx-button > button.btn-flat:active {
+gtx-button button.btn-flat:active {
   background-color: rgba(0, 150, 220, 0.4);
 }
 
-gtx-button > button.btn-flat:focus {
+gtx-button button.btn-flat:focus {
   border: 1px solid rgba(0, 150, 220, 0.7);
 }
 
-gtx-button > button.btn-flat:focus:not(:hover) {
+gtx-button button.btn-flat:focus:not(:hover) {
   background: none;
 }
 
-gtx-button > button.btn-flat.secondary {
+gtx-button button.btn-flat.secondary {
   color: #797979;
   border-color: rgba(211, 213, 197, 0.3);
 }
 
-gtx-button > button.btn-flat.secondary:hover {
+gtx-button button.btn-flat.secondary:hover {
   background-color: rgba(211, 213, 197, 0.5);
 }
 
-gtx-button > button.btn-flat.secondary:active {
+gtx-button button.btn-flat.secondary:active {
   background-color: rgba(211, 213, 197, 0.9);
 }
 
-gtx-button > button.btn-flat.secondary:focus {
+gtx-button button.btn-flat.secondary:focus {
   border: 1px solid #d3d5c5;
 }
 
-gtx-button > button.btn-flat.success {
+gtx-button button.btn-flat.success {
   color: #357935;
   border-color: rgba(68, 157, 68, 0.25);
 }
 
-gtx-button > button.btn-flat.success:hover {
+gtx-button button.btn-flat.success:hover {
   background-color: rgba(68, 157, 68, 0.2);
 }
 
-gtx-button > button.btn-flat.success:active {
+gtx-button button.btn-flat.success:active {
   background-color: rgba(68, 157, 68, 0.5);
 }
 
-gtx-button > button.btn-flat.success:focus {
+gtx-button button.btn-flat.success:focus {
   border: 1px solid rgba(68, 157, 68, 0.8);
 }
 
-gtx-button > button.btn-flat.warning {
+gtx-button button.btn-flat.warning {
   color: #c77c11;
   border-color: rgba(236, 151, 31, 0.25);
 }
 
-gtx-button > button.btn-flat.warning:hover {
+gtx-button button.btn-flat.warning:hover {
   background-color: rgba(236, 151, 31, 0.1);
 }
 
-gtx-button > button.btn-flat.warning:active {
+gtx-button button.btn-flat.warning:active {
   background-color: rgba(236, 151, 31, 0.4);
 }
 
-gtx-button > button.btn-flat.warning:focus {
+gtx-button button.btn-flat.warning:focus {
   border: 1px solid rgba(236, 151, 31, 0.8);
 }
 
-gtx-button > button.btn-flat.alert {
+gtx-button button.btn-flat.alert {
   color: #9f2623;
   border-color: rgba(201, 48, 44, 0.25);
 }
 
-gtx-button > button.btn-flat.alert:hover {
+gtx-button button.btn-flat.alert:hover {
   background-color: rgba(201, 48, 44, 0.1);
 }
 
-gtx-button > button.btn-flat.alert:active {
+gtx-button button.btn-flat.alert:active {
   background-color: rgba(201, 48, 44, 0.4);
 }
 
-gtx-button > button.btn-flat.alert:focus {
+gtx-button button.btn-flat.alert:focus {
   border: 1px solid rgba(201, 48, 44, 0.8);
 }
 
-gtx-button > button.btn-flat.btn-icon {
+gtx-button button.btn-flat.btn-icon {
   padding: 0;
   border: 1px solid transparent;
   background: none !important;
 }
 
-gtx-button > button.btn-flat.btn-icon.small {
+gtx-button button.btn-flat.btn-icon.small {
   height: 18px;
   line-height: 16px;
 }
 
-gtx-button > button.btn-flat.btn-icon.small > icon,
-gtx-button > button.btn-flat.btn-icon.small > i {
+gtx-button button.btn-flat.btn-icon.small > icon,
+gtx-button button.btn-flat.btn-icon.small > i {
   font-size: 16px;
 }
 
-gtx-button > button.btn-flat.btn-icon.regular {
+gtx-button button.btn-flat.btn-icon.regular {
   height: 26px;
   line-height: 24px;
 }
 
-gtx-button > button.btn-flat.btn-icon.regular > icon,
-gtx-button > button.btn-flat.btn-icon.regular > i {
+gtx-button button.btn-flat.btn-icon.regular > icon,
+gtx-button button.btn-flat.btn-icon.regular > i {
   font-size: 24px;
 }
 
-gtx-button > button.btn-flat.btn-icon.large {
+gtx-button button.btn-flat.btn-icon.large {
   height: 44px;
   line-height: 42px;
 }
 
-gtx-button > button.btn-flat.btn-icon.large > icon,
-gtx-button > button.btn-flat.btn-icon.large > i {
+gtx-button button.btn-flat.btn-icon.large > icon,
+gtx-button button.btn-flat.btn-icon.large > i {
   font-size: 42px;
 }
 
-gtx-button > button.btn-flat.btn-icon:hover {
+gtx-button button.btn-flat.btn-icon:hover {
   color: #0085c3;
 }
 
-gtx-button > button.btn-flat.btn-icon:active {
+gtx-button button.btn-flat.btn-icon:active {
   color: #003f5d;
 }
 
-gtx-button > button.btn-flat.btn-icon:focus {
+gtx-button button.btn-flat.btn-icon:focus {
   border-color: rgba(0, 150, 220, 0.2);
 }
 
-gtx-button > button.btn-flat.btn-icon.secondary {
+gtx-button button.btn-flat.btn-icon.secondary {
   color: #797979;
 }
 
-gtx-button > button.btn-flat.btn-icon.secondary:hover {
+gtx-button button.btn-flat.btn-icon.secondary:hover {
   color: rgba(121, 121, 121, 0.8);
 }
 
-gtx-button > button.btn-flat.btn-icon.secondary:active {
+gtx-button button.btn-flat.btn-icon.secondary:active {
   color: #606060;
 }
 
-gtx-button > button.btn-flat.btn-icon.secondary:focus {
+gtx-button button.btn-flat.btn-icon.secondary:focus {
   border-color: rgba(211, 213, 197, 0.4);
 }
 
-gtx-button > button.btn-flat.btn-icon.success {
+gtx-button button.btn-flat.btn-icon.success {
   color: #357935;
 }
 
-gtx-button > button.btn-flat.btn-icon.success:hover {
+gtx-button button.btn-flat.btn-icon.success:hover {
   color: rgba(68, 157, 68, 0.9);
 }
 
-gtx-button > button.btn-flat.btn-icon.success:active {
+gtx-button button.btn-flat.btn-icon.success:active {
   color: #2d682d;
 }
 
-gtx-button > button.btn-flat.btn-icon.success:focus {
+gtx-button button.btn-flat.btn-icon.success:focus {
   border-color: rgba(68, 157, 68, 0.2);
 }
 
-gtx-button > button.btn-flat.btn-icon.warning {
+gtx-button button.btn-flat.btn-icon.warning {
   color: #c77c11;
 }
 
-gtx-button > button.btn-flat.btn-icon.warning:hover {
+gtx-button button.btn-flat.btn-icon.warning:hover {
   color: rgba(236, 151, 31, 0.9);
 }
 
-gtx-button > button.btn-flat.btn-icon.warning:active {
+gtx-button button.btn-flat.btn-icon.warning:active {
   color: #b06d0f;
 }
 
-gtx-button > button.btn-flat.btn-icon.warning:focus {
+gtx-button button.btn-flat.btn-icon.warning:focus {
   border-color: rgba(236, 151, 31, 0.2);
 }
 
-gtx-button > button.btn-flat.btn-icon.alert {
+gtx-button button.btn-flat.btn-icon.alert {
   color: #9f2623;
 }
 
-gtx-button > button.btn-flat.btn-icon.alert:hover {
+gtx-button button.btn-flat.btn-icon.alert:hover {
   color: #c9302c;
 }
 
-gtx-button > button.btn-flat.btn-icon.alert:active {
+gtx-button button.btn-flat.btn-icon.alert:active {
   color: #8a211e;
 }
 
-gtx-button > button.btn-flat.btn-icon.alert:focus {
+gtx-button button.btn-flat.btn-icon.alert:focus {
   border-color: rgba(201, 48, 44, 0.1);
 }
 
@@ -9702,7 +9699,7 @@ gtx-contents-list-item > .item-avatar > * {
 
 gtx-contents-list-item > .item-primary {
   -webkit-box-flex: 1;
-  flex: 1;
+  flex: 1 1 auto;
   padding: 0 5px 0 10px;
 }
 
@@ -9721,7 +9718,7 @@ gtx-contents-list-item:hover .show-on-hover {
   filter: grayscale(0%);
 }
 
-gtx-date-time-picker > gtx-input > input:not(:disabled)[type="text"] {
+gtx-date-time-picker > gtx-input > input:not(:disabled)[type=text] {
   color: inherit;
 }
 
@@ -9749,14 +9746,15 @@ gtx-date-time-picker gtx-input {
   flex-basis: 100%;
 }
 
-gtx-date-time-picker gtx-input.clearable input[type="text"] {
+gtx-date-time-picker gtx-input.clearable input[type=text] {
   border-top-right-radius: 0px;
   border-bottom-right-radius: 0px;
   border-right-width: 1px;
 }
 
 gtx-date-time-picker .clear-button {
-  align-self: center;
+  align-self: flex-start;
+  background: #efefef;
   border-top: 2px solid #d6d6d6;
   border-right: 2px solid #d6d6d6;
   border-bottom: 2px solid #d6d6d6;
@@ -9767,10 +9765,10 @@ gtx-date-time-picker .clear-button {
   -webkit-box-orient: vertical;
   -webkit-box-direction: normal;
   flex-direction: column;
+  height: 2.5rem;
   -webkit-box-pack: center;
   justify-content: center;
-  height: 2.5rem;
-  background: #efefef;
+  margin-top: 20px;
 }
 
 gtx-date-time-picker-controls .controls-header {
@@ -9994,17 +9992,10 @@ gtx-dropdown-trigger {
 
 .dropdown-content-wrapper a {
   -webkit-touch-callout: none;
-  /* iOS Safari */
   -webkit-user-select: none;
-  /* Chrome/Safari/Opera */
-  /* Konqueror */
   -moz-user-select: none;
-  /* Firefox */
   -ms-user-select: none;
-  /* IE/Edge */
   user-select: none;
-  /* non-prefixed version, currently
-                                   not supported by any browser */
 }
 
 gtx-dropdown-content {
@@ -10118,11 +10109,23 @@ gtx-input > label {
   display: block;
   color: #797979;
   transition: color 0.2s;
+  max-width: 100%;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
 }
 
-gtx-input > input[type="text"],
-gtx-input > input[type="number"],
-gtx-input > input[type="password"] {
+gtx-input.ng-touched.ng-invalid > label {
+  color: #c9302c;
+}
+
+gtx-input > input[type=text],
+gtx-input > input[type=number],
+gtx-input > input[type=password] {
   box-sizing: border-box;
   margin-top: 20px;
   border: 2px solid #d6d6d6;
@@ -10132,42 +10135,42 @@ gtx-input > input[type="password"] {
   transition: border 0.2s;
 }
 
-gtx-input > input[type="text"]:focus:not([readonly]),
-gtx-input > input[type="number"]:focus:not([readonly]),
-gtx-input > input[type="password"]:focus:not([readonly]) {
+gtx-input > input[type=text]:focus:not([readonly]),
+gtx-input > input[type=number]:focus:not([readonly]),
+gtx-input > input[type=password]:focus:not([readonly]) {
   border: 2px solid #0096DC;
   box-shadow: none;
 }
 
-gtx-input > input[type="text"]:focus:not([readonly]) + label,
-gtx-input > input[type="number"]:focus:not([readonly]) + label,
-gtx-input > input[type="password"]:focus:not([readonly]) + label {
+gtx-input > input[type=text]:focus:not([readonly]) + label,
+gtx-input > input[type=number]:focus:not([readonly]) + label,
+gtx-input > input[type=password]:focus:not([readonly]) + label {
   color: #0096DC;
 }
 
-gtx-input > input[type="text"][readonly],
-gtx-input > input[type="number"][readonly],
-gtx-input > input[type="password"][readonly] {
+gtx-input > input[type=text][readonly],
+gtx-input > input[type=number][readonly],
+gtx-input > input[type=password][readonly] {
   color: #939393;
 }
 
-gtx-input > input[type="text"][disabled],
-gtx-input > input[type="number"][disabled],
-gtx-input > input[type="password"][disabled] {
+gtx-input > input[type=text][disabled],
+gtx-input > input[type=number][disabled],
+gtx-input > input[type=password][disabled] {
   background-color: #f5f5f5;
   color: #b5b5b5;
   border: 2px solid #d6d6d6;
 }
 
-gtx-input > input[type="text"][disabled] + label,
-gtx-input > input[type="number"][disabled] + label,
-gtx-input > input[type="password"][disabled] + label {
+gtx-input > input[type=text][disabled] + label,
+gtx-input > input[type=number][disabled] + label,
+gtx-input > input[type=password][disabled] + label {
   color: #797979;
 }
 
-gtx-input > input[type="text"]::-ms-clear,
-gtx-input > input[type="number"]::-ms-clear,
-gtx-input > input[type="password"]::-ms-clear {
+gtx-input > input[type=text]::-ms-clear,
+gtx-input > input[type=number]::-ms-clear,
+gtx-input > input[type=password]::-ms-clear {
   display: none;
   width: 0;
   height: 0;
@@ -10175,10 +10178,6 @@ gtx-input > input[type="password"]::-ms-clear {
 
 gtx-input.ng-touched.ng-invalid > input {
   border-color: #c9302c;
-}
-
-gtx-input.ng-touched.ng-invalid > label {
-  color: #c9302c;
 }
 
 gtx-menu-toggle-button {
@@ -10742,8 +10741,11 @@ gtx-select gtx-dropdown-list {
 }
 
 gtx-select gtx-dropdown-list gtx-dropdown-trigger {
-  margin-top: 19px;
   width: 100%;
+}
+
+gtx-select gtx-dropdown-list .with-label {
+  margin-top: 19px;
 }
 
 gtx-select .view-value {
@@ -10801,14 +10803,22 @@ gtx-select label {
   display: block;
   color: #797979;
   transition: color 0.2s;
+  max-width: 100%;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+gtx-select.ng-touched.ng-invalid label {
+  color: #c9302c;
 }
 
 gtx-select.ng-touched.ng-invalid .view-value {
   border-color: #c9302c;
-}
-
-gtx-select.ng-touched.ng-invalid > label {
-  color: #c9302c;
 }
 
 gtx-dropdown-content ul.select-options {
@@ -10969,17 +10979,10 @@ gtx-split-view-container > .resizing > .visible-resizer {
   background-color: rgba(0, 64, 192, 0.25);
   z-index: 901;
   -webkit-touch-callout: none;
-  /* iOS Safari */
   -webkit-user-select: none;
-  /* Chrome/Safari/Opera */
-  /* Konqueror */
   -moz-user-select: none;
-  /* Firefox */
   -ms-user-select: none;
-  /* IE/Edge */
   user-select: none;
-  /* non-prefixed version, currently
-                                   not supported by any browser */
 }
 
 gtx-split-view-container > .resizing > .resizing-overlay {
@@ -11132,64 +11135,64 @@ gtx-tabs {
   display: block;
 }
 
-gtx-tabs > ul.tab-links {
+gtx-tabs > .tab-links {
   margin: 0;
   list-style-type: none;
   border-bottom: 1px solid #efefef;
   text-transform: uppercase;
 }
 
-gtx-tabs > ul.tab-links > li.tab-link {
+gtx-tabs > .tab-links > .tab-link {
   -webkit-touch-callout: none;
-  /* iOS Safari */
   -webkit-user-select: none;
-  /* Chrome/Safari/Opera */
-  /* Konqueror */
   -moz-user-select: none;
-  /* Firefox */
   -ms-user-select: none;
-  /* IE/Edge */
   user-select: none;
-  /* non-prefixed version, currently
-                                   not supported by any browser */
   display: inline-block;
   cursor: pointer;
   border-bottom: 3px solid transparent;
-  color: #b5b5b5;
+  color: #797979;
   transition: border 0.3s, color 0.2s;
+  max-width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  vertical-align: top;
 }
 
-gtx-tabs > ul.tab-links > li.tab-link:hover {
+gtx-tabs > .tab-links > .tab-link:hover {
   color: #222;
 }
 
-gtx-tabs > ul.tab-links > li.tab-link.is-active {
-  border-bottom-color: #0096DC;
+gtx-tabs > .tab-links > .tab-link > a {
+  padding: 10px 20px;
+  white-space: nowrap;
 }
 
-gtx-tabs > ul.tab-links > li.tab-link.is-active > a {
+gtx-tabs > .tab-links > .tab-link > a, gtx-tabs > .tab-links > .tab-link > a:link, gtx-tabs > .tab-links > .tab-link > a:visited {
+  color: inherit;
+}
+
+gtx-tabs > .tab-links > .tab-link.is-active {
+  border-bottom-color: #0096DC;
   color: #0096DC;
 }
 
-gtx-tabs > ul.tab-links > li.tab-link.disabled > a {
-  color: #d6d6d6;
+gtx-tabs > .tab-links > .tab-link.disabled > a {
   cursor: default;
 }
 
-gtx-tabs > ul.tab-links > li.tab-link > a {
-  padding: 10px 20px;
+gtx-tabs > .tab-links > .tab-link icon {
+  font-size: 1.4285em;
+  margin-top: -2px;
+  vertical-align: middle;
 }
 
-gtx-tabs > ul.tab-links > li.tab-link > a, gtx-tabs > ul.tab-links > li.tab-link > a:link, gtx-tabs > ul.tab-links > li.tab-link > a:visited {
-  color: #797979;
+gtx-tabs > .tab-links > .tab-link:not(.icon-only) icon {
+  margin-right: 0.5em;
 }
 
-gtx-tabs gtx-tab > .tab-content {
+gtx-tabs gtx-tab > .tab-content:not(.is-active) {
   display: none;
-}
-
-gtx-tabs gtx-tab > .tab-content.is-active {
-  display: block;
 }
 
 gtx-textarea {
@@ -11203,6 +11206,18 @@ gtx-textarea > label {
   display: block;
   color: #797979;
   transition: color 0.2s;
+  max-width: 100%;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+gtx-textarea.ng-touched.ng-invalid > label {
+  color: #c9302c;
 }
 
 gtx-textarea > textarea.materialize-textarea {
@@ -11245,10 +11260,6 @@ gtx-textarea.ng-touched.ng-invalid > textarea.materialize-textarea {
   border-color: #c9302c;
 }
 
-gtx-textarea.ng-touched.ng-invalid > label {
-  color: #c9302c;
-}
-
 gtx-top-bar {
   display: block;
 }
@@ -11272,7 +11283,7 @@ gtx-top-bar > .content {
 gtx-top-bar > .content > *:not(.content-right) {
   display: inline-block;
   -webkit-box-flex: 1;
-  flex: 1;
+  flex: 1 1 auto;
 }
 
 @media only screen and (max-width: 992px) {
@@ -12017,6 +12028,12 @@ body {
   margin: 0.82rem 0 0.656rem 0;
 }
 
+@media screen and (max-width: 600px) {
+  .top-bar h1 {
+    font-size: 1.2rem;
+  }
+}
+
 .top-bar a.title, .top-bar a.title:link {
   color: white;
 }
@@ -12034,13 +12051,37 @@ body {
   color: #b6d8e8;
 }
 
+@media screen and (max-width: 600px) {
+  .top-bar .version-info {
+    font-size: 12px;
+  }
+}
+
 .top-bar .gentics-logo {
+  -webkit-box-flex: 0 !important;
+  flex: 0 !important;
+  height: 38px;
+  padding-right: 10px;
+}
+
+.top-bar .gentics-logo > svg {
   width: 32px;
   height: 38px;
 }
 
-.top-bar .gentics-logo g {
+.top-bar .gentics-logo > svg g {
   fill: white;
+}
+
+@media screen and (max-width: 600px) {
+  .top-bar .gentics-logo {
+    display: none !important;
+  }
+}
+
+.top-bar .github-logo {
+  width: 32px;
+  height: 32px;
 }
 
 .menu-button {
@@ -12120,7 +12161,7 @@ gtx-sortable-list[gtxFileDropArea] {
 
 gtx-sortable-list[gtxFileDropArea] .filename {
   -webkit-box-flex: 1;
-  flex: 1;
+  flex: 1 1 auto;
   padding-left: 10px;
 }
 
