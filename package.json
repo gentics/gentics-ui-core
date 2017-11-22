@@ -13,7 +13,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git@github.com:gentics/gentics-ui-core.git"
+    "url": "git+ssh://git@github.com:gentics/gentics-ui-core.git"
   },
   "homepage": "https://gentics.github.io/gentics-ui-core/",
   "bugs": {
@@ -39,7 +39,8 @@
   "keywords": [
     "gentics",
     "ui",
-    "user-interface"
+    "user-interface",
+    "angular"
   ],
   "devDependencies": {
     "@angular/common": "^4.2.3",
@@ -111,7 +112,8 @@
     "materialize-css": "^0.97.6",
     "moment": "2.18.1",
     "rome": "^2.1.22",
-    "sortablejs": "^1.4.2"
+    "sortablejs": "^1.4.2",
+    "tslib": "^1.8.0"
   },
   "peerDependencies": {
     "@angular/core": "^4.0.0"
