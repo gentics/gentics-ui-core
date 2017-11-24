@@ -1,12 +1,13 @@
 {
   "name": "gentics-ui-core",
-  "version": "5.6.0",
+  "version": "5.6.1",
   "description": "Gentics UI Core Framework",
   "main": "dist/index.js",
   "module": "dist/index.js",
   "typings": "dist/index.d.ts",
   "scripts": {
     "ngc": "ngc -p config/tsconfig.aot.json",
+    "prepack": "gulp package",
     "prepare-package": "gulp package",
     "test": "gulp test:run",
     "watch": "gulp test:watch dist:watch docs:watch"
