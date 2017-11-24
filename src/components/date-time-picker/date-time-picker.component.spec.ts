@@ -225,55 +225,87 @@ describe('DateTimePicker:', () => {
             )
         );
 
-        it('does not show the button if clearable is false',
+        it('does not show a clear button if clearable is false',
             componentTest(() => TestComponent, `
                 <gtx-date-time-picker timestamp="${TEST_TIMESTAMP}" clearable="false" format="YY-MM-ddd">
                 </gtx-date-time-picker>`,
                 (fixture, instance) => {
                     fixture.detectChanges();
-                    const dateTimePickerInstance: DateTimePicker =
-                        fixture.debugElement.query(By.directive(DateTimePicker)).componentInstance;
-                    expect(dateTimePickerInstance._clearable).toBe(false);
-                    const buttonClear = fixture.debugElement.query(By.css('gtx-button'));
-                    expect(buttonClear).toBeNull();
+                    const clearButton = fixture.debugElement.query(By.css('gtx-button'));
+                    expect(clearButton).toBeNull();
                 }
             )
         );
 
-        it('shows the button if clearable is true',
+        it('shows a clear button if clearable is true',
             componentTest(() => TestComponent, `
                 <gtx-date-time-picker timestamp="${TEST_TIMESTAMP}" clearable="true" format="YY-MM-ddd">
                 </gtx-date-time-picker>`,
                 (fixture, instance) => {
                     fixture.detectChanges();
-                    const dateTimePickerInstance: DateTimePicker =
-                        fixture.debugElement.query(By.directive(DateTimePicker)).componentInstance;
-                    expect(dateTimePickerInstance._clearable).toBe(true);
-                    const buttonClear = fixture.debugElement.query(By.css('gtx-button'));
-                    expect(buttonClear).toBeTruthy();
+                    const clearButton = fixture.debugElement.query(By.css('gtx-button'));
+                    expect(clearButton).toBeTruthy();
                 }
             )
         );
 
-        it('clears the value of the input if icon clicked',
+        it('clears its value when the clear button is clicked',
             componentTest(() => TestComponent, `
-                <gtx-date-time-picker timestamp="${TEST_TIMESTAMP}" clearable="true" (change)="onChange($event)" format="YY-MM-ddd">
+                <gtx-date-time-picker clearable [(ngModel)]="testModel"
+                    (change)="onChange($event)" format="YY-MM-ddd">
                 </gtx-date-time-picker>`,
                 (fixture, instance) => {
-                    instance.onChange = jasmine.createSpy('onChange');
                     fixture.detectChanges();
-                    const dateTimePickerInstance: DateTimePicker =
-                        fixture.debugElement.query(By.directive(DateTimePicker)).componentInstance;
-                    spyOn(dateTimePickerInstance, 'clearDateTime').and.callThrough();
-                    const buttonClear = fixture.debugElement.query(By.css('gtx-button'));
-                    buttonClear.triggerEventHandler('click', {});
+                    tick();
+
+                    const clearButton = fixture.debugElement.query(By.css('gtx-button'));
+                    clearButton.triggerEventHandler('click', document.createEvent('Event'));
+                    fixture.detectChanges();
+
+                    expect(instance.testModel).toBeNull();
+                    expect(instance.onChange).toHaveBeenCalledWith(null);
+
+                    const displayValue = fixture.debugElement.query(By.css('input')).nativeElement.value as string;
+                    expect(displayValue).toBe('');
+                }
+            )
+        );
+
+        it('emits "clear" when the clear button is clicked',
+            componentTest(() => TestComponent, `
+                <gtx-date-time-picker clearable (clear)="onClear($event)" timestamp="${TEST_TIMESTAMP}">
+                </gtx-date-time-picker>`,
+                (fixture, testComponent) => {
+                    fixture.detectChanges();
+                    tick();
+
+                    expect(testComponent.onClear).not.toHaveBeenCalled();
+
+                    const clearButton = fixture.debugElement.query(By.css('gtx-button'));
+                    clearButton.triggerEventHandler('click', document.createEvent('Event'));
+                    fixture.detectChanges();
+
+                    expect(testComponent.onClear).toHaveBeenCalled();
+                }
+            )
+        );
+
+        it('does not clear its value when clicking the clear button if the date picker is disabled',
+            componentTest(() => TestComponent, `
+                <gtx-date-time-picker clearable disabled [(ngModel)]="testModel"
+                    (change)="onChange($event)" format="YY-MM-ddd">
+                </gtx-date-time-picker>`,
+                (fixture, instance) => {
+                    fixture.detectChanges();
+                    const clearButton = fixture.debugElement.query(By.css('gtx-button'));
+                    clearButton.triggerEventHandler('click', document.createEvent('Event'));
                     tick();
                     fixture.detectChanges();
-                    expect(dateTimePickerInstance.clearDateTime).toHaveBeenCalled();
-                    expect(dateTimePickerInstance.timestamp).toBeNull;
-                    expect(dateTimePickerInstance.displayValue).toBe('');
 
-                    expect(instance.onChange).toHaveBeenCalledWith(dateTimePickerInstance.timestamp);
+                    expect(instance.testModel).not.toBeNull();
+                    expect(instance.onChange).not.toHaveBeenCalledWith(null);
+                    const displayValue = fixture.debugElement.query(By.css('input')).nativeElement.value as string;
+                    expect(displayValue).not.toBe('');
                 }
             )
         );
@@ -317,8 +349,8 @@ describe('DateTimePicker:', () => {
 
         it('fires the "change" event when a new date is selected',
             confirmTest(fixture => {
-                // 15 days earlier than the start timestamp
-                let expected: number = TEST_TIMESTAMP - FIVE_DAYS;
+                // 5 days earlier than the start timestamp
+                const expected = TEST_TIMESTAMP - FIVE_DAYS;
                 expect(fixture.componentRef.instance.onChange).toHaveBeenCalledWith(expected);
             })
         );
@@ -484,7 +516,8 @@ class TestComponent {
         test: new FormControl(TEST_TIMESTAMP)
     });
     @ViewChild(DateTimePicker) pickerInstance: DateTimePicker;
-    onChange(): void {}
+    onChange = jasmine.createSpy('onChange');
+    onClear = jasmine.createSpy('onClear');
 }
 
 @Component({

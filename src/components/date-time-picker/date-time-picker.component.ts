@@ -34,26 +34,21 @@ const GTX_DATEPICKER_VALUE_ACCESSOR = {
     providers: [GTX_DATEPICKER_VALUE_ACCESSOR]
 })
 export class DateTimePicker implements ControlValueAccessor, OnInit, OnDestroy {
-    /**
-     * Sets the date picker to be auto-focused. Handled by `AutofocusDirective`.
-     */
+    /** Sets the date picker to be auto-focused. Handled by `AutofocusDirective`. */
     @Input() autofocus: boolean = false;
 
-    /**
-     * If true the clear button is displayed, which allows the user to clear the selected date
-     */
+    /** If true the clear button is displayed, which allows the user to clear the selected date. */
     @Input() set clearable(val: any) {
         this._clearable = coerceToBoolean(val);
     }
 
-    /**
-     * The date/time value as a unix timestamp (in seconds)
-     */
+    /** Value to set on the ngModel when the DatePicker is cleared. */
+    @Input() emptyValue: any = null;
+
+    /** The date/time value as a unix timestamp (in seconds). */
     @Input() timestamp: number;
 
-    /**
-     * A label for the control
-     */
+    /** A label for the control. */
     @Input() label: string = '';
 
     /**
@@ -63,48 +58,37 @@ export class DateTimePicker implements ControlValueAccessor, OnInit, OnDestroy {
      */
     @Input() format: string;
 
-    /**
-     * The minimum date allowable. E.g. `new Date(2015, 2, 12)`
-     */
+    /** The minimum date allowed, e.g. `new Date(2015, 2, 12)`. */
     @Input() min: Date;
 
-    /**
-     * The maximum date allowable. E.g. `new Date(2031, 1, 30)`
-     */
+    /** The maximum date allowed, e.g. `new Date(2031, 1, 30)`. */
     @Input() max: Date;
 
-    /**
-     * If true, the year may be selected from a Select control
-     */
+    /** If true, the year may be selected from a Select control. */
     @Input() set selectYear(val: any) {
         this._selectYear = coerceToBoolean(val);
     }
 
-    /**
-     * Set to `true` to disable the input field and not show the date picker on click.
-     */
+    /** Set to `true` to disable the input field and not show the date picker on click. */
     @Input() set disabled(val: any) {
         this._disabled = coerceToBoolean(val);
     }
 
-    /**
-     * Set to `false` to omit the time picker part of the component. Defaults to `true`
-     */
+    /** Set to `false` to omit the time picker part of the component. Defaults to `true`. */
     @Input() set displayTime(val: any) {
         this._displayTime = coerceToBoolean(val);
     }
 
-    /**
-     * Set to `false` to omit the seconds of the time picker part. Defaults to `true`
-     */
+    /** Set to `false` to omit the seconds of the time picker part. Defaults to `true`. */
     @Input() set displaySeconds(val: any) {
         this._displaySeconds = coerceToBoolean(val);
     }
 
-    /**
-     * Fires when the "okay" button is clicked to close the picker.
-     */
+    /** Fires when the "okay" button is clicked to close the picker. */
     @Output() change = new EventEmitter<number|null>();
+
+    /** Fires when the "clear" button is clicked on a clearable DateTimePicker. */
+    @Output() clear = new EventEmitter<any>();
 
     _clearable: boolean = false;
     _selectYear: boolean = false;
@@ -149,19 +133,13 @@ export class DateTimePicker implements ControlValueAccessor, OnInit, OnDestroy {
         }
     }
 
-    /**
-     * If the input is focused and the Enter key is pressed, we want this to
-     * open the picker modal.
-     */
-    inputKeyHandler(e: KeyboardEvent): void {
-        // Enter key
-        if (e.keyCode === 13 && !this._disabled) {
+    handleEnterKey(event: KeyboardEvent): void {
+        if (event.keyCode === 13 && !this._disabled) {
             this.showModal();
         }
     }
 
     showModal(): void {
-
         this.modalService.fromComponent(
             DateTimePickerModal,
             {
@@ -190,14 +168,20 @@ export class DateTimePicker implements ControlValueAccessor, OnInit, OnDestroy {
     }
 
     writeValue(value: number): void {
-        if (value) {
-            this.value = momentjs.unix(Number(value));
-            this.updateDisplayValue();
-        }
+        this.value = value ? momentjs.unix(Number(value)) : undefined;
+        this.updateDisplayValue();
     }
 
     registerOnChange(fn: Function): void {
-        this.onChange = (value?: number | null) => fn(value === undefined ? this.value.unix() : value);
+        this.onChange = (value?: number | null) => {
+            if (value) {
+                fn(value);
+            } else if (this.value) {
+                fn(this.value.unix());
+            } else {
+                fn(this.emptyValue);
+            }
+        };
     }
 
     registerOnTouched(fn: Function): void {
@@ -209,28 +193,24 @@ export class DateTimePicker implements ControlValueAccessor, OnInit, OnDestroy {
         this.changeDetector.markForCheck();
     }
 
-    /**
-     * Format date to a human-readable string for displaying in the component's input field.
-     */
+    /** Format date to a human-readable string for displaying in the component's input field. */
     updateDisplayValue(): void {
         if (!this.value) {
-            return;
-        }
-
-        if (this.format) {
+            this.displayValue = '';
+        } else if (this.format) {
             this.displayValue = this.value.format(this.format);
         } else {
             this.displayValue = this.formatProvider.format(this.value, this._displayTime, this._displaySeconds);
         }
     }
 
-    /**
-     * Clear input value of datetimepicker and emit value of null
-     */
+    /** Clear input value of DateTimePicker and emit `emptyValue` as value. */
     clearDateTime(): void {
-        this.timestamp = null;
         this.displayValue = '';
-        this.onChange(this.timestamp);
-        this.change.emit(this.timestamp);
+        this.value = undefined;
+        const emptyValue = this.emptyValue;
+        this.clear.emit(emptyValue);
+        this.onChange(emptyValue);
+        this.change.emit(emptyValue);
     }
 }

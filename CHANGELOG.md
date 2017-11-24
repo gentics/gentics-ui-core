@@ -1,5 +1,16 @@
 # Gentics UI Core Changelog
 
+## 5.7.0 (in progress)
+
+### Features
+
+* New "clear" event on clearable DateTimePickers
+
+### Fixes
+
+* Prevent disabled DateTimePicker from being cleared (GUIC-146)
+
+
 ## 5.6.0 (2017-11-22)
 
 ### Features
