@@ -1,4 +1,5 @@
 import {NgModule, ModuleWithProviders} from '@angular/core';
+import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {BrowserModule} from '@angular/platform-browser';
 import {RouterModule} from '@angular/router';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
@@ -93,6 +94,7 @@ export const routerModuleForRoot: ModuleWithProviders = RouterModule.forRoot(rou
 @NgModule({
     imports: [
         BrowserModule,
+        BrowserAnimationsModule,
         FormsModule,
         ReactiveFormsModule,
         routerModuleForRoot,

@@ -3,12 +3,18 @@ import {
     Component,
     Directive,
     ElementRef,
+    EventEmitter,
+    HostBinding,
     Input,
     Output,
-    HostBinding,
-    EventEmitter,
     ViewChild
 } from '@angular/core';
+import {animate, AnimationBuilder, AnimationPlayer, keyframes, state, style, transition, trigger} from '@angular/animations';
+
+// must export and be a function (not arrow function expression) to prevent ngc errors
+export function animateCubicBezier(millis: number): any {
+    return animate(`${millis}ms cubic-bezier(0.215, 0.61, 0.355, 1)`);
+}
 
 /**
  * The SideMenu component is an off-canvas menu with a toggle button which can be
@@ -40,6 +46,29 @@ import {
 @Component({
     selector: 'gtx-side-menu',
     templateUrl: './side-menu.tpl.html',
+    animations: [
+        trigger('menuState', [
+            state('void', style('*')),
+            state('open', style('*')),
+            transition('void => *', animateCubicBezier(300)),
+            transition('* => *', animateCubicBezier(300))
+        ]),
+        trigger('toggleState', [
+            state('closed', style({ transform: '{{ transform }}' }), { params: { transform: 'translateX(0)' } }),
+            state('open', style({ transform: '{{ transform }}' }), { params: { transform: 'translateX(0)' } }),
+            transition('* => *', animateCubicBezier(300))
+        ]),
+        trigger('overlayState', [
+            state('closed', style({ opacity: 0 })),
+            state('open', style({ opacity: 1 })),
+            transition('* => *', animateCubicBezier(600))
+        ]),
+        trigger('contentState', [
+            state('void', style('*')),
+            state('*', style({ opacity: 1, transform: 'translateX(0)' })),
+            transition('* => *', animateCubicBezier(400))
+        ])
+    ],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class SideMenu {
@@ -47,6 +76,7 @@ export class SideMenu {
     /**
      * Sets the state of the menu: true = opened, false = closed.
      */
+    @HostBinding('class.opened')
     @Input() opened: boolean = false;
     /**
      * Sets whether the menu should appear to the left or the right of the screen. Defaults to 'left'.
@@ -62,8 +92,32 @@ export class SideMenu {
      */
     @Input() toggleButtonOffset: number = 20;
 
-    @HostBinding('class.opened') get hostIsOpen(): boolean {
-        return this.opened;
+    @HostBinding('class.align-left')
+    get alignmentClassLeft(): boolean {
+        return this.position === 'left';
+    }
+
+    @HostBinding('class.align-right')
+    get alignmentClassRight(): boolean {
+        return this.position === 'right';
+    }
+
+    get animationParams(): any {
+        const buttonWidth = parseInt(this.toggleButton.nativeElement.offsetWidth);
+        let transform = this.position === 'left' ?
+            `translateX(${this.toggleButtonOffset}px)` :
+            `translateX(-${this.toggleButtonOffset}px)`;
+        if (this.opened) {
+            // IE11 cannot use `calc()` with transform properties, so instead we can just use multiple separate
+            // translateX() statements.
+            transform = this.position === 'left' ?
+                `translateX(${this.responsiveWidth}) translateX(-${buttonWidth}px) translateX(-${this.toggleButtonOffset}px)` :
+                `translateX(-${this.responsiveWidth}) translateX(+${buttonWidth}px) translateX(+${this.toggleButtonOffset}px)`;
+        }
+        return {
+            value: this.opened ? 'open' : 'closed',
+            params: { transform }
+        };
     }
 
     @ViewChild('toggleButton') toggleButton: ElementRef;
@@ -74,6 +128,77 @@ export class SideMenu {
      */
     @Output() toggle = new EventEmitter<boolean>();
 
+    public player: AnimationPlayer;
+    private ancestorWithWidth: HTMLElement;
+
+    /**
+     * Returns the width of the menu, taking into account screen width
+     */
+    get responsiveWidth(): string {
+        const screenWidth = window.innerWidth;
+        if (screenWidth < 600) {
+            return `${this.ancestorWithWidth.offsetWidth}px`;
+        }
+        return this.width;
+    }
+
+    get menuParams(): string {
+        return this.opened ? 'open' : 'closed';
+    }
+
+    constructor(private animationBuilder: AnimationBuilder, private elementRef: ElementRef) {}
+
+    /**
+     * We need to know the width of the element in which the SideMenu is nested. Here we traverse the DOM tree
+     * looking for the first ancestor element with a non-zero offsetWidth.
+     */
+    ngAfterViewInit(): void {
+        let ancestorWithWidth: HTMLElement | null;
+        let currentElement = this.elementRef.nativeElement;
+        const maxLevels = 10;
+        let i = 0;
+        while (!ancestorWithWidth && i < maxLevels) {
+            const parent = currentElement.parentElement;
+            if (0 < parent.offsetWidth) {
+                ancestorWithWidth = parent;
+            }
+            currentElement = parent;
+            i++;
+        }
+        this.ancestorWithWidth = ancestorWithWidth;
+    }
+
+    /**
+     * The AnimationBuilder is used here because the desired animation result could not be achieved using the
+     * metadata-based approach alone. This issue describes the problem: https://github.com/angular/angular/issues/20796
+     *
+     * If that issue gets resolved then this could be simplified and we may be able to drop the AnimationBuilder
+     * and move this logic into the animationParams getter.
+     */
+    animationStarted(event: any): void {
+        const menu = this.elementRef.nativeElement.querySelector('.menu');
+
+        if (menu) {
+            if (this.player) {
+                this.player.destroy();
+            }
+            const sign = this.position === 'right' ? '' : '-';
+            let startX = '0';
+            let endX = `${sign}${this.responsiveWidth}`;
+            if (event.toState === 'open') {
+                [startX, endX] = [endX, startX];
+            }
+            const factory = this.animationBuilder.build([
+                animate('0.3s', keyframes([
+                    style({transform: `translateX(${startX})`, offset: 0 }),
+                    style({transform: `translateX(${endX})`, offset: 0.7 })
+                ]))
+            ]);
+            this.player = factory.create(menu, {});
+            this.player.play();
+        }
+    }
+
     toggleState(): void {
         this.toggle.emit(!this.opened);
     }
@@ -82,26 +207,6 @@ export class SideMenu {
         if (this.opened === true) {
             this.toggleState();
         }
-    }
-
-    getMenuTranslateX(): string {
-        let value: string = '0';
-        if (!this.opened) {
-            const sign = this.position === 'left' ? '-' : '';
-            value = `${sign}${this.width}`;
-        }
-        return `translateX(${value})`;
-    }
-
-    getToggleButtonTranslateX(): string {
-        const buttonWidth = this.toggleButton.nativeElement.offsetWidth;
-        let value: string = '0';
-        if (!this.opened) {
-            const sign = this.position === 'left' ? '' : '-';
-            const widthVal = Number(buttonWidth) + this.toggleButtonOffset;
-            value = `${sign}${widthVal}px`;
-        }
-        return `translateX(${value})`;
     }
 }
 

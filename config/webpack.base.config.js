@@ -14,6 +14,7 @@ module.exports = {
         common: [
             'core-js',
             'reflect-metadata',
+            'web-animations-js',
             'zone.js'
         ]
     },

@@ -1,5 +1,40 @@
 gtx-side-menu {
 
+    &.align-left {
+        .toggle-button {
+            left: 0;
+            float: left;
+        }
+        .menu {
+            left: 0;
+        }
+        .menu-content {
+            transform: translateX(-30px);
+        }
+    }
+
+    &.align-right {
+        .toggle-button {
+            right: 0;
+            float: right;
+        }
+        .menu {
+            right: 0;
+        }
+        .menu-content {
+            transform: translateX(30px);
+        }
+    }
+
+    > .toggle-button {
+        display: block;
+        z-index: 15;
+        top: 5px;
+        cursor: pointer;
+        position: absolute;
+        will-change: transform;
+    }
+
     > .menu {
         display: block;
         position: absolute;
@@ -7,7 +42,8 @@ gtx-side-menu {
         top: 0;
         bottom: 0;
         width: 300px;
-        transition: transform 0.3s cubic-bezier(0.215, 0.61, 0.355, 1);
+        background-color: white;
+        will-change: transform;
 
         > .menu-content {
             background-color: white;
@@ -16,36 +52,7 @@ gtx-side-menu {
             height: 100%;
             width: 100%;
             opacity: 0;
-            visibility: hidden;
-            transition: opacity 0s 0.3s, visibility 0s 0.3s;
-        }
-
-        > .toggle-button {
-            display: block;
-            z-index: 1;
-            cursor: pointer;
-            position: absolute;
-            transition: transform 0.3s;
-        }
-
-        &.left {
-            left: 0;
-
-            > .toggle-button {
-                float: right;
-                top: 5px;
-                right: 10px;
-            }
-        }
-
-        &.right {
-            right: 0;
-
-            > .toggle-button {
-                top: 5px;
-                left: 10px;
-                float: left;
-            }
+            will-change: transform;
         }
     }
 
@@ -57,7 +64,6 @@ gtx-side-menu {
         width: 0;
         background-color: rgba(0, 0, 0, 0.3);
         opacity: 0;
-        transition: opacity 0.7s, width 0s 0.7s;
     }
 
     &.opened {
@@ -69,22 +75,11 @@ gtx-side-menu {
                     width: 100% !important;
                 }
             }
-            transform: translateX(0);
-
-            > .menu-content {
-                opacity: 1;
-                visibility: visible;
-                transition: opacity 0s, visibility 0s;
-            }
         }
-
         > .side-menu-overlay {
-            transition: opacity 0.7s;
             width: auto;
             left: 0;
             right: 0;
-            opacity: 1;
         }
     }
-
 }

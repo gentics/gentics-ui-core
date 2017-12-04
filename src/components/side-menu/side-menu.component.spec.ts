@@ -1,6 +1,7 @@
 import {Component, DebugElement} from '@angular/core';
 import {ComponentFixture, TestBed, tick} from '@angular/core/testing';
 import {By} from '@angular/platform-browser';
+import {NoopAnimationsModule} from '@angular/platform-browser/animations';
 
 import {componentTest} from '../../testing';
 import {SideMenu, SideMenuToggle} from './side-menu.component';
@@ -9,6 +10,7 @@ import {SideMenu, SideMenuToggle} from './side-menu.component';
 describe('SideMenu', () => {
 
     beforeEach(() => TestBed.configureTestingModule({
+        imports: [NoopAnimationsModule],
         declarations: [SideMenu, TestComponent, SideMenuToggle]
     }));
 
@@ -16,7 +18,6 @@ describe('SideMenu', () => {
         componentTest(() => TestComponent, fixture => {
             let menu: HTMLElement = getMenuElement(fixture);
             fixture.detectChanges();
-
             expect(menu.classList).not.toContain('opened');
         })
     );
@@ -26,8 +27,24 @@ describe('SideMenu', () => {
             let menu: HTMLElement = getMenuElement(fixture);
             testInstance.menuVisible = true;
             fixture.detectChanges();
-
             expect(menu.classList).toContain('opened');
+        })
+    );
+
+    it('user content does not exist in DOM when closed',
+        componentTest(() => TestComponent, fixture => {
+            fixture.detectChanges();
+            const userContent = fixture.debugElement.query(By.css('.user-content'));
+            expect(userContent).toBeNull();
+        })
+    );
+
+    it('user content does exist in DOM when opened',
+        componentTest(() => TestComponent, (fixture, testInstance) => {
+            testInstance.menuVisible = true;
+            fixture.detectChanges();
+            const userContent = fixture.debugElement.query(By.css('.user-content'));
+            expect(userContent).not.toBeNull();
         })
     );
 
@@ -78,6 +95,7 @@ describe('SideMenu', () => {
     template: `
         <gtx-side-menu [opened]="menuVisible" (toggle)="menuChanged($event)">
             <gtx-side-menu-toggle>toggle</gtx-side-menu-toggle>
+            <div class="user-content">User Content</div>
         </gtx-side-menu>`
 })
 class TestComponent {

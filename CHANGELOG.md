@@ -1,6 +1,6 @@
 # Gentics UI Core Changelog
 
-## 5.7.0 (in progress)
+## 6.0.0 (in progress)
 
 ### Features
 
@@ -9,6 +9,11 @@
 ### Fixes
 
 * Prevent disabled DateTimePicker from being cleared (GUIC-146)
+* Fix SideMenu causing extra whitespace on Chrome mobile
+
+### Breaking Changes
+
+* GUIC now requires the @angular/animations module as well as the `web-animations-js` polyfill to allow the animations to work in IE and Safari.
 
 
 ## 5.6.0 (2017-11-22)
