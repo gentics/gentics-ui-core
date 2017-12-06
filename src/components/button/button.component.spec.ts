@@ -90,15 +90,17 @@ describe('Button:', () => {
                 <gtx-button submit></gtx-button>
             </form>`,
             (fixture, instance) => {
-                instance.onSubmit = jasmine.createSpy('onSubmit');
+                fixture.detectChanges();
                 let button: HTMLButtonElement = fixture.nativeElement.querySelector('button');
+                let form: HTMLFormElement = fixture.nativeElement.querySelector('form');
+                form.onsubmit = jasmine.createSpy('formSubmit').and.returnValue(false);
 
                 let event = document.createEvent('MouseEvent');
                 event.initEvent('click', true, true);
                 button.dispatchEvent(event);
 
                 fixture.detectChanges();
-                expect(instance.onSubmit).toHaveBeenCalled();
+                expect(form.onsubmit).toHaveBeenCalled();
             }
         )
     );

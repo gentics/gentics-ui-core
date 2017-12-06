@@ -9,7 +9,18 @@ import {
     Output,
     ViewChild
 } from '@angular/core';
-import {animate, AnimationBuilder, AnimationPlayer, keyframes, state, style, transition, trigger} from '@angular/animations';
+import {
+    animate,
+    animateChild,
+    AnimationBuilder,
+    AnimationPlayer,
+    keyframes,
+    query,
+    state,
+    style,
+    transition,
+    trigger
+} from '@angular/animations';
 
 // must export and be a function (not arrow function expression) to prevent ngc errors
 export function animateCubicBezier(millis: number): any {
@@ -50,7 +61,10 @@ export function animateCubicBezier(millis: number): any {
         trigger('menuState', [
             state('void', style('*')),
             state('open', style('*')),
-            transition('void => *', animateCubicBezier(300)),
+            transition('void => *', [
+                query('@contentState', [animateChild({ delay: 100 })]),
+                animateCubicBezier(300)
+            ]),
             transition('* => *', animateCubicBezier(300))
         ]),
         trigger('toggleState', [

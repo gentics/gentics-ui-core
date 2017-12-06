@@ -1,4 +1,4 @@
-import { EventEmitter, Inject, Injectable, OpaqueToken, Optional, Output } from '@angular/core';
+import { EventEmitter, Inject, Injectable, InjectionToken, Optional, Output } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 import { Subscription } from 'rxjs/Subscription';
 import 'rxjs/add/operator/mapTo';
@@ -13,7 +13,7 @@ import { matchesMimeType } from './matches-mime-type';
  * A token that can be used to inject a mock into the service
  * @internal
  */
-export const PAGE_FILE_DRAG_EVENT_TARGET = new OpaqueToken('PAGE_FILE_DRAG_EVENT_TARGET');
+export const PAGE_FILE_DRAG_EVENT_TARGET = new InjectionToken('PAGE_FILE_DRAG_EVENT_TARGET');
 
 /**
  * A helper service that listens for dragenter/dragleave/drop events on the window

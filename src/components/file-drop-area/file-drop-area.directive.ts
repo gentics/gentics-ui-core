@@ -1,5 +1,5 @@
 import { Directive, ElementRef, EventEmitter, Inject, Input, NgZone } from '@angular/core';
-import { OnDestroy, OnInit, OpaqueToken, Optional, Output } from '@angular/core';
+import { OnDestroy, OnInit, InjectionToken, Optional, Output } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 import { Subscription } from 'rxjs/Subscription';
 import 'rxjs/add/operator/map';
@@ -45,7 +45,7 @@ export interface IDraggedFile {
  * A token that can be used to inject a mock into the directive
  * @internal
  */
-export const FILE_DROPAREA_DRAG_EVENT_TARGET = new OpaqueToken('FILE_DROPAREA_DRAG_EVENT_TARGET');
+export const FILE_DROPAREA_DRAG_EVENT_TARGET = new InjectionToken('FILE_DROPAREA_DRAG_EVENT_TARGET');
 
 
 /**

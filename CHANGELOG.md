@@ -13,6 +13,7 @@
 
 ### Breaking Changes
 
+* GUIC is now built with Angular 5 and requires that version as a peerDependency
 * GUIC now requires the @angular/animations module as well as the `web-animations-js` polyfill to allow the animations to work in IE and Safari.
 
 
