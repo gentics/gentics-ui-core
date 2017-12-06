@@ -10,6 +10,7 @@
 
 * Prevent disabled DateTimePicker from being cleared (GUIC-146)
 * Fix SideMenu causing extra whitespace on Chrome mobile
+* Fix DropdownList positioning on mobile
 
 ### Breaking Changes
 
@@ -21,7 +22,7 @@
 
 ### Features
 
-* Remove padding from select with no label
+* Remove padding from select with no label 
 * Tabs support icons (GUIC-140)
 
 ### Fixes

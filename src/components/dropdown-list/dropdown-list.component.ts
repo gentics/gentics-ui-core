@@ -23,6 +23,9 @@ import {DropdownTriggerDirective} from './dropdown-trigger.directive';
 import {DropdownContent} from './dropdown-content.component';
 import {coerceToBoolean} from '../../common/coerce-to-boolean';
 
+export type DropdownAlignment = 'left' | 'right';
+export type DropdownWidth = 'content' | 'trigger' | number;
+
 /**
  * A Dropdown component.
  *
@@ -64,8 +67,8 @@ import {coerceToBoolean} from '../../common/coerce-to-boolean';
 })
 export class DropdownList {
     options = {
-        alignment: 'left',
-        width: 'contents',
+        alignment: 'left' as DropdownAlignment,
+        width: 'contents' as DropdownWidth,
         belowTrigger: false,
         sticky: false,
         closeOnEscape: true
@@ -95,10 +98,10 @@ export class DropdownList {
      * Set the alignment of the dropdown, either 'left' or 'right'. *Default: 'left'*.
      */
     @Input()
-    get align(): string {
+    get align(): DropdownAlignment {
         return this.options.alignment;
     }
-    set align(val: string) {
+    set align(val: DropdownAlignment) {
         this.options.alignment = val;
     }
 
@@ -108,12 +111,12 @@ export class DropdownList {
      * of the trigger element. A numeric value sets the width the a specific number of pixels. *Default: 'contents'*.
      */
     @Input()
-    get width(): string {
+    get width(): DropdownWidth {
         return this.options.width;
     }
-    set width(val: string) {
+    set width(val: DropdownWidth) {
         const isValid = (s: string) => /^(trigger|contents|[\d\.]+)$/.test(s);
-        if (isValid(val)) {
+        if (isValid(val as string)) {
             this.options.width = val;
         }
     }

@@ -8,6 +8,7 @@ import {
     ChangeDetectionStrategy
 } from '@angular/core';
 import {KeyCode} from '../../common/keycodes';
+import {DropdownAlignment, DropdownWidth} from './dropdown-list.component';
 
 const PAGE_MARGIN = 50;
 const DROPDOWN_MAX_HEIGHT = 650;
@@ -27,14 +28,15 @@ export class DropdownContentWrapper {
         position: 'absolute'
     };
     options = {
-        alignment: 'left',
-        width: 'contents',
+        alignment: 'left' as DropdownAlignment,
+        width: 'contents' as DropdownWidth,
         belowTrigger: false
     };
     trigger: HTMLElement;
     id: string = 'dropdown-' + Math.random().toString(36).substr(2);
     clicked = new EventEmitter<any>();
     escapeKeyPressed = new EventEmitter<any>();
+    private widthHasBeenAdjusted = false;
 
     constructor(private elementRef: ElementRef,
                 private cd: ChangeDetectorRef) {}
@@ -92,6 +94,7 @@ export class DropdownContentWrapper {
             if (this.options.width === 'content') {
                 this.contentStyles.whiteSpace = 'nowrap';
             }
+            this.widthHasBeenAdjusted = true;
             this.cd.markForCheck();
         }, 0);
     }
@@ -121,6 +124,7 @@ export class DropdownContentWrapper {
         };
         const content = this.getDropdownContent();
         const fullHeightContent = content.querySelector('.scroller') as HTMLElement;
+        const contentHeight = this.innerHeight(fullHeightContent) + PAGE_MARGIN;
 
         // Offscreen detection
         const windowHeight: number = window.innerHeight;
@@ -128,26 +132,14 @@ export class DropdownContentWrapper {
         const offset = this.offset(this.trigger);
         const triggerLeft = offset.left;
         const triggerTop = offset.top;
-        let currAlignment: string = this.options.alignment;
+        const containerWidth = this.calculateContainerWidth();
+        const currAlignment = this.calculateAlignment(triggerLeft, containerWidth);
 
         // Below Origin
         let verticalOffset = 0;
         if (this.options.belowTrigger === true) {
             verticalOffset = triggerHeight;
         }
-
-        const contentWidth =  this.innerWidth(fullHeightContent) + PAGE_MARGIN;
-        const contentHeight = this.innerHeight(fullHeightContent) + PAGE_MARGIN;
-
-        if (triggerLeft + contentWidth > window.innerWidth) {
-            // Dropdown goes past screen on right, force right alignment
-            currAlignment = 'right';
-
-        } else if (triggerLeft - contentWidth + this.innerWidth(this.trigger) < 0) {
-            // Dropdown goes past screen on left, force left alignment
-            currAlignment = 'left';
-        }
-
 
         // Vertical bottom offscreen detection
         if (verticalOffset + triggerTop + contentHeight > windowHeight) {
@@ -185,11 +177,16 @@ export class DropdownContentWrapper {
 
         // Handle edge alignment
         let leftPosition: number = 0;
-        // const triggerLeft: number = Math.floor(this.trigger.getBoundingClientRect().left);
-        if (currAlignment === 'left') {
-            leftPosition = triggerLeft;
-        } else if (currAlignment === 'right') {
-            leftPosition =  triggerLeft + this.trigger.offsetWidth - this.calculateContainerWidth();
+        switch (currAlignment) {
+            case 'left':
+                leftPosition = triggerLeft;
+                break;
+            case 'right':
+                leftPosition =  triggerLeft + this.trigger.offsetWidth - containerWidth;
+                break;
+            case 'center':
+            default:
+                leftPosition = 0;
         }
 
         positionStyles.top = this.trigger.getBoundingClientRect().top + verticalOffset + 'px';
@@ -200,6 +197,27 @@ export class DropdownContentWrapper {
 
     onContentClick(): void {
         this.clicked.emit(true);
+    }
+
+    /**
+     * Calculates the optimal alignment of the dropdown contents to avoid clipping over the edge of the window.
+     */
+    private calculateAlignment(triggerLeft: number, containerWidth: number): DropdownAlignment | 'center' {
+        let currAlignment: DropdownAlignment | 'center' = this.options.alignment;
+
+        const doesNotFitOnRight = triggerLeft - containerWidth + this.innerWidth(this.trigger) < 0;
+        const doesNotFitOnLeft = window.innerWidth < triggerLeft + containerWidth;
+        if (doesNotFitOnRight && doesNotFitOnLeft) {
+            // Dropdown is wider than screen, force center alignment
+            currAlignment = 'center';
+        } else if (doesNotFitOnLeft) {
+            // Dropdown goes past screen on right, force right alignment
+            currAlignment = 'right';
+        } else if (doesNotFitOnRight) {
+            // Dropdown goes past screen on left, force left alignment
+            currAlignment = 'left';
+        }
+        return currAlignment;
     }
 
     /**
@@ -217,16 +235,25 @@ export class DropdownContentWrapper {
 
     private calculateContainerWidth(): number {
         let containerWidth = 0;
-        // Set the width of the container
+
         if (this.options.width === 'contents') {
-            let content = <HTMLElement> this.elementRef.nativeElement.querySelector('gtx-dropdown-content');
-            containerWidth = content.offsetWidth;
+            const content = this.getDropdownContent();
+            // if the container is wider than the window, we just set the width to take up the full window
+            if (window.innerWidth < content.offsetWidth) {
+                containerWidth = window.innerWidth;
+            } else {
+                // adjust the width by 1px once, to eliminate unwanted x-scrollbar when there is a y-scrollbar.
+                // The `widthHasBeenAdjusted` flag prevents the contents from further widening on subsequent
+                // calls to calculatePositionStyles()
+                const adjustment = this.widthHasBeenAdjusted ? 0 : 1;
+                containerWidth = content.offsetWidth + adjustment;
+            }
         } else if (this.options.width === 'trigger') {
             containerWidth = this.trigger.offsetWidth + 1;
         } else {
             containerWidth = +this.options.width;
         }
-        // pad the width so the content drop shadow is displayed
+
         return containerWidth;
     }
 
