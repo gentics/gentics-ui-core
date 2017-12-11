@@ -192,7 +192,7 @@
     <div class="demo-result">
         <p>The keyboard may be used to navigate the options, such as using the arrow keys or tying a letter.</p>
         <div class="row">
-            <div class="column small-8">
+            <div class="column small-6 medium-4 large-2">
                 <gtx-select label="Select a Country" [value]="'Ghana'">
                     <gtx-option value="Afghanistan">Afghanistan</gtx-option>
                     <gtx-option value="Albania">Albania</gtx-option>
@@ -309,21 +309,14 @@
     </div>
     <div class="demo-code">
         <gtx-highlighted-code language="HTML" code='
-                 <gtx-select label="Select With Option Groups" [(ngModel)]="selectGroup">
-                     <gtx-optgroup label="Foos">
-                         <gtx-option value="foo1">Foo 1</gtx-option>
-                         <gtx-option value="foo2">Foo 2</gtx-option>
-                     </gtx-optgroup>
-                     <gtx-optgroup label="Bars">
-                         <gtx-option value="bar1">Bar 1</gtx-option>
-                         <gtx-option value="bar2">Bar 2</gtx-option>
-                     </gtx-optgroup>
-                     <gtx-optgroup label="Quuxs" disabled="true">
-                         <gtx-option value="quux1">Quux 1</gtx-option>
-                         <gtx-option value="quux2">Quux 2</gtx-option>
-                     </gtx-optgroup>
+                 <gtx-select label="Select a Country" [value]="`Ghana`">
+                     <gtx-option value="Afghanistan">Afghanistan</gtx-option>
+                     <gtx-option value="Albania">Albania</gtx-option>
+                     <!-- ... -->
+                     <gtx-option value="Yemen">Yemen</gtx-option>
+                     <gtx-option value="Zambia">Zambia</gtx-option>
+                     <gtx-option value="Zimbabwe">Zimbabwe</gtx-option>
                  </gtx-select>
-                 Value: <code>(( selectGroup | json ))</code>
         '></gtx-highlighted-code>
     </div>
 </gtx-demo-block>

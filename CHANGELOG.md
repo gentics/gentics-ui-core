@@ -7,6 +7,7 @@
 * New "clear" event on clearable DateTimePickers
 * Add `wrap` input to Tabs component to control wrapping of tabs
 * Add title attribute to tabs
+* Add "expand" option to the DropdownList `width` input
 
 ### Fixes
 
@@ -14,6 +15,7 @@
 * Fix SideMenu causing extra whitespace on Chrome mobile
 * Fix DropdownList positioning on mobile
 * Fix DropdownList ScrollMask not preventing scroll on Chrome mobile
+* Fix Select width when contents are wider than select element itself
 
 ### Breaking Changes
 
