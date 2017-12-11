@@ -24,7 +24,7 @@ import {DropdownContent} from './dropdown-content.component';
 import {coerceToBoolean} from '../../common/coerce-to-boolean';
 
 export type DropdownAlignment = 'left' | 'right';
-export type DropdownWidth = 'content' | 'trigger' | number;
+export type DropdownWidth = 'contents' | 'trigger' | 'expand' | number;
 
 /**
  * A Dropdown component.
@@ -106,16 +106,17 @@ export class DropdownList {
     }
 
     /**
-     * Set the width of the dropdown. Can be either 'contents', 'trigger' or a numeric value. 'Contents' will
+     * Set the width of the dropdown. Can be either `contents`, `trigger`, `expand` or a numeric value. 'Contents' will
      * set a width sufficient to accommodate the widest list item. 'Trigger' sets the width to equal the width
-     * of the trigger element. A numeric value sets the width the a specific number of pixels. *Default: 'contents'*.
+     * of the trigger element. 'Expand' is equivalent to the maximum of 'trigger' and 'contents'.
+     * A numeric value sets the width the a specific number of pixels. *Default: 'contents'*.
      */
     @Input()
     get width(): DropdownWidth {
         return this.options.width;
     }
     set width(val: DropdownWidth) {
-        const isValid = (s: string) => /^(trigger|contents|[\d\.]+)$/.test(s);
+        const isValid = (s: string) => /^(trigger|contents|expand|[\d\.]+)$/.test(s);
         if (isValid(val as string)) {
             this.options.width = val;
         }

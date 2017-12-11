@@ -233,28 +233,46 @@ export class DropdownContentWrapper {
         return this.elementRef.nativeElement.querySelector('gtx-dropdown-content');
     }
 
+    /**
+     * Returns the width of the container according to the `width` input passed into the component.
+     */
     private calculateContainerWidth(): number {
-        let containerWidth = 0;
-
-        if (this.options.width === 'contents') {
-            const content = this.getDropdownContent();
-            // if the container is wider than the window, we just set the width to take up the full window
-            if (window.innerWidth < content.offsetWidth) {
-                containerWidth = window.innerWidth;
-            } else {
-                // adjust the width by 1px once, to eliminate unwanted x-scrollbar when there is a y-scrollbar.
-                // The `widthHasBeenAdjusted` flag prevents the contents from further widening on subsequent
-                // calls to calculatePositionStyles()
-                const adjustment = this.widthHasBeenAdjusted ? 0 : 1;
-                containerWidth = content.offsetWidth + adjustment;
-            }
-        } else if (this.options.width === 'trigger') {
-            containerWidth = this.trigger.offsetWidth + 1;
-        } else {
-            containerWidth = +this.options.width;
+        switch (this.options.width) {
+            case 'contents':
+                return this.calculateWidthContents();
+            case 'trigger':
+                return this.calculateWidthTrigger();
+            case 'expand':
+                return this.calculateWidthExpand();
+            default:
+                return this.calculateWidthNumber();
         }
+    }
 
-        return containerWidth;
+    private calculateWidthContents(): number {
+        const content = this.getDropdownContent();
+        // if the container is wider than the window, we just set the width to take up the full window
+        if (window.innerWidth < content.offsetWidth) {
+            return window.innerWidth;
+        } else {
+            // adjust the width by 1px once, to eliminate unwanted x-scrollbar when there is a y-scrollbar.
+            // The `widthHasBeenAdjusted` flag prevents the contents from further widening on subsequent
+            // calls to calculatePositionStyles()
+            const adjustment = this.widthHasBeenAdjusted ? 0 : 1;
+            return content.offsetWidth + adjustment;
+        }
+    }
+
+    private calculateWidthTrigger(): number {
+        return this.trigger.offsetWidth + 1;
+    }
+
+    private calculateWidthExpand(): number {
+        return Math.max(this.calculateWidthTrigger(), this.calculateWidthContents());
+    }
+
+    private calculateWidthNumber(): number {
+        return +this.options.width;
     }
 
     /**
