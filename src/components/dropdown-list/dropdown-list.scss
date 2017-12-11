@@ -87,4 +87,7 @@ gtx-scroll-mask {
     right: 0;
     bottom: 0;
     z-index: 1001;
+    // fix issue in Chrome mobile where user is able to sometimes
+    // scroll content underneath the ScrollMask
+    transform: translateZ(0);
 }

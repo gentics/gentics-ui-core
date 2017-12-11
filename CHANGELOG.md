@@ -13,6 +13,7 @@
 * Prevent disabled DateTimePicker from being cleared (GUIC-146)
 * Fix SideMenu causing extra whitespace on Chrome mobile
 * Fix DropdownList positioning on mobile
+* Fix DropdownList ScrollMask not preventing scroll on Chrome mobile
 
 ### Breaking Changes
 
