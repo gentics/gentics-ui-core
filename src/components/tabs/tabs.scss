@@ -8,6 +8,11 @@ gtx-tabs {
         list-style-type: none;
         border-bottom: 1px solid $gtx-color-very-light-gray;
         text-transform: uppercase;
+        display: flex;
+
+        &.wrap {
+            flex-wrap: wrap;
+        }
 
         > .tab-link {
             @include noselect;

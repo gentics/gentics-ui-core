@@ -5,6 +5,8 @@
 ### Features
 
 * New "clear" event on clearable DateTimePickers
+* Add `wrap` input to Tabs component to control wrapping of tabs
+* Add title attribute to tabs
 
 ### Fixes
 

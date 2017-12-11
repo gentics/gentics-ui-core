@@ -1,6 +1,7 @@
-<ul class="tab-links">
+<ul class="tab-links" [class.wrap]="tabsShouldWrap">
     <li class="tab-link" role="presentation"
             *ngFor="let tab of tabs"
+            [title]="tab.title"
             (click)="selectTab(tab)"
             [ngClass]="{
                 disabled: tab.disabled,

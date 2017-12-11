@@ -78,3 +78,34 @@
         '></gtx-highlighted-code>
     </div>
 </gtx-demo-block>
+
+<gtx-demo-block demoTitle="Wrapping">
+    <div class="demo-result">
+        <gtx-radio-button [(ngModel)]="wrap" [value]="true" label="Wrap"></gtx-radio-button>
+        <gtx-radio-button [(ngModel)]="wrap" [value]="false" label="No Wrap"></gtx-radio-button>
+        <gtx-tabs [wrap]="wrap">
+            <gtx-tab title="Long tab title 1">Tab 1 content</gtx-tab>
+            <gtx-tab title="Long tab title 2">Tab 2 content</gtx-tab>
+            <gtx-tab title="Long tab title 3">Tab 3 content</gtx-tab>
+            <gtx-tab title="Long tab title 4">Tab 4 content</gtx-tab>
+            <gtx-tab title="Long tab title 5">Tab 5 content</gtx-tab>
+            <gtx-tab title="Long tab title 6">Tab 6 content</gtx-tab>
+            <gtx-tab title="Long tab title 7">Tab 7 content</gtx-tab>
+        </gtx-tabs>
+    </div>
+    <div class="demo-code">
+        <gtx-highlighted-code language="HTML" code='
+            <gtx-radio-button [(ngModel)]="wrap" [value]="true" label="Wrap"></gtx-radio-button>
+            <gtx-radio-button [(ngModel)]="wrap" [value]="false" label="No Wrap"></gtx-radio-button>
+            <gtx-tabs [wrap]="wrap">
+                <gtx-tab title="Long tab title 1">Tab 1 content</gtx-tab>
+                <gtx-tab title="Long tab title 2">Tab 2 content</gtx-tab>
+                <gtx-tab title="Long tab title 3">Tab 3 content</gtx-tab>
+                <gtx-tab title="Long tab title 4">Tab 4 content</gtx-tab>
+                <gtx-tab title="Long tab title 5">Tab 5 content</gtx-tab>
+                <gtx-tab title="Long tab title 6">Tab 6 content</gtx-tab>
+                <gtx-tab title="Long tab title 7">Tab 7 content</gtx-tab>
+            </gtx-tabs>
+        '></gtx-highlighted-code>
+    </div>
+</gtx-demo-block>

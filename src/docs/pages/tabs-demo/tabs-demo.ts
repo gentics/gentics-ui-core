@@ -6,4 +6,5 @@ import {Component} from '@angular/core';
 export class TabsDemo {
     componentSource: string = require('!!raw-loader!../../../components/tabs/tabs.component');
     activeTab: string = 'tab1';
+    wrap: boolean = false;
 }

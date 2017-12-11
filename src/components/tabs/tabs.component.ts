@@ -1,5 +1,6 @@
 import {Component, ContentChildren, QueryList, AfterContentInit, Input, Output, EventEmitter, SimpleChanges} from '@angular/core';
 import {Tab} from './tab.component';
+import {coerceToBoolean} from '../../common/coerce-to-boolean';
 
 /**
  * Tabs can be either pure or stateful. Stateful tabs will keep track of which one is active by keeping an internal
@@ -59,7 +60,17 @@ export class Tabs implements AfterContentInit {
         this.isPure = val != null;
     }
 
+    /**
+     * When present (or set to true), tabs which do not fit into the width of their container will wrap onto
+     * a new line. Otherwise, tabs will remain on one line and the contents will be elided if all the available
+     * space is filled.
+     */
+    @Input() set wrap(val: any) {
+        this.tabsShouldWrap = coerceToBoolean(val);
+    }
+
     private isPure: boolean = false;
+    private tabsShouldWrap: boolean = false;
 
     ngAfterContentInit(): void {
         if (this.isPure) {
