@@ -123,6 +123,9 @@ $easeOutCubic: cubic-bezier(0.215, 0.610, 0.355, 1.000);
     .modal-content {
         padding: 24px;
         overflow: auto;
+        @media #{$small-and-down} {
+            padding: 12px;
+        }
     }
 
     .modal-title + .modal-content {
