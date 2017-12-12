@@ -1,7 +1,6 @@
 const webpack = require('webpack');
 const merge = require('webpack-merge');
-const path = require('path');
-const AotPlugin = require('@ngtools/webpack').AotPlugin;
+const AngularCompilerPlugin = require('@ngtools/webpack').AngularCompilerPlugin;
 const baseConfig = require('./webpack.base.config');
 const { root } = require('./utils');
 
@@ -22,7 +21,7 @@ module.exports = merge(baseConfig, {
                 warnings: false
             }
         }),
-        new AotPlugin({
+        new AngularCompilerPlugin({
             tsConfigPath: './config/tsconfig.aot-docs.json',
             entryModule: root('src/docs/app.module#DocsModule'),
             basePath: root('./')

@@ -69,8 +69,8 @@ export class Tabs implements AfterContentInit {
         this.tabsShouldWrap = coerceToBoolean(val);
     }
 
+    tabsShouldWrap: boolean = false;
     private isPure: boolean = false;
-    private tabsShouldWrap: boolean = false;
 
     ngAfterContentInit(): void {
         if (this.isPure) {
