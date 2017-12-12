@@ -10004,7 +10004,7 @@ gtx-dropdown-content {
   display: block;
   min-width: 100px;
   overflow-y: auto;
-  overflow-x: hidden;
+  overflow-x: auto;
   opacity: 1;
   will-change: width, height;
 }
@@ -10060,6 +10060,8 @@ gtx-scroll-mask {
   right: 0;
   bottom: 0;
   z-index: 1001;
+  -webkit-transform: translateZ(0);
+  transform: translateZ(0);
 }
 
 gtx-file-picker {
@@ -10361,6 +10363,12 @@ gtx-dynamic-modal {
   overflow: auto;
 }
 
+@media only screen and (max-width: 600px) {
+  .gtx-modal-dialog .modal-content {
+    padding: 12px;
+  }
+}
+
 .gtx-modal-dialog .modal-title + .modal-content {
   padding-top: 0;
   padding-bottom: 0;
@@ -10635,6 +10643,43 @@ gtx-search-bar > .submit-button button.btn, gtx-search-bar > .submit-button butt
   border: none;
 }
 
+gtx-side-menu.align-left .toggle-button {
+  left: 0;
+  float: left;
+}
+
+gtx-side-menu.align-left .menu {
+  left: 0;
+}
+
+gtx-side-menu.align-left .menu-content {
+  -webkit-transform: translateX(-30px);
+  transform: translateX(-30px);
+}
+
+gtx-side-menu.align-right .toggle-button {
+  right: 0;
+  float: right;
+}
+
+gtx-side-menu.align-right .menu {
+  right: 0;
+}
+
+gtx-side-menu.align-right .menu-content {
+  -webkit-transform: translateX(30px);
+  transform: translateX(30px);
+}
+
+gtx-side-menu > .toggle-button {
+  display: block;
+  z-index: 15;
+  top: 5px;
+  cursor: pointer;
+  position: absolute;
+  will-change: transform;
+}
+
 gtx-side-menu > .menu {
   display: block;
   position: absolute;
@@ -10642,9 +10687,8 @@ gtx-side-menu > .menu {
   top: 0;
   bottom: 0;
   width: 300px;
-  transition: -webkit-transform 0.3s cubic-bezier(0.215, 0.61, 0.355, 1);
-  transition: transform 0.3s cubic-bezier(0.215, 0.61, 0.355, 1);
-  transition: transform 0.3s cubic-bezier(0.215, 0.61, 0.355, 1), -webkit-transform 0.3s cubic-bezier(0.215, 0.61, 0.355, 1);
+  background-color: white;
+  will-change: transform;
 }
 
 gtx-side-menu > .menu > .menu-content {
@@ -10654,38 +10698,7 @@ gtx-side-menu > .menu > .menu-content {
   height: 100%;
   width: 100%;
   opacity: 0;
-  visibility: hidden;
-  transition: opacity 0s 0.3s, visibility 0s 0.3s;
-}
-
-gtx-side-menu > .menu > .toggle-button {
-  display: block;
-  z-index: 1;
-  cursor: pointer;
-  position: absolute;
-  transition: -webkit-transform 0.3s;
-  transition: transform 0.3s;
-  transition: transform 0.3s, -webkit-transform 0.3s;
-}
-
-gtx-side-menu > .menu.left {
-  left: 0;
-}
-
-gtx-side-menu > .menu.left > .toggle-button {
-  float: right;
-  top: 5px;
-  right: 10px;
-}
-
-gtx-side-menu > .menu.right {
-  right: 0;
-}
-
-gtx-side-menu > .menu.right > .toggle-button {
-  top: 5px;
-  left: 10px;
-  float: left;
+  will-change: transform;
 }
 
 gtx-side-menu > .side-menu-overlay {
@@ -10696,12 +10709,6 @@ gtx-side-menu > .side-menu-overlay {
   width: 0;
   background-color: rgba(0, 0, 0, 0.3);
   opacity: 0;
-  transition: opacity 0.7s, width 0s 0.7s;
-}
-
-gtx-side-menu.opened > .menu {
-  -webkit-transform: translateX(0);
-  transform: translateX(0);
 }
 
 @media only screen and (max-width: 600px) {
@@ -10716,18 +10723,10 @@ gtx-side-menu.opened > .menu {
   }
 }
 
-gtx-side-menu.opened > .menu > .menu-content {
-  opacity: 1;
-  visibility: visible;
-  transition: opacity 0s, visibility 0s;
-}
-
 gtx-side-menu.opened > .side-menu-overlay {
-  transition: opacity 0.7s;
   width: auto;
   left: 0;
   right: 0;
-  opacity: 1;
 }
 
 gtx-select {
@@ -11140,6 +11139,12 @@ gtx-tabs > .tab-links {
   list-style-type: none;
   border-bottom: 1px solid #efefef;
   text-transform: uppercase;
+  display: -webkit-box;
+  display: flex;
+}
+
+gtx-tabs > .tab-links.wrap {
+  flex-wrap: wrap;
 }
 
 gtx-tabs > .tab-links > .tab-link {
@@ -12080,6 +12085,7 @@ body {
 }
 
 .top-bar .github-logo {
+  fill: white;
   width: 32px;
   height: 32px;
 }
