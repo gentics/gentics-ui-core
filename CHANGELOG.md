@@ -1,5 +1,11 @@
 # Gentics UI Core Changelog
 
+### 6.0.1 (2017-12-13)
+
+### Fixes
+
+* Fix AoT error in Tabs component (GUIC-155)
+
 ## 6.0.0 (2017-12-12)
 
 ### Features
