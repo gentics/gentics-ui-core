@@ -5,7 +5,6 @@ import {
     EventEmitter,
     forwardRef,
     Input,
-    OnInit,
     OnChanges,
     Output,
     Renderer,
@@ -33,7 +32,7 @@ const GTX_TEXTAREA_VALUE_ACCESSOR = {
     templateUrl: './textarea.tpl.html',
     providers: [GTX_TEXTAREA_VALUE_ACCESSOR]
 })
-export class Textarea implements ControlValueAccessor, OnChanges, OnInit {
+export class Textarea implements ControlValueAccessor, OnChanges {
     /**
      * Sets the textarea to be auto-focused. Handled by `AutofocusDirective`.
      */
@@ -114,10 +113,6 @@ export class Textarea implements ControlValueAccessor, OnChanges, OnInit {
 
     constructor(private renderer: Renderer,
                 private changeDetector: ChangeDetectorRef) { }
-
-    ngOnInit(): void {
-        this.writeValue(this.value);
-    }
 
     ngOnChanges(changes: SimpleChanges): void {
         const valueChange = changes['value'];

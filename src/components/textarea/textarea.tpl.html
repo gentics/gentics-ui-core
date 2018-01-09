@@ -1,17 +1,18 @@
-<textarea class="materialize-textarea"
-          [attr.id]="id"
-          [attr.maxlength]="maxlength"
-          [attr.name]="name"
-          [attr.placeholder]="placeholder"
+<textarea
+    class="materialize-textarea"
+    [attr.id]="id"
+    [attr.maxlength]="maxlength"
+    [attr.name]="name"
+    [attr.placeholder]="placeholder"
 
-          [disabled]="disabled"
-          [readonly]="readonly"
-          [required]="required"
+    [disabled]="disabled"
+    [readonly]="readonly"
+    [required]="required"
 
-          (blur)="onBlur($event)"
-          (focus)="onFocus($event)"
-          (input)="onInput($event)"
+    (blur)="onBlur($event)"
+    (focus)="onFocus($event)"
+    (input)="onInput($event)"
 
-          #textarea
->{{ value }}</textarea>
+    #textarea
+></textarea>
 <label [attr.for]="id">{{ label }}</label>

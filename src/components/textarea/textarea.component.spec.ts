@@ -504,6 +504,23 @@ describe('Textarea', () => {
 
     });
 
+    it('does not throw an error in IE if the textarea value is changed from the outside',
+        componentTest(() => TestComponent,
+            `<gtx-textarea [value]="value"></gtx-textarea>`,
+            (fixture, instance) => {
+                instance.value = 'A';
+                fixture.detectChanges();
+
+                const nativeTextarea: HTMLTextAreaElement = fixture.nativeElement.querySelector('textarea');
+                nativeTextarea.value = 'B';
+
+                instance.value = 'C';
+                fixture.detectChanges();
+                tick();
+            }
+        )
+    );
+
 });
 
 
