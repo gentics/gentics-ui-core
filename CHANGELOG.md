@@ -1,5 +1,12 @@
 # Gentics UI Core Changelog
 
+### 6.0.3 (in progress)
+
+### Fixes
+
+* Fix display value not updated in DateTimePicker component when parent component uses "OnPush" change detection. GUIC-160
+
+
 ### 6.0.2 (2018-01-09)
 
 ### Fixes
