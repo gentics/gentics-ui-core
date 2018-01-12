@@ -5,7 +5,7 @@
 ### Fixes
 
 * Fix display value not updated in DateTimePicker component when parent component uses "OnPush" change detection. GUIC-160
-
+* Display datetimepicker correctly when used in modal windows (GUIC-161)
 
 ### 6.0.2 (2018-01-09)
 

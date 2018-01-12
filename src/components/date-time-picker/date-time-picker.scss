@@ -22,10 +22,6 @@ gtx-date-time-picker {
     display: flex;
     flex-direction: row;
 
-    gtx-input {
-        flex-basis: 100%;
-    }
-
     gtx-input.clearable input[type=text] {
         border-top-right-radius: 0px;
         border-bottom-right-radius: 0px;
