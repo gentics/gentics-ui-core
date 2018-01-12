@@ -1,4 +1,5 @@
-import {ChangeDetectorRef, Component, EventEmitter, forwardRef, Input, OnDestroy, OnInit, Optional, Output} from '@angular/core';
+import {ChangeDetectionStrategy, ChangeDetectorRef, Component, EventEmitter, forwardRef, Input, OnDestroy, OnInit,
+    Optional, Output} from '@angular/core';
 import {ControlValueAccessor, NG_VALUE_ACCESSOR} from '@angular/forms';
 import {Subscription} from 'rxjs/Subscription';
 
@@ -31,7 +32,8 @@ const GTX_DATEPICKER_VALUE_ACCESSOR = {
 @Component({
     selector: 'gtx-date-time-picker',
     templateUrl: './date-time-picker.tpl.html',
-    providers: [GTX_DATEPICKER_VALUE_ACCESSOR]
+    providers: [GTX_DATEPICKER_VALUE_ACCESSOR],
+    changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class DateTimePicker implements ControlValueAccessor, OnInit, OnDestroy {
     /** Sets the date picker to be auto-focused. Handled by `AutofocusDirective`. */
@@ -93,7 +95,7 @@ export class DateTimePicker implements ControlValueAccessor, OnInit, OnDestroy {
     _clearable: boolean = false;
     _selectYear: boolean = false;
     _disabled: boolean = false;
-    displayValue: string = ' ';
+    displayValue: string = '';
     /** @internal */
     private value: momentjs.Moment;
 
@@ -202,15 +204,21 @@ export class DateTimePicker implements ControlValueAccessor, OnInit, OnDestroy {
         } else {
             this.displayValue = this.formatProvider.format(this.value, this._displayTime, this._displaySeconds);
         }
+
+        this.changeDetector.markForCheck();
     }
 
     /** Clear input value of DateTimePicker and emit `emptyValue` as value. */
     clearDateTime(): void {
         this.displayValue = '';
         this.value = undefined;
+
         const emptyValue = this.emptyValue;
         this.clear.emit(emptyValue);
         this.onChange(emptyValue);
         this.change.emit(emptyValue);
+
+        this.changeDetector.markForCheck();
     }
+
 }

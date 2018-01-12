@@ -1,4 +1,4 @@
-import {Component, ComponentFactoryResolver, EventEmitter, Injectable,
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, ComponentFactoryResolver, EventEmitter, Injectable,
     Input, Output, ReflectiveInjector, Type, ViewChild} from '@angular/core';
 import {BrowserDynamicTestingModule} from '@angular/platform-browser-dynamic/testing';
 import {By} from '@angular/platform-browser';
@@ -36,15 +36,16 @@ describe('DateTimePicker:', () => {
         TestBed.configureTestingModule({
             imports: [FormsModule, ReactiveFormsModule],
             declarations: [
-                TestComponent,
+                Button,
                 DateTimePicker,
-                OverlayHost,
+                DateTimePickerModal,
+                DynamicModalWrapper,
                 Icon,
                 InputField,
-                DynamicModalWrapper,
-                DateTimePickerModal,
-                Button,
-                MockDateTimePickerControls
+                MockDateTimePickerControls,
+                OnPushTestComponent,
+                OverlayHost,
+                TestComponent
             ],
             providers: [
                 { provide: OverlayHostService, useFactory: (): any => overlayHostService },
@@ -451,6 +452,8 @@ describe('DateTimePicker:', () => {
                     expect(format.calls.mostRecent().args[0].unix()).toEqual(instance.testModel);
 
                     instance.testModel -= 10;
+                    // fixture.autoDetectChanges(true);
+                    // instance.changeDetector.markForCheck();
                     fixture.detectChanges();
                     tick();
                     fixture.detectChanges();
@@ -464,8 +467,7 @@ describe('DateTimePicker:', () => {
         it('updates the text in the input field when the format provider signals a change',
             componentTest(() => TestComponent, `
                 <gtx-date-time-picker timestamp="${TEST_TIMESTAMP}">
-                </gtx-date-time-picker>
-                <gtx-overlay-host></gtx-overlay-host>`,
+                </gtx-date-time-picker>`,
                 (fixture, instance) => {
                     // Change date format after 1 second
                     formatProvider.format = () => 'date in first format';
@@ -487,6 +489,44 @@ describe('DateTimePicker:', () => {
 
     });
 
+    fdescribe('with OnPush components', () => {
+
+        let mockModalClosed: (timestamp: number) => void;
+
+        beforeEach(() => {
+            modalService = {
+                fromComponent: jasmine.createSpy('fromComponent')
+                    .and.returnValue(Promise.resolve({
+                        open(): Promise<number> {
+                            return new Promise(resolve => {
+                                mockModalClosed = resolve;
+                            });
+                        }
+                    })
+                )
+            } as any;
+        });
+
+        it('updates the text when a date was picked',
+            componentTest(() => OnPushTestComponent, (fixture, instance) => {
+                    fixture.autoDetectChanges(true);
+                    tick();
+
+                    const nativeInput = fixture.nativeElement.querySelector('input') as HTMLInputElement;
+                    const firstValue = nativeInput.value;
+
+                    nativeInput.click();
+                    tick();
+
+                    expect(nativeInput.value).toBe('');
+                    mockModalClosed(1234567890123);
+                    tick();
+                    expect(nativeInput.value).not.toBe('');
+                }
+            )
+        );
+
+    });
 
 });
 
@@ -519,6 +559,13 @@ class TestComponent {
     onChange = jasmine.createSpy('onChange');
     onClear = jasmine.createSpy('onClear');
 }
+
+@Component({
+    template: `<gtx-date-time-picker></gtx-date-time-picker>`,
+    changeDetection: ChangeDetectionStrategy.OnPush
+})
+class OnPushTestComponent { }
+
 
 @Component({
     selector: `gtx-date-time-picker-controls`,
