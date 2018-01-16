@@ -1,13 +1,14 @@
 # Gentics UI Core Changelog
 
-### 6.0.3 (in progress)
+## 6.0.3 (2018-01-16)
 
 ### Fixes
 
-* Fix display value not updated in DateTimePicker component when parent component uses "OnPush" change detection. GUIC-160
-* Display datetimepicker correctly when used in modal windows (GUIC-161)
+* Fix DateTimePicker component in "OnPush" components (GUIC-160)
+* Fix DateTimePicker styling in modals for IE (GUIC-161)
 
-### 6.0.2 (2018-01-09)
+
+## 6.0.2 (2018-01-09)
 
 ### Fixes
 
