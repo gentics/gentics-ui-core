@@ -4,7 +4,7 @@ import {Component} from '@angular/core';
     templateUrl: './tabs-demo.tpl.html'
 })
 export class TabsDemo {
-    componentSource: string = require('!!raw-loader!../../../components/tabs/tabs.component');
+    componentSource: string = require('!!raw-loader!../../../components/tabs/tabs.component.ts');
     activeTab: string = 'tab1';
     wrap: boolean = false;
 }

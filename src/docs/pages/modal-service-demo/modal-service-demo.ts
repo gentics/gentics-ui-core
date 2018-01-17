@@ -6,7 +6,7 @@ import {IModalDialog, IModalOptions} from '../../../components/modal/modal-inter
     templateUrl: './modal-service-demo.tpl.html'
 })
 export class ModalServiceDemo {
-    componentSource: string = require('!!raw-loader!../../../components/modal/modal.service');
+    serviceSource: string = require('!!raw-loader!../../../components/modal/modal.service.ts');
     padding: boolean = true;
     width: string = '400px';
     closeOnOverlayClick: boolean = true;

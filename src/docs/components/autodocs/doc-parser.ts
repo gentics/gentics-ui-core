@@ -18,14 +18,14 @@ const SERVICE_RE = /[^\S\r\n]*\/(?:\*{2})([\W\w]+?)\*\/ *(?:\r\n?|\n) *(private|
 /* tslint:enable */
 
 
-export class DocBlock {
+export interface DocBlock {
     identifier: string;
     body: string;
     type: string;
-    defaultValue: string;
-    decorator: string;
-    accessModifier: 'public' | 'private';
-    methodArgs: string[];
+    defaultValue?: string;
+    decorator?: string;
+    accessModifier?: 'public' | 'private';
+    methodArgs?: string[];
 }
 
 export interface IDocumentation {
@@ -82,27 +82,21 @@ export function parseDocs(src: string, type: 'component' | 'service' = 'componen
  * 6: Default value
  */
 function parseComponentSource(src: string): DocBlock[] {
-    let blocks: DocBlock[] = [];
-    let matches: any;
+    const blocks: DocBlock[] = [];
+    const regex = new RegExp(COMPONENT_RE);
+    let matches: RegExpExecArray;
 
-    while (matches = COMPONENT_RE.exec(src)) {
-        let block = new DocBlock();
-        block.body = marked(stripStars(matches[1]));
-        block.decorator = matches[2];
+    while (matches = regex.exec(src)) {
+        const [, body, decorator, decoratorArgument, varName, blockType, defaultValue] = matches;
 
-        if (matches[3]) {
-            block.identifier = matches[3];
-        } else if (matches[4]) {
-            block.identifier = matches[4];
-        }
+        const block: DocBlock = {
+            body: marked(stripStars(body)),
+            decorator,
+            identifier: decoratorArgument || varName,
+            type: blockType,
+            defaultValue
+        };
 
-        if (matches[5]) {
-            block.type = matches[5];
-        }
-
-        if (matches[6]) {
-            block.defaultValue = matches[6];
-        }
         blocks.push(block);
     }
     return blocks;
@@ -122,27 +116,22 @@ function parseComponentSource(src: string): DocBlock[] {
  * 5: Type or Return Type
  */
 function parseServiceSource(src: string): DocBlock[] {
-    let blocks: DocBlock[] = [];
-    let matches: any;
+    const blocks: DocBlock[] = [];
+    const regex = new RegExp(SERVICE_RE);
+    let matches: RegExpExecArray;
 
-    while (matches = SERVICE_RE.exec(src)) {
-        let block = new DocBlock();
-        block.body = marked(stripStars(matches[1]));
-        block.identifier = matches[3];
+    while (matches = regex.exec(src)) {
+        const [, body, accessModifier, identifier, methodArgs, typeOrReturnType] = matches;
 
-        if (matches[2]) {
-            block.accessModifier = matches[2];
-        }
+        const block: DocBlock = {
+            body: marked(stripStars(matches[1])),
+            identifier,
+            accessModifier: accessModifier as 'public' | 'private',
+            methodArgs: methodArgs
+                && methodArgs.split(',').map(arg => arg.trim()).filter(arg => arg !== ''),
+            type: typeOrReturnType
+        };
 
-        if (matches[4] !== undefined) {
-            block.methodArgs = matches[4].split(',')
-                .map((s: string) => s.trim())
-                .filter((s: string) => s !== '');
-        }
-
-        if (matches[5]) {
-            block.type = matches[5];
-        }
         blocks.push(block);
     }
     return blocks;
