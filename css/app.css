@@ -9742,10 +9742,6 @@ gtx-date-time-picker {
   flex-direction: row;
 }
 
-gtx-date-time-picker gtx-input {
-  flex-basis: 100%;
-}
-
 gtx-date-time-picker gtx-input.clearable input[type=text] {
   border-top-right-radius: 0px;
   border-bottom-right-radius: 0px;
