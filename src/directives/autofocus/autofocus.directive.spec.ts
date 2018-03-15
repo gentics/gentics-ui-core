@@ -25,6 +25,7 @@ import {DropdownTriggerDirective} from '../../components/dropdown-list/dropdown-
 import {Icon} from '../../components/icon/icon.directive';
 import {DropdownContentWrapper} from '../../components/dropdown-list/dropdown-content-wrapper.component';
 import {ScrollMask} from '../../components/dropdown-list/scroll-mask.component';
+import {UserAgentRef} from '../../components/modal/user-agent-ref';
 
 
 describe('AutofocusDirective', () => {
@@ -56,7 +57,8 @@ describe('AutofocusDirective', () => {
             ],
             providers: [
                 ModalService,
-                OverlayHostService
+                OverlayHostService,
+                { provide: UserAgentRef, useClass: MockUserAgentRef }
             ]
         });
 
@@ -333,4 +335,8 @@ class TestModal implements IModalDialog {
     cancelFn: any;
     registerCloseFn(close: any): void { this.closeFn = close; }
     registerCancelFn(cancel: any): void { this.cancelFn = cancel; }
+}
+
+class MockUserAgentRef {
+    isIE11 = false;
 }

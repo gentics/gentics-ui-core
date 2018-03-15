@@ -48,6 +48,7 @@ import {Tab} from './components/tabs/tab.component';
 import {Textarea} from './components/textarea/textarea.component';
 import {Toast} from './components/notification/toast.component';
 import {TopBar} from './components/top-bar/top-bar.component';
+import {UserAgentRef} from './components/modal/user-agent-ref';
 
 export const UI_CORE_COMPONENTS: any[] = [
     AutofocusDirective,
@@ -115,7 +116,8 @@ export const UI_CORE_PROVIDERS: any[] = [
     ModalService,
     Notification,
     OverlayHostService,
-    PageFileDragHandler
+    PageFileDragHandler,
+    UserAgentRef
 ];
 
 export const declarations = [...UI_CORE_COMPONENTS, ...UI_CORE_PIPES];

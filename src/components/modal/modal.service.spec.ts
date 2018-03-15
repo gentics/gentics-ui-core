@@ -11,7 +11,7 @@ import {IDialogConfig, IModalDialog} from './modal-interfaces';
 import {DynamicModalWrapper} from './dynamic-modal-wrapper.component';
 import {ModalDialog} from './modal-dialog.component';
 import {Button} from '../button/button.component';
-
+import {UserAgentRef} from './user-agent-ref';
 
 let modalService: ModalService;
 
@@ -22,7 +22,8 @@ describe('ModalService:', () => {
             declarations: [OverlayHost, DynamicModalWrapper, ModalDialog, TestComponent, Button],
             providers: [
                 ModalService,
-                OverlayHostService
+                OverlayHostService,
+                { provide: UserAgentRef, useClass: MockUserAgentRef }
             ]
         });
         TestBed.overrideModule(BrowserDynamicTestingModule, {
@@ -621,3 +622,8 @@ function getElements(fixture: ComponentFixture<any>, selector: string): HTMLElem
     template: `<gtx-overlay-host></gtx-overlay-host>`
 })
 class TestComponent {}
+
+
+class MockUserAgentRef {
+    isIE11 = false;
+}

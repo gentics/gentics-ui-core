@@ -84,14 +84,17 @@ $easeOutCubic: cubic-bezier(0.215, 0.610, 0.355, 1.000);
         max-height: 70%;
         max-width: 96%;
 
+        & > * {
+            display: flex;
+            flex-direction: column;
+        }
+
         @media #{$small-and-down} {
             position: static;
             max-height: 96%;
             top: 0;
 
             & > * {
-                display: flex;
-                flex-direction: column;
                 max-height: 96vh;
             }
         }
@@ -99,6 +102,24 @@ $easeOutCubic: cubic-bezier(0.215, 0.610, 0.355, 1.000);
         @media #{$medium-and-up} {
             & > * {
                 max-height: 70vh;
+            }
+        }
+    }
+
+    // Flexbox css workaround for IE11: Use "height" instead of "max-height"
+    &.isIE11.visible {
+        height: 70%;
+
+        @media #{$small-and-down} {
+            height: 96%;
+            & > * {
+                height: 96vh;
+            }
+        }
+
+        @media #{$medium-and-up} {
+            & > * {
+                height: 70vh;
             }
         }
     }

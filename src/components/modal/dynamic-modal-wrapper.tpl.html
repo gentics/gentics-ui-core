@@ -2,6 +2,7 @@
      [class.visible]="visible"
      (click)="overlayClick()"></div>
 <div class="gtx-modal-dialog"
+     [class.isIE11]="isIE11"
      [class.visible]="visible"
      [style.width]="options.width"
      [class.nopad]="options.padding === false">

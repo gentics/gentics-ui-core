@@ -21,6 +21,7 @@ import {InputField} from '../input/input.component';
 import {DynamicModalWrapper} from '../modal/dynamic-modal-wrapper.component';
 import {Button} from '../button/button.component';
 import {Icon} from '../icon/icon.directive';
+import {UserAgentRef} from '../modal/user-agent-ref';
 
 const TEST_TIMESTAMP: number = 1457971763;
 
@@ -50,6 +51,7 @@ describe('DateTimePicker:', () => {
             providers: [
                 { provide: DateTimePickerFormatProvider, useFactory: (): any => formatProviderToUse },
                 { provide: ModalService, useClass: SpyModalService },
+                { provide: UserAgentRef, useClass: MockUserAgentRef },
                 { provide: OverlayHostService, useFactory: () => overlayHostService = new OverlayHostService() }
             ]
         });
@@ -540,6 +542,10 @@ class MockDateTimePickerControls {
     @Input() displaySeconds: boolean;
     @Input() compact: boolean;
     @Output() change = new EventEmitter<number>();
+}
+
+class MockUserAgentRef {
+    isIE11 = false;
 }
 
 @Injectable()

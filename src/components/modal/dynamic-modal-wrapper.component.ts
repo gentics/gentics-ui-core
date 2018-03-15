@@ -3,11 +3,15 @@ import {
     ComponentRef,
     ComponentFactoryResolver,
     HostListener,
+    OnDestroy,
+    OnInit,
     ViewContainerRef,
     ViewChild,
     Type
 } from '@angular/core';
+
 import {IModalOptions, IModalDialog} from './modal-interfaces';
+import {UserAgentRef} from './user-agent-ref';
 
 const defaultOptions: IModalOptions = {
     padding: true,
@@ -23,8 +27,11 @@ const defaultOptions: IModalOptions = {
     selector: 'gtx-dynamic-modal',
     templateUrl: './dynamic-modal-wrapper.tpl.html'
 })
-export class DynamicModalWrapper {
+export class DynamicModalWrapper implements OnInit, OnDestroy {
+
     @ViewChild('portal', {read: ViewContainerRef}) portal: ViewContainerRef;
+
+    isIE11: boolean;
 
     dismissFn: Function;
 
@@ -33,7 +40,13 @@ export class DynamicModalWrapper {
     private cmpRef: ComponentRef<IModalDialog>;
     private openTimer: number;
 
-    constructor(private componentFactoryResolver: ComponentFactoryResolver) {}
+    constructor(
+        private componentFactoryResolver: ComponentFactoryResolver,
+        private userAgent: UserAgentRef) {}
+
+    ngOnInit(): void {
+        this.isIE11 = this.userAgent.isIE11;
+    }
 
     ngOnDestroy(): void {
         clearTimeout(this.openTimer);
