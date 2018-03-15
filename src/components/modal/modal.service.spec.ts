@@ -27,8 +27,9 @@ describe('ModalService:', () => {
             ]
         });
         TestBed.overrideModule(BrowserDynamicTestingModule, {
-            set: {
-                entryComponents: [DynamicModalWrapper, ModalDialog]
+            add: {
+                declarations: [TestModalCmp, BadModalCmp, VeryLargeTestModal],
+                entryComponents: [DynamicModalWrapper, ModalDialog, TestModalCmp, BadModalCmp, VeryLargeTestModal]
             }
         });
     });
@@ -354,47 +355,7 @@ describe('ModalService:', () => {
 
     describe('fromComponent():', () => {
 
-        @Component({
-            selector: 'test-modal-cmp',
-            template: `<div>TestModalCmp</div>
-                <div>{{ localValue }}</div>
-                <button class="modal-button" (click)="localFn('bar')"></button>`
-        })
-        class TestModalCmp implements IModalDialog {
-            closeFn: (val: any) => void;
-            cancelFn: (val?: any) => void;
-            errorFn: (err: Error) => void;
-
-            localValue: string;
-            localFn: Function;
-
-            registerCloseFn(close: (val: any) => void): void {
-                this.closeFn = close;
-            }
-
-            registerCancelFn(cancel: (val: any) => void): void {
-                this.cancelFn = cancel;
-            }
-
-            registerErrorFn(error: (err: Error) => void): void {
-                this.errorFn = error;
-            }
-        }
-
-        @Component({
-            selector: 'bad-modal-cmp',
-            template: `<div>BadModalCmp</div>`
-        })
-        class BadModalCmp {}
-
         beforeEach(() => {
-            TestBed.overrideModule(BrowserDynamicTestingModule, {
-                add: {
-                    declarations: [TestModalCmp, BadModalCmp],
-                    entryComponents: [TestModalCmp, BadModalCmp]
-                }
-            });
-
             modalService = TestBed.get(ModalService);
         });
 
@@ -600,6 +561,39 @@ describe('ModalService:', () => {
                 expect(modalService.openModals.length).toBe(0);
             });
         }));
+
+    });
+
+    fdescribe('scrollable content panel', () => {
+
+        beforeEach(() => {
+            modalService = TestBed.get(ModalService);
+            addGlobalStyles();
+        });
+
+        afterEach(removeGlobalStyles);
+
+        it('is scrollable on small screen', componentTest(() => TestComponent, fixture => {
+            fixture.detectChanges();
+
+            return modalService.fromComponent(VeryLargeTestModal)
+                .then(modal => {
+                    modal.open();
+                    // tick(50);
+
+                    expect(modal.element).toBeDefined('no element');
+                    const modalContent = modal.element.querySelector('.modal-content');
+                    expect(modalContent).toBeDefined('no modal content');
+
+
+                    console.log('======= global styles: ', typeof modalStyles, modalStyles);
+
+
+                    expect(elementIsScrollable(modalContent)).toBe(true);
+                });
+
+        }));
+
     });
 });
 
@@ -618,10 +612,89 @@ function getElements(fixture: ComponentFixture<any>, selector: string): HTMLElem
     return fixture.debugElement.queryAll(By.css(selector)).map(de => de.nativeElement);
 }
 
+function elementIsScrollable(element: Element): boolean {
+    return typeof element.scrollHeight === 'number'
+        &&  typeof (element as HTMLElement).offsetHeight === 'number'
+        && element.scrollHeight > (element as HTMLElement).offsetHeight;
+}
+
+function addGlobalStyles(): void {
+    // Yes, really.
+    const allStyles = require('../../styles/core.scss');
+
+    const styleElement = document.createElement('style');
+    const sourceComment = `/*# sourceURL=../../styles/core.scss */`;
+    styleElement.textContent = allStyles + '\n' + sourceComment;
+    styleElement.setAttribute('data-test-styles', 'global-styles');
+    document.head.appendChild(styleElement);
+}
+
+function removeGlobalStyles(): void {
+    const globalStyleElement = document.querySelector('link[data-test-styles="global-tyles"]');
+    if (globalStyleElement) {
+        console.log('removing global style element');
+        globalStyleElement.parentElement.removeChild(globalStyleElement);
+    }
+}
+
+
 @Component({
     template: `<gtx-overlay-host></gtx-overlay-host>`
 })
 class TestComponent {}
+
+@Component({
+    selector: 'test-modal-cmp',
+    template: `<div>TestModalCmp</div>
+        <div>{{ localValue }}</div>
+        <button class="modal-button" (click)="localFn('bar')"></button>`
+})
+class TestModalCmp implements IModalDialog {
+    closeFn: (val: any) => void;
+    cancelFn: (val?: any) => void;
+    errorFn: (err: Error) => void;
+
+    localValue: string;
+    localFn: Function;
+
+    registerCloseFn(close: (val: any) => void): void {
+        this.closeFn = close;
+    }
+
+    registerCancelFn(cancel: (val: any) => void): void {
+        this.cancelFn = cancel;
+    }
+
+    registerErrorFn(error: (err: Error) => void): void {
+        this.errorFn = error;
+    }
+}
+
+@Component({
+    selector: 'bad-modal-cmp',
+    template: `<div>BadModalCmp</div>`
+})
+class BadModalCmp {}
+
+
+@Component({
+    selector: 'very-large-test-modal',
+    template: `
+        <div class="modal-title">Test</div>
+        <div class="modal-content">
+            <div class="large" style="height: 5000px"></div>
+        </div>
+        <div class="modal-footer">Footer</div>`
+})
+class VeryLargeTestModal implements IModalDialog {
+    closeFn: (val: any) => void;
+    cancelFn: (val?: any) => void;
+    errorFn: (err: Error) => void;
+
+    registerCloseFn(close: (val: any) => void): void { }
+    registerCancelFn(cancel: (val: any) => void): void { }
+    registerErrorFn(error: (err: Error) => void): void { }
+}
 
 
 class MockUserAgentRef {

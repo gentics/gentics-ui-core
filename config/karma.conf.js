@@ -46,7 +46,20 @@ module.exports = function (config) {
                         ]
                     },
                     { test: /\.html/, loader: 'html-loader' },
-                    { test: /\.json/, loader: 'json-loader' }
+                    { test: /\.json/, loader: 'json-loader' },
+                    {
+                        test: /\.scss$/,
+                        use: ['to-string-loader', 'css-loader', {
+                            loader: 'sass-loader',
+                            options: {
+
+                                includePaths: [
+                                    path.join(__dirname, 'node_modules'),
+                                    path.join(__dirname, 'src', 'styles')
+                                ]
+                            }
+                        }],
+                    }
                 ]
             },
             plugins: [
