@@ -53,14 +53,14 @@ interface IOpenToast {
  *
  * The `show()` method takes an `INotificationOptions` object as its argument:
  *
- * | Property           | Type                                | Default   | Description |
- * | --------           | ------------------------------      | -------   | ----------- |
- * | **message**        | `string`                            | ''        | The message to display |
- * | **type**           | `'default'`, `'error'`, `'success'` | 'default' | The style of toast |
- * | **delay**          | `number`                            | 3000      | ms before toast is dismissed. 0 == no dismiss |
- * | **dismissOnClick** | `boolean`                           | true      | If true, the toast can be dismissed by click or swipe |
- * | **action.label**   | `string`                            |           | Optional action label |
- * | **action.onClick** | `Function`                          |           | Callback if action label is clicked |
+ * | Property           | Type                                          | Default   | Description |
+ * | --------           | ------------------------------                | -------   | ----------- |
+ * | **message**        | `string`                                      | ''        | The message to display |
+ * | **type**           | `'default'`,`'error'`,`'success'`,`'warning'` | 'default' | The style of toast |
+ * | **delay**          | `number`                                      | 3000      | ms before toast is dismissed. 0 == no dismiss |
+ * | **dismissOnClick** | `boolean`                                     | true      | If true, the toast can be dismissed by click or swipe|
+ * | **action.label**   | `string`                                      |           | Optional action label |
+ * | **action.onClick** | `Function`                                    |           | Callback if action label is clicked |
  *
  */
 @Injectable()

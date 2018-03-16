@@ -75,5 +75,15 @@ gtx-toast {
             }
         }
 
+        &.warning {
+            background-color: $gtx-color-warning;
+            color: white;
+
+            > .action > button:hover {
+                background-color: white;
+                color: $gtx-color-warning;
+            }
+        }
+
     }
 }
