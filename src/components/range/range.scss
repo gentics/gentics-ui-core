@@ -64,5 +64,9 @@ gtx-range {
         &.active {
             transform: scale(1, 1) rotate(-45deg);
         }
+
+        &.hidden {
+            display: none;
+        }
     }
 }

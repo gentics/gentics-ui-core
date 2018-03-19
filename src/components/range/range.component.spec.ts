@@ -144,6 +144,28 @@ describe('Range:', () => {
         )
     );
 
+    it('displays the thumb element by default',
+        componentTest(() => TestComponent, fixture => {
+                fixture.detectChanges();
+                let thumbElement: HTMLInputElement = fixture.nativeElement.querySelector('.thumb');
+
+                expect(isHidden(thumbElement)).toBe(false);
+            }
+        )
+    );
+
+    it('hides the thumb element when thumbLabel == false',
+        componentTest(() => TestComponent, `
+            <gtx-range [thumbLabel]="false"></gtx-range>`,
+            fixture => {
+                fixture.detectChanges();
+                let thumbElement: HTMLInputElement = fixture.nativeElement.querySelector('.thumb');
+
+                expect(isHidden(thumbElement)).toBe(true);
+            }
+        )
+    );
+
     describe('ValueAccessor:', () => {
 
         it('can bind its value with ngModel (inbound)',
@@ -291,6 +313,9 @@ describe('Range:', () => {
     });
 });
 
+function isHidden(el: HTMLElement): boolean {
+    return el.classList.contains('hidden');
+}
 
 /** Firefox has issues with document.createEvent('FocusEvent'). */
 function createFocusEvent(type: 'focus' | 'blur'): FocusEvent {

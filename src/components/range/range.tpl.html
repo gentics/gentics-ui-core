@@ -20,6 +20,7 @@
            #input
     >
     <span class="thumb"
+          [class.hidden]="!thumbLabel"
           [class.active]="active"
           [style.left]="thumbLeft">
         <span class="value">{{ currentValue }}</span>
