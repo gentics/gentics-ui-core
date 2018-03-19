@@ -1,6 +1,6 @@
 {
   "name": "gentics-ui-core",
-  "version": "6.0.3",
+  "version": "6.1.0",
   "description": "Gentics UI Core Framework",
   "main": "dist/index.js",
   "module": "dist/index.js",

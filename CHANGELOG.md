@@ -1,5 +1,14 @@
 # Gentics UI Core Changelog
 
+## 6.1.0 (2018-03-19)
+
+### Features
+* Add "warning" toast type to Notification service
+* Add "thumbLabel" option to Range input
+
+### Fixes
+* Fix modal scrolling on small screens (GUIC-93)
+
 ## 6.0.3 (2018-01-16)
 
 ### Fixes
