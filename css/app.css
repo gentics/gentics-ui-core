@@ -10312,6 +10312,14 @@ gtx-dynamic-modal {
   max-width: 96%;
 }
 
+.gtx-modal-dialog.visible > * {
+  display: -webkit-box;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+  flex-direction: column;
+}
+
 @media only screen and (max-width: 600px) {
   .gtx-modal-dialog.visible {
     position: static;
@@ -10319,11 +10327,6 @@ gtx-dynamic-modal {
     top: 0;
   }
   .gtx-modal-dialog.visible > * {
-    display: -webkit-box;
-    display: flex;
-    -webkit-box-orient: vertical;
-    -webkit-box-direction: normal;
-    flex-direction: column;
     max-height: 96vh;
   }
 }
@@ -10331,6 +10334,25 @@ gtx-dynamic-modal {
 @media only screen and (min-width: 601px) {
   .gtx-modal-dialog.visible > * {
     max-height: 70vh;
+  }
+}
+
+.gtx-modal-dialog.isIE11.visible {
+  height: 70%;
+}
+
+@media only screen and (max-width: 600px) {
+  .gtx-modal-dialog.isIE11.visible {
+    height: 96%;
+  }
+  .gtx-modal-dialog.isIE11.visible > * {
+    height: 96vh;
+  }
+}
+
+@media only screen and (min-width: 601px) {
+  .gtx-modal-dialog.isIE11.visible > * {
+    height: 70vh;
   }
 }
 
@@ -10492,6 +10514,16 @@ gtx-toast > .gtx-toast.error > .action > button:hover {
   color: #c9302c;
 }
 
+gtx-toast > .gtx-toast.warning {
+  background-color: #ec971f;
+  color: white;
+}
+
+gtx-toast > .gtx-toast.warning > .action > button:hover {
+  background-color: white;
+  color: #ec971f;
+}
+
 gtx-progress-bar {
   position: absolute;
   top: 0;
@@ -10593,6 +10625,10 @@ gtx-range input[type=range] + .thumb {
 gtx-range input[type=range] + .thumb.active {
   -webkit-transform: scale(1, 1) rotate(-45deg);
   transform: scale(1, 1) rotate(-45deg);
+}
+
+gtx-range input[type=range] + .thumb.hidden {
+  display: none;
 }
 
 gtx-search-bar {
