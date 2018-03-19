@@ -1,16 +1,6 @@
-import {
-    ChangeDetectorRef,
-    Component,
-    ElementRef,
-    EventEmitter,
-    forwardRef,
-    Input,
-    Output,
-    Renderer,
-    SimpleChange,
-    ViewChild
-} from '@angular/core';
+import {ChangeDetectorRef, Component, ElementRef, EventEmitter, forwardRef, Input, Output, ViewChild} from '@angular/core';
 import {ControlValueAccessor, NG_VALUE_ACCESSOR} from '@angular/forms';
+import {coerceToBoolean} from '../../common/coerce-to-boolean';
 
 const GTX_RANGE_VALUE_ACCESSOR = {
     provide: NG_VALUE_ACCESSOR,
@@ -82,6 +72,17 @@ export class Range implements ControlValueAccessor {
     @Input() id: string;
 
     /**
+     * Set to false to not show the thumb label. Defaults to true.
+     */
+    @Input()
+    get thumbLabel(): boolean {
+        return this.showThumbLabel;
+    }
+    set thumbLabel(value: boolean) {
+        this.showThumbLabel = coerceToBoolean(value);
+    }
+
+    /**
      * Blur event
      */
     @Output() blur = new EventEmitter<number>();
@@ -96,9 +97,11 @@ export class Range implements ControlValueAccessor {
      */
     @Output() change = new EventEmitter<number>();
 
+
     active: boolean = false;
     thumbLeft: string = '';
     currentValue: number;
+    private showThumbLabel: boolean = true;
 
 
     @ViewChild('input') private inputElement: ElementRef;
@@ -112,8 +115,7 @@ export class Range implements ControlValueAccessor {
     onTouched = (): void => { };
 
     constructor(private elementRef: ElementRef,
-                private changeDetector: ChangeDetectorRef,
-                private renderer: Renderer) {}
+                private changeDetector: ChangeDetectorRef) {}
 
     ngOnInit(): void {
         this.writeValue(this.value);
@@ -177,7 +179,8 @@ export class Range implements ControlValueAccessor {
 
     writeValue(value: any): void {
         if (value !== this.currentValue) {
-            this.renderer.setElementProperty(this.inputElement.nativeElement, 'value', this.currentValue = value);
+            this.currentValue = value;
+            this.inputElement.nativeElement.value = this.currentValue;
         }
     }
 
