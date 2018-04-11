@@ -1,5 +1,11 @@
 # Gentics UI Core Changelog
 
+## 6.1.1 (2018-04-11)
+
+### Fixes
+
+* Fix runtime error in DropdownList when opening with empty content
+
 ## 6.1.0 (2018-03-19)
 
 ### Features

@@ -50,6 +50,9 @@ export class DropdownContentWrapper {
      */
     setPositionAndSize(initialOpening: boolean = false): void {
         const content = this.getDropdownContent();
+        if (!content) {
+            return;
+        }
         if (initialOpening) {
             // When opening for the first time, some extra logic is required
             this.contentStyles.height = 0;
@@ -123,7 +126,7 @@ export class DropdownContentWrapper {
             maxHeight: DROPDOWN_MAX_HEIGHT + 'px'
         };
         const content = this.getDropdownContent();
-        const fullHeightContent = content.querySelector('.scroller') as HTMLElement;
+        const fullHeightContent = content && content.querySelector('.scroller') as HTMLElement;
         const contentHeight = this.innerHeight(fullHeightContent) + PAGE_MARGIN;
 
         // Offscreen detection
