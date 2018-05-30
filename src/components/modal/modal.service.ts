@@ -14,6 +14,7 @@ import {IModalInstance, IDialogConfig, IModalDialog, IModalOptions} from './moda
 
 /**
  * A promise-based service for creating modal windows and dialogs.
+ * Depends on the [`<gtx-overlay-host>`](#/overlay-host) being present in the app.
  *
  * ##### Return Values
  * All the public methods return the `IModalInstance` object:

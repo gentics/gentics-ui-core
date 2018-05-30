@@ -19,7 +19,10 @@ const GTX_DATEPICKER_VALUE_ACCESSOR = {
 };
 
 /**
- * A form control for selecting a date and (optionally) a time. Depends on [ModalService](#/modal-service).
+ * A form control for selecting a date and (optionally) a time.
+ *
+ * Depends on [ModalService](#/modal-service), which in turn
+ * requires that the [`<gtx-overlay-host>`](#/overlay-host) is present in the app.
  *
  * ```html
  * <gtx-date-time-picker [(ngModel)]="dateOfBirth"

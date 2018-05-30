@@ -36,7 +36,7 @@ export type SelectedSelectOption = [number, number];
 
 /**
  * A Select form control which works with any kind of value - as opposed to the native HTML `<select>` which only works
- * with strings.
+ * with strings. The Select control depends on the [`<gtx-overlay-host>`](#/overlay-host) being present in the app.
  *
  * ```html
  * <gtx-select label="Choose an option" [(ngModel)]="selectVal">
