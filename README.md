@@ -35,6 +35,38 @@ export class AppModule { }
 <gtx-overlay-host></gtx-overlay-host>
 ```
 
+4. If you are using RxJS 6.x, install rxjs-compat:
+
+```
+npm install rxjs-compat --save
+```
+
+## Using ui-core in an [angular-cli](https://cli.angular.io/) project
+
+1. Create a new app using angular-cli (this guide assumes is intended for angular-cli version 6.x). The following command will create a new app with the name `my-example` in the folder `./my-example`, use `me` as the prefix for components, set up a routing module, and use SCSS for defining styles. Please note that while a custom prefix and the routing module are optional, SCSS must be used for the styles in order for Gentics UI Core to be used.
+
+```
+ng new my-example --prefix me --routing --style scss
+```
+
+2. Uncomment (and if necessary, install) the polyfills required for your target browsers in `polyfills.ts`.
+
+3. Follow the steps from [Using ui-core in a project](#using-ui-core-in-a-project).
+
+4. Add the following imports to your global styles SCSS:
+
+```SCSS
+// styles/main.scss
+$icons-font-path: '../../node_modules/gentics-ui-core/dist/fonts/';
+$roboto-font-path: '../../node_modules/gentics-ui-core/dist/fonts/';
+@import "gentics-ui-core/dist/styles/variables";
+@import "gentics-ui-core/dist/styles/mixins";
+@import "gentics-ui-core/dist/styles/core";
+
+// ...
+```
+
+
 ## Documentation
 
 Full documentation and examples are available at [https://gentics.github.io/gentics-ui-core/](https://gentics.github.io/gentics-ui-core/)
