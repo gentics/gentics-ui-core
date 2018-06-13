@@ -36,7 +36,7 @@ interface IOpenToast {
 }
 
 /**
- * A toast notification service. Depends on the `<gtx-overlay-host>` being present in the app.
+ * A toast notification service. Depends on the [`<gtx-overlay-host>`](#/overlay-host) being present in the app.
  *
  * ```typescript
  * let dismiss = this.notification.show({

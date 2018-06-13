@@ -27,7 +27,7 @@ export type DropdownAlignment = 'left' | 'right';
 export type DropdownWidth = 'contents' | 'trigger' | 'expand' | number;
 
 /**
- * A Dropdown component.
+ * A Dropdown component. Depends on the [`<gtx-overlay-host>`](#/overlay-host) being present in the app.
  *
  * The component expects two child elements:
  *

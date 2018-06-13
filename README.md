@@ -9,7 +9,7 @@ This is the common core framework for the Gentics CMS and Mesh UI, and other Ang
 npm install gentics-ui-core --save
 ```
 
-2. Import the module and add it to your apps root module:
+2. Import the module and add it to your app's root module:
 
 ```TypeScript
 // app.module.ts
@@ -27,6 +27,80 @@ import { GenticsUICoreModule } from 'gentics-ui-core';
 export class AppModule { }
 ```
 
+3. Add the [`<gtx-overlay-host>`](https://gentics.github.io/gentics-ui-core/#/overlay-host) component to your AppComponent's template if you want to use components that have overlay parts:
+
+```HTML
+<!-- app.component.html -->
+<!-- ... -->
+<gtx-overlay-host></gtx-overlay-host>
+```
+
+4. If you are using RxJS 6.x, install rxjs-compat:
+
+```
+npm install rxjs-compat --save
+```
+
+## View Encapsulation
+
+Do not use any ViewEncapsulation other than `ViewEncapsulation.None` (which is the default), because some UI Core components use the CSS `/deep/` selector.
+
+## Lazy Loading of Routes
+
+If you are using [lazy loading of routes](https://angular.io/guide/lazy-loading-ngmodules),  the singleton services need to be provided again in the lazily loaded module, because otherwise they will not be found. For example:
+
+```TypeScript
+// my-lazily-loaded.module.ts
+// ...
+@NgModule({
+    // ...
+    providers: [
+        ModalService,
+        OverlayHostService
+        // ...
+    ]
+})
+export class MyLazilyLoadedModule {
+    // ...
+}
+```
+
+## Using ui-core in an [angular-cli](https://cli.angular.io/) project
+
+1. Create a new app using angular-cli (this guide assumes angular-cli version 6.x). The following command will create a new app with the name `my-example` in the folder `./my-example`, use `me` as the prefix for components, set up a routing module, and use SCSS for defining styles. Please note that while a custom prefix and the routing module are optional, SCSS must be used for the styles in order to be compatible with Gentics UI Core.
+
+```
+ng new my-example --prefix me --routing --style scss
+```
+
+2. Uncomment (and if necessary, install) the polyfills required for your target browsers in `polyfills.ts` and add the following assignment in that file:
+
+```TypeScript
+/***************************************************************************************************
+ * APPLICATION IMPORTS
+ */
+// This is necessary, because GUIC uses the Intl library, which requires a global object (like in Node.js).
+(window as any).global = window;
+```
+
+3. Follow the steps from [Using ui-core in a project](#using-ui-core-in-a-project).
+
+4. Add the following imports to your global styles SCSS:
+
+```SCSS
+// styles/main.scss
+$icons-font-path: '~gentics-ui-core/dist/fonts/';
+$roboto-font-path: '~gentics-ui-core/dist/fonts/';
+
+@import "~gentics-ui-core/dist/styles/variables";
+@import "~gentics-ui-core/dist/styles/mixins";
+@import "~gentics-ui-core/dist/styles/core";
+
+// ...
+```
+
+You can see the [_variables.scss](src/styles/_variables.scss) file for a list of variables, which you can override before importing the variables file.
+
 ## Documentation
 
 Full documentation and examples are available at [https://gentics.github.io/gentics-ui-core/](https://gentics.github.io/gentics-ui-core/)
@@ -43,7 +117,7 @@ as well as a way to manually test each of the core components.
 
 ## Releasing
 
-1. `npm shrinkwrap`
+1. Bump the version in `package.json` to the desired value
 2. `git commit -am 'vX.Y.Z'`
 3. `git tag vX.Y.Z`
 4. `git reset --hard HEAD^`
