@@ -181,15 +181,20 @@ export class Textarea implements ControlValueAccessor, OnChanges {
         const nativeElement: HTMLTextAreaElement = this.nativeTextarea.nativeElement;
         this.renderer.setElementStyle(nativeElement, 'height', newHeight);
 
-        // When text overflows the textarea, it wraps to the next line. When that happens,
-        // we calculate the amount of extra lines needed and set a suitable height.
-        const { offsetHeight, scrollHeight } = nativeElement;
-        if (scrollHeight > offsetHeight) {
-            // Calculate preferred height as "lines x 1.5em", set height css in em.
-            const emHeight = offsetHeight / (1 + lines * 1.5);
-            const newLineCount = Math.round((scrollHeight / emHeight - 1) / 1.5);
-            const newHeight = (1 + newLineCount * 1.5) + 'em';
-            this.renderer.setElementStyle(nativeElement, 'height', newHeight);
-        }
+        // Perform the check delayed, as angular has to perform the dom-change and the rendering has
+        // to happen before accessing it again. Otherwise the scollHeight is going to be completly
+        // off, resulting in unexpected and unreasonable height calculations.
+        setTimeout(() => {
+            // When text overflows the textarea, it wraps to the next line. When that happens,
+            // we calculate the amount of extra lines needed and set a suitable height.
+            const { offsetHeight, scrollHeight } = nativeElement;
+            if (scrollHeight > offsetHeight) {
+                // Calculate preferred height as "lines x 1.5em", set height css in em.
+                const emHeight = offsetHeight / (1 + lines * 1.5);
+                const newLineCount = Math.round((scrollHeight / emHeight - 1) / 1.5);
+                const newHeight = (1 + newLineCount * 1.5) + 'em';
+                this.renderer.setElementStyle(nativeElement, 'height', newHeight);
+            }
+        });
     }
 }
