@@ -195,6 +195,6 @@ export class Textarea implements ControlValueAccessor, OnChanges {
                 const newHeight = (1 + newLineCount * 1.5) + 'em';
                 this.renderer.setElementStyle(nativeElement, 'height', newHeight);
             }
-        }, 1);
+        });
     }
 }
