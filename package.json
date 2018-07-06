@@ -1,6 +1,6 @@
 {
   "name": "gentics-ui-core",
-  "version": "6.1.1",
+  "version": "6.1.2",
   "description": "Gentics UI Core Framework",
   "main": "dist/index.js",
   "module": "dist/index.js",
@@ -30,7 +30,7 @@
     {
       "name": "Michael Bromley",
       "email": "m.bromley@gentics.com",
-      "url": "https://github.com/michaelbromley"
+    "url": "https://github.com/michaelbromley"
     }
   ],
   "license": "Apache-2.0",

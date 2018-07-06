@@ -1,5 +1,11 @@
 # Gentics UI Core Changelog
 
+## 6.1.2 (not yet released)
+
+### Fixes
+
+* Fix occasional incorrect height calculation of Textarea (GUIC-152).
+
 ## 6.1.1 (2018-04-11)
 
 ### Fixes
