@@ -515,25 +515,6 @@ describe('Textarea', () => {
             )
         );
 
-        fit('does calculate the height of the textarea correctly',
-            componentTest(() => TestComponent, `
-                <div style="width: 100px">
-                    <gtx-textarea [value]="value"></gtx-textarea>
-                </div>`,
-                (fixture, instance) => {
-                    instance.value = 'An\nreally\n\n\n\nhorribly\nformatted and weirdly phrased text with questionable content to test the formatting of\n\n\n\n\nthe\nvalue\n\nwhich\n\ncauses\nissues sometimes';
-                    fixture.detectChanges();
-                    tick(1000);
-
-                    const textarea: HTMLTextAreaElement = fixture.nativeElement.querySelector('textarea');
-                    const height = textarea.offsetHeight;
-
-                    // Should be 379 for Chrome. TODO: Check other browsers if that is diffrerent
-                    expect(height).toEqual(760);
-                }
-            )
-        );
-
         it('does not throw an error in IE if the textarea value is changed from the outside',
             componentTest(() => TestComponent,
                 `<gtx-textarea [value]="value"></gtx-textarea>`,
