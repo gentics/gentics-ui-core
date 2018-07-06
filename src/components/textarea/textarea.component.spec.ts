@@ -90,6 +90,7 @@ describe('Textarea', () => {
             fixture => {
                 let nativeTextarea: HTMLTextAreaElement = fixture.nativeElement.querySelector('textarea');
                 fixture.detectChanges();
+                tick(1000);
 
                 expect(nativeTextarea.disabled).toBe(true);
                 expect(nativeTextarea.maxLength).toBe(25);
@@ -146,6 +147,7 @@ describe('Textarea', () => {
                 let textareaDebugElement = fixture.debugElement.query(By.css('textarea'));
                 let instance: TestComponent = fixture.componentInstance;
                 fixture.detectChanges();
+                tick(1000);
                 instance.onBlur = jasmine.createSpy('onBlur');
 
                 textareaDebugElement.nativeElement.value = 'bar';
@@ -166,6 +168,7 @@ describe('Textarea', () => {
                 let textareaDebugElement = fixture.debugElement.query(By.css('textarea'));
                 let instance: TestComponent = fixture.componentInstance;
                 fixture.detectChanges();
+                tick(1000);
                 instance.onFocus = jasmine.createSpy('onFocus');
 
                 textareaDebugElement.nativeElement.value = 'bar';
@@ -186,10 +189,11 @@ describe('Textarea', () => {
                 let nativeTextarea: HTMLTextAreaElement = fixture.nativeElement.querySelector('textarea');
                 let instance: TestComponent = fixture.componentInstance;
                 fixture.detectChanges();
+                tick(1000);
                 instance.onChange = jasmine.createSpy('onChange');
 
                 triggerEvent(nativeTextarea, 'input');
-                tick();
+                tick(1000);
 
                 expect(instance.onChange).toHaveBeenCalledWith('foo');
             }
@@ -204,6 +208,7 @@ describe('Textarea', () => {
                 let textareaDebugElement = fixture.debugElement.query(By.css('textarea'));
                 let instance: TestComponent = fixture.componentInstance;
                 fixture.detectChanges();
+                tick(1000);
                 instance.onChange = jasmine.createSpy('onChange');
 
                 triggerEvent(textareaDebugElement.nativeElement, 'blur');
@@ -221,7 +226,7 @@ describe('Textarea', () => {
                 <gtx-textarea [(ngModel)]="value"></gtx-textarea>`,
                 fixture => {
                     fixture.detectChanges();
-                    tick();
+                    tick(1000);
                     fixture.detectChanges();
                     let nativeTextarea: HTMLTextAreaElement = fixture.nativeElement.querySelector('textarea');
                     expect(nativeTextarea.value).toBe('testValue');
@@ -239,7 +244,7 @@ describe('Textarea', () => {
 
                     nativeTextarea.value = 'bar';
                     triggerEvent(nativeTextarea, 'input');
-                    tick();
+                    tick(1000);
 
                     expect(instance.value).toBe('bar');
                 }
@@ -253,7 +258,7 @@ describe('Textarea', () => {
                 </form>`,
                 fixture => {
                     fixture.detectChanges();
-                    tick();
+                    tick(1000);
                     let nativeTextarea: HTMLTextAreaElement = fixture.nativeElement.querySelector('textarea');
                     expect(nativeTextarea.value).toBe('controlValue');
                 }
@@ -272,7 +277,7 @@ describe('Textarea', () => {
 
                     nativeTextarea.value = 'bar';
                     triggerEvent(nativeTextarea, 'input');
-                    tick();
+                    tick(1000);
 
                     expect(instance.testForm.controls['test'].value).toBe('bar');
                 }
@@ -286,20 +291,20 @@ describe('Textarea', () => {
                     instance.value = 'first';
                     const nativeTextarea: HTMLTextAreaElement = fixture.nativeElement.querySelector('textarea');
                     fixture.detectChanges();
-                    tick();
+                    tick(1000);
                     fixture.detectChanges();
 
                     expect(nativeTextarea.value).toBe('first');
 
                     instance.value = 'second';
                     fixture.detectChanges();
-                    tick();
+                    tick(1000);
                     fixture.detectChanges();
                     expect(nativeTextarea.value).toBe('second');
 
                     instance.value = 'third';
                     fixture.detectChanges();
-                    tick();
+                    tick(1000);
                     fixture.detectChanges();
                     expect(nativeTextarea.value).toBe('third');
                 }
@@ -313,17 +318,18 @@ describe('Textarea', () => {
                     instance.value = 'first';
                     const nativeTextarea: HTMLTextAreaElement = fixture.nativeElement.querySelector('textarea');
                     fixture.detectChanges();
+                    tick(1000);
 
                     expect(instance.value).toBe('first');
 
                     nativeTextarea.value = 'second';
                     triggerEvent(nativeTextarea, 'input');
-                    tick();
+                    tick(1000);
                     expect(instance.value).toBe('second');
 
                     nativeTextarea.value = 'third';
                     triggerEvent(nativeTextarea, 'input');
-                    tick();
+                    tick(1000);
                     expect(instance.value).toBe('third');
                 }
             )
@@ -337,7 +343,7 @@ describe('Textarea', () => {
 
                     instance.value = 'foo';
                     fixture.detectChanges();
-                    tick();
+                    tick(1000);
                     fixture.detectChanges();
                     expect(nativeTextarea.value).toBe('foo');
 
@@ -349,7 +355,7 @@ describe('Textarea', () => {
                     nativeTextarea.setSelectionRange(2, 2);
                     triggerEvent(nativeTextarea, 'input');
                     fixture.detectChanges();
-                    tick();
+                    tick(1000);
 
                     // Cursor should still be at fx|oo
                     expect(nativeTextarea.value).toBe('fxoo');
@@ -366,6 +372,7 @@ describe('Textarea', () => {
                 </form>`,
                 (fixture, instance) => {
                     fixture.detectChanges();
+                    tick(1000);
 
                     expect(instance.testForm.get('test').touched).toBe(false);
                     expect(instance.testForm.get('test').untouched).toBe(true);
@@ -391,6 +398,7 @@ describe('Textarea', () => {
                 </form>`,
                 (fixture, instance) => {
                     fixture.detectChanges();
+                    tick(1000);
 
                     expect(instance.testForm.get('test').dirty).toBe(false);
                     expect(instance.testForm.get('test').pristine).toBe(true);
@@ -398,6 +406,7 @@ describe('Textarea', () => {
                     const debugTextarea = fixture.debugElement.query(By.css('textarea'));
                     (debugTextarea.nativeElement as HTMLTextAreaElement).value = 'some different value';
                     triggerEvent(debugTextarea.nativeElement, 'input');
+                    tick(1000);
 
                     expect(instance.testForm.get('test').dirty).toBe(true);
                     expect(instance.testForm.get('test').pristine).toBe(false);
@@ -412,6 +421,7 @@ describe('Textarea', () => {
                 </form>`,
                 (fixture, instance) => {
                     fixture.detectChanges();
+                    tick(1000);
 
                     const textarea: HTMLTextAreaElement = fixture.nativeElement.querySelector('textarea');
                     expect(textarea.disabled).toBe(false);
@@ -435,19 +445,20 @@ describe('Textarea', () => {
                 (fixture, instance) => {
                     instance.value = 'single line';
                     fixture.detectChanges();
+                    tick(1000);
 
                     const textarea: HTMLTextAreaElement = fixture.nativeElement.querySelector('textarea');
                     const firstHeight = textarea.offsetHeight;
 
                     instance.value = 'two\nlines';
                     fixture.detectChanges();
-                    tick();
+                    tick(1000);
                     const secondHeight = textarea.offsetHeight;
                     expect(secondHeight).toBeGreaterThan(firstHeight, 'two lines should be larger than one line');
 
                     instance.value = 'three\nlines\ntext';
                     fixture.detectChanges();
-                    tick();
+                    tick(1000);
                     const thirdHeight = textarea.offsetHeight;
                     expect(thirdHeight).toBeGreaterThan(secondHeight, 'three lines should be larger than two lines');
                 }
@@ -462,13 +473,14 @@ describe('Textarea', () => {
                 (fixture, instance) => {
                     instance.value = 'two\nlines';
                     fixture.detectChanges();
+                    tick(1000);
 
                     const textarea: HTMLTextAreaElement = fixture.nativeElement.querySelector('textarea');
                     const firstHeight = textarea.offsetHeight;
 
                     instance.value = 'single line';
                     fixture.detectChanges();
-                    tick();
+                    tick(1000);
                     const secondHeight = textarea.offsetHeight;
                     expect(secondHeight).toBeLessThan(firstHeight, 'one line should be smaller than two lines');
                 }
@@ -483,43 +495,63 @@ describe('Textarea', () => {
                 (fixture, instance) => {
                     instance.value = 'short text';
                     fixture.detectChanges();
+                    tick(1000);
 
                     const textarea: HTMLTextAreaElement = fixture.nativeElement.querySelector('textarea');
                     const firstHeight = textarea.offsetHeight;
 
                     instance.value = 'very long single-line text which should wrap to a second line, increasing the textarea height';
                     fixture.detectChanges();
-                    tick();
+                    tick(1000);
                     const secondHeight = textarea.offsetHeight;
                     expect(secondHeight).toBeGreaterThan(firstHeight);
 
                     instance.value = 'short again';
                     fixture.detectChanges();
-                    tick();
+                    tick(1000);
                     const thirdHeight = textarea.offsetHeight;
                     expect(thirdHeight).toBeLessThan(secondHeight, 'does not change height when text no longer wraps');
                 }
             )
         );
 
+        fit('does calculate the height of the textarea correctly',
+            componentTest(() => TestComponent, `
+                <div style="width: 100px">
+                    <gtx-textarea [value]="value"></gtx-textarea>
+                </div>`,
+                (fixture, instance) => {
+                    instance.value = 'An\nreally\n\n\n\nhorribly\nformatted and weirdly phrased text with questionable content to test the formatting of\n\n\n\n\nthe\nvalue\n\nwhich\n\ncauses\nissues sometimes';
+                    fixture.detectChanges();
+                    tick(1000);
+
+                    const textarea: HTMLTextAreaElement = fixture.nativeElement.querySelector('textarea');
+                    const height = textarea.offsetHeight;
+
+                    // Should be 379 for Chrome. TODO: Check other browsers if that is diffrerent
+                    expect(height).toEqual(760);
+                }
+            )
+        );
+
+        it('does not throw an error in IE if the textarea value is changed from the outside',
+            componentTest(() => TestComponent,
+                `<gtx-textarea [value]="value"></gtx-textarea>`,
+                (fixture, instance) => {
+                    instance.value = 'A';
+                    fixture.detectChanges();
+                    tick(1000);
+
+                    const nativeTextarea: HTMLTextAreaElement = fixture.nativeElement.querySelector('textarea');
+                    nativeTextarea.value = 'B';
+
+                    instance.value = 'C';
+                    fixture.detectChanges();
+                    tick(1000);
+                }
+            )
+        );
     });
-
-    it('does not throw an error in IE if the textarea value is changed from the outside',
-        componentTest(() => TestComponent,
-            `<gtx-textarea [value]="value"></gtx-textarea>`,
-            (fixture, instance) => {
-                instance.value = 'A';
-                fixture.detectChanges();
-
-                const nativeTextarea: HTMLTextAreaElement = fixture.nativeElement.querySelector('textarea');
-                nativeTextarea.value = 'B';
-
-                instance.value = 'C';
-                fixture.detectChanges();
-                tick();
-            }
-        )
-    );
 
 });
 
