@@ -1,6 +1,5 @@
 import {ChangeDetectorRef, Component, EventEmitter, Input, OnInit, OnDestroy, Optional, Output, Self} from '@angular/core';
-import {Observable} from 'rxjs/Observable';
-import {Subscription} from 'rxjs/Subscription';
+import {Observable, Subscription, merge} from 'rxjs';
 import 'rxjs/add/observable/merge';
 
 import {FileDropArea, IFileDropAreaOptions} from '../file-drop-area/file-drop-area.directive';
@@ -130,7 +129,7 @@ export class FilePicker implements OnInit, OnDestroy {
         if (this.dropArea) {
             this.setDropAreaOptions();
             this._subscriptions = [
-                Observable.merge(
+                merge(
                     this.dropArea.pageDragEnter,
                     this.dropArea.pageDragLeave,
                     this.dropArea.fileDragEnter,
