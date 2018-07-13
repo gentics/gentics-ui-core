@@ -1,7 +1,6 @@
 import { AfterViewInit, Component, ElementRef, EventEmitter, Input, Output } from '@angular/core';
 import { OnChanges, QueryList, SimpleChanges, ViewChildren } from '@angular/core';
 import { RouterLinkWithHref } from '@angular/router';
-import { Observable } from 'rxjs/Observable';
 
 export interface IBreadcrumbLink {
     href?: string;

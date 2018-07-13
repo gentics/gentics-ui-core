@@ -1,10 +1,6 @@
 import {Component, ElementRef, EventEmitter, HostBinding, Input, OnDestroy, Output, SimpleChanges, ViewChild} from '@angular/core';
-import {Observable} from 'rxjs/Observable';
-import {Subscription} from 'rxjs/Subscription';
-import 'rxjs/add/operator/concat';
-import 'rxjs/add/observable/of';
-import 'rxjs/add/observable/never';
-
+import {Subscription, of, concat, never} from 'rxjs';
+import{concatMap} from 'rxjs/operators'
 import {DateTimePickerStrings} from './date-time-picker-strings';
 import {defaultStrings} from './date-time-picker-default-strings';
 import {DateTimePickerFormatProvider} from './date-time-picker-format-provider.service';
@@ -138,8 +134,9 @@ export class DateTimePickerControls implements OnDestroy {
         this.value = momentjs.unix(Number(this.timestamp));
 
         // Update strings and date format when format provider emits a change
-        this.subscription = Observable.of(1)
-            .concat(this.formatProvider.changed$ || Observable.never)
+        this.subscription = of(1)
+            // .concat(this.formatProvider.changed$ || Observable.never) --> RXJS 5
+            .pipe(concatMap(this.formatProvider.changed$||never))
             .subscribe(() => {
                 this.value.locale(this.getMomentLocale());
                 this.updateTimeObject(this.value);
