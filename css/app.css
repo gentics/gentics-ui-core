@@ -11265,6 +11265,7 @@ gtx-textarea > textarea.materialize-textarea {
   height: 2.5rem;
   padding: 5px;
   transition: border 0.2s;
+  width: 100%;
   min-height: 2.5rem;
   line-height: 1.5;
   overflow-y: auto;
