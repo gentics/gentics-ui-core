@@ -76,3 +76,20 @@
         '></gtx-highlighted-code>
     </div>
 </gtx-demo-block>
+
+<gtx-demo-block demoTitle="Using a Format-Provider">
+    <div class="demo-result">
+        <p>
+            The controls can take in a format-provider either via it's @Input <code>formatProvider</code> or by overriding the DateTimePickerFormatProvider.
+            A detailed description is in the  <a href="#/date-time-picker">DateTimePicker documentation</a>.
+        </p>
+        <gtx-date-time-picker-controls demo-format-provider
+                                       [timestamp]="timestamp"></gtx-date-time-picker-controls>
+    </div>
+    <div class="demo-code">
+        <gtx-highlighted-code language="HTML" code='
+                <gtx-date-time-picker-controls demo-format-provider
+                                            [timestamp]="timestamp"></gtx-date-time-picker-controls>
+        '></gtx-highlighted-code>
+    </div>
+</gtx-demo-block>

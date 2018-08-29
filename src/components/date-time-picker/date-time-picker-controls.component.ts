@@ -1,4 +1,4 @@
-import {Component, ElementRef, EventEmitter, HostBinding, Input, OnDestroy, Output, SimpleChanges, ViewChild} from '@angular/core';
+import {Component, ElementRef, EventEmitter, HostBinding, Input, OnDestroy, Output, SimpleChanges, ViewChild, Optional} from '@angular/core';
 import {Observable} from 'rxjs/Observable';
 import {Subscription} from 'rxjs/Subscription';
 import 'rxjs/add/operator/concat';
@@ -48,7 +48,7 @@ export class DateTimePickerControls implements OnDestroy {
     /**
      * Set to overwrite texts and date formatting in the modal.
      */
-    @Input() formatProvider: DateTimePickerFormatProvider = new DateTimePickerFormatProvider();
+    @Input() formatProvider: DateTimePickerFormatProvider;
 
     /**
      * The minimum date allowable. E.g. `new Date(2015, 2, 12)`
@@ -134,7 +134,16 @@ export class DateTimePickerControls implements OnDestroy {
     };
     private subscription: Subscription;
 
+    constructor(@Optional() private defaultFormatProvider: DateTimePickerFormatProvider) {}
+
     ngOnInit(): void {
+        if (this.defaultFormatProvider == null) {
+            this.defaultFormatProvider = new DateTimePickerFormatProvider();
+        }
+        if (this.formatProvider == null) {
+            this.formatProvider = this.defaultFormatProvider;
+        }
+
         this.value = momentjs.unix(Number(this.timestamp));
 
         // Update strings and date format when format provider emits a change

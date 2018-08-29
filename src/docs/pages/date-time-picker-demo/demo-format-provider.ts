@@ -3,7 +3,7 @@ import {DateTimePickerFormatProvider} from '../../../components/date-time-picker
 import {DateTimePickerStrings} from '../../../components/date-time-picker/date-time-picker-strings';
 
 @Directive({
-    selector: 'gtx-date-time-picker[demo-format-provider]',
+    selector: '[demo-format-provider]',
     providers: [{ provide: DateTimePickerFormatProvider, useExisting: forwardRef(() => DemoFormatProvider) }]
 })
 export class DemoFormatProvider extends DateTimePickerFormatProvider {
@@ -34,6 +34,6 @@ export class DemoFormatProvider extends DateTimePickerFormatProvider {
     };
 
     format(moment: any, showTime: boolean, showSeconds: boolean): string {
-        return `Tag ${moment.date()} Monat ${moment.month() + 1} Jahr ${moment.year()}`; 
+        return `Tag ${moment.date()} Monat ${moment.month() + 1} Jahr ${moment.year()}`;
     }
 }
