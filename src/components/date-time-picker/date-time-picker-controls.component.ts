@@ -11,7 +11,7 @@ import {DateTimePickerFormatProvider} from './date-time-picker-format-provider.s
 import {coerceToBoolean} from '../../common/coerce-to-boolean';
 import * as momentjs from 'moment';
 
-/**
+/*
  * Rome is a date picker widget: https://github.com/bevacqua/rome
  *
  * Note that Rome comes with its own (outdated) version of Moment.js, which we do not want to use.
