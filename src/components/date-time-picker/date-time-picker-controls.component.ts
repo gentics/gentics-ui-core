@@ -145,15 +145,7 @@ export class DateTimePickerControls implements OnDestroy {
         }
 
         this.value = momentjs.unix(Number(this.timestamp));
-
-        // Update strings and date format when format provider emits a change
-        this.subscription = Observable.of(1)
-            .concat(this.formatProvider.changed$ || Observable.never)
-            .subscribe(() => {
-                this.value.locale(this.getMomentLocale());
-                this.updateTimeObject(this.value);
-                this.determineDateOrder();
-            });
+        this.setupProviderChangeHook();
 
         this.min = this.min instanceof Date ? this.min : new Date(-MAX_DATE_MILLISECONDS);
         this.max = this.max instanceof Date ? this.max : new Date(MAX_DATE_MILLISECONDS);
@@ -193,6 +185,9 @@ export class DateTimePickerControls implements OnDestroy {
                 throw new Error(`max must be a Date object. Got ${typeof changes['max'].currentValue}`);
             }
         }
+        if (changes['formatProvider'] && !changes['formatProvider'].firstChange) {
+            this.setupProviderChangeHook();
+        }
     }
 
     /**
@@ -200,14 +195,8 @@ export class DateTimePickerControls implements OnDestroy {
      */
     ngAfterViewInit(): void {
         let calendarEl: Element = this.calendarContainer.nativeElement;
-        const romeConfig: any = { time: false, initialValue: this.value };
-        if (this.min) {
-            romeConfig.min = this.min;
-        }
-        if (this.max) {
-            romeConfig.max = this.max;
-        }
-        this.cal = rome(calendarEl, romeConfig)
+
+        this.cal = rome(calendarEl, this.getRomeConfig())
             .on('data', () => {
                 this.value = this.cal.getMoment();
                 this.change.emit(this.value.unix());
@@ -224,6 +213,48 @@ export class DateTimePickerControls implements OnDestroy {
         if (this.subscription) {
             this.subscription.unsubscribe();
         }
+    }
+
+    getRomeConfig() {
+        const romeConfig: any = {
+            appendTo: this.calendarContainer.nativeElement,
+            time: false,
+            initialValue: this.value
+        };
+        if (this.min) {
+            romeConfig.min = this.min;
+        }
+        if (this.max) {
+            romeConfig.max = this.max;
+        }
+        if (this.value != null) {
+            romeConfig.weekdayFormat = this.value.localeData().weekdaysMin();
+            romeConfig.weekStart = this.value.localeData().firstDayOfWeek();
+        }
+
+        return romeConfig;
+    }
+
+    setupProviderChangeHook() {
+        // Unsubscribe from the old subscription
+        if (this.subscription != null) {
+            this.subscription.unsubscribe();
+        }
+
+        // Update strings and date format when format provider emits a change
+        this.subscription = Observable.of(1)
+            .concat(this.formatProvider.changed$ || Observable.never)
+            .subscribe(() => {
+                this.value.locale(this.getMomentLocale());
+                this.updateTimeObject(this.value);
+                // When the locale changes, re-initialize the calendar to update the
+                // weekdays as these are only updated when initialized.
+                if (this.cal != null) {
+                    this.cal.options(this.getRomeConfig());
+                    this.cal.show();
+                }
+                this.determineDateOrder();
+            });
     }
 
     /**
