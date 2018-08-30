@@ -1,12 +1,20 @@
 # Gentics UI Core Changelog
 
-## 6.1.2 (not yet released)
+## 6.2.0 (2018-08-30)
+
+### Features
+
+* Add support to override the DateTimeFormatProvider on the DateTimePickerControl-Component (SUP-6172)
+
+### Fixes
+
+* Fix change-detection and update of the calendar in the DateTimePickerControl when a FormatProvider pushes changes (SUP-6172)
+
+## 6.1.2 (2018-08-14)
 
 ### Fixes
 
 * Fix occasional incorrect height calculation of Textarea (GUIC-152).
-* Added support to override the DateTimeFormatProvider on the DateTimePickerControl-Component (SUP-6172)
-* Fixed change-detection and update of the calendar when a FormatProvider pushes changes (SUP-6172)
 
 ## 6.1.1 (2018-04-11)
 
