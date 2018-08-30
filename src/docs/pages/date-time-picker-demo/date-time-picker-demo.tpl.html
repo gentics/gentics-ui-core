@@ -103,33 +103,7 @@
         <gtx-date-time-picker demo-format-provider [timestamp]="timestamp"></gtx-date-time-picker>
     </div>
     <div class="demo-code">
-        <gtx-highlighted-code language="TypeScript" code="
-                @Directive({
-                    selector: '[demo-format-provider]',
-                    providers: [{
-                        provide: DateTimePickerFormatProvider,
-                        useExisting: forwardRef(() => DemoFormatProvider)
-                    }]
-                })
-                export class DemoFormatProvider extends DateTimePickerFormatProvider {
-
-                    strings: DateTimePickerStrings = {
-                        hours: 'Stunde',
-                        minutes: 'Minute',
-                        seconds: 'Sekunde',
-                        months: ['Januar', 'Februar', 'März', '...'],
-                        monthsShort: ['Jan', 'Feb', 'Mär', '...'],
-                        weekdays: ['Sonntag', 'Montag', 'Dienstag', '...'],
-                        weekdaysShort: ['So', 'Mo', 'Di', '...'],
-                        cancel: 'Abbrechen',
-                        okay: 'Okay'
-                    };
-
-                    format(moment: any, showTime: boolean, showSeconds: boolean): string {
-                        return `Tag ${moment.date()} Monat ${moment.month() + 1} Jahr ${moment.year()}`;
-                    }
-                }
-        "></gtx-highlighted-code>
+        <gtx-highlighted-code language="TypeScript" [code]="demoProviderSource"></gtx-highlighted-code>
 
         <gtx-highlighted-code language="HTML" code='
                 <gtx-date-time-picker demo-format-provider [timestamp]="timestamp">

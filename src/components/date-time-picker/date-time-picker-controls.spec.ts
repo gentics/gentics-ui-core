@@ -8,6 +8,8 @@ import {DateTimePickerControls} from './date-time-picker-controls.component';
 import {InputField} from '../input/input.component';
 import {Button} from '../button/button.component';
 import {DateTimePickerFormatProvider} from './date-time-picker-format-provider.service';
+import {DateTimePickerStrings} from './date-time-picker-strings';
+import {defaultStrings} from './date-time-picker-default-strings';
 
 const TEST_TIMESTAMP: number = 1457971763;
 let formatProviderToUse: DateTimePickerFormatProvider = null;
@@ -240,63 +242,105 @@ describe('DateTimePickerControls', () => {
 
     describe('time increments:', () => {
 
-        function incrementDecrementTest(testFn: (picker: DateTimePickerControls) => void): any {
-            return componentTest(() => TestComponent, `<gtx-date-time-picker-controls
-                            timestamp="${TEST_TIMESTAMP}"
-                            (change)="onChange($event)">
-                        </gtx-date-time-picker-controls>`,
-                fixture => {
-                    const picker = fixture.debugElement.query(By.directive(DateTimePickerControls)).componentInstance;
-                    fixture.detectChanges();
-                    tick();
-                    testFn(picker);
-                }
-            );
-        }
-
         it('incrementTime("seconds") increments the time by one second',
-            incrementDecrementTest(picker => {
+            pickerTest(picker => {
                 picker.incrementTime('seconds');
                 expect(picker.getUnixTimestamp()).toBe(TEST_TIMESTAMP + 1);
             })
         );
 
         it('incrementTime("minutes") increments the time by one minute',
-            incrementDecrementTest(picker => {
+            pickerTest(picker => {
                 picker.incrementTime('minutes');
                 expect(picker.getUnixTimestamp()).toBe(TEST_TIMESTAMP + 60);
             })
         );
 
         it('incrementTime("hours") increments the time by one hour',
-            incrementDecrementTest(picker => {
+            pickerTest(picker => {
                 picker.incrementTime('hours');
                 expect(picker.getUnixTimestamp()).toBe(TEST_TIMESTAMP + (60 * 60));
             })
         );
 
         it('decrementTime("seconds") decrement the time by one second',
-            incrementDecrementTest(picker => {
+            pickerTest(picker => {
                 picker.decrementTime('seconds');
                 expect(picker.getUnixTimestamp()).toBe(TEST_TIMESTAMP - 1);
             })
         );
 
         it('decrementTime("minutes") decrements the time by one minute',
-            incrementDecrementTest(picker => {
+            pickerTest(picker => {
                 picker.decrementTime('minutes');
                 expect(picker.getUnixTimestamp()).toBe(TEST_TIMESTAMP - 60);
             })
         );
 
         it('decrementTime("hours") decrements the time by one hour',
-            incrementDecrementTest(picker => {
+            pickerTest(picker => {
                 picker.decrementTime('hours');
                 expect(picker.getUnixTimestamp()).toBe(TEST_TIMESTAMP - (60 * 60));
             })
         );
     });
+
+    describe('l10n/i18n - No Provider override:', () => {
+
+        it('should default to normal strings',
+            pickerTest(picker => {
+                const provider = picker.formatProvider;
+                expect(provider).toBeDefined;
+                expect(provider.strings).toEqual(defaultStrings);
+            })
+        );
+
+        it('should use the provider from input',
+            componentTest(() => TestComponent, `
+                <gtx-date-time-picker-controls [formatProvider]="provider">
+                </gtx-date-time-picker-controls>`,
+                fixture => {
+                    const picker = fixture.debugElement.query(By.directive(DateTimePickerControls)).componentInstance;
+                    fixture.detectChanges();
+                    tick();
+                    const provider = picker.formatProvider;
+                    expect(provider).toBeDefined;
+                    expect(provider.strings).toEqual(timePickerTestStrings);
+                }
+            )
+        );
+    });
+
+    describe('l10n/i18n - Provider override:', () => {
+
+        let formatProvider: TestFormatProvider;
+        beforeEach(() => {
+            formatProviderToUse = formatProvider = new TestFormatProvider();
+        });
+
+        it('should use the provider-override strings',
+            pickerTest(picker => {
+                const provider = picker.formatProvider;
+                expect(provider).toBeDefined;
+                expect(provider.strings).toEqual(timePickerTestStrings);
+            })
+        );
+    });
 });
+
+function pickerTest(testFn: (picker: DateTimePickerControls) => void): any {
+    return componentTest(() => TestComponent, `<gtx-date-time-picker-controls
+                    timestamp="${TEST_TIMESTAMP}"
+                    (change)="onChange($event)">
+                </gtx-date-time-picker-controls>`,
+        fixture => {
+            const picker = fixture.debugElement.query(By.directive(DateTimePickerControls)).componentInstance;
+            fixture.detectChanges();
+            tick();
+            testFn(picker);
+        }
+    );
+}
 
 @Component({
     selector: 'test-component',
@@ -307,6 +351,24 @@ class TestComponent {
     max: any;
     timestamp = TEST_TIMESTAMP;
     onChange = jasmine.createSpy('onChange');
+    provider = new TestFormatProvider();
+}
+
+const timePickerTestStrings: DateTimePickerStrings = {
+    hours: '_test_hours_',
+    minutes: '_test_minutes_',
+    seconds: '_test_seconds_',
+    cancel: '_test_cancel_',
+    months: ['_test_january_', '_test_february_', '_test_march_', '_test_april_', '_test_may_', '_test_june_', '_test_july_', '_test_august_', '_test_september_', '_test_october_', '_test_november_', '_test_december_'],
+    monthsShort: ['_test_jan_', '_test_feb_', '_test_mar_', '_test_apr_', '_test_may_', '_test_jun_', '_test_jul_', '_test_aug_', '_test_sep_', '_test_oct_', '_test_nov_', '_test_dec_'],
+    okay: '_test_okay_',
+    weekdays: ['_test_sunday_', '_test_monday_', '_test_tuesday_', '_test_wednesday_', '_test_thursday_', '_test_friday_', '_test_saturday_'],
+    weekdaysShort: ['_test_sun_', '_test_mon_', '_test_tue_', '_test_wed_', '_test_thu_', '_test_fri_', '_test_sat_'],
+    weekdaysMin: ['_test_su_', '_test_mo_', '_test_tu_', '_test_we_', '_test_th_', '_test_fr_', '_test_sa_'],
+};
+
+class TestFormatProvider extends DateTimePickerFormatProvider {
+    strings = timePickerTestStrings;
 }
 
 @Component({
