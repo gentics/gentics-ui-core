@@ -5,6 +5,8 @@
 ### Fixes
 
 * Fix occasional incorrect height calculation of Textarea (GUIC-152).
+* Added support to override the DateTimeFormatProvider on the DateTimePickerControl-Component (SUP-6172)
+* Fixed change-detection and update of the calendar when a FormatProvider pushes changes (SUP-6172)
 
 ## 6.1.1 (2018-04-11)
 
