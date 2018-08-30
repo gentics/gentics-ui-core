@@ -287,7 +287,7 @@ describe('DateTimePickerControls', () => {
 
     describe('l10n/i18n - No Provider override:', () => {
 
-        fit('should default to normal strings',
+        it('should default to normal strings',
             pickerTest(picker => {
                 const provider = picker.formatProvider;
                 expect(provider).toBeDefined;
@@ -295,7 +295,7 @@ describe('DateTimePickerControls', () => {
             })
         );
 
-        fit('should use the provider from input',
+        it('should use the provider from input',
             componentTest(() => TestComponent, `
                 <gtx-date-time-picker-controls [formatProvider]="provider">
                 </gtx-date-time-picker-controls>`,
@@ -318,7 +318,7 @@ describe('DateTimePickerControls', () => {
             formatProviderToUse = formatProvider = new TestFormatProvider();
         });
 
-        fit('should use the provider-override strings',
+        it('should use the provider-override strings',
             pickerTest(picker => {
                 const provider = picker.formatProvider;
                 expect(provider).toBeDefined;
