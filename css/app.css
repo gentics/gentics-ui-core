@@ -9742,6 +9742,11 @@ gtx-date-time-picker {
   flex-direction: row;
 }
 
+gtx-date-time-picker gtx-input {
+  -webkit-box-flex: 1;
+  flex: 1 1 auto;
+}
+
 gtx-date-time-picker gtx-input.clearable input[type=text] {
   border-top-right-radius: 0px;
   border-bottom-right-radius: 0px;
@@ -10003,6 +10008,7 @@ gtx-dropdown-content {
   overflow-x: auto;
   opacity: 1;
   will-change: width, height;
+  position: relative;
 }
 
 gtx-dropdown-content gtx-dropdown-item {
