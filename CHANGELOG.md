@@ -5,6 +5,7 @@
 ### Fixes
 
 * Fix the dropdown-content style which causes the content to get pushed out of it (GUIC-181)
+* Fix the `gtx-input`'s width inside the date-time-picker to make it responsive to the parents width (GUIC-163, GUIC-179, #5)
 
 ## 6.2.0 (2018-08-30)
 
