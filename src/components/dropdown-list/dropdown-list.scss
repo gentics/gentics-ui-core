@@ -33,6 +33,7 @@ gtx-dropdown-content {
     overflow-x: auto;
     opacity: 1;
     will-change: width, height;
+    position: relative;
 
     gtx-dropdown-item {
         display: block;
