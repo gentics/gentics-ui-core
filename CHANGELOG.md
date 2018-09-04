@@ -1,5 +1,11 @@
 # Gentics UI Core Changelog
 
+## 6.2.1 (yet to be released)
+
+### Fixes
+
+* Fix the dropdown-content style which causes the content to get pushed out of it (GUIC-181)
+
 ## 6.2.0 (2018-08-30)
 
 ### Features
