@@ -6,7 +6,7 @@ import {Component} from '@angular/core';
 export class SelectDemo {
     componentSource: string = require('!!raw-loader!../../../components/select/select.component.ts');
 
-    options: string[] = ['foo', 'bar', 'baz', 'quux'];
+    options: string[] = ['foo', 'bar', 'baz', 'quux', 'qwerty', 'dump', 'lorem', 'ipsum', 'dolor', 'sit', 'amet', 'consectetur', 'adipiscing', 'elit'];
     selectMultiVal: string[] = ['bar', 'baz'];
     people: any[] = [
         { name: 'John', age: 22, disabled: false },
