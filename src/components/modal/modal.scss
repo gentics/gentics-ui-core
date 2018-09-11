@@ -106,15 +106,15 @@ $easeOutCubic: cubic-bezier(0.215, 0.610, 0.355, 1.000);
         }
     }
 
-    // IE11 modal height fix. Using hardcoded title and footer of 100px in calc 
+    // IE11 modal height fix. Using hardcoded title and footer of 150px in calc
     &.isIE11.visible {
         .modal-content {
             @media #{$small-and-down} {
-                max-height: calc(96vh - 100px);
+                max-height: calc(96vh - 150px);
             }
 
             @media #{$medium-and-up} {
-                max-height: calc(70vh - 100px);
+                max-height: calc(70vh - 150px);
             }
         }
     }

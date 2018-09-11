@@ -4,7 +4,7 @@
 
 ### Fixes
 
-* Fix modal in IE11 not to fill in height if the content is smaller.
+* Fix modal height in IE11 to fit to the height of the modal's content.
 
 ## 6.2.1 (2018-09-04)
 
