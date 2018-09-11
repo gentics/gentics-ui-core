@@ -106,20 +106,15 @@ $easeOutCubic: cubic-bezier(0.215, 0.610, 0.355, 1.000);
         }
     }
 
-    // Flexbox css workaround for IE11: Use "height" instead of "max-height"
+    // IE11 modal height fix. Using hardcoded title and footer of 150px in calc
     &.isIE11.visible {
-        height: 70%;
-
-        @media #{$small-and-down} {
-            height: 96%;
-            & > * {
-                height: 96vh;
+        .modal-content {
+            @media #{$small-and-down} {
+                max-height: calc(96vh - 150px);
             }
-        }
 
-        @media #{$medium-and-up} {
-            & > * {
-                height: 70vh;
+            @media #{$medium-and-up} {
+                max-height: calc(70vh - 150px);
             }
         }
     }
