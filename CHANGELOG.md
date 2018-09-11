@@ -1,6 +1,6 @@
 # Gentics UI Core Changelog
 
-## 6.2.2 (not yet released)
+## 6.2.2 (2018-09-11)
 
 ### Fixes
 
