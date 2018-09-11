@@ -10343,22 +10343,15 @@ gtx-dynamic-modal {
   }
 }
 
-.gtx-modal-dialog.isIE11.visible {
-  height: 70%;
-}
-
 @media only screen and (max-width: 600px) {
-  .gtx-modal-dialog.isIE11.visible {
-    height: 96%;
-  }
-  .gtx-modal-dialog.isIE11.visible > * {
-    height: 96vh;
+  .gtx-modal-dialog.isIE11.visible .modal-content {
+    max-height: calc(96vh - 150px);
   }
 }
 
 @media only screen and (min-width: 601px) {
-  .gtx-modal-dialog.isIE11.visible > * {
-    height: 70vh;
+  .gtx-modal-dialog.isIE11.visible .modal-content {
+    max-height: calc(70vh - 150px);
   }
 }
 
