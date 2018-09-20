@@ -1,10 +1,10 @@
 # Gentics UI Core Changelog
 
-## 6.2.3 (not yet released)
-
-* Fixed the keyboard usage and search in the Select-Component when multiple option selection is enabled (GUIC-185)
+## 6.2.3 (2018-09-20)
 
 ### Fixes
+
+* Fix keyboard usage and search in the Select-Component when multiple option selection is enabled (GUIC-185)
 
 ## 6.2.2 (2018-09-11)
 
