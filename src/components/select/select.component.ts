@@ -466,10 +466,13 @@ export class Select implements ControlValueAccessor {
      */
     private updateSelectedIndex(index: SelectedSelectOption): void {
         this.selectedIndex = index;
-        if (!this.multiple) {
-            const options = this.optionGroups[index[0]].options;
-            if (options && 0 <= index[1] && index[1] < options.length) {
+        const options = this.optionGroups[index[0]].options;
+
+        if (options && 0 <= index[1] && index[1] < options.length) {
+            if (!this.multiple) {
                 this.selectItem(index[0], index[1]);
+            } else {
+                this.scrollToSelectedOption();
             }
         }
     }
