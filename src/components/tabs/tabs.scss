@@ -14,6 +14,21 @@ gtx-tabs {
             flex-wrap: wrap;
         }
 
+        &.vertical {
+            display: block;
+
+            > .tab-link {
+                    background-color: #eee;
+                    color: black;
+                    display: block;
+                    text-decoration: none;
+
+                    &.is-active {
+                        background-color: #fff;
+                    }
+            }
+        }
+
         > .tab-link {
             @include noselect;
             display: inline-block;

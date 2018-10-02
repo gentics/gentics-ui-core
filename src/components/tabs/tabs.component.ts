@@ -49,6 +49,13 @@ export class Tabs implements AfterContentInit {
     @Output() tabChange = new EventEmitter<string>();
 
     /**
+     * The vertical property. If set, tabs should be displayed vertically.
+     */
+    @Input() set vertical(val: any) {
+        this.verticalProperty = coerceToBoolean(val);
+    }
+
+    /**
      * The id of the active tab. Should only be used in pure (stateless) mode.
      */
     @Input() activeId: string;
@@ -69,6 +76,7 @@ export class Tabs implements AfterContentInit {
         this.tabsShouldWrap = coerceToBoolean(val);
     }
 
+    verticalProperty: boolean = false;
     tabsShouldWrap: boolean = false;
     private isPure: boolean = false;
 
