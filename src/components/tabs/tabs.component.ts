@@ -59,7 +59,7 @@ export class Tabs implements AfterContentInit {
     @Output() tabChange = new EventEmitter<string>();
 
     /**
-     * The vertical property. If set, tabs should be displayed vertically.
+     * When present (or set to true), tabs are displayed vertically.
      */
     @Input() set vertical(val: any) {
         this.verticalProperty = coerceToBoolean(val);
