@@ -35,6 +35,16 @@ import {coerceToBoolean} from '../../common/coerce-to-boolean';
  *     <gtx-tab title="Notes" id="3" [routerLink]="['customer', 'notes']"></gtx-tab>
  * </gtx-tabs>
  * ```
+ *  * ##### Vertical Tabs
+ * A gtx-tabs can take an optional `vertical` property which allows to display tabs vertically.
+ * ```
+ * <gtx-tabs vertical>
+ *     <gtx-tab title="Details"></gtx-tab>
+ *     <gtx-tab title="Orders"></gtx-tab>
+ *     <gtx-tab title="Notes"></gtx-tab>
+ * </gtx-tabs>
+ * ```
+ *
  */
 @Component({
     selector: 'gtx-tabs',
