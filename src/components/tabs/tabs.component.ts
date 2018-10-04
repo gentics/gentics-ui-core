@@ -39,9 +39,9 @@ import {coerceToBoolean} from '../../common/coerce-to-boolean';
  * A gtx-tabs can take an optional `vertical` property which allows to display tabs vertically.
  * ```
  * <gtx-tabs vertical>
- *     <gtx-tab title="Details"></gtx-tab>
- *     <gtx-tab title="Orders"></gtx-tab>
- *     <gtx-tab title="Notes"></gtx-tab>
+ *        <gtx-tab title="Details"></gtx-tab>
+ *        <gtx-tab title="Orders"></gtx-tab>
+ *        <gtx-tab title="Notes"></gtx-tab>
  * </gtx-tabs>
  * ```
  *
