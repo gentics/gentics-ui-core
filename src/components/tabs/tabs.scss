@@ -23,7 +23,7 @@ gtx-tabs {
 
             > .tab-link {
                     width: 100%;
-                    border-bottom: 1px dotted #efefef;
+                    border-bottom: 1px dotted $gtx-color-very-light-gray;
                     padding: 19px 5px;
                     min-height: 63px;
 
@@ -33,17 +33,17 @@ gtx-tabs {
                     }
 
                     &:hover {
-                        background-color: #eee;
+                        background-color: $gtx-color-off-white;
                     }
 
                     &:active {
-                        background-color: #D3D3D3;
+                        background-color: $gtx-color-light-gray;
                     }
 
                     &.is-active {
                         background-color: #fff;
-                        border-left: 3px solid #0096DC;
-                        border-bottom-color: #efefef;
+                        border-left: 3px solid $gtx-color-primary;
+                        border-bottom-color: $gtx-color-very-light-gray;
                     }
             }
         }
