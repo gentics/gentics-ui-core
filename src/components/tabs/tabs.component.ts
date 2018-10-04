@@ -62,7 +62,7 @@ export class Tabs implements AfterContentInit {
      * When present (or set to true), tabs are displayed vertically.
      */
     @Input() set vertical(val: any) {
-        this.verticalProperty = coerceToBoolean(val);
+        this.verticalTabs = coerceToBoolean(val);
     }
 
     /**
@@ -86,7 +86,7 @@ export class Tabs implements AfterContentInit {
         this.tabsShouldWrap = coerceToBoolean(val);
     }
 
-    verticalProperty: boolean = false;
+    verticalTabs: boolean = false;
     tabsShouldWrap: boolean = false;
     private isPure: boolean = false;
 

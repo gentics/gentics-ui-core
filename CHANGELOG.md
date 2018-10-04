@@ -1,6 +1,10 @@
 # Gentics UI Core Changelog
 
-## 6.2.4 (not yet released)
+## 6.3.0 (not yet released)
+
+### Features
+
+* Add support for vertical tabs (GUIC-186)
 
 ### Fixes
 
