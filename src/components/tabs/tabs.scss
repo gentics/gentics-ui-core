@@ -18,17 +18,25 @@ gtx-tabs {
             display: block;
             margin-right: 25px;
             float: left;
-            border: 1px solid #ccc;
             width: 20%;
 
             > .tab-link {
                     width: 100%;
-                    border-bottom: 1px solid #ccc;
-                    padding: 3px 0 3px 5px;
+                    border-bottom: 1px dotted #efefef;
+                    padding: 19px 5px;
+                    min-height: 63px;
 
                     > a {
                         padding: 0;
                         white-space: normal;
+                    }
+
+                    &:hover {
+                        background-color: #eee;
+                    }
+
+                    &:active {
+                        background-color: #D3D3D3;
                     }
 
                     &.is-active {
