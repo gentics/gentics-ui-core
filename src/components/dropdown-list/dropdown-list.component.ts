@@ -87,6 +87,7 @@ export class DropdownList {
      */
     @Output() close = new EventEmitter<void>();
 
+    private _readonly: boolean = false;
     private _disabled: boolean = false;
     private overlayHostView: ViewContainerRef;
     private scrollMaskFactory: ComponentFactory<ScrollMask>;
@@ -166,6 +167,18 @@ export class DropdownList {
     set disabled(val: boolean) {
         this._disabled = coerceToBoolean(val);
     }
+
+    /**
+     * If true, the dropdown will be in readonly mode.
+     */
+    @Input()
+    get readonly(): boolean {
+        return this._readonly;
+    }
+    set readonly(value: boolean) {
+        this._readonly = coerceToBoolean(value);
+    }
+
 
     get isOpen(): boolean {
         return !!this.contentComponentRef;

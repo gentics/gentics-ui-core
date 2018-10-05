@@ -103,6 +103,10 @@ export class Checkbox implements ControlValueAccessor {
      */
     @Input() name: string;
     /**
+     * Sets the readonly state of the input
+     */
+    @Input() readonly: boolean = false;
+    /**
      * Sets the required property
      */
     @Input() required: boolean = false;
@@ -196,6 +200,11 @@ export class Checkbox implements ControlValueAccessor {
     registerOnTouched(fn: Function): void { this.onTouched = fn; }
     setDisabledState(disabled: boolean): void {
         this.disabled = disabled;
+        this.changeDetector.markForCheck();
+    }
+
+    setReadOnlyState(readonly: boolean): void {
+        this.readonly = readonly;
         this.changeDetector.markForCheck();
     }
 

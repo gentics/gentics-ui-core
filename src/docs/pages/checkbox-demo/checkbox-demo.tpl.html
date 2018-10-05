@@ -4,7 +4,6 @@
 
 <h4>Demos</h4>
 
-
 <gtx-demo-block demoTitle="Simple Boolean Value">
     <div class="demo-result">
         <gtx-checkbox [(ngModel)]="someBoolean" label="Is it true?"></gtx-checkbox>
@@ -54,7 +53,6 @@
     </div>
 </gtx-demo-block>
 
-
 <gtx-demo-block demoTitle="Stateless Mode">
     <div class="demo-result">
         <gtx-checkbox checked="true"
@@ -81,5 +79,17 @@
                               label="This is checked when the text input == `checked`"></gtx-checkbox>
                 <gtx-input [(ngModel)]="checkText"></gtx-input>
         '></gtx-highlighted-code>
+    </div>
+</gtx-demo-block>
+
+<gtx-demo-block demoTitle="Readonly Check">
+    <div class="demo-result">
+        <gtx-checkbox [(ngModel)]="booleanVariable" label="Read Only" readonly="true"></gtx-checkbox>
+        <p>someBoolean: <code>{{ booleanVariable | json }}</code></p>
+    </div>
+    <div class="demo-code">
+        <gtx-highlighted-code language="HTML" code='
+            <gtx-checkbox [(ngModel)]="booleanVariable" label="Read Only" readonly="true"></gtx-checkbox>
+           '></gtx-highlighted-code>
     </div>
 </gtx-demo-block>

@@ -69,6 +69,17 @@ export class Button {
     }
 
     /**
+     * Controls whether the button is in readonly mode.
+     */
+    @Input()
+    get readonly(): boolean {
+        return this.isReadOnly;
+    }
+    set readonly(readonly: boolean) {
+        this.isReadOnly = (<any> readonly) === '' || !!readonly;
+    }
+
+    /**
      * Set button as a submit button.
      */
     @Input()
@@ -80,6 +91,7 @@ export class Button {
     isFlat: boolean = false;
     isIcon: boolean = false;
     isDisabled: boolean = false;
+    isReadOnly: boolean = false;
 
     // In some browsers, disabled elements don't fire mouse events, but bubble them up the DOM tree.
     // To not trigger actions when the button is disabled, we need to prevent them manually.

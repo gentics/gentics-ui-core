@@ -52,6 +52,11 @@ export class Range implements ControlValueAccessor {
     @Input() name: string;
 
     /**
+     * Sets the readonly state of the input.
+     */
+    @Input() readonly: boolean = false;
+
+    /**
      * Sets the required state.
      */
     @Input() required: boolean = false;
@@ -194,6 +199,11 @@ export class Range implements ControlValueAccessor {
 
     setDisabledState(disabled: boolean): void {
         this.disabled = disabled;
+        this.changeDetector.markForCheck();
+    }
+
+    setReadOnlyState(readonly: boolean): void {
+        this.readonly = readonly;
         this.changeDetector.markForCheck();
     }
 

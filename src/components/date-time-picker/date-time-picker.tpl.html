@@ -4,13 +4,14 @@
            (keydown)="handleEnterKey($event)"
            (blur)="onTouched()"
            [disabled]="_disabled"
-           readonly="true"
+           [readonly]="_readonly"
            [class.clearable]="_clearable"></gtx-input>
 <gtx-button icon
     class="clear-button"
     *ngIf="_clearable"
     type="secondary"
     [disabled]="_disabled"
+    [readonly]="_readonly"
     (click)="!_disabled && clearDateTime()">
     <icon>clear</icon>
 </gtx-button>
