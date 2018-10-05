@@ -122,8 +122,9 @@ export class Textarea implements ControlValueAccessor, OnChanges {
     }
 
     onBlur(e: Event): void {
+        e.stopPropagation();
         const value = (e.target as HTMLTextAreaElement).value;
-        this.blur.emit(value);
+        this.blur.emit(this.normalizeValue(value));
         this.onTouched();
     }
 

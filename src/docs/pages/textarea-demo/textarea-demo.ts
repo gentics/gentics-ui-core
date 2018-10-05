@@ -9,4 +9,7 @@ export class TextareaDemo {
     required: boolean;
     disabled: boolean;
     message: string;
+
+    onTextChange(event: any) {
+    }
 }
