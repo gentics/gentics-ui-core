@@ -31,6 +31,22 @@
       "name": "Michael Bromley",
       "email": "m.bromley@gentics.com",
       "url": "https://github.com/michaelbromley"
+    },
+    {
+      "name": "Dominik Decker",
+      "email": "d.decker@gentics.com"
+    },
+    {
+      "name": "Oleksii Iepikhin",
+      "email": "o.iepikhin@gentics.com"
+    },
+    {
+      "name": "Péter Nyári",
+      "email": "p.nyari@gentics.com"
+    },
+    {
+      "name": "Thomas Pusztai",
+      "email": "t.pusztai@gentics.com"
     }
   ],
   "license": "Apache-2.0",
