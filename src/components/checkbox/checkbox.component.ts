@@ -103,7 +103,7 @@ export class Checkbox implements ControlValueAccessor {
      */
     @Input() name: string;
     /**
-     * Sets the readonly state of the input
+     * Sets the readonly state of the checkbox
      */
     @Input() readonly: boolean = false;
     /**

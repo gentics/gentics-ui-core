@@ -191,6 +191,22 @@ describe('Checkbox', () => {
         )
     );
 
+    it('should switch checkbox to readonly mode if readonly property is true',
+        componentTest(() => TestComponent, `
+            <gtx-checkbox
+                value="foo"
+                [readonly]="true"
+            ></gtx-checkbox>`,
+            (fixture, instance) => {
+                const nativeInput: HTMLInputElement = fixture.nativeElement.querySelector('input');
+
+                fixture.detectChanges();
+
+                expect(nativeInput.readOnly).toBe(true);
+            }
+        )
+    );
+
     describe('ValueAccessor:', () => {
 
         it('should bind the check state with ngModel (inbound)',
@@ -424,6 +440,7 @@ describe('Checkbox', () => {
 })
 class TestComponent {
 
+    readonly: boolean = false;
     boundProperty: any;
     checkState: boolean = false;
     testIndeterminate: boolean = false;

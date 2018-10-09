@@ -7,6 +7,7 @@ export class CheckboxDemo {
 
     componentSource: string = require('!!raw-loader!../../../components/checkbox/checkbox.component.ts');
 
+    readonly: boolean = false;
     someBoolean: boolean = false;
     booleanVariable: boolean = true;
     checkStates: any = {
