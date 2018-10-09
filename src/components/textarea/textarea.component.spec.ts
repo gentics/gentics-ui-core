@@ -5,14 +5,13 @@ import {By} from '@angular/platform-browser';
 
 import {componentTest} from '../../testing';
 import {Textarea} from './textarea.component';
-import {Checkbox} from '../checkbox/checkbox.component';
 
 
 describe('Textarea', () => {
 
     beforeEach(() => TestBed.configureTestingModule({
         imports: [FormsModule, ReactiveFormsModule],
-        declarations: [Checkbox, Textarea, TestComponent]
+        declarations: [Textarea, TestComponent]
     }));
 
     it('binds the label',
