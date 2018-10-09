@@ -8,6 +8,8 @@
 
 ### Fixes
 
+* Fix unexpected propagation of DOM onChange event in Textarea during onBlur (GUIC-187)
+
 ## 6.2.3 (2018-09-20)
 
 ### Fixes
