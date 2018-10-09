@@ -156,6 +156,7 @@ describe('Textarea', () => {
                 tick();
 
                 expect(instance.onBlur).toHaveBeenCalledWith('bar');
+                expect(instance.onBlur).toHaveBeenCalledTimes(1);
             }
         )
     );
@@ -196,6 +197,7 @@ describe('Textarea', () => {
                 tick(1000);
 
                 expect(instance.onChangeEvent).toHaveBeenCalledWith('foo');
+                expect(instance.onChangeEvent).toHaveBeenCalledTimes(1);
             }
         )
     );
@@ -214,7 +216,7 @@ describe('Textarea', () => {
                 triggerEvent(textareaDebugElement.nativeElement, 'blur');
                 tick();
 
-                expect(instance.onChangeEvent).not.toHaveBeenCalledWith('foo');
+                expect(instance.onChangeEvent).not.toHaveBeenCalled();
             }
         )
     );
