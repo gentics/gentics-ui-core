@@ -5,13 +5,14 @@ import {By} from '@angular/platform-browser';
 
 import {componentTest} from '../../testing';
 import {Textarea} from './textarea.component';
+import {Checkbox} from '../checkbox/checkbox.component';
 
 
 describe('Textarea', () => {
 
     beforeEach(() => TestBed.configureTestingModule({
         imports: [FormsModule, ReactiveFormsModule],
-        declarations: [Textarea, TestComponent]
+        declarations: [Checkbox, Textarea, TestComponent]
     }));
 
     it('binds the label',
@@ -183,38 +184,38 @@ describe('Textarea', () => {
 
     it('emits "change" when native input value is changed',
         componentTest(() => TestComponent, `
-            <gtx-textarea (change)="onChange($event)" value="foo">
+            <gtx-textarea (change)="onChangeEvent($event)" value="foo">
             </gtx-textarea>`,
             fixture => {
                 let nativeTextarea: HTMLTextAreaElement = fixture.nativeElement.querySelector('textarea');
                 let instance: TestComponent = fixture.componentInstance;
                 fixture.detectChanges();
                 tick(1000);
-                instance.onChange = jasmine.createSpy('onChange');
+                instance.onChangeEvent = jasmine.createSpy('onChangeEvent');
 
                 triggerEvent(nativeTextarea, 'input');
                 tick(1000);
 
-                expect(instance.onChange).toHaveBeenCalledWith('foo');
+                expect(instance.onChangeEvent).toHaveBeenCalledWith('foo');
             }
         )
     );
 
     it('does not emit "change" when native input is blurred',
         componentTest(() => TestComponent, `
-            <gtx-textarea (change)="onChange($event)" value="foo">
+            <gtx-textarea (change)="onChangeEvent($event)" value="foo">
             </gtx-textarea>`,
             fixture => {
                 let textareaDebugElement = fixture.debugElement.query(By.css('textarea'));
                 let instance: TestComponent = fixture.componentInstance;
                 fixture.detectChanges();
                 tick(1000);
-                instance.onChange = jasmine.createSpy('onChange');
+                instance.onChangeEvent = jasmine.createSpy('onChangeEvent');
 
                 triggerEvent(textareaDebugElement.nativeElement, 'blur');
                 tick();
 
-                expect(instance.onChange).not.toHaveBeenCalledWith('foo');
+                expect(instance.onChangeEvent).not.toHaveBeenCalledWith('foo');
             }
         )
     );
@@ -549,7 +550,7 @@ class TestComponent {
 
     onBlur(): void {}
     onFocus(): void {}
-    onChange(): void {}
+    onChangeEvent(): void {}
 }
 
 /**
