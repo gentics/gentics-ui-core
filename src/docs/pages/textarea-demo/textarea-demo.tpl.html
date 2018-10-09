@@ -41,24 +41,3 @@
         '></gtx-highlighted-code>
     </div>
 </gtx-demo-block>
-
-<gtx-demo-block demoTitle="New">
-    <div class="demo-result">
-        <gtx-textarea
-            label="Message"
-            [(ngModel)]="newMessage"
-            (change)="onTextChange($event)"
-        ></gtx-textarea>
-        message: <code>{{ newMessage | json }}</code>
-    </div>
-    <div class="demo-code">
-        <gtx-highlighted-code language="HTML" code='
-            <gtx-textarea
-                label="Message"
-                [(ngModel)]="newMessage"
-                (change)="onTextChange($event)"
-            ></gtx-textarea>
-            message: <code>(( newMessage | json ))</code>
-        '></gtx-highlighted-code>
-    </div>
-</gtx-demo-block>
