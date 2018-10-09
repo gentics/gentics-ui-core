@@ -14,6 +14,40 @@ gtx-tabs {
             flex-wrap: wrap;
         }
 
+        &.vertical {
+            display: block;
+            margin-right: 25px;
+            float: left;
+            width: 20%;
+            max-width: 200px;
+
+            > .tab-link {
+                    width: 100%;
+                    border-bottom: 1px dotted $gtx-color-very-light-gray;
+                    padding: 19px 5px;
+                    min-height: 63px;
+
+                    > a {
+                        padding: 0;
+                        white-space: normal;
+                    }
+
+                    &:hover {
+                        background-color: $gtx-color-off-white;
+                    }
+
+                    &:active {
+                        background-color: $gtx-color-light-gray;
+                    }
+
+                    &.is-active {
+                        background-color: #fff;
+                        border-left: 3px solid $gtx-color-primary;
+                        border-bottom-color: $gtx-color-very-light-gray;
+                    }
+            }
+        }
+
         > .tab-link {
             @include noselect;
             display: inline-block;
@@ -63,5 +97,4 @@ gtx-tabs {
     gtx-tab > .tab-content:not(.is-active) {
         display: none;
     }
-
 }

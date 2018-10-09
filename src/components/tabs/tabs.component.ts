@@ -35,6 +35,16 @@ import {coerceToBoolean} from '../../common/coerce-to-boolean';
  *     <gtx-tab title="Notes" id="3" [routerLink]="['customer', 'notes']"></gtx-tab>
  * </gtx-tabs>
  * ```
+ *  * ##### Vertical Tabs
+ * A gtx-tabs can take an optional `vertical` property which allows to display tabs vertically.
+ * ```
+ * <gtx-tabs vertical>
+ *        <gtx-tab title="Details"></gtx-tab>
+ *        <gtx-tab title="Orders"></gtx-tab>
+ *        <gtx-tab title="Notes"></gtx-tab>
+ * </gtx-tabs>
+ * ```
+ *
  */
 @Component({
     selector: 'gtx-tabs',
@@ -47,6 +57,13 @@ export class Tabs implements AfterContentInit {
      * Fires an event whenever the active tab changes. Argument is the id of the selected tab.
      */
     @Output() tabChange = new EventEmitter<string>();
+
+    /**
+     * When present (or set to true), tabs are displayed vertically.
+     */
+    @Input() set vertical(val: any) {
+        this.verticalTabs = coerceToBoolean(val);
+    }
 
     /**
      * The id of the active tab. Should only be used in pure (stateless) mode.
@@ -69,6 +86,7 @@ export class Tabs implements AfterContentInit {
         this.tabsShouldWrap = coerceToBoolean(val);
     }
 
+    verticalTabs: boolean = false;
     tabsShouldWrap: boolean = false;
     private isPure: boolean = false;
 
