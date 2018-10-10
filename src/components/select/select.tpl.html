@@ -1,14 +1,14 @@
 <gtx-dropdown-list width="expand"
                    belowTrigger="false"
                    [sticky]="multiple"
-                   [disabled]="disabled"
+                   [disabled]="disabled || readonly"
                    [readonly]="readonly"
                    (open)="dropdownOpened()">
 
     <gtx-dropdown-trigger [class.with-label]="label != null">
         <div class="view-value select-input"
              [attr.tabindex]="disabled ? null : 0"
-             [attr.disabled]="disabled ? true : null"
+             [attr.disabled]="disabled ? true : null || readonly ? true : null"
              (blur)="inputBlur($event)"
              #viewValueContainer>
             <div>{{ viewValue }}</div>

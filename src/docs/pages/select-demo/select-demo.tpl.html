@@ -323,8 +323,9 @@
 
 <gtx-demo-block demoTitle="Read Only">
     <div class="demo-result">
+        <gtx-checkbox [(ngModel)]="readonly" label="Bottom select is readonly"></gtx-checkbox>
         <div class="column small-8">
-            <gtx-select [(ngModel)]="selectVal" readonly="true">
+            <gtx-select [(ngModel)]="selectVal" [readonly]="readonly">
                 <gtx-option *ngFor="let item of options" [value]="item"></gtx-option>
             </gtx-select>
         </div>
@@ -334,7 +335,8 @@
     </div>
     <div class="demo-code">
         <gtx-highlighted-code language="HTML" code='
-                <gtx-select [(ngModel)]="selectVal" readonly="true">
+                <gtx-checkbox [(ngModel)]="readonly" label="Bottom select is readonly"></gtx-checkbox>
+                <gtx-select [(ngModel)]="selectVal" [readonly]="readonly">
                     <gtx-option *ngFor="let item of options" [value]="item"></gtx-option>
                 </gtx-select>
                 Value: <code>(( selectVal | json ))</code>

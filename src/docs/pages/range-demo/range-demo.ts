@@ -9,4 +9,6 @@ export class RangeDemo {
     rangeVal: any = 0;
     newRangeVal: any = 25;
     showThumb: boolean = true;
+
+    readonly: boolean = false;
 }

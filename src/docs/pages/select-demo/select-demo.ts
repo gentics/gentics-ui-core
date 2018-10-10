@@ -20,4 +20,6 @@ export class SelectDemo {
     disableEntireControl: boolean = false;
     disableSingleOption: boolean = false;
     disableOptionGroup: boolean = false;
+
+    readonly: boolean = false;
 }

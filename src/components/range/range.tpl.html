@@ -1,6 +1,6 @@
 <div class="range-field">
     <input type="range"
-           [disabled]="disabled"
+           [disabled]="disabled || readonly"
            [attr.max]="max"
            [attr.min]="min"
            [attr.name]="name"
