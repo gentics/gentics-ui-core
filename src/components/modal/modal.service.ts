@@ -117,6 +117,7 @@ import {IModalInstance, IDialogConfig, IModalDialog, IModalOptions} from './moda
  *     closeOnEscape?: boolean;
  *     width?: string;
  *     padding?: boolean;
+ *     modalBodyClass?: string;
  * }
  * ```
  */

@@ -15,6 +15,7 @@ import {
 import {IModalOptions, IModalDialog} from './modal-interfaces';
 import {UserAgentRef} from './user-agent-ref';
 import {Subject} from 'rxjs';
+import {Subscription} from 'rxjs/Subscription';
 
 const defaultOptions: IModalOptions = {
     modalBodyClass: 'modal-content',
@@ -36,12 +37,13 @@ export class DynamicModalWrapper implements OnInit, OnDestroy, AfterViewChecked 
     @ViewChild('portal', {read: ViewContainerRef}) portal: ViewContainerRef;
 
     isIE11: boolean;
-    modalElementsHeight: number = 0;
-
     dismissFn: Function;
 
+    modalElementsHeight: number = 0;
     visible: boolean = false;
     options: IModalOptions = defaultOptions;
+
+    private subscriptions = new Subscription();
     private cmpRef: ComponentRef<IModalDialog>;
     private openTimer: number;
     private modalHeightEvents$: Subject<void> = new Subject();
@@ -55,13 +57,16 @@ export class DynamicModalWrapper implements OnInit, OnDestroy, AfterViewChecked 
         this.isIE11 = this.userAgent.isIE11;
 
         if (this.isIE11) {
-            this.modalHeightEvents$.debounceTime(100).subscribe(() => {
-                this.ie11FixContentHeight();
-            });
+            this.subscriptions.add(
+                this.modalHeightEvents$.debounceTime(100).subscribe(() => {
+                    this.ie11FixContentHeight();
+                })
+            );
         }
     }
 
     ngOnDestroy(): void {
+        this.subscriptions.unsubscribe();
         clearTimeout(this.openTimer);
     }
 
