@@ -9,6 +9,7 @@
 ### Fixes
 
 * Fix unexpected propagation of DOM onChange event in Textarea during onBlur (GUIC-187)
+* Fix modal height in IE11 with dynamic height calculation by surrounding elements. (GUIC-188)
 
 ## 6.2.3 (2018-09-20)
 
