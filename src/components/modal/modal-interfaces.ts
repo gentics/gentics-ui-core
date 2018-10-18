@@ -27,6 +27,7 @@ export interface IModalOptions {
     closeOnEscape?: boolean;
     width?: string;
     padding?: boolean;
+    modalBodyClass?: string;
 }
 
 /**
