@@ -98,3 +98,20 @@
         '></gtx-highlighted-code>
     </div>
 </gtx-demo-block>
+
+<gtx-demo-block demoTitle="Tooltip Usage">
+    <div class="demo-result">
+        <gtx-breadcrumbs [routerLinks]='[
+            { route: ["/"], text: "Index", tooltip: "Navigate to Index" },
+            { route: ["./"], text: "Breadcrumbs navigation", tooltip: "Navigate to Breadcrumbs navigation" }
+        ]'></gtx-breadcrumbs>
+    </div>
+    <div class="demo-code">
+        <gtx-highlighted-code language="HTML" code='
+            <gtx-breadcrumbs [routerLinks]=&#39;[
+                { route: ["/"], text: "Index", tooltip: "Navigate to Index" },
+                { route: ["./"], text: "Breadcrumbs navigation", tooltip: "Navigate to Breadcrumbs navigation" }
+            ]&#39;></gtx-breadcrumbs>
+        '></gtx-highlighted-code>
+    </div>
+</gtx-demo-block>
