@@ -7,14 +7,14 @@ export interface IBreadcrumbLink {
     href?: string;
     route?: any;
     text: string;
-    tooltip: string;
+    tooltip?: string;
     [key: string]: any;
 }
 
 export interface IBreadcrumbRouterLink {
     route: any[];
     text: string;
-    tooltip: string;
+    tooltip?: string;
     [key: string]: any;
 }
 

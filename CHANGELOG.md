@@ -2,6 +2,10 @@
 
 ## 6.2.4 (not yet released)
 
+### Features
+
+* Add optional tooltip for breadcrumbs (GUIC-189)
+
 ### Fixes
 
 ## 6.2.3 (2018-09-20)
