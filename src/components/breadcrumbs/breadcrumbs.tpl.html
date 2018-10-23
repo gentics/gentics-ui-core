@@ -19,7 +19,7 @@
                 class="breadcrumb"
                 [attr.href]="isDisabled ? null : link?.href"
                 (click)="onLinkClicked(link, $event)"
-                [title]="link.text"
+                [title]="link.tooltip || link.text"
             >{{ link.text }}</a>
         </ng-template>
 
@@ -28,7 +28,7 @@
                 class="breadcrumb"
                 [routerLink]="routerLink.route"
                 (click)="onLinkClicked(routerLink, $event)"
-                [title]="routerLink.text"
+                [title]="routerLink.tooltip || routerLink.text"
             >{{ routerLink.text }}</a>
         </ng-template>
 

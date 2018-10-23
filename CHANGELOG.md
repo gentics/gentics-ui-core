@@ -6,6 +6,10 @@
 
 * Add support for vertical tabs (GUIC-186)
 
+### Features
+
+* Add optional tooltip for breadcrumbs (GUIC-189)
+
 ### Fixes
 
 * Fix unexpected propagation of DOM onChange event in Textarea during onBlur (GUIC-187)
