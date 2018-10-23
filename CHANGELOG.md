@@ -5,9 +5,6 @@
 ### Features
 
 * Add support for vertical tabs (GUIC-186)
-
-### Features
-
 * Add optional tooltip for breadcrumbs (GUIC-189)
 
 ### Fixes
