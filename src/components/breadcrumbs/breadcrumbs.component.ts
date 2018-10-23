@@ -8,6 +8,7 @@ export interface IBreadcrumbLink {
     route?: any;
     text: string;
     tooltip?: string;
+    longPathsShowAll?: boolean;
     [key: string]: any;
 }
 
@@ -15,6 +16,7 @@ export interface IBreadcrumbRouterLink {
     route: any[];
     text: string;
     tooltip?: string;
+    longPathsShowAll?: boolean;
     [key: string]: any;
 }
 
