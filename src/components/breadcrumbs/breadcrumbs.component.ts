@@ -8,7 +8,6 @@ export interface IBreadcrumbLink {
     route?: any;
     text: string;
     tooltip?: string;
-    longPathsShowAll?: boolean;
     [key: string]: any;
 }
 
@@ -16,7 +15,6 @@ export interface IBreadcrumbRouterLink {
     route: any[];
     text: string;
     tooltip?: string;
-    longPathsShowAll?: boolean;
     [key: string]: any;
 }
 
@@ -45,6 +43,26 @@ export class Breadcrumbs implements OnChanges {
     @Input() routerLinks: IBreadcrumbRouterLink[];
 
     /**
+     * If true all the folder names that fit into one line are shown completely and one ellipsis is shown at the end
+     */
+    @Input() get multiline(): boolean {
+        return this.isMultiline;
+    }
+    set multiline(val: boolean) {
+        this.isMultiline = val != undefined && val !== false;
+    }
+
+    /**
+     * If true the breadcrumbs are always expanded
+     */
+    @Input() get multilineExpanded(): boolean {
+        return this.isMultilineExpanded;
+    }
+    set multilineExpanded(val: boolean) {
+        this.isMultilineExpanded = val != undefined && val !== false;
+    }
+
+    /**
      * Controls whether the navigation is disabled.
      */
     @Input() get disabled(): boolean {
@@ -59,8 +77,15 @@ export class Breadcrumbs implements OnChanges {
      */
     @Output() linkClick = new EventEmitter<IBreadcrumbLink | IBreadcrumbRouterLink>();
 
+    /**
+     * Fires when the expand button is clicked
+     */
+    @Output() multilineExpandedChange = new EventEmitter<boolean>();
 
+    isMultiline: boolean = false;
+    isMultilineExpanded: boolean = false;
     isDisabled: boolean = false;
+
     backLink: IBreadcrumbLink | IBreadcrumbRouterLink;
     @ViewChildren(RouterLinkWithHref) routerLinkChildren: QueryList<RouterLinkWithHref>;
 
@@ -93,6 +118,11 @@ export class Breadcrumbs implements OnChanges {
         } else {
             this.linkClick.emit(link);
         }
+    }
+
+    multilineExpandedChanged(): void {
+        this.multilineExpanded = !this.multilineExpanded;
+        this.multilineExpandedChange.emit(this.multilineExpanded);
     }
 
     ngAfterViewInit(): void {

@@ -115,3 +115,38 @@
         '></gtx-highlighted-code>
     </div>
 </gtx-demo-block>
+
+<gtx-demo-block demoTitle="Multiline check">
+        <div class="demo-result">
+            <div class="row expanded small-collapse">
+                    <div class="columns small-12 large-8">
+                        <gtx-breadcrumbs [multiline]="multiline" [multilineExpanded]="multilineExpanded" [routerLinks]='[
+                            { text: "Index" },
+                            { text: "Demo" },
+                            { text: "Hardware" },
+                            { text: "Components" },
+                            { text: "Monitors" },
+                            { text: "24 inch and up" }
+                        ]'></gtx-breadcrumbs>
+                    </div>
+                    <div class="columns small-12 large-2 large-push-1">
+                        <gtx-checkbox [(ngModel)]="multiline" label="multiline"></gtx-checkbox>
+                        <gtx-checkbox [(ngModel)]="multilineExpanded" label="multilineExpanded"></gtx-checkbox>
+                    </div>
+            </div>
+        </div>
+        <div class="demo-code">
+            <gtx-highlighted-code language="HTML" code='
+                <gtx-breadcrumbs [multiline]="multiline" [multilineExpanded]="multilineExpanded" [routerLinks]=&#39;[
+                    { text: "Index" },
+                    { text: "Demo" },
+                    { text: "Hardware" },
+                    { text: "Components" },
+                    { text: "Monitors" },
+                    { text: "24 inch and up" }
+                ]&#39;></gtx-breadcrumbs>
+                <gtx-checkbox [(ngModel)]="multiline" label="multiline"></gtx-checkbox>
+                <gtx-checkbox [(ngModel)]="multilineExpanded" label="multilineExpanded"></gtx-checkbox>
+            '></gtx-highlighted-code>
+        </div>
+    </gtx-demo-block>

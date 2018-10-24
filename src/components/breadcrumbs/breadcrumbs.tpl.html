@@ -1,5 +1,5 @@
 <nav [class.disabled]="isDisabled">
-    <div class="nav-wrapper">
+    <div class="nav-wrapper" [class.multiline]="multilineExpanded">
 
         <a class="back-button" *ngIf="backLink && backLink.route"
             (click)="onLinkClicked(backLink, $event)"
@@ -31,6 +31,12 @@
                 [title]="routerLink.tooltip || routerLink.text"
             >{{ routerLink.text }}</a>
         </ng-template>
-
     </div>
 </nav>
+<div class="collapse-icon" *ngIf="multiline"
+        [class.multiline]="multilineExpanded"
+        (click)="multilineExpandedChanged()">
+        <gtx-button icon type="secondary" [disabled]="items?.length === 0">
+            <i class="material-icons">keyboard_arrow_down</i>
+        </gtx-button>
+</div>

@@ -5,6 +5,19 @@ gtx-breadcrumbs {
     height: 4em;
     @include noselect;
 
+    > .collapse-icon {
+        transition: transform 0.2s;
+        display: inline-block;
+        padding: 15px;
+        position: absolute;
+        right: 225px;
+        top: 5px;
+
+        &:not(.multiline) {
+            transform: rotateZ(-90deg);
+        }
+    }
+
     > nav {
         background-color: $gtx-breadcrumbs-background-color;
         padding-left: rem-calc(15px);
@@ -21,6 +34,10 @@ gtx-breadcrumbs {
             flex-wrap: nowrap;
             align-items: center;
             align-content: flex-start;
+
+            &.multiline {
+                flex-wrap: wrap;
+            }
 
             > * {
                 vertical-align: top;
