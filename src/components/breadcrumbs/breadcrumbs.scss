@@ -2,7 +2,7 @@ gtx-breadcrumbs {
     display: block;
     font-size: 1em;
     line-height: 4em;
-    height: 4em;
+    height: 100%;
     @include noselect;
 
     > .collapse-icon {
@@ -10,10 +10,10 @@ gtx-breadcrumbs {
         display: inline-block;
         padding: 15px;
         position: absolute;
-        right: 225px;
+        right: 28%;
         top: 5px;
 
-        &:not(.multiline) {
+        &:not(.multilineExpanded) {
             transform: rotateZ(-90deg);
         }
     }
@@ -36,7 +36,20 @@ gtx-breadcrumbs {
             align-content: flex-start;
 
             &.multiline {
+                display: block;
+                overflow-x: hidden;
+                text-overflow: ellipsis;
+
+                > a.breadcrumb {
+                    min-width: auto !important;
+                    overflow-x: visible !important;
+                }
+            }
+
+            &.multiline.multilineExpanded {
+                display: flex;
                 flex-wrap: wrap;
+                line-height: 45px;
             }
 
             > * {

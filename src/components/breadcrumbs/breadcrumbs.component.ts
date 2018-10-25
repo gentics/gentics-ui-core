@@ -123,6 +123,7 @@ export class Breadcrumbs implements OnChanges {
     multilineExpandedChanged(): void {
         this.multilineExpanded = !this.multilineExpanded;
         this.multilineExpandedChange.emit(this.multilineExpanded);
+        console.log('multilineExpanded: ', this.multilineExpanded);
     }
 
     ngAfterViewInit(): void {
