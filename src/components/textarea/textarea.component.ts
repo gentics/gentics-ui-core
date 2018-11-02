@@ -63,6 +63,11 @@ export class Textarea implements ControlValueAccessor, OnChanges {
     @Input() name: string;
 
     /**
+     * Regex pattern for complex validation
+     */
+    @Input() pattern: string;
+
+    /**
      * A placeholder text to display when the control is empty.
      */
     @Input() placeholder: string;
@@ -76,6 +81,11 @@ export class Textarea implements ControlValueAccessor, OnChanges {
      * Sets the required state.
      */
     @Input() required: boolean = false;
+
+    /**
+     * Tooltip for validation errors.
+     */
+    @Input() validationErrorTooltip: string;
 
     /**
      * Sets the value of the control.

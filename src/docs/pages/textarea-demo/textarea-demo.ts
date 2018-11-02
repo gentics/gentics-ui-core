@@ -9,4 +9,6 @@ export class TextareaDemo {
     required: boolean;
     disabled: boolean;
     message: string;
+
+    pattern: string = '^[0-9]+$';
 }

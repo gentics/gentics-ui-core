@@ -41,3 +41,28 @@
         '></gtx-highlighted-code>
     </div>
 </gtx-demo-block>
+
+<gtx-demo-block demoTitle="Regular Expressions Check">
+    <div class="demo-result">
+        <gtx-textarea label="Message"
+                      [readonly]="readonly"
+                      [disabled]="disabled"
+                      [required]="required"
+                      [pattern]="pattern"
+                      [(ngModel)]="message"
+        ></gtx-textarea>
+        message: <code>{{ message | json }}</code>
+    </div>
+    <div class="demo-code">
+        <gtx-highlighted-code language="HTML" code='
+                <gtx-textarea label="Message"
+                              [readonly]="readonly"
+                              [disabled]="disabled"
+                              [required]="required"
+                              [pattern]="pattern"
+                              [(ngModel)]="message"
+                ></gtx-textarea>
+                message: <code>(( message | json ))</code>
+        '></gtx-highlighted-code>
+    </div>
+</gtx-demo-block>
