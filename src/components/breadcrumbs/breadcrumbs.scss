@@ -37,7 +37,8 @@ gtx-breadcrumbs {
 
             &.multiline {
                 display: block;
-                overflow-x: hidden;
+                overflow: hidden;
+                white-space: nowrap;
                 text-overflow: ellipsis;
 
                 > a.breadcrumb {

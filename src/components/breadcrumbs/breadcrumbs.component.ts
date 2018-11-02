@@ -123,7 +123,22 @@ export class Breadcrumbs implements OnChanges {
     multilineExpandedChanged(): void {
         this.multilineExpanded = !this.multilineExpanded;
         this.multilineExpandedChange.emit(this.multilineExpanded);
-        console.log('multilineExpanded: ', this.multilineExpanded);
+
+        let element: HTMLElement = this.elementRef.nativeElement;
+        element = (<HTMLElement> element.getElementsByClassName('breadcrumb')[0]);
+
+        element.addEventListener('mouseover', () => {
+            console.log('Hover event 1 triggered');
+            console.log('element: ', element);
+          });
+
+          let event = new MouseEvent('mouseover', {
+            'view': window,
+            'bubbles': true,
+            'cancelable': true
+          });
+
+          element.dispatchEvent(event);
     }
 
     ngAfterViewInit(): void {

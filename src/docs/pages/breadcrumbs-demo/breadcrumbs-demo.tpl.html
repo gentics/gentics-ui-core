@@ -120,22 +120,11 @@
         <div class="demo-result">
             <div class="row expanded small-collapse">
                     <div class="columns small-12 large-8">
-                        <gtx-breadcrumbs [multiline]="multiline" [multilineExpanded]="multilineExpanded" [routerLinks]='[
-                            { text: "Index" },
-                            { text: "Demo" },
-                            { text: "Hardware" },
-                            { text: "Components" },
-                            { text: "Monitors" },
-                            { text: "Index" },
-                            { text: "Demo" },
-                            { text: "Hardware" },
-                            { text: "Index" },
-                            { text: "Demo" },
-                            { text: "Hardware" }
-                        ]'></gtx-breadcrumbs>
+                        <gtx-breadcrumbs [multiline]="multiline" [multilineExpanded]="multilineExpanded" [routerLinks]='routerLinks'></gtx-breadcrumbs>
                     </div>
                     <div class="columns small-12 large-2 large-push-1">
                         <gtx-checkbox [(ngModel)]="multiline" label="multiline"></gtx-checkbox>
+                        <button class="btn btn-primary" (click)="onClick()">Change</button>
                     </div>
             </div>
         </div>
