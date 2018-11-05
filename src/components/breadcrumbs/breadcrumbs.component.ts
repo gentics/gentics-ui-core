@@ -128,17 +128,27 @@ export class Breadcrumbs implements OnChanges {
         element = (<HTMLElement> element.getElementsByClassName('breadcrumb')[0]);
 
         element.addEventListener('mouseover', () => {
-            console.log('Hover event 1 triggered');
-            console.log('element: ', element);
+            console.log('Hover event triggered');
           });
 
-          let event = new MouseEvent('mouseover', {
+        element.addEventListener('click', () => {
+            console.log('Click event trigerred');
+        });
+
+        let mouseoverEvent = new MouseEvent('mouseover', {
             'view': window,
             'bubbles': true,
             'cancelable': true
-          });
+        });
 
-          element.dispatchEvent(event);
+        let clickEvent = new MouseEvent('click', {
+            'view': window,
+            'bubbles': true,
+            'cancelable': true
+        });
+
+        element.dispatchEvent(mouseoverEvent);
+        element.dispatchEvent(clickEvent);
     }
 
     ngAfterViewInit(): void {
