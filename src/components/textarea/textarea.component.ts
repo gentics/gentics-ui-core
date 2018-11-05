@@ -63,7 +63,7 @@ export class Textarea implements ControlValueAccessor, OnChanges {
     @Input() name: string;
 
     /**
-     * Regex pattern for complex validation
+     * Regex pattern for complex validation.
      */
     @Input() pattern: string;
 

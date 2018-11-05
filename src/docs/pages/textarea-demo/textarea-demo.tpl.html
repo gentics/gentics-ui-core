@@ -50,6 +50,7 @@
                       [required]="required"
                       [pattern]="pattern"
                       [(ngModel)]="message"
+                      [title]="validationErrorTooltip"
         ></gtx-textarea>
         message: <code>{{ message | json }}</code>
     </div>

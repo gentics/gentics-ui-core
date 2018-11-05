@@ -11,4 +11,5 @@ export class TextareaDemo {
     message: string;
 
     pattern: string = '^[0-9]+$';
+    validationErrorTooltip: string = 'Input does not match the requirements';
 }
