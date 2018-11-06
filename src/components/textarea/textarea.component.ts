@@ -122,7 +122,8 @@ export class Textarea implements ControlValueAccessor, OnChanges {
     private currentValue: string;
 
     constructor(private renderer: Renderer,
-                private changeDetector: ChangeDetectorRef) { }
+                private changeDetector: ChangeDetectorRef,
+                private elementRef: ElementRef) { }
 
     ngOnChanges(changes: SimpleChanges): void {
         const valueChange = changes['value'];
@@ -152,6 +153,20 @@ export class Textarea implements ControlValueAccessor, OnChanges {
         this.setHeight(value);
         this.change.emit(value);
         this.onChange(value);
+
+        let element: HTMLTextAreaElement = this.elementRef.nativeElement;
+        console.log('element1: ', element);
+
+        element = (<HTMLTextAreaElement> element.getElementsByTagName('textarea')[0]);
+        console.log('element2: ', element);
+
+        console.log('validity: ', element.validity);
+        console.log('will validate: ', element.willValidate);
+
+        if (element.checkValidity()) {
+            console.log('Element ', element, ' is valid.');
+        }
+
     }
 
     writeValue(valueToWrite: any): void {

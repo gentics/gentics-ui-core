@@ -44,26 +44,31 @@
 
 <gtx-demo-block demoTitle="Regular Expressions Check">
     <div class="demo-result">
+        <gtx-input label="Pattern" [(ngModel)]="pattern"></gtx-input>
+        <gtx-input label="Validation Error Tooltip" [(ngModel)]="validationErrorTooltip"></gtx-input>
         <gtx-textarea label="Message"
                       [readonly]="readonly"
                       [disabled]="disabled"
                       [required]="required"
                       [pattern]="pattern"
-                      [(ngModel)]="message"
-                      [title]="validationErrorTooltip"
+                      [(ngModel)]="newMessage"
+                      [validationErrorTooltip]="validationErrorTooltip"
         ></gtx-textarea>
-        message: <code>{{ message | json }}</code>
+        message: <code>{{ newMessage | json }}</code>
     </div>
     <div class="demo-code">
         <gtx-highlighted-code language="HTML" code='
+                <gtx-input label="Pattern" [(ngModel)]="pattern"></gtx-input>
+                <gtx-input label="Validation Error Tooltip" [(ngModel)]="validationErrorTooltip"></gtx-input>
                 <gtx-textarea label="Message"
                               [readonly]="readonly"
                               [disabled]="disabled"
                               [required]="required"
                               [pattern]="pattern"
-                              [(ngModel)]="message"
+                              [(ngModel)]="newMessage"
+                              [validationErrorTooltip]="validationErrorTooltip"
                 ></gtx-textarea>
-                message: <code>(( message | json ))</code>
+                message: <code>(( newMessage | json ))</code>
         '></gtx-highlighted-code>
     </div>
 </gtx-demo-block>

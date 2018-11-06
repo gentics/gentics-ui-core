@@ -9,7 +9,8 @@ export class TextareaDemo {
     required: boolean;
     disabled: boolean;
     message: string;
+    newMessage: string;
 
-    pattern: string = '^[0-9]+$';
-    validationErrorTooltip: string = 'Input does not match the requirements';
+    pattern: string;
+    validationErrorTooltip: string;
 }
