@@ -118,7 +118,6 @@ export class Textarea implements ControlValueAccessor, OnChanges {
     @Output() change = new EventEmitter<string>();
 
     textareaInvalid: boolean = false;
-    textareaClass: string;
 
     @ViewChild('textarea') private nativeTextarea: ElementRef;
     private _maxlength: number;
@@ -159,10 +158,10 @@ export class Textarea implements ControlValueAccessor, OnChanges {
         this.onTouched();
 
         setTimeout(() => {
-            let element: HTMLTextAreaElement = this.elementRef.nativeElement;
-            this.textareaClass = element.getAttribute('class');
+            const element: HTMLTextAreaElement = this.elementRef.nativeElement;
+            const textareaClass = element.getAttribute('class');
 
-            if ((this.textareaClass.indexOf('ng-touched') !== -1) && (this.textareaClass.indexOf('ng-invalid') !== -1)) {
+            if ((textareaClass.indexOf('ng-touched') !== -1) && (textareaClass.indexOf('ng-invalid') !== -1)) {
                 this.textareaInvalid = true;
             } else {
                 this.textareaInvalid = false;

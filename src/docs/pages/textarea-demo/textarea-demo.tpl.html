@@ -48,10 +48,10 @@
         <gtx-input label="Validation Error Tooltip" [(ngModel)]="validationErrorTooltip"></gtx-input>
         <gtx-textarea label="Message"
                       [pattern]="pattern"
-                      [(ngModel)]="newMessage"
+                      [(ngModel)]="validatedMessage"
                       [validationErrorTooltip]="validationErrorTooltip"
         ></gtx-textarea>
-        message: <code>{{ newMessage | json }}</code>
+        message: <code>{{ validatedMessage | json }}</code>
     </div>
     <div class="demo-code">
         <gtx-highlighted-code language="HTML" code='
@@ -59,10 +59,10 @@
                 <gtx-input label="Validation Error Tooltip" [(ngModel)]="validationErrorTooltip"></gtx-input>
                 <gtx-textarea label="Message"
                               [pattern]="pattern"
-                              [(ngModel)]="newMessage"
+                              [(ngModel)]="validatedMessage"
                               [validationErrorTooltip]="validationErrorTooltip"
                 ></gtx-textarea>
-                message: <code>(( newMessage | json ))</code>
+                message: <code>(( validatedMessage | json ))</code>
         '></gtx-highlighted-code>
     </div>
 </gtx-demo-block>

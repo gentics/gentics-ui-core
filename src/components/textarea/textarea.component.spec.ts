@@ -214,7 +214,6 @@ describe('Textarea', () => {
                 tick(1000);
 
                 instance.value = '123';
-                gtxTextarea.setAttribute('class', 'ng-touched');
                 fixture.detectChanges();
                 tick(1000);
                 fixture.detectChanges();
@@ -242,11 +241,6 @@ describe('Textarea', () => {
                 tick(1000);
 
                 instance.value = '123qwerty';
-                gtxTextarea.setAttribute('class', 'ng-touched');
-                fixture.detectChanges();
-                tick(1000);
-                fixture.detectChanges();
-
                 triggerEvent(nativeTextarea, 'input');
                 fixture.detectChanges();
                 tick(1000);
@@ -270,11 +264,6 @@ describe('Textarea', () => {
                 tick(1000);
 
                 instance.value = '123qwerty';
-                gtxTextarea.setAttribute('class', 'ng-touched');
-                fixture.detectChanges();
-                tick(1000);
-                fixture.detectChanges();
-
                 triggerEvent(nativeTextarea, 'input');
                 fixture.detectChanges();
                 tick(1000);
