@@ -5,7 +5,7 @@
     [attr.name]="name"
     [attr.pattern]="pattern"
     [attr.placeholder]="placeholder"
-    [attr.title]="(textareaInvalid && validationErrorTooltip) ? validationErrorTooltip : ''"
+    [attr.title]="(!valueIsValid && validationErrorTooltip) ? validationErrorTooltip : ''"
 
     [disabled]="disabled"
     [readonly]="readonly"

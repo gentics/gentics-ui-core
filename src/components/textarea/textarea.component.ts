@@ -64,6 +64,8 @@ export class Textarea implements ControlValueAccessor, OnChanges {
 
     /**
      * Regex pattern for complex validation.
+     * This requires that this control is either part of a form or that
+     * its value is bound with ngModel.
      */
     @Input() pattern: string;
 
@@ -117,7 +119,7 @@ export class Textarea implements ControlValueAccessor, OnChanges {
      */
     @Output() change = new EventEmitter<string>();
 
-    textareaInvalid: boolean = false;
+    valueIsValid: boolean = true;
 
     @ViewChild('textarea') private nativeTextarea: ElementRef;
     private _maxlength: number;
@@ -159,13 +161,7 @@ export class Textarea implements ControlValueAccessor, OnChanges {
 
         setTimeout(() => {
             const element: HTMLTextAreaElement = this.elementRef.nativeElement;
-            const textareaClass = element.getAttribute('class');
-
-            if ((textareaClass.indexOf('ng-touched') !== -1) && (textareaClass.indexOf('ng-invalid') !== -1)) {
-                this.textareaInvalid = true;
-            } else {
-                this.textareaInvalid = false;
-            }
+            this.valueIsValid = !element.classList.contains('ng-invalid');
         });
     }
 

@@ -12,7 +12,7 @@ gtx-textarea {
         overflow-y: auto;
     }
 
-    &.ng-touched.ng-invalid > textarea.materialize-textarea {
+    &.ng-touched.ng-invalid > textarea.materialize-textarea:not(:focus) {
         border-color: $gtx-color-alert;
     }
 }

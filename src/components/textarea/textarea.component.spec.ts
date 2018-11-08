@@ -184,7 +184,7 @@ describe('Textarea', () => {
 
     it('emits "change" when native input value is changed',
         componentTest(() => TestComponent, `
-            <gtx-textarea (change)="onChangeEvent($event)" [(ngModel)]="value">
+            <gtx-textarea (change)="onChangeEvent($event)" value="foo">
             </gtx-textarea>`,
             fixture => {
                 let nativeTextarea: HTMLTextAreaElement = fixture.nativeElement.querySelector('textarea');
