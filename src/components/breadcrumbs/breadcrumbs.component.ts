@@ -1,7 +1,6 @@
-import { AfterViewInit, Component, ElementRef, EventEmitter, Input, Output } from '@angular/core';
+import { Component, ElementRef, EventEmitter, Input, Output } from '@angular/core';
 import { OnChanges, QueryList, SimpleChanges, ViewChildren } from '@angular/core';
 import { RouterLinkWithHref } from '@angular/router';
-import { Observable } from 'rxjs/Observable';
 
 export interface IBreadcrumbLink {
     href?: string;
@@ -124,31 +123,12 @@ export class Breadcrumbs implements OnChanges {
         this.multilineExpanded = !this.multilineExpanded;
         this.multilineExpandedChange.emit(this.multilineExpanded);
 
-        let element: HTMLElement = this.elementRef.nativeElement;
-        element = (<HTMLElement> element.getElementsByClassName('breadcrumb')[0]);
+        let newRouterLinks = this.routerLinks;
+        this.routerLinks = [];
 
-        element.addEventListener('mouseover', () => {
-            console.log('Hover event triggered');
-          });
-
-        element.addEventListener('click', () => {
-            console.log('Click event trigerred');
+        setTimeout(() => {
+            this.routerLinks = newRouterLinks;
         });
-
-        let mouseoverEvent = new MouseEvent('mouseover', {
-            'view': window,
-            'bubbles': true,
-            'cancelable': true
-        });
-
-        let clickEvent = new MouseEvent('click', {
-            'view': window,
-            'bubbles': true,
-            'cancelable': true
-        });
-
-        element.dispatchEvent(mouseoverEvent);
-        element.dispatchEvent(clickEvent);
     }
 
     ngAfterViewInit(): void {
