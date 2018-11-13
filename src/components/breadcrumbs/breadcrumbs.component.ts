@@ -2,6 +2,7 @@ import { Component, ElementRef, EventEmitter, Input, Output } from '@angular/cor
 import { OnChanges, QueryList, SimpleChanges, ViewChildren } from '@angular/core';
 import { RouterLinkWithHref } from '@angular/router';
 import { UserAgentRef } from '../modal/user-agent-ref';
+import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 
 export interface IBreadcrumbLink {
     href?: string;
@@ -105,6 +106,10 @@ export class Breadcrumbs implements OnChanges {
             let allLinks = (this.links || []).concat(this.routerLinks || []);
             this.backLink = allLinks[allLinks.length - 2];
         }
+
+        if (changes['multiline'] || changes['multilineExpanded']) {
+            this.executeIEandEdgeEllipsisWorkAround();
+        }
     }
 
     ngOnDestroy(): void {
@@ -125,28 +130,11 @@ export class Breadcrumbs implements OnChanges {
         this.multilineExpanded = !this.multilineExpanded;
         this.multilineExpandedChange.emit(this.multilineExpanded);
 
-        if (this.userAgent.isIE11 || this.userAgent.isEdge) {
-            const newRouterLinks = this.routerLinks;
-            this.routerLinks = [];
-
-            setTimeout(() => {
-                this.routerLinks = newRouterLinks;
-            });
-        }
+        this.executeIEandEdgeEllipsisWorkAround();
     }
 
     onResize(event: any): void {
-        if (this.userAgent.isIE11 || this.userAgent.isEdge) {
-            const newRouterLinks = this.routerLinks;
-
-            setTimeout(() => {
-                this.routerLinks = [];
-            });
-
-            setTimeout(() => {
-                this.routerLinks = newRouterLinks;
-            });
-        }
+        this.executeIEandEdgeEllipsisWorkAround();
     }
 
     ngAfterViewInit(): void {
@@ -183,4 +171,26 @@ export class Breadcrumbs implements OnChanges {
         }
     }
 
+    private executeIEandEdgeEllipsisWorkAround(): void {
+        if (this.userAgent.isIE11) {
+            const newRouterLinks = this.routerLinks;
+            this.routerLinks = [];
+
+            setTimeout(() => {
+                this.routerLinks = newRouterLinks;
+            });
+        }
+
+        if (this.userAgent.isEdge) {
+            const newRouterLinks = this.routerLinks;
+
+            setTimeout(() => {
+                this.routerLinks = [];
+
+                setTimeout(() => {
+                    this.routerLinks = newRouterLinks;
+                });
+            });
+        }
+    }
 }

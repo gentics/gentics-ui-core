@@ -9,6 +9,6 @@ export class BreadcrumbsDemo {
 
     isChanged: boolean = false;
 
-    multiline: boolean = false;
+    multiline: boolean = true;
     multilineExpanded: boolean = true;
 }
