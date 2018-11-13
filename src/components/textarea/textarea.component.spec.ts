@@ -193,11 +193,85 @@ describe('Textarea', () => {
                 tick(1000);
                 instance.onChangeEvent = jasmine.createSpy('onChangeEvent');
 
+                nativeTextarea.value = 'foo';
                 triggerEvent(nativeTextarea, 'input');
                 tick(1000);
 
                 expect(instance.onChangeEvent).toHaveBeenCalledWith('foo');
                 expect(instance.onChangeEvent).toHaveBeenCalledTimes(1);
+            }
+        )
+    );
+
+    it('is valid if input matches pattern and does not show the tooltip if validationErrorTooltip is set',
+        componentTest(() => TestComponent, `
+            <gtx-textarea pattern="^[0-9]+$" validationErrorTooltip="Error" [(ngModel)]="value"></gtx-textarea>`,
+            (fixture, instance) => {
+                let gtxTextarea: HTMLTextAreaElement = fixture.nativeElement.querySelector('gtx-textarea');
+
+                let nativeTextarea: HTMLTextAreaElement = fixture.nativeElement.querySelector('textarea');
+                fixture.detectChanges();
+                tick(1000);
+
+                instance.value = '123';
+                fixture.detectChanges();
+                tick(1000);
+                fixture.detectChanges();
+
+                triggerEvent(nativeTextarea, 'input');
+                fixture.detectChanges();
+                tick(1000);
+                fixture.detectChanges();
+
+                expect(gtxTextarea.getAttribute('class').indexOf('ng-valid')).not.toBe(-1);
+
+                expect(nativeTextarea.getAttribute('title')).toEqual('');
+            }
+        )
+    );
+
+    it('is invalid if input does not match pattern and shows the right tooltip if validationErrorTooltip is set',
+        componentTest(() => TestComponent, `
+            <gtx-textarea pattern="^[0-9]+$" validationErrorTooltip="Error" [(ngModel)]="value"></gtx-textarea>`,
+            (fixture, instance) => {
+                let gtxTextarea: HTMLTextAreaElement = fixture.nativeElement.querySelector('gtx-textarea');
+
+                let nativeTextarea: HTMLTextAreaElement = fixture.nativeElement.querySelector('textarea');
+                fixture.detectChanges();
+                tick(1000);
+
+                instance.value = '123qwerty';
+                triggerEvent(nativeTextarea, 'input');
+                fixture.detectChanges();
+                tick(1000);
+                fixture.detectChanges();
+
+                expect(gtxTextarea.getAttribute('class').indexOf('ng-invalid')).not.toBe(-1);
+
+                expect(nativeTextarea.getAttribute('title')).toEqual('Error');
+            }
+        )
+    );
+
+    it('is invalid if input does not match pattern and does not show the tooltip if validationErrorTooltip is not set',
+        componentTest(() => TestComponent, `
+            <gtx-textarea pattern="^[0-9]+$" [(ngModel)]="value"></gtx-textarea>`,
+            (fixture, instance) => {
+                let gtxTextarea: HTMLTextAreaElement = fixture.nativeElement.querySelector('gtx-textarea');
+
+                let nativeTextarea: HTMLTextAreaElement = fixture.nativeElement.querySelector('textarea');
+                fixture.detectChanges();
+                tick(1000);
+
+                instance.value = '123qwerty';
+                triggerEvent(nativeTextarea, 'input');
+                fixture.detectChanges();
+                tick(1000);
+                fixture.detectChanges();
+
+                expect(gtxTextarea.getAttribute('class').indexOf('ng-invalid')).not.toBe(-1);
+
+                expect(nativeTextarea.getAttribute('title')).toEqual('');
             }
         )
     );
