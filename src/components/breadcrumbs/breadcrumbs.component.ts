@@ -2,7 +2,6 @@ import { Component, ElementRef, EventEmitter, Input, Output } from '@angular/cor
 import { OnChanges, QueryList, SimpleChanges, ViewChildren } from '@angular/core';
 import { RouterLinkWithHref } from '@angular/router';
 import { UserAgentRef } from '../modal/user-agent-ref';
-import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 
 export interface IBreadcrumbLink {
     href?: string;
