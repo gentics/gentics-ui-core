@@ -1,6 +1,7 @@
 import { Component, ElementRef, EventEmitter, Input, Output } from '@angular/core';
 import { OnChanges, QueryList, SimpleChanges, ViewChildren } from '@angular/core';
 import { RouterLinkWithHref } from '@angular/router';
+import { UserAgentRef } from '../modal/user-agent-ref';
 
 export interface IBreadcrumbLink {
     href?: string;
@@ -88,7 +89,8 @@ export class Breadcrumbs implements OnChanges {
     backLink: IBreadcrumbLink | IBreadcrumbRouterLink;
     @ViewChildren(RouterLinkWithHref) routerLinkChildren: QueryList<RouterLinkWithHref>;
 
-    constructor(private elementRef: ElementRef) { }
+    constructor(private elementRef: ElementRef,
+                private userAgent: UserAgentRef) { }
 
     ngOnInit(): void {
         let element: HTMLElement = this.elementRef.nativeElement;
@@ -123,21 +125,28 @@ export class Breadcrumbs implements OnChanges {
         this.multilineExpanded = !this.multilineExpanded;
         this.multilineExpandedChange.emit(this.multilineExpanded);
 
-        let newRouterLinks = this.routerLinks;
-        this.routerLinks = [];
+        if (this.userAgent.isIE11 || this.userAgent.isEdge) {
+            const newRouterLinks = this.routerLinks;
+            this.routerLinks = [];
 
-        setTimeout(() => {
-            this.routerLinks = newRouterLinks;
-        });
+            setTimeout(() => {
+                this.routerLinks = newRouterLinks;
+            });
+        }
     }
 
     onResize(event: any): void {
-        let newRouterLinks = this.routerLinks;
-        this.routerLinks = [];
+        if (this.userAgent.isIE11 || this.userAgent.isEdge) {
+            const newRouterLinks = this.routerLinks;
 
-        setTimeout(() => {
-            this.routerLinks = newRouterLinks;
-        });
+            setTimeout(() => {
+                this.routerLinks = [];
+            });
+
+            setTimeout(() => {
+                this.routerLinks = newRouterLinks;
+            });
+        }
     }
 
     ngAfterViewInit(): void {
