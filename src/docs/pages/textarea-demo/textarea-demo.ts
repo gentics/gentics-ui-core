@@ -12,5 +12,5 @@ export class TextareaDemo {
     validatedMessage: string;
 
     pattern: string = '^[0-9]*\n*[0-9]*$';
-    validationErrorTooltip: string;
+    validationErrorTooltip: string = 'Please use the correct format';
 }

@@ -161,7 +161,7 @@ export class Textarea implements ControlValueAccessor, OnChanges {
 
         setTimeout(() => {
             const element: HTMLTextAreaElement = this.elementRef.nativeElement;
-            this.valueIsValid = !element.classList.contains('ng-invalid');
+            this.valueIsValid = !element.classList.contains('ng-touched') || !element.classList.contains('ng-invalid');
         });
     }
 
