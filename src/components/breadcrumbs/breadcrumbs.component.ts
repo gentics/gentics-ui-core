@@ -131,6 +131,15 @@ export class Breadcrumbs implements OnChanges {
         });
     }
 
+    onResize(event: any): void {
+        let newRouterLinks = this.routerLinks;
+        this.routerLinks = [];
+
+        setTimeout(() => {
+            this.routerLinks = newRouterLinks;
+        });
+    }
+
     ngAfterViewInit(): void {
         this.preventDisabledRouterLinks();
         this.routerLinkChildren.changes.subscribe(() => this.preventDisabledRouterLinks());
