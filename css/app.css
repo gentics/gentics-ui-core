@@ -9233,12 +9233,28 @@ gtx-breadcrumbs {
   display: block;
   font-size: 1em;
   line-height: 4em;
-  height: 4em;
+  height: 100%;
   -webkit-touch-callout: none;
   -webkit-user-select: none;
   -moz-user-select: none;
   -ms-user-select: none;
   user-select: none;
+}
+
+gtx-breadcrumbs > .collapse-icon {
+  transition: -webkit-transform 0.2s;
+  transition: transform 0.2s;
+  transition: transform 0.2s, -webkit-transform 0.2s;
+  display: inline-block;
+  padding: 15px;
+  position: absolute;
+  right: 28%;
+  top: 5px;
+}
+
+gtx-breadcrumbs > .collapse-icon:not(.multilineExpanded) {
+  -webkit-transform: rotateZ(-90deg);
+  transform: rotateZ(-90deg);
 }
 
 gtx-breadcrumbs > nav {
@@ -9262,6 +9278,25 @@ gtx-breadcrumbs > nav > .nav-wrapper {
   -webkit-box-align: center;
   align-items: center;
   align-content: flex-start;
+}
+
+gtx-breadcrumbs > nav > .nav-wrapper.multiline {
+  display: block;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+gtx-breadcrumbs > nav > .nav-wrapper.multiline > a.breadcrumb {
+  min-width: auto !important;
+  overflow-x: visible !important;
+}
+
+gtx-breadcrumbs > nav > .nav-wrapper.multiline.multilineExpanded {
+  display: -webkit-box;
+  display: flex;
+  flex-wrap: wrap;
+  line-height: 45px;
 }
 
 gtx-breadcrumbs > nav > .nav-wrapper > * {
@@ -11178,6 +11213,40 @@ gtx-tabs > .tab-links.wrap {
   flex-wrap: wrap;
 }
 
+gtx-tabs > .tab-links.vertical {
+  display: block;
+  margin-right: 25px;
+  float: left;
+  width: 20%;
+  max-width: 200px;
+}
+
+gtx-tabs > .tab-links.vertical > .tab-link {
+  width: 100%;
+  border-bottom: 1px dotted #efefef;
+  padding: 19px 5px;
+  min-height: 63px;
+}
+
+gtx-tabs > .tab-links.vertical > .tab-link > a {
+  padding: 0;
+  white-space: normal;
+}
+
+gtx-tabs > .tab-links.vertical > .tab-link:hover {
+  background-color: #f5f5f5;
+}
+
+gtx-tabs > .tab-links.vertical > .tab-link:active {
+  background-color: #d6d6d6;
+}
+
+gtx-tabs > .tab-links.vertical > .tab-link.is-active {
+  background-color: #fff;
+  border-left: 3px solid #0096DC;
+  border-bottom-color: #efefef;
+}
+
 gtx-tabs > .tab-links > .tab-link {
   -webkit-touch-callout: none;
   -webkit-user-select: none;
@@ -11293,7 +11362,7 @@ gtx-textarea > textarea.materialize-textarea[disabled] + label {
   color: #797979;
 }
 
-gtx-textarea.ng-touched.ng-invalid > textarea.materialize-textarea {
+gtx-textarea.ng-touched.ng-invalid > textarea.materialize-textarea:not(:focus) {
   border-color: #c9302c;
 }
 
@@ -11505,6 +11574,10 @@ gtx-demo-block .demo-title > * {
 gtx-demo-block .demo-body {
   padding: 20px 20px 30px 20px;
   position: relative;
+}
+
+gtx-demo-block .demo-body .verticalTab {
+  height: 335px;
 }
 
 gtx-demo-block .code-wrapper {
@@ -12113,6 +12186,12 @@ body {
 @media screen and (max-width: 600px) {
   .top-bar .gentics-logo {
     display: none !important;
+  }
+}
+
+@media all and (-ms-high-contrast: none), (-ms-high-contrast: active) {
+  .top-bar .gentics-logo {
+    padding-right: 45px;
   }
 }
 
