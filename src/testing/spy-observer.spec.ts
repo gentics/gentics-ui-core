@@ -19,6 +19,8 @@ describe('SpyObserver', () => {
 });
 
 describe('subscribeSpyObserver()', () => {
+    let cleanupFn: any;
+    jasmine.getEnv().afterAll = (callback: any) => cleanupFn = callback;
 
     it('creates an spyobserver subscribed to an observable', () => {
         let subscribed = false;

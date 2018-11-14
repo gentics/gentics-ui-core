@@ -7,6 +7,7 @@
 * Add support for vertical tabs (GUIC-186)
 * Add optional tooltip for breadcrumbs (GUIC-189)
 * Add option for multiline breadcrumbs (GUIC-190)
+* Add support for pattern validation to textarea (GUIC-191)
 
 ### Fixes
 

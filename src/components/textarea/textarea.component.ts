@@ -63,6 +63,13 @@ export class Textarea implements ControlValueAccessor, OnChanges {
     @Input() name: string;
 
     /**
+     * Regex pattern for complex validation.
+     * This requires that this control is either part of a form or that
+     * its value is bound with ngModel.
+     */
+    @Input() pattern: string;
+
+    /**
      * A placeholder text to display when the control is empty.
      */
     @Input() placeholder: string;
@@ -76,6 +83,11 @@ export class Textarea implements ControlValueAccessor, OnChanges {
      * Sets the required state.
      */
     @Input() required: boolean = false;
+
+    /**
+     * Tooltip for validation errors.
+     */
+    @Input() validationErrorTooltip: string;
 
     /**
      * Sets the value of the control.
@@ -107,12 +119,15 @@ export class Textarea implements ControlValueAccessor, OnChanges {
      */
     @Output() change = new EventEmitter<string>();
 
+    valueIsValid: boolean = true;
+
     @ViewChild('textarea') private nativeTextarea: ElementRef;
     private _maxlength: number;
     private currentValue: string;
 
     constructor(private renderer: Renderer,
-                private changeDetector: ChangeDetectorRef) { }
+                private changeDetector: ChangeDetectorRef,
+                private elementRef: ElementRef) { }
 
     ngOnChanges(changes: SimpleChanges): void {
         const valueChange = changes['value'];
@@ -142,6 +157,12 @@ export class Textarea implements ControlValueAccessor, OnChanges {
         this.setHeight(value);
         this.change.emit(value);
         this.onChange(value);
+        this.onTouched();
+
+        setTimeout(() => {
+            const element: HTMLTextAreaElement = this.elementRef.nativeElement;
+            this.valueIsValid = !element.classList.contains('ng-touched') || !element.classList.contains('ng-invalid');
+        });
     }
 
     writeValue(valueToWrite: any): void {
