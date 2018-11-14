@@ -1,7 +1,7 @@
-import { AfterViewInit, Component, ElementRef, EventEmitter, Input, Output } from '@angular/core';
+import { Component, ElementRef, EventEmitter, Input, Output } from '@angular/core';
 import { OnChanges, QueryList, SimpleChanges, ViewChildren } from '@angular/core';
 import { RouterLinkWithHref } from '@angular/router';
-import { Observable } from 'rxjs/Observable';
+import { UserAgentRef } from '../modal/user-agent-ref';
 
 export interface IBreadcrumbLink {
     href?: string;
@@ -43,6 +43,26 @@ export class Breadcrumbs implements OnChanges {
     @Input() routerLinks: IBreadcrumbRouterLink[];
 
     /**
+     * If true all the folder names that fit into one line are shown completely and one ellipsis is shown at the end
+     */
+    @Input() get multiline(): boolean {
+        return this.isMultiline;
+    }
+    set multiline(val: boolean) {
+        this.isMultiline = val != undefined && val !== false;
+    }
+
+    /**
+     * If true the breadcrumbs are always expanded
+     */
+    @Input() get multilineExpanded(): boolean {
+        return this.isMultilineExpanded;
+    }
+    set multilineExpanded(val: boolean) {
+        this.isMultilineExpanded = val != undefined && val !== false;
+    }
+
+    /**
      * Controls whether the navigation is disabled.
      */
     @Input() get disabled(): boolean {
@@ -57,12 +77,20 @@ export class Breadcrumbs implements OnChanges {
      */
     @Output() linkClick = new EventEmitter<IBreadcrumbLink | IBreadcrumbRouterLink>();
 
+    /**
+     * Fires when the expand button is clicked
+     */
+    @Output() multilineExpandedChange = new EventEmitter<boolean>();
 
+    isMultiline: boolean = false;
+    isMultilineExpanded: boolean = false;
     isDisabled: boolean = false;
+
     backLink: IBreadcrumbLink | IBreadcrumbRouterLink;
     @ViewChildren(RouterLinkWithHref) routerLinkChildren: QueryList<RouterLinkWithHref>;
 
-    constructor(private elementRef: ElementRef) { }
+    constructor(private elementRef: ElementRef,
+                private userAgent: UserAgentRef) { }
 
     ngOnInit(): void {
         let element: HTMLElement = this.elementRef.nativeElement;
@@ -76,6 +104,10 @@ export class Breadcrumbs implements OnChanges {
         if (changes['links'] || changes['routerLinks']) {
             let allLinks = (this.links || []).concat(this.routerLinks || []);
             this.backLink = allLinks[allLinks.length - 2];
+        }
+
+        if (changes['multiline'] || changes['multilineExpanded']) {
+            this.executeIEandEdgeEllipsisWorkAround();
         }
     }
 
@@ -91,6 +123,17 @@ export class Breadcrumbs implements OnChanges {
         } else {
             this.linkClick.emit(link);
         }
+    }
+
+    multilineExpandedChanged(): void {
+        this.multilineExpanded = !this.multilineExpanded;
+        this.multilineExpandedChange.emit(this.multilineExpanded);
+
+        this.executeIEandEdgeEllipsisWorkAround();
+    }
+
+    onResize(event: any): void {
+        this.executeIEandEdgeEllipsisWorkAround();
     }
 
     ngAfterViewInit(): void {
@@ -127,4 +170,26 @@ export class Breadcrumbs implements OnChanges {
         }
     }
 
+    private executeIEandEdgeEllipsisWorkAround(): void {
+        if (this.userAgent.isIE11) {
+            const newRouterLinks = this.routerLinks;
+            this.routerLinks = [];
+
+            setTimeout(() => {
+                this.routerLinks = newRouterLinks;
+            });
+        }
+
+        if (this.userAgent.isEdge) {
+            const newRouterLinks = this.routerLinks;
+
+            setTimeout(() => {
+                this.routerLinks = [];
+
+                setTimeout(() => {
+                    this.routerLinks = newRouterLinks;
+                });
+            });
+        }
+    }
 }

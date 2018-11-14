@@ -60,6 +60,12 @@ body {
         }
     }
 
+    @media all and (-ms-high-contrast: none), (-ms-high-contrast: active) {
+        .gentics-logo {
+            padding-right: 45px;
+        }
+    }
+
     .github-logo {
         fill: white;
         width: 32px;

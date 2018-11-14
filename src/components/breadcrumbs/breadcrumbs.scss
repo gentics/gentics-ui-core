@@ -2,8 +2,21 @@ gtx-breadcrumbs {
     display: block;
     font-size: 1em;
     line-height: 4em;
-    height: 4em;
+    height: 100%;
     @include noselect;
+
+    > .collapse-icon {
+        transition: transform 0.2s;
+        display: inline-block;
+        padding: 15px;
+        position: absolute;
+        right: 28%;
+        top: 5px;
+
+        &:not(.multilineExpanded) {
+            transform: rotateZ(-90deg);
+        }
+    }
 
     > nav {
         background-color: $gtx-breadcrumbs-background-color;
@@ -21,6 +34,24 @@ gtx-breadcrumbs {
             flex-wrap: nowrap;
             align-items: center;
             align-content: flex-start;
+
+            &.multiline {
+                display: block;
+                overflow: hidden;
+                white-space: nowrap;
+                text-overflow: ellipsis;
+
+                > a.breadcrumb {
+                    min-width: auto !important;
+                    overflow-x: visible !important;
+                }
+            }
+
+            &.multiline.multilineExpanded {
+                display: flex;
+                flex-wrap: wrap;
+                line-height: 45px;
+            }
 
             > * {
                 vertical-align: top;
