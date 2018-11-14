@@ -12,6 +12,8 @@ import {
     IBreadcrumbLink,
     IBreadcrumbRouterLink
 } from './breadcrumbs.component';
+import {Button} from '../button/button.component';
+import {UserAgentRef} from "../modal/user-agent-ref";
 
 
 /**
@@ -41,11 +43,12 @@ describe('Breadcrumbs:', () => {
         TestBed.configureTestingModule({
             imports: [RouterModule.forChild([])],
             providers: [
+                UserAgentRef,
                 { provide: Router, useClass: MockRouter },
                 { provide: ActivatedRoute, useClass: MockActivatedRoute },
                 { provide: LocationStrategy, useClass: MockLocationStrategy }
             ],
-            declarations: [Breadcrumbs, TestComponent]
+            declarations: [Breadcrumbs, Button, TestComponent]
         });
     });
 
