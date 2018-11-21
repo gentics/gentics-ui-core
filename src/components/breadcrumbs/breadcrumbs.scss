@@ -1,17 +1,14 @@
 gtx-breadcrumbs {
-    display: block;
+    display: flex;
     font-size: 1em;
     line-height: 4em;
-    height: 100%;
     @include noselect;
 
     > .collapse-icon {
         transition: transform 0.2s;
         display: inline-block;
         padding: 15px;
-        position: absolute;
-        right: 28%;
-        top: 5px;
+        position: relative;
 
         &:not(.multilineExpanded) {
             transform: rotateZ(-90deg);
