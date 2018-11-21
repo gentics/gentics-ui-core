@@ -1,12 +1,12 @@
 gtx-breadcrumbs {
     display: flex;
+    align-items: center;
     font-size: 1em;
     line-height: 4em;
     @include noselect;
 
     > .collapse-icon {
         transition: transform 0.2s;
-        display: inline-block;
         padding: 15px;
         position: relative;
 
@@ -16,14 +16,14 @@ gtx-breadcrumbs {
     }
 
     @supports (-ms-ime-align: auto) {
-        > .collapse-icon {
+        .collapse-icon {
             position: absolute;
-            right: 29%;
-            top: 5%;
+            left: 66%;
         }
     }
 
     > nav {
+        display: block;
         background-color: $gtx-breadcrumbs-background-color;
         padding-left: rem-calc(15px);
         padding-right: rem-calc(15px);

@@ -5,6 +5,15 @@
 @import './pages/grid-demo/grid-demo';
 @import './pages/typography-demo/typography-demo';
 
+nav i.material-icons {
+    line-height: 1;
+}
+
+// .collapse-icon gtx-button button.btn-flat.btn-icon.secondary {
+//     color: white;
+//     border: 1px solid white;
+// }
+
 body {
     overflow-x: hidden;
 }
