@@ -1,11 +1,13 @@
 gtx-select {
-    display: block;
+    display:  flex;
+    align-items: center;
     position: relative;
     margin: 0 0 20px 0;
 
 
     gtx-dropdown-list {
         display: block;
+        width: 100%;
 
         gtx-dropdown-trigger {
             width: 100%;

@@ -2,7 +2,8 @@
                    belowTrigger="false"
                    [sticky]="multiple"
                    [disabled]="disabled"
-                   (open)="dropdownOpened()">
+                   (open)="dropdownOpened()"
+                   [class.clearable]="_clearable">
 
     <gtx-dropdown-trigger [class.with-label]="label != null">
         <div class="view-value select-input"
@@ -37,3 +38,12 @@
     </gtx-dropdown-content>
 
 </gtx-dropdown-list>
+
+<gtx-button icon
+        class="clear-button"
+        *ngIf="_clearable"
+        type="secondary"
+        [disabled]="_disabled"
+        (click)="!_disabled && clearSelection()">
+        <icon>clear</icon>
+</gtx-button>

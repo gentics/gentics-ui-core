@@ -58,6 +58,14 @@ export class Select implements ControlValueAccessor {
      */
     @Input() autofocus: boolean = false;
 
+    /** If true the clear button is displayed, which allows the user to clear the selection. */
+    @Input() set clearable(val: any) {
+        this._clearable = coerceToBoolean(val);
+    }
+
+    /** Value to set on the ngModel when the Select is cleared. */
+    @Input() emptyValue: any = null;
+
     /**
      * Sets the disabled state.
      */
@@ -103,6 +111,9 @@ export class Select implements ControlValueAccessor {
      */
     @Output() change = new EventEmitter<any>();
 
+    /** Fires when the "clear" button is clicked on a clearable Select. */
+    @Output() clear = new EventEmitter<any>();
+
     // An array of abstracted containers for options, which allows us to treat options and groups in a
     // consistent way.
     optionGroups: NormalizedOptionGroup[] = [];
@@ -116,6 +127,7 @@ export class Select implements ControlValueAccessor {
     // of the option within that group.
     selectedIndex: SelectedSelectOption = [0, -1];
 
+    _clearable: boolean = false;
     private _disabled: boolean = false;
     private preventDeselect: boolean = false;
     @ViewChild(DropdownList) private dropdownList: DropdownList;
@@ -278,6 +290,19 @@ export class Select implements ControlValueAccessor {
 
     setDisabledState(isDisabled: boolean): void {
         this._disabled = isDisabled;
+        this.changeDetector.markForCheck();
+    }
+
+    /** Clear input value of Select and emit `emptyValue` as value. */
+    clearSelection(): void {
+        this.viewValue = '';
+        this.value = undefined;
+
+        const emptyValue = this.emptyValue;
+        this.clear.emit(emptyValue);
+        this.onChange();
+        this.change.emit(emptyValue);
+
         this.changeDetector.markForCheck();
     }
 
