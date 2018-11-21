@@ -116,3 +116,26 @@ gtx-dropdown-content {
         }
     }
 }
+
+gtx-dropdown-list {
+    &.clearable .view-value {
+        border-top-right-radius: 0px;
+        border-bottom-right-radius: 0px;
+        border-right-width: 1px;
+    }
+}
+
+.clear-button {
+    align-self: flex-start;
+    background: $gtx-color-very-light-gray;
+    border-top: 2px solid $gtx-color-light-gray;
+    border-right: 2px solid $gtx-color-light-gray;
+    border-bottom: 2px solid $gtx-color-light-gray;
+    border-top-right-radius: 3px;
+    border-bottom-right-radius: 3px;
+    display: flex;
+    flex-direction: column;
+    height: 2.5rem;
+    justify-content: center;
+    margin-top: 20px;
+}
