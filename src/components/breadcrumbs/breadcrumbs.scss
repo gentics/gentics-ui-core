@@ -15,6 +15,14 @@ gtx-breadcrumbs {
         }
     }
 
+    @supports (-ms-ime-align: auto) {
+        > .collapse-icon {
+            position: absolute;
+            right: 29%;
+            top: 5%;
+        }
+    }
+
     > nav {
         background-color: $gtx-breadcrumbs-background-color;
         padding-left: rem-calc(15px);
