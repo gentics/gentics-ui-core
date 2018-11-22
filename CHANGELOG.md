@@ -8,6 +8,8 @@
 
 ### Fixes
 
+* Fix styling of breadcrumbs (GTXPE-182)
+
 ## 6.3.0 (2018-11-14)
 
 ### Features

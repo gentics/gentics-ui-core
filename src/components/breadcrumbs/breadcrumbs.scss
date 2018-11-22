@@ -1,24 +1,30 @@
 gtx-breadcrumbs {
-    display: block;
+    display: flex;
+    align-items: center;
     font-size: 1em;
     line-height: 4em;
-    height: 100%;
     @include noselect;
 
     > .collapse-icon {
         transition: transform 0.2s;
-        display: inline-block;
         padding: 15px;
         position: absolute;
-        right: 28%;
-        top: 5px;
+        left: 66%;
 
         &:not(.multilineExpanded) {
             transform: rotateZ(-90deg);
         }
     }
 
+    @media screen and (-ms-high-contrast: active), (-ms-high-contrast: none) {
+        .collapse-icon {
+            position: relative;
+            left: 0;
+        }
+     }
+
     > nav {
+        display: block;
         background-color: $gtx-breadcrumbs-background-color;
         padding-left: rem-calc(15px);
         padding-right: rem-calc(15px);

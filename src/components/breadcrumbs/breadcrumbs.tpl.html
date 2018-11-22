@@ -1,4 +1,4 @@
-<nav [class.disabled]="isDisabled">
+<nav [class.disabled]="isDisabled" [class.multiline]="multiline">
     <div class="nav-wrapper" [class.multilineExpanded]="multilineExpanded" [class.multiline]="multiline" (window:resize)="onResize($event)">
 
         <a class="back-button" *ngIf="backLink && backLink.route"

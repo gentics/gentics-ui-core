@@ -1,6 +1,8 @@
-import { Component, ElementRef, EventEmitter, Input, Output } from '@angular/core';
+import { ChangeDetectorRef, Component, ElementRef, EventEmitter, Input, OnDestroy, Output } from '@angular/core';
 import { OnChanges, QueryList, SimpleChanges, ViewChildren } from '@angular/core';
 import { RouterLinkWithHref } from '@angular/router';
+import { Subscription } from 'rxjs';
+import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import { UserAgentRef } from '../modal/user-agent-ref';
 
 export interface IBreadcrumbLink {
@@ -29,7 +31,7 @@ export interface IBreadcrumbRouterLink {
     selector: 'gtx-breadcrumbs',
     templateUrl: './breadcrumbs.tpl.html'
 })
-export class Breadcrumbs implements OnChanges {
+export class Breadcrumbs implements OnChanges, OnDestroy {
 
     /**
      * A list of links to display
@@ -89,7 +91,11 @@ export class Breadcrumbs implements OnChanges {
     backLink: IBreadcrumbLink | IBreadcrumbRouterLink;
     @ViewChildren(RouterLinkWithHref) routerLinkChildren: QueryList<RouterLinkWithHref>;
 
-    constructor(private elementRef: ElementRef,
+    private subscriptions = new Subscription();
+    private resizeEvents = new BehaviorSubject<void>(null);
+
+    constructor(private changeDetector: ChangeDetectorRef,
+                private elementRef: ElementRef,
                 private userAgent: UserAgentRef) { }
 
     ngOnInit(): void {
@@ -98,6 +104,11 @@ export class Breadcrumbs implements OnChanges {
             // Listen in the "capture" phase to prevent routerLinks when disabled
             element.firstElementChild.addEventListener('click', this.preventClicksWhenDisabled, true);
         }
+
+        const resizeSub = this.resizeEvents
+            .debounceTime(100)
+            .subscribe(() => this.executeIEandEdgeEllipsisWorkAround());
+        this.subscriptions.add(resizeSub);
     }
 
     ngOnChanges(changes: SimpleChanges): void {
@@ -114,6 +125,7 @@ export class Breadcrumbs implements OnChanges {
     ngOnDestroy(): void {
         let element: HTMLElement = this.elementRef.nativeElement;
         element.firstElementChild.removeEventListener('click', this.preventClicksWhenDisabled, true);
+        this.subscriptions.unsubscribe();
     }
 
     onLinkClicked(link: IBreadcrumbLink | IBreadcrumbRouterLink, event: Event): void {
@@ -133,7 +145,7 @@ export class Breadcrumbs implements OnChanges {
     }
 
     onResize(event: any): void {
-        this.executeIEandEdgeEllipsisWorkAround();
+        this.resizeEvents.next(null);
     }
 
     ngAfterViewInit(): void {
@@ -171,8 +183,12 @@ export class Breadcrumbs implements OnChanges {
     }
 
     private executeIEandEdgeEllipsisWorkAround(): void {
+        if (!this.multiline || this.multilineExpanded) {
+            return;
+        }
+        const newRouterLinks = this.routerLinks;
+
         if (this.userAgent.isIE11) {
-            const newRouterLinks = this.routerLinks;
             this.routerLinks = [];
 
             setTimeout(() => {
@@ -181,8 +197,6 @@ export class Breadcrumbs implements OnChanges {
         }
 
         if (this.userAgent.isEdge) {
-            const newRouterLinks = this.routerLinks;
-
             setTimeout(() => {
                 this.routerLinks = [];
 
