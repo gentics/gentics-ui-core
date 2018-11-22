@@ -9230,10 +9230,12 @@ icon[right] {
 
 /* Components */
 gtx-breadcrumbs {
-  display: block;
+  display: -webkit-box;
+  display: flex;
+  -webkit-box-align: center;
+  align-items: center;
   font-size: 1em;
   line-height: 4em;
-  height: 100%;
   -webkit-touch-callout: none;
   -webkit-user-select: none;
   -moz-user-select: none;
@@ -9245,11 +9247,9 @@ gtx-breadcrumbs > .collapse-icon {
   transition: -webkit-transform 0.2s;
   transition: transform 0.2s;
   transition: transform 0.2s, -webkit-transform 0.2s;
-  display: inline-block;
   padding: 15px;
   position: absolute;
-  right: 28%;
-  top: 5px;
+  left: 66%;
 }
 
 gtx-breadcrumbs > .collapse-icon:not(.multilineExpanded) {
@@ -9257,7 +9257,15 @@ gtx-breadcrumbs > .collapse-icon:not(.multilineExpanded) {
   transform: rotateZ(-90deg);
 }
 
+@media screen and (-ms-high-contrast: active), (-ms-high-contrast: none) {
+  gtx-breadcrumbs .collapse-icon {
+    position: relative;
+    left: 0;
+  }
+}
+
 gtx-breadcrumbs > nav {
+  display: block;
   background-color: #0096DC;
   padding-left: 0.9375rem;
   padding-right: 0.9375rem;
@@ -10796,13 +10804,15 @@ gtx-side-menu.opened > .side-menu-overlay {
 }
 
 gtx-select {
-  display: block;
+  display: -webkit-box;
+  display: flex;
   position: relative;
   margin: 0 0 20px 0;
 }
 
 gtx-select gtx-dropdown-list {
   display: block;
+  width: 100%;
 }
 
 gtx-select gtx-dropdown-list gtx-dropdown-trigger {
@@ -10967,6 +10977,31 @@ gtx-dropdown-content ul.select-options li.select-option > i,
 gtx-dropdown-content ul.select-options li.select-option > icon {
   height: inherit;
   line-height: inherit;
+}
+
+gtx-dropdown-list.clearable .view-value {
+  border-top-right-radius: 0px;
+  border-bottom-right-radius: 0px;
+  border-right-width: 1px;
+}
+
+.clear-button {
+  align-self: flex-start;
+  background: #efefef;
+  border-top: 2px solid #d6d6d6;
+  border-right: 2px solid #d6d6d6;
+  border-bottom: 2px solid #d6d6d6;
+  border-top-right-radius: 3px;
+  border-bottom-right-radius: 3px;
+  display: -webkit-box;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+  flex-direction: column;
+  height: 2.5rem;
+  -webkit-box-pack: center;
+  justify-content: center;
+  margin-top: 20px;
 }
 
 gtx-sortable-list {
