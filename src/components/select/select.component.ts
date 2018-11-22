@@ -299,8 +299,7 @@ export class Select implements ControlValueAccessor {
 
     /** Clear input value of Select and emit `emptyValue` as value. */
     clearSelection(): void {
-        this.viewValue = '';
-        this.value = undefined;
+        this.value = this.viewValue = '';
 
         const emptyValue = this.emptyValue;
         this.clear.emit(emptyValue);

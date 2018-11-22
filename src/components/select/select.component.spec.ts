@@ -15,11 +15,13 @@ import {DropdownTriggerDirective} from '../dropdown-list/dropdown-trigger.direct
 import {ScrollMask} from '../dropdown-list/scroll-mask.component';
 import {SelectOption, SelectOptionGroup} from './option.component';
 import {Icon} from '../icon/icon.directive';
+import {Button} from '../button/button.component';
 import {Checkbox} from '../checkbox/checkbox.component';
 import {OverlayHostService} from '../overlay-host/overlay-host.service';
 import {OverlayHost} from '../overlay-host/overlay-host.component';
 import {crossBrowserInitKeyboardEvent, KeyboardEventConfig} from '../../testing/keyboard-event';
 import {KeyCode} from '../../common/keycodes';
+import { ExpandOperator } from 'rxjs/operators/expand';
 
 
 describe('Select:', () => {
@@ -32,6 +34,7 @@ describe('Select:', () => {
                 SelectOption,
                 SelectOptionGroup,
                 Icon,
+                Button,
                 TestComponent,
                 InputField,
                 Checkbox,
@@ -50,6 +53,45 @@ describe('Select:', () => {
             }
         });
     });
+
+    it('emits "clear" when the clear selection button is clicked',
+            componentTest(() => TestComponent, `
+                <gtx-select clearable (clear)="onClear($event)"></gtx-select>`,
+                (fixture, testComponent) => {
+                    fixture.detectChanges();
+                    tick();
+
+                    expect(testComponent.onClear).not.toHaveBeenCalled();
+
+                    const clearButton = fixture.debugElement.query(By.css('gtx-button'));
+                    clearButton.triggerEventHandler('click', document.createEvent('Event'));
+                    tick();
+                    fixture.detectChanges();
+
+                    expect(testComponent.onClear).toHaveBeenCalled();
+                }
+            )
+    );
+
+    it('updates the value via ngModel when the clear selection button is clicked',
+            componentTest(() => TestComponent, `
+                <gtx-select [(ngModel)]="ngModelValue" (clear)="onClear($event)" clearable>
+                        <gtx-option *ngFor="let option of options" [value]="option">{{ option }}</gtx-option>
+                </gtx-select>`,
+                (fixture, instance) => {
+                    fixture.detectChanges();
+                    tick();
+                    expect(instance.ngModelValue).toEqual('Bar');
+
+                    const clearButton = fixture.debugElement.query(By.css('gtx-button'));
+                    clearButton.triggerEventHandler('click', document.createEvent('Event'));
+                    tick();
+                    fixture.detectChanges();
+
+                    expect(instance.ngModelValue).toEqual('');
+                }
+            )
+        );
 
     it('binds its label to the input value',
         componentTest(() => TestComponent, `
@@ -794,6 +836,7 @@ class TestComponent {
     testForm: FormGroup = new FormGroup({
         test: new FormControl('Bar')
     });
+    onClear = jasmine.createSpy('onClear');
 
     onBlur(): void {}
     onFocus(): void {}
