@@ -4,6 +4,8 @@
 
 ### Features
 
+* Add clearable option to Select (GUIC-195)
+
 ### Fixes
 
 ## 6.3.0 (2018-11-14)

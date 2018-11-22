@@ -64,9 +64,6 @@ export class Select implements ControlValueAccessor {
         this._clearable = coerceToBoolean(val);
     }
 
-    /** Value to set on the ngModel when the Select is cleared. */
-    @Input() emptyValue: any = null;
-
     /**
      * Sets the disabled state.
      */
@@ -111,9 +108,6 @@ export class Select implements ControlValueAccessor {
      * Change event.
      */
     @Output() change = new EventEmitter<any>();
-
-    /** Fires when the "clear" button is clicked on a clearable Select. */
-    @Output() clear = new EventEmitter<any>();
 
     // An array of abstracted containers for options, which allows us to treat options and groups in a
     // consistent way.
@@ -299,12 +293,11 @@ export class Select implements ControlValueAccessor {
 
     /** Clear input value of Select and emit `emptyValue` as value. */
     clearSelection(): void {
-        this.value = this.viewValue = '';
+        this.viewValue = '';
+        this.value = null;
 
-        const emptyValue = this.emptyValue;
-        this.clear.emit(emptyValue);
         this.onChange();
-        this.change.emit(emptyValue);
+        this.change.emit(this.value);
 
         this.changeDetector.markForCheck();
     }
