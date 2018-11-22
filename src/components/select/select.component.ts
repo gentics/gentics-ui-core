@@ -8,7 +8,8 @@ import {
     Input,
     Output,
     QueryList,
-    ViewChild
+    ViewChild,
+    ElementRef
 } from '@angular/core';
 import {ControlValueAccessor, NG_VALUE_ACCESSOR} from '@angular/forms';
 import {Subscription} from 'rxjs/Subscription';
@@ -57,6 +58,15 @@ export class Select implements ControlValueAccessor {
      * Sets the select box to be auto-focused. Handled by `AutofocusDirective`.
      */
     @Input() autofocus: boolean = false;
+
+    /** If true the clear button is displayed, which allows the user to clear the selection. */
+    @Input()
+    get clearable(): boolean {
+        return this._clearable;
+    }
+    set clearable(val: boolean) {
+        this._clearable = coerceToBoolean(val);
+    }
 
     /**
      * Sets the disabled state.
@@ -116,6 +126,7 @@ export class Select implements ControlValueAccessor {
     // of the option within that group.
     selectedIndex: SelectedSelectOption = [0, -1];
 
+    _clearable: boolean = false;
     private _disabled: boolean = false;
     private preventDeselect: boolean = false;
     @ViewChild(DropdownList) private dropdownList: DropdownList;
@@ -127,7 +138,8 @@ export class Select implements ControlValueAccessor {
     onChange = (): void => { };
     onTouched = (): void => { };
 
-    constructor(private changeDetector: ChangeDetectorRef) { }
+    constructor(private changeDetector: ChangeDetectorRef,
+                private elementRef: ElementRef) { }
 
     ngAfterViewInit(): void {
         // Update the value if there are any changes to the options
@@ -138,6 +150,9 @@ export class Select implements ControlValueAccessor {
                 this.selectedOptions = this.getInitiallySelectedOptions();
             })
         );
+
+        this.elementRef.nativeElement.querySelector('gtx-dropdown-list')
+                                .addEventListener('keydown', this.handleKeydown.bind(this));
     }
 
     ngAfterContentInit(): void {
@@ -190,7 +205,6 @@ export class Select implements ControlValueAccessor {
     /**
      * Handle keydown events to enable keyboard navigation and selection of options.
      */
-    @HostListener('keydown', ['$event'])
     handleKeydown(event: KeyboardEvent): void {
         if (event.ctrlKey || event.altKey || event.metaKey) {
             return;
@@ -279,6 +293,16 @@ export class Select implements ControlValueAccessor {
     setDisabledState(isDisabled: boolean): void {
         this._disabled = isDisabled;
         this.changeDetector.markForCheck();
+    }
+
+    /** Clears the selected value and emits `null` with the `change` event. */
+    clearSelection(): void {
+        this.selectedOptions = [];
+        this.value = null;
+
+        this.change.emit(this.value);
+        this.onChange();
+        this.updateViewValue();
     }
 
     /**
