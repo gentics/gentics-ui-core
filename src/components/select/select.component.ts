@@ -60,7 +60,11 @@ export class Select implements ControlValueAccessor {
     @Input() autofocus: boolean = false;
 
     /** If true the clear button is displayed, which allows the user to clear the selection. */
-    @Input() set clearable(val: any) {
+    @Input()
+    get clearable(): boolean {
+        return this._clearable;
+    }
+    set clearable(val: boolean) {
         this._clearable = coerceToBoolean(val);
     }
 
@@ -291,15 +295,14 @@ export class Select implements ControlValueAccessor {
         this.changeDetector.markForCheck();
     }
 
-    /** Clear input value of Select and emit `emptyValue` as value. */
+    /** Clears the selected value and emits `null` with the `change` event. */
     clearSelection(): void {
-        this.viewValue = '';
+        this.selectedOptions = [];
         this.value = null;
 
-        this.onChange();
         this.change.emit(this.value);
-
-        this.changeDetector.markForCheck();
+        this.onChange();
+        this.updateViewValue();
     }
 
     /**

@@ -15,7 +15,7 @@ export class SelectDemo {
         { name: 'Paul', age: 30, disabled: false }
     ];
     selectVal: string = 'bar';
-    selectNewVal: string = 'baz';
+    clearableSelectVal: string = null;
     selectGroup: any;
     selectedPerson: any;
     disableEntireControl: boolean = false;
