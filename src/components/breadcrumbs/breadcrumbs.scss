@@ -8,19 +8,20 @@ gtx-breadcrumbs {
     > .collapse-icon {
         transition: transform 0.2s;
         padding: 15px;
-        position: relative;
+        position: absolute;
+        left: 66%;
 
         &:not(.multilineExpanded) {
             transform: rotateZ(-90deg);
         }
     }
 
-    @supports (-ms-ime-align: auto) {
+    @media screen and (-ms-high-contrast: active), (-ms-high-contrast: none) {
         .collapse-icon {
-            position: absolute;
-            left: 66%;
+            position: relative;
+            left: 0;
         }
-    }
+     }
 
     > nav {
         display: block;
