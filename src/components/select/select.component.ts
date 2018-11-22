@@ -8,7 +8,8 @@ import {
     Input,
     Output,
     QueryList,
-    ViewChild
+    ViewChild,
+    ElementRef
 } from '@angular/core';
 import {ControlValueAccessor, NG_VALUE_ACCESSOR} from '@angular/forms';
 import {Subscription} from 'rxjs/Subscription';
@@ -139,7 +140,8 @@ export class Select implements ControlValueAccessor {
     onChange = (): void => { };
     onTouched = (): void => { };
 
-    constructor(private changeDetector: ChangeDetectorRef) { }
+    constructor(private changeDetector: ChangeDetectorRef,
+                private elementRef: ElementRef) { }
 
     ngAfterViewInit(): void {
         // Update the value if there are any changes to the options
@@ -150,6 +152,9 @@ export class Select implements ControlValueAccessor {
                 this.selectedOptions = this.getInitiallySelectedOptions();
             })
         );
+
+        this.elementRef.nativeElement.querySelector('gtx-dropdown-list')
+                                .addEventListener('keydown', this.handleKeydown.bind(this));
     }
 
     ngAfterContentInit(): void {
@@ -202,7 +207,6 @@ export class Select implements ControlValueAccessor {
     /**
      * Handle keydown events to enable keyboard navigation and selection of options.
      */
-    @HostListener('keydown', ['$event'])
     handleKeydown(event: KeyboardEvent): void {
         if (event.ctrlKey || event.altKey || event.metaKey) {
             return;
