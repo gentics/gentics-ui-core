@@ -1,8 +1,8 @@
 gtx-select {
-    display:  flex;
+    display: flex;
     position: relative;
     margin: 0 0 20px 0;
-
+    flex-wrap: nowrap;
 
     gtx-dropdown-list {
         display: block;
@@ -40,7 +40,6 @@ gtx-select {
 }
 
 gtx-dropdown-content {
-
     ul.select-options {
         margin: 0;
 
@@ -83,7 +82,9 @@ gtx-dropdown-content {
                 outline-width: 0;
             }
 
-            &:hover, &.active, &.selected {
+            &:hover,
+            &.active,
+            &.selected {
                 background-color: $dropdown-hover-bg-color;
             }
 
@@ -125,16 +126,46 @@ gtx-dropdown-list {
 }
 
 .clear-button {
-    align-self: flex-start;
+    flex: 0 0 auto;
+    padding: 0 5px;
+    display: block;
+    position: relative;
+    transition: 200ms;
+    cursor: pointer;
+    user-select: none;
+    border: none;
     background: $gtx-color-very-light-gray;
-    border-top: 2px solid $gtx-color-light-gray;
-    border-right: 2px solid $gtx-color-light-gray;
-    border-bottom: 2px solid $gtx-color-light-gray;
-    border-top-right-radius: 3px;
-    border-bottom-right-radius: 3px;
-    display: flex;
-    flex-direction: column;
-    height: 2.5rem;
-    justify-content: center;
-    margin-top: 20px;
+    color: $gtx-color-dark-gray;
+    border: 2px solid $gtx-color-light-gray;
+    border-right: none;
+    border-left-width: 1px;
+    margin: 20px 0 0 0;
+
+    &:last-child {
+        border-right: 2px solid $gtx-color-light-gray;
+        border-top-right-radius: 3px;
+        border-bottom-right-radius: 3px;
+    }
+
+    &:not([disabled]) {
+        &:hover,
+        &:focus {
+            background: $gtx-color-alert;
+            border-color: $gtx-color-alert;
+            color: $gtx-color-off-white;
+        }
+    }
+
+    &[disabled] {
+        &,
+        &:hover,
+        &:focus {
+            background: $gtx-color-very-light-gray;
+            cursor: not-allowed;
+        }
+    }
+
+    icon {
+        display: block;
+    }
 }
