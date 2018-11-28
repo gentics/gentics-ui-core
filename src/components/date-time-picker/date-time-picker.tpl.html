@@ -3,17 +3,29 @@
     [value]="displayValue"
     [label]="label"
     [disabled]="_disabled"
-    [class.clearable]="_clearable"
+    [class.has-after-button]="_clearable || _displayNow"
     (click)="!_disabled && showModal()"
     (keydown)="handleEnterKey($event)"
     (blur)="onTouched()"
 ></gtx-input>
 
 <button
+    *ngIf="_displayNow"
+    type="button"
+    role="button"
+    class="after-button now-button"
+    tabindex="0"
+    [disabled]="_disabled"
+    (click)="!_disabled && setTimeToNow()"
+>
+    <icon>today</icon>
+</button>
+
+<button
     *ngIf="_clearable"
     type="button"
     role="button"
-    class="clear-button"
+    class="after-button clear-button"
     tabindex="0"
     [disabled]="_disabled"
     (click)="!_disabled && clearDateTime()"

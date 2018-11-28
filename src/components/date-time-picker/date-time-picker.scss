@@ -27,8 +27,8 @@ gtx-date-time-picker {
     gtx-input {
         flex: 1 1 auto;
 
-        &.clearable {
-            input {
+        &.has-after-button {
+            > input[type="text"] {
                 border-right-width: 1px;
                 border-bottom-right-radius: 0;
                 border-top-right-radius: 0;
@@ -36,10 +36,10 @@ gtx-date-time-picker {
         }
     }
 
-    .clear-button {
+    .after-button {
         flex: 0 0 auto;
         height: 40px;
-        padding: 0 5px;
+        padding: 0 6px;
         display: block;
         position: relative;
         transition: 200ms;
@@ -54,21 +54,14 @@ gtx-date-time-picker {
         margin: 20px 0;
 
         &:last-child {
+            padding-left: 5px;
+            padding-right: 5px;
             border-right: 2px solid $gtx-color-light-gray;
             border-top-right-radius: 3px;
             border-bottom-right-radius: 3px;
         }
 
-        &:not([disabled]) {
-            &:hover,
-            &:focus {
-                background: $gtx-color-alert;
-                border-color: $gtx-color-alert;
-                color: $gtx-color-off-white;
-            }
-        }
-
-        &[disabled] {
+        &:disabled {
             &,
             &:hover,
             &:focus {
@@ -79,6 +72,28 @@ gtx-date-time-picker {
 
         icon {
             display: block;
+        }
+    }
+
+    .clear-button {
+        &:not(:disabled) {
+            &:hover,
+            &:focus {
+                background: $gtx-color-alert;
+                border-color: $gtx-color-alert;
+                color: $gtx-color-off-white;
+            }
+        }
+    }
+
+    .now-button {
+        &:not(:disabled) {
+            &:hover,
+            &:focus {
+                background: $gtx-color-primary;
+                border-color: $gtx-color-primary;
+                color: $gtx-color-off-white;
+            }
         }
     }
 }
