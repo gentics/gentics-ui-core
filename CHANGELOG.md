@@ -4,7 +4,11 @@
 
 ### Features
 
+* Added a "now"-button to the date-time-picker component for improved UX (GUIC-201)
+
 ### Fixes
+
+* Updated the Style of the clear-buttons in the date-time-picker and select component (GUIC-197)
 
 ## 6.4.0 (2018-11-22)
 

@@ -1,9 +1,10 @@
 gtx-date-time-picker > gtx-input > input:not(:disabled) {
-    &[type=text] {
+    &[type="text"] {
         color: inherit;
     }
 
-    &, & + label {
+    &,
+    & + label {
         cursor: pointer;
     }
 
@@ -21,30 +22,78 @@ gtx-date-time-picker > gtx-input > input:not(:disabled) {
 gtx-date-time-picker {
     display: flex;
     flex-direction: row;
+    flex-wrap: nowrap;
 
     gtx-input {
         flex: 1 1 auto;
 
-        &.clearable input[type=text] {
-            border-top-right-radius: 0px;
-            border-bottom-right-radius: 0px;
-            border-right-width: 1px;
+        &.has-after-button {
+            > input[type="text"] {
+                border-right-width: 1px;
+                border-bottom-right-radius: 0;
+                border-top-right-radius: 0;
+            }
         }
     }
 
+    .after-button {
+        flex: 0 0 auto;
+        height: 40px;
+        padding: 0 6px;
+        display: block;
+        position: relative;
+        transition: 200ms;
+        cursor: pointer;
+        user-select: none;
+        border: none;
+        background: $gtx-color-very-light-gray;
+        color: $gtx-color-dark-gray;
+        border: 2px solid $gtx-color-light-gray;
+        border-right: none;
+        border-left-width: 1px;
+        margin: 20px 0;
+
+        &:last-child {
+            padding-left: 5px;
+            padding-right: 5px;
+            border-right: 2px solid $gtx-color-light-gray;
+            border-top-right-radius: 3px;
+            border-bottom-right-radius: 3px;
+        }
+
+        &:disabled {
+            &,
+            &:hover,
+            &:focus {
+                background: $gtx-color-very-light-gray;
+                cursor: not-allowed;
+            }
+        }
+
+        icon {
+            display: block;
+        }
+    }
 
     .clear-button {
-        align-self: flex-start;
-        background: $gtx-color-very-light-gray;
-        border-top: 2px solid $gtx-color-light-gray;
-        border-right: 2px solid $gtx-color-light-gray;
-        border-bottom: 2px solid $gtx-color-light-gray;
-        border-top-right-radius: 3px;
-        border-bottom-right-radius: 3px;
-        display: flex;
-        flex-direction: column;
-        height: 2.5rem;
-        justify-content: center;
-        margin-top: 20px;
+        &:not(:disabled) {
+            &:hover,
+            &:focus {
+                background: $gtx-color-alert;
+                border-color: $gtx-color-alert;
+                color: $gtx-color-off-white;
+            }
+        }
+    }
+
+    .now-button {
+        &:not(:disabled) {
+            &:hover,
+            &:focus {
+                background: $gtx-color-primary;
+                border-color: $gtx-color-primary;
+                color: $gtx-color-off-white;
+            }
+        }
     }
 }

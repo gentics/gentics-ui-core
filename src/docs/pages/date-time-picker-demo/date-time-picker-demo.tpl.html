@@ -38,6 +38,48 @@
     </div>
 </gtx-demo-block>
 
+<gtx-demo-block demoTitle="Date And Time with Now Option">
+    <div class="demo-result">
+        <gtx-date-time-picker [(ngModel)]="timestamp" data-no-label="Pick a time" displayNow></gtx-date-time-picker>
+        timestamp: <code>{{ timestamp | json }}</code>
+    </div>
+    <div class="demo-code">
+        <gtx-highlighted-code language="HTML" code='
+                <gtx-date-time-picker [(ngModel)]="timestamp" label="Pick a date" displayNow>
+                </gtx-date-time-picker>
+                timestamp: <code>(( timestamp | json ))</code>
+        '></gtx-highlighted-code>
+    </div>
+</gtx-demo-block>
+
+<gtx-demo-block demoTitle="Date And Time with Clear and Now Option">
+    <div class="demo-result">
+        <gtx-date-time-picker [(ngModel)]="timestamp" data-no-label="Pick a time" displayNow clearable></gtx-date-time-picker>
+        timestamp: <code>{{ timestamp | json }}</code>
+    </div>
+    <div class="demo-code">
+        <gtx-highlighted-code language="HTML" code='
+                <gtx-date-time-picker [(ngModel)]="timestamp" label="Pick a date" displayNow clearable>
+                </gtx-date-time-picker>
+                timestamp: <code>(( timestamp | json ))</code>
+        '></gtx-highlighted-code>
+    </div>
+</gtx-demo-block>
+
+<gtx-demo-block demoTitle="Disabled Date And Time with Clear and Now Option">
+    <div class="demo-result">
+        <gtx-date-time-picker [(ngModel)]="timestamp" data-no-label="Pick a time" disabled displayNow clearable></gtx-date-time-picker>
+        timestamp: <code>{{ timestamp | json }}</code>
+    </div>
+    <div class="demo-code">
+        <gtx-highlighted-code language="HTML" code='
+                <gtx-date-time-picker [(ngModel)]="timestamp" label="Pick a date" disabled displayNow clearable>
+                </gtx-date-time-picker>
+                timestamp: <code>(( timestamp | json ))</code>
+        '></gtx-highlighted-code>
+    </div>
+</gtx-demo-block>
+
 <gtx-demo-block demoTitle="Date Only">
     <div class="demo-result">
         <gtx-date-time-picker [(ngModel)]="timestamp" label="Pick a date" displayTime="false"></gtx-date-time-picker>

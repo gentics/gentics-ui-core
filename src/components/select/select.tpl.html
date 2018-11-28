@@ -39,11 +39,14 @@
 
 </gtx-dropdown-list>
 
-<gtx-button icon
-        class="clear-button"
-        *ngIf="_clearable"
-        type="secondary"
-        [disabled]="_disabled"
-        (click)="!_disabled && clearSelection()">
-        <icon>clear</icon>
-</gtx-button>
+<button
+    *ngIf="_clearable"
+    type="button"
+    role="button"
+    class="clear-button"
+    tabindex="0"
+    [disabled]="_disabled"
+    (click)="!_disabled && clearSelection()"
+>
+    <icon>close</icon>
+</button>

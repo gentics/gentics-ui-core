@@ -7,7 +7,7 @@ import {ModalService} from '../modal/modal.service';
 import {DateTimePickerModal} from './date-time-picker-modal.component';
 import {DateTimePickerStrings} from './date-time-picker-strings';
 import {DateTimePickerFormatProvider} from './date-time-picker-format-provider.service';
-import {coerceToBoolean} from '../../common/coerce-to-boolean';
+import { coerceToBoolean } from '../../common/coerce-to-boolean';
 import * as momentjs from 'moment';
 
 export {DateTimePickerStrings};
@@ -45,6 +45,11 @@ export class DateTimePicker implements ControlValueAccessor, OnInit, OnDestroy {
     /** If true the clear button is displayed, which allows the user to clear the selected date. */
     @Input() set clearable(val: any) {
         this._clearable = coerceToBoolean(val);
+    }
+
+    /** If true, the "now"-button will be displayed which allows the user to set the date to Date.now() without opening the calendar. */
+    @Input() set displayNow(val: any) {
+        this._displayNow = coerceToBoolean(val);
     }
 
     /** Value to set on the ngModel when the DatePicker is cleared. */
@@ -89,7 +94,10 @@ export class DateTimePicker implements ControlValueAccessor, OnInit, OnDestroy {
         this._displaySeconds = coerceToBoolean(val);
     }
 
-    /** Fires when the "okay" button is clicked to close the picker. */
+    /**
+     * Fires when the "okay" button is clicked to close the picker
+     * or when the "now"-button is clicked (when it is displayed).
+     */
     @Output() change = new EventEmitter<number|null>();
 
     /** Fires when the "clear" button is clicked on a clearable DateTimePicker. */
@@ -98,6 +106,7 @@ export class DateTimePicker implements ControlValueAccessor, OnInit, OnDestroy {
     _clearable: boolean = false;
     _selectYear: boolean = false;
     _disabled: boolean = false;
+    _displayNow: boolean = false;
     displayValue: string = '';
     /** @internal */
     private value: momentjs.Moment;
@@ -224,4 +233,14 @@ export class DateTimePicker implements ControlValueAccessor, OnInit, OnDestroy {
         this.changeDetector.markForCheck();
     }
 
+    setTimeToNow(): void {
+        const timestamp = Math.trunc(momentjs.now() / 1000);
+        this.value = momentjs.unix(timestamp);
+        this.updateDisplayValue();
+
+        this.onChange(timestamp);
+        this.change.emit(timestamp);
+
+        this.changeDetector.markForCheck();
+    }
 }
