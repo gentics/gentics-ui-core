@@ -4,6 +4,9 @@ import {BrowserModule} from '@angular/platform-browser';
 import {RouterModule} from '@angular/router';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 
+// 3rd Party Modules
+import {TreeModule} from 'primeng/tree';
+
 import {GenticsUICoreModule} from '../module';
 import {App} from './app.component';
 import {routes} from './app.routes';
@@ -37,6 +40,7 @@ import {SplitViewContainerDemo} from './pages/split-view-container-demo/split-vi
 import {TabsDemo} from './pages/tabs-demo/tabs-demo';
 import {TextareaDemo} from './pages/textarea-demo/textarea-demo';
 import {TopBarDemo} from './pages/top-bar-demo/top-bar-demo';
+import {TreeDemo} from './pages/tree-demo/tree-demo';
 import {TypographyDemo} from './pages/typography-demo/typography-demo';
 import {Autodocs} from './components/autodocs/autodocs.component';
 import {AutodocTable} from './components/autodocs/autodoc-table.component';
@@ -76,6 +80,7 @@ const DEMO_APP_PAGES: any[] = [
     TabsDemo,
     TextareaDemo,
     TopBarDemo,
+    TreeDemo,
     TypographyDemo
 ];
 
@@ -98,7 +103,8 @@ export const routerModuleForRoot: ModuleWithProviders = RouterModule.forRoot(rou
         FormsModule,
         ReactiveFormsModule,
         routerModuleForRoot,
-        GenticsUICoreModule.forRoot()
+        GenticsUICoreModule.forRoot(),
+        TreeModule
     ],
     declarations,
     entryComponents: [MyModal],

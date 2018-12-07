@@ -40,7 +40,11 @@ const paths = {
         'node_modules/zone.js/dist/zone.js'
     ],
     vendorStatics: [
-        'node_modules/materialize-css/fonts/roboto/Roboto-*'
+        'node_modules/materialize-css/fonts/roboto/Roboto-*',
+        // // In PrimeNG versions >=6 those will be required
+        // 'node_modules/primeicons/fonts/*',
+        // For PrimeNG versions <=5 this is required
+        'node_modules/font-awesome/fonts/*'
     ]
 };
 
