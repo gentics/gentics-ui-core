@@ -1,7 +1,15 @@
 <h3>Tree</h3>
+<p>This is a third party component. Source: <a href="https://www.primefaces.org/primeng/#/tree" target="_blank">PrimeNG</a></p>
 
-<p-tree [value]="files" selectionMode="single" [(selection)]="selectedFile"></p-tree>
+<br>
 
 <!-- <gtx-autodocs [source]="componentSource" type="component"></gtx-autodocs> -->
 
-<p>Source <a href="https://www.primefaces.org/primeng/#/tree" target="_blank">PrimeNG</a></p>
+<p-tree [value]="files" selectionMode="checkbox" [(selection)]="selectedFiles"></p-tree>
+
+<br>
+
+<b>Selected Nodes:</b>
+<ol>
+    <li *ngFor="let file of selectedFiles">{{file.label}}</li>
+</ol>

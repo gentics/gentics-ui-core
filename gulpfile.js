@@ -83,7 +83,7 @@ function cleanDocsFolder() {
 }
 
 function compileDistStyles() {
-    return checkDistSASS().then(copyDistSASS);
+    return checkDistSASS().then(copyDistSASS).then(copyDistCSS);
 }
 
 function buildTypeScript(done) {
@@ -134,12 +134,35 @@ function checkDistSASS() {
     return streamToPromise(stream);
 }
 
+function copyDistCSS() {
+    return Promise.all([
+        // Font Awesome
+        // For PrimeNG versions <=5 this is required
+        streamToPromise(
+            gulp.src('node_modules/font-awesome/css/font-awesome.min.css')
+                .pipe(gulp.dest(path.join(paths.out.dist.styles, 'font-awesome/css')))
+        ),
+        // // In PrimeNG versions >=6 those will be required
+        // // PrimeIcons
+        // streamToPromise(
+        //     gulp.src('node_modules/primeicons/primeicons.css')
+        //         .pipe(gulp.dest(path.join(paths.out.dist.styles, 'primeicons')))
+        // ),
+        // PrimeNG
+        streamToPromise(
+            gulp.src('node_modules/primeng/resources/primeng.min.css')
+                .pipe(gulp.dest(path.join(paths.out.dist.styles, 'primeng/resources')))
+        )
+    ]);
+}
+
 function copyDistSASS() {
     return Promise.all([
         streamToPromise(
             gulp.src(paths.src.scss)
                 .pipe(gulp.dest(paths.out.dist.root))
         ),
+        // Materialize
         streamToPromise(
             gulp.src('node_modules/materialize-css/sass/**/*.scss')
                 .pipe(gulp.dest(path.join(paths.out.dist.styles, 'materialize-css/sass')))
@@ -154,6 +177,7 @@ function copyFontsTo(outputFolder) {
                 .pipe(filter([
                     '**/*.eot',
                     '**/*.ttf',
+                    '**/*.svg',
                     '**/*.woff',
                     '**/*.woff2'
                 ]))

@@ -10,7 +10,7 @@ export class TreeDemo implements OnInit {
 
     files: TreeNode[];
 
-    selectedFile: TreeNode;
+    selectedFiles: TreeNode[];
 
     constructor(private nodeService: TreeDemoService) {}
 
