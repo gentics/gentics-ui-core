@@ -83,7 +83,8 @@ function cleanDocsFolder() {
 }
 
 function compileDistStyles() {
-    return checkDistSASS().then(copyDistSASS).then(copyDistCSS);
+    return checkDistSASS().then(copyDistSASS);
+    // .then(copyDistCSS);
 }
 
 function buildTypeScript(done) {
@@ -136,23 +137,23 @@ function checkDistSASS() {
 
 function copyDistCSS() {
     return Promise.all([
-        // Font Awesome
-        // For PrimeNG versions <=5 this is required
-        streamToPromise(
-            gulp.src('node_modules/font-awesome/css/font-awesome.min.css')
-                .pipe(gulp.dest(path.join(paths.out.dist.styles, 'font-awesome/css')))
-        ),
+        // // Font Awesome
+        // // For PrimeNG versions <=5 this is required
+        // streamToPromise(
+        //     gulp.src('node_modules/font-awesome/css/font-awesome.min.css')
+        //         .pipe(gulp.dest(path.join(paths.out.dist.styles, 'font-awesome/css')))
+        // ),
         // // In PrimeNG versions >=6 those will be required
         // // PrimeIcons
         // streamToPromise(
         //     gulp.src('node_modules/primeicons/primeicons.css')
         //         .pipe(gulp.dest(path.join(paths.out.dist.styles, 'primeicons')))
         // ),
-        // PrimeNG
-        streamToPromise(
-            gulp.src('node_modules/primeng/resources/primeng.min.css')
-                .pipe(gulp.dest(path.join(paths.out.dist.styles, 'primeng/resources')))
-        )
+        // // PrimeNG
+        // streamToPromise(
+        //     gulp.src('node_modules/primeng/resources/primeng.min.css')
+        //         .pipe(gulp.dest(path.join(paths.out.dist.styles, 'primeng/resources')))
+        // )
     ]);
 }
 

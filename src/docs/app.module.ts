@@ -4,9 +4,6 @@ import {BrowserModule} from '@angular/platform-browser';
 import {RouterModule} from '@angular/router';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 
-// 3rd Party Modules
-import {TreeModule} from 'primeng/tree';
-
 import {GenticsUICoreModule} from '../module';
 import {App} from './app.component';
 import {routes} from './app.routes';
@@ -103,8 +100,7 @@ export const routerModuleForRoot: ModuleWithProviders = RouterModule.forRoot(rou
         FormsModule,
         ReactiveFormsModule,
         routerModuleForRoot,
-        GenticsUICoreModule.forRoot(),
-        TreeModule
+        GenticsUICoreModule.forRoot()
     ],
     declarations,
     entryComponents: [MyModal],
