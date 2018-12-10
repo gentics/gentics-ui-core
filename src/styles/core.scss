@@ -3,10 +3,9 @@
  * by any app that consumes GUIC.
  */
 
-//  @import "node_modules/font-awesome/scss/font-awesome";
-
 $icons-font-path: '../fonts/' !default;
 $roboto-font-path: '../fonts/' !default;
+$primeng-image-path: './images' !default;
 @import "variables";
 @import "mixins";
 @import "materialize";

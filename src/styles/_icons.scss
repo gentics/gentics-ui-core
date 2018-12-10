@@ -12,10 +12,11 @@
 /* Font Awesome */
 // For PrimeNG versions <=5 this is required
 /* @import 'font-awesome/css/font-awesome.min'; */
+@import 'font-awesome/scss/font-awesome';
 @font-face {
     font-family: 'FontAwesome';
-    src: url('#{$icons-font-path}fontawesome-webfont.eot?v=4.7.0');
-    src: url('#{$icons-font-path}fontawesome-webfont.eot?#iefix&v=4.7.0') format('embedded-opentype'), url('#{$icons-font-path}fontawesome-webfont.woff2?v=4.7.0') format('woff2'), url('#{$icons-font-path}fontawesome-webfont.woff?v=4.7.0') format('woff'), url('#{$icons-font-path}fontawesome-webfont.ttf?v=4.7.0') format('truetype'), url('#{$icons-font-path}fontawesome-webfont.svg?v=4.7.0#fontawesomeregular') format('svg');
+    src: local('#{$icons-font-path}fontawesome-webfont.eot?v=4.7.0');
+    src: local('#{$icons-font-path}fontawesome-webfont.eot?#iefix&v=4.7.0') format('embedded-opentype'), local('#{$icons-font-path}fontawesome-webfont.woff2?v=4.7.0') format('woff2'), local('#{$icons-font-path}fontawesome-webfont.woff?v=4.7.0') format('woff'), local('#{$icons-font-path}fontawesome-webfont.ttf?v=4.7.0') format('truetype'), local('#{$icons-font-path}fontawesome-webfont.svg?v=4.7.0#fontawesomeregular') format('svg');
     font-weight: normal;
     font-style: normal;
 }

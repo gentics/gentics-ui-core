@@ -20,6 +20,7 @@ const tslintStylish = require('tslint-stylish');
 const webpack = require('webpack');
 const inlineNg2Template = require('gulp-inline-ng2-template');
 const htmlMinifier = require('html-minifier');
+var rename = require('gulp-rename');
 
 const webpackDevConfig = require('./config/webpack.dev.config.js');
 const webpackDistConfig = require('./config/webpack.dist.config.js');
@@ -83,8 +84,8 @@ function cleanDocsFolder() {
 }
 
 function compileDistStyles() {
-    return checkDistSASS().then(copyDistSASS);
-    // .then(copyDistCSS);
+    return checkDistSASS().then(copyDistSASS)
+    .then(copyVendorSources);
 }
 
 function buildTypeScript(done) {
@@ -135,8 +136,26 @@ function checkDistSASS() {
     return streamToPromise(stream);
 }
 
-function copyDistCSS() {
+function copyVendorSources() {
     return Promise.all([
+
+        // Font Awesome
+        streamToPromise(
+            gulp.src('node_modules/font-awesome/css/font-awesome.css')
+                .pipe(rename('_font-awesome.scss'))
+                .pipe(gulp.dest(path.join(paths.out.dist.styles, 'font-awesome/scss')))
+        ),
+        // PrimeNG
+        streamToPromise(
+            gulp.src('node_modules/primeng/resources/primeng.css')
+                .pipe(rename('_primeng.scss'))
+                .pipe(gulp.dest(path.join(paths.out.dist.styles, 'primeng/resources')))
+        ),
+        streamToPromise(
+            gulp.src('node_modules/primeng/resources/images/*')
+            .pipe(gulp.dest(path.join(paths.out.dist.styles, 'primeng/resources/images')))
+        )
+
         // // Font Awesome
         // // For PrimeNG versions <=5 this is required
         // streamToPromise(
