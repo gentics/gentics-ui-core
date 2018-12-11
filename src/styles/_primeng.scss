@@ -18,7 +18,7 @@ $fontWeight: normal;
 
 $borderRadius: 0;
 $contentBgColor: $backgroundColor;
-$contentBorderColor: $borderColor;
+$contentBorderColor: transparent;
 $contentBorderWidth: 1px;
 $contentTextColor: $textColor;
 $disabledOpacity: 0;
@@ -56,6 +56,11 @@ $stateHoverTextColor: $gtx-color-off-white;
 
 
 /* PrimeNG Theme ******************************************************************************** */
+
+/* Override icon colour */
+.ui-treenode-icon {
+    color: $gtx-color-dark-gray;
+}
 
 @mixin hover-element() {
     border-color: $stateHoverBorderColor;

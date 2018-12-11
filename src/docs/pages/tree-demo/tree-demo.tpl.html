@@ -3,13 +3,17 @@
 
 <br>
 
-<!-- <gtx-autodocs [source]="componentSource" type="component"></gtx-autodocs> -->
-
 <p-tree [value]="files" selectionMode="checkbox" [(selection)]="selectedFiles"></p-tree>
 
 <br>
 
 <b>Selected Nodes:</b>
-<ol>
-    <li *ngFor="let file of selectedFiles">{{file.label}}</li>
-</ol>
+<ng-container *ngIf="!selectedFiles || !selectedFiles.length">
+    None
+</ng-container>
+
+<ng-container *ngIf="selectedFiles && selectedFiles.length">
+    <ol>
+        <li *ngFor="let file of selectedFiles">{{file.label}}</li>
+    </ol>
+</ng-container>
