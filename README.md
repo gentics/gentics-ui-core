@@ -91,6 +91,8 @@ ng new my-example --prefix me --routing --style scss
 // styles/main.scss
 $icons-font-path: '~gentics-ui-core/dist/fonts/';
 $roboto-font-path: '~gentics-ui-core/dist/fonts/';
+$fa-font-path: '~font-awesome/fonts';
+$primeng-image-path: '~primeng/resources/images/';
 
 @import "~gentics-ui-core/dist/styles/variables";
 @import "~gentics-ui-core/dist/styles/mixins";
