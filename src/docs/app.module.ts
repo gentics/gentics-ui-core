@@ -37,6 +37,7 @@ import {SplitViewContainerDemo} from './pages/split-view-container-demo/split-vi
 import {TabsDemo} from './pages/tabs-demo/tabs-demo';
 import {TextareaDemo} from './pages/textarea-demo/textarea-demo';
 import {TopBarDemo} from './pages/top-bar-demo/top-bar-demo';
+import {TreeDemo} from './pages/tree-demo/tree-demo';
 import {TypographyDemo} from './pages/typography-demo/typography-demo';
 import {Autodocs} from './components/autodocs/autodocs.component';
 import {AutodocTable} from './components/autodocs/autodoc-table.component';
@@ -76,6 +77,7 @@ const DEMO_APP_PAGES: any[] = [
     TabsDemo,
     TextareaDemo,
     TopBarDemo,
+    TreeDemo,
     TypographyDemo
 ];
 

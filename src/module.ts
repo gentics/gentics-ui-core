@@ -3,6 +3,10 @@ import {CommonModule} from '@angular/common';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {RouterModule} from '@angular/router';
 
+// 3rd Party Modules
+// import {TreeModule} from 'primeng/tree';
+import {TreeModule, SharedModule} from 'primeng/primeng';
+
 import {AutofocusDirective} from './directives/autofocus/autofocus.directive';
 import {BlankModal} from './components/modal/blank-modal.component';
 import {Breadcrumbs} from './components/breadcrumbs/breadcrumbs.component';
@@ -128,11 +132,17 @@ export const routerModuleForChild: ModuleWithProviders = RouterModule.forChild([
         CommonModule,
         FormsModule,
         ReactiveFormsModule,
-        routerModuleForChild
+        routerModuleForChild,
+        TreeModule,
+        SharedModule
     ],
     declarations,
     entryComponents: UI_CORE_ENTRY_COMPONENTS,
-    exports: declarations
+    exports: [
+        ...declarations,
+        TreeModule,
+        SharedModule
+    ]
 })
 export class GenticsUICoreModule {
     /**

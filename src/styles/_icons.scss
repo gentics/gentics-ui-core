@@ -9,6 +9,14 @@
         url("#{$icons-font-path}Material-Design-Icons.ttf") format('truetype');
 }
 
+/* Font Awesome */
+// For PrimeNG versions <=5 this is required
+@import 'node_modules/font-awesome/scss/font-awesome';
+
+/* PrimeIcons */
+// In PrimeNG versions >=6 those will be required
+// @import 'node_modules/primeicons/primeicons';
+
 icon,
 .material-icons {
     font-family: 'Material Icons';

@@ -2,11 +2,18 @@
  * This is the main GUIC styles file. It should be imported once
  * by any app that consumes GUIC.
  */
+
 $icons-font-path: '../fonts/' !default;
 $roboto-font-path: '../fonts/' !default;
+/* Font Awesome font path */
+$fa-font-path: '../fonts/' !default;
+/* PrimeNG image path */
+$primeng-image-path: './images' !default;
+
 @import "variables";
 @import "mixins";
 @import "materialize";
+@import "primeng";
 @import "icons";
 @import "grid";
 
@@ -32,6 +39,7 @@ $roboto-font-path: '../fonts/' !default;
 @import "../components/tabs/tabs";
 @import "../components/textarea/textarea";
 @import "../components/top-bar/top-bar";
+@import "../components/tree/tree";
 
 html {
     font-weight: normal;

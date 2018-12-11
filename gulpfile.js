@@ -20,6 +20,8 @@ const tslintStylish = require('tslint-stylish');
 const webpack = require('webpack');
 const inlineNg2Template = require('gulp-inline-ng2-template');
 const htmlMinifier = require('html-minifier');
+const rename = require('gulp-rename');
+const replace = require('gulp-string-replace');
 
 const webpackDevConfig = require('./config/webpack.dev.config.js');
 const webpackDistConfig = require('./config/webpack.dist.config.js');
@@ -83,7 +85,8 @@ function cleanDocsFolder() {
 }
 
 function compileDistStyles() {
-    return checkDistSASS().then(copyDistSASS);
+    return checkDistSASS().then(copyDistSASS)
+    .then(copyVendorSources);
 }
 
 function buildTypeScript(done) {
@@ -134,16 +137,34 @@ function checkDistSASS() {
     return streamToPromise(stream);
 }
 
+function copyVendorSources() {
+    return Promise.all([
+        // PrimeNG
+        streamToPromise(
+            gulp.src('node_modules/primeng/resources/primeng.css')
+                // since no scss is provided in distributed package this makes paths configurable
+                .pipe( rename( 'primeng.scss' ) )
+                .pipe( replace( new RegExp( /(?!\"|\')\.?\/?images\//, 'gi' ), '#{$primeng-image-path}' ) )
+                .pipe(gulp.dest(path.join(paths.out.dist.styles, 'primeng/resources')))
+        ),
+        streamToPromise(
+            gulp.src('node_modules/primeng/resources/images/*')
+                .pipe(gulp.dest(path.join(paths.out.dist.styles, 'primeng/resources/images')))
+        )
+    ]);
+}
+
 function copyDistSASS() {
     return Promise.all([
         streamToPromise(
             gulp.src(paths.src.scss)
                 .pipe(gulp.dest(paths.out.dist.root))
         ),
+        // Materialize
         streamToPromise(
             gulp.src('node_modules/materialize-css/sass/**/*.scss')
                 .pipe(gulp.dest(path.join(paths.out.dist.styles, 'materialize-css/sass')))
-        )
+        ),
     ]);
 }
 
@@ -154,6 +175,7 @@ function copyFontsTo(outputFolder) {
                 .pipe(filter([
                     '**/*.eot',
                     '**/*.ttf',
+                    '**/*.svg',
                     '**/*.woff',
                     '**/*.woff2'
                 ]))

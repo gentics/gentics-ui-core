@@ -30,6 +30,7 @@ import {TabsDemo} from './pages/tabs-demo/tabs-demo';
 import {TextareaDemo} from './pages/textarea-demo/textarea-demo';
 import {TopBarDemo} from './pages/top-bar-demo/top-bar-demo';
 import {TypographyDemo} from './pages/typography-demo/typography-demo';
+import { TreeDemo } from './pages/tree-demo/tree-demo';
 
 export interface IPageInfo {
     path: string;
@@ -199,6 +200,12 @@ export const pages: IPageInfo[] = [
         component: TopBarDemo,
         type: 'component',
         keywords: ['main', 'menu']
+    },
+    {
+        path: 'tree',
+        component: TreeDemo,
+        type: 'component',
+        keywords: ['component', 'list', 'view', 'folder']
     },
     {
         path: 'typography',
