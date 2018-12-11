@@ -5,30 +5,8 @@
 // import Gentics UI-Core variables
 @import "variables";
 
-
 /* PrimeNG Dependencies */
 @import "primeng/resources/primeng";
-
-/* Override hardcoded paths to provide style import */
-.ui-colorpicker-panel .ui-colorpicker-hue {
-    background: transparent url("#{$primeng-image-path}hue.png") no-repeat left top !important;
-}
-.ui-colorpicker-panel .ui-colorpicker-color {
-    background: transparent url("#{$primeng-image-path}color.png") no-repeat left top !important;
-}
-.ui-lightbox-loading .ui-lightbox-content {
-    background: url("#{$primeng-image-path}loading.gif") #000000 center center no-repeat !important;
-}
-.ui-password-panel .ui-password-meter { 
-    background:transparent url("#{$primeng-image-path}password-meter.png") no-repeat left top !important;
-}
-.ui-tree.ui-tree-horizontal .ui-treenode {
-    background: url("#{$primeng-image-path}line.gif") repeat-x scroll center center transparent !important;
-}
-.ui-tree.ui-tree-horizontal .ui-treenode-connector-line {
-    background: url("#{$primeng-image-path}line.gif") repeat-y scroll 0 0 transparent !important;
-}
-
 
 /* PrimeNG Theme Variables ********************************************************************** */
 

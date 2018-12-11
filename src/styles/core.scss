@@ -5,7 +5,11 @@
 
 $icons-font-path: '../fonts/' !default;
 $roboto-font-path: '../fonts/' !default;
+/* Font Awesome font path */
+$fa-font-path: '../fonts/' !default;
+/* PrimeNG image path */
 $primeng-image-path: './images' !default;
+
 @import "variables";
 @import "mixins";
 @import "materialize";

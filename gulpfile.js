@@ -20,7 +20,8 @@ const tslintStylish = require('tslint-stylish');
 const webpack = require('webpack');
 const inlineNg2Template = require('gulp-inline-ng2-template');
 const htmlMinifier = require('html-minifier');
-var rename = require('gulp-rename');
+const rename = require('gulp-rename');
+const replace = require('gulp-string-replace');
 
 const webpackDevConfig = require('./config/webpack.dev.config.js');
 const webpackDistConfig = require('./config/webpack.dist.config.js');
@@ -138,41 +139,18 @@ function checkDistSASS() {
 
 function copyVendorSources() {
     return Promise.all([
-
-        // Font Awesome
-        streamToPromise(
-            gulp.src('node_modules/font-awesome/css/font-awesome.css')
-                .pipe(rename('_font-awesome.scss'))
-                .pipe(gulp.dest(path.join(paths.out.dist.styles, 'font-awesome/scss')))
-        ),
         // PrimeNG
         streamToPromise(
             gulp.src('node_modules/primeng/resources/primeng.css')
-                .pipe(rename('_primeng.scss'))
+                // since no scss is provided in distributed package this makes paths configurable
+                .pipe( rename( 'primeng.scss' ) )
+                .pipe( replace( new RegExp( /(?!\"|\')\.?\/?images\//, 'gi' ), '#{$primeng-image-path}' ) )
                 .pipe(gulp.dest(path.join(paths.out.dist.styles, 'primeng/resources')))
         ),
         streamToPromise(
             gulp.src('node_modules/primeng/resources/images/*')
             .pipe(gulp.dest(path.join(paths.out.dist.styles, 'primeng/resources/images')))
         )
-
-        // // Font Awesome
-        // // For PrimeNG versions <=5 this is required
-        // streamToPromise(
-        //     gulp.src('node_modules/font-awesome/css/font-awesome.min.css')
-        //         .pipe(gulp.dest(path.join(paths.out.dist.styles, 'font-awesome/css')))
-        // ),
-        // // In PrimeNG versions >=6 those will be required
-        // // PrimeIcons
-        // streamToPromise(
-        //     gulp.src('node_modules/primeicons/primeicons.css')
-        //         .pipe(gulp.dest(path.join(paths.out.dist.styles, 'primeicons')))
-        // ),
-        // // PrimeNG
-        // streamToPromise(
-        //     gulp.src('node_modules/primeng/resources/primeng.min.css')
-        //         .pipe(gulp.dest(path.join(paths.out.dist.styles, 'primeng/resources')))
-        // )
     ]);
 }
 
@@ -186,7 +164,7 @@ function copyDistSASS() {
         streamToPromise(
             gulp.src('node_modules/materialize-css/sass/**/*.scss')
                 .pipe(gulp.dest(path.join(paths.out.dist.styles, 'materialize-css/sass')))
-        )
+        ),
     ]);
 }
 
