@@ -149,7 +149,7 @@ function copyVendorSources() {
         ),
         streamToPromise(
             gulp.src('node_modules/primeng/resources/images/*')
-            .pipe(gulp.dest(path.join(paths.out.dist.styles, 'primeng/resources/images')))
+                .pipe(gulp.dest(path.join(paths.out.dist.styles, 'primeng/resources/images')))
         )
     ]);
 }
