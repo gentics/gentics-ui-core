@@ -6,6 +6,8 @@
 
 ### Fixes
 
+* Fix the order of ngModel and onChange (GUIC-204)
+
 ## 6.4.0 (2018-11-22)
 
 ### Features
