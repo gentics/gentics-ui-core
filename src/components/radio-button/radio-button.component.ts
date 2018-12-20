@@ -146,7 +146,6 @@ export class RadioButton implements ControlValueAccessor, OnInit, OnDestroy {
         this.statelessMode = true;
         if (val != this.inputChecked) {
             this.inputChecked = coerceToBoolean(val);
-            this.change.emit(this.value);
             if (val && this.group) {
                 this.group.radioSelected(this);
             }
@@ -158,6 +157,7 @@ export class RadioButton implements ControlValueAccessor, OnInit, OnDestroy {
                 }
                 this.onChange(false);
             }
+            this.change.emit(this.value);
         }
     }
 
@@ -285,11 +285,11 @@ export class RadioButton implements ControlValueAccessor, OnInit, OnDestroy {
         }
 
         this.inputChecked = true;
+        this.onChange(this.value);
         this.change.emit(this.value);
         if (this.group) {
             this.group.radioSelected(this);
         }
-        this.onChange(this.value);
         return true;
     }
 

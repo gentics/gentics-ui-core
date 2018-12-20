@@ -135,8 +135,8 @@ export class Range implements ControlValueAccessor {
         e.stopPropagation();
         if (this.canModify) {
             const value = this.currentValue = this.getValueFromEvent(e);
-            this.change.emit(value);
             this.onChange(value);
+            this.change.emit(value);
         }
     }
 
@@ -152,8 +152,8 @@ export class Range implements ControlValueAccessor {
         e.stopPropagation();
         if (this.canModify) {
             const value = this.currentValue = this.getValueFromEvent(e);
-            this.change.emit(value);
             this.onChange(value);
+            this.change.emit(value);
         }
     }
 

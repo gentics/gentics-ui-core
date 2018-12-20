@@ -180,8 +180,8 @@ export class InputField implements AfterViewInit, ControlValueAccessor, OnChange
     onInput(e: Event): void {
         const target = e.target as HTMLInputElement;
         const value = this.currentValue = this.normalizeValue(target.value);
-        this.change.emit(value);
         this.onChange(value);
+        this.change.emit(value);
     }
 
     writeValue(valueToWrite: any): void {

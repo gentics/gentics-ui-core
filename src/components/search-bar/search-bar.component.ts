@@ -110,8 +110,8 @@ export class SearchBar implements ControlValueAccessor {
     onInputChange(event: string): void {
         this.query = event;
         if (typeof event === 'string') {
-            this.change.emit(event);
             this.onChange(event);
+            this.change.emit(event);
         }
     }
 
