@@ -174,8 +174,8 @@ export class Select implements ControlValueAccessor {
             this.toggleSelectedOption(option);
             const selectedValues = this.selectedOptions.map(o => o.value);
             this.value = this.multiple ? selectedValues : selectedValues[0];
-            this.change.emit(this.value);
             this.onChange();
+            this.change.emit(this.value);
             this.updateViewValue();
             this.scrollToSelectedOption();
         }
