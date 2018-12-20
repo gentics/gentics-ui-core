@@ -186,8 +186,8 @@ export class Checkbox implements ControlValueAccessor {
         }
         if (newState != this.checkState) {
             this.checkState = newState;
-            this.change.emit(newState);
             this.onChange(newState);
+            this.change.emit(newState);
             return true;
         }
     }
