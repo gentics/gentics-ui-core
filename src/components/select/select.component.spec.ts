@@ -22,7 +22,7 @@ import {OverlayHost} from '../overlay-host/overlay-host.component';
 import {crossBrowserInitKeyboardEvent, KeyboardEventConfig} from '../../testing/keyboard-event';
 import {KeyCode} from '../../common/keycodes';
 
-fdescribe('Select:', () => {
+describe('Select:', () => {
 
     beforeEach(() => {
         TestBed.configureTestingModule({
