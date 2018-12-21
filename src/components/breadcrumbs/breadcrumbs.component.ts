@@ -1,13 +1,4 @@
-import {
-    ChangeDetectionStrategy,
-    ChangeDetectorRef,
-    Component,
-    ElementRef,
-    EventEmitter,
-    Input,
-    OnDestroy,
-    Output
-    } from '@angular/core';
+import { Component, ElementRef, EventEmitter, Input, OnDestroy, Output } from '@angular/core';
 import { OnChanges, QueryList, SimpleChanges, ViewChildren } from '@angular/core';
 import { RouterLinkWithHref } from '@angular/router';
 import { Subscription } from 'rxjs';
@@ -38,8 +29,7 @@ export interface IBreadcrumbRouterLink {
  */
 @Component({
     selector: 'gtx-breadcrumbs',
-    templateUrl: './breadcrumbs.tpl.html',
-    changeDetection: ChangeDetectionStrategy.OnPush
+    templateUrl: './breadcrumbs.tpl.html'
 })
 export class Breadcrumbs implements OnChanges, OnDestroy {
 
@@ -104,8 +94,7 @@ export class Breadcrumbs implements OnChanges, OnDestroy {
     private subscriptions = new Subscription();
     private resizeEvents = new BehaviorSubject<void>(null);
 
-    constructor(private changeDetector: ChangeDetectorRef,
-                private elementRef: ElementRef,
+    constructor(private elementRef: ElementRef,
                 private userAgent: UserAgentRef) { }
 
     ngOnInit(): void {
@@ -216,6 +205,5 @@ export class Breadcrumbs implements OnChanges, OnDestroy {
                 ...link
             }));
         }
-        this.changeDetector.markForCheck();
     }
 }

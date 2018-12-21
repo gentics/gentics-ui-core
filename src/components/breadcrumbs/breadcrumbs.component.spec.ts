@@ -13,7 +13,7 @@ import {
     IBreadcrumbRouterLink
 } from './breadcrumbs.component';
 import {Button} from '../button/button.component';
-import {UserAgentRef} from "../modal/user-agent-ref";
+import {UserAgentRef} from '../modal/user-agent-ref';
 
 
 /**
