@@ -16,6 +16,7 @@ export class SelectDemo {
     ];
     selectVal: string = 'bar';
     clearableSelectVal: string = null;
+    placeholderSelectVal: string = null;
     selectGroup: any;
     selectedPerson: any;
     disableEntireControl: boolean = false;

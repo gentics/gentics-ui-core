@@ -92,6 +92,29 @@ describe('Select:', () => {
             )
         );
 
+    it('displays the placeholder, if it is set and if nothing is selected',
+        componentTest(() => TestComponent, `
+            <gtx-select [(ngModel)]="ngModelValue" (change)="onChange($event)" clearable [placeholder]="placeholder">
+                    <gtx-option *ngFor="let option of options" [value]="option">{{ option }}</gtx-option>
+            </gtx-select>`,
+            (fixture, instance) => {
+                fixture.detectChanges();
+                tick();
+                expect(instance.ngModelValue).toEqual('Bar');
+
+                const clearButton = fixture.debugElement.query(By.css('gtx-button'));
+                clearButton.triggerEventHandler('click', document.createEvent('Event'));
+                tick();
+                fixture.detectChanges();
+
+                let placeholder: HTMLElement = fixture.debugElement.query(By.css('.placeholder')).nativeElement;
+
+                expect(placeholder).toBeDefined();
+                expect(placeholder.textContent).toEqual('More...');
+            }
+        )
+    );
+
     it('binds its label to the input value',
         componentTest(() => TestComponent, `
             <gtx-select label="testLabel"></gtx-select>`,
@@ -829,6 +852,7 @@ class TestComponent {
     value: string = 'Bar';
     multiValue: string[] = ['Bar', 'Baz'];
     ngModelValue: string = 'Bar';
+    placeholder: string = 'More...';
     options: string[] = ['Foo', 'Bar', 'Baz'];
     optionsSubject = new BehaviorSubject<any[]>([]);
     valueSubject = new BehaviorSubject<any>('Initial value');
