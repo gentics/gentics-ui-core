@@ -9,6 +9,7 @@
 ### Fixes
 
 * Remove the firing of the change event in writeValue() method (GUIC-193)
+* Fix race condition in multiline breadcrumbs in IE and Edge (GUIC-203)
 * Fix the order of ngModel and onChange (GUIC-204)
 
 ## 6.4.0 (2018-11-22)
