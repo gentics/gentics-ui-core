@@ -160,7 +160,6 @@ export class Checkbox implements ControlValueAccessor {
         if (value !== this.checkState) {
             this.checkState = value;
             this.changeDetector.markForCheck();
-            this.change.emit(value);
         }
     }
 
