@@ -345,8 +345,8 @@
 <gtx-demo-block demoTitle="Select with placeholder">
     <div class="demo-result">
         <div class="column small-8">
-            <gtx-select label="Select" [(ngModel)]="newSelectVal" [placeholder]="More...">
-                <gtx-option *ngFor="let item of options" [value]="item"></gtx-option>
+            <gtx-select label="Select" [(ngModel)]="newSelectVal" clearable placeholder="More...">
+                <gtx-option *ngFor="let item of options2" [value]="item"></gtx-option>
             </gtx-select>
         </div>
         <div class="column small-4">
@@ -355,8 +355,8 @@
     </div>
     <div class="demo-code">
         <gtx-highlighted-code language="HTML" code='
-                <gtx-select label="Select" [(ngModel)]="newSelectVal" [placeholder]="More...">
-                    <gtx-option *ngFor="let item of options" [value]="item"></gtx-option>
+                <gtx-select label="Select" [(ngModel)]="newSelectVal" clearable placeholder="More...">
+                    <gtx-option *ngFor="let item of options2" [value]="item"></gtx-option>
                 </gtx-select>
                 Value: <code>(( newSelectVal | json ))</code>
         '></gtx-highlighted-code>

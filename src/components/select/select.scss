@@ -17,6 +17,10 @@ gtx-select {
         }
     }
 
+    .placeholder {
+        color: #d6d6d6;
+    }
+
     .view-value {
         @include input-base;
         cursor: pointer;
