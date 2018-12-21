@@ -4,6 +4,8 @@
 
 ### Features
 
+* Add placeholder option to Select (GUIC-205)
+
 ### Fixes
 
 ## 6.4.0 (2018-11-22)

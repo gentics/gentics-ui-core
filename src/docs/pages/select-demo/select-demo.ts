@@ -8,8 +8,6 @@ export class SelectDemo {
 
     options: string[] = ['foo', 'bar', 'baz', 'quux', 'qwerty', 'dump', 'lorem',
                          'ipsum', 'dolor', 'sit', 'amet', 'consectetur', 'adipiscing', 'elit'];
-    options2: string[] = ['', 'foo', 'bar', 'baz', 'quux', 'qwerty', 'dump', 'lorem',
-                         'ipsum', 'dolor', 'sit', 'amet', 'consectetur', 'adipiscing', 'elit'];
     selectMultiVal: string[] = ['bar', 'baz'];
     people: any[] = [
         { name: 'John', age: 22, disabled: false },
@@ -18,7 +16,7 @@ export class SelectDemo {
     ];
     selectVal: string = 'bar';
     clearableSelectVal: string = null;
-    newSelectVal: string = 'dolor';
+    placeholderSelectVal: string = null;
     selectGroup: any;
     selectedPerson: any;
     disableEntireControl: boolean = false;

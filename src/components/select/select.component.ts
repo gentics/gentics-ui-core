@@ -96,7 +96,7 @@ export class Select implements ControlValueAccessor {
     @Input() value: any;
 
     /**
-     * Placeholder which is shown if it is set and if nothing is selected.
+     * Placeholder which is shown if nothing is selected.
      */
     @Input() placeholder: string = '';
 
