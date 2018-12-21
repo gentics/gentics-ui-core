@@ -245,11 +245,7 @@ export class RadioButton implements ControlValueAccessor, OnInit, OnDestroy {
       }
 
     writeValue(value: any): void {
-        let wasChecked: boolean = this.checked;
         this.inputChecked = (value === this.value);
-        if (wasChecked && !this.inputChecked) {
-            this.change.emit(false);
-        }
     }
 
     ngOnInit(): void {
