@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component, ElementRef, EventEmitter, Input, OnDestroy, Output } from '@angular/core';
+import { Component, ElementRef, EventEmitter, Input, OnDestroy, Output } from '@angular/core';
 import { OnChanges, QueryList, SimpleChanges, ViewChildren } from '@angular/core';
 import { RouterLinkWithHref } from '@angular/router';
 import { Subscription } from 'rxjs';
@@ -94,8 +94,7 @@ export class Breadcrumbs implements OnChanges, OnDestroy {
     private subscriptions = new Subscription();
     private resizeEvents = new BehaviorSubject<void>(null);
 
-    constructor(private changeDetector: ChangeDetectorRef,
-                private elementRef: ElementRef,
+    constructor(private elementRef: ElementRef,
                 private userAgent: UserAgentRef) { }
 
     ngOnInit(): void {
@@ -106,7 +105,7 @@ export class Breadcrumbs implements OnChanges, OnDestroy {
         }
 
         const resizeSub = this.resizeEvents
-            .debounceTime(100)
+            .debounceTime(200)
             .subscribe(() => this.executeIEandEdgeEllipsisWorkAround());
         this.subscriptions.add(resizeSub);
     }
@@ -183,27 +182,28 @@ export class Breadcrumbs implements OnChanges, OnDestroy {
     }
 
     private executeIEandEdgeEllipsisWorkAround(): void {
-        if (!this.multiline || this.multilineExpanded) {
-            return;
+        if (this.multiline && !this.multilineExpanded && (this.userAgent.isIE11 || this.userAgent.isEdge)) {
+            // Strange, but unfortunately necessary:
+            this.forceRefresh();
+            setTimeout(() => this.forceRefresh());
         }
-        const newRouterLinks = this.routerLinks;
+    }
 
-        if (this.userAgent.isIE11) {
-            this.routerLinks = [];
-
-            setTimeout(() => {
-                this.routerLinks = newRouterLinks;
-            });
+    /**
+     * Forces a refresh of the breadcrumbs (necessary for the IE and Edge ellipsis workaround).
+     */
+    private forceRefresh(): void {
+        // Creating just a copy of the array is not enough, the objects need to be different as well,
+        // so that Angular recognizes a change.
+        if (this.links && this.links.length > 0) {
+            this.links = this.links.map(link => ({
+                ...link
+            }));
         }
-
-        if (this.userAgent.isEdge) {
-            setTimeout(() => {
-                this.routerLinks = [];
-
-                setTimeout(() => {
-                    this.routerLinks = newRouterLinks;
-                });
-            });
+        if (this.routerLinks && this.routerLinks.length > 0) {
+            this.routerLinks = this.routerLinks.map(link => ({
+                ...link
+            }));
         }
     }
 }
