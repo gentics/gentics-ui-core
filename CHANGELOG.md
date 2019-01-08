@@ -1,5 +1,14 @@
 # Gentics UI Core Changelog
 
+## 7.0.0 (not yet released)
+
+### Features
+
+* Update to Angular 7 (GUIC-180)
+* Migrate project to angular-cli (GUIC-180)
+
+### Fixes
+
 ## 6.5.0 (not yet released)
 
 ### Features
