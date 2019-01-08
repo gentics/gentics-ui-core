@@ -8,7 +8,7 @@ import {
     OnChanges,
     OnDestroy,
     Output,
-    Renderer,
+    Renderer2,
     SimpleChanges,
     ViewChild
 } from '@angular/core';
@@ -203,7 +203,7 @@ export class SplitViewContainer implements AfterViewInit, OnChanges, OnDestroy {
 
     constructor(private ownElement: ElementRef,
                 private changeDetector: ChangeDetectorRef,
-                private renderer: Renderer) { }
+                private renderer: Renderer2) { }
 
     ngOnInit(): void {
         if (!this.split) {
@@ -311,10 +311,10 @@ export class SplitViewContainer implements AfterViewInit, OnChanges, OnDestroy {
             this.cleanups.push(this.renderer.listen(resizeHandle, 'losecapture', this.endResizing));
         }
 
-        // Set cursor styles & bind events on document (the Angular2 way)
-        this.renderer.setElementClass(this.globalCursorStyleTarget, CURSOR_STYLE_CLASS, true);
+        // Set cursor styles & bind events on document (the Angular way)
+        this.renderer.addClass(this.globalCursorStyleTarget, CURSOR_STYLE_CLASS);
         this.cleanups.push(
-            () => this.renderer.setElementClass(this.globalCursorStyleTarget, CURSOR_STYLE_CLASS, false),
+            () => this.renderer.removeClass(this.globalCursorStyleTarget, CURSOR_STYLE_CLASS),
             this.renderer.listen(mouseMoveTarget, 'mousemove', this.moveResizer),
             this.renderer.listen(this.globalEventTarget, 'mouseup', this.endResizing)
         );
