@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, ComponentFactoryResolver, EventEmitter, Injectable,
-    Input, Output, ReflectiveInjector, Type, ViewChild} from '@angular/core';
+    Input, Output, Type, ViewChild} from '@angular/core';
 import {BrowserDynamicTestingModule} from '@angular/platform-browser-dynamic/testing';
 import {By} from '@angular/platform-browser';
 import {ComponentFixture, TestBed, tick} from '@angular/core/testing';
