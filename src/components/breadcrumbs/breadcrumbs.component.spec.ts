@@ -1,21 +1,14 @@
-
-import {of as observableOf, Observable} from 'rxjs';
 import {LocationStrategy} from '@angular/common';
-import {ComponentFixture, getTestBed, TestBed, tick} from '@angular/core/testing';
 import {Component} from '@angular/core';
+import {ComponentFixture, getTestBed, TestBed, tick} from '@angular/core/testing';
 import {By} from '@angular/platform-browser';
 import {ActivatedRoute, Router, RouterModule} from '@angular/router';
-
+import {of as observableOf} from 'rxjs';
 
 import {componentTest, createClickEvent} from '../../testing';
-import {
-    Breadcrumbs,
-    IBreadcrumbLink,
-    IBreadcrumbRouterLink
-} from './breadcrumbs.component';
 import {Button} from '../button/button.component';
 import {UserAgentRef} from '../modal/user-agent-ref';
-
+import {Breadcrumbs, IBreadcrumbLink, IBreadcrumbRouterLink} from './breadcrumbs.component';
 
 /**
  * Helper function get text of all <a> tags inside a component

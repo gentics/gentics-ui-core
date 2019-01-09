@@ -1,14 +1,24 @@
-import {ChangeDetectionStrategy, ChangeDetectorRef, Component, EventEmitter, forwardRef, Input, OnDestroy, OnInit,
-    Optional, Output} from '@angular/core';
+import {
+    ChangeDetectionStrategy,
+    ChangeDetectorRef,
+    Component,
+    EventEmitter,
+    forwardRef,
+    Input,
+    OnDestroy,
+    OnInit,
+    Optional,
+    Output
+} from '@angular/core';
 import {ControlValueAccessor, NG_VALUE_ACCESSOR} from '@angular/forms';
+import * as momentjs from 'moment';
 import {Subscription} from 'rxjs';
 
+import {coerceToBoolean} from '../../common/coerce-to-boolean';
 import {ModalService} from '../modal/modal.service';
+import {DateTimePickerFormatProvider} from './date-time-picker-format-provider.service';
 import {DateTimePickerModal} from './date-time-picker-modal.component';
 import {DateTimePickerStrings} from './date-time-picker-strings';
-import {DateTimePickerFormatProvider} from './date-time-picker-format-provider.service';
-import {coerceToBoolean} from '../../common/coerce-to-boolean';
-import * as momentjs from 'moment';
 
 export {DateTimePickerStrings};
 

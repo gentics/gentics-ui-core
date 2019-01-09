@@ -1,30 +1,34 @@
-
-import {timer as observableTimer, Observable} from 'rxjs';
-
-import {tap, take} from 'rxjs/operators';
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, ComponentFactoryResolver, EventEmitter, Injectable,
-    Input, Output, Type, ViewChild} from '@angular/core';
-import {BrowserDynamicTestingModule} from '@angular/platform-browser-dynamic/testing';
-import {By} from '@angular/platform-browser';
+import {
+    ChangeDetectionStrategy,
+    Component,
+    ComponentFactoryResolver,
+    EventEmitter,
+    Injectable,
+    Input,
+    Output,
+    Type,
+    ViewChild
+} from '@angular/core';
 import {ComponentFixture, TestBed, tick} from '@angular/core/testing';
 import {FormControl, FormGroup, FormsModule, ReactiveFormsModule} from '@angular/forms';
-
-
-
+import {By} from '@angular/platform-browser';
+import {BrowserDynamicTestingModule} from '@angular/platform-browser-dynamic/testing';
+import {timer as observableTimer} from 'rxjs';
+import {take, tap} from 'rxjs/operators';
 
 import {componentTest} from '../../testing';
-import {DateTimePicker} from './date-time-picker.component';
-import {DateTimePickerModal} from './date-time-picker-modal.component';
-import {OverlayHost} from '../overlay-host/overlay-host.component';
-import {OverlayHostService} from '../overlay-host/overlay-host.service';
-import {ModalService} from '../modal/modal.service';
-import {IModalInstance, IModalOptions} from '../modal/modal-interfaces';
-import {DateTimePickerFormatProvider} from './date-time-picker-format-provider.service';
-import {InputField} from '../input/input.component';
-import {DynamicModalWrapper} from '../modal/dynamic-modal-wrapper.component';
 import {Button} from '../button/button.component';
 import {Icon} from '../icon/icon.directive';
+import {InputField} from '../input/input.component';
+import {DynamicModalWrapper} from '../modal/dynamic-modal-wrapper.component';
+import {IModalInstance, IModalOptions} from '../modal/modal-interfaces';
+import {ModalService} from '../modal/modal.service';
 import {UserAgentRef} from '../modal/user-agent-ref';
+import {OverlayHost} from '../overlay-host/overlay-host.component';
+import {OverlayHostService} from '../overlay-host/overlay-host.service';
+import {DateTimePickerFormatProvider} from './date-time-picker-format-provider.service';
+import {DateTimePickerModal} from './date-time-picker-modal.component';
+import {DateTimePicker} from './date-time-picker.component';
 
 const TEST_TIMESTAMP: number = 1457971763;
 

@@ -1,22 +1,21 @@
-
-import {debounceTime} from 'rxjs/operators';
 import {
+    AfterViewChecked,
     Component,
-    ComponentRef,
     ComponentFactoryResolver,
+    ComponentRef,
     HostListener,
     OnDestroy,
     OnInit,
-    ViewContainerRef,
-    ViewChild,
+    Renderer2,
     Type,
-    AfterViewChecked,
-    Renderer2
+    ViewChild,
+    ViewContainerRef
 } from '@angular/core';
-
-import {IModalOptions, IModalDialog} from './modal-interfaces';
-import {UserAgentRef} from './user-agent-ref';
 import {Subject, Subscription} from 'rxjs';
+import {debounceTime} from 'rxjs/operators';
+
+import {IModalDialog, IModalOptions} from './modal-interfaces';
+import {UserAgentRef} from './user-agent-ref';
 
 const defaultOptions: IModalOptions = {
     modalBodyClass: 'modal-content',
@@ -140,7 +139,7 @@ export class DynamicModalWrapper implements OnInit, OnDestroy, AfterViewChecked 
      * Listen for content changes, to notify IE for modal height change
      */
     ngAfterViewChecked(): void {
-        if (this.isIE11 && this.cmpRef) { 
+        if (this.isIE11 && this.cmpRef) {
             // Trigger modalHeight event on view checks
             let modalElements = Array.from(this.cmpRef.location.nativeElement.children as HTMLElement[]);
             let currentModalElementsHeight = modalElements

@@ -2,23 +2,22 @@ import {
     ChangeDetectorRef,
     Component,
     ContentChildren,
+    ElementRef,
     EventEmitter,
     forwardRef,
-    HostListener,
     Input,
     Output,
     QueryList,
-    ViewChild,
-    ElementRef
+    ViewChild
 } from '@angular/core';
 import {ControlValueAccessor, NG_VALUE_ACCESSOR} from '@angular/forms';
 import {Subscription} from 'rxjs';
 
-import {SelectOption, SelectOptionGroup} from './option.component';
-import {DropdownList} from '../dropdown-list/dropdown-list.component';
-import {DropdownContent} from '../dropdown-list/dropdown-content.component';
-import {KeyCode} from '../../common/keycodes';
 import {coerceToBoolean} from '../../common/coerce-to-boolean';
+import {KeyCode} from '../../common/keycodes';
+import {DropdownContent} from '../dropdown-list/dropdown-content.component';
+import {DropdownList} from '../dropdown-list/dropdown-list.component';
+import {SelectOption, SelectOptionGroup} from './option.component';
 
 const GTX_SELECT_VALUE_ACCESSOR = {
     provide: NG_VALUE_ACCESSOR,

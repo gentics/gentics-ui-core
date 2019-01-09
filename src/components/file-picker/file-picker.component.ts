@@ -1,11 +1,18 @@
-
-import {merge as observableMerge, Observable, Subscription} from 'rxjs';
-import {ChangeDetectorRef, Component, EventEmitter, Input, OnInit, OnDestroy, Optional, Output, Self} from '@angular/core';
-
+import {
+    ChangeDetectorRef,
+    Component,
+    EventEmitter,
+    Input,
+    OnDestroy,
+    OnInit,
+    Optional,
+    Output,
+    Self
+} from '@angular/core';
+import {merge as observableMerge, Subscription} from 'rxjs';
 
 import {FileDropArea, IFileDropAreaOptions} from '../file-drop-area/file-drop-area.directive';
 import {matchesMimeType} from '../file-drop-area/matches-mime-type';
-
 
 /**
  * A file picker component.

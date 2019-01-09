@@ -1,14 +1,12 @@
-
+import {Directive, ElementRef, EventEmitter, Inject, Input, NgZone} from '@angular/core';
+import {InjectionToken, OnDestroy, OnInit, Optional, Output} from '@angular/core';
+import {Observable, Subscription} from 'rxjs';
 import {map} from 'rxjs/operators';
-import { Directive, ElementRef, EventEmitter, Inject, Input, NgZone } from '@angular/core';
-import { OnDestroy, OnInit, InjectionToken, Optional, Output } from '@angular/core';
-import { Observable ,  Subscription } from 'rxjs';
 
-
-import { PageFileDragHandler } from './page-file-drag-handler.service';
-import { DragStateTrackerFactory, FileDragState } from './drag-state-tracker.service';
-import { matchesMimeType } from './matches-mime-type';
-import { clientReportsMimeTypesOnDrag, getDataTransfer, transferHasFiles } from './drag-drop-utils';
+import {clientReportsMimeTypesOnDrag, getDataTransfer, transferHasFiles} from './drag-drop-utils';
+import {DragStateTrackerFactory, FileDragState} from './drag-state-tracker.service';
+import {matchesMimeType} from './matches-mime-type';
+import {PageFileDragHandler} from './page-file-drag-handler.service';
 
 export interface IFileDropAreaOptions {
     /**

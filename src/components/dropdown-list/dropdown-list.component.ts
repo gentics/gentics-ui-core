@@ -1,5 +1,3 @@
-
-import {take} from 'rxjs/operators';
 import {
     ChangeDetectionStrategy,
     Component,
@@ -15,15 +13,15 @@ import {
     ViewChild,
     ViewContainerRef
 } from '@angular/core';
+import {take} from 'rxjs/operators';
 
-
+import {coerceToBoolean} from '../../common/coerce-to-boolean';
+import {KeyCode} from '../../common/keycodes';
 import {OverlayHostService} from '../overlay-host/overlay-host.service';
 import {DropdownContentWrapper} from './dropdown-content-wrapper.component';
-import {ScrollMask} from './scroll-mask.component';
-import {KeyCode} from '../../common/keycodes';
-import {DropdownTriggerDirective} from './dropdown-trigger.directive';
 import {DropdownContent} from './dropdown-content.component';
-import {coerceToBoolean} from '../../common/coerce-to-boolean';
+import {DropdownTriggerDirective} from './dropdown-trigger.directive';
+import {ScrollMask} from './scroll-mask.component';
 
 export type DropdownAlignment = 'left' | 'right';
 export type DropdownWidth = 'contents' | 'trigger' | 'expand' | number;

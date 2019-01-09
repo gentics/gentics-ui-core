@@ -1,17 +1,23 @@
-
-import {of as observableOf, Observable, Subscription, NEVER} from 'rxjs';
-
+import {
+    Component,
+    ElementRef,
+    EventEmitter,
+    HostBinding,
+    Input,
+    OnDestroy,
+    Optional,
+    Output,
+    SimpleChanges,
+    ViewChild
+} from '@angular/core';
+import * as momentjs from 'moment';
+import {NEVER, of as observableOf, Subscription} from 'rxjs';
 import {concat} from 'rxjs/operators';
-import {Component, ElementRef, EventEmitter, HostBinding, Input, OnDestroy, Output, SimpleChanges, ViewChild, Optional} from '@angular/core';
 
-
-
-
-import {DateTimePickerStrings} from './date-time-picker-strings';
+import {coerceToBoolean} from '../../common/coerce-to-boolean';
 import {defaultStrings} from './date-time-picker-default-strings';
 import {DateTimePickerFormatProvider} from './date-time-picker-format-provider.service';
-import {coerceToBoolean} from '../../common/coerce-to-boolean';
-import * as momentjs from 'moment';
+import {DateTimePickerStrings} from './date-time-picker-strings';
 
 /*
  * Rome is a date picker widget: https://github.com/bevacqua/rome

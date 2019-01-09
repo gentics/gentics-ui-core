@@ -1,11 +1,6 @@
-
-import {merge as observableMerge, Observable, Subscription} from 'rxjs';
-
-import {map, mapTo} from 'rxjs/operators';
 import {Component, OnDestroy} from '@angular/core';
-
-
-
+import {merge as observableMerge, Subscription} from 'rxjs';
+import {map, mapTo} from 'rxjs/operators';
 
 import {ISortableEvent} from '../../../components/sortable-list/sortable-list.component';
 import {PageFileDragHandler} from '../../../index';

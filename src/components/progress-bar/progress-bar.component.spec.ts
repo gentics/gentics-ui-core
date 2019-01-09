@@ -1,4 +1,4 @@
-import {Component, ViewChild, DebugElement} from '@angular/core';
+import {Component, DebugElement, ViewChild} from '@angular/core';
 import {getTestBed, TestBed, tick} from '@angular/core/testing';
 import {By} from '@angular/platform-browser';
 import {Observable, Subject} from 'rxjs';
