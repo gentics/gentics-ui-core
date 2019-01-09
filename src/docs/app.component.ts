@@ -4,6 +4,7 @@ import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
 import { Subscription } from 'rxjs/Subscription';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/filter';
+import 'rxjs/add/operator/debounceTime';
 import { SplitViewContainer } from '../index';
 import { IPageInfo, kebabToPascal, pages } from './pageList';
 
