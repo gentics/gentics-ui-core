@@ -128,7 +128,7 @@ export class DynamicModalWrapper implements OnInit, OnDestroy, AfterViewChecked 
     /**
      * Listen for browsers size changes, to notify IE for modal height change
      */
-    @HostListener('window:resize', ['$event'])
+    @HostListener('window:resize')
     onResize(): void {
         if (this.isIE11) {
             this.modalHeightEvents$.next();
