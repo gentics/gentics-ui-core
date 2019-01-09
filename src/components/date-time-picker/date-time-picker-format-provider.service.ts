@@ -1,8 +1,9 @@
+
+import {Observable, NEVER} from 'rxjs';
 import {Injectable} from '@angular/core';
-import {Observable} from 'rxjs/Observable';
 import {DateTimePickerStrings} from './date-time-picker-strings';
 import {defaultStrings} from './date-time-picker-default-strings';
-import 'rxjs/add/observable/never';
+
 
 /**
  * A simplified subset of the Moment interface which we expose via the first arg of the
@@ -60,7 +61,7 @@ export class DateTimePickerFormatProvider {
     strings: DateTimePickerStrings = defaultStrings;
 
     /** May emit a value when the translations or the date format changed. */
-    changed$: Observable<any> = Observable.never();
+    changed$: Observable<any> = NEVER;
 
     /** Formats a human-readable string to be displayed in the control input field. */
     format(date: MomentLike, displayTime: boolean, displaySeconds: boolean): string {

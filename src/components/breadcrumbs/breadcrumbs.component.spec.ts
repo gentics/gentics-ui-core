@@ -1,10 +1,11 @@
+
+import {of as observableOf, Observable} from 'rxjs';
 import {LocationStrategy} from '@angular/common';
 import {ComponentFixture, getTestBed, TestBed, tick} from '@angular/core/testing';
 import {Component} from '@angular/core';
 import {By} from '@angular/platform-browser';
 import {ActivatedRoute, Router, RouterModule} from '@angular/router';
-import {Observable} from 'rxjs/Observable';
-import 'rxjs/add/observable/of';
+
 
 import {componentTest, createClickEvent} from '../../testing';
 import {
@@ -406,7 +407,7 @@ describe('Breadcrumbs:', () => {
 
 
 class MockRouter {
-    events = Observable.of([]);
+    events = observableOf([]);
     createUrlTree(commands: string[], options: any): any {
         return commands;
     }

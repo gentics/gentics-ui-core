@@ -1,9 +1,11 @@
+
+import {of as observableOf, Observable, Subscription, NEVER} from 'rxjs';
+
+import {concat} from 'rxjs/operators';
 import {Component, ElementRef, EventEmitter, HostBinding, Input, OnDestroy, Output, SimpleChanges, ViewChild, Optional} from '@angular/core';
-import {Observable} from 'rxjs/Observable';
-import {Subscription} from 'rxjs/Subscription';
-import 'rxjs/add/operator/concat';
-import 'rxjs/add/observable/of';
-import 'rxjs/add/observable/never';
+
+
+
 
 import {DateTimePickerStrings} from './date-time-picker-strings';
 import {defaultStrings} from './date-time-picker-default-strings';
@@ -242,8 +244,8 @@ export class DateTimePickerControls implements OnDestroy {
         }
 
         // Update strings and date format when format provider emits a change
-        this.subscription = Observable.of(1)
-            .concat(this.formatProvider.changed$ || Observable.never)
+        this.subscription = observableOf(1)
+            .pipe(concat(this.formatProvider.changed$ || NEVER))
             .subscribe(() => {
                 this.value.locale(this.getMomentLocale());
                 this.updateTimeObject(this.value);

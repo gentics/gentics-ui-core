@@ -1,8 +1,9 @@
+
+import {debounceTime} from 'rxjs/operators';
 import { Component, ElementRef, EventEmitter, Input, OnDestroy, Output } from '@angular/core';
 import { OnChanges, QueryList, SimpleChanges, ViewChildren } from '@angular/core';
 import { RouterLinkWithHref } from '@angular/router';
-import { Subscription } from 'rxjs';
-import { BehaviorSubject } from 'rxjs/BehaviorSubject';
+import { Subscription ,  BehaviorSubject } from 'rxjs';
 import { UserAgentRef } from '../modal/user-agent-ref';
 
 export interface IBreadcrumbLink {
@@ -105,7 +106,7 @@ export class Breadcrumbs implements OnChanges, OnDestroy {
         }
 
         const resizeSub = this.resizeEvents
-            .debounceTime(200)
+            .pipe(debounceTime(200))
             .subscribe(() => this.executeIEandEdgeEllipsisWorkAround());
         this.subscriptions.add(resizeSub);
     }

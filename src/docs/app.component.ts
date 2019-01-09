@@ -1,10 +1,12 @@
+
+import {filter} from 'rxjs/operators';
 import { Component, ViewChild } from '@angular/core';
 import { DomSanitizer, SafeHtml, Title } from '@angular/platform-browser';
 import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
-import { Subscription } from 'rxjs/Subscription';
-import 'rxjs/add/operator/map';
-import 'rxjs/add/operator/filter';
-import 'rxjs/add/operator/debounceTime';
+import { Subscription } from 'rxjs';
+
+
+
 import { SplitViewContainer } from '../index';
 import { IPageInfo, kebabToPascal, pages } from './pageList';
 
@@ -49,7 +51,7 @@ export class App {
 
     ngOnInit(): void {
         this.subscription = this.router.events
-            .filter(event => event instanceof NavigationEnd)
+            .pipe(filter(event => event instanceof NavigationEnd))
             .subscribe(() => {
                 const path = this.route.snapshot.firstChild.url[0].path;
                 this.hasContent = (path !== '' && path !== 'index');

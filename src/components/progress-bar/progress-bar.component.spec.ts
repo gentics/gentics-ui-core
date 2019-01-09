@@ -1,8 +1,7 @@
 import {Component, ViewChild, DebugElement} from '@angular/core';
 import {getTestBed, TestBed, tick} from '@angular/core/testing';
 import {By} from '@angular/platform-browser';
-import {Observable} from 'rxjs/Observable';
-import {Subject} from 'rxjs/Subject';
+import {Observable, Subject} from 'rxjs';
 
 import {componentTest} from '../../testing';
 import {ProgressBar} from './progress-bar.component';

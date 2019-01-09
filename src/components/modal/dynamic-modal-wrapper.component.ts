@@ -1,3 +1,5 @@
+
+import {debounceTime} from 'rxjs/operators';
 import {
     Component,
     ComponentRef,
@@ -14,8 +16,7 @@ import {
 
 import {IModalOptions, IModalDialog} from './modal-interfaces';
 import {UserAgentRef} from './user-agent-ref';
-import {Subject} from 'rxjs';
-import {Subscription} from 'rxjs/Subscription';
+import {Subject, Subscription} from 'rxjs';
 
 const defaultOptions: IModalOptions = {
     modalBodyClass: 'modal-content',
@@ -58,7 +59,7 @@ export class DynamicModalWrapper implements OnInit, OnDestroy, AfterViewChecked 
 
         if (this.isIE11) {
             this.subscriptions.add(
-                this.modalHeightEvents$.debounceTime(100).subscribe(() => {
+                this.modalHeightEvents$.pipe(debounceTime(100)).subscribe(() => {
                     this.ie11FixContentHeight();
                 })
             );

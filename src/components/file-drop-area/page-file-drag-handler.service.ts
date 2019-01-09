@@ -1,8 +1,9 @@
+
+import {mapTo, filter} from 'rxjs/operators';
 import { EventEmitter, Inject, Injectable, InjectionToken, Optional, Output } from '@angular/core';
-import { Observable } from 'rxjs/Observable';
-import { Subscription } from 'rxjs/Subscription';
-import 'rxjs/add/operator/mapTo';
-import 'rxjs/add/operator/filter';
+import { Observable ,  Subscription } from 'rxjs';
+
+
 
 import { DragStateTrackerFactory, FileDragState } from './drag-state-tracker.service';
 import { getDataTransfer, transferHasFiles } from './drag-drop-utils';
@@ -115,8 +116,13 @@ export class PageFileDragHandler {
         }
 
         this.filesDragged$ = dragState.trackElement(this._eventTarget);
-        this.dragEnter = this.filesDragged$.filter(list => list.length > 0);
-        this.dragStop = this.filesDragged$.filter(list => list.length === 0).mapTo(false);
+        this.dragEnter = this.filesDragged$.pipe(
+            filter(list => list.length > 0)
+        );
+        this.dragStop = this.filesDragged$.pipe(
+            filter(list => list.length === 0),
+            mapTo(false)
+        );
         this.bindEvents();
     }
 

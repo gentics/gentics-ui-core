@@ -1,3 +1,5 @@
+
+import {take} from 'rxjs/operators';
 import {
     ChangeDetectionStrategy,
     Component,
@@ -13,7 +15,7 @@ import {
     ViewChild,
     ViewContainerRef
 } from '@angular/core';
-import 'rxjs/add/operator/take';
+
 
 import {OverlayHostService} from '../overlay-host/overlay-host.service';
 import {DropdownContentWrapper} from './dropdown-content-wrapper.component';
@@ -232,25 +234,25 @@ export class DropdownList {
         contentInstance.content = this.contentsTemplate;
         contentInstance.trigger = this.trigger.elementRef.nativeElement;
         Object.assign(contentInstance.options, this.options);
-        contentInstance.clicked.take(1).subscribe(() => {
+        contentInstance.clicked.pipe(take(1)).subscribe(() => {
             if (!this.sticky) {
                 this.closeDropdown();
             }
         });
-        contentInstance.escapeKeyPressed.take(1).subscribe(() => {
+        contentInstance.escapeKeyPressed.pipe(take(1)).subscribe(() => {
             if (this.closeOnEscape) {
                 this.closeDropdown();
             }
         });
         // When focus is lost from the list items (by tabbing), close the dropdown and focus the
         // first child of the trigger is possible.
-        this.content.focusLost.take(1).subscribe(() => {
+        this.content.focusLost.pipe(take(1)).subscribe(() => {
             this.closeDropdown();
             this.trigger.focus();
         });
 
         this.scrollMaskRef = this.overlayHostView.createComponent(this.scrollMaskFactory, null);
-        this.scrollMaskRef.instance.clicked.take(1).subscribe(() => this.closeDropdown());
+        this.scrollMaskRef.instance.clicked.pipe(take(1)).subscribe(() => this.closeDropdown());
         this.open.emit();
     }
 

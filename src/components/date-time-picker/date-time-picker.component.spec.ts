@@ -1,12 +1,16 @@
+
+import {timer as observableTimer, Observable} from 'rxjs';
+
+import {tap, take} from 'rxjs/operators';
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, ComponentFactoryResolver, EventEmitter, Injectable,
     Input, Output, Type, ViewChild} from '@angular/core';
 import {BrowserDynamicTestingModule} from '@angular/platform-browser-dynamic/testing';
 import {By} from '@angular/platform-browser';
 import {ComponentFixture, TestBed, tick} from '@angular/core/testing';
 import {FormControl, FormGroup, FormsModule, ReactiveFormsModule} from '@angular/forms';
-import 'rxjs/add/observable/timer';
-import 'rxjs/add/operator/take';
-import 'rxjs/add/operator/do';
+
+
+
 
 import {componentTest} from '../../testing';
 import {DateTimePicker} from './date-time-picker.component';
@@ -16,7 +20,6 @@ import {OverlayHostService} from '../overlay-host/overlay-host.service';
 import {ModalService} from '../modal/modal.service';
 import {IModalInstance, IModalOptions} from '../modal/modal-interfaces';
 import {DateTimePickerFormatProvider} from './date-time-picker-format-provider.service';
-import {Observable} from 'rxjs/Observable';
 import {InputField} from '../input/input.component';
 import {DynamicModalWrapper} from '../modal/dynamic-modal-wrapper.component';
 import {Button} from '../button/button.component';
@@ -441,8 +444,10 @@ describe('DateTimePicker:', () => {
                 (fixture, instance) => {
                     // Change date format after 1 second
                     formatProvider.format = () => 'date in first format';
-                    formatProvider.changed$ = Observable.timer(1000).take(1)
-                        .do(() => { formatProvider.format = () => 'date in second format'; });
+                    formatProvider.changed$ = observableTimer(1000).pipe(
+                        take(1),
+                        tap(() => { formatProvider.format = () => 'date in second format'; })
+                    );
 
                     fixture.detectChanges();
                     tick();

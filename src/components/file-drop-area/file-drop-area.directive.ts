@@ -1,8 +1,9 @@
+
+import {map} from 'rxjs/operators';
 import { Directive, ElementRef, EventEmitter, Inject, Input, NgZone } from '@angular/core';
 import { OnDestroy, OnInit, InjectionToken, Optional, Output } from '@angular/core';
-import { Observable } from 'rxjs/Observable';
-import { Subscription } from 'rxjs/Subscription';
-import 'rxjs/add/operator/map';
+import { Observable ,  Subscription } from 'rxjs';
+
 
 import { PageFileDragHandler } from './page-file-drag-handler.service';
 import { DragStateTrackerFactory, FileDragState } from './drag-state-tracker.service';
@@ -163,11 +164,13 @@ export class FileDropArea implements OnInit, OnDestroy {
 
         this._eventTarget = dragEventTarget || elementRef.nativeElement;
 
-        this.draggedFiles$ = fileDrag.trackElement(this._eventTarget)
-            .map(files => files.filter(this.accepts));
+        this.draggedFiles$ = fileDrag.trackElement(this._eventTarget).pipe(
+            map(files => files.filter(this.accepts))
+        );
 
-        this.filesDraggedInPage$ = pageDrag.filesDragged$
-            .map(files => files.filter(this.accepts));
+        this.filesDraggedInPage$ = pageDrag.filesDragged$.pipe(
+            map(files => files.filter(this.accepts))
+        );
 
         this._subscriptions = [
             this.draggedFiles$.subscribe(files => {
