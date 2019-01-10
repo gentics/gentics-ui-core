@@ -131,7 +131,7 @@ export class Select implements ControlValueAccessor {
     selectedIndex: SelectedSelectOption = [0, -1];
 
     _clearable: boolean = false;
-    private _disabled: boolean = false;
+    _disabled: boolean = false;
     private preventDeselect: boolean = false;
     @ViewChild(DropdownList) private dropdownList: DropdownList;
     @ViewChild(DropdownContent) private dropdownContent: DropdownContent;

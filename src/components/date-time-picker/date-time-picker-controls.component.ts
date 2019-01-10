@@ -128,18 +128,20 @@ export class DateTimePickerControls implements OnDestroy {
     _compact: boolean = false;
 
     /** @internal */
-    private value = momentjs();
+    value = momentjs();
+
+    /** @internal */
+    time: any = {
+        h: 0,
+        m: 0,
+        s: 0
+    };
 
     /**
      * cal is an instance of a Rome calendar, for the API see https://github.com/bevacqua/rome#rome-api
      */
     private cal: any;
 
-    private time: any = {
-        h: 0,
-        m: 0,
-        s: 0
-    };
     private subscription: Subscription;
 
     constructor(@Optional() private defaultFormatProvider: DateTimePickerFormatProvider) {}
