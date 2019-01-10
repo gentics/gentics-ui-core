@@ -387,7 +387,7 @@ export class SplitViewContainer implements AfterViewInit, OnChanges, OnDestroy {
     /**
      * Helper function to keep the resize functionality
      * within its limits (minPanelSizePixels & minPanelSizePercent).
-     * @return {number} Returns the adjusted X position in % of the container width.
+     * @return Returns the adjusted X position in % of the container width.
      */
     private getAdjustedPosition(mouseClientX: number): number {
         const container: HTMLElement = <HTMLElement> this.resizeContainer.nativeElement;
