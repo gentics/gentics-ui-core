@@ -10823,6 +10823,10 @@ gtx-select gtx-dropdown-list .with-label {
   margin-top: 19px;
 }
 
+gtx-select .placeholder {
+  color: #d6d6d6;
+}
+
 gtx-select .view-value {
   box-sizing: border-box;
   margin-top: 20px;
@@ -10894,6 +10898,25 @@ gtx-select.ng-touched.ng-invalid label {
 
 gtx-select.ng-touched.ng-invalid .view-value {
   border-color: #c9302c;
+}
+
+gtx-select .clear-button {
+  align-self: flex-start;
+  background: #efefef;
+  border-top: 2px solid #d6d6d6;
+  border-right: 2px solid #d6d6d6;
+  border-bottom: 2px solid #d6d6d6;
+  border-top-right-radius: 3px;
+  border-bottom-right-radius: 3px;
+  display: -webkit-box;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+  flex-direction: column;
+  height: 2.5rem;
+  -webkit-box-pack: center;
+  justify-content: center;
+  margin-top: 20px;
 }
 
 gtx-dropdown-content ul.select-options {
@@ -10983,25 +11006,6 @@ gtx-dropdown-list.clearable .view-value {
   border-top-right-radius: 0px;
   border-bottom-right-radius: 0px;
   border-right-width: 1px;
-}
-
-.clear-button {
-  align-self: flex-start;
-  background: #efefef;
-  border-top: 2px solid #d6d6d6;
-  border-right: 2px solid #d6d6d6;
-  border-bottom: 2px solid #d6d6d6;
-  border-top-right-radius: 3px;
-  border-bottom-right-radius: 3px;
-  display: -webkit-box;
-  display: flex;
-  -webkit-box-orient: vertical;
-  -webkit-box-direction: normal;
-  flex-direction: column;
-  height: 2.5rem;
-  -webkit-box-pack: center;
-  justify-content: center;
-  margin-top: 20px;
 }
 
 gtx-sortable-list {
