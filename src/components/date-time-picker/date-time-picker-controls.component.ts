@@ -10,7 +10,6 @@ import {
     SimpleChanges,
     ViewChild
 } from '@angular/core';
-import * as momentjs from 'moment';
 import {NEVER, of as observableOf, Subscription} from 'rxjs';
 import {concat} from 'rxjs/operators';
 
@@ -18,6 +17,7 @@ import {coerceToBoolean} from '../../common/coerce-to-boolean';
 import {defaultStrings} from './date-time-picker-default-strings';
 import {DateTimePickerFormatProvider} from './date-time-picker-format-provider.service';
 import {DateTimePickerStrings} from './date-time-picker-strings';
+import {momentjs, Moment} from './momentjs-workaround';
 
 /*
  * Rome is a date picker widget: https://github.com/bevacqua/rome
@@ -325,7 +325,7 @@ export class DateTimePickerControls implements OnDestroy {
         this.updateCalendar(this.value);
     }
 
-    private updateByUnits(moment: momentjs.Moment, unit: TimeUnit, value: number): momentjs.Moment {
+    private updateByUnits(moment: Moment, unit: TimeUnit, value: number): Moment {
         switch (unit) {
             case 'hours':
                 moment.hour(value);
@@ -402,7 +402,7 @@ export class DateTimePickerControls implements OnDestroy {
     /**
      * Update the time object based on the value of this.value.
      */
-    private updateTimeObject(date: momentjs.Moment): void {
+    private updateTimeObject(date: Moment): void {
         this.time.h = date.hour();
         this.time.m = date.minute();
         this.time.s = date.second();
@@ -411,7 +411,7 @@ export class DateTimePickerControls implements OnDestroy {
     /**
      * Update the Rome calendar widget with the current value.
      */
-    private updateCalendar(value: momentjs.Moment): void {
+    private updateCalendar(value: Moment): void {
         if (this.cal) {
             this.cal.setValue(value);
             this.change.emit(value.unix());

@@ -11,7 +11,6 @@ import {
     Output
 } from '@angular/core';
 import {ControlValueAccessor, NG_VALUE_ACCESSOR} from '@angular/forms';
-import * as momentjs from 'moment';
 import {Subscription} from 'rxjs';
 
 import {coerceToBoolean} from '../../common/coerce-to-boolean';
@@ -19,6 +18,7 @@ import {ModalService} from '../modal/modal.service';
 import {DateTimePickerFormatProvider} from './date-time-picker-format-provider.service';
 import {DateTimePickerModal} from './date-time-picker-modal.component';
 import {DateTimePickerStrings} from './date-time-picker-strings';
+import {momentjs, Moment} from './momentjs-workaround';
 
 export {DateTimePickerStrings};
 
@@ -110,7 +110,7 @@ export class DateTimePicker implements ControlValueAccessor, OnInit, OnDestroy {
     _disabled: boolean = false;
     displayValue: string = '';
     /** @internal */
-    private value: momentjs.Moment;
+    private value: Moment;
 
     private _displayTime: boolean = true;
     private _displaySeconds: boolean = true;
