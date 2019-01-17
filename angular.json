@@ -75,8 +75,8 @@
             "production": {
               "fileReplacements": [
                 {
-                  "replace": "projects/docs/src/environments/environment.ts",
-                  "with": "projects/docs/src/environments/environment.prod.ts"
+                  "replace": "projects/docs/environments/environment.ts",
+                  "with": "projects/docs/environments/environment.prod.ts"
                 }
               ],
               "optimization": true,
