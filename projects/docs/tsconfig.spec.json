@@ -12,6 +12,7 @@
     "../../src/docs/polyfills.ts"
   ],
   "include": [
+    "../../src/docs",
     "../../src/docs/**/*.spec.ts",
     "../../src/docs/**/*.d.ts"
   ]
