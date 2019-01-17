@@ -1,0 +1,16 @@
+{
+  "extends": "../../tsconfig.json",
+  "compilerOptions": {
+    "outDir": "../../out-tsc/app",
+    "types": [
+      "webpack-env"
+    ]
+  },
+  "inlcude": [
+    "../../src/docs/**"
+  ],
+  "exclude": [
+    "../../src/docs/test.ts",
+    "../../src/docs/**/*.spec.ts"
+  ]
+}

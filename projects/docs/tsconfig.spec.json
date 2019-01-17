@@ -1,0 +1,18 @@
+{
+  "extends": "../../tsconfig.json",
+  "compilerOptions": {
+    "outDir": "../../out-tsc/spec",
+    "types": [
+      "jasmine",
+      "webpack-env"
+    ]
+  },
+  "files": [
+    "../../src/docs/test.ts",
+    "../../src/docs/polyfills.ts"
+  ],
+  "include": [
+    "../../src/docs/**/*.spec.ts",
+    "../../src/docs/**/*.d.ts"
+  ]
+}
