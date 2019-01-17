@@ -1,5 +1,5 @@
 import {Component, ViewChild} from '@angular/core';
-import {DomSanitizer, SafeHtml, Title} from '@angular/platform-browser';
+import {Title} from '@angular/platform-browser';
 import {ActivatedRoute, NavigationEnd, Router} from '@angular/router';
 import {SplitViewContainer} from 'gentics-ui-core';
 import {Subscription} from 'rxjs';
@@ -30,16 +30,11 @@ export class App {
     splitFocus: string = 'left';
     searchQuery: string = '';
     subscription: Subscription;
-    genticsLogoSvg: SafeHtml;
-    githubLogoSvg: SafeHtml;
 
     constructor(private router: Router,
                 private route: ActivatedRoute,
-                private titleService: Title,
-                private sanitizer: DomSanitizer) {
+                private titleService: Title) {
         this.filteredContentItems = this.contentItems.slice(0);
-        this.genticsLogoSvg = sanitizer.bypassSecurityTrustHtml(require('./assets/gentics-logo.svg'));
-        this.githubLogoSvg = sanitizer.bypassSecurityTrustHtml(require('./assets/github-logo.svg'));
         titleService.setTitle(`Gentics UI Core Docs v${VERSION}`);
         this.version = VERSION;
     }

@@ -1,8 +1,10 @@
+import {HttpClientModule} from '@angular/common/http';
 import {NgModule, ModuleWithProviders} from '@angular/core';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {BrowserModule} from '@angular/platform-browser';
 import {RouterModule} from '@angular/router';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
+import {AngularSvgIconModule} from 'angular-svg-icon';
 import {GenticsUICoreModule} from 'gentics-ui-core';
 
 import {App} from './app.component';
@@ -98,7 +100,9 @@ export const routerModuleForRoot: ModuleWithProviders = RouterModule.forRoot(rou
         FormsModule,
         ReactiveFormsModule,
         routerModuleForRoot,
-        GenticsUICoreModule.forRoot()
+        GenticsUICoreModule.forRoot(),
+        AngularSvgIconModule,
+        HttpClientModule
     ],
     declarations,
     entryComponents: [MyModal],
