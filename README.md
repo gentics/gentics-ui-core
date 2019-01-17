@@ -35,12 +35,6 @@ export class AppModule { }
 <gtx-overlay-host></gtx-overlay-host>
 ```
 
-4. If you are using RxJS 6.x, install rxjs-compat:
-
-```
-npm install rxjs-compat --save
-```
-
 ## View Encapsulation
 
 Do not use any ViewEncapsulation other than `ViewEncapsulation.None` (which is the default), because some UI Core components use the CSS `/deep/` selector.
@@ -67,10 +61,10 @@ export class MyLazilyLoadedModule {
 
 ## Using ui-core in an [angular-cli](https://cli.angular.io/) project
 
-1. Create a new app using angular-cli (this guide assumes angular-cli version 6.x). The following command will create a new app with the name `my-example` in the folder `./my-example`, use `me` as the prefix for components, set up a routing module, and use SCSS for defining styles. Please note that while a custom prefix and the routing module are optional, SCSS must be used for the styles in order to be compatible with Gentics UI Core.
+1. Create a new app using angular-cli (this guide assumes angular-cli version 7.x). The following command will create a new app with the name `my-example` in the folder `./my-example`, use `me` as the prefix for components, set up a routing module, and use SCSS for defining styles. Please note that while a custom prefix and the routing module are optional, SCSS must be used for the styles in order to be compatible with Gentics UI Core.
 
 ```
-ng new my-example --prefix me --routing --style scss
+ng new my-example --prefix=me --routing=true --style=scss
 ```
 
 2. Uncomment (and if necessary, install) the polyfills required for your target browsers in `polyfills.ts` and add the following assignment in that file:
@@ -105,6 +99,9 @@ You can see the [_variables.scss](src/styles/_variables.scss) file for a list of
 
 Full documentation and examples are available at [https://gentics.github.io/gentics-ui-core/](https://gentics.github.io/gentics-ui-core/)
 
+The build system for the project is [angular-cli](https://cli.angular.io/) with a custom directory structure (to maintain the previous directory structure before the migration to angular-cli)
+and a custom post-build gulp script. For full documentation on available commands, see [https://angular.io/cli](https://angular.io/cli).
+
 ## Building the docs app
 
 Although the UI Core is intended to be consumed in a raw (uncompiled) state, there is a demo app
@@ -112,12 +109,16 @@ included under `src/demo` which will serve as a ["living style guide"](https://u
 as well as a way to manually test each of the core components.
 
 1. `npm install`
-2. `gulp docs:build`
-3. Serve the contents of the `docs/` folder
+2. `npm run build gentics-ui-core` (to build the UI Core library first)
+3. `npm run build docs`
+4. Serve the contents of the `dist/docs` folder
+
+You can also run an integrated web server and automatically rebuild the app on every change: `npm start`
+Unfortunately this only watches the docs sources, the UI Core library needs to be rebuilt manually for now.
 
 ## Releasing
 
-1. Bump the version in `package.json` to the desired value
+1. Bump the version in `projects/gentics-ui-core/package.json` to the desired value
 2. `git commit -am 'vX.Y.Z'`
 3. `git tag vX.Y.Z`
 4. `git reset --hard HEAD^`
@@ -125,8 +126,8 @@ as well as a way to manually test each of the core components.
 
 ### Publish to npm
 
-1. `gulp dist:build`
-2. `npm publish`
+1. `npm run build gentics-ui-core --prod=true`
+2. `npm publish ./dist/gentics-ui-core`
 
 ## Maintaining documentation on GitHub pages
 
@@ -137,7 +138,10 @@ The easiest way to manage the branch is to check it out in the "docs" subfolder:
 # check out ui-core twice, master in ./ and gh-pages in ./docs
 git clone -o github -b gh-pages git@github.com:gentics/gentics-ui-core ./docs
 # build the docs
-gulp docs:build
+npm run build docs --prod=true --aot=true
+# copy the output files to the docs folder
+rm -r ./docs/*
+cp -r ./dist/docs/* ./docs
 # commit and push gh-pages
 cd docs
 git add .
