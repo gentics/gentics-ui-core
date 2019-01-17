@@ -6,10 +6,9 @@ import {Subscription} from 'rxjs';
 import {filter} from 'rxjs/operators';
 
 import {IPageInfo, kebabToPascal, pages} from './pageList';
+import * as PACKAGE_JSON from '../../projects/gentics-ui-core/package.json';
 
-// Exposed globally by the Webpack DefinePlugin
-// (see webpack config)
-declare var VERSION: string;
+const VERSION = PACKAGE_JSON.version;
 
 @Component({
     selector: 'app',
