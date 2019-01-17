@@ -6,8 +6,8 @@
       "webpack-env"
     ]
   },
-  "inlcude": [
-    "../../src/docs/**"
+  "include": [
+    "../../src/docs"
   ],
   "exclude": [
     "../../src/docs/test.ts",
