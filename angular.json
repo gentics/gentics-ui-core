@@ -63,6 +63,12 @@
             "styles": [
               "src/docs/app.scss"
             ],
+            "stylePreprocessorOptions": {
+              "includePaths": [
+                "./dist",
+                "./node_modules"
+              ]
+            },
             "scripts": []
           },
           "configurations": {
