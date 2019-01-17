@@ -1,6 +1,5 @@
 import {Component} from '@angular/core';
-import {ModalService} from '../../../components/modal/modal.service';
-import {IModalDialog, IModalOptions} from '../../../components/modal/modal-interfaces';
+import {IModalDialog, IModalOptions, ModalService} from 'gentics-ui-core';
 
 @Component({
     templateUrl: './modal-service-demo.tpl.html'

@@ -1,10 +1,10 @@
 import {Component, ViewChild} from '@angular/core';
 import {DomSanitizer, SafeHtml, Title} from '@angular/platform-browser';
 import {ActivatedRoute, NavigationEnd, Router} from '@angular/router';
+import {SplitViewContainer} from 'gentics-ui-core';
 import {Subscription} from 'rxjs';
 import {filter} from 'rxjs/operators';
 
-import {SplitViewContainer} from '../index';
 import {IPageInfo, kebabToPascal, pages} from './pageList';
 
 // Exposed globally by the Webpack DefinePlugin

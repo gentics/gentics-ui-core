@@ -1,5 +1,5 @@
 import {Component} from '@angular/core';
-import {Notification} from '../../../index';
+import {Notification} from 'gentics-ui-core';
 
 @Component({
     templateUrl: './notification-demo.tpl.html'

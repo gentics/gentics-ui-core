@@ -1,6 +1,5 @@
 import {Directive, forwardRef} from '@angular/core';
-import {DateTimePickerFormatProvider} from '../../../components/date-time-picker/date-time-picker-format-provider.service';
-import {DateTimePickerStrings} from '../../../components/date-time-picker/date-time-picker-strings';
+import {DateTimePickerFormatProvider, DateTimePickerStrings} from 'gentics-ui-core';
 
 @Directive({
     selector: '[demo-format-provider]',

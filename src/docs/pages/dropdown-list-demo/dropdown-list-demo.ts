@@ -1,5 +1,5 @@
 import {Component} from '@angular/core';
-import {DropdownList} from '../../../components/dropdown-list/dropdown-list.component';
+import {DropdownList} from 'gentics-ui-core';
 
 @Component({
     templateUrl: './dropdown-list-demo.tpl.html',
