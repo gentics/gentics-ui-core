@@ -7,10 +7,12 @@
     ]
   },
   "include": [
-    "../../src/docs"
+    "../../src"
   ],
   "exclude": [
+    "../../src/test.ts",
+    "../../src/testing/**",
     "../../src/docs/test.ts",
-    "../../src/docs/**/*.spec.ts"
+    "../../src/**/*.spec.ts"
   ]
 }

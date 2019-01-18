@@ -5,8 +5,8 @@ import {BrowserModule} from '@angular/platform-browser';
 import {RouterModule} from '@angular/router';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {AngularSvgIconModule} from 'angular-svg-icon';
-import {GenticsUICoreModule} from 'gentics-ui-core';
 
+import {GenticsUICoreModule} from '../module';
 import {App} from './app.component';
 import {routes} from './app.routes';
 import {BreadcrumbsDemo} from './pages/breadcrumbs-demo/breadcrumbs-demo';
