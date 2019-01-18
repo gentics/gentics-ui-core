@@ -1,5 +1,5 @@
 import {Component} from '@angular/core';
-import {ISortableEvent} from 'gentics-ui-core';
+import {ISortableEvent} from '../../../index';
 
 @Component({
     templateUrl: './sortable-list-demo.tpl.html',

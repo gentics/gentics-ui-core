@@ -109,12 +109,9 @@ included under `src/demo` which will serve as a ["living style guide"](https://u
 as well as a way to manually test each of the core components.
 
 1. `npm install`
-2. `npm run build gentics-ui-core` (to build the UI Core library first)
-3. `npm run build docs`
-4. Serve the contents of the `dist/docs` folder
+2. `npm start`
 
-You can also run an integrated web server and automatically rebuild the app on every change: `npm start`
-Unfortunately this only watches the docs sources, the UI Core library needs to be rebuilt manually for now.
+This will rebuild the docs app on every change to the source files and serve the output on http://localhost:4200.
 
 ## Releasing
 

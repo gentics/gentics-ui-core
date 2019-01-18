@@ -1,7 +1,7 @@
-$icons-font-path: '../../dist/gentics-ui-core/fonts/';
-$roboto-font-path: '../../dist/gentics-ui-core/fonts/';
+$icons-font-path: '../assets/fonts/';
+$roboto-font-path: '~materialize-css/fonts/roboto/';
 
-@import 'gentics-ui-core/styles/core';
+@import '../styles/core';
 @import './components/autodocs/autodocs';
 @import './components/demo-block/demo-block';
 @import './pages/colors-demo/colors-demo';
