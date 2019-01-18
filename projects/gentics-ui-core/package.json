@@ -3,7 +3,7 @@
   "version": "7.0.0",
   "dependencies": {
     "hammerjs": "~2.0.8",
-    "materialize-css": "~0.97.8",
+    "materialize-css": "~1.0.0",
     "moment": "~2.23.0",
     "rome": "~2.1.22",
     "sortablejs": "~1.8.1"
