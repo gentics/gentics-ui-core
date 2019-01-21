@@ -4,7 +4,9 @@ import {
     ElementRef,
     Injectable,
     ViewContainerRef,
-    Type
+    Type,
+    Optional,
+    SkipSelf
 } from '@angular/core';
 import {OverlayHostService} from '../overlay-host/overlay-host.service';
 import {DynamicModalWrapper} from './dynamic-modal-wrapper.component';
@@ -124,18 +126,19 @@ import {IModalInstance, IDialogConfig, IModalDialog, IModalOptions} from './moda
 @Injectable()
 export class ModalService {
 
-    private static openModalComponents: ComponentRef<IModalDialog>[] = [];
+    private openModalComponents: ComponentRef<IModalDialog>[] = [];
     private getHostViewContainer: () => Promise<ViewContainerRef>;
 
     /**
      * Returns an array of ComponentRefs for each currently-opened modal.
      */
     public get openModals(): Array<ComponentRef<IModalDialog>> {
-        return ModalService.openModalComponents;
+        return this._parentModalService ? this._parentModalService.openModals : this.openModalComponents;
     }
 
     constructor(private componentFactoryResolver: ComponentFactoryResolver,
-                overlayHostService: OverlayHostService) {
+                overlayHostService: OverlayHostService,
+                @Optional() @SkipSelf() private _parentModalService: ModalService = null) {
         this.getHostViewContainer = () => overlayHostService.getHostView();
     }
 
@@ -192,11 +195,11 @@ export class ModalService {
                     element: componentRef.location.nativeElement,
                     open: (): Promise<any> => {
                         this.invokeOnOpenCallback(options);
-                        ModalService.openModalComponents.push(componentRef);
+                        this.openModals.push(componentRef);
                         componentRef.onDestroy(() => {
-                            const index = ModalService.openModalComponents.indexOf(componentRef);
+                            const index = this.openModals.indexOf(componentRef);
                             if (-1 < index) {
-                                ModalService.openModalComponents.splice(index, 1);
+                                this.openModals.splice(index, 1);
                             }
                         });
                         modalWrapper.open();
