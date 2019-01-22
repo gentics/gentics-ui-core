@@ -1,10 +1,18 @@
 'use strict';
 
+const argv = require('yargs').argv;
 const webpack = require('webpack');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const path = require('path');
 const srcPath = path.join(__dirname, '../', 'src', 'docs');
 const { CheckerPlugin } = require('awesome-typescript-loader');
+
+let outputPath = path.join(__dirname, '..', 'docs');
+
+if (argv.docsVersion !== undefined) {
+   const version = argv.docsVersion.trim();
+   outputPath = path.join(__dirname, '..', 'docs', '_versions', version);
+}
 
 module.exports = {
     target: 'web',
@@ -23,7 +31,7 @@ module.exports = {
         modules: ['node_modules']
     },
     output: {
-        path: path.join(__dirname, '..', 'docs'),
+        path: outputPath,
         publicPath: '',
         filename: '[name].js',
         pathinfo: true

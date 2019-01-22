@@ -43,6 +43,8 @@ import {AutodocTable} from './components/autodocs/autodoc-table.component';
 import {DemoBlock} from './components/demo-block/demo-block.component';
 import {HighlightedCode} from './components/highlighted-code/highlighted-code.component';
 import {TrustedHTMLPipe} from './components/trusted-html/trusted-html.pipe';
+import {DocsSwitcher} from './components/docs-switcher/docs-switcher.component';
+import { HttpModule } from '@angular/http';
 
 const DEMO_APP_PAGES: any[] = [
     BreadcrumbsDemo,
@@ -84,6 +86,7 @@ const DEMO_APP_DECLARATIONS: any[] = [
     AutodocTable,
     DemoBlock,
     HighlightedCode,
+    DocsSwitcher,
     TrustedHTMLPipe,
     App
 ];
@@ -95,6 +98,7 @@ export const routerModuleForRoot: ModuleWithProviders = RouterModule.forRoot(rou
     imports: [
         BrowserModule,
         BrowserAnimationsModule,
+        HttpModule,
         FormsModule,
         ReactiveFormsModule,
         routerModuleForRoot,

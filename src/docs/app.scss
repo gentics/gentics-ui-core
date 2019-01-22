@@ -39,6 +39,16 @@ body {
         a {
             color: #b6d8e8;
         }
+        gtx-docs-switcher {
+            button.btn-flat.btn-icon.small {
+                color: #b6d8e8;
+                height: 16px;
+                line-height: 13px;
+                &:hover {
+                    color: #b6d8e8;
+                }
+            }
+        }
         @media screen and (max-width: $small-screen) {
             font-size: $gtx-font-size-small;
         }

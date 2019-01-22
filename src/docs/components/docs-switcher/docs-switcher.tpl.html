@@ -1,0 +1,9 @@
+<gtx-dropdown-list align="left" belowTrigger="true">
+    <gtx-dropdown-trigger>
+        <gtx-button icon size="small"><icon>history</icon></gtx-button>
+    </gtx-dropdown-trigger>
+    <gtx-dropdown-content>
+        <gtx-dropdown-item (click)="goToVersion()">Latest</gtx-dropdown-item>
+        <gtx-dropdown-item *ngFor="let previousDocs of ghVersionsResponse$ | async" (click)="goToVersion(previousDocs)">{{ previousDocs }}</gtx-dropdown-item>
+    </gtx-dropdown-content>
+</gtx-dropdown-list>
