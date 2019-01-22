@@ -118,10 +118,10 @@ as well as a way to manually test each of the core components.
 ## Releasing
 
 1. Bump the version in `package.json` to the desired value
-2. `git commit -am 'vX.Y.Z'`
-3. `git tag vX.Y.Z`
+2. `git commit -am 'v6.X.Y'`
+3. `git tag v6.X.Y`
 4. `git reset --hard HEAD^`
-5. `git push origin vX.Y.Z master`
+5. `git push origin v6.X.Y maintenance-v6.x`
 
 ### Publish to npm
 
