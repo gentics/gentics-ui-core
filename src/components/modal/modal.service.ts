@@ -4,7 +4,9 @@ import {
     ElementRef,
     Injectable,
     ViewContainerRef,
-    Type
+    Type,
+    Optional,
+    SkipSelf
 } from '@angular/core';
 import {OverlayHostService} from '../overlay-host/overlay-host.service';
 import {DynamicModalWrapper} from './dynamic-modal-wrapper.component';
@@ -131,11 +133,12 @@ export class ModalService {
      * Returns an array of ComponentRefs for each currently-opened modal.
      */
     public get openModals(): Array<ComponentRef<IModalDialog>> {
-        return this.openModalComponents;
+        return this._parentModalService ? this._parentModalService.openModals : this.openModalComponents;
     }
 
     constructor(private componentFactoryResolver: ComponentFactoryResolver,
-                overlayHostService: OverlayHostService) {
+                overlayHostService: OverlayHostService,
+                @Optional() @SkipSelf() private _parentModalService: ModalService = null) {
         this.getHostViewContainer = () => overlayHostService.getHostView();
     }
 
@@ -192,11 +195,11 @@ export class ModalService {
                     element: componentRef.location.nativeElement,
                     open: (): Promise<any> => {
                         this.invokeOnOpenCallback(options);
-                        this.openModalComponents.push(componentRef);
+                        this.openModals.push(componentRef);
                         componentRef.onDestroy(() => {
-                            const index = this.openModalComponents.indexOf(componentRef);
+                            const index = this.openModals.indexOf(componentRef);
                             if (-1 < index) {
-                                this.openModalComponents.splice(index, 1);
+                                this.openModals.splice(index, 1);
                             }
                         });
                         modalWrapper.open();

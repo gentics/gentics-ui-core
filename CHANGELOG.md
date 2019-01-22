@@ -4,6 +4,8 @@
 
 ### Fixes
 
+* Fix ModalService openModalComponents counter, when multiple instances needed. (SUP-7331)
+
 ## 6.5.0 (2019-01-15)
 
 ### Features
