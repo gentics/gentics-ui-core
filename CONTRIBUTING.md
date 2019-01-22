@@ -3,7 +3,7 @@
 ## Getting started
 
 - Fork the repository
-- Create a topic branch from where you want to base your work (usually dev)
+- Create a topic branch from where you want to base your work (usually master)
 - Make commits of logical units, always together with your tests and documentation
 - Make sure you have added the necessary tests for your changes
 - Run *all* the tests with `npm test` to assure nothing else was accidentally broken
@@ -12,16 +12,12 @@
 
 ## Requirements
 
-- node >= 6.1
-- gulp: `npm install -g gulp`
-- typings: `npm install -g typings`
+- node >= 10.0
 
 ## Dependencies
 
 - Install the current dependencies with `npm install`
-- Install the current TypeScript definitions with `typings install`
 - Add new dependencies with `--save` or `--save-dev`
-- Add new TypeScript definitions with `--save`
 - Use reasonable [semver](http://semver.org/) version dependencies
   in package.json like `^0.8.1`, `~1.4.2`, *never* `"*"`
 
