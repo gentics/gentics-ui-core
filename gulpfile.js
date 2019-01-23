@@ -420,6 +420,4 @@ function prefixDocsVersion() {
             paths.out[docsOutPathKeys[i]] = paths.out[docsOutPathKeys[i]].replace('docs', 'docs/_versions/' + version);
         }
     }
-
-    console.log(paths.out);
 }
