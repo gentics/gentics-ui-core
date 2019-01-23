@@ -137,10 +137,10 @@ The easiest way to manage the branch is to check it out in the "docs" subfolder:
 # check out ui-core twice, master in ./ and gh-pages in ./docs
 git clone -o github -b gh-pages git@github.com:gentics/gentics-ui-core ./docs
 # build the docs (notice the --docsVersion param, if not specified, the current docs will be overwritten!)
-gulp docs:build --docsVersion v6.x
+gulp docs:build --docsVersion=v6.x
 # commit and push gh-pages
 cd docs
 git add .
-git commit -m "Update docs to v6.Y.Z"
+git commit -m "Update docs v6.x to v6.Y.Z"
 git push github
 ```
