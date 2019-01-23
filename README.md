@@ -134,14 +134,11 @@ The easiest way to manage the branch is to check it out in the "docs" subfolder:
 ```sh
 # check out ui-core twice, master in ./ and gh-pages in ./docs
 git clone -o github -b gh-pages git@github.com:gentics/gentics-ui-core ./docs
-# build the docs
+# build the docs (if you want to create separate version of the docs, you need to append --docsVersion=vX.x param)
 npm run build docs --prod=true --aot=true
-# copy the output files to the docs folder
-rm -r ./docs/*
-cp -r ./dist/docs/* ./docs
 # commit and push gh-pages
 cd docs
 git add .
-git commit -m "Update docs to vX.Y.Z"
+git commit -m "Update docs latest to vX.Y.Z"
 git push github
 ```
