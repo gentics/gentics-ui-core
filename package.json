@@ -3,8 +3,8 @@
   "version": "0.0.0",
   "scripts": {
     "ng": "ng",
-    "start": "ng serve --extra-webpack-config webpack.partial.js",
-    "build": "ng build --extra-webpack-config webpack.partial.js",
+    "start": "ng serve",
+    "build": "ng build",
     "postbuild": "gulp assets",
     "test": "ng test",
     "lint": "ng lint"

@@ -57,6 +57,7 @@
             "main": "src/docs/main.ts",
             "polyfills": "src/docs/polyfills.ts",
             "tsConfig": "projects/docs/tsconfig.app.json",
+            "extraWebpackConfig": "webpack.partial.js",
             "assets": [
               "src/docs/assets"
             ],
@@ -101,7 +102,8 @@
         "serve": {
           "builder": "ngx-build-plus:dev-server",
           "options": {
-            "browserTarget": "docs:build"
+            "browserTarget": "docs:build",
+            "extraWebpackConfig": "webpack.partial.js",
           },
           "configurations": {
             "production": {

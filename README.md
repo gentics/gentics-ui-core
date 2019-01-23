@@ -139,6 +139,6 @@ npm run build docs --prod=true --aot=true
 # commit and push gh-pages
 cd docs
 git add .
-git commit -m "Update docs latest to vX.Y.Z"
+git commit -m "Update latest docs to vX.Y.Z"
 git push github
 ```
