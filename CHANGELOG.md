@@ -1,5 +1,13 @@
 # Gentics UI Core Changelog
 
+## 6.6.0 (not yet released)
+
+### Features
+
+* Add history documentation generation option and browser
+
+### Fixes
+
 ## 6.5.1 (2019-01-22)
 
 ### Fixes
