@@ -1,6 +1,7 @@
 'use strict';
 
 const gulp = require('gulp');
+const del = require('del');
 const filter = require('gulp-filter');
 const gutil = require('gulp-util');
 const path = require('path');
@@ -14,7 +15,14 @@ const paths = {
         scssMain: 'src/styles/core.scss'
     },
     out: {
+        docs: {
+            base: 'docs',
+            css: 'docs/css',
+            fonts: 'docs/fonts',
+            images: 'docs/images',
+        },
         dist: {
+            docs: 'dist/docs/**',
             root: 'dist/gentics-ui-core',
             styles: 'dist/gentics-ui-core/styles',
             fonts: 'dist/gentics-ui-core/fonts'
@@ -25,12 +33,28 @@ const paths = {
     ]
 };
 
+// Allow to versions docs
+prefixDocsVersion();
+
 gulp.task('assets', gulp.series(
+    cleanDocsFolder,
     gulp.parallel(
         compileDistStyles,
-        copyFontsTo(paths.out.dist.fonts)
-    )
+        copyFontsTo(paths.out.dist.fonts),
+        copyDocsFiles
+    ),
 ));
+
+function cleanDocsFolder() {
+    return del([`${paths.out.docs.base}/**`, `!${paths.out.docs.base}/_versions`, `!${paths.out.docs.base}/_versions/**`, `!${paths.out.docs.base}`]);
+}
+
+function copyDocsFiles() {
+    return streamToPromise(
+        gulp.src(paths.out.dist.docs)
+            .pipe(gulp.dest(paths.out.docs.base))
+    );
+}
 
 function compileDistStyles() {
     return checkDistSASS().then(copyDistSASS);
@@ -90,4 +114,16 @@ function streamToPromise(stream) {
         stream.on('error', reject);
         stream.on('end', resolve);
     });
+}
+
+function prefixDocsVersion() {
+    const docsOutPathKeys = ['css', 'base', 'fonts', 'images'];
+    if (process.env.npm_config_docsVersion !== undefined) {
+        const version = process.env.npm_config_docsVersion.trim();
+        for ( let i in docsOutPathKeys ) {
+            paths.out.docs[docsOutPathKeys[i]] = paths.out.docs[docsOutPathKeys[i]].replace('docs', 'docs/_versions/' + version);
+        }
+    }
+
+    console.log(paths.out);
 }
