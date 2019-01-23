@@ -1,5 +1,6 @@
 'use strict';
 
+const argv = require('yargs').argv;
 const autoprefixer = require('gulp-autoprefixer');
 const concat = require('gulp-concat');
 const del = require('del');
@@ -25,6 +26,9 @@ const webpackDevConfig = require('./config/webpack.dev.config.js');
 const webpackDistConfig = require('./config/webpack.dist.config.js');
 const buildConfig = require('./config/build.config.js').config;
 const paths = require('./config/build.config.js').paths;
+
+// Allow to versions docs
+prefixDocsVersion();
 
 gulp.task('clean', gulp.parallel(
     cleanDistFolder,
@@ -79,7 +83,7 @@ function cleanTempFolder() {
 }
 
 function cleanDocsFolder() {
-    return del([`${paths.out.docs}/**`, `!${paths.out.docs}`]);
+    return del([`${paths.out.docs}/**`, `!${paths.out.docs}/_versions`, `!${paths.out.docs}/_versions/**`, `!${paths.out.docs}`]);
 }
 
 function compileDistStyles() {
@@ -406,4 +410,14 @@ function streamToPromise(stream) {
         stream.on('error', reject);
         stream.on('end', resolve);
     });
+}
+
+function prefixDocsVersion() {
+    const docsOutPathKeys = ['css', 'docs', 'fonts', 'images', 'js'];
+    if (argv.docsVersion !== undefined) {
+        const version = argv.docsVersion.trim();
+        for ( let i in docsOutPathKeys ) {
+            paths.out[docsOutPathKeys[i]] = paths.out[docsOutPathKeys[i]].replace('docs', 'docs/_versions/' + version);
+        }
+    }
 }

@@ -1,8 +1,15 @@
+const argv = require('yargs').argv;
 const webpack = require('webpack');
 const merge = require('webpack-merge');
 const AngularCompilerPlugin = require('@ngtools/webpack').AngularCompilerPlugin;
 const baseConfig = require('./webpack.base.config');
 const { root } = require('./utils');
+
+let latestBranch = true;
+
+if (argv.docsVersion !== undefined) {
+    latestBranch = false;
+}
 
 module.exports = merge(baseConfig, {
     module: {
@@ -14,7 +21,8 @@ module.exports = merge(baseConfig, {
     plugins: [
         new webpack.DefinePlugin({
             VERSION: JSON.stringify(require('./../package.json').version),
-            PROD: true
+            PROD: true,
+            LATESTBRANCH: latestBranch
         }),
         new webpack.optimize.UglifyJsPlugin({
             compress: {
