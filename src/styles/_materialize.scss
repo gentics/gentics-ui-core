@@ -40,3 +40,171 @@
 @import "~materialize-css/sass/components/pulse";
 @import "~materialize-css/sass/components/datepicker";
 @import "~materialize-css/sass/components/timepicker";
+
+@font-face {
+    font-family: "Roboto";
+    src: local(Roboto Thin), url("../assets/fonts/roboto/Roboto-Thin.eot");
+    src: url("../assets/fonts/roboto/Roboto-Thin.eot?#iefix") format("embedded-opentype"), url("../assets/fonts/roboto/Roboto-Thin.woff2") format("woff2"), url("../assets/fonts/roboto/Roboto-Thin.woff") format("woff"), url("../assets/fonts/roboto/Roboto-Thin.ttf") format("truetype");
+    font-weight: 200;
+}
+
+@font-face {
+    font-family: "Roboto";
+    src: local(Roboto Light), url("../assets/fonts/roboto/Roboto-Light.eot");
+    src: url("../assets/fonts/roboto/Roboto-Light.eot?#iefix") format("embedded-opentype"), url("../assets/fonts/roboto/Roboto-Light.woff2") format("woff2"), url("../assets/fonts/roboto/Roboto-Light.woff") format("woff"), url("../assets/fonts/roboto/Roboto-Light.ttf") format("truetype");
+    font-weight: 300;
+}
+
+@font-face {
+    font-family: "Roboto";
+    src: local(Roboto Regular), url("../assets/fonts/roboto/Roboto-Regular.eot");
+    src: url("../assets/fonts/roboto/Roboto-Regular.eot?#iefix") format("embedded-opentype"), url("../assets/fonts/roboto/Roboto-Regular.woff2") format("woff2"), url("../assets/fonts/roboto/Roboto-Regular.woff") format("woff"), url("../assets/fonts/roboto/Roboto-Regular.ttf") format("truetype");
+    font-weight: 400;
+}
+
+@font-face {
+    font-family: "Roboto";
+    src: url("../assets/fonts/roboto/Roboto-Medium.eot");
+    src: url("../assets/fonts/roboto/Roboto-Medium.eot?#iefix") format("embedded-opentype"), url("../assets/fonts/roboto/Roboto-Medium.woff2") format("woff2"), url("../assets/fonts/roboto/Roboto-Medium.woff") format("woff"), url("../assets/fonts/roboto/Roboto-Medium.ttf") format("truetype");
+    font-weight: 500;
+}
+
+@font-face {
+    font-family: "Roboto";
+    src: url("../assets/fonts/roboto/Roboto-Bold.eot");
+    src: url("../assets/fonts/roboto/Roboto-Bold.eot?#iefix") format("embedded-opentype"), url("../assets/fonts/roboto/Roboto-Bold.woff2") format("woff2"), url("../assets/fonts/roboto/Roboto-Bold.woff") format("woff"), url("../assets/fonts/roboto/Roboto-Bold.ttf") format("truetype");
+    font-weight: 700;
+}
+
+body {
+    font-family: 'Roboto';
+}
+
+input::placeholder {
+    font-family: 'Roboto';
+}
+
+/* Atelier-Estuary Comment */
+.hljs-comment,
+.hljs-quote {
+  color: #6c6b5a;
+}
+
+/* Atelier-Estuary Red */
+.hljs-variable,
+.hljs-template-variable,
+.hljs-attribute,
+.hljs-tag,
+.hljs-name,
+.hljs-regexp,
+.hljs-link,
+.hljs-name,
+.hljs-selector-id,
+.hljs-selector-class {
+  color: #ba6236;
+}
+
+/* Atelier-Estuary Orange */
+.hljs-number,
+.hljs-meta,
+.hljs-built_in,
+.hljs-builtin-name,
+.hljs-literal,
+.hljs-type,
+.hljs-params {
+  color: #ae7313;
+}
+
+/* Atelier-Estuary Green */
+.hljs-string,
+.hljs-symbol,
+.hljs-bullet {
+  color: #7d9726;
+}
+
+/* Atelier-Estuary Blue */
+.hljs-title,
+.hljs-section {
+  color: #36a166;
+}
+
+/* Atelier-Estuary Purple */
+.hljs-keyword,
+.hljs-selector-tag {
+  color: #5f9182;
+}
+
+.hljs-deletion,
+.hljs-addition {
+  color: #22221b;
+  display: inline-block;
+  width: 100%;
+}
+
+.hljs-deletion {
+  background-color: #ba6236;
+}
+
+.hljs-addition {
+  background-color: #7d9726;
+}
+
+.hljs {
+  display: block;
+  overflow-x: auto;
+  background: #f4f3ec;
+  color: #5f5e4e;
+  padding: 0.5em;
+}
+
+.hljs-emphasis {
+  font-style: italic;
+}
+
+.hljs-strong {
+  font-weight: bold;
+}
+
+h2 {
+    margin: 1.78rem 0 1.424rem 0;
+}
+
+h3 {
+    margin: 1.46rem 0 1.168rem 0;
+}
+
+h4 {
+    margin: 1.14rem 0 0.912rem 0;
+}
+
+h5 {
+    margin: 0.82rem 0 0.656rem 0;
+}
+
+h6 {
+    font-size: 1rem;
+    margin: 0.5rem 0 0.4rem 0;
+}
+
+input:not([type]):focus:not([readonly]), input[type=text]:not(.browser-default):focus:not([readonly]), input[type=password]:not(.browser-default):focus:not([readonly]), input[type=email]:not(.browser-default):focus:not([readonly]), input[type=url]:not(.browser-default):focus:not([readonly]), input[type=time]:not(.browser-default):focus:not([readonly]), input[type=date]:not(.browser-default):focus:not([readonly]), input[type=datetime]:not(.browser-default):focus:not([readonly]), input[type=datetime-local]:not(.browser-default):focus:not([readonly]), input[type=tel]:not(.browser-default):focus:not([readonly]), input[type=number]:not(.browser-default):focus:not([readonly]), input[type=search]:not(.browser-default):focus:not([readonly]), textarea.materialize-textarea:focus:not([readonly]) {
+    border-bottom: none;
+    box-shadow: none;
+}
+
+input:not([type]), input[type=text]:not(.browser-default), input[type=password]:not(.browser-default), input[type=email]:not(.browser-default), input[type=url]:not(.browser-default), input[type=time]:not(.browser-default), input[type=date]:not(.browser-default), input[type=datetime]:not(.browser-default), input[type=datetime-local]:not(.browser-default), input[type=tel]:not(.browser-default), input[type=number]:not(.browser-default), input[type=search]:not(.browser-default), textarea.materialize-textarea {
+    font-size: 1rem;
+    font-family: 'Roboto';
+}
+
+button {
+    font-family: "Roboto";
+}
+
+.btn, .btn-large, .btn-small, .btn-flat {
+    padding: 0 32px;
+    font-size: 16px;
+}
+
+form p {
+    margin-bottom: 10px;
+}
