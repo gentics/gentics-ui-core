@@ -15,6 +15,7 @@ $roboto-font-path: '~roboto-fontface-woff/fonts' !default;
 /* Components */
 @import "../components/breadcrumbs/breadcrumbs";
 @import "../components/button/button";
+@import "../components/checkbox/checkbox";
 @import "../components/contents-list-item/contents-list-item";
 @import "../components/date-time-picker/date-time-picker";
 @import "../components/date-time-picker/date-time-picker-controls";
@@ -25,6 +26,7 @@ $roboto-font-path: '~roboto-fontface-woff/fonts' !default;
 @import "../components/modal/modal";
 @import "../components/notification/notification";
 @import "../components/progress-bar/progress-bar";
+@import "../components/radio-button/radio-button";
 @import "../components/range/range";
 @import "../components/search-bar/search-bar";
 @import "../components/side-menu/side-menu";

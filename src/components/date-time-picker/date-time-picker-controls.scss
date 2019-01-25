@@ -8,6 +8,14 @@
 
 gtx-date-time-picker-controls {
 
+    tr {
+        border-bottom: none;
+    }
+
+    thead {
+        border-bottom: 1px solid #d0d0d0;
+    }
+
     .controls-header {
         text-align: center;
         background-color: $secondary-color;

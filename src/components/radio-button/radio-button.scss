@@ -1,4 +1,55 @@
 gtx-radio-button {
+    [type="radio"]:not(:checked) + label:before, [type="radio"]:not(:checked) + label:after {
+        border: 2px solid #5a5a5a;
+    }
+
+    [type="radio"]:not(:checked) + label:before, [type="radio"]:not(:checked) + label:after, [type="radio"]:checked + label:before, [type="radio"]:checked + label:after, [type="radio"].with-gap:checked + label:before, [type="radio"].with-gap:checked + label:after {
+        border-radius: 50%;
+    }
+
+    [type="radio"]:not(:checked) + label:after {
+        -webkit-transform: scale(0);
+        transform: scale(0);
+    }
+
+    [type="radio"] + label:before, [type="radio"] + label:after {
+        content: '';
+        position: absolute;
+        left: 0;
+        top: 0;
+        margin: 4px;
+        width: 16px;
+        height: 16px;
+        z-index: 0;
+        transition: .28s ease;
+    }
+
+    [type="radio"]:not(:checked) + label, [type="radio"]:checked + label {
+        position: relative;
+        padding-left: 35px;
+        cursor: pointer;
+        display: inline-block;
+        height: 25px;
+        line-height: 25px;
+        font-size: 1rem;
+        transition: .28s ease;
+        -webkit-user-select: none;
+        -moz-user-select: none;
+        -ms-user-select: none;
+        user-select: none;
+    }
+
+    [type="radio"]:checked + label:after {
+        -webkit-transform: scale(1.02);
+        transform: scale(1.02);
+    }
+    [type="radio"]:checked + label:after, [type="radio"].with-gap:checked + label:after {
+        background-color: #0096DC;
+    }
+    [type="radio"]:checked + label:after, [type="radio"].with-gap:checked + label:before, [type="radio"].with-gap:checked + label:after {
+        border: 2px solid #0096DC;
+    }
+
     &.ng-touched.ng-invalid {
         > label::before {
             // Border when selected / not selected
