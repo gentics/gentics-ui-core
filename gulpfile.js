@@ -19,16 +19,12 @@ const paths = {
             styles: 'dist/gentics-ui-core/styles',
             fonts: 'dist/gentics-ui-core/fonts'
         }
-    },
-    vendorStatics: [
-        'node_modules/materialize-css/fonts/roboto/Roboto-*'
-    ]
+    }
 };
 
 gulp.task('assets', gulp.series(
     gulp.parallel(
-        compileDistStyles,
-        copyFontsTo(paths.out.dist.fonts)
+        compileDistStyles
     )
 ));
 

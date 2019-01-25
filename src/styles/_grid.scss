@@ -7,11 +7,11 @@ $breakpoints: (
     xxlarge: 1440px,
 );
 
-@import "./foundation-grid/util/util";
+@import "~foundation-sites/scss/util/util";
 $global-left: left !default;
 $global-right: right !default;
 $global-width: rem-calc(1200) !default;
-@import "./foundation-grid/grid/grid";
+@import "~foundation-sites/scss/grid/grid";
 @include foundation-flex-grid;
 
 /* Fixes for Foundation flex grid */

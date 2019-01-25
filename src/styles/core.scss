@@ -2,13 +2,15 @@
  * This is the main GUIC styles file. It should be imported once
  * by any app that consumes GUIC.
  */
-$icons-font-path: '../fonts/' !default;
-$roboto-font-path: '../fonts/' !default;
+$roboto-font-path: '~roboto-fontface-woff/fonts' !default;
 @import "variables";
+@import "variables_compat";
 @import "mixins";
-@import "materialize";
+@import "~materialize-css/sass/materialize";
 @import "icons";
 @import "grid";
+@import "~roboto-fontface-woff/css/roboto/sass/roboto-fontface";
+@import "~highlight.js/styles/atelier-estuary-light";
 
 /* Components */
 @import "../components/breadcrumbs/breadcrumbs";
