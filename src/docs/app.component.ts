@@ -6,9 +6,11 @@ import {filter} from 'rxjs/operators';
 
 import {SplitViewContainer} from '../index';
 import {IPageInfo, kebabToPascal, pages} from './pageList';
-import * as PACKAGE_JSON from '../../projects/gentics-ui-core/package.json';
 
-const VERSION = PACKAGE_JSON.version;
+// Exposed globally by the Webpack DefinePlugin
+// (see webpack config)
+declare var VERSION: string;
+declare var LATESTBRANCH: boolean;
 
 @Component({
     selector: 'app',
@@ -17,6 +19,8 @@ const VERSION = PACKAGE_JSON.version;
 export class App {
     @ViewChild(SplitViewContainer) splitViewContainer: SplitViewContainer;
     version: string;
+    latestBranch: boolean;
+    changelogBranch = 'master';
     contentItems: any[] = pages.map((page: IPageInfo) => {
         return {
             title: kebabToPascal(page.path),
@@ -37,6 +41,11 @@ export class App {
         this.filteredContentItems = this.contentItems.slice(0);
         titleService.setTitle(`Gentics UI Core Docs v${VERSION}`);
         this.version = VERSION;
+        this.latestBranch = LATESTBRANCH;
+
+        if (!this.latestBranch) {
+            this.changelogBranch = `v${VERSION}`;
+        }
     }
 
     ngOnInit(): void {

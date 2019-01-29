@@ -6,6 +6,7 @@
 
 * Update to Angular 7 (GUIC-180)
 * Migrate project to angular-cli (GUIC-180)
+* Add history documentation generation option and browser
 
 ### Fixes
 

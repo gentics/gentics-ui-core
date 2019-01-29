@@ -39,7 +39,7 @@
       }
     },
     "docs": {
-      "root": "src/docs/",
+      "root": "projects/docs/",
       "sourceRoot": "src/docs",
       "projectType": "application",
       "prefix": "app",
@@ -50,13 +50,14 @@
       },
       "architect": {
         "build": {
-          "builder": "@angular-devkit/build-angular:browser",
+          "builder": "ngx-build-plus:build",
           "options": {
             "outputPath": "dist/docs",
             "index": "src/docs/index.html",
             "main": "src/docs/main.ts",
             "polyfills": "src/docs/polyfills.ts",
             "tsConfig": "projects/docs/tsconfig.app.json",
+            "extraWebpackConfig": "webpack.partial.js",
             "assets": [
               "src/docs/assets"
             ],
@@ -99,9 +100,10 @@
           }
         },
         "serve": {
-          "builder": "@angular-devkit/build-angular:dev-server",
+          "builder": "ngx-build-plus:dev-server",
           "options": {
-            "browserTarget": "docs:build"
+            "browserTarget": "docs:build",
+            "extraWebpackConfig": "webpack.partial.js",
           },
           "configurations": {
             "production": {
@@ -116,7 +118,7 @@
           }
         },
         "test": {
-          "builder": "@angular-devkit/build-angular:karma",
+          "builder": "ngx-build-plus:karma",
           "options": {
             "main": "src/docs/test.ts",
             "polyfills": "src/docs/polyfills.ts",

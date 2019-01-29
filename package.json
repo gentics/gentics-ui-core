@@ -73,6 +73,7 @@
     "materialize-css": "~1.0.0",
     "moment": "~2.23.0",
     "roboto-fontface-woff": "^0.8.0",
+    "ngx-build-plus": "^7.7.2",
     "rome": "~2.1.22",
     "rxjs": "~6.3.3",
     "sortablejs": "~1.8.1",
