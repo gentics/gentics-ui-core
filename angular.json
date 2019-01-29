@@ -14,7 +14,7 @@
           "options": {
             "tsConfig": "projects/gentics-ui-core/tsconfig.lib.json",
             "project": "projects/gentics-ui-core/ng-package.json"
-          }
+          },
         },
         "test": {
           "builder": "@angular-devkit/build-angular:karma",
@@ -62,7 +62,8 @@
               "src/docs/assets"
             ],
             "styles": [
-              "src/docs/app.scss"
+              "src/docs/app.scss",
+              "node_modules/highlight.js/styles/atelier-estuary-light.css"
             ],
             "stylePreprocessorOptions": {
               "includePaths": [
@@ -125,7 +126,8 @@
             "tsConfig": "projects/docs/tsconfig.spec.json",
             "karmaConfig": "projects/docs/karma.conf.js",
             "styles": [
-              "src/docs/app.scss"
+              "src/docs/app.scss",
+              "node_modules/highlight.js/styles/atelier-estuary-light.css"
             ],
             "scripts": [],
             "assets": [

@@ -27,7 +27,8 @@ const paths = {
             styles: 'dist/gentics-ui-core/styles',
             fonts: 'dist/gentics-ui-core/fonts'
         }
-    }
+    },
+    vendorStatics: []
 };
 
 // Allow to versions docs
@@ -37,7 +38,6 @@ gulp.task('assets', gulp.series(
     cleanDocsFolder,
     gulp.parallel(
         compileDistStyles,
-        copyFontsTo(paths.out.dist.fonts),
         copyDocsFiles
     ),
 ));
@@ -76,31 +76,10 @@ function checkDistSASS() {
 }
 
 function copyDistSASS() {
-    return Promise.all([
-        streamToPromise(
+    return streamToPromise(
             gulp.src(paths.src.scss)
                 .pipe(gulp.dest(paths.out.dist.root))
-        ),
-        streamToPromise(
-            gulp.src('node_modules/materialize-css/sass/**/*.scss')
-                .pipe(gulp.dest(path.join(paths.out.dist.styles, 'materialize-css/sass')))
-        )
-    ]);
-}
-
-function copyFontsTo(outputFolder) {
-    return function copyFonts() {
-        return (
-            gulp.src(paths.vendorStatics.concat(paths.src.fonts))
-                .pipe(filter([
-                    '**/*.eot',
-                    '**/*.ttf',
-                    '**/*.woff',
-                    '**/*.woff2'
-                ]))
-                .pipe(gulp.dest(outputFolder))
         );
-    };
 }
 
 /**

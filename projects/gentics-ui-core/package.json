@@ -3,6 +3,8 @@
   "version": "7.0.0",
   "dependencies": {
     "hammerjs": "~2.0.8",
+    "material-icons-font": "^1.4.2",
+    "roboto-fontface-woff": "^0.8.0",
     "materialize-css": "~1.0.0",
     "moment": "~2.23.0",
     "rome": "~2.1.22",
