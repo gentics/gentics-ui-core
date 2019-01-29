@@ -6,7 +6,7 @@ $roboto-font-path: '~roboto-fontface-woff/fonts' !default;
 @import "variables";
 @import "variables_compat";
 @import "mixins";
-@import "~materialize-css/sass/materialize";
+@import "materialize";
 @import "icons";
 @import "grid";
 @import "~roboto-fontface-woff/css/roboto/sass/roboto-fontface";
