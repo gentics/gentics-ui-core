@@ -6,6 +6,9 @@
       "webpack-env"
     ]
   },
+  "angularCompilerOptions": {
+    "preserveWhitespaces": true
+  },
   "include": [
     "../../src"
   ],

@@ -103,7 +103,7 @@
           "builder": "ngx-build-plus:dev-server",
           "options": {
             "browserTarget": "docs:build",
-            "extraWebpackConfig": "webpack.partial.js",
+            "extraWebpackConfig": "webpack.partial.js"
           },
           "configurations": {
             "production": {
