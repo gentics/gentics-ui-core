@@ -1,6 +1,6 @@
 {
   "name": "gentics-ui-core",
-  "version": "7.0.0",
+  "version": "7.0.0-beta.0",
   "dependencies": {
     "hammerjs": "~2.0.8",
     "material-icons-font": "^1.4.2",
