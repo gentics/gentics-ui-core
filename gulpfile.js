@@ -7,6 +7,7 @@ const gutil = require('gulp-util');
 const path = require('path');
 const sass = require('gulp-sass');
 const tildeImporter = require('node-sass-tilde-importer');
+const npmArgs = JSON.parse(process.env.npm_config_argv);
 
 const paths = {
     src: {
@@ -35,12 +36,28 @@ const paths = {
 prefixDocsVersion();
 
 gulp.task('assets', gulp.series(
-    cleanDocsFolder,
-    gulp.parallel(
-        compileDistStyles,
-        copyDocsFiles
-    ),
+    buildUiCoreTasks,
+    buildDocsTasks
 ));
+
+// Run only when gentics-ui-core is building
+function buildDocsTasks() {
+    if(npmArgs.remain.indexOf('gentics-ui-core') === -1) {
+        return new Promise(gulp.series(
+            cleanDocsFolder,
+            copyDocsFiles
+        ));
+    }
+    return resolvePromiseDummy();
+}
+
+// Run only when gentics-ui-core is not building
+function buildUiCoreTasks() {
+    if(npmArgs.remain.indexOf('gentics-ui-core') !== -1) {
+        return new Promise(gulp.series(compileDistStyles));
+    }
+    return resolvePromiseDummy();
+}
 
 function cleanDocsFolder() {
     return del([`${paths.out.docs.base}/**`, `!${paths.out.docs.base}/_versions`, `!${paths.out.docs.base}/_versions/**`, `!${paths.out.docs.base}`]);
@@ -90,6 +107,12 @@ function streamToPromise(stream) {
         stream.on('error', reject);
         stream.on('end', resolve);
     });
+}
+
+function resolvePromiseDummy() {
+    return new Promise(function(resolve, reject) {
+      resolve();
+    })
 }
 
 function prefixDocsVersion() {

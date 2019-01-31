@@ -59,7 +59,9 @@
             "tsConfig": "projects/docs/tsconfig.app.json",
             "extraWebpackConfig": "webpack.partial.js",
             "assets": [
-              "src/docs/assets"
+              "src/docs/assets",
+              { "glob": "**/*", "input": "../../node_modules/roboto-fontface-woff/fonts/roboto", "output": "./assets/fonts" },
+              { "glob": "**/*", "input": "../../node_modules/material-icons-font/fonts", "output": "./assets/fonts" },
             ],
             "styles": [
               "src/docs/app.scss",
