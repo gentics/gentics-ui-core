@@ -362,3 +362,24 @@
         '></gtx-highlighted-code>
     </div>
 </gtx-demo-block>
+
+<gtx-demo-block demoTitle="Select with isChannel property">
+    <div class="demo-result">
+        <div class="column small-8">
+            <gtx-select [(ngModel)]="selectVal" isChannel="true">
+                <gtx-option *ngFor="let item of smallOptions" [value]="item"></gtx-option>
+            </gtx-select>
+        </div>
+        <div class="column small-4">
+            Value: <code>{{ selectVal | json }}</code>
+        </div>
+    </div>
+    <div class="demo-code">
+        <gtx-highlighted-code language="HTML" code='
+                <gtx-select [(ngModel)]="selectVal" isChannel="true">
+                    <gtx-option *ngFor="let item of smallOptions" [value]="item"></gtx-option>
+                </gtx-select>
+                Value: <code>(( selectVal | json ))</code>
+        '></gtx-highlighted-code>
+    </div>
+</gtx-demo-block>

@@ -101,6 +101,11 @@ export class Select implements ControlValueAccessor {
     @Input() placeholder: string = '';
 
     /**
+     * Property to check if value is channel. When set to true, icon for channel is displayed.
+     */
+    @Input() isChannel: boolean = false;
+
+    /**
      * A text label for the input.
      */
     @Input() label: string;

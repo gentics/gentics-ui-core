@@ -33,6 +33,9 @@
                      <gtx-checkbox *ngIf="multiple"
                                    [checked]="isSelected(option)"
                                    (change)="selectItem(groupIndex, optionIndex)"></gtx-checkbox>
+                    <div *ngIf="isChannel" class="inherited-icon">
+                        <i class="material-icons">input</i>
+                    </div>
                      {{ option.viewValue }}
                  </li>
              </ng-template>
