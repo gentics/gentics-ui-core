@@ -79,6 +79,8 @@ export class Select implements ControlValueAccessor {
         this._disabled = coerceToBoolean(value);
     }
 
+    @Input() icon: string;
+
     /**
      * When set to true, allows multiple options to be selected. In this case, the input value should be
      * an array of strings; events will emit an array of strings.
