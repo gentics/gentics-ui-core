@@ -10,7 +10,6 @@ export class SelectOption {
     private _value: any;
     private _disabled: any;
 
-
     constructor(public elementRef: ElementRef) {}
 
     @Input()
