@@ -345,7 +345,7 @@ describe('Select:', () => {
                 fixture.detectChanges();
                 tick();
                 clickSelectAndOpen(fixture);
-                const getOptionText = () => getListItems(fixture).map(el => el.innerText);
+                const getOptionText = () => getListItems(fixture).map(el => el.innerText.trim());
                 expect(getOptionText()).toEqual(['Foo', 'Bar', 'Baz']);
 
                 instance.options.push('Quux');
@@ -361,7 +361,7 @@ describe('Select:', () => {
                 fixture.detectChanges();
                 tick();
                 clickSelectAndOpen(fixture);
-                const getOptionText = () => getListItems(fixture).map(el => el.innerText);
+                const getOptionText = () => getListItems(fixture).map(el => el.innerText.trim());
                 expect(getOptionText()).toEqual(['Foo', 'Bar', 'Baz']);
 
                 setTimeout(() => instance.options.push('Quux'), 500);

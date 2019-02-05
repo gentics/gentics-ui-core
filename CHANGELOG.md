@@ -1,8 +1,14 @@
 # Gentics UI Core Changelog
 
-## 6.5.2 (not yet released)
+## 6.6.1 (not yet released)
 
 ### Fixes
+
+## 6.6.0 (2018-02-05)
+
+### Features
+
+* Add icon property to Select (GUIC-212)
 
 ## 6.5.1 (2019-01-22)
 

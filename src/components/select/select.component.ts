@@ -4,7 +4,6 @@ import {
     ContentChildren,
     EventEmitter,
     forwardRef,
-    HostListener,
     Input,
     Output,
     QueryList,
