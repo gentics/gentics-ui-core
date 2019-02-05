@@ -1,5 +1,9 @@
 # Gentics UI Core Changelog
 
+## 6.6.1 (not yet released)
+
+### Fixes
+
 ## 6.6.0 (2018-02-05)
 
 ### Features
