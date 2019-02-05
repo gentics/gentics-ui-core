@@ -33,6 +33,7 @@
                      <gtx-checkbox *ngIf="multiple"
                                    [checked]="isSelected(option)"
                                    (change)="selectItem(groupIndex, optionIndex)"></gtx-checkbox>
+                     <icon *ngIf="icon" class="material-icons">{{icon}}</icon>
                      {{ option.viewValue }}
                  </li>
              </ng-template>
