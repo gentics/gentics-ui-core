@@ -10919,6 +10919,10 @@ gtx-select .clear-button {
   margin-top: 20px;
 }
 
+gtx-dropdown-content .material-icons {
+  margin-right: 5px;
+}
+
 gtx-dropdown-content ul.select-options {
   margin: 0;
 }
@@ -12197,6 +12201,16 @@ body {
 }
 
 .top-bar .version-info a {
+  color: #b6d8e8;
+}
+
+.top-bar .version-info gtx-docs-switcher button.btn-flat.btn-icon.small {
+  color: #b6d8e8;
+  height: 16px;
+  line-height: 13px;
+}
+
+.top-bar .version-info gtx-docs-switcher button.btn-flat.btn-icon.small:hover {
   color: #b6d8e8;
 }
 
