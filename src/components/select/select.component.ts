@@ -4,7 +4,6 @@ import {
     ContentChildren,
     EventEmitter,
     forwardRef,
-    HostListener,
     Input,
     Output,
     QueryList,
@@ -78,8 +77,6 @@ export class Select implements ControlValueAccessor {
     set disabled(value: boolean) {
         this._disabled = coerceToBoolean(value);
     }
-
-    @Input() icon: string;
 
     /**
      * When set to true, allows multiple options to be selected. In this case, the input value should be

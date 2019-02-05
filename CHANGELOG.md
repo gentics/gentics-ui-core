@@ -5,6 +5,7 @@
 ### Features
 
 * Add placeholder option to Select (GUIC-205)
+* Add icon property to Select (GUIC-212)
 
 ### Fixes
 
