@@ -2,6 +2,10 @@
 
 ## 6.5.2 (not yet released)
 
+### Features
+
+* Add icon property to Select (GUIC-212)
+
 ### Fixes
 
 ## 6.5.1 (2019-01-22)
