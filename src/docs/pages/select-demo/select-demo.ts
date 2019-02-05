@@ -8,7 +8,6 @@ export class SelectDemo {
 
     options: string[] = ['foo', 'bar', 'baz', 'quux', 'qwerty', 'dump', 'lorem',
                          'ipsum', 'dolor', 'sit', 'amet', 'consectetur', 'adipiscing', 'elit'];
-    smallOptions: string[] = ['foo', 'bar', 'baz'];
     selectMultiVal: string[] = ['bar', 'baz'];
     people: any[] = [
         { name: 'John', age: 22, disabled: false },
