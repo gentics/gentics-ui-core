@@ -5,6 +5,8 @@ import {coerceToBoolean} from '../../common/coerce-to-boolean';
     selector: 'gtx-option'
 })
 export class SelectOption {
+    @Input() icon: string;
+
     private _value: any;
     private _disabled: any;
 
