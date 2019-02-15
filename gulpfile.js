@@ -24,9 +24,7 @@ const paths = {
         },
         dist: {
             docs: 'dist/docs/**',
-            root: 'dist/gentics-ui-core',
-            styles: 'dist/gentics-ui-core/styles',
-            fonts: 'dist/gentics-ui-core/fonts'
+            lib: 'dist/gentics-ui-core'
         }
     },
     vendorStatics: []
@@ -95,7 +93,7 @@ function checkDistSASS() {
 function copyDistSASS() {
     return streamToPromise(
             gulp.src(paths.src.scss)
-                .pipe(gulp.dest(paths.out.dist.root))
+                .pipe(gulp.dest(paths.out.dist.lib))
         );
 }
 
