@@ -10,6 +10,13 @@
 
 ### Fixes
 
+### Breaking Changes
+
+* Angular 5 and 6 are no longer supported.
+* The location of most of the files in the npm package has changed. Previously the build and styles files were contained in ```node_modules/gentics-ui-core/dist```, now they are contained directly in ```node_modules/gentics-ui-core```. This is important e.g., for importing styles (i.e., change from ```@import "~gentics-ui-core/dist/styles/core";``` to ```@import "~gentics-ui-core/styles/core";```).
+* The foundation-grid package is now a dependency and no longer directly included in the gentics-ui-core package. If you import e.g., styles from ```~gentics-ui-core/dist/styles/foundation-grid```, you have to change to importing from ```~foundation-grid```.
+* The fonts and icons are now a dependency and no longer directly included in the gentics-ui-core package. You no longer need to set ```$icons-font-path``` and ```$roboto-font-path``` in your SCSS files.
+
 ## 6.6.0 (2018-02-05)
 
 ### Features
