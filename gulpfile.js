@@ -13,7 +13,8 @@ const paths = {
     src: {
         fonts: 'src/assets/fonts/*.*',
         scss: ['src/**/*.scss', '!src/docs/**/*.scss'],
-        scssMain: 'src/styles/core.scss'
+        scssMain: 'src/styles/core.scss',
+        readme: '*.md'
     },
     out: {
         docs: {
@@ -52,7 +53,7 @@ function buildDocsTasks() {
 // Run only when gentics-ui-core is not building
 function buildUiCoreTasks() {
     if(npmArgs.remain.indexOf('gentics-ui-core') !== -1) {
-        return new Promise(gulp.series(compileDistStyles));
+        return new Promise(gulp.series(compileDistStyles, copyDistReadme));
     }
     return resolvePromiseDummy();
 }
@@ -93,6 +94,13 @@ function checkDistSASS() {
 function copyDistSASS() {
     return streamToPromise(
             gulp.src(paths.src.scss)
+                .pipe(gulp.dest(paths.out.dist.lib))
+        );
+}
+
+function copyDistReadme() {
+    return streamToPromise(
+            gulp.src(paths.src.readme)
                 .pipe(gulp.dest(paths.out.dist.lib))
         );
 }
