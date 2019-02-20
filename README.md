@@ -123,7 +123,7 @@ This will rebuild the docs app on every change to the source files and serve the
 
 ### Publish to npm
 
-1. `npm run build gentics-ui-core --prod=true`
+1. `npm run build -- gentics-ui-core`
 2. `npm publish ./dist/gentics-ui-core`
 
 ## Maintaining documentation on GitHub pages
@@ -135,7 +135,9 @@ The easiest way to manage the branch is to check it out in the "docs" subfolder:
 # check out ui-core twice, master in ./ and gh-pages in ./docs
 git clone -o github -b gh-pages git@github.com:gentics/gentics-ui-core ./docs
 # build the docs (if you want to create separate version of the docs, you need to append --docsVersion=vX.x param)
-npm run build docs --prod=true --aot=true
+npm run build -- docs --prod=true
+# overwrite the old docs with the new build
+rm -r ./docs/* && cp -r ./dist/docs/* ./docs
 # commit and push gh-pages
 cd docs
 git add .
