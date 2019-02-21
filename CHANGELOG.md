@@ -4,7 +4,8 @@
 
 ### Features
 
-* Update to Angular 7 (GUIC-180)
+* Update to Angular 7, RxJS 6.x, and materialize-css 1.0 (GUIC-180)
+* Update other dependencies
 * Migrate project to angular-cli (GUIC-180)
 * Add history documentation generation option and browser
 

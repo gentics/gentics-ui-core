@@ -82,13 +82,10 @@ ng new my-example --prefix=me --routing=true --style=scss
 4. Add the following imports to your global styles SCSS:
 
 ```SCSS
-// styles/main.scss
-$icons-font-path: '~gentics-ui-core/dist/fonts/';
-$roboto-font-path: '~gentics-ui-core/dist/fonts/';
-
-@import "~gentics-ui-core/dist/styles/variables";
-@import "~gentics-ui-core/dist/styles/mixins";
-@import "~gentics-ui-core/dist/styles/core";
+// styles.scss
+@import "~gentics-ui-core/styles/variables";
+@import "~gentics-ui-core/styles/mixins";
+@import "~gentics-ui-core/styles/core";
 
 // ...
 ```
@@ -101,6 +98,10 @@ Full documentation and examples are available at [https://gentics.github.io/gent
 
 The build system for the project is [angular-cli](https://cli.angular.io/) with a custom directory structure (to maintain the previous directory structure before the migration to angular-cli)
 and a custom post-build gulp script. For full documentation on available commands, see [https://angular.io/cli](https://angular.io/cli).
+Due to the post-build gulp script it is important to not use `ng build` directly, but always use `npm run build`.
+
+The builder configured in [angular.json](./angular.json) is not the default one from angular-cli, but [ngx-build-plus](https://github.com/manfredsteyer/ngx-build-plus), 
+because we need to be able to customize the webpack configuration.
 
 ## Building the docs app
 
