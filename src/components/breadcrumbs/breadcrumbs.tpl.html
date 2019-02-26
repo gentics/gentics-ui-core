@@ -15,7 +15,8 @@
         </div>
 
         <ng-template [ngIf]="links">
-            <a  class="breadcrumb"
+            <a *ngIf="multiline && !multilineExpanded"
+                class="breadcrumb"
                 [attr.href]="isDisabled ? null : links[0].href"
                 (click)="onLinkClicked(links[0], $event)"
                 [title]="links[0].tooltip || links[0].text"
@@ -32,7 +33,8 @@
         </ng-template>
 
         <ng-template [ngIf]="routerLinks">
-            <a  class="breadcrumb"
+            <a *ngIf="multiline && !multilineExpanded"
+                class="breadcrumb"
                 [attr.href]="isDisabled ? null : routerLinks[0].href"
                 (click)="onLinkClicked(routerLinks[0], $event)"
                 [title]="routerLinks[0].tooltip || routerLinks[0].text"
