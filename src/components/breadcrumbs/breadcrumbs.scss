@@ -16,8 +16,14 @@ gtx-breadcrumbs {
         }
     }
 
-    div.multiline:not(.multilineExpanded) a.breadcrumb:not(:nth-child(3)):not(:last-child) {
+    div.multiline:not(.multilineExpanded) a.breadcrumb:not(:nth-child(3)):not(:nth-last-child(-n+2)) {
         display: none;
+    }
+
+    div.multiline:not(.multilineExpanded) a.breadcrumb:last-child {
+        overflow: hidden;
+        white-space: nowrap;
+        text-overflow: ellipsis;
     }
 
     .back_arrow {
