@@ -15,6 +15,14 @@
         </div>
 
         <ng-template [ngIf]="links">
+            <a  class="breadcrumb"
+                [attr.href]="isDisabled ? null : links[0].href"
+                (click)="onLinkClicked(links[0], $event)"
+                [title]="links[0].tooltip || links[0].text"
+            >{{ links[0].text }}</a>
+            <div class="ellipsis" *ngIf="multiline && !multilineExpanded" [class.multilineExpanded]="multilineExpanded" (click)="multilineExpandedChanged()">
+                ...
+            </div>
             <a *ngFor="let link of links"
                 class="breadcrumb"
                 [attr.href]="isDisabled ? null : link?.href"
@@ -24,6 +32,14 @@
         </ng-template>
 
         <ng-template [ngIf]="routerLinks">
+            <a  class="breadcrumb"
+                [attr.href]="isDisabled ? null : routerLinks[0].href"
+                (click)="onLinkClicked(routerLinks[0], $event)"
+                [title]="routerLinks[0].tooltip || routerLinks[0].text"
+            >{{ routerLinks[0].text }}</a>
+            <div class="ellipsis" *ngIf="multiline && !multilineExpanded" [class.multilineExpanded]="multilineExpanded" (click)="multilineExpandedChanged()">
+                ...
+            </div>
             <a *ngFor="let routerLink of routerLinks"
                 class="breadcrumb"
                 [routerLink]="routerLink.route"
@@ -31,12 +47,16 @@
                 [title]="routerLink.tooltip || routerLink.text"
             >{{ routerLink.text }}</a>
         </ng-template>
+
+        <div *ngIf="multiline && multilineExpanded"  class="back_arrow" [class.multilineExpanded]="multilineExpanded" (click)="multilineExpandedChanged()">
+            <icon>arrow_back</icon>
+        </div>
     </div>
 </nav>
-<div class="collapse-icon" *ngIf="multiline"
+<!-- <div class="collapse-icon" *ngIf="multiline"
         [class.multilineExpanded]="multilineExpanded"
         (click)="multilineExpandedChanged()">
         <gtx-button icon type="secondary">
             <i class="material-icons">keyboard_arrow_down</i>
         </gtx-button>
-</div>
+</div> -->

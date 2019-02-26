@@ -16,6 +16,34 @@ gtx-breadcrumbs {
         }
     }
 
+    div.multiline:not(.multilineExpanded) a.breadcrumb:not(:nth-child(3)):not(:last-child) {
+        display: none;
+    }
+
+    .back_arrow {
+        line-height: 12px;
+        padding: 10px;
+        cursor: pointer;
+    }
+
+    div.multiline:not(.multilineExpanded) a.breadcrumb:nth-child(3)::after {
+        content:'\E5CC  ';
+        color: $gtx-breadcrumbs-inactive-color;
+        display: inline-block;
+        font-family: 'Material Icons';
+        font-weight: normal;
+        font-style: normal;
+        font-size: 25px;
+        margin: 0;
+        vertical-align: top;
+        -webkit-font-smoothing: antialiased;
+    }
+
+    .ellipsis {
+        margin-left: 5px;
+        cursor: pointer;
+    }
+
     @media screen and (-ms-high-contrast: active), (-ms-high-contrast: none) {
         .collapse-icon {
             position: relative;
@@ -42,7 +70,7 @@ gtx-breadcrumbs {
             align-content: flex-start;
 
             &.multiline {
-                display: block;
+                display: flex;
                 overflow: hidden;
                 white-space: nowrap;
                 text-overflow: ellipsis;
@@ -50,13 +78,13 @@ gtx-breadcrumbs {
                 > a.breadcrumb {
                     min-width: auto !important;
                     overflow-x: visible !important;
+                    cursor: pointer;
                 }
             }
 
             &.multiline.multilineExpanded {
                 display: flex;
                 flex-wrap: wrap;
-                line-height: 45px;
             }
 
             > * {
