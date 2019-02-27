@@ -119,6 +119,10 @@ You can see the [_variables.scss](src/styles/_variables.scss) file for a list of
 
 Full documentation and examples are available at [https://gentics.github.io/gentics-ui-core/](https://gentics.github.io/gentics-ui-core/)
 
+## Developer Guide
+
+The following sections are intended for people, who want to contribute to Gentics UI Core.
+
 The build system for the project is [angular-cli](https://cli.angular.io/) with a custom directory structure (to maintain the previous directory structure before the migration to angular-cli)
 and a custom post-build gulp script. For full documentation on available commands, see [https://angular.io/cli](https://angular.io/cli).
 Due to the post-build gulp script it is important to not use `ng build` directly, but always use `npm run build`.
@@ -126,7 +130,23 @@ Due to the post-build gulp script it is important to not use `ng build` directly
 The builder configured in [angular.json](./angular.json) is not the default one from angular-cli, but [ngx-build-plus](https://github.com/manfredsteyer/ngx-build-plus), 
 because we need to be able to customize the webpack configuration.
 
-## Building the docs app
+### Git Branches
+
+There are two important branches in this project: [master](https://github.com/gentics/gentics-ui-core) and [maintenance-v6.x](https://github.com/gentics/gentics-ui-core/tree/maintenance-v6.x).
+From which one of these you need to create a new branch for development depends on what you want to work on:
+
+* **New Feature** -> ```master``` branch
+* **Bugfix**
+  * If it is for a feature that existed already in version 6.x -> ```maintenance-v6.x``` branch
+  * Otherwise -> ```master``` branch
+
+**Important:** After merging a bugfix into the ```maintenance-v6.x``` branch:
+1. Merge ```maintenance-v6.x``` into the ```master``` branch.
+2. Run a test build on the ```master``` branch.
+3. Run all unit tests on the ```master``` branch.
+4. Test the bugfix manually in the docs app from the ```master``` branch.
+
+### Building the docs app
 
 Although the UI Core is intended to be consumed in a raw (uncompiled) state, there is a demo app
 included under `src/demo` which will serve as a ["living style guide"](https://uxmag.com/articles/anchoring-your-design-language-in-a-live-style-guide)
@@ -137,7 +157,7 @@ as well as a way to manually test each of the core components.
 
 This will rebuild the docs app on every change to the source files and serve the output on http://localhost:4200.
 
-## Releasing
+### Releasing
 
 1. Bump the version in `projects/gentics-ui-core/package.json` to the desired value
 2. `git commit -am 'vX.Y.Z'`
@@ -145,12 +165,12 @@ This will rebuild the docs app on every change to the source files and serve the
 4. `git reset --hard HEAD^`
 5. `git push origin vX.Y.Z master`
 
-### Publish to npm
+#### Publish to npm
 
 1. `npm run build -- gentics-ui-core`
 2. `npm publish ./dist/gentics-ui-core`
 
-## Maintaining documentation on GitHub pages
+### Maintaining documentation on GitHub pages
 
 Documentation is built as a static Angular app into "docs" and maintained on the branch "gh-pages".
 The easiest way to manage the branch is to check it out in the "docs" subfolder:
