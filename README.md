@@ -35,6 +35,29 @@ export class AppModule { }
 <gtx-overlay-host></gtx-overlay-host>
 ```
 
+4. Set ```preserveWhitespaces``` to ```true``` in your ```tsconfig.json``` or ```tsconfig.app.json```.
+This is necessary for the default spacing between components.
+
+```JSON
+{
+    ...
+    "angularCompilerOptions": {
+        "preserveWhitespaces": true
+    },
+    ...
+}
+```
+
+5. In your ```main.ts``` file enable preservation of whitespaces in the call to ```bootstrapModule()```:
+
+```TypeScript
+// main.ts
+platformBrowserDynamic().bootstrapModule(AppModule, 
+  // Enable preservation of whitespaces for default spacing between components.
+  { preserveWhitespaces: true }
+).catch(err => console.error(err));
+```
+
 ## View Encapsulation
 
 Do not use any ViewEncapsulation other than `ViewEncapsulation.None` (which is the default), because some UI Core components use the CSS `/deep/` selector.
