@@ -146,6 +146,23 @@ From which one of these you need to create a new branch for development depends 
 3. Run all unit tests on the ```master``` branch.
 4. Test the bugfix manually in the docs app from the ```master``` branch.
 
+### Running the units tests
+
+To execute a single test run for the gentics-ui-core library and the docs app, execute:
+```
+npm test
+```
+
+To run tests in watch mode for the gentics-ui-core library, execute:
+```
+ng test gentics-ui-core
+```
+
+To run tests in watch mode for the docs app, execute:
+```
+ng test docs
+```
+
 ### Building the docs app
 
 Although the UI Core is intended to be consumed in a raw (uncompiled) state, there is a demo app
