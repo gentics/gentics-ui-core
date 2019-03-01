@@ -1,5 +1,11 @@
 # Gentics UI Core Changelog
 
+## 7.0.2 (2019-03-01)
+
+### Fixes
+
+* Fix license in package.json.
+
 ## 7.0.0 & 7.0.1 (2019-03-01)
 
 ### Features
