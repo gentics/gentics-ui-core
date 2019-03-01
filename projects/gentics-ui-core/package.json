@@ -1,6 +1,6 @@
 {
   "name": "gentics-ui-core",
-  "version": "7.0.1",
+  "version": "7.0.2",
   "dependencies": {
     "foundation-sites": "^6.5.3",
     "hammerjs": "~2.0.8",
