@@ -1,5 +1,5 @@
 <nav [class.disabled]="isDisabled" [class.multiline]="multiline">
-    <div class="nav-wrapper" [class.newBehaviour]="fullWidth > visibleWidth" [class.multilineExpanded]="multilineExpanded" [class.multiline]="multiline" (window:resize)="onResize($event)">
+    <div class="nav-wrapper" [class.newBehaviour]="newBehaviour" [class.multilineExpanded]="multilineExpanded" [class.multiline]="multiline" (window:resize)="onResize($event)">
         <div class="inner-wrapper">
             <a class="back-button" *ngIf="backLink && backLink.route"
                 (click)="onLinkClicked(backLink, $event)"
@@ -20,10 +20,10 @@
                     (click)="onLinkClicked(links[0], $event)"
                     [title]="links[0].tooltip || links[0].text"
                 >{{ links[0].text }}</a>
-                <div class="ellipsis" *ngIf="(fullWidth > visibleWidth) && multiline && !multilineExpanded" [class.multilineExpanded]="multilineExpanded" (click)="multilineExpandedChanged()">
+                <div class="ellipsis" *ngIf="newBehaviour && multiline && !multilineExpanded" [class.multilineExpanded]="multilineExpanded" (click)="multilineExpandedChanged()">
                     ...
                 </div>
-                <div class="lastPart">
+                <div #lastPart class="lastPart">
                     <ng-container *ngFor="let link of links; let i = index">
                         <a *ngIf="!multilineExpanded && i > 0"
                             class="breadcrumb last"
@@ -50,10 +50,10 @@
                     (click)="onLinkClicked(routerLinks[0], $event)"
                     [title]="routerLinks[0].tooltip || routerLinks[0].text"
                 >{{ routerLinks[0].text }}</a>
-                <div class="ellipsis" *ngIf="(fullWidth > visibleWidth) && multiline && !multilineExpanded" [class.multilineExpanded]="multilineExpanded" (click)="multilineExpandedChanged()">
+                <div class="ellipsis" *ngIf="newBehaviour && multiline && !multilineExpanded" [class.multilineExpanded]="multilineExpanded" (click)="multilineExpandedChanged()">
                     ...
                 </div>
-                <div class="lastPart">
+                <div #lastPart class="lastPart">
                     <ng-container *ngFor="let routerLink of routerLinks; let i = index">
                         <a *ngIf="!multilineExpanded && i > 0"
                             class="breadcrumb last"

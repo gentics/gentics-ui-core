@@ -1,4 +1,4 @@
-import { Component, ElementRef, EventEmitter, Input, OnDestroy, Output } from '@angular/core';
+import { Component, ElementRef, EventEmitter, Input, OnDestroy, Output, ViewChild } from '@angular/core';
 import { OnChanges, QueryList, SimpleChanges, ViewChildren } from '@angular/core';
 import { RouterLinkWithHref } from '@angular/router';
 import { Subscription } from 'rxjs';
@@ -92,8 +92,13 @@ export class Breadcrumbs implements OnChanges, OnDestroy {
     fullWidth: number;
     visibleWidth: number;
 
+    newBehaviour: boolean = false;
+
     backLink: IBreadcrumbLink | IBreadcrumbRouterLink;
     @ViewChildren(RouterLinkWithHref) routerLinkChildren: QueryList<RouterLinkWithHref>;
+
+    @ViewChild('lastPart')
+    lastPart: ElementRef;
 
     private subscriptions = new Subscription();
     private resizeEvents = new BehaviorSubject<void>(null);
@@ -111,25 +116,15 @@ export class Breadcrumbs implements OnChanges, OnDestroy {
         const resizeSub = this.resizeEvents
             .debounceTime(200)
             .subscribe(() => {
-                this.fullWidth = this.outElement.scrollWidth;
-                this.visibleWidth = this.outElement.clientWidth;
-                this.executeIEandEdgeEllipsisWorkAround();
+                this.newBehaviour = this.updateSizes(this.lastPart.nativeElement);
             });
         this.subscriptions.add(resizeSub);
-
-        setTimeout(() => {
-            this.outElement = document.getElementsByClassName('lastPart')[5];
-        });
     }
 
     ngOnChanges(changes: SimpleChanges): void {
         if (changes['links'] || changes['routerLinks']) {
             let allLinks = (this.links || []).concat(this.routerLinks || []);
             this.backLink = allLinks[allLinks.length - 2];
-        }
-
-        if (changes['multiline'] || changes['multilineExpanded']) {
-            this.executeIEandEdgeEllipsisWorkAround();
         }
     }
 
@@ -151,9 +146,6 @@ export class Breadcrumbs implements OnChanges, OnDestroy {
     multilineExpandedChanged(): void {
         this.multilineExpanded = !this.multilineExpanded;
         this.multilineExpandedChange.emit(this.multilineExpanded);
-
-        this.executeIEandEdgeEllipsisWorkAround();
-
         this.resizeEvents.next(null);
     }
 
@@ -164,11 +156,7 @@ export class Breadcrumbs implements OnChanges, OnDestroy {
     ngAfterViewInit(): void {
         this.preventDisabledRouterLinks();
         this.routerLinkChildren.changes.subscribe(() => this.preventDisabledRouterLinks());
-
-        setTimeout(() => {
-            this.fullWidth = this.outElement.scrollWidth;
-            this.visibleWidth = this.outElement.clientWidth;
-        });
+        this.resizeEvents.next(null);
     }
 
     private preventClicksWhenDisabled = (ev: Event): void => {
@@ -178,6 +166,21 @@ export class Breadcrumbs implements OnChanges, OnDestroy {
                 ev.preventDefault();
                 ev.stopImmediatePropagation();
             }
+        }
+    }
+
+    private updateSizes(element: Element): boolean {
+        this.fullWidth = element.scrollWidth;
+        this.visibleWidth = element.clientWidth;
+
+        if (this.userAgent.isIE11 || this.userAgent.isEdge) {
+            this.visibleWidth = this.visibleWidth + 1;
+        }
+
+        if (this.fullWidth > this.visibleWidth) {
+            return true;
+        } else {
+            return false;
         }
     }
 
@@ -197,32 +200,6 @@ export class Breadcrumbs implements OnChanges, OnDestroy {
                     return originalOnClick.apply(this, args);
                 }
             };
-        }
-    }
-
-    private executeIEandEdgeEllipsisWorkAround(): void {
-        if (this.multiline && !this.multilineExpanded && (this.userAgent.isIE11 || this.userAgent.isEdge)) {
-            // Strange, but unfortunately necessary:
-            this.forceRefresh();
-            setTimeout(() => this.forceRefresh());
-        }
-    }
-
-    /**
-     * Forces a refresh of the breadcrumbs (necessary for the IE and Edge ellipsis workaround).
-     */
-    private forceRefresh(): void {
-        // Creating just a copy of the array is not enough, the objects need to be different as well,
-        // so that Angular recognizes a change.
-        if (this.links && this.links.length > 0) {
-            this.links = this.links.map(link => ({
-                ...link
-            }));
-        }
-        if (this.routerLinks && this.routerLinks.length > 0) {
-            this.routerLinks = this.routerLinks.map(link => ({
-                ...link
-            }));
         }
     }
 }
