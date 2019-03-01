@@ -1,21 +1,21 @@
 import {
+    AfterViewChecked,
     Component,
-    ComponentRef,
     ComponentFactoryResolver,
+    ComponentRef,
     HostListener,
     OnDestroy,
     OnInit,
-    ViewContainerRef,
-    ViewChild,
+    Renderer2,
     Type,
-    AfterViewChecked,
-    Renderer2
+    ViewChild,
+    ViewContainerRef
 } from '@angular/core';
+import {Subject, Subscription} from 'rxjs';
+import {debounceTime} from 'rxjs/operators';
 
-import {IModalOptions, IModalDialog} from './modal-interfaces';
+import {IModalDialog, IModalOptions} from './modal-interfaces';
 import {UserAgentRef} from './user-agent-ref';
-import {Subject} from 'rxjs';
-import {Subscription} from 'rxjs/Subscription';
 
 const defaultOptions: IModalOptions = {
     modalBodyClass: 'modal-content',
@@ -58,7 +58,7 @@ export class DynamicModalWrapper implements OnInit, OnDestroy, AfterViewChecked 
 
         if (this.isIE11) {
             this.subscriptions.add(
-                this.modalHeightEvents$.debounceTime(100).subscribe(() => {
+                this.modalHeightEvents$.pipe(debounceTime(100)).subscribe(() => {
                     this.ie11FixContentHeight();
                 })
             );
@@ -128,7 +128,7 @@ export class DynamicModalWrapper implements OnInit, OnDestroy, AfterViewChecked 
     /**
      * Listen for browsers size changes, to notify IE for modal height change
      */
-    @HostListener('window:resize', ['$event'])
+    @HostListener('window:resize')
     onResize(): void {
         if (this.isIE11) {
             this.modalHeightEvents$.next();
@@ -139,7 +139,7 @@ export class DynamicModalWrapper implements OnInit, OnDestroy, AfterViewChecked 
      * Listen for content changes, to notify IE for modal height change
      */
     ngAfterViewChecked(): void {
-        if (this.isIE11 && this.cmpRef) { 
+        if (this.isIE11 && this.cmpRef) {
             // Trigger modalHeight event on view checks
             let modalElements = Array.from(this.cmpRef.location.nativeElement.children as HTMLElement[]);
             let currentModalElementsHeight = modalElements

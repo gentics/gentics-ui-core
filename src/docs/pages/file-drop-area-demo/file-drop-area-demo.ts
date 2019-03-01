@@ -1,9 +1,6 @@
 import {Component, OnDestroy} from '@angular/core';
-import {Observable} from 'rxjs/Observable';
-import {Subscription} from 'rxjs/Subscription';
-import 'rxjs/add/operator/map';
-import 'rxjs/add/operator/mapTo';
-import 'rxjs/add/observable/merge';
+import {merge as observableMerge, Subscription} from 'rxjs';
+import {map, mapTo} from 'rxjs/operators';
 
 import {ISortableEvent} from '../../../components/sortable-list/sortable-list.component';
 import {PageFileDragHandler} from '../../../index';
@@ -32,10 +29,10 @@ export class FileDropAreaDemo implements OnDestroy {
     subscription: Subscription;
 
     constructor(public dragdrop: PageFileDragHandler) {
-        this.subscription = Observable.merge(
-                dragdrop.dragEnter.mapTo('dragEnter'),
-                dragdrop.dragStop.mapTo('dragStop'),
-                dragdrop.filesDragged$.map($event => `filesDragged$ ($event = ${JSON.stringify($event)})`)
+        this.subscription = observableMerge(
+                dragdrop.dragEnter.pipe(mapTo('dragEnter')),
+                dragdrop.dragStop.pipe(mapTo('dragStop')),
+                dragdrop.filesDragged$.pipe(map($event => `filesDragged$ ($event = ${JSON.stringify($event)})`))
             ).subscribe(eventText => {
                 let d = new Date();
                 let time = d.toTimeString().split(' ')[0] + (d.getMilliseconds() / 1000).toFixed(3).substr(1);

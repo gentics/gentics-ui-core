@@ -1,24 +1,31 @@
 {
-    "compileOnSave": false,
-    "compilerOptions": {
-        "module": "commonjs",
-        "target": "es5",
-        "declaration": true,
-        "emitDecoratorMetadata": true,
-        "experimentalDecorators": true,
-        "importHelpers": true,
-        "lib": ["dom", "es2015"],
-        "sourceMap": true,
-        "moduleResolution": "node",
-        "noImplicitAny": true,
-        "noEmitOnError": true,
-        "noEmit": true,
-        "stripInternal": true,
-        "typeRoots": ["node_modules/@types"]
-    },
-    "exclude": [
-        "node_modules",
-        "dist/",
-        "docs/"
-    ]
+  "compileOnSave": false,
+  "compilerOptions": {
+    "baseUrl": "./",
+    "outDir": "./dist/out-tsc",
+    "sourceMap": true,
+    "declaration": false,
+    "module": "es2015",
+    "moduleResolution": "node",
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true,
+    "importHelpers": true,
+    "resolveJsonModule": true,
+    "target": "es5",
+    "typeRoots": [
+      "node_modules/@types"
+    ],
+    "lib": [
+      "es2018",
+      "dom"
+    ],
+    "paths": {
+      "gentics-ui-core": [
+        "dist/gentics-ui-core"
+      ],
+      "gentics-ui-core/*": [
+        "dist/gentics-ui-core/*"
+      ]
+    }
+  }
 }

@@ -1,0 +1,156 @@
+{
+  "$schema": "./node_modules/@angular/cli/lib/config/schema.json",
+  "version": 1,
+  "newProjectRoot": "projects",
+  "projects": {
+    "gentics-ui-core": {
+      "root": "",
+      "sourceRoot": "src",
+      "projectType": "library",
+      "prefix": "gtx",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-ng-packagr:build",
+          "options": {
+            "tsConfig": "projects/gentics-ui-core/tsconfig.lib.json",
+            "project": "projects/gentics-ui-core/ng-package.json"
+          }
+        },
+        "test": {
+          "builder": "ngx-build-plus:karma",
+          "options": {
+            "main": "src/test.ts",
+            "tsConfig": "projects/gentics-ui-core/tsconfig.spec.json",
+            "karmaConfig": "projects/gentics-ui-core/karma.conf.js"
+          }
+        },
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "projects/gentics-ui-core/tsconfig.lib.json",
+              "projects/gentics-ui-core/tsconfig.spec.json"
+            ],
+            "exclude": [
+              "**/node_modules/**"
+            ]
+          }
+        }
+      }
+    },
+    "docs": {
+      "root": "projects/docs/",
+      "sourceRoot": "src/docs",
+      "projectType": "application",
+      "prefix": "app",
+      "schematics": {
+        "@schematics/angular:component": {
+          "styleext": "scss"
+        }
+      },
+      "architect": {
+        "build": {
+          "builder": "ngx-build-plus:build",
+          "options": {
+            "outputPath": "dist/docs",
+            "index": "src/docs/index.html",
+            "main": "src/docs/main.ts",
+            "polyfills": "src/docs/polyfills.ts",
+            "tsConfig": "projects/docs/tsconfig.app.json",
+            "extraWebpackConfig": "webpack.partial.js",
+            "assets": [
+              "src/docs/assets",
+              { "glob": "**/*", "input": "../../node_modules/roboto-fontface-woff/fonts/roboto", "output": "./assets/fonts" },
+              { "glob": "**/*", "input": "../../node_modules/material-icons-font/fonts", "output": "./assets/fonts" },
+            ],
+            "styles": [
+              "src/docs/app.scss",
+              "node_modules/highlight.js/styles/atelier-estuary-light.css"
+            ],
+            "stylePreprocessorOptions": {
+              "includePaths": [
+                "./dist",
+                "./node_modules"
+              ]
+            },
+            "scripts": []
+          },
+          "configurations": {
+            "production": {
+              "fileReplacements": [
+                {
+                  "replace": "projects/docs/environments/environment.ts",
+                  "with": "projects/docs/environments/environment.prod.ts"
+                }
+              ],
+              "optimization": true,
+              "outputHashing": "all",
+              "sourceMap": true,
+              "extractCss": true,
+              "namedChunks": false,
+              "aot": true,
+              "extractLicenses": true,
+              "vendorChunk": false,
+              "buildOptimizer": true,
+              "budgets": [
+                {
+                  "type": "initial",
+                  "maximumWarning": "2mb",
+                  "maximumError": "5mb"
+                }
+              ]
+            }
+          }
+        },
+        "serve": {
+          "builder": "ngx-build-plus:dev-server",
+          "options": {
+            "browserTarget": "docs:build",
+            "extraWebpackConfig": "webpack.partial.js"
+          },
+          "configurations": {
+            "production": {
+              "browserTarget": "docs:build:production"
+            }
+          }
+        },
+        "extract-i18n": {
+          "builder": "@angular-devkit/build-angular:extract-i18n",
+          "options": {
+            "browserTarget": "docs:build"
+          }
+        },
+        "test": {
+          "builder": "ngx-build-plus:karma",
+          "options": {
+            "main": "src/docs/test.ts",
+            "polyfills": "src/docs/polyfills.ts",
+            "tsConfig": "projects/docs/tsconfig.spec.json",
+            "karmaConfig": "projects/docs/karma.conf.js",
+            "styles": [
+              "src/docs/app.scss",
+              "node_modules/highlight.js/styles/atelier-estuary-light.css"
+            ],
+            "scripts": [],
+            "assets": [
+              "src/docs/assets"
+            ]
+          }
+        },
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "projects/docs/tsconfig.app.json",
+              "projects/docs/tsconfig.spec.json"
+            ],
+            "exclude": [
+              "**/node_modules/**"
+            ]
+          }
+        }
+      }
+    }
+  },
+  "defaultProject": "docs"
+}

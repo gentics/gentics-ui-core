@@ -1,13 +1,12 @@
-import { Directive, ElementRef, EventEmitter, Inject, Input, NgZone } from '@angular/core';
-import { OnDestroy, OnInit, InjectionToken, Optional, Output } from '@angular/core';
-import { Observable } from 'rxjs/Observable';
-import { Subscription } from 'rxjs/Subscription';
-import 'rxjs/add/operator/map';
+import {Directive, ElementRef, EventEmitter, Inject, Input, NgZone} from '@angular/core';
+import {InjectionToken, OnDestroy, OnInit, Optional, Output} from '@angular/core';
+import {Observable, Subscription} from 'rxjs';
+import {map} from 'rxjs/operators';
 
-import { PageFileDragHandler } from './page-file-drag-handler.service';
-import { DragStateTrackerFactory, FileDragState } from './drag-state-tracker.service';
-import { matchesMimeType } from './matches-mime-type';
-import { clientReportsMimeTypesOnDrag, getDataTransfer, transferHasFiles } from './drag-drop-utils';
+import {clientReportsMimeTypesOnDrag, getDataTransfer, transferHasFiles} from './drag-drop-utils';
+import {DragStateTrackerFactory, FileDragState} from './drag-state-tracker.service';
+import {matchesMimeType} from './matches-mime-type';
+import {PageFileDragHandler} from './page-file-drag-handler.service';
 
 export interface IFileDropAreaOptions {
     /**
@@ -163,11 +162,13 @@ export class FileDropArea implements OnInit, OnDestroy {
 
         this._eventTarget = dragEventTarget || elementRef.nativeElement;
 
-        this.draggedFiles$ = fileDrag.trackElement(this._eventTarget)
-            .map(files => files.filter(this.accepts));
+        this.draggedFiles$ = fileDrag.trackElement(this._eventTarget).pipe(
+            map(files => files.filter(this.accepts))
+        );
 
-        this.filesDraggedInPage$ = pageDrag.filesDragged$
-            .map(files => files.filter(this.accepts));
+        this.filesDraggedInPage$ = pageDrag.filesDragged$.pipe(
+            map(files => files.filter(this.accepts))
+        );
 
         this._subscriptions = [
             this.draggedFiles$.subscribe(files => {

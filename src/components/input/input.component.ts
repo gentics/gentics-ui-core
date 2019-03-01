@@ -9,7 +9,7 @@ import {
     OnChanges,
     OnInit,
     Output,
-    Renderer,
+    Renderer2,
     SimpleChanges,
     ViewChild
 } from '@angular/core';
@@ -20,6 +20,8 @@ const GTX_INPUT_VALUE_ACCESSOR = {
     useExisting: forwardRef(() => InputField),
     multi: true
 };
+
+const ACTIVE_CLASS = 'active';
 
 /**
  * The InputField wraps the native `<input>` form element but should only be used for
@@ -136,7 +138,7 @@ export class InputField implements AfterViewInit, ControlValueAccessor, OnChange
 
     private currentValue: string | number;
 
-    constructor(private renderer: Renderer,
+    constructor(private renderer: Renderer2,
                 private changeDetector: ChangeDetectorRef) { }
 
     /**
@@ -154,8 +156,11 @@ export class InputField implements AfterViewInit, ControlValueAccessor, OnChange
         const label: HTMLLabelElement = this.labelElement.nativeElement;
 
         if (input && label) {
-            const isAdd = String(this.value).length > 0 || !!this.placeholder;
-            this.renderer.setElementClass(label, 'active', isAdd);
+            if (String(this.value).length > 0 || this.placeholder) {
+                this.renderer.addClass(label, ACTIVE_CLASS);
+            } else {
+                this.renderer.removeClass(label, ACTIVE_CLASS);
+            }
         }
     }
 
@@ -187,7 +192,7 @@ export class InputField implements AfterViewInit, ControlValueAccessor, OnChange
     writeValue(valueToWrite: any): void {
         const value = this.normalizeValue(valueToWrite);
         if (value !== this.currentValue) {
-            this.renderer.setElementProperty(this.inputElement.nativeElement, 'value', this.currentValue = value);
+            this.renderer.setProperty(this.inputElement.nativeElement, 'value', this.currentValue = value);
         }
     }
 

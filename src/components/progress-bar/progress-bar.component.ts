@@ -1,5 +1,5 @@
 import {Component, ElementRef, Input, NgZone, OnDestroy, ViewChild} from '@angular/core';
-import {Subscribable} from 'rxjs/Observable';
+import {Subscribable} from 'rxjs';
 
 function isPromise(obj: any): obj is PromiseLike<any> {
     return typeof obj === 'object' && obj != null && typeof obj.then === 'function';

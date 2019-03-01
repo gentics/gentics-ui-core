@@ -1,0 +1,21 @@
+{
+  "extends": "../../tsconfig.json",
+  "compilerOptions": {
+    "outDir": "../../out-tsc/app",
+    "types": [
+      "webpack-env"
+    ]
+  },
+  "angularCompilerOptions": {
+    "preserveWhitespaces": true
+  },
+  "include": [
+    "../../src"
+  ],
+  "exclude": [
+    "../../src/test.ts",
+    "../../src/testing/**",
+    "../../src/docs/test.ts",
+    "../../src/**/*.spec.ts"
+  ]
+}

@@ -1,4 +1,5 @@
 /* Typography */
+$gtx-font-stack: Roboto, sans-serif;
 $gtx-font-size-lead: 18px !default;
 $gtx-font-size-regular: 16px !default;
 $gtx-font-size-small: 12px !default;
@@ -20,7 +21,8 @@ $gtx-color-success: #449d44 !default;
 $gtx-color-warning: #ec971f !default;
 $gtx-color-alert: #c9302c !default;
 
-// Now we use our colors defined above to override the Materialize variables
+// Now we use our colors and fonts defined above to override the Materialize variables
+$font-stack: $gtx-font-stack;
 $primary-color: $gtx-color-light-gray;
 $primary-color-light: lighten($primary-color, 15%);
 $primary-color-dark: darken($primary-color, 15%);
