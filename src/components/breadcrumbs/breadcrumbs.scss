@@ -5,7 +5,7 @@ gtx-breadcrumbs {
     line-height: 4em;
     @include noselect;
 
-    div.multiline:not(.multilineExpanded).newBehaviour a.breadcrumb:last-child {
+    div.multiline:not(.multilineExpanded).is-overflowing a.breadcrumb:last-child {
         overflow: hidden;
         white-space: nowrap;
         text-overflow: ellipsis;

@@ -87,12 +87,7 @@ export class Breadcrumbs implements OnChanges, OnDestroy {
     isMultiline: boolean = false;
     isMultilineExpanded: boolean = false;
     isDisabled: boolean = false;
-
-    outElement: Element;
-    fullWidth: number;
-    visibleWidth: number;
-
-    newBehaviour: boolean = false;
+    isOverflowing: boolean = false;
 
     backLink: IBreadcrumbLink | IBreadcrumbRouterLink;
     @ViewChildren(RouterLinkWithHref) routerLinkChildren: QueryList<RouterLinkWithHref>;
@@ -116,7 +111,7 @@ export class Breadcrumbs implements OnChanges, OnDestroy {
         const resizeSub = this.resizeEvents
             .debounceTime(200)
             .subscribe(() => {
-                this.newBehaviour = this.updateSizes(this.lastPart.nativeElement);
+                this.isOverflowing = this.checkIfOverflowing(this.lastPart.nativeElement);
             });
         this.subscriptions.add(resizeSub);
     }
@@ -169,19 +164,20 @@ export class Breadcrumbs implements OnChanges, OnDestroy {
         }
     }
 
-    private updateSizes(element: Element): boolean {
-        this.fullWidth = element.scrollWidth;
-        this.visibleWidth = element.clientWidth;
+    /**
+     * Checks if the specified element is currently overflowing.
+     * @returns true if the element is currently overflowing, otherwise false.
+     */
+    private checkIfOverflowing(element: Element): boolean {
+        const fullWidth = element.scrollWidth;
+        let visibleWidth = element.clientWidth;
 
+        // In Edge and IE11 the visibleWidth is 1px smaller than the fullWidth even if the breadcrumbs fit into a single line.
         if (this.userAgent.isIE11 || this.userAgent.isEdge) {
-            this.visibleWidth = this.visibleWidth + 1;
+            ++visibleWidth;
         }
 
-        if (this.fullWidth > this.visibleWidth) {
-            return true;
-        } else {
-            return false;
-        }
+        return fullWidth > visibleWidth;
     }
 
     /**
