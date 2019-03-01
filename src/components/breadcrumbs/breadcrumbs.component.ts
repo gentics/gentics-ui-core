@@ -88,6 +88,10 @@ export class Breadcrumbs implements OnChanges, OnDestroy {
     isMultilineExpanded: boolean = false;
     isDisabled: boolean = false;
 
+    outElement: Element;
+    fullWidth: number;
+    visibleWidth: number;
+
     backLink: IBreadcrumbLink | IBreadcrumbRouterLink;
     @ViewChildren(RouterLinkWithHref) routerLinkChildren: QueryList<RouterLinkWithHref>;
 
@@ -106,8 +110,16 @@ export class Breadcrumbs implements OnChanges, OnDestroy {
 
         const resizeSub = this.resizeEvents
             .debounceTime(200)
-            .subscribe(() => this.executeIEandEdgeEllipsisWorkAround());
+            .subscribe(() => {
+                this.fullWidth = this.outElement.scrollWidth;
+                this.visibleWidth = this.outElement.clientWidth;
+                this.executeIEandEdgeEllipsisWorkAround();
+            });
         this.subscriptions.add(resizeSub);
+
+        setTimeout(() => {
+            this.outElement = document.getElementsByClassName('lastPart')[5];
+        });
     }
 
     ngOnChanges(changes: SimpleChanges): void {
@@ -141,6 +153,8 @@ export class Breadcrumbs implements OnChanges, OnDestroy {
         this.multilineExpandedChange.emit(this.multilineExpanded);
 
         this.executeIEandEdgeEllipsisWorkAround();
+
+        this.resizeEvents.next(null);
     }
 
     onResize(event: any): void {
@@ -150,6 +164,11 @@ export class Breadcrumbs implements OnChanges, OnDestroy {
     ngAfterViewInit(): void {
         this.preventDisabledRouterLinks();
         this.routerLinkChildren.changes.subscribe(() => this.preventDisabledRouterLinks());
+
+        setTimeout(() => {
+            this.fullWidth = this.outElement.scrollWidth;
+            this.visibleWidth = this.outElement.clientWidth;
+        });
     }
 
     private preventClicksWhenDisabled = (ev: Event): void => {
