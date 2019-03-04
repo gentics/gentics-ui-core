@@ -26,7 +26,11 @@ gtx-breadcrumbs {
         font-size: 25px;
         vertical-align: top;
         -webkit-font-smoothing: antialiased;
-        margin: 0 0 0 12px;
+        margin: 0 0 0 8px;
+    }
+
+    a.breadcrumb.last:not(:last-child) .back_arrow {
+        display: none;
     }
 
     @media screen and (-ms-high-contrast: active), (-ms-high-contrast: none) {
@@ -80,9 +84,10 @@ gtx-breadcrumbs {
     .multilineExpanded .lastPart {
         display: inline;
         margin-left: 0;
+        flex-wrap: wrap;
         direction: ltr;
         white-space: normal;
-        word-break: break-all;
+        word-break: break-word;
         -webkit-hyphens: auto;
         -moz-hyphens: auto;
         -ms-hyphens: auto;

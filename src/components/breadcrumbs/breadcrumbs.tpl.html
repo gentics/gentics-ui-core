@@ -36,11 +36,10 @@
                             [attr.href]="isDisabled ? null : link?.href"
                             (click)="onLinkClicked(link, $event)"
                             [title]="link.tooltip || link.text"
-                        >{{ link.text }}</a>
+                        >{{ link.text }}
+                        <icon *ngIf="multiline && multilineExpanded"  class="back_arrow" [class.multilineExpanded]="multilineExpanded" (click)="multilineExpandedChanged()">arrow_back</icon>
+                        </a>
                     </ng-container>
-                    <div *ngIf="multiline && multilineExpanded"  class="back_arrow" [class.multilineExpanded]="multilineExpanded" (click)="multilineExpandedChanged()">
-                        <icon>arrow_back</icon>
-                    </div>
                 </div>
             </ng-template>
 
@@ -66,11 +65,10 @@
                             [routerLink]="routerLink.route"
                             (click)="onLinkClicked(routerLink, $event)"
                             [title]="routerLink.tooltip || routerLink.text"
-                        >{{ routerLink.text }}</a>
+                        >{{ routerLink.text }}
+                        <icon *ngIf="multiline && multilineExpanded"  class="back_arrow" [class.multilineExpanded]="multilineExpanded" (click)="multilineExpandedChanged()">arrow_back</icon>
+                        </a>
                     </ng-container>
-                    <div *ngIf="multiline && multilineExpanded"  class="back_arrow" [class.multilineExpanded]="multilineExpanded" (click)="multilineExpandedChanged()">
-                        <icon>arrow_back</icon>
-                    </div>
                 </div>
             </ng-template>
         </div>
