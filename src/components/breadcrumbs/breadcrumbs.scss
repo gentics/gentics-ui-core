@@ -26,12 +26,12 @@ gtx-breadcrumbs {
         font-size: 25px;
         vertical-align: top;
         -webkit-font-smoothing: antialiased;
-        margin: 0 0 0 8px;
+        margin: 0 0 0 12px;
     }
 
     @media screen and (-ms-high-contrast: active), (-ms-high-contrast: none) {
         div a.breadcrumb:not(.last):nth-child(3)::after {
-            margin: 3.7px 0 0 8px
+            margin: 3.7px 0 0 12px
         }
     }
 
@@ -78,9 +78,15 @@ gtx-breadcrumbs {
     }
 
     .multilineExpanded .lastPart {
-        display: flex;
-        flex-wrap: wrap;
+        display: inline;
+        margin-left: 0;
         direction: ltr;
+        white-space: normal;
+        word-break: break-all;
+        -webkit-hyphens: auto;
+        -moz-hyphens: auto;
+        -ms-hyphens: auto;
+        hyphens: auto;
     }
 
     .multiline .lastPart, :not(.multiline) .lastPart {
