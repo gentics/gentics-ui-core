@@ -35,6 +35,28 @@ gtx-breadcrumbs {
         }
     }
 
+    @media (min-width: 320px) and (max-width: 480px) {
+        a.breadcrumb:not(:last-child) {
+            display: none;
+        }
+
+        a.breadcrumb:last-child::before {
+            content: '';
+        }
+
+        > nav > .nav-wrapper :last-child {
+            display: -webkit-box !important;
+        }
+    }
+
+    :not(.multiline) .ellipsis {
+        pointer-events: none;
+    }
+
+    .multiline .ellipsis {
+        pointer-events: auto;
+    }
+
     .ellipsis {
         margin-left: 5px;
         cursor: pointer;
@@ -61,7 +83,7 @@ gtx-breadcrumbs {
         direction: ltr;
     }
 
-    .multiline .lastPart {
+    .multiline .lastPart, :not(.multiline) .lastPart {
         text-overflow: clip;
     }
 

@@ -20,7 +20,7 @@
                     (click)="onLinkClicked(links[0], $event)"
                     [title]="links[0].tooltip || links[0].text"
                 >{{ links[0].text }}</a>
-                <div class="ellipsis" *ngIf="isOverflowing && multiline && !multilineExpanded" [class.multilineExpanded]="multilineExpanded" (click)="multilineExpandedChanged()">
+                <div class="ellipsis" *ngIf="isOverflowing && !multilineExpanded" [class.multilineExpanded]="multilineExpanded" (click)="multilineExpandedChanged()">
                     ...
                 </div>
                 <div #lastPart class="lastPart">
@@ -50,7 +50,7 @@
                     (click)="onLinkClicked(routerLinks[0], $event)"
                     [title]="routerLinks[0].tooltip || routerLinks[0].text"
                 >{{ routerLinks[0].text }}</a>
-                <div class="ellipsis" *ngIf="isOverflowing && multiline && !multilineExpanded" [class.multilineExpanded]="multilineExpanded" (click)="multilineExpandedChanged()">
+                <div class="ellipsis" *ngIf="isOverflowing && !multilineExpanded" [class.multilineExpanded]="multilineExpanded" (click)="multilineExpandedChanged()">
                     ...
                 </div>
                 <div #lastPart class="lastPart">
