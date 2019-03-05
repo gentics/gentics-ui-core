@@ -26,7 +26,7 @@ gtx-breadcrumbs {
         font-size: 25px;
         vertical-align: top;
         -webkit-font-smoothing: antialiased;
-        margin: 0 0 0 8px;
+        margin: 0 0 0 12.3px;
     }
 
     a.breadcrumb.last:not(:last-child) .back_arrow {
@@ -35,7 +35,7 @@ gtx-breadcrumbs {
 
     @media screen and (-ms-high-contrast: active), (-ms-high-contrast: none) {
         div a.breadcrumb:not(.last):nth-child(3)::after {
-            margin: 3.7px 0 0 12px
+            margin: 3.7px 0 0 12.3px
         }
     }
 
@@ -62,7 +62,6 @@ gtx-breadcrumbs {
     }
 
     .ellipsis {
-        margin-left: 5px;
         cursor: pointer;
     }
 

@@ -15,7 +15,7 @@
             </div>
 
             <ng-template [ngIf]="links">
-                <a *ngIf="!multilineExpanded" class="breadcrumb"
+                <a *ngIf="!multilineExpanded && links[0]" class="breadcrumb"
                     [attr.href]="isDisabled ? null : links[0].href"
                     (click)="onLinkClicked(links[0], $event)"
                     [title]="links[0].tooltip || links[0].text"
@@ -37,15 +37,15 @@
                             (click)="onLinkClicked(link, $event)"
                             [title]="link.tooltip || link.text"
                         >{{ link.text }}
-                        <icon *ngIf="multiline && multilineExpanded"  class="back_arrow" [class.multilineExpanded]="multilineExpanded" (click)="multilineExpandedChanged()">arrow_back</icon>
+                        <icon *ngIf="multiline && multilineExpanded && !isOverflowing && !isHeightChanged" class="back_arrow" [class.multilineExpanded]="multilineExpanded" (click)="multilineExpandedChanged()">arrow_back</icon>
                         </a>
                     </ng-container>
                 </div>
             </ng-template>
 
             <ng-template [ngIf]="routerLinks">
-                <a *ngIf="!multilineExpanded" class="breadcrumb"
-                    [attr.href]="isDisabled ? null : routerLinks[0].href"
+                <a *ngIf="!multilineExpanded && routerLinks[0]" class="breadcrumb"
+                    [routerLink]="routerLinks[0].route"
                     (click)="onLinkClicked(routerLinks[0], $event)"
                     [title]="routerLinks[0].tooltip || routerLinks[0].text"
                 >{{ routerLinks[0].text }}</a>
@@ -66,7 +66,7 @@
                             (click)="onLinkClicked(routerLink, $event)"
                             [title]="routerLink.tooltip || routerLink.text"
                         >{{ routerLink.text }}
-                        <icon *ngIf="multiline && multilineExpanded"  class="back_arrow" [class.multilineExpanded]="multilineExpanded" (click)="multilineExpandedChanged()">arrow_back</icon>
+                        <icon *ngIf="multiline && multilineExpanded && !isOverflowing && !isHeightChanged" class="back_arrow" [class.multilineExpanded]="multilineExpanded" (click)="multilineExpandedChanged()">arrow_back</icon>
                         </a>
                     </ng-container>
                 </div>

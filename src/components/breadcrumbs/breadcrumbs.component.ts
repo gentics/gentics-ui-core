@@ -89,6 +89,10 @@ export class Breadcrumbs implements OnChanges, OnDestroy {
     isDisabled: boolean = false;
     isOverflowing: boolean = false;
 
+    isHeightChanged: boolean = false;
+
+    defaultHeight: number = 0;
+
     backLink: IBreadcrumbLink | IBreadcrumbRouterLink;
     @ViewChildren(RouterLinkWithHref) routerLinkChildren: QueryList<RouterLinkWithHref>;
 
@@ -108,9 +112,24 @@ export class Breadcrumbs implements OnChanges, OnDestroy {
             element.firstElementChild.addEventListener('click', this.preventClicksWhenDisabled, true);
         }
 
+        this.resizeEvents
+            .debounceTime(200)
+            .take(1)
+            .subscribe(() => {
+                this.defaultHeight = this.lastPart.nativeElement.clientHeight;
+            });
+
         const resizeSub = this.resizeEvents
             .debounceTime(200)
             .subscribe(() => {
+                if (this.defaultHeight == this.lastPart.nativeElement.clientHeight) {
+                    this.isHeightChanged = true;
+                    this.multilineExpanded = false;
+                    this.multilineExpandedChange.emit(this.multilineExpanded);
+                    this.resizeEvents.next(null);
+                } else {
+                    this.isHeightChanged = false;
+                }
                 this.isOverflowing = this.checkIfOverflowing(this.lastPart.nativeElement);
             });
         this.subscriptions.add(resizeSub);

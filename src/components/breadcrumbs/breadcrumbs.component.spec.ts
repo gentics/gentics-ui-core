@@ -14,6 +14,7 @@ import {
 } from './breadcrumbs.component';
 import {Button} from '../button/button.component';
 import {UserAgentRef} from '../modal/user-agent-ref';
+import {Icon} from '../icon/icon.directive';
 
 
 /**
@@ -48,7 +49,7 @@ describe('Breadcrumbs:', () => {
                 { provide: ActivatedRoute, useClass: MockActivatedRoute },
                 { provide: LocationStrategy, useClass: MockLocationStrategy }
             ],
-            declarations: [Breadcrumbs, Button, TestComponent]
+            declarations: [Breadcrumbs, Button, Icon, TestComponent]
         });
     });
 
