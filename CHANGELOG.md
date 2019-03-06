@@ -2,12 +2,35 @@
 
 ## 7.1.0 (not yet released)
 
-### Fixes
-
 ### Features
 
 * Move expand button inside breadcrumbs (GTXPE-182)
 * Style non-multilined breadcrumbs the same way as collapsed multiline breadcrumbs (GTXPE-182)
+
+### Fixes
+
+## 7.0.2 (2019-03-01)
+
+### Fixes
+
+* Fix license in package.json.
+
+## 7.0.0 & 7.0.1 (2019-03-01)
+
+### Features
+
+* Update to Angular 7, RxJS 6.x, and materialize-css 1.0 (GUIC-180)
+* Update other dependencies
+* Migrate project to angular-cli (GUIC-180)
+* Add history documentation generation option and browser
+
+### Breaking Changes
+
+* Angular 5 and 6 are no longer supported.
+* The location of most of the files in the npm package has changed. Previously the build and styles files were contained in `node_modules/gentics-ui-core/dist`, now they are contained directly in `node_modules/gentics-ui-core`. This is important e.g., for importing styles (i.e., change from `@import "~gentics-ui-core/dist/styles/core";` to `@import "~gentics-ui-core/styles/core";`).
+* The foundation-grid package is now a dependency and no longer directly included in the gentics-ui-core package. If you import e.g., styles from `~gentics-ui-core/dist/styles/foundation-grid`, you have to change to importing from `~foundation-grid`.
+* The fonts and icons are now a dependency and no longer directly included in the gentics-ui-core package. You no longer need to set ```$icons-font-path``` and ```$roboto-font-path``` in your SCSS files.
+* Make sure that `preserveWhitespaces` is set to `true` in the `angularCompilerOptions` in your `tsconfig.app.json` and in the parameters to `bootstrapModule()` in your `main.ts` (see [Using ui-core in a project](https://github.com/gentics/gentics-ui-core#using-ui-core-in-a-project)) - this is actually not a change in UI Core, but angular-cli now uses a default setting of `false`.
 
 ## 6.6.0 (2018-02-05)
 

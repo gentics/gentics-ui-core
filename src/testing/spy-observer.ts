@@ -1,5 +1,4 @@
-import {Observable} from 'rxjs/Observable';
-import {Observer} from 'rxjs/Observer';
+import {Observable, Observer} from 'rxjs';
 
 interface ISubscribable {
     subscribe(observer?: any, error?: (error: any) => void, complete?: () => void): { unsubscribe(): void; };

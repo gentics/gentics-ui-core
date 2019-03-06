@@ -1,0 +1,20 @@
+{
+  "extends": "../../tsconfig.json",
+  "compilerOptions": {
+    "outDir": "../../out-tsc/spec",
+    "types": [
+      "hammerjs",
+      "jasmine",
+      "sortablejs",
+      "webpack-env"
+    ]
+  },
+  "files": [
+    "../../src/test.ts"
+  ],
+  "include": [
+    "../../src/**/*",
+    "**/*.spec.ts",
+    "**/*.d.ts"
+  ]
+}

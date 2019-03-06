@@ -1,9 +1,21 @@
-import { Component, ElementRef, EventEmitter, Input, OnDestroy, Output, ViewChild } from '@angular/core';
-import { OnChanges, QueryList, SimpleChanges, ViewChildren } from '@angular/core';
-import { RouterLinkWithHref } from '@angular/router';
-import { Subscription } from 'rxjs';
-import { BehaviorSubject } from 'rxjs/BehaviorSubject';
-import { UserAgentRef } from '../modal/user-agent-ref';
+import {
+    Component,
+    ElementRef,
+    EventEmitter,
+    Input,
+    OnChanges,
+    OnDestroy,
+    Output,
+    QueryList,
+    SimpleChanges,
+    ViewChild,
+    ViewChildren
+} from '@angular/core';
+import {RouterLinkWithHref} from '@angular/router';
+import {BehaviorSubject, Subscription} from 'rxjs';
+import {debounceTime, take} from 'rxjs/operators';
+
+import {UserAgentRef} from '../modal/user-agent-ref';
 
 export interface IBreadcrumbLink {
     href?: string;
@@ -113,15 +125,15 @@ export class Breadcrumbs implements OnChanges, OnDestroy {
             element.firstElementChild.addEventListener('click', this.preventClicksWhenDisabled, true);
         }
 
-        this.resizeEvents
-            .debounceTime(200)
-            .take(1)
-            .subscribe(() => {
-                this.defaultHeight = this.lastPart.nativeElement.clientHeight;
-            });
+        this.resizeEvents.pipe(
+            debounceTime(200),
+            take(1)
+        ).subscribe(() => {
+            this.defaultHeight = this.lastPart.nativeElement.clientHeight;
+        });
 
         const resizeSub = this.resizeEvents
-            .debounceTime(200)
+            .pipe(debounceTime(200))
             .subscribe(() => {
                 if (this.userAgent.isIE11) {
                     this.currentHeight = this.lastPart.nativeElement.clientHeight + 3;

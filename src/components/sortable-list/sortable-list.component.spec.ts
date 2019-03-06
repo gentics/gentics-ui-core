@@ -1,5 +1,6 @@
 import {TestBed, ComponentFixture} from '@angular/core/testing';
 import {Component, ViewChild} from '@angular/core';
+import * as Sortable from 'sortablejs';
 
 import {componentTest} from '../../testing';
 import {SortableList, ISortableEvent} from './sortable-list.component';

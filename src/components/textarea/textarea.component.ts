@@ -7,7 +7,7 @@ import {
     Input,
     OnChanges,
     Output,
-    Renderer,
+    Renderer2,
     SimpleChanges,
     ViewChild
 } from '@angular/core';
@@ -125,7 +125,7 @@ export class Textarea implements ControlValueAccessor, OnChanges {
     private _maxlength: number;
     private currentValue: string;
 
-    constructor(private renderer: Renderer,
+    constructor(private renderer: Renderer2,
                 private changeDetector: ChangeDetectorRef,
                 private elementRef: ElementRef) { }
 
@@ -168,7 +168,7 @@ export class Textarea implements ControlValueAccessor, OnChanges {
     writeValue(valueToWrite: any): void {
         const value = this.normalizeValue(valueToWrite);
         if (value !== this.currentValue) {
-            this.renderer.setElementProperty(this.nativeTextarea.nativeElement, 'value', this.currentValue = value);
+            this.renderer.setProperty(this.nativeTextarea.nativeElement, 'value', this.currentValue = value);
             this.setHeight(value);
         }
     }
@@ -205,7 +205,7 @@ export class Textarea implements ControlValueAccessor, OnChanges {
         const newHeight = (1 + lines * 1.5) + 'em';
 
         const nativeElement: HTMLTextAreaElement = this.nativeTextarea.nativeElement;
-        this.renderer.setElementStyle(nativeElement, 'height', newHeight);
+        this.renderer.setStyle(nativeElement, 'height', newHeight);
 
         // Perform the check delayed, as angular has to perform the dom-change and the rendering has
         // to happen before accessing it again. Otherwise the scollHeight is going to be completly
@@ -219,7 +219,7 @@ export class Textarea implements ControlValueAccessor, OnChanges {
                 const emHeight = offsetHeight / (1 + lines * 1.5);
                 const newLineCount = Math.round((scrollHeight / emHeight - 1) / 1.5);
                 const newHeight = (1 + newLineCount * 1.5) + 'em';
-                this.renderer.setElementStyle(nativeElement, 'height', newHeight);
+                this.renderer.setStyle(nativeElement, 'height', newHeight);
             }
         });
     }

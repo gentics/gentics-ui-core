@@ -1,8 +1,10 @@
+import {HttpClientModule} from '@angular/common/http';
 import {NgModule, ModuleWithProviders} from '@angular/core';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {BrowserModule} from '@angular/platform-browser';
 import {RouterModule} from '@angular/router';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
+import {AngularSvgIconModule} from 'angular-svg-icon';
 
 import {GenticsUICoreModule} from '../module';
 import {App} from './app.component';
@@ -43,6 +45,7 @@ import {AutodocTable} from './components/autodocs/autodoc-table.component';
 import {DemoBlock} from './components/demo-block/demo-block.component';
 import {HighlightedCode} from './components/highlighted-code/highlighted-code.component';
 import {TrustedHTMLPipe} from './components/trusted-html/trusted-html.pipe';
+import { DocsSwitcher } from './components/docs-switcher/docs-switcher.component';
 
 const DEMO_APP_PAGES: any[] = [
     BreadcrumbsDemo,
@@ -84,6 +87,7 @@ const DEMO_APP_DECLARATIONS: any[] = [
     AutodocTable,
     DemoBlock,
     HighlightedCode,
+    DocsSwitcher,
     TrustedHTMLPipe,
     App
 ];
@@ -98,7 +102,9 @@ export const routerModuleForRoot: ModuleWithProviders = RouterModule.forRoot(rou
         FormsModule,
         ReactiveFormsModule,
         routerModuleForRoot,
-        GenticsUICoreModule.forRoot()
+        GenticsUICoreModule.forRoot(),
+        AngularSvgIconModule,
+        HttpClientModule
     ],
     declarations,
     entryComponents: [MyModal],

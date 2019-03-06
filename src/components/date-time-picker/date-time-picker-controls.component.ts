@@ -1,15 +1,23 @@
-import {Component, ElementRef, EventEmitter, HostBinding, Input, OnDestroy, Output, SimpleChanges, ViewChild, Optional} from '@angular/core';
-import {Observable} from 'rxjs/Observable';
-import {Subscription} from 'rxjs/Subscription';
-import 'rxjs/add/operator/concat';
-import 'rxjs/add/observable/of';
-import 'rxjs/add/observable/never';
+import {
+    Component,
+    ElementRef,
+    EventEmitter,
+    HostBinding,
+    Input,
+    OnDestroy,
+    Optional,
+    Output,
+    SimpleChanges,
+    ViewChild
+} from '@angular/core';
+import {NEVER, of as observableOf, Subscription} from 'rxjs';
+import {concat} from 'rxjs/operators';
 
-import {DateTimePickerStrings} from './date-time-picker-strings';
+import {coerceToBoolean} from '../../common/coerce-to-boolean';
 import {defaultStrings} from './date-time-picker-default-strings';
 import {DateTimePickerFormatProvider} from './date-time-picker-format-provider.service';
-import {coerceToBoolean} from '../../common/coerce-to-boolean';
-import * as momentjs from 'moment';
+import {DateTimePickerStrings} from './date-time-picker-strings';
+import {momentjs, Moment} from './momentjs-workaround';
 
 /*
  * Rome is a date picker widget: https://github.com/bevacqua/rome
@@ -120,18 +128,20 @@ export class DateTimePickerControls implements OnDestroy {
     _compact: boolean = false;
 
     /** @internal */
-    private value = momentjs();
+    value = momentjs();
+
+    /** @internal */
+    time: any = {
+        h: 0,
+        m: 0,
+        s: 0
+    };
 
     /**
      * cal is an instance of a Rome calendar, for the API see https://github.com/bevacqua/rome#rome-api
      */
     private cal: any;
 
-    private time: any = {
-        h: 0,
-        m: 0,
-        s: 0
-    };
     private subscription: Subscription;
 
     constructor(@Optional() private defaultFormatProvider: DateTimePickerFormatProvider) {}
@@ -242,8 +252,8 @@ export class DateTimePickerControls implements OnDestroy {
         }
 
         // Update strings and date format when format provider emits a change
-        this.subscription = Observable.of(1)
-            .concat(this.formatProvider.changed$ || Observable.never)
+        this.subscription = observableOf(1)
+            .pipe(concat(this.formatProvider.changed$ || NEVER))
             .subscribe(() => {
                 this.value.locale(this.getMomentLocale());
                 this.updateTimeObject(this.value);
@@ -315,7 +325,7 @@ export class DateTimePickerControls implements OnDestroy {
         this.updateCalendar(this.value);
     }
 
-    private updateByUnits(moment: momentjs.Moment, unit: TimeUnit, value: number): momentjs.Moment {
+    private updateByUnits(moment: Moment, unit: TimeUnit, value: number): Moment {
         switch (unit) {
             case 'hours':
                 moment.hour(value);
@@ -392,7 +402,7 @@ export class DateTimePickerControls implements OnDestroy {
     /**
      * Update the time object based on the value of this.value.
      */
-    private updateTimeObject(date: momentjs.Moment): void {
+    private updateTimeObject(date: Moment): void {
         this.time.h = date.hour();
         this.time.m = date.minute();
         this.time.s = date.second();
@@ -401,7 +411,7 @@ export class DateTimePickerControls implements OnDestroy {
     /**
      * Update the Rome calendar widget with the current value.
      */
-    private updateCalendar(value: momentjs.Moment): void {
+    private updateCalendar(value: Moment): void {
         if (this.cal) {
             this.cal.setValue(value);
             this.change.emit(value.unix());

@@ -1,32 +1,11 @@
-@font-face {
-    font-family: 'Material Icons';
-    font-style: normal;
-    font-weight: 400;
-    src: local('Material Icons'),
-    local('MaterialIcons-Regular'),
-        url("#{$icons-font-path}material-design-icons.woff2") format('woff2'),
-        url("#{$icons-font-path}Material-Design-Icons.woff") format('woff'),
-        url("#{$icons-font-path}Material-Design-Icons.ttf") format('truetype');
-}
+@import '~material-icons-font/sass/variables';
+@import '~material-icons-font/sass/mixins';
 
-icon,
-.material-icons {
-    font-family: 'Material Icons';
-    font-weight: normal;
-    font-style: normal;
-    font-size: 24px;
-    line-height: 1;
-    letter-spacing: normal;
-    text-transform: none;
-    display: inline-block;
-    white-space: nowrap;
-    word-wrap: normal;
-    direction: ltr;
-    -webkit-font-feature-settings: 'liga';
-    -webkit-font-smoothing: antialiased;
-    font-feature-settings: 'liga';
-    text-rendering: optimizeLegibility
-}
+$MaterialIcons_FontPath: "~material-icons-font/fonts";
+$MaterialIcons_DefaultFontClassName: "material-icons, icon";
+
+@import '~material-icons-font/sass/main';
+@import '~material-icons-font/sass/Regular';
 
 icon[left] {
     float: left;

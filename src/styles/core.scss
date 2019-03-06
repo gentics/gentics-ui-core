@@ -2,17 +2,19 @@
  * This is the main GUIC styles file. It should be imported once
  * by any app that consumes GUIC.
  */
-$icons-font-path: '../fonts/' !default;
-$roboto-font-path: '../fonts/' !default;
+$roboto-font-path: '~roboto-fontface-woff/fonts' !default;
 @import "variables";
+@import "variables_compat";
 @import "mixins";
 @import "materialize";
 @import "icons";
 @import "grid";
+@import "~roboto-fontface-woff/css/roboto/sass/roboto-fontface";
 
 /* Components */
 @import "../components/breadcrumbs/breadcrumbs";
 @import "../components/button/button";
+@import "../components/checkbox/checkbox";
 @import "../components/contents-list-item/contents-list-item";
 @import "../components/date-time-picker/date-time-picker";
 @import "../components/date-time-picker/date-time-picker-controls";
@@ -23,6 +25,7 @@ $roboto-font-path: '../fonts/' !default;
 @import "../components/modal/modal";
 @import "../components/notification/notification";
 @import "../components/progress-bar/progress-bar";
+@import "../components/radio-button/radio-button";
 @import "../components/range/range";
 @import "../components/search-bar/search-bar";
 @import "../components/side-menu/side-menu";

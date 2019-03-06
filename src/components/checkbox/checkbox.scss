@@ -12,3 +12,73 @@ gtx-checkbox.ng-touched.ng-invalid {
         color: $gtx-color-alert;
     }
 }
+
+gtx-checkbox {
+    [type="checkbox"] + label:before, [type="checkbox"]:not(.filled-in) + label:after {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 18px;
+        height: 18px;
+        z-index: 0;
+        border: 2px solid #5a5a5a;
+        border-radius: 1px;
+        margin-top: 2px;
+        transition: .2s;
+    }
+
+    [type="checkbox"]:not(.filled-in) + label:after {
+        border: 0;
+        -webkit-transform: scale(0);
+        transform: scale(0);
+    }
+
+    [type="checkbox"] + label {
+        position: relative;
+        padding-left: 35px;
+        cursor: pointer;
+        display: inline-block;
+        height: 25px;
+        line-height: 25px;
+        font-size: 1rem;
+        -webkit-user-select: none;
+        -moz-user-select: none;
+        -khtml-user-select: none;
+        -ms-user-select: none;
+    }
+
+    [type="checkbox"]:checked + label:before {
+        top: -4px;
+        left: -5px;
+        width: 12px;
+        height: 22px;
+        border-top: 2px solid transparent;
+        border-left: 2px solid transparent;
+        border-right: 2px solid #0096DC;
+        border-bottom: 2px solid #0096DC;
+        -webkit-transform: rotate(40deg);
+        transform: rotate(40deg);
+        -webkit-backface-visibility: hidden;
+        backface-visibility: hidden;
+        -webkit-transform-origin: 100% 100%;
+        transform-origin: 100% 100%;
+    }
+
+    [type="checkbox"]:indeterminate + label:before {
+        top: -11px;
+        left: -12px;
+        width: 10px;
+        height: 22px;
+        border-top: none;
+        border-left: none;
+        border-right: 2px solid #0096DC;
+        border-bottom: none;
+        -webkit-transform: rotate(90deg);
+        transform: rotate(90deg);
+        -webkit-backface-visibility: hidden;
+        backface-visibility: hidden;
+        -webkit-transform-origin: 100% 100%;
+        transform-origin: 100% 100%;
+    }
+}

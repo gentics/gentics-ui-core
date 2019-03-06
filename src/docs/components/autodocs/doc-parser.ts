@@ -3,10 +3,11 @@ const hljs = require('highlight.js');
 
 marked.setOptions({
     highlight: (code: string, lang: string): string => {
-        if (lang !== undefined) {
-            return hljs.highlight(lang, code).value;
-        }
+      if (lang && hljs.getLanguage(lang)) {
+        return hljs.highlight(lang, code, true).value;
+      } else {
         return hljs.highlightAuto(code).value;
+      }
     }
 });
 

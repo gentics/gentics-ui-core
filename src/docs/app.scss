@@ -39,6 +39,16 @@ body {
         a {
             color: #b6d8e8;
         }
+        gtx-docs-switcher {
+            button.btn-flat.btn-icon.small {
+                color: #b6d8e8;
+                height: 16px;
+                line-height: 13px;
+                &:hover {
+                    color: #b6d8e8;
+                }
+            }
+        }
         @media screen and (max-width: $small-screen) {
             font-size: $gtx-font-size-small;
         }
@@ -48,7 +58,7 @@ body {
         flex: 0 !important;
         height: 38px;
         padding-right: 10px;
-        > svg {
+        svg-icon > svg {
             width: 32px;
             height: 38px;
             g {
@@ -66,7 +76,7 @@ body {
         }
     }
 
-    .github-logo {
+    .github-logo, .github-logo svg {
         fill: white;
         width: 32px;
         height: 32px;

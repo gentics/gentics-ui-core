@@ -1,14 +1,21 @@
 <gtx-top-bar class="top-bar">
-    <div class="gentics-logo" [innerHTML]="genticsLogoSvg"></div>
+    <div class="gentics-logo">
+        <svg-icon src="assets/gentics-logo.svg"></svg-icon>
+    </div>
     <h1>
         <a class="title" [routerLink]="['index']">Gentics UI Core Docs</a>
         <span class="version-info" title="Click to see changelog">
-            <a href="https://github.com/gentics/gentics-ui-core/blob/master/CHANGELOG.md">v{{ version }}</a>
+            <a href="https://github.com/gentics/gentics-ui-core/blob/{{ changelogBranch }}/CHANGELOG.md">v{{ version }}</a>
+        </span>
+        <span class="version-info" title="Click to see previous versions of docs">
+            <gtx-docs-switcher></gtx-docs-switcher>
         </span>
     </h1>
     <a class="gtx-top-bar-right github-logo"
        title="Gentics UI Core on GitHub"
-       href="https://github.com/gentics/gentics-ui-core/" [innerHTML]="githubLogoSvg"></a>
+       href="https://github.com/gentics/gentics-ui-core/">
+       <svg-icon src="assets/github-logo.svg"></svg-icon>
+    </a>
 </gtx-top-bar>
 <div class="container">
     <gtx-search-bar (change)="filterContentItems($event)"

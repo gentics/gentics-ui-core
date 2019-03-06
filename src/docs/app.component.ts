@@ -1,16 +1,16 @@
-import { Component, ViewChild } from '@angular/core';
-import { DomSanitizer, SafeHtml, Title } from '@angular/platform-browser';
-import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
-import { Subscription } from 'rxjs/Subscription';
-import 'rxjs/add/operator/map';
-import 'rxjs/add/operator/filter';
-import { SplitViewContainer } from '../index';
-import { IPageInfo, kebabToPascal, pages } from './pageList';
+import {Component, ViewChild} from '@angular/core';
+import {Title} from '@angular/platform-browser';
+import {ActivatedRoute, NavigationEnd, Router} from '@angular/router';
+import {Subscription} from 'rxjs';
+import {filter} from 'rxjs/operators';
 
+import {SplitViewContainer} from '../index';
+import {IPageInfo, kebabToPascal, pages} from './pageList';
 
 // Exposed globally by the Webpack DefinePlugin
 // (see webpack config)
 declare var VERSION: string;
+declare var LATESTBRANCH: boolean;
 
 @Component({
     selector: 'app',
@@ -19,6 +19,8 @@ declare var VERSION: string;
 export class App {
     @ViewChild(SplitViewContainer) splitViewContainer: SplitViewContainer;
     version: string;
+    latestBranch: boolean;
+    changelogBranch = 'master';
     contentItems: any[] = pages.map((page: IPageInfo) => {
         return {
             title: kebabToPascal(page.path),
@@ -32,23 +34,23 @@ export class App {
     splitFocus: string = 'left';
     searchQuery: string = '';
     subscription: Subscription;
-    genticsLogoSvg: SafeHtml;
-    githubLogoSvg: SafeHtml;
 
     constructor(private router: Router,
                 private route: ActivatedRoute,
-                private titleService: Title,
-                private sanitizer: DomSanitizer) {
+                private titleService: Title) {
         this.filteredContentItems = this.contentItems.slice(0);
-        this.genticsLogoSvg = sanitizer.bypassSecurityTrustHtml(require('./assets/gentics-logo.svg'));
-        this.githubLogoSvg = sanitizer.bypassSecurityTrustHtml(require('./assets/github-logo.svg'));
         titleService.setTitle(`Gentics UI Core Docs v${VERSION}`);
         this.version = VERSION;
+        this.latestBranch = LATESTBRANCH;
+
+        if (!this.latestBranch) {
+            this.changelogBranch = `v${VERSION}`;
+        }
     }
 
     ngOnInit(): void {
         this.subscription = this.router.events
-            .filter(event => event instanceof NavigationEnd)
+            .pipe(filter(event => event instanceof NavigationEnd))
             .subscribe(() => {
                 const path = this.route.snapshot.firstChild.url[0].path;
                 this.hasContent = (path !== '' && path !== 'index');
