@@ -128,9 +128,7 @@ export class Breadcrumbs implements OnChanges, OnDestroy {
                 } else {
                     this.currentHeight = this.lastPart.nativeElement.clientHeight;
                 }
-
                 this.isHeightSame = this.defaultHeight === this.currentHeight;
-
                 this.isOverflowing = this.checkIfOverflowing(this.lastPart.nativeElement);
             });
         this.subscriptions.add(resizeSub);
