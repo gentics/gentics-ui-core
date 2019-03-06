@@ -8,6 +8,7 @@ This is the common core framework for the Gentics CMS and Mesh UI, and other Ang
 ```
 npm install gentics-ui-core --save
 ```
+Note that npm will say that the `foundation-sites` package, which is a dependency of UI Core, requires a peer dependency of `jquery` and `what-input`. For the usage of foundation-sites within gentics-ui-core these peer dependencies are not needed.
 
 2. Import the module and add it to your app's root module:
 
