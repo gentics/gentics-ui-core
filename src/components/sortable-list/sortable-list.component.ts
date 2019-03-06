@@ -1,40 +1,18 @@
 import {Component, Directive, ElementRef, EventEmitter, Input, Output, SimpleChanges} from '@angular/core';
-const sortable = require('sortablejs');
+import * as Sortable from 'sortablejs';
 
 export type sortFn<T> = (source: T[], byReference?: boolean) => T[];
 
 /**
- * The event object returned by each of the Sortablejs callbacks, which can then be emitted up
+ * An augmented version of the event object returned by each of the Sortablejs callbacks, which can then be emitted up
  * to the consuming component.
  */
-export interface ISortableEvent {
-    bubbles: boolean;
-    cancelBubble: boolean;
-    cancelable: boolean;
-    clone: any;
-    currentTarget: any;
-    defaultPrevented: boolean;
-    eventPhase: number;
-    from: Element;
-    isTrusted: boolean;
-    item: Element;
-    newIndex: number;
-    oldIndex: number;
-    path: Element[];
-    returnValue: any;
-    srcElement: Element;
-    target: Element;
-    timeStamp: number;
-    to: Element;
-    type: 'start' | 'move' | 'sort' | 'update' | 'end' | 'add' | 'remove' | 'filter';
+export interface ISortableEvent extends Sortable.SortableEvent {
     sort: sortFn<any>;
 }
 
-export interface ISortableMoveEvent extends ISortableEvent {
-    dragged: Element;
-    draggedRect: ClientRect;
-    related: Element;
-    relatedRect: ClientRect;
+export interface ISortableMoveEvent extends Sortable.MoveEvent {
+    sort: sortFn<any>;
 }
 
 export interface SortableInstance {
@@ -48,12 +26,7 @@ export interface PutPullFn {
     (to: SortableInstance, from: SortableInstance): PutPullType;
 }
 
-export interface ISortableGroupOptions {
-    name: string;
-    put?: PutPullType | PutPullFn;
-    pull?: PutPullType | PutPullFn;
-    revertClone?: boolean;
-}
+export type ISortableGroupOptions = Sortable.GroupOptions;
 
 export type SortableGroup = string | ISortableGroupOptions;
 
@@ -168,7 +141,7 @@ export class SortableList {
     }
 
     ngOnInit(): void {
-        this.sortable = sortable.create(this.elementRef.nativeElement, {
+        this.sortable = Sortable.create(this.elementRef.nativeElement, {
             animation: 150,
             setData: (dataTransfer: any, dragEl: Element): void => {
                 this.setInvisibleDragImage(dataTransfer);
