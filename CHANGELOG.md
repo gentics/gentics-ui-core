@@ -4,6 +4,8 @@
 
 ### Fixes
 
+* Upgrade some dependencies to resolve some security vulnerabilities (GUIC-208)
+
 ## 6.6.0 (2018-02-05)
 
 ### Features
