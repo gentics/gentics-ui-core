@@ -89,9 +89,10 @@ export class Breadcrumbs implements OnChanges, OnDestroy {
     isDisabled: boolean = false;
     isOverflowing: boolean = false;
 
-    isHeightChanged: boolean = false;
+    isHeightSame: boolean = false;
 
     defaultHeight: number = 0;
+    currentHeight: number = 0;
 
     backLink: IBreadcrumbLink | IBreadcrumbRouterLink;
     @ViewChildren(RouterLinkWithHref) routerLinkChildren: QueryList<RouterLinkWithHref>;
@@ -122,14 +123,14 @@ export class Breadcrumbs implements OnChanges, OnDestroy {
         const resizeSub = this.resizeEvents
             .debounceTime(200)
             .subscribe(() => {
-                if (this.defaultHeight == this.lastPart.nativeElement.clientHeight) {
-                    this.isHeightChanged = true;
-                    this.multilineExpanded = false;
-                    this.multilineExpandedChange.emit(this.multilineExpanded);
-                    this.resizeEvents.next(null);
+                if (this.userAgent.isIE11) {
+                    this.currentHeight = this.lastPart.nativeElement.clientHeight + 3;
                 } else {
-                    this.isHeightChanged = false;
+                    this.currentHeight = this.lastPart.nativeElement.clientHeight;
                 }
+
+                this.isHeightSame = this.defaultHeight === this.currentHeight;
+
                 this.isOverflowing = this.checkIfOverflowing(this.lastPart.nativeElement);
             });
         this.subscriptions.add(resizeSub);
@@ -191,8 +192,8 @@ export class Breadcrumbs implements OnChanges, OnDestroy {
         const fullWidth = element.scrollWidth;
         let visibleWidth = element.clientWidth;
 
-        // In Edge and IE11 the visibleWidth is 1px smaller than the fullWidth even if the breadcrumbs fit into a single line.
-        if (this.userAgent.isIE11 || this.userAgent.isEdge) {
+        // In IE11 the visibleWidth is 1px smaller than the fullWidth even if the breadcrumbs fit into a single line.
+        if (this.userAgent.isIE11) {
             ++visibleWidth;
         }
 

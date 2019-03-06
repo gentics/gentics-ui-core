@@ -37,9 +37,11 @@
                             (click)="onLinkClicked(link, $event)"
                             [title]="link.tooltip || link.text"
                         >{{ link.text }}
-                        <icon *ngIf="multiline && multilineExpanded && !isOverflowing && !isHeightChanged" class="back_arrow" [class.multilineExpanded]="multilineExpanded" (click)="multilineExpandedChanged()">arrow_back</icon>
-                        </a>
+                       </a>
                     </ng-container>
+                    <span *ngIf="multiline && multilineExpanded && !isOverflowing && !isHeightSame" class="back_arrow" [class.multilineExpanded]="multilineExpanded" (click)="multilineExpandedChanged()">
+                        <icon>arrow_back</icon>
+                    </span>
                 </div>
             </ng-template>
 
@@ -66,9 +68,11 @@
                             (click)="onLinkClicked(routerLink, $event)"
                             [title]="routerLink.tooltip || routerLink.text"
                         >{{ routerLink.text }}
-                        <icon *ngIf="multiline && multilineExpanded && !isOverflowing && !isHeightChanged" class="back_arrow" [class.multilineExpanded]="multilineExpanded" (click)="multilineExpandedChanged()">arrow_back</icon>
                         </a>
                     </ng-container>
+                    <span *ngIf="multiline && multilineExpanded && !isOverflowing && !isHeightSame" class="back_arrow" [class.multilineExpanded]="multilineExpanded" (click)="multilineExpandedChanged()">
+                        <icon>arrow_back</icon>
+                    </span>
                 </div>
             </ng-template>
         </div>
