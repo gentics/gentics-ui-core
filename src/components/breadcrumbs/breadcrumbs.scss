@@ -72,6 +72,19 @@ gtx-breadcrumbs {
         white-space: nowrap;
         text-overflow: ellipsis;
         direction: rtl;
+        font-size: 0;
+    }
+
+    @media all and (-ms-high-contrast:none) {
+        .lastPart {
+            text-overflow: clip;
+        }
+    }
+
+    @supports (-ms-ime-align:auto) {
+        .lastPart {
+            text-overflow: clip;
+        }
     }
 
     .multilineExpanded .lastPart {
@@ -85,10 +98,6 @@ gtx-breadcrumbs {
         -moz-hyphens: auto;
         -ms-hyphens: auto;
         hyphens: auto;
-    }
-
-    .multiline .lastPart, :not(.multiline) .lastPart {
-        text-overflow: clip;
     }
 
     .multiline > .inner-wrapper {
