@@ -5,6 +5,7 @@
 ### Fixes
 
 * Upgrade some dependencies to resolve some security vulnerabilities (GUIC-208)
+* Fix the `focus` event of Input to always emit the current value of the input field (GUIC-160).
 
 ## 6.6.0 (2018-02-05)
 
