@@ -94,6 +94,7 @@
     "codelyzer": "~4.5.0",
     "gulp": "~4.0.0",
     "gulp-filter": "~5.1.0",
+    "gulp-rename": "^1.4.0",
     "gulp-sass": "~4.0.2",
     "gulp-util": "~3.0.8",
     "highlight.js": "~9.14.0",

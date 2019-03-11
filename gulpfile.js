@@ -1,6 +1,7 @@
 'use strict';
 
 const gulp = require('gulp');
+const rename = require('gulp-rename');
 const del = require('del');
 const filter = require('gulp-filter');
 const gutil = require('gulp-util');
@@ -11,6 +12,7 @@ const npmArgs = JSON.parse(process.env.npm_config_argv);
 
 const paths = {
     src: {
+        jekyll: 'projects/docs/jekyll.yaml',
         fonts: 'src/assets/fonts/*.*',
         scss: ['src/**/*.scss', '!src/docs/**/*.scss'],
         scssMain: 'src/styles/core.scss',
@@ -44,7 +46,8 @@ function buildDocsTasks() {
     if(npmArgs.remain.indexOf('gentics-ui-core') === -1) {
         return new Promise(gulp.series(
             cleanDocsFolder,
-            copyDocsFiles
+            copyDocsFiles,
+            copyJekyllConfig
         ));
     }
     return resolvePromiseDummy();
@@ -68,6 +71,16 @@ function copyDocsFiles() {
             .pipe(gulp.dest(paths.out.docs.base))
     );
 }
+
+// Copy GH Pages publish configuration
+function copyJekyllConfig() {
+    return streamToPromise(
+        gulp.src(paths.src.jekyll)
+            .pipe(rename('_config.yaml'))
+            .pipe(gulp.dest(paths.out.docs.base))
+    );
+}
+
 
 function compileDistStyles() {
     return checkDistSASS().then(copyDistSASS);
