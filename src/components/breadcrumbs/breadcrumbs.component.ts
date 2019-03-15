@@ -135,7 +135,6 @@ export class Breadcrumbs implements OnChanges, OnDestroy {
             take(1)
         ).subscribe(() => {
             this.defaultHeight = this.lastPart.nativeElement.clientHeight;
-            this.shortenTexts(this.lastPart.nativeElement);
         });
 
         const resizeSub = this.resizeEvents
@@ -147,7 +146,9 @@ export class Breadcrumbs implements OnChanges, OnDestroy {
                     this.currentHeight = this.lastPart.nativeElement.clientHeight;
                 }
                 this.isHeightSame = this.defaultHeight === this.currentHeight;
-                this.shortenTexts(this.lastPart.nativeElement);
+                if (this.userAgent.isEdge || this.userAgent.isIE11) {
+                    this.shortenTexts(this.lastPart.nativeElement);
+                }
                 this.isOverflowing = this.checkIfOverflowing(this.lastPart.nativeElement);
             });
         this.subscriptions.add(resizeSub);
@@ -254,15 +255,14 @@ export class Breadcrumbs implements OnChanges, OnDestroy {
      * @returns true if the element is currently overflowing, otherwise false.
      */
     private checkIfOverflowing(element: Element): boolean {
-        // const fullWidth = element.scrollWidth;
-        // let visibleWidth = element.clientWidth;
+        const fullWidth = element.scrollWidth;
+        let visibleWidth = element.clientWidth;
 
-        // if (this.userAgent.isIE11 || this.userAgent.isEdge) {
-        //     return this.EdgeIEIsOverflowing;
-        // }
+        if (this.userAgent.isIE11 || this.userAgent.isEdge) {
+            return this.EdgeIEIsOverflowing;
+        }
 
-        // return fullWidth > visibleWidth;
-        return this.EdgeIEIsOverflowing;
+        return fullWidth > visibleWidth;
     }
 
     /**

@@ -70,8 +70,8 @@ gtx-breadcrumbs {
         margin-left: 7px;
         overflow: hidden;
         white-space: nowrap;
-        text-overflow: clip;
-        direction: ltr;
+        text-overflow: ellipsis;
+        direction: rtl;
         font-size: 0;
     }
 
