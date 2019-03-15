@@ -157,6 +157,7 @@ export class Breadcrumbs implements OnChanges, OnDestroy {
         if (changes['links'] || changes['routerLinks']) {
             let allLinks = (this.links || []).concat(this.routerLinks || []);
             this.backLink = allLinks[allLinks.length - 2];
+            this.resizeEvents.next(null);
         }
     }
 
@@ -181,45 +182,37 @@ export class Breadcrumbs implements OnChanges, OnDestroy {
         this.resizeEvents.next(null);
     }
 
-    shortenTexts(element: HTMLElement) {
-        let innerElements = element.querySelectorAll('a.breadcrumb');
-        let defaultElements = [];
-        let newElements = [];
-        let iterator = 0;
-
-        defaultElements = this.getCuttableBreadcrumbText();
-
-        for (let i = 1; i < defaultElements.length; i++) {
-            newElements.push(defaultElements[i]);
-        }
+    private shortenTexts(element: HTMLElement) {
+        const innerElements = element.querySelectorAll('a.breadcrumb');
+        const defaultElements = this.getCuttableBreadcrumbsTexts();
 
         this.EdgeIEIsOverflowing = false;
 
+        // Reset all elements to their default states.
         for (let i = 0; i < innerElements.length; i++) {
             innerElements[i].classList.remove('without');
+            innerElements[i].textContent = defaultElements[i + 1];
         }
 
-        for (let i = 0; i < innerElements.length; i++) {
-            if (this.multilineExpanded) {
-                innerElements[i].textContent = defaultElements[i];
-            } else {
-                innerElements[i].textContent = newElements[i];
-            }
-            while (iterator < innerElements.length && innerElements[iterator].textContent.length >= 0 && ((this.nav.nativeElement.scrollWidth - element.offsetLeft) < (element.scrollWidth + 35))) {
-                this.EdgeIEIsOverflowing = true;
-                if (innerElements[iterator].textContent.length === 0) {
-                    if (innerElements[iterator+1]) {
-                        innerElements[iterator+1].classList.add('without');
-                    }
-                    iterator++;
-                } else {
-                    innerElements[iterator].textContent = innerElements[iterator].textContent.substring(1);
+        if (this.multilineExpanded) {
+            return;
+        }
+
+        let iterator = 0;
+        while (iterator < innerElements.length && innerElements[iterator].textContent.length >= 0 && ((this.nav.nativeElement.scrollWidth - element.offsetLeft) < (element.scrollWidth + 35))) {
+            this.EdgeIEIsOverflowing = true;
+            if (innerElements[iterator].textContent.length === 0) {
+                iterator++;
+                if (innerElements[iterator]) {
+                    innerElements[iterator].classList.add('without');
                 }
+            } else {
+                innerElements[iterator].textContent = innerElements[iterator].textContent.substring(1);
             }
         }
     }
 
-    getCuttableBreadcrumbText(): string[] {
+    private getCuttableBreadcrumbsTexts(): string[] {
         let defaultBreadcrumbs: string[] = [];
         if (this.links) {
             for (let i = 0; i < this.links.length; i++) {
