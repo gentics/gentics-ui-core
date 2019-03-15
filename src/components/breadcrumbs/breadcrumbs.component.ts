@@ -189,9 +189,10 @@ export class Breadcrumbs implements OnChanges, OnDestroy {
         this.EdgeIEIsOverflowing = false;
 
         // Reset all elements to their default states.
+        const offset = this.multilineExpanded ? 0 : 1;
         for (let i = 0; i < innerElements.length; i++) {
             innerElements[i].classList.remove('without');
-            innerElements[i].textContent = defaultElements[i + 1];
+            innerElements[i].textContent = defaultElements[i + offset];
         }
 
         if (this.multilineExpanded) {
