@@ -206,6 +206,23 @@ describe('InputField', () => {
         )
     );
 
+    it('emits "focus" with the current value when the native input is focused after the initial value has been changed',
+        componentTest(() => TestComponent, `
+            <gtx-input (focus)="onFocus($event)" value="foo"></gtx-input>`,
+            (fixture, instance) => {
+                let nativeInput: HTMLInputElement = fixture.nativeElement.querySelector('input');
+                fixture.detectChanges();
+                instance.onFocus = jasmine.createSpy('onFocus');
+                nativeInput.value += ' changed';
+
+                triggerEvent(nativeInput, 'focus');
+                tick();
+
+                expect(instance.onFocus).toHaveBeenCalledWith('foo changed');
+            }
+        )
+    );
+
     it('emits "change" when the native input value is changed (string)',
         componentTest(() => TestComponent, `
             <gtx-input (change)="onChange($event)" value="foo"></gtx-input>`,

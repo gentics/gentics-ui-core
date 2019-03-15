@@ -135,8 +135,15 @@ describe('DateTimePicker:', () => {
                 <gtx-date-time-picker [timestamp]="testModel"></gtx-date-time-picker>
                 <gtx-overlay-host></gtx-overlay-host>`,
                 (fixture, instance) => {
+                    // Check if the initial value matches that of testModel.
                     fixture.detectChanges();
                     expect(instance.pickerInstance.getUnixTimestamp()).toEqual(TEST_TIMESTAMP);
+
+                    // Update the testModel value and check the value of the DateTimePicker again.
+                    const newValue = TEST_TIMESTAMP + 1000;
+                    fixture.componentInstance.testModel = newValue;
+                    fixture.detectChanges();
+                    expect(instance.pickerInstance.getUnixTimestamp()).toEqual(newValue);
                 }
             )
         );
@@ -394,6 +401,29 @@ describe('DateTimePicker:', () => {
             )
         );
 
+        it('takes precedence over a bound "timestamp" input property',
+            componentTest(() => TestComponent, `
+                <gtx-date-time-picker [timestamp]="testTimestamp" [(ngModel)]="testModel"></gtx-date-time-picker>
+                <gtx-overlay-host></gtx-overlay-host>`,
+                (fixture, instance) => {
+                    // Check if the initial value matches that of testModel.
+                    fixture.componentInstance.testTimestamp = TEST_TIMESTAMP + 1;
+                    fixture.detectChanges();
+                    tick();
+                    expect(instance.pickerInstance.getUnixTimestamp()).toEqual(TEST_TIMESTAMP);
+
+                    // Update both testModel and testTimestamp and check if testModel takes precendence.
+                    const newTestModel = TEST_TIMESTAMP + 1000;
+                    const newTestTimestamp = newTestModel + 1000;
+                    fixture.componentInstance.testModel = newTestModel;
+                    fixture.componentInstance.testTimestamp = newTestTimestamp;
+                    fixture.detectChanges();
+                    tick();
+                    expect(instance.pickerInstance.getUnixTimestamp()).toEqual(newTestModel);
+                }
+            )
+        );
+
     });
 
     describe('l10n/i18n support:', () => {
@@ -512,6 +542,7 @@ function openDatepickerModal(fixture: ComponentFixture<TestComponent>):
 })
 class TestComponent {
     testModel: number = TEST_TIMESTAMP;
+    testTimestamp: number = TEST_TIMESTAMP;
     testForm: FormGroup = new FormGroup({
         test: new FormControl(TEST_TIMESTAMP)
     });

@@ -1,5 +1,5 @@
 import {ChangeDetectionStrategy, ChangeDetectorRef, Component, EventEmitter, forwardRef, Input, OnDestroy, OnInit,
-    Optional, Output} from '@angular/core';
+    Optional, Output, SimpleChange} from '@angular/core';
 import {ControlValueAccessor, NG_VALUE_ACCESSOR} from '@angular/forms';
 import {Subscription} from 'rxjs/Subscription';
 
@@ -119,17 +119,17 @@ export class DateTimePicker implements ControlValueAccessor, OnInit, OnDestroy {
         }
     }
 
-    /**
-     * If a timestamp has been passed in, initialize the value to that time.
-     */
     ngOnInit(): void {
-        if (this.timestamp) {
-            this.value = this.value || momentjs.unix(Number(this.timestamp));
-            this.updateDisplayValue();
-        }
-
         this.subscription = this.formatProvider.changed$
             .subscribe(() => this.updateDisplayValue());
+    }
+
+    ngOnChanges(changes: {[K in keyof DateTimePicker]: SimpleChange}): void {
+        if (changes.timestamp) {
+            // Whenever the timestamp input property changes, set the current value to it.
+            this.value = momentjs.unix(Number(changes.timestamp.currentValue));
+            this.updateDisplayValue();
+        }
     }
 
     ngOnDestroy(): void {
