@@ -101,7 +101,7 @@ export class Breadcrumbs implements OnChanges, OnDestroy {
     isDisabled: boolean = false;
     isOverflowing: boolean = false;
 
-    EdgeIEIsOverflowing: boolean = false;
+    edgeOrIEIsOverflowing: boolean = false;
 
     isHeightSame: boolean = false;
 
@@ -177,7 +177,7 @@ export class Breadcrumbs implements OnChanges, OnDestroy {
         }
     }
 
-    multilineExpandedChanged(): void {
+    toggleMultilineExpanded(): void {
         this.multilineExpanded = !this.multilineExpanded;
         this.multilineExpandedChange.emit(this.multilineExpanded);
         this.resizeEvents.next(null);
@@ -187,30 +187,32 @@ export class Breadcrumbs implements OnChanges, OnDestroy {
         const innerElements = element.querySelectorAll('a.breadcrumb');
         const defaultElements = this.getCuttableBreadcrumbsTexts();
 
-        this.EdgeIEIsOverflowing = false;
+        this.edgeOrIEIsOverflowing = false;
 
         // Reset all elements to their default states.
         const offset = this.multilineExpanded ? 0 : 1;
         for (let i = 0; i < innerElements.length; i++) {
-            innerElements[i].classList.remove('without', 'hidden');
-            innerElements[i].textContent = defaultElements[i + offset];
+            const innerElement = innerElements[i];
+            innerElement.classList.remove('without');
+            innerElement.classList.remove('hidden');
+            innerElement.textContent = defaultElements[i + offset];
         }
 
         if (this.multilineExpanded) {
             return;
         }
 
-        let iterator = 0;
-        while (iterator < innerElements.length && innerElements[iterator].textContent.length >= 0 && ((this.nav.nativeElement.scrollWidth - element.offsetLeft) < (element.scrollWidth + 35))) {
-            this.EdgeIEIsOverflowing = true;
-            if (innerElements[iterator].textContent.length === 0) {
-                innerElements[iterator].classList.add('hidden');
-                iterator++;
-                if (innerElements[iterator]) {
-                    innerElements[iterator].classList.add('without');
+        let i = 0;
+        while (i < innerElements.length && innerElements[i].textContent.length >= 0 && ((this.nav.nativeElement.scrollWidth - element.offsetLeft) < (element.scrollWidth + 35))) {
+            this.edgeOrIEIsOverflowing = true;
+            if (innerElements[i].textContent.length === 0) {
+                innerElements[i].classList.add('hidden');
+                i++;
+                if (innerElements[i]) {
+                    innerElements[i].classList.add('without');
                 }
             } else {
-                innerElements[iterator].textContent = innerElements[iterator].textContent.substring(1);
+                innerElements[i].textContent = innerElements[i].textContent.substring(1);
             }
         }
     }
@@ -255,13 +257,12 @@ export class Breadcrumbs implements OnChanges, OnDestroy {
      * @returns true if the element is currently overflowing, otherwise false.
      */
     private checkIfOverflowing(element: Element): boolean {
-        const fullWidth = element.scrollWidth;
-        let visibleWidth = element.clientWidth;
-
         if (this.userAgent.isIE11 || this.userAgent.isEdge) {
-            return this.EdgeIEIsOverflowing;
+            return this.edgeOrIEIsOverflowing;
         }
 
+        const fullWidth = element.scrollWidth;
+        const visibleWidth = element.clientWidth;
         return fullWidth > visibleWidth;
     }
 

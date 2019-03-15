@@ -20,7 +20,7 @@
                     (click)="onLinkClicked(links[0], $event)"
                     [title]="links[0].tooltip || links[0].text"
                 >{{ links[0].text }}</a>
-                <div class="ellipsis" *ngIf="isOverflowing && !multilineExpanded" [class.multilineExpanded]="multilineExpanded" (click)="multilineExpandedChanged()">
+                <div class="ellipsis" *ngIf="isOverflowing && !multilineExpanded" [class.multilineExpanded]="multilineExpanded" (click)="toggleMultilineExpanded()">
                     ...
                 </div>
                 <div #lastPart class="lastPart">
@@ -39,7 +39,7 @@
                         >{{ link.text }}
                        </a>
                     </ng-container>
-                    <span *ngIf="multiline && multilineExpanded && !isOverflowing && !isHeightSame" class="back_arrow" [class.multilineExpanded]="multilineExpanded" (click)="multilineExpandedChanged()">
+                    <span *ngIf="multiline && multilineExpanded && !isOverflowing && !isHeightSame" class="back_arrow" [class.multilineExpanded]="multilineExpanded" (click)="toggleMultilineExpanded()">
                         <icon>arrow_back</icon>
                     </span>
                 </div>
@@ -51,7 +51,7 @@
                     (click)="onLinkClicked(routerLinks[0], $event)"
                     [title]="routerLinks[0].tooltip || routerLinks[0].text"
                 >{{ routerLinks[0].text }}</a>
-                <div class="ellipsis" *ngIf="isOverflowing && !multilineExpanded" [class.multilineExpanded]="multilineExpanded" (click)="multilineExpandedChanged()">
+                <div class="ellipsis" *ngIf="isOverflowing && !multilineExpanded" [class.multilineExpanded]="multilineExpanded" (click)="toggleMultilineExpanded()">
                     ...
                 </div>
                 <div #lastPart class="lastPart">
@@ -70,7 +70,7 @@
                         >{{ routerLink.text }}
                         </a>
                     </ng-container>
-                    <span *ngIf="multiline && multilineExpanded && !isOverflowing && !isHeightSame" class="back_arrow" [class.multilineExpanded]="multilineExpanded" (click)="multilineExpandedChanged()">
+                    <span *ngIf="multiline && multilineExpanded && !isOverflowing && !isHeightSame" class="back_arrow" [class.multilineExpanded]="multilineExpanded" (click)="toggleMultilineExpanded()">
                         <icon>arrow_back</icon>
                     </span>
                 </div>
