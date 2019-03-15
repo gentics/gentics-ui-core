@@ -114,6 +114,9 @@ export class Breadcrumbs implements OnChanges, OnDestroy {
     @ViewChild('lastPart')
     lastPart: ElementRef;
 
+    @ViewChild('nav')
+    nav: ElementRef;
+
     private subscriptions = new Subscription();
     private resizeEvents = new BehaviorSubject<void>(null);
 
@@ -202,7 +205,7 @@ export class Breadcrumbs implements OnChanges, OnDestroy {
             } else {
                 innerElements[i].textContent = newElements[i];
             }
-            while (iterator < innerElements.length && innerElements[iterator].textContent.length >= 0 && (element.scrollWidth > element.clientWidth)) {
+            while (iterator < innerElements.length && innerElements[iterator].textContent.length >= 0 && ((this.nav.nativeElement.scrollWidth - element.offsetLeft) < (element.scrollWidth + 35))) {
                 this.EdgeIEIsOverflowing = true;
                 if (innerElements[iterator].textContent.length === 0) {
                     if (innerElements[iterator+1]) {
@@ -256,14 +259,15 @@ export class Breadcrumbs implements OnChanges, OnDestroy {
      * @returns true if the element is currently overflowing, otherwise false.
      */
     private checkIfOverflowing(element: Element): boolean {
-        const fullWidth = element.scrollWidth;
-        let visibleWidth = element.clientWidth;
+        // const fullWidth = element.scrollWidth;
+        // let visibleWidth = element.clientWidth;
 
-        if (this.userAgent.isIE11 || this.userAgent.isEdge) {
-            return this.EdgeIEIsOverflowing;
-        }
+        // if (this.userAgent.isIE11 || this.userAgent.isEdge) {
+        //     return this.EdgeIEIsOverflowing;
+        // }
 
-        return fullWidth > visibleWidth;
+        // return fullWidth > visibleWidth;
+        return this.EdgeIEIsOverflowing;
     }
 
     /**
