@@ -79,6 +79,10 @@ gtx-breadcrumbs {
         content: '';
     }
 
+    .hidden {
+        display: none;
+    }
+
     @media all and (-ms-high-contrast:none) {
         .lastPart {
             text-overflow: clip;
