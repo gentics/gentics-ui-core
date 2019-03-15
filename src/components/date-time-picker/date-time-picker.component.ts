@@ -127,10 +127,8 @@ export class DateTimePicker implements ControlValueAccessor, OnInit, OnDestroy {
     ngOnChanges(changes: {[K in keyof DateTimePicker]: SimpleChange}): void {
         if (changes.timestamp) {
             // Whenever the timestamp input property changes, set the current value to it.
-            if (changes.timestamp.currentValue) {
-                this.value = momentjs.unix(Number(changes.timestamp.currentValue)) || this.value;
-                this.updateDisplayValue();
-            }
+            this.value = momentjs.unix(Number(changes.timestamp.currentValue));
+            this.updateDisplayValue();
         }
     }
 
