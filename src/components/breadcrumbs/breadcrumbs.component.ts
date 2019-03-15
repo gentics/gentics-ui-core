@@ -13,7 +13,7 @@ import {
 } from '@angular/core';
 import {RouterLinkWithHref} from '@angular/router';
 import {BehaviorSubject, Subscription} from 'rxjs';
-import {debounceTime, take} from 'rxjs/operators';
+import {debounceTime, take, delay} from 'rxjs/operators';
 
 import {UserAgentRef} from '../modal/user-agent-ref';
 
@@ -101,6 +101,8 @@ export class Breadcrumbs implements OnChanges, OnDestroy {
     isDisabled: boolean = false;
     isOverflowing: boolean = false;
 
+    EdgeIEIsOverflowing: boolean = false;
+
     isHeightSame: boolean = false;
 
     defaultHeight: number = 0;
@@ -130,6 +132,7 @@ export class Breadcrumbs implements OnChanges, OnDestroy {
             take(1)
         ).subscribe(() => {
             this.defaultHeight = this.lastPart.nativeElement.clientHeight;
+            this.shortenTexts(this.lastPart.nativeElement);
         });
 
         const resizeSub = this.resizeEvents
@@ -141,6 +144,7 @@ export class Breadcrumbs implements OnChanges, OnDestroy {
                     this.currentHeight = this.lastPart.nativeElement.clientHeight;
                 }
                 this.isHeightSame = this.defaultHeight === this.currentHeight;
+                this.shortenTexts(this.lastPart.nativeElement);
                 this.isOverflowing = this.checkIfOverflowing(this.lastPart.nativeElement);
             });
         this.subscriptions.add(resizeSub);
@@ -174,6 +178,59 @@ export class Breadcrumbs implements OnChanges, OnDestroy {
         this.resizeEvents.next(null);
     }
 
+    shortenTexts(element: HTMLElement) {
+        let innerElements = element.querySelectorAll('a.breadcrumb');
+        let defaultElements = [];
+        let newElements = [];
+        let iterator = 0;
+
+        defaultElements = this.getCuttableBreadcrumbText();
+
+        for (let i = 1; i < defaultElements.length; i++) {
+            newElements.push(defaultElements[i]);
+        }
+
+        this.EdgeIEIsOverflowing = false;
+
+        for (let i = 0; i < innerElements.length; i++) {
+            innerElements[i].classList.remove('without');
+        }
+
+        for (let i = 0; i < innerElements.length; i++) {
+            if (this.multilineExpanded) {
+                innerElements[i].textContent = defaultElements[i];
+            } else {
+                innerElements[i].textContent = newElements[i];
+            }
+            while (iterator < innerElements.length && innerElements[iterator].textContent.length >= 0 && (element.scrollWidth > element.clientWidth)) {
+                this.EdgeIEIsOverflowing = true;
+                if (innerElements[iterator].textContent.length === 0) {
+                    if (innerElements[iterator+1]) {
+                        innerElements[iterator+1].classList.add('without');
+                    }
+                    iterator++;
+                } else {
+                    innerElements[iterator].textContent = innerElements[iterator].textContent.substring(1);
+                }
+            }
+        }
+    }
+
+    getCuttableBreadcrumbText(): string[] {
+        let defaultBreadcrumbs: string[] = [];
+        if (this.links) {
+            for (let i = 0; i < this.links.length; i++) {
+                defaultBreadcrumbs.push(this.links[i].text);
+            }
+        }
+        if (this.routerLinks) {
+            for (let i = 0; i < this.routerLinks.length; i++) {
+                defaultBreadcrumbs.push(this.routerLinks[i].text);
+            }
+        }
+        return defaultBreadcrumbs;
+    }
+
     onResize(event: any): void {
         this.resizeEvents.next(null);
     }
@@ -202,9 +259,8 @@ export class Breadcrumbs implements OnChanges, OnDestroy {
         const fullWidth = element.scrollWidth;
         let visibleWidth = element.clientWidth;
 
-        // In IE11 the visibleWidth is 1px smaller than the fullWidth even if the breadcrumbs fit into a single line.
-        if (this.userAgent.isIE11) {
-            ++visibleWidth;
+        if (this.userAgent.isIE11 || this.userAgent.isEdge) {
+            return this.EdgeIEIsOverflowing;
         }
 
         return fullWidth > visibleWidth;
