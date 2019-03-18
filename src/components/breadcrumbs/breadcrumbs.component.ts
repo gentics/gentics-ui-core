@@ -103,10 +103,16 @@ export class Breadcrumbs implements OnChanges, OnDestroy {
 
     edgeOrIEIsOverflowing: boolean = false;
 
-    isHeightSame: boolean = false;
+    showArrow: boolean = false;
 
-    defaultHeight: number = 0;
+    firstOffsetTop: number = 0;
+    lastOffsetTop: number = 0;
+
+    firstOffsetLeft: number = 0;
+    lastOffsetLeft: number = 0;
+
     currentHeight: number = 0;
+    defaultHeight: number = 0;
 
     backLink: IBreadcrumbLink | IBreadcrumbRouterLink;
     @ViewChildren(RouterLinkWithHref) routerLinkChildren: QueryList<RouterLinkWithHref>;
@@ -140,8 +146,16 @@ export class Breadcrumbs implements OnChanges, OnDestroy {
         const resizeSub = this.resizeEvents
             .pipe(debounceTime(200))
             .subscribe(() => {
+                let element = this.lastPart.nativeElement.querySelectorAll('a.breadcrumb');
+                this.firstOffsetTop = element[0].offsetTop;
+                this.firstOffsetLeft = element[0].offsetLeft;
+                this.lastOffsetTop = element[element.length - 1].offsetTop;
+                this.lastOffsetLeft = element[element.length - 1].offsetLeft;
                 this.currentHeight = this.lastPart.nativeElement.clientHeight;
-                this.isHeightSame = this.defaultHeight === this.currentHeight;
+                this.showArrow =
+                ((this.firstOffsetTop === this.lastOffsetTop) && (this.firstOffsetLeft !== this.lastOffsetLeft) && (this.currentHeight > this.defaultHeight)) ||
+                ((this.firstOffsetTop !== this.lastOffsetTop) && (this.firstOffsetLeft === this.lastOffsetLeft) && (this.currentHeight > this.defaultHeight)) ||
+                ((this.firstOffsetTop !== this.lastOffsetTop) && (this.firstOffsetLeft !== this.lastOffsetLeft) && (this.currentHeight > this.defaultHeight));
                 if (this.userAgent.isEdge || this.userAgent.isIE11) {
                     this.shortenTexts(this.lastPart.nativeElement);
                 }

@@ -39,7 +39,7 @@
                         >{{ link.text }}
                        </a>
                     </ng-container>
-                    <span *ngIf="multiline && multilineExpanded && !isOverflowing && !isHeightSame" class="back_arrow" [class.multilineExpanded]="multilineExpanded" (click)="toggleMultilineExpanded()">
+                    <span *ngIf="multiline && multilineExpanded && !isOverflowing && showArrow" class="back_arrow" [class.multilineExpanded]="multilineExpanded" (click)="toggleMultilineExpanded()">
                         <icon>arrow_back</icon>
                     </span>
                 </div>
@@ -70,7 +70,7 @@
                         >{{ routerLink.text }}
                         </a>
                     </ng-container>
-                    <span *ngIf="multiline && multilineExpanded && !isOverflowing && !isHeightSame" class="back_arrow" [class.multilineExpanded]="multilineExpanded" (click)="toggleMultilineExpanded()">
+                    <span *ngIf="multiline && multilineExpanded && !isOverflowing && showArrow" class="back_arrow" [class.multilineExpanded]="multilineExpanded" (click)="toggleMultilineExpanded()">
                         <icon>arrow_back</icon>
                     </span>
                 </div>
