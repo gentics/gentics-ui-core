@@ -140,11 +140,7 @@ export class Breadcrumbs implements OnChanges, OnDestroy {
         const resizeSub = this.resizeEvents
             .pipe(debounceTime(200))
             .subscribe(() => {
-                if (this.userAgent.isIE11) {
-                    this.currentHeight = this.lastPart.nativeElement.clientHeight + 3;
-                } else {
-                    this.currentHeight = this.lastPart.nativeElement.clientHeight;
-                }
+                this.currentHeight = this.lastPart.nativeElement.clientHeight;
                 this.isHeightSame = this.defaultHeight === this.currentHeight;
                 if (this.userAgent.isEdge || this.userAgent.isIE11) {
                     this.shortenTexts(this.lastPart.nativeElement);
