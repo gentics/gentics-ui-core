@@ -139,6 +139,9 @@ export class Breadcrumbs implements OnChanges, OnDestroy, AfterViewInit {
         const resizeSub = this.resizeEvents
             .pipe(debounceTime(200))
             .subscribe(() => {
+                if (!this.lastPart) {
+                    return;
+                }
                 let element = this.lastPart.nativeElement.querySelectorAll('a.breadcrumb');
                 if (element.length > 0) {
                     let firstOffsetBottom = element[0].offsetTop + element[0].offsetHeight;
