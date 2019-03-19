@@ -6,6 +6,7 @@
 
 * Move expand button inside breadcrumbs (GTXPE-182)
 * Style non-multilined breadcrumbs the same way as collapsed multiline breadcrumbs (GTXPE-182)
+* Make breadcrumbs use ChangeDetectionStrategy.OnPush (GTXPE-182)
 
 ### Fixes
 
