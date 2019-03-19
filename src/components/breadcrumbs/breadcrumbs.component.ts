@@ -135,29 +135,7 @@ export class Breadcrumbs implements OnChanges, OnDestroy, AfterViewInit {
         const timerSub = timer(500, 500)
             .subscribe(() => this.resizeEvents.next());
         this.subscriptions.add(timerSub);
-
-        const resizeSub = this.resizeEvents
-            .pipe(debounceTime(200))
-            .subscribe(() => {
-                if (!this.lastPart) {
-                    return;
-                }
-                let element = this.lastPart.nativeElement.querySelectorAll('a.breadcrumb');
-                if (element.length > 0) {
-                    let firstOffsetBottom = element[0].offsetTop + element[0].offsetHeight;
-                    let lastOffsetBottom = element[element.length - 1].offsetTop + element[element.length - 1].offsetHeight;
-                    this.showArrow = firstOffsetBottom !== lastOffsetBottom;
-                } else {
-                    this.showArrow = false;
-                }
-                if (this.userAgent.isEdge || this.userAgent.isIE11) {
-                    this.shortenTexts(this.lastPart.nativeElement);
-                }
-                this.isOverflowing = this.checkIfOverflowing(this.lastPart.nativeElement);
-                this.changeDetector.markForCheck();
-            });
-
-        this.subscriptions.add(resizeSub);
+        this.setUpResizeSub();
 
         this.preventDisabledRouterLinks();
         this.routerLinkChildren.changes.subscribe(() => this.preventDisabledRouterLinks());
@@ -195,6 +173,46 @@ export class Breadcrumbs implements OnChanges, OnDestroy, AfterViewInit {
         this.multilineExpandedChange.emit(this.multilineExpanded);
         this.resizeEvents.next(null);
         this.changeDetector.markForCheck();
+    }
+
+    private setUpResizeSub() {
+        let prevLinks: IBreadcrumbLink[];
+        let prevRouterLinks: IBreadcrumbRouterLink[];
+        let prevIsExpanded: boolean;
+        let prevNavWidth = -1;
+
+        const resizeSub = this.resizeEvents
+            .pipe(debounceTime(200))
+            .subscribe(() => {
+                if (!this.lastPart || !this.nav) {
+                    return;
+                }
+                // If neither the links, nor isMultilineExpanded, nor the nav element's clientWidth has changed, we don't need to do anything.
+                const currNavWidth = this.nav.nativeElement.clientWidth;
+                if (prevLinks === this.links && prevRouterLinks === this.routerLinks && prevIsExpanded === this.isMultilineExpanded && prevNavWidth === currNavWidth) {
+                    return;
+                }
+                prevLinks = this.links;
+                prevRouterLinks = this.routerLinks;
+                prevIsExpanded = this.isMultilineExpanded;
+                prevNavWidth = currNavWidth;
+
+                const elements = this.lastPart.nativeElement.querySelectorAll('a.breadcrumb');
+                if (elements.length > 0) {
+                    const firstOffsetBottom = elements[0].offsetTop + elements[0].offsetHeight;
+                    const lastOffsetBottom = elements[elements.length - 1].offsetTop + elements[elements.length - 1].offsetHeight;
+                    this.showArrow = firstOffsetBottom !== lastOffsetBottom;
+                } else {
+                    this.showArrow = false;
+                }
+                if (this.userAgent.isEdge || this.userAgent.isIE11) {
+                    this.shortenTexts(this.lastPart.nativeElement);
+                }
+                this.isOverflowing = this.checkIfOverflowing(this.lastPart.nativeElement);
+                this.changeDetector.markForCheck();
+            });
+
+        this.subscriptions.add(resizeSub);
     }
 
     private shortenTexts(element: HTMLElement) {
