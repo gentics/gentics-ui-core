@@ -130,13 +130,11 @@ export class Breadcrumbs implements OnChanges, OnDestroy {
             element.firstElementChild.addEventListener('click', this.preventClicksWhenDisabled, true);
         }
 
-        if (this.userAgent.isIE11) {
-            const timerSub = timer(500, 500)
+        const timerSub = timer(500, 500)
             .subscribe(() => {
                 this.resizeEvents.next();
             });
             this.subscriptions.add(timerSub);
-        }
 
         const resizeSub = this.resizeEvents
             .pipe(debounceTime(200))
