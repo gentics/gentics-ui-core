@@ -13,7 +13,7 @@ import {
 } from '@angular/core';
 import {RouterLinkWithHref} from '@angular/router';
 import {BehaviorSubject, Subscription, timer} from 'rxjs';
-import {debounceTime, take, delay} from 'rxjs/operators';
+import {debounceTime} from 'rxjs/operators';
 
 import {UserAgentRef} from '../modal/user-agent-ref';
 
@@ -105,9 +105,6 @@ export class Breadcrumbs implements OnChanges, OnDestroy {
 
     showArrow: boolean = false;
 
-    firstOffsetBottom: number = 0;
-    lastOffsetBottom: number = 0;
-
     backLink: IBreadcrumbLink | IBreadcrumbRouterLink;
     @ViewChildren(RouterLinkWithHref) routerLinkChildren: QueryList<RouterLinkWithHref>;
 
@@ -131,18 +128,20 @@ export class Breadcrumbs implements OnChanges, OnDestroy {
         }
 
         const timerSub = timer(500, 500)
-            .subscribe(() => {
-                this.resizeEvents.next();
-            });
-            this.subscriptions.add(timerSub);
+            .subscribe(() => this.resizeEvents.next());
+        this.subscriptions.add(timerSub);
 
         const resizeSub = this.resizeEvents
             .pipe(debounceTime(200))
             .subscribe(() => {
                 let element = this.lastPart.nativeElement.querySelectorAll('a.breadcrumb');
-                this.firstOffsetBottom = element[0].offsetTop + element[0].offsetHeight;
-                this.lastOffsetBottom = element[element.length - 1].offsetTop + element[element.length - 1].offsetHeight;
-                this.showArrow = this.firstOffsetBottom !== this.lastOffsetBottom;
+                if (element.length > 0) {
+                    let firstOffsetBottom = element[0].offsetTop + element[0].offsetHeight;
+                    let lastOffsetBottom = element[element.length - 1].offsetTop + element[element.length - 1].offsetHeight;
+                    this.showArrow = firstOffsetBottom !== lastOffsetBottom;
+                } else {
+                    this.showArrow = false;
+                }
                 if (this.userAgent.isEdge || this.userAgent.isIE11) {
                     this.shortenTexts(this.lastPart.nativeElement);
                 }
@@ -156,6 +155,9 @@ export class Breadcrumbs implements OnChanges, OnDestroy {
         if (changes['links'] || changes['routerLinks']) {
             let allLinks = (this.links || []).concat(this.routerLinks || []);
             this.backLink = allLinks[allLinks.length - 2];
+            this.resizeEvents.next(null);
+        }
+        if (changes['multiline'] || changes['multilineExpanded']) {
             this.resizeEvents.next(null);
         }
     }
