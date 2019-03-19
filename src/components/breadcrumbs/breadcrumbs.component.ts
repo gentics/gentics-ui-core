@@ -1,4 +1,5 @@
 import {
+    ChangeDetectionStrategy,
     Component,
     ElementRef,
     EventEmitter,
@@ -9,7 +10,8 @@ import {
     QueryList,
     SimpleChanges,
     ViewChild,
-    ViewChildren
+    ViewChildren,
+    ChangeDetectorRef
 } from '@angular/core';
 import {RouterLinkWithHref} from '@angular/router';
 import {BehaviorSubject, Subscription, timer} from 'rxjs';
@@ -41,7 +43,8 @@ export interface IBreadcrumbRouterLink {
  */
 @Component({
     selector: 'gtx-breadcrumbs',
-    templateUrl: './breadcrumbs.tpl.html'
+    templateUrl: './breadcrumbs.tpl.html',
+    changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class Breadcrumbs implements OnChanges, OnDestroy {
 
@@ -117,7 +120,8 @@ export class Breadcrumbs implements OnChanges, OnDestroy {
     private subscriptions = new Subscription();
     private resizeEvents = new BehaviorSubject<void>(null);
 
-    constructor(private elementRef: ElementRef,
+    constructor(private changeDetector: ChangeDetectorRef,
+                private elementRef: ElementRef,
                 private userAgent: UserAgentRef) { }
 
     ngOnInit(): void {
@@ -146,6 +150,7 @@ export class Breadcrumbs implements OnChanges, OnDestroy {
                     this.shortenTexts(this.lastPart.nativeElement);
                 }
                 this.isOverflowing = this.checkIfOverflowing(this.lastPart.nativeElement);
+                this.changeDetector.markForCheck();
             });
 
         this.subscriptions.add(resizeSub);
@@ -181,6 +186,7 @@ export class Breadcrumbs implements OnChanges, OnDestroy {
         this.multilineExpanded = !this.multilineExpanded;
         this.multilineExpandedChange.emit(this.multilineExpanded);
         this.resizeEvents.next(null);
+        this.changeDetector.markForCheck();
     }
 
     private shortenTexts(element: HTMLElement) {
