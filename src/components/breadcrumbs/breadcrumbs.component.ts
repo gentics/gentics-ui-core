@@ -12,7 +12,7 @@ import {
     ViewChildren
 } from '@angular/core';
 import {RouterLinkWithHref} from '@angular/router';
-import {BehaviorSubject, Subscription} from 'rxjs';
+import {BehaviorSubject, Subscription, timer} from 'rxjs';
 import {debounceTime, take, delay} from 'rxjs/operators';
 
 import {UserAgentRef} from '../modal/user-agent-ref';
@@ -130,6 +130,14 @@ export class Breadcrumbs implements OnChanges, OnDestroy {
             element.firstElementChild.addEventListener('click', this.preventClicksWhenDisabled, true);
         }
 
+        if (this.userAgent.isIE11) {
+            const timerSub = timer(500, 500)
+            .subscribe(() => {
+                this.resizeEvents.next();
+            });
+            this.subscriptions.add(timerSub);
+        }
+
         const resizeSub = this.resizeEvents
             .pipe(debounceTime(200))
             .subscribe(() => {
@@ -142,6 +150,7 @@ export class Breadcrumbs implements OnChanges, OnDestroy {
                 }
                 this.isOverflowing = this.checkIfOverflowing(this.lastPart.nativeElement);
             });
+
         this.subscriptions.add(resizeSub);
     }
 
