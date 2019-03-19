@@ -11,7 +11,8 @@ import {
     SimpleChanges,
     ViewChild,
     ViewChildren,
-    ChangeDetectorRef
+    ChangeDetectorRef,
+    AfterViewInit
 } from '@angular/core';
 import {RouterLinkWithHref} from '@angular/router';
 import {BehaviorSubject, Subscription, timer} from 'rxjs';
@@ -46,7 +47,7 @@ export interface IBreadcrumbRouterLink {
     templateUrl: './breadcrumbs.tpl.html',
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class Breadcrumbs implements OnChanges, OnDestroy {
+export class Breadcrumbs implements OnChanges, OnDestroy, AfterViewInit {
 
     /**
      * A list of links to display
@@ -124,7 +125,7 @@ export class Breadcrumbs implements OnChanges, OnDestroy {
                 private elementRef: ElementRef,
                 private userAgent: UserAgentRef) { }
 
-    ngOnInit(): void {
+    ngAfterViewInit(): void {
         let element: HTMLElement = this.elementRef.nativeElement;
         if (element) {
             // Listen in the "capture" phase to prevent routerLinks when disabled
@@ -154,6 +155,10 @@ export class Breadcrumbs implements OnChanges, OnDestroy {
             });
 
         this.subscriptions.add(resizeSub);
+
+        this.preventDisabledRouterLinks();
+        this.routerLinkChildren.changes.subscribe(() => this.preventDisabledRouterLinks());
+        this.resizeEvents.next(null);
     }
 
     ngOnChanges(changes: SimpleChanges): void {
@@ -239,12 +244,6 @@ export class Breadcrumbs implements OnChanges, OnDestroy {
     }
 
     onResize(event: any): void {
-        this.resizeEvents.next(null);
-    }
-
-    ngAfterViewInit(): void {
-        this.preventDisabledRouterLinks();
-        this.routerLinkChildren.changes.subscribe(() => this.preventDisabledRouterLinks());
         this.resizeEvents.next(null);
     }
 
