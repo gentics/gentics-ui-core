@@ -105,14 +105,8 @@ export class Breadcrumbs implements OnChanges, OnDestroy {
 
     showArrow: boolean = false;
 
-    firstOffsetTop: number = 0;
-    lastOffsetTop: number = 0;
-
-    firstOffsetLeft: number = 0;
-    lastOffsetLeft: number = 0;
-
-    currentHeight: number = 0;
-    defaultHeight: number = 0;
+    firstOffsetBottom: number = 0;
+    lastOffsetBottom: number = 0;
 
     backLink: IBreadcrumbLink | IBreadcrumbRouterLink;
     @ViewChildren(RouterLinkWithHref) routerLinkChildren: QueryList<RouterLinkWithHref>;
@@ -136,26 +130,13 @@ export class Breadcrumbs implements OnChanges, OnDestroy {
             element.firstElementChild.addEventListener('click', this.preventClicksWhenDisabled, true);
         }
 
-        this.resizeEvents.pipe(
-            debounceTime(200),
-            take(1)
-        ).subscribe(() => {
-            this.defaultHeight = this.lastPart.nativeElement.clientHeight;
-        });
-
         const resizeSub = this.resizeEvents
             .pipe(debounceTime(200))
             .subscribe(() => {
                 let element = this.lastPart.nativeElement.querySelectorAll('a.breadcrumb');
-                this.firstOffsetTop = element[0].offsetTop;
-                this.firstOffsetLeft = element[0].offsetLeft;
-                this.lastOffsetTop = element[element.length - 1].offsetTop;
-                this.lastOffsetLeft = element[element.length - 1].offsetLeft;
-                this.currentHeight = this.lastPart.nativeElement.clientHeight;
-                this.showArrow =
-                ((this.firstOffsetTop === this.lastOffsetTop) && (this.firstOffsetLeft !== this.lastOffsetLeft) && (this.currentHeight > this.defaultHeight)) ||
-                ((this.firstOffsetTop !== this.lastOffsetTop) && (this.firstOffsetLeft === this.lastOffsetLeft) && (this.currentHeight > this.defaultHeight)) ||
-                ((this.firstOffsetTop !== this.lastOffsetTop) && (this.firstOffsetLeft !== this.lastOffsetLeft) && (this.currentHeight > this.defaultHeight));
+                this.firstOffsetBottom = element[0].offsetTop + element[0].offsetHeight;
+                this.lastOffsetBottom = element[element.length - 1].offsetTop + element[element.length - 1].offsetHeight;
+                this.showArrow = this.firstOffsetBottom !== this.lastOffsetBottom;
                 if (this.userAgent.isEdge || this.userAgent.isIE11) {
                     this.shortenTexts(this.lastPart.nativeElement);
                 }
