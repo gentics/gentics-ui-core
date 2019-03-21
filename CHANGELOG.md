@@ -10,6 +10,9 @@
 
 ### Fixes
 
+* Fix the `focus` event of Input to always emit the current value of the input field (GUIC-160).
+* Fix the handling of the `DateTimePicker.timestamp` input property - it can now be used to set a new value and not just the initial value (GUIC-160).
+
 ## 7.0.2 (2019-03-01)
 
 ### Fixes

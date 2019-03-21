@@ -179,7 +179,8 @@ export class InputField implements AfterViewInit, ControlValueAccessor, OnChange
     }
 
     onFocus(e: Event): void {
-        this.focus.emit(this.normalizeValue(this.value));
+        const target = e.target as HTMLInputElement;
+        this.focus.emit(this.normalizeValue(target.value));
     }
 
     onInput(e: Event): void {
