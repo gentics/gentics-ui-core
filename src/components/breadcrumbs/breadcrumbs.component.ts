@@ -1,4 +1,5 @@
 import {
+    ChangeDetectionStrategy,
     Component,
     ElementRef,
     EventEmitter,
@@ -8,10 +9,13 @@ import {
     Output,
     QueryList,
     SimpleChanges,
-    ViewChildren
+    ViewChild,
+    ViewChildren,
+    ChangeDetectorRef,
+    AfterViewInit
 } from '@angular/core';
 import {RouterLinkWithHref} from '@angular/router';
-import {BehaviorSubject, Subscription} from 'rxjs';
+import {BehaviorSubject, Subscription, timer} from 'rxjs';
 import {debounceTime} from 'rxjs/operators';
 
 import {UserAgentRef} from '../modal/user-agent-ref';
@@ -40,9 +44,10 @@ export interface IBreadcrumbRouterLink {
  */
 @Component({
     selector: 'gtx-breadcrumbs',
-    templateUrl: './breadcrumbs.tpl.html'
+    templateUrl: './breadcrumbs.tpl.html',
+    changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class Breadcrumbs implements OnChanges, OnDestroy {
+export class Breadcrumbs implements OnChanges, OnDestroy, AfterViewInit {
 
     /**
      * A list of links to display
@@ -98,37 +103,53 @@ export class Breadcrumbs implements OnChanges, OnDestroy {
     isMultiline: boolean = false;
     isMultilineExpanded: boolean = false;
     isDisabled: boolean = false;
+    isOverflowing: boolean = false;
+
+    edgeOrIEIsOverflowing: boolean = false;
+
+    showArrow: boolean = false;
 
     backLink: IBreadcrumbLink | IBreadcrumbRouterLink;
     @ViewChildren(RouterLinkWithHref) routerLinkChildren: QueryList<RouterLinkWithHref>;
 
+    @ViewChild('lastPart')
+    lastPart: ElementRef;
+
+    @ViewChild('nav')
+    nav: ElementRef;
+
     private subscriptions = new Subscription();
     private resizeEvents = new BehaviorSubject<void>(null);
 
-    constructor(private elementRef: ElementRef,
+    constructor(private changeDetector: ChangeDetectorRef,
+                private elementRef: ElementRef,
                 private userAgent: UserAgentRef) { }
 
-    ngOnInit(): void {
+    ngAfterViewInit(): void {
         let element: HTMLElement = this.elementRef.nativeElement;
         if (element) {
             // Listen in the "capture" phase to prevent routerLinks when disabled
             element.firstElementChild.addEventListener('click', this.preventClicksWhenDisabled, true);
         }
 
-        const resizeSub = this.resizeEvents
-            .pipe(debounceTime(200))
-            .subscribe(() => this.executeIEandEdgeEllipsisWorkAround());
-        this.subscriptions.add(resizeSub);
+        const timerSub = timer(500, 500)
+            .subscribe(() => this.resizeEvents.next());
+        this.subscriptions.add(timerSub);
+        this.setUpResizeSub();
+
+        this.preventDisabledRouterLinks();
+        this.routerLinkChildren.changes.subscribe(() => this.preventDisabledRouterLinks());
+        this.resizeEvents.next(null);
     }
 
     ngOnChanges(changes: SimpleChanges): void {
         if (changes['links'] || changes['routerLinks']) {
             let allLinks = (this.links || []).concat(this.routerLinks || []);
             this.backLink = allLinks[allLinks.length - 2];
+            this.resizeEvents.next(null);
         }
-
         if (changes['multiline'] || changes['multilineExpanded']) {
-            this.executeIEandEdgeEllipsisWorkAround();
+            this.resizeEvents.next(null);
         }
     }
 
@@ -147,20 +168,104 @@ export class Breadcrumbs implements OnChanges, OnDestroy {
         }
     }
 
-    multilineExpandedChanged(): void {
+    toggleMultilineExpanded(): void {
         this.multilineExpanded = !this.multilineExpanded;
         this.multilineExpandedChange.emit(this.multilineExpanded);
+        this.resizeEvents.next(null);
+        this.changeDetector.markForCheck();
+    }
 
-        this.executeIEandEdgeEllipsisWorkAround();
+    private setUpResizeSub() {
+        let prevLinks: IBreadcrumbLink[];
+        let prevRouterLinks: IBreadcrumbRouterLink[];
+        let prevIsExpanded: boolean;
+        let prevNavWidth = -1;
+
+        const resizeSub = this.resizeEvents
+            .pipe(debounceTime(200))
+            .subscribe(() => {
+                if (!this.lastPart || !this.nav) {
+                    return;
+                }
+                // If neither the links, nor isMultilineExpanded, nor the nav element's clientWidth has changed, we don't need to do anything.
+                const currNavWidth = this.nav.nativeElement.clientWidth;
+                if (prevLinks === this.links && prevRouterLinks === this.routerLinks && prevIsExpanded === this.isMultilineExpanded && prevNavWidth === currNavWidth) {
+                    return;
+                }
+                prevLinks = this.links;
+                prevRouterLinks = this.routerLinks;
+                prevIsExpanded = this.isMultilineExpanded;
+                prevNavWidth = currNavWidth;
+
+                const elements = this.lastPart.nativeElement.querySelectorAll('a.breadcrumb');
+                if (elements.length > 0) {
+                    const firstOffsetBottom = elements[0].offsetTop + elements[0].offsetHeight;
+                    const lastOffsetBottom = elements[elements.length - 1].offsetTop + elements[elements.length - 1].offsetHeight;
+                    this.showArrow = firstOffsetBottom !== lastOffsetBottom;
+                } else {
+                    this.showArrow = false;
+                }
+                if (this.userAgent.isEdge || this.userAgent.isIE11) {
+                    this.shortenTexts(this.lastPart.nativeElement);
+                }
+                this.isOverflowing = this.checkIfOverflowing(this.lastPart.nativeElement);
+                this.changeDetector.markForCheck();
+            });
+
+        this.subscriptions.add(resizeSub);
+    }
+
+    private shortenTexts(element: HTMLElement) {
+        const innerElements = element.querySelectorAll('a.breadcrumb');
+        const defaultElements = this.getCuttableBreadcrumbsTexts();
+
+        this.edgeOrIEIsOverflowing = false;
+
+        // Reset all elements to their default states.
+        const offset = this.multilineExpanded ? 0 : 1;
+        for (let i = 0; i < innerElements.length; i++) {
+            const innerElement = innerElements[i];
+            innerElement.classList.remove('without');
+            innerElement.classList.remove('hidden');
+            innerElement.textContent = defaultElements[i + offset];
+        }
+
+        if (this.multilineExpanded) {
+            return;
+        }
+
+        let i = 0;
+        while (i < innerElements.length && innerElements[i].textContent.length >= 0 && ((this.nav.nativeElement.scrollWidth - element.offsetLeft) < (element.scrollWidth + 35))) {
+            this.edgeOrIEIsOverflowing = true;
+            if (innerElements[i].textContent.length === 0) {
+                innerElements[i].classList.add('hidden');
+                i++;
+                if (innerElements[i]) {
+                    innerElements[i].classList.add('without');
+                }
+            } else {
+                innerElements[i].textContent = innerElements[i].textContent.substring(1);
+            }
+        }
+    }
+
+    private getCuttableBreadcrumbsTexts(): string[] {
+        let defaultBreadcrumbs: string[] = [];
+        if (this.links) {
+            for (let i = 0; i < this.links.length; i++) {
+                defaultBreadcrumbs.push(this.links[i].text);
+            }
+        }
+        if (this.routerLinks) {
+            for (let i = 0; i < this.routerLinks.length; i++) {
+                defaultBreadcrumbs.push(this.routerLinks[i].text);
+            }
+        }
+        return defaultBreadcrumbs;
     }
 
     onResize(event: any): void {
         this.resizeEvents.next(null);
-    }
-
-    ngAfterViewInit(): void {
-        this.preventDisabledRouterLinks();
-        this.routerLinkChildren.changes.subscribe(() => this.preventDisabledRouterLinks());
     }
 
     private preventClicksWhenDisabled = (ev: Event): void => {
@@ -171,6 +276,20 @@ export class Breadcrumbs implements OnChanges, OnDestroy {
                 ev.stopImmediatePropagation();
             }
         }
+    }
+
+    /**
+     * Checks if the specified element is currently overflowing.
+     * @returns true if the element is currently overflowing, otherwise false.
+     */
+    private checkIfOverflowing(element: Element): boolean {
+        if (this.userAgent.isIE11 || this.userAgent.isEdge) {
+            return this.edgeOrIEIsOverflowing;
+        }
+
+        const fullWidth = element.scrollWidth;
+        const visibleWidth = element.clientWidth;
+        return fullWidth > visibleWidth;
     }
 
     /**
@@ -189,32 +308,6 @@ export class Breadcrumbs implements OnChanges, OnDestroy {
                     return originalOnClick.apply(this, args);
                 }
             };
-        }
-    }
-
-    private executeIEandEdgeEllipsisWorkAround(): void {
-        if (this.multiline && !this.multilineExpanded && (this.userAgent.isIE11 || this.userAgent.isEdge)) {
-            // Strange, but unfortunately necessary:
-            this.forceRefresh();
-            setTimeout(() => this.forceRefresh());
-        }
-    }
-
-    /**
-     * Forces a refresh of the breadcrumbs (necessary for the IE and Edge ellipsis workaround).
-     */
-    private forceRefresh(): void {
-        // Creating just a copy of the array is not enough, the objects need to be different as well,
-        // so that Angular recognizes a change.
-        if (this.links && this.links.length > 0) {
-            this.links = this.links.map(link => ({
-                ...link
-            }));
-        }
-        if (this.routerLinks && this.routerLinks.length > 0) {
-            this.routerLinks = this.routerLinks.map(link => ({
-                ...link
-            }));
         }
     }
 }

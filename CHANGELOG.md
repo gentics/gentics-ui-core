@@ -1,6 +1,12 @@
 # Gentics UI Core Changelog
 
-## 7.0.3 (not yet released)
+## 7.1.0 (not yet released)
+
+### Features
+
+* Move expand button inside breadcrumbs (GTXPE-182)
+* Style non-multilined breadcrumbs the same way as collapsed multiline breadcrumbs (GTXPE-182)
+* Make breadcrumbs use ChangeDetectionStrategy.OnPush (GTXPE-182)
 
 ### Fixes
 

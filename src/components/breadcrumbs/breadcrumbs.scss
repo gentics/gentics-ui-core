@@ -5,23 +5,121 @@ gtx-breadcrumbs {
     line-height: 4em;
     @include noselect;
 
-    > .collapse-icon {
-        transition: transform 0.2s;
-        padding: 15px;
-        position: absolute;
-        left: 66%;
+    div.multiline:not(.multilineExpanded).is-overflowing a.breadcrumb:last-child {
+        overflow: hidden;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+    }
 
-        &:not(.multilineExpanded) {
-            transform: rotateZ(-90deg);
-        }
+    .back_arrow {
+        position: absolute;
+        padding: 11px 10px;
+        cursor: pointer;
+    }
+
+    div a.breadcrumb:not(.last):nth-child(3)::after {
+        content: '\E5CC  ';
+        display: inline-block;
+        font-family: 'Material Icons';
+        font-weight: normal;
+        font-style: normal;
+        font-size: 25px;
+        vertical-align: top;
+        -webkit-font-smoothing: antialiased;
+        margin: 0 0 0 8px;
     }
 
     @media screen and (-ms-high-contrast: active), (-ms-high-contrast: none) {
-        .collapse-icon {
-            position: relative;
-            left: 0;
+        div a.breadcrumb:not(.last):nth-child(3)::after {
+            margin: 3.7px 0 0 8px
         }
-     }
+    }
+
+    @media (min-width: 320px) and (max-width: 480px) {
+        a.breadcrumb:not(:last-child) {
+            display: none;
+        }
+
+        a.breadcrumb:last-child::before {
+            content: '';
+        }
+
+        > nav > .nav-wrapper :last-child {
+            display: -webkit-box !important;
+        }
+    }
+
+    :not(.multiline) .ellipsis {
+        pointer-events: none;
+        cursor: auto;
+    }
+
+    .multiline .ellipsis {
+        pointer-events: auto;
+        cursor: pointer;
+    }
+
+    .nav-wrapper:not(.multiline):not(.multilineExpanded) .inner-wrapper {
+        display: flex;
+        overflow: hidden;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+    }
+
+    .lastPart {
+        margin-left: 7px;
+        overflow: hidden;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+        direction: rtl;
+        font-size: 0;
+    }
+
+    .without::before {
+        content: '';
+    }
+
+    .hidden {
+        display: none;
+    }
+
+    @media all and (-ms-high-contrast:none) {
+        .lastPart {
+            text-overflow: clip;
+            direction: ltr;
+        }
+    }
+
+    @supports (-ms-ime-align:auto) {
+        .lastPart {
+            text-overflow: clip;
+            direction: ltr;
+        }
+    }
+
+    .multilineExpanded .lastPart {
+        display: inline;
+        margin-left: 0;
+        flex-wrap: wrap;
+        direction: ltr;
+        white-space: normal;
+        word-break: break-word;
+        -webkit-hyphens: auto;
+        -moz-hyphens: auto;
+        -ms-hyphens: auto;
+        hyphens: auto;
+    }
+
+    .multiline > .inner-wrapper {
+        display: flex;
+        overflow: hidden;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+    }
+
+    .multilineExpanded > .inner-wrapper {
+        flex-wrap: wrap;
+    }
 
     > nav {
         display: block;
@@ -42,7 +140,7 @@ gtx-breadcrumbs {
             align-content: flex-start;
 
             &.multiline {
-                display: block;
+                display: flex;
                 overflow: hidden;
                 white-space: nowrap;
                 text-overflow: ellipsis;
@@ -50,13 +148,8 @@ gtx-breadcrumbs {
                 > a.breadcrumb {
                     min-width: auto !important;
                     overflow-x: visible !important;
+                    cursor: pointer;
                 }
-            }
-
-            &.multiline.multilineExpanded {
-                display: flex;
-                flex-wrap: wrap;
-                line-height: 45px;
             }
 
             > * {
@@ -64,21 +157,21 @@ gtx-breadcrumbs {
                 white-space: nowrap;
             }
 
-            > .back-button {
+            .back-button {
                 display: none;
             }
 
-            > .other-content {
+            .other-content {
                 display: block;
                 flex-shrink: 0;
                 line-height: inherit;
             }
 
-            > .other-content + *::before {
+            .other-content + *::before {
                 display: none;
             }
 
-            > a.breadcrumb {
+            a.breadcrumb {
                 &, &::before {
                     transition-duration: $gtx-breadcrumbs-animation-duration;
                     transition-property: color;
@@ -106,7 +199,7 @@ gtx-breadcrumbs {
         background-color: $gtx-breadcrumbs-disabled-background-color;
         pointer-events: none;
 
-        > .nav-wrapper > .breadcrumb {
+        > .nav-wrapper .breadcrumb {
             &, &::before {
                 color: $gtx-breadcrumbs-disabled-inactive-color;
                 cursor: default;
@@ -121,7 +214,7 @@ gtx-breadcrumbs {
 
 @media #{$small-and-down} {
     gtx-breadcrumbs > nav > .nav-wrapper {
-        > .back-button {
+        .back-button {
             display: block;
             cursor: pointer;
 
@@ -139,18 +232,18 @@ gtx-breadcrumbs {
             }
         }
 
-        > .back-button ~ *,
-        > .back-button ~ *::before {
+        .back-button ~ *,
+        .back-button ~ *::before {
             display: none;
         }
 
-        > :last-child {
+        :last-child {
             display: block;
             margin-left: 10px;
         }
     }
 
-    gtx-breadcrumbs > nav.disabled > .nav-wrapper > .back-button {
+    gtx-breadcrumbs > nav.disabled > .nav-wrapper .back-button {
         cursor: default;
 
         &::before {

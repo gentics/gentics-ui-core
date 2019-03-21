@@ -7,6 +7,7 @@ import {of as observableOf} from 'rxjs';
 
 import {componentTest, createClickEvent} from '../../testing';
 import {Button} from '../button/button.component';
+import {Icon} from '../icon/icon.directive';
 import {UserAgentRef} from '../modal/user-agent-ref';
 import {Breadcrumbs, IBreadcrumbLink, IBreadcrumbRouterLink} from './breadcrumbs.component';
 
@@ -42,7 +43,7 @@ describe('Breadcrumbs:', () => {
                 { provide: ActivatedRoute, useClass: MockActivatedRoute },
                 { provide: LocationStrategy, useClass: MockLocationStrategy }
             ],
-            declarations: [Breadcrumbs, Button, TestComponent]
+            declarations: [Breadcrumbs, Button, Icon, TestComponent]
         });
     });
 
@@ -54,6 +55,7 @@ describe('Breadcrumbs:', () => {
             ]'></gtx-breadcrumbs>`,
             fixture => {
                 fixture.detectChanges();
+                tick(1000);
                 let links = linkTexts(fixture);
 
                 expect(links.length).toBe(2);
@@ -71,6 +73,7 @@ describe('Breadcrumbs:', () => {
             ]'></gtx-breadcrumbs>`,
             fixture => {
                 fixture.detectChanges();
+                tick(1000);
                 let hrefs = linkHrefs(fixture);
 
                 expect(hrefs.length).toBe(3);
@@ -88,6 +91,7 @@ describe('Breadcrumbs:', () => {
             ];
 
             fixture.detectChanges();
+            tick(1000);
             expect(linkTexts(fixture)).toEqual(['A', 'B', 'C']);
 
             // Change by value
@@ -95,6 +99,7 @@ describe('Breadcrumbs:', () => {
             links[1].text = 'BB';
             links[2].text = 'CC';
             fixture.detectChanges();
+            tick(1000);
 
             expect(linkTexts(fixture)).toEqual(['AA', 'BB', 'CC'],
                 'text of breadcrumb links did not change by value');
@@ -121,6 +126,7 @@ describe('Breadcrumbs:', () => {
             ];
 
             fixture.detectChanges();
+            tick(1000);
             expect(linkHrefs(fixture)).toEqual(['/a', './b', '#c']);
 
             // Change by value
@@ -128,6 +134,7 @@ describe('Breadcrumbs:', () => {
             links[1].href = './bb';
             links[2].href = '#cc';
             fixture.detectChanges();
+            tick(1000);
 
             expect(linkHrefs(fixture)).toEqual(['/aa', './bb', '#cc'],
                 'href of breadcrumb links did not change by value');
@@ -139,6 +146,7 @@ describe('Breadcrumbs:', () => {
                 { text: 'C', href: '#ccc' }
             ];
             fixture.detectChanges();
+            tick(1000);
 
             expect(linkHrefs(fixture)).toEqual(['/aaa', './bbb', '#ccc'],
                 'href of breadcrumb links did not change by reference');
@@ -156,14 +164,17 @@ describe('Breadcrumbs:', () => {
             (fixture, component) => {
                 component.disableBreadcrumbs = false;
                 fixture.detectChanges();
+                tick(1000);
                 expect(linkHrefs(fixture)).toEqual(['/a', '/b', '/c']);
 
                 component.disableBreadcrumbs = true;
                 fixture.detectChanges();
+                tick(1000);
                 expect(linkHrefs(fixture)).toEqual([null, null, null]);
 
                 component.disableBreadcrumbs = false;
                 fixture.detectChanges();
+                tick(1000);
                 expect(linkHrefs(fixture)).toEqual(['/a', '/b', '/c']);
             }
         )
@@ -180,6 +191,7 @@ describe('Breadcrumbs:', () => {
                 const onLinkClick = component.onLinkClick = jasmine.createSpy('onLinkClick');
 
                 fixture.detectChanges();
+                tick(1000);
                 expect(onLinkClick.calls.count()).toBe(0);
 
                 let linkToClick = fixture.debugElement.query(By.css('a'));
@@ -201,6 +213,7 @@ describe('Breadcrumbs:', () => {
                 const onLinkClick = component.onLinkClick = jasmine.createSpy('onLinkClick');
 
                 fixture.detectChanges();
+                tick(1000);
                 expect(onLinkClick.calls.count()).toBe(0);
 
                 let linkToClick = fixture.debugElement.query(By.css('a'));
@@ -222,6 +235,7 @@ describe('Breadcrumbs:', () => {
                 component.routerLinks = [];
 
                 fixture.detectChanges();
+                tick(1000);
                 expect(fixture.nativeElement.querySelector('.back-button')).toBeNull();
 
                 component.links = [];
@@ -230,6 +244,7 @@ describe('Breadcrumbs:', () => {
                 ];
 
                 fixture.detectChanges();
+                tick(1000);
                 expect(fixture.nativeElement.querySelector('.back-button')).toBeNull();
             }
         )
@@ -249,6 +264,7 @@ describe('Breadcrumbs:', () => {
                 component.routerLinks = [];
 
                 fixture.detectChanges();
+                tick(1000);
                 expect(fixture.nativeElement.querySelector('.back-button')).toBeDefined();
 
                 // No links, but router links
@@ -259,6 +275,7 @@ describe('Breadcrumbs:', () => {
                 ];
 
                 fixture.detectChanges();
+                tick(1000);
                 expect(fixture.nativeElement.querySelector('.back-button')).toBeDefined();
 
                 // Both links and router links
@@ -270,6 +287,7 @@ describe('Breadcrumbs:', () => {
                 ];
 
                 fixture.detectChanges();
+                tick(1000);
                 expect(fixture.nativeElement.querySelector('.back-button')).toBeDefined();
             }
         )
@@ -283,6 +301,7 @@ describe('Breadcrumbs:', () => {
             ];
 
             fixture.detectChanges();
+            tick(1000);
             expect(onLinkClick).not.toHaveBeenCalled();
 
             let linkToClick = fixture.debugElement.query(By.css('a'));
@@ -308,10 +327,12 @@ describe('Breadcrumbs:', () => {
                         { text: 'B', route: ['/TestA', 'TestB', 'TestC'] }
                     ];
                     fixture.detectChanges();
+                    tick(1000);
                     expect(linkTexts(fixture)).toEqual(['A', 'B']);
 
                     instance.routerLinks.push({ text: 'C', route: ['./TestC'] });
                     fixture.detectChanges();
+                    tick(1000);
                     expect(linkTexts(fixture)).toEqual(['A', 'B', 'C']);
                 }
             )
@@ -326,6 +347,7 @@ describe('Breadcrumbs:', () => {
                 ]'></gtx-breadcrumbs>`,
                 fixture => {
                     fixture.detectChanges();
+                    tick(1000);
 
                     let links = Array.from<HTMLAnchorElement>(fixture.nativeElement.querySelectorAll('a.breadcrumb'));
                     expect(links.length).toBe(3);
@@ -350,6 +372,7 @@ describe('Breadcrumbs:', () => {
                     fixture.detectChanges();
                     tick();
                     fixture.detectChanges();
+                    tick(1000);
 
                     let generatedLinks = fixture.debugElement.queryAll(By.css('a'));
                     expect(generatedLinks.length).toBe(1);
@@ -378,6 +401,7 @@ describe('Breadcrumbs:', () => {
                     fixture.detectChanges();
                     tick();
                     fixture.detectChanges();
+                    tick(1000);
 
                     let generatedLinks = fixture.debugElement.queryAll(By.css('a'));
                     expect(generatedLinks.length).toBe(1);
