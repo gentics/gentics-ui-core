@@ -31,7 +31,7 @@ gtx-breadcrumbs {
 
     @media screen and (-ms-high-contrast: active), (-ms-high-contrast: none) {
         div a.breadcrumb:not(.last):nth-child(3)::after {
-            margin: 3.7px 0 0 12px
+            margin: 3px 0 0 12px
         }
     }
 
