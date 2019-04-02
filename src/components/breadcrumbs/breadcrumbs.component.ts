@@ -235,7 +235,7 @@ export class Breadcrumbs implements OnChanges, OnDestroy, AfterViewInit {
         }
 
         let i = 0;
-        while (i < innerElements.length && innerElements[i].textContent.length >= 0 && ((this.nav.nativeElement.scrollWidth - element.offsetLeft) < (element.scrollWidth + 35))) {
+        while (i < innerElements.length && innerElements[i].textContent.length >= 0 && ((this.nav.nativeElement.scrollWidth - element.offsetLeft) < (element.scrollWidth + 50))) {
             this.edgeOrIEIsOverflowing = true;
             if (innerElements[i].textContent.length === 0) {
                 innerElements[i].classList.add('hidden');
