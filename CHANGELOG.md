@@ -4,6 +4,9 @@
 
 ### Fixes
 
+* Fix jumping in breadcrumbs (GTXPE-182)
+* Style fixes in breadcrumbs for IE and Edge (GTXPE-182)
+
 ## 7.1.0 (2019-03-21)
 
 ### Features
