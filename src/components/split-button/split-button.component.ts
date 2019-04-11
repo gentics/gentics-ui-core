@@ -1,15 +1,32 @@
-import {Component, OnInit, ChangeDetectionStrategy, Input, QueryList, ContentChildren} from '@angular/core';
+import {ChangeDetectionStrategy, Component, ContentChildren, Input, QueryList} from '@angular/core';
 import {DropdownItem} from '../dropdown-list/dropdown-item.component';
 
 /**
+ * A split button component.
  *
+ * The main content of the button and the handler of the main click event is specified by
+ * using a `<gtx-split-button-primary-action>` child element.
+ *
+ * Secondary actions can be defined using `<gtx-dropdown-item>` child elements and
+ * their click handlers. If secondary actions are defined a dropdown trigger
+ * will be displayed to the right of the main content.
+ *
+ * All input properties of `<gtx-button>`, except for `icon` are supported.
+ *
+ * ```html
+ * <gtx-split-button>
+ *     <gtx-split-button-primary-action (click)="save()">Save Document</gtx-split-button-primary-action>
+ *     <gtx-dropdown-item (click)="saveAndPublish()">Save and Publish</gtx-dropdown-item>
+ *     <gtx-dropdown-item (click)="saveAndEmail()">Save and Send via E-Mail</gtx-dropdown-item>
+ * </gtx-split-button>
+ * ```
  */
 @Component({
     selector: 'gtx-split-button',
     templateUrl: './split-button.tpl.html',
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class SplitButton implements OnInit {
+export class SplitButton {
 
     /**
      * Sets the input field to be auto-focused. Handled by `AutofocusDirective`.
@@ -34,11 +51,6 @@ export class SplitButton implements OnInit {
     @Input() flat: boolean;
 
     /**
-     * Setting the "icon" attribute turns the button into an "icon button", which is
-     * like a flat button without a border, suitable for wrapping an icon.
-     */
-    @Input() icon: boolean;
-    /**
      * Controls whether the button is disabled.
      */
     @Input() disabled: boolean;
@@ -46,9 +58,6 @@ export class SplitButton implements OnInit {
     @ContentChildren(DropdownItem)
     secondaryActions: QueryList<DropdownItem>;
 
-    constructor() { }
-
-    ngOnInit(): void {
-    }
+    constructor() {}
 
 }

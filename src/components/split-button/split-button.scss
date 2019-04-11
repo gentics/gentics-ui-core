@@ -1,17 +1,32 @@
 gtx-split-button {
 
-    gtx-button.has-secondary-actions {
+    .split-button-wrapper {
+        display: inline-flex;
 
-        /deep/ button {
-            padding-right: 0;
+        gtx-button.has-secondary-actions {
+            /deep/ button {
+                border-top-right-radius: 0;
+                border-bottom-right-radius: 0;
+                border-right-style: none;
+                box-shadow: none;
+            }
         }
 
-    }
+        .spacer-line {
+            float: right;
+            margin: 5px 0;
+            width: 1px;
+            background: $gtx-color-very-dark-gray;
+        }
 
-    .more-trigger {
-
-        /deep/ button {
-            border-left: 1px solid $gtx-color-very-dark-gray;
+        .more-trigger {
+            /deep/ button {
+                padding: 0;
+                border-top-left-radius: 0;
+                border-bottom-left-radius: 0;
+                border-left-style: none;
+                box-shadow: none;
+            }
         }
     }
 
