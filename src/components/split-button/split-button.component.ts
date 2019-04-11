@@ -1,4 +1,14 @@
-import {ChangeDetectionStrategy, Component, ContentChildren, Input, QueryList} from '@angular/core';
+import {
+    AfterViewInit,
+    ChangeDetectionStrategy,
+    ChangeDetectorRef,
+    Component,
+    ContentChildren,
+    Input,
+    OnDestroy,
+    QueryList
+} from '@angular/core';
+import {Subscription} from 'rxjs';
 import {DropdownItem} from '../dropdown-list/dropdown-item.component';
 
 /**
@@ -8,10 +18,10 @@ import {DropdownItem} from '../dropdown-list/dropdown-item.component';
  * using a `<gtx-split-button-primary-action>` child element.
  *
  * Secondary actions can be defined using `<gtx-dropdown-item>` child elements and
- * their click handlers. If secondary actions are defined a dropdown trigger
+ * their click handlers. If secondary actions are defined, a dropdown trigger
  * will be displayed to the right of the main content.
  *
- * All input properties of `<gtx-button>`, except for `icon` are supported.
+ * All input properties of `<gtx-button>`, except for `icon` and `submit` are supported.
  *
  * ```html
  * <gtx-split-button>
@@ -26,7 +36,7 @@ import {DropdownItem} from '../dropdown-list/dropdown-item.component';
     templateUrl: './split-button.tpl.html',
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class SplitButton {
+export class SplitButton implements AfterViewInit, OnDestroy {
 
     /**
      * Sets the input field to be auto-focused. Handled by `AutofocusDirective`.
@@ -58,6 +68,22 @@ export class SplitButton {
     @ContentChildren(DropdownItem)
     secondaryActions: QueryList<DropdownItem>;
 
-    constructor() {}
+    private queryListSub: Subscription;
+
+    constructor(private changeDetector: ChangeDetectorRef) {}
+
+    ngAfterViewInit(): void {
+        this.queryListSub = this.secondaryActions.changes.subscribe(
+            () => this.changeDetector.markForCheck()
+        );
+        this.secondaryActions.notifyOnChanges();
+    }
+
+    ngOnDestroy(): void {
+        if (this.queryListSub) {
+            this.queryListSub.unsubscribe();
+            this.queryListSub = null;
+        }
+    }
 
 }
