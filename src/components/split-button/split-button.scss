@@ -1,6 +1,18 @@
 gtx-split-button {
 
+    gtx-button.has-secondary-actions {
+
+        /deep/ button {
+            padding-right: 0;
+        }
+
+    }
+
     .more-trigger {
+
+        /deep/ button {
+            border-left: 1px solid $gtx-color-very-dark-gray;
+        }
     }
 
 }
