@@ -1,0 +1,9 @@
+gtx-dropdown-item {
+    &.warning {
+        background-color: $gtx-color-warning;
+    }
+
+    *.alert {
+        background-color: $gtx-color-alert;
+    }
+}
