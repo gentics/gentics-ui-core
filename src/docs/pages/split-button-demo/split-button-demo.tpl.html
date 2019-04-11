@@ -158,3 +158,24 @@
             '></gtx-highlighted-code>
     </div>
 </gtx-demo-block>
+
+<gtx-demo-block demoTitle="Disabling">
+    <div class="demo-result">
+        <gtx-checkbox [(ngModel)]="buttonIsDisabled" label="Disable Button"></gtx-checkbox>
+        <gtx-split-button [disabled]="buttonIsDisabled">
+            <gtx-split-button-primary-action (click)="clickCount = clickCount + 1">Increment Counter</gtx-split-button-primary-action>
+            <gtx-dropdown-item (click)="clickCount = clickCount + 1">Increment Counter</gtx-dropdown-item>
+        </gtx-split-button>
+        <p>Click count: {{ clickCount }}</p>
+    </div>
+    <div class="demo-code">
+        <gtx-highlighted-code language="HTML" code='
+                <gtx-checkbox [(ngModel)]="buttonIsDisabled" label="Disable Button"></gtx-checkbox>
+                <gtx-split-button [disabled]="buttonIsDisabled">
+                    <gtx-split-button-primary-action (click)="clickCount = clickCount + 1">Increment Counter</gtx-split-button-primary-action>
+                    <gtx-dropdown-item (click)="clickCount = clickCount + 1">Increment Counter</gtx-dropdown-item>
+                </gtx-split-button>
+                <p>Click count: (( clickCount ))</p>
+            '></gtx-highlighted-code>
+    </div>
+</gtx-demo-block>

@@ -1,8 +1,6 @@
 import {Component} from '@angular/core';
-import {FormGroup, FormControl} from '@angular/forms';
 
 @Component({
-    selector: 'split-button-demo',
     templateUrl: './split-button-demo.tpl.html'
 })
 export class SplitButtonDemo {
@@ -15,16 +13,6 @@ export class SplitButtonDemo {
 
     buttonIsDisabled: boolean = false;
     clickCount: number = 0;
-
-    formResult: any;
-    demoForm = new FormGroup({
-        firstName: new FormControl('John'),
-        lastName: new FormControl('Doe')
-    });
-
-    incrementCounter(): void {
-        ++this.clickCount;
-    }
 
     save(): void {
         this.saveResult = 'Save clicked!';

@@ -23,6 +23,8 @@ import {DropdownItem} from '../dropdown-list/dropdown-item.component';
  *
  * All input properties of `<gtx-button>`, except for `icon` and `submit` are supported.
  *
+ * This component depends on the `<gtx-overlay-host>` being present in the app.
+ *
  * ```html
  * <gtx-split-button>
  *     <gtx-split-button-primary-action (click)="save()">Save Document</gtx-split-button-primary-action>
