@@ -7,7 +7,7 @@
     "build": "ng build",
     "postbuild": "gulp assets",
     "test": "ng test --watch=false",
-    "test-watch": "ng test --watch=true",
+    "test-watch": "ng test gentics-ui-core --watch=true",
     "lint": "ng lint"
   },
   "repository": {
