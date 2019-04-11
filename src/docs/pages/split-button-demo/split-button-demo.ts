@@ -14,4 +14,8 @@ export class SplitButtonDemo {
         firstName: new FormControl('John'),
         lastName: new FormControl('Doe')
     });
+
+    incrementCounter(): void {
+        ++this.clickCount;
+    }
 }

@@ -5,5 +5,14 @@
         [flat]="flat"
         [icon]="icon"
         [disabled]="disabled">
-    <ng-content selector="gtx-split-button-primary-action"></ng-content>
+
+    <ng-content select="gtx-split-button-primary-action"></ng-content>
+    <gtx-dropdown-list *ngIf="secondaryActions.length > 0">
+        <gtx-dropdown-trigger>
+            <gtx-button class="more-trigger" icon><icon>arrow_drop_down</icon></gtx-button>
+        </gtx-dropdown-trigger>
+        <gtx-dropdown-content>
+            <ng-content select="gtx-dropdown-item"></ng-content>
+        </gtx-dropdown-content>
+    </gtx-dropdown-list>
 </gtx-button>

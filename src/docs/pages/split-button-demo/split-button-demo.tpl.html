@@ -6,9 +6,22 @@
 
 <gtx-demo-block demoTitle="Sizes">
     <div class="demo-result">
-        <gtx-split-button size="small">Small</gtx-split-button>
-        <gtx-split-button size="regular">Regular (Default)</gtx-split-button>
-        <gtx-split-button size="large">Large</gtx-split-button>
+        <h4>{{ clickCount }}</h4>
+        <gtx-split-button size="small">
+            <gtx-split-button-primary-action (click)="incrementCounter()">Small</gtx-split-button-primary-action>
+            <gtx-dropdown-item (click)="incrementCounter()">Test</gtx-dropdown-item>
+            <gtx-dropdown-item (click)="incrementCounter()">Very looooooooooooooooooooong content</gtx-dropdown-item>
+        </gtx-split-button>
+        <gtx-split-button size="regular">
+            <gtx-split-button-primary-action (click)="incrementCounter()">Regular (Default)</gtx-split-button-primary-action>
+            <gtx-dropdown-item (click)="incrementCounter()">Test</gtx-dropdown-item>
+            <gtx-dropdown-item (click)="incrementCounter()">Very looooooooooooooooooooong content</gtx-dropdown-item>
+        </gtx-split-button>
+        <gtx-split-button size="large">
+            <gtx-split-button-primary-action (click)="incrementCounter()">Large</gtx-split-button-primary-action>
+            <gtx-dropdown-item (click)="incrementCounter()">Test</gtx-dropdown-item>
+            <gtx-dropdown-item (click)="incrementCounter()">Very looooooooooooooooooooong content</gtx-dropdown-item>
+        </gtx-split-button>
     </div>
     <div class="demo-code">
         <gtx-highlighted-code language="HTML" code='

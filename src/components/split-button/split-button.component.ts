@@ -1,4 +1,5 @@
-import {Component, OnInit, ChangeDetectionStrategy, Input} from '@angular/core';
+import {Component, OnInit, ChangeDetectionStrategy, Input, QueryList, ContentChildren} from '@angular/core';
+import {DropdownItem} from '../dropdown-list/dropdown-item.component';
 
 /**
  *
@@ -41,6 +42,9 @@ export class SplitButton implements OnInit {
      * Controls whether the button is disabled.
      */
     @Input() disabled: boolean;
+
+    @ContentChildren(DropdownItem)
+    secondaryActions: QueryList<DropdownItem>;
 
     constructor() { }
 
