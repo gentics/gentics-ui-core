@@ -3,7 +3,9 @@ import {
     ChangeDetectionStrategy,
     ChangeDetectorRef,
     Component,
+    ContentChild,
     ContentChildren,
+    ElementRef,
     Input,
     OnDestroy,
     QueryList
@@ -12,6 +14,7 @@ import {Subscription} from 'rxjs';
 
 import {coerceToBoolean} from '../../common/coerce-to-boolean';
 import {DropdownItem} from '../dropdown-list/dropdown-item.component';
+import {SplitButtonPrimaryAction} from './split-button-primary-action.component';
 
 /**
  * A split button component.
@@ -81,6 +84,9 @@ export class SplitButton implements AfterViewInit, OnDestroy {
         this.isDisabled = coerceToBoolean(value);
     }
 
+    @ContentChild(SplitButtonPrimaryAction, { read: ElementRef })
+    primaryAction: ElementRef;
+
     @ContentChildren(DropdownItem)
     secondaryActions: QueryList<DropdownItem>;
 
@@ -102,6 +108,16 @@ export class SplitButton implements AfterViewInit, OnDestroy {
         if (this.queryListSub) {
             this.queryListSub.unsubscribe();
             this.queryListSub = null;
+        }
+    }
+
+    /**
+     * If the user does not click the primary action content itself, but the button around it,
+     * this method is used to trigger a click event on the primary action content.
+     */
+    onPrimaryButtonClick(): void {
+        if (this.primaryAction) {
+            this.primaryAction.nativeElement.click();
         }
     }
 

@@ -29,7 +29,7 @@ function assembleTemplate(additionalButtonTpl: string = ''): string {
     `;
 }
 
-fdescribe('SplitButtonComponent', () => {
+describe('SplitButtonComponent', () => {
 
     beforeEach(() => {
         TestBed.configureTestingModule({
@@ -133,7 +133,7 @@ fdescribe('SplitButtonComponent', () => {
         })
     );
 
-    it('clicking the primary action content does not fire the click event twice',
+    it('primary action works by clicking the button content',
         componentTest(() => TestComponent, (fixture, testComponent) => {
             fixture.detectChanges();
             tick();

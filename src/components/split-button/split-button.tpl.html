@@ -6,7 +6,8 @@
             [type]="type"
             [flat]="isFlat"
             [disabled]="isDisabled"
-            [class.has-secondary-actions]="secondaryActions.length > 0">
+            [class.has-secondary-actions]="secondaryActions.length > 0"
+            (click)="onPrimaryButtonClick()">
         <ng-content select="gtx-split-button-primary-action"></ng-content>
     </gtx-button>
 
