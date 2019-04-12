@@ -20,6 +20,7 @@ import {DropdownList} from '../../../components/dropdown-list/dropdown-list.comp
 export class DropdownListDemo {
     componentSource: string = require('!!raw-loader!../../../components/dropdown-list/dropdown-list.component.ts');
     dropdownIsDisabled = false;
+    dropdownItemIsDisabled = true;
     variableItems: string[] = ['Item 1', 'Item 2', 'Item 3'];
 
     add(dropdown: DropdownList): void {

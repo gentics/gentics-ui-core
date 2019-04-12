@@ -198,3 +198,26 @@
             '></gtx-highlighted-code>
     </div>
 </gtx-demo-block>
+
+<gtx-demo-block demoTitle="Disabling Single Secondary Actions">
+    <div class="demo-result">
+        <gtx-checkbox [(ngModel)]="secondaryActionIsDisabled" label="Disable Item"></gtx-checkbox>
+        <gtx-split-button>
+            <gtx-split-button-primary-action (click)="clickCount = clickCount + 1">Increment Counter</gtx-split-button-primary-action>
+            <gtx-dropdown-item disabled (click)="clickCount = clickCount + 1">Increment Counter (always disabled)</gtx-dropdown-item>
+            <gtx-dropdown-item [disabled]="secondaryActionIsDisabled" (click)="clickCount = clickCount + 1">Increment Counter (disabled can be toggled)</gtx-dropdown-item>
+        </gtx-split-button>
+        <p>Click count: {{ clickCount }}</p>
+    </div>
+    <div class="demo-code">
+        <gtx-highlighted-code language="HTML" code='
+                <gtx-checkbox [(ngModel)]="secondaryActionIsDisabled" label="Disable Item"></gtx-checkbox>
+                <gtx-split-button>
+                    <gtx-split-button-primary-action (click)="clickCount = clickCount + 1">Increment Counter</gtx-split-button-primary-action>
+                    <gtx-dropdown-item disabled (click)="clickCount = clickCount + 1">Increment Counter (always disabled)</gtx-dropdown-item>
+                    <gtx-dropdown-item [disabled]="secondaryActionIsDisabled" (click)="clickCount = clickCount + 1">Increment Counter (disabled can be toggled)</gtx-dropdown-item>
+                </gtx-split-button>
+                <p>Click count: (( clickCount ))</p>
+            '></gtx-highlighted-code>
+    </div>
+</gtx-demo-block>

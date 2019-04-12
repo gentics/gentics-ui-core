@@ -12,6 +12,7 @@ export class SplitButtonDemo {
     actionClicked: number;
 
     buttonIsDisabled: boolean = false;
+    secondaryActionIsDisabled: boolean = false;
     clickCount: number = 0;
 
     save(): void {

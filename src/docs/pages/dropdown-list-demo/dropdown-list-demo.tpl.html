@@ -297,6 +297,40 @@
     </div>
 </gtx-demo-block>
 
+<gtx-demo-block demoTitle="Disabling Single Items">
+    <div class="demo-result">
+        <p>When the `disabled` attribute is set to "true" on a `gtx-dropdown-item`, that item will not be clickable or selectable.</p>
+        <div style="display: flex; justify-content: space-around;">
+        <gtx-dropdown-list>
+            <gtx-dropdown-trigger>
+                <a>Options...</a>
+            </gtx-dropdown-trigger>
+            <gtx-dropdown-content>
+                <gtx-dropdown-item>Always enabled</gtx-dropdown-item>
+                <gtx-dropdown-item disabled>Always disabled</gtx-dropdown-item>
+                <gtx-dropdown-item [disabled]="dropdownItemIsDisabled">Disabled can be toggled</gtx-dropdown-item>
+            </gtx-dropdown-content>
+        </gtx-dropdown-list>
+        <gtx-checkbox [(ngModel)]="dropdownItemIsDisabled" label="Disable dropdown item"></gtx-checkbox>
+        </div>
+    </div>
+    <div class="demo-code">
+        <gtx-highlighted-code language="HTML" code='
+            <gtx-dropdown-list>
+                <gtx-dropdown-trigger>
+                    <a>Options...</a>
+                </gtx-dropdown-trigger>
+                <gtx-dropdown-content>
+                    <gtx-dropdown-item>Always enabled</gtx-dropdown-item>
+                    <gtx-dropdown-item disabled>Always disabled</gtx-dropdown-item>
+                    <gtx-dropdown-item [disabled]="dropdownItemIsDisabled">Disabled can be toggled</gtx-dropdown-item>
+                </gtx-dropdown-content>
+            </gtx-dropdown-list>
+            <gtx-checkbox [(ngModel)]="dropdownItemIsDisabled" label="Disable dropdown item"></gtx-checkbox>
+        '></gtx-highlighted-code>
+    </div>
+</gtx-demo-block>
+
 <gtx-demo-block demoTitle="Resizing">
     <div class="demo-result">
         The dropdown can be resized when open by calling the `.resize()` method of the DropDownList instance.
