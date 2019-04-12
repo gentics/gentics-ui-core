@@ -142,6 +142,25 @@
     </div>
     <div class="demo-code">
         <gtx-highlighted-code language="HTML" code='
+                gtx-dropdown-content {
+                    gtx-dropdown-item {
+                        &.warning {
+                            background-color: $gtx-color-warning;
+                            color: white;
+                            &:hover {
+                                background-color: darken($gtx-color-warning, 10%);
+                            }
+                        }
+                        &.alert {
+                            background-color: $gtx-color-alert;
+                            color: white;
+                            &:hover {
+                                background-color: darken($gtx-color-alert, 10%);
+                            }
+                        }
+                    }
+                }
+
                 <gtx-split-button>
                     <gtx-split-button-primary-action><icon left>home</icon> Home</gtx-split-button-primary-action>
                     <gtx-dropdown-item><icon left>settings</icon> Settings</gtx-dropdown-item>
