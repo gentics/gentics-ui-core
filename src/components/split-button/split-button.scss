@@ -11,10 +11,7 @@ gtx-split-button {
         }
 
         .spacer-line {
-            float: right;
-            margin: 5px 0;
-            width: 1px;
-            background: $gtx-color-very-dark-gray;
+            border-left: 1px solid $gtx-color-very-dark-gray;
         }
 
         .more-trigger button {
