@@ -121,6 +121,15 @@ describe('SplitButtonComponent', () => {
         )
     );
 
+    it('shows the dropdown trigger and a spacer line when there are secondary actions',
+        componentTest(() => TestComponent, fixture => {
+            fixture.detectChanges();
+            tick();
+            expect(fixture.nativeElement.querySelector('.spacer-line')).toBeTruthy();
+            expect(fixture.nativeElement.querySelector('.more-trigger')).toBeTruthy();
+        })
+    );
+
     it('primary action works by clicking the button',
         componentTest(() => TestComponent, (fixture, testComponent) => {
             fixture.detectChanges();
@@ -193,6 +202,7 @@ describe('SplitButtonComponent', () => {
                 tick();
 
                 expect(fixture.debugElement.queryAll(By.directive(Button)).length).toBe(1);
+                expect(fixture.nativeElement.querySelector('.spacer-line')).toBeFalsy();
                 const moreTrigger: HTMLButtonElement = fixture.nativeElement.querySelector('.more-trigger');
                 expect(moreTrigger).toBeFalsy();
             })

@@ -11,21 +11,25 @@
         <ng-content select="gtx-split-button-primary-action"></ng-content>
     </gtx-button>
 
-    <div class="spacer-line"></div>
+    <ng-container *ngIf="secondaryActions.length > 0">
 
-    <gtx-dropdown-list *ngIf="secondaryActions.length > 0" align="right">
-        <gtx-dropdown-trigger>
-            <gtx-button class="more-trigger"
-                    [size]="size"
-                    [type]="type"
-                    [flat]="isFlat"
-                    [disabled]="isDisabled">
-                <icon>arrow_drop_down</icon>
-            </gtx-button>
-        </gtx-dropdown-trigger>
-        <gtx-dropdown-content>
-            <ng-content select="gtx-dropdown-item"></ng-content>
-        </gtx-dropdown-content>
-    </gtx-dropdown-list>
+        <div class="spacer-line"></div>
+
+        <gtx-dropdown-list  align="right">
+            <gtx-dropdown-trigger>
+                <gtx-button class="more-trigger"
+                        [size]="size"
+                        [type]="type"
+                        [flat]="isFlat"
+                        [disabled]="isDisabled">
+                    <icon>arrow_drop_down</icon>
+                </gtx-button>
+            </gtx-dropdown-trigger>
+            <gtx-dropdown-content>
+                <ng-content select="gtx-dropdown-item"></ng-content>
+            </gtx-dropdown-content>
+        </gtx-dropdown-list>
+
+    </ng-container>
 
 </div>
