@@ -4,6 +4,8 @@
 
 ### Features
 
+* Add a [SplitButton](https://gentics.github.io/gentics-ui-core/#/split-button) component (GUIC-216)
+
 ### Fixes
 
 ## 7.1.1 (2019-04-02)
