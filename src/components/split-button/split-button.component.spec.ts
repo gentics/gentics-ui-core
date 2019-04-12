@@ -130,16 +130,31 @@ describe('SplitButtonComponent', () => {
             button.click();
             expect(testComponent.onClick).toHaveBeenCalledTimes(1);
             expect(testComponent.onClick).toHaveBeenCalledWith(0);
+            testComponent.onClick.calls.reset();
+
+            const event = document.createEvent('MouseEvent');
+            event.initEvent('click', true, true);
+            button.dispatchEvent(event);
+            expect(testComponent.onClick).toHaveBeenCalledTimes(1);
+            expect(testComponent.onClick).toHaveBeenCalledWith(0);
         })
     );
 
-    it('primary action works by clicking the button content',
+    it('primary action works by clicking the button\'s content and does not fire the click event twice',
         componentTest(() => TestComponent, (fixture, testComponent) => {
             fixture.detectChanges();
             tick();
 
             const primaryAction = fixture.debugElement.query(By.directive(SplitButtonPrimaryAction));
             primaryAction.nativeElement.click();
+            expect(testComponent.onClick).toHaveBeenCalledTimes(1);
+            expect(testComponent.onClick).toHaveBeenCalledWith(0);
+            testComponent.onClick.calls.reset();
+
+            const textContent = (primaryAction.nativeElement as HTMLElement).childNodes[0];
+            const event = document.createEvent('MouseEvent');
+            event.initEvent('click', true, true);
+            textContent.dispatchEvent(event);
             expect(testComponent.onClick).toHaveBeenCalledTimes(1);
             expect(testComponent.onClick).toHaveBeenCalledWith(0);
         })
@@ -212,4 +227,3 @@ class TestComponent {
     onClick = jasmine.createSpy('onClick').and.stub();
 
 }
-

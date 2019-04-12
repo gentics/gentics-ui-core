@@ -115,10 +115,35 @@ export class SplitButton implements AfterViewInit, OnDestroy {
      * If the user does not click the primary action content itself, but the button around it,
      * this method is used to trigger a click event on the primary action content.
      */
-    onPrimaryButtonClick(): void {
-        if (this.primaryAction) {
+    onPrimaryButtonClick(event: Event): void {
+        if (this.primaryAction && this.isFromPrimaryButton(event)) {
             this.primaryAction.nativeElement.click();
         }
+    }
+
+    /**
+     * Returns true if the event was fired by the primary `gtx-button` element or one of its children,
+     * but not by the `gtx-split-button-primary-action` or one of its children.
+     */
+    private isFromPrimaryButton(event: Event): boolean {
+        if (event && event.srcElement && event.srcElement instanceof Node) {
+            // We traverse the DOM tree upwards from the srcElement.
+            // If we first find a gtx-split-button-primary-action, the click came from
+            // inside the primary action content.
+            // If we find a gtx-button first, the click didn't come from inside the primary action content.
+            let currNode: Node = event.srcElement;
+            do {
+                switch (currNode.nodeName) {
+                    case 'GTX-BUTTON':
+                        return true;
+                    case 'GTX-SPLIT-BUTTON-PRIMARY-ACTION':
+                        return false;
+                    default:
+                        break;
+                }
+            } while (currNode = currNode.parentNode);
+        }
+        return false;
     }
 
 }

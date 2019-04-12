@@ -7,7 +7,7 @@
             [flat]="isFlat"
             [disabled]="isDisabled"
             [class.has-secondary-actions]="secondaryActions.length > 0"
-            (click)="onPrimaryButtonClick()">
+            (click)="onPrimaryButtonClick($event)">
         <ng-content select="gtx-split-button-primary-action"></ng-content>
     </gtx-button>
 
