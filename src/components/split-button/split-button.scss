@@ -1,0 +1,26 @@
+gtx-split-button {
+
+    .split-button-wrapper {
+        display: inline-flex;
+
+        gtx-button.has-secondary-actions button {
+            border-top-right-radius: 0;
+            border-bottom-right-radius: 0;
+            border-right-style: none;
+            box-shadow: none;
+        }
+
+        .spacer-line {
+            border-left: 1px solid $gtx-color-very-dark-gray;
+        }
+
+        .more-trigger button {
+            padding: 0;
+            border-top-left-radius: 0;
+            border-bottom-left-radius: 0;
+            border-left-style: none;
+            box-shadow: none;
+        }
+    }
+
+}

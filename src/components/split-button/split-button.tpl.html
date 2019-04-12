@@ -1,0 +1,35 @@
+<div class="split-button-wrapper z-depth-1">
+
+    <gtx-button class="primary-button"
+            [autofocus]="autofocus"
+            [size]="size"
+            [type]="type"
+            [flat]="isFlat"
+            [disabled]="isDisabled"
+            [class.has-secondary-actions]="secondaryActions.length > 0"
+            (click)="onPrimaryButtonClick($event)">
+        <ng-content select="gtx-split-button-primary-action"></ng-content>
+    </gtx-button>
+
+    <ng-container *ngIf="secondaryActions.length > 0">
+
+        <div class="spacer-line"></div>
+
+        <gtx-dropdown-list  align="right">
+            <gtx-dropdown-trigger>
+                <gtx-button class="more-trigger"
+                        [size]="size"
+                        [type]="type"
+                        [flat]="isFlat"
+                        [disabled]="isDisabled">
+                    <icon>arrow_drop_down</icon>
+                </gtx-button>
+            </gtx-dropdown-trigger>
+            <gtx-dropdown-content>
+                <ng-content select="gtx-dropdown-item"></ng-content>
+            </gtx-dropdown-content>
+        </gtx-dropdown-list>
+
+    </ng-container>
+
+</div>

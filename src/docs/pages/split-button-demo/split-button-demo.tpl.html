@@ -1,0 +1,223 @@
+<h3>SplitButton</h3>
+
+<gtx-autodocs [source]="componentSource"></gtx-autodocs>
+
+<h4>Demos</h4>
+
+<gtx-demo-block demoTitle="Sizes">
+    <div class="demo-result">
+        <gtx-split-button size="small">
+            <gtx-split-button-primary-action (click)="save()">Save Document</gtx-split-button-primary-action>
+            <gtx-dropdown-item (click)="saveAndPublish()">Save and Publish</gtx-dropdown-item>
+            <gtx-dropdown-item (click)="saveAndEmail()">Save and Send via E-Mail</gtx-dropdown-item>
+        </gtx-split-button>
+        <gtx-split-button size="regular">
+            <gtx-split-button-primary-action (click)="save()">Save Document</gtx-split-button-primary-action>
+            <gtx-dropdown-item (click)="saveAndPublish()">Save and Publish</gtx-dropdown-item>
+            <gtx-dropdown-item (click)="saveAndEmail()">Save and Send via E-Mail</gtx-dropdown-item>
+        </gtx-split-button>
+        <gtx-split-button size="large">
+            <gtx-split-button-primary-action (click)="save()">Save Document</gtx-split-button-primary-action>
+            <gtx-dropdown-item (click)="saveAndPublish()">Save and Publish</gtx-dropdown-item>
+            <gtx-dropdown-item (click)="saveAndEmail()">Save and Send via E-Mail</gtx-dropdown-item>
+        </gtx-split-button>
+        <p>Result: {{ saveResult }}</p>
+    </div>
+    <div class="demo-code">
+        <gtx-highlighted-code language="HTML" code='
+                <gtx-split-button size="small">
+                    <gtx-split-button-primary-action (click)="save()">Save Document</gtx-split-button-primary-action>
+                    <gtx-dropdown-item (click)="saveAndPublish()">Save and Publish</gtx-dropdown-item>
+                    <gtx-dropdown-item (click)="saveAndEmail()">Save and Send via E-Mail</gtx-dropdown-item>
+                </gtx-split-button>
+                <gtx-split-button size="regular">
+                    <gtx-split-button-primary-action (click)="save()">Save Document</gtx-split-button-primary-action>
+                    <gtx-dropdown-item (click)="saveAndPublish()">Save and Publish</gtx-dropdown-item>
+                    <gtx-dropdown-item (click)="saveAndEmail()">Save and Send via E-Mail</gtx-dropdown-item>
+                </gtx-split-button>
+                <gtx-split-button size="large">
+                    <gtx-split-button-primary-action (click)="save()">Save Document</gtx-split-button-primary-action>
+                    <gtx-dropdown-item (click)="saveAndPublish()">Save and Publish</gtx-dropdown-item>
+                    <gtx-dropdown-item (click)="saveAndEmail()">Save and Send via E-Mail</gtx-dropdown-item>
+                </gtx-split-button>
+                <p>Result: (( saveResult ))</p>
+           '></gtx-highlighted-code>
+    </div>
+</gtx-demo-block>
+
+<gtx-demo-block demoTitle="Sizes">
+    <div class="demo-result">
+        <p>
+            The dropdown trigger is only displayed if at least one secondary action is defined.
+        </p>
+        <gtx-button (click)="addSecondaryAction()">Add secondary action</gtx-button>
+        <gtx-button (click)="removeSecondaryAction()">Remove secondary action</gtx-button>
+        <gtx-split-button>
+            <gtx-split-button-primary-action (click)="onActionClick(0)">Primary Action</gtx-split-button-primary-action>
+            <gtx-dropdown-item *ngFor="let action of secondaryActions; let i = index" (click)="onActionClick(i + 1)">
+                {{ action }} {{ i + 1 }}
+            </gtx-dropdown-item>
+        </gtx-split-button>
+        <p>Action clicked: {{ actionClicked }}</p>
+    </div>
+    <div class="demo-code">
+        <gtx-highlighted-code language="HTML" code='
+                <gtx-button (click)="addSecondaryAction()">Add secondary action</gtx-button>
+                <gtx-button (click)="removeSecondaryAction()">Remove secondary action</gtx-button>
+                <gtx-split-button>
+                    <gtx-split-button-primary-action (click)="onActionClick(0)">Primary Action</gtx-split-button-primary-action>
+                    <gtx-dropdown-item *ngFor="let action of secondaryActions; let i = index" (click)="onActionClick(i + 1)">
+                        (( action )) (( i + 1 ))
+                    </gtx-dropdown-item>
+                </gtx-split-button>
+                <p>Action clicked: (( actionClicked ))</p>
+            '></gtx-highlighted-code>
+    </div>
+</gtx-demo-block>
+
+<gtx-demo-block demoTitle="Types">
+    <div class="demo-result">
+        <gtx-split-button type="primary">
+            <gtx-split-button-primary-action>Primary (Default)</gtx-split-button-primary-action>
+            <gtx-dropdown-item>Secondary Action</gtx-dropdown-item>
+        </gtx-split-button>
+        <gtx-split-button type="secondary">
+            <gtx-split-button-primary-action>Secondary</gtx-split-button-primary-action>
+            <gtx-dropdown-item>Secondary Action</gtx-dropdown-item>
+        </gtx-split-button>
+        <gtx-split-button type="success">
+            <gtx-split-button-primary-action>Success</gtx-split-button-primary-action>
+            <gtx-dropdown-item>Secondary Action</gtx-dropdown-item>
+        </gtx-split-button>
+        <gtx-split-button type="warning">
+            <gtx-split-button-primary-action>Warning</gtx-split-button-primary-action>
+            <gtx-dropdown-item>Secondary Action</gtx-dropdown-item>
+        </gtx-split-button>
+        <gtx-split-button type="alert">
+            <gtx-split-button-primary-action>Alert</gtx-split-button-primary-action>
+            <gtx-dropdown-item>Secondary Action</gtx-dropdown-item>
+        </gtx-split-button>
+    </div>
+    <div class="demo-code">
+        <gtx-highlighted-code language="HTML" code='
+                <gtx-split-button type="primary">
+                    <gtx-split-button-primary-action>Primary (Default)</gtx-split-button-primary-action>
+                    <gtx-dropdown-item>Secondary Action</gtx-dropdown-item>
+                </gtx-split-button>
+                <gtx-split-button type="secondary">
+                    <gtx-split-button-primary-action>Secondary</gtx-split-button-primary-action>
+                    <gtx-dropdown-item>Secondary Action</gtx-dropdown-item>
+                </gtx-split-button>
+                <gtx-split-button type="success">
+                    <gtx-split-button-primary-action>Success</gtx-split-button-primary-action>
+                    <gtx-dropdown-item>Secondary Action</gtx-dropdown-item>
+                </gtx-split-button>
+                <gtx-split-button type="warning">
+                    <gtx-split-button-primary-action>Warning</gtx-split-button-primary-action>
+                    <gtx-dropdown-item>Secondary Action</gtx-dropdown-item>
+                </gtx-split-button>
+                <gtx-split-button type="alert">
+                    <gtx-split-button-primary-action>Alert</gtx-split-button-primary-action>
+                    <gtx-dropdown-item>Secondary Action</gtx-dropdown-item>
+                </gtx-split-button>
+            '></gtx-highlighted-code>
+    </div>
+</gtx-demo-block>
+
+<gtx-demo-block demoTitle="Icons and Styling">
+    <div class="demo-result">
+        <gtx-split-button>
+            <gtx-split-button-primary-action><icon left>home</icon> Home</gtx-split-button-primary-action>
+            <gtx-dropdown-item><icon left>settings</icon> Settings</gtx-dropdown-item>
+        </gtx-split-button>
+        <gtx-split-button flat>
+            <gtx-split-button-primary-action><icon left>info</icon> Info</gtx-split-button-primary-action>
+            <gtx-dropdown-item>Secondary Action</gtx-dropdown-item>
+        </gtx-split-button>
+        <gtx-split-button>
+            <gtx-split-button-primary-action><icon left>info</icon> Styled secondary actions<icon right>warning</icon></gtx-split-button-primary-action>
+            <gtx-dropdown-item class="warning">Warning action</gtx-dropdown-item>
+            <gtx-dropdown-item class="alert">Alert action</gtx-dropdown-item>
+        </gtx-split-button>
+    </div>
+    <div class="demo-code">
+        <gtx-highlighted-code language="HTML" code='
+                gtx-dropdown-content {
+                    gtx-dropdown-item {
+                        &.warning {
+                            background-color: $gtx-color-warning;
+                            color: white;
+                            &:hover {
+                                background-color: darken($gtx-color-warning, 10%);
+                            }
+                        }
+                        &.alert {
+                            background-color: $gtx-color-alert;
+                            color: white;
+                            &:hover {
+                                background-color: darken($gtx-color-alert, 10%);
+                            }
+                        }
+                    }
+                }
+
+                <gtx-split-button>
+                    <gtx-split-button-primary-action><icon left>home</icon> Home</gtx-split-button-primary-action>
+                    <gtx-dropdown-item><icon left>settings</icon> Settings</gtx-dropdown-item>
+                </gtx-split-button>
+                <gtx-split-button flat>
+                    <gtx-split-button-primary-action><icon left>info</icon> Info</gtx-split-button-primary-action>
+                    <gtx-dropdown-item>Secondary Action</gtx-dropdown-item>
+                </gtx-split-button>
+                <gtx-split-button>
+                    <gtx-split-button-primary-action><icon left>info</icon> Styled secondary actions<icon right>warning</icon></gtx-split-button-primary-action>
+                    <gtx-dropdown-item class="warning">Warning action</gtx-dropdown-item>
+                    <gtx-dropdown-item class="alert">Alert action</gtx-dropdown-item>
+                </gtx-split-button>
+            '></gtx-highlighted-code>
+    </div>
+</gtx-demo-block>
+
+<gtx-demo-block demoTitle="Disabling">
+    <div class="demo-result">
+        <gtx-checkbox [(ngModel)]="buttonIsDisabled" label="Disable Button"></gtx-checkbox>
+        <gtx-split-button [disabled]="buttonIsDisabled">
+            <gtx-split-button-primary-action (click)="clickCount = clickCount + 1">Increment Counter</gtx-split-button-primary-action>
+            <gtx-dropdown-item (click)="clickCount = clickCount + 1">Increment Counter</gtx-dropdown-item>
+        </gtx-split-button>
+        <p>Click count: {{ clickCount }}</p>
+    </div>
+    <div class="demo-code">
+        <gtx-highlighted-code language="HTML" code='
+                <gtx-checkbox [(ngModel)]="buttonIsDisabled" label="Disable Button"></gtx-checkbox>
+                <gtx-split-button [disabled]="buttonIsDisabled">
+                    <gtx-split-button-primary-action (click)="clickCount = clickCount + 1">Increment Counter</gtx-split-button-primary-action>
+                    <gtx-dropdown-item (click)="clickCount = clickCount + 1">Increment Counter</gtx-dropdown-item>
+                </gtx-split-button>
+                <p>Click count: (( clickCount ))</p>
+            '></gtx-highlighted-code>
+    </div>
+</gtx-demo-block>
+
+<gtx-demo-block demoTitle="Disabling Single Secondary Actions">
+    <div class="demo-result">
+        <gtx-checkbox [(ngModel)]="secondaryActionIsDisabled" label="Disable Item"></gtx-checkbox>
+        <gtx-split-button>
+            <gtx-split-button-primary-action (click)="clickCount = clickCount + 1">Increment Counter</gtx-split-button-primary-action>
+            <gtx-dropdown-item disabled (click)="clickCount = clickCount + 1">Increment Counter (always disabled)</gtx-dropdown-item>
+            <gtx-dropdown-item [disabled]="secondaryActionIsDisabled" (click)="clickCount = clickCount + 1">Increment Counter (disabled can be toggled)</gtx-dropdown-item>
+        </gtx-split-button>
+        <p>Click count: {{ clickCount }}</p>
+    </div>
+    <div class="demo-code">
+        <gtx-highlighted-code language="HTML" code='
+                <gtx-checkbox [(ngModel)]="secondaryActionIsDisabled" label="Disable Item"></gtx-checkbox>
+                <gtx-split-button>
+                    <gtx-split-button-primary-action (click)="clickCount = clickCount + 1">Increment Counter</gtx-split-button-primary-action>
+                    <gtx-dropdown-item disabled (click)="clickCount = clickCount + 1">Increment Counter (always disabled)</gtx-dropdown-item>
+                    <gtx-dropdown-item [disabled]="secondaryActionIsDisabled" (click)="clickCount = clickCount + 1">Increment Counter (disabled can be toggled)</gtx-dropdown-item>
+                </gtx-split-button>
+                <p>Click count: (( clickCount ))</p>
+            '></gtx-highlighted-code>
+    </div>
+</gtx-demo-block>

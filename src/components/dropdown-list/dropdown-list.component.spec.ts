@@ -309,6 +309,41 @@ describe('DropdownList:', () => {
         )
     );
 
+    it('clicking a DropdownItem triggers a click event',
+        componentTest(() => TestComponent, (fixture, instance) => {
+            fixture.detectChanges();
+            tick();
+            getTrigger(fixture, 0).click();
+            tick();
+            fixture.detectChanges();
+
+            const firstItem = fixture.debugElement.queryAll(By.css('.dropdown-content-wrapper gtx-dropdown-item'))[0];
+            expect((firstItem.componentInstance as DropdownItem).disabled).toBe(false);
+            const event = document.createEvent('MouseEvent');
+            event.initEvent('click', true, true);
+            firstItem.nativeElement.dispatchEvent(event);
+            expect(instance.onClick).toHaveBeenCalledTimes(1);
+
+            tick(1000);
+        })
+    );
+
+    it('if the disabled binding on a DropdownItem is true, it disables its pointer events',
+        componentTest(() => TestComponent, (fixture, instance) => {
+            instance.itemDisabled = true;
+            fixture.detectChanges();
+            tick();
+            getTrigger(fixture, 0).click();
+            tick();
+            fixture.detectChanges();
+
+            const firstItem = fixture.debugElement.queryAll(By.css('.dropdown-content-wrapper gtx-dropdown-item'))[0].nativeElement as HTMLElement;
+            expect(firstItem.classList.contains('disabled')).toBe(true);
+
+            tick(1000);
+        })
+    );
+
     describe('tab control', () => {
 
         function openAndTabToFirstItem(fixture: ComponentFixture<TestComponent>): void {
@@ -411,7 +446,7 @@ describe('DropdownList:', () => {
                     <button>Choose An Option</button>
                 </gtx-dropdown-trigger>
                 <gtx-dropdown-content>
-                    <gtx-dropdown-item>First</gtx-dropdown-item>
+                    <gtx-dropdown-item [disabled]="itemDisabled" (click)="onClick()">First</gtx-dropdown-item>
                     <gtx-dropdown-item>Second</gtx-dropdown-item>
                     <gtx-dropdown-item>Third</gtx-dropdown-item>
                 </gtx-dropdown-content>
@@ -421,10 +456,12 @@ describe('DropdownList:', () => {
 class TestComponent {
     sticky = false;
     disabled = false;
+    itemDisabled = false;
     closeOnEscape = true;
     collection = [1, 2, 3];
     onOpen = jasmine.createSpy('onOpen');
     onClose = jasmine.createSpy('onClose');
+    onClick = jasmine.createSpy('onClick');
 }
 
 function getTrigger(fixture: any, index: number): HTMLElement {

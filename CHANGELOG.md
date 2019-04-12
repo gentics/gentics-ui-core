@@ -4,6 +4,9 @@
 
 ### Features
 
+* Add a [SplitButton](https://gentics.github.io/gentics-ui-core/#/split-button) component (GUIC-216)
+* Add an option to disable single `gtx-dropdown-item` elements
+
 ### Fixes
 
 ## 7.1.1 (2019-04-02)

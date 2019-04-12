@@ -1,0 +1,23 @@
+gtx-dropdown-content {
+    gtx-dropdown-item {
+
+        &.warning {
+            background-color: $gtx-color-warning;
+            color: white;
+
+            &:hover {
+                background-color: darken($gtx-color-warning, 10%);
+            }
+        }
+
+        &.alert {
+            background-color: $gtx-color-alert;
+            color: white;
+
+            &:hover {
+                background-color: darken($gtx-color-alert, 10%);
+            }
+        }
+
+    }
+}
