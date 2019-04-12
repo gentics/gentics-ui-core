@@ -9,6 +9,8 @@ import {
     QueryList
 } from '@angular/core';
 import {Subscription} from 'rxjs';
+
+import {coerceToBoolean} from '../../common/coerce-to-boolean';
 import {DropdownItem} from '../dropdown-list/dropdown-item.component';
 
 /**
@@ -60,15 +62,30 @@ export class SplitButton implements AfterViewInit, OnDestroy {
      * Setting the "flat" attribute gives the button a transparent background
      * and only depth on hover.
      */
-    @Input() flat: boolean;
+    @Input()
+    get flat(): boolean {
+        return this.isFlat;
+    }
+    set flat(value: boolean) {
+        this.isFlat = coerceToBoolean(value);
+    }
 
     /**
      * Controls whether the button is disabled.
      */
-    @Input() disabled: boolean;
+    @Input()
+    get disabled(): boolean {
+        return this.isDisabled;
+    }
+    set disabled(value: boolean) {
+        this.isDisabled = coerceToBoolean(value);
+    }
 
     @ContentChildren(DropdownItem)
     secondaryActions: QueryList<DropdownItem>;
+
+    isFlat = false;
+    isDisabled = false;
 
     private queryListSub: Subscription;
 

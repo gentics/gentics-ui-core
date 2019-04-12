@@ -4,8 +4,8 @@
             [autofocus]="autofocus"
             [size]="size"
             [type]="type"
-            [flat]="flat"
-            [disabled]="disabled"
+            [flat]="isFlat"
+            [disabled]="isDisabled"
             [class.has-secondary-actions]="secondaryActions.length > 0">
         <ng-content select="gtx-split-button-primary-action"></ng-content>
     </gtx-button>
@@ -15,8 +15,8 @@
             <gtx-button class="more-trigger"
                     [size]="size"
                     [type]="type"
-                    [flat]="flat"
-                    [disabled]="disabled">
+                    [flat]="isFlat"
+                    [disabled]="isDisabled">
                 <icon>arrow_drop_down</icon>
             </gtx-button>
         </gtx-dropdown-trigger>
