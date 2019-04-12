@@ -1,5 +1,5 @@
 import {Component, DebugElement, ViewChild} from '@angular/core';
-import {ComponentFixture, TestBed} from '@angular/core/testing';
+import {ComponentFixture, TestBed, tick} from '@angular/core/testing';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {By} from '@angular/platform-browser';
 import {BrowserDynamicTestingModule} from '@angular/platform-browser-dynamic/testing';
@@ -60,6 +60,7 @@ fdescribe('SplitButtonComponent', () => {
     it('is enabled by default',
         componentTest(() => TestComponent, fixture => {
             fixture.detectChanges();
+            tick();
             assertDisabledState(fixture, false);
         })
     );
@@ -69,10 +70,12 @@ fdescribe('SplitButtonComponent', () => {
             (fixture, testComponent) => {
                 testComponent.isDisabled = true;
                 fixture.detectChanges();
+                tick();
                 assertDisabledState(fixture, true);
 
                 testComponent.isDisabled = false;
                 fixture.detectChanges();
+                tick();
                 assertDisabledState(fixture, false);
             }
         )
@@ -82,6 +85,7 @@ fdescribe('SplitButtonComponent', () => {
         componentTest(() => TestComponent, assembleTemplate('disabled="true"'),
             fixture => {
                 fixture.detectChanges();
+                tick();
                 assertDisabledState(fixture, true);
             }
         )
@@ -91,16 +95,51 @@ fdescribe('SplitButtonComponent', () => {
         componentTest(() => TestComponent, assembleTemplate('disabled'),
             fixture => {
                 fixture.detectChanges();
+                tick();
                 assertDisabledState(fixture, true);
             }
         )
     );
 
-    it('primary action works',
+    it('is not flat by default',
+        componentTest(() => TestComponent,
+            fixture => {
+                fixture.detectChanges();
+                tick();
+                assertFlatState(fixture, false);
+            }
+        )
+    );
+
+    it('"flat" works',
+        componentTest(() => TestComponent, assembleTemplate('flat'),
+            fixture => {
+                fixture.detectChanges();
+                tick();
+                assertFlatState(fixture, true);
+            }
+        )
+    );
+
+    it('primary action works by clicking the button',
         componentTest(() => TestComponent, (fixture, testComponent) => {
             fixture.detectChanges();
-            let button: HTMLButtonElement = fixture.nativeElement.querySelector('.primary-button button');
+            tick();
+
+            const button: HTMLButtonElement = fixture.nativeElement.querySelector('.primary-button button');
             button.click();
+            expect(testComponent.onClick).toHaveBeenCalledTimes(1);
+            expect(testComponent.onClick).toHaveBeenCalledWith(0);
+        })
+    );
+
+    it('clicking the primary action content does not fire the click event twice',
+        componentTest(() => TestComponent, (fixture, testComponent) => {
+            fixture.detectChanges();
+            tick();
+
+            const primaryAction = fixture.debugElement.query(By.directive(SplitButtonPrimaryAction));
+            primaryAction.nativeElement.click();
             expect(testComponent.onClick).toHaveBeenCalledTimes(1);
             expect(testComponent.onClick).toHaveBeenCalledWith(0);
         })
@@ -109,7 +148,22 @@ fdescribe('SplitButtonComponent', () => {
     it('secondary actions work',
         componentTest(() => TestComponent, (fixture, testComponent) => {
             fixture.detectChanges();
+            tick();
 
+            // Open the dropdown list.
+            const moreTrigger: HTMLButtonElement = fixture.nativeElement.querySelector('.more-trigger button');
+            moreTrigger.click();
+            fixture.detectChanges();
+            tick();
+
+            // Click the second item.
+            const secondaryActions = fixture.debugElement.queryAll(By.directive(DropdownItem));
+            expect(secondaryActions).toBeTruthy();
+            expect(secondaryActions.length).toBe(2);
+            secondaryActions[1].nativeElement.click();
+
+            expect(testComponent.onClick).toHaveBeenCalledTimes(1);
+            expect(testComponent.onClick).toHaveBeenCalledWith(2);
         })
     );
 
@@ -121,6 +175,8 @@ fdescribe('SplitButtonComponent', () => {
             <gtx-overlay-host></gtx-overlay-host>`,
             fixture => {
                 fixture.detectChanges();
+                tick();
+
                 expect(fixture.debugElement.queryAll(By.directive(Button)).length).toBe(1);
                 const moreTrigger: HTMLButtonElement = fixture.nativeElement.querySelector('.more-trigger');
                 expect(moreTrigger).toBeFalsy();
@@ -134,6 +190,13 @@ function assertDisabledState(fixture: ComponentFixture<TestComponent>, expectedS
     expect(buttons.length).toBe(2);
     expect(!!fixture.componentInstance.splitButton.disabled).toBe(expectedState);
     buttons.forEach(button => expect(!!button.componentInstance.disabled).toBe(expectedState));
+}
+
+function assertFlatState(fixture: ComponentFixture<TestComponent>, expectedState: boolean): void {
+    const buttons: DebugElement[] = fixture.debugElement.queryAll(By.directive(Button));
+    expect(buttons.length).toBe(2);
+    expect(!!fixture.componentInstance.splitButton.flat).toBe(expectedState);
+    buttons.forEach(button => expect(!!button.componentInstance.flat).toBe(expectedState));
 }
 
 @Component({
