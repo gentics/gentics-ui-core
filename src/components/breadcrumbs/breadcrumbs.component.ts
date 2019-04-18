@@ -105,8 +105,6 @@ export class Breadcrumbs implements OnChanges, OnDestroy, AfterViewInit {
     isDisabled: boolean = false;
     isOverflowing: boolean = false;
 
-    edgeOrIEIsOverflowing: boolean = false;
-
     showArrow: boolean = false;
 
     backLink: IBreadcrumbLink | IBreadcrumbRouterLink;
@@ -205,10 +203,7 @@ export class Breadcrumbs implements OnChanges, OnDestroy, AfterViewInit {
                 } else {
                     this.showArrow = false;
                 }
-                if (this.userAgent.isEdge || this.userAgent.isIE11) {
-                    this.shortenTexts(this.lastPart.nativeElement);
-                }
-                this.isOverflowing = this.checkIfOverflowing(this.lastPart.nativeElement);
+                this.shortenTexts(this.lastPart.nativeElement);
                 this.changeDetector.markForCheck();
             });
 
@@ -219,7 +214,7 @@ export class Breadcrumbs implements OnChanges, OnDestroy, AfterViewInit {
         const innerElements = element.querySelectorAll('a.breadcrumb');
         const defaultElements = this.getCuttableBreadcrumbsTexts();
 
-        this.edgeOrIEIsOverflowing = false;
+        this.isOverflowing = false;
 
         // Reset all elements to their default states.
         const offset = this.multilineExpanded ? 0 : 1;
@@ -236,7 +231,7 @@ export class Breadcrumbs implements OnChanges, OnDestroy, AfterViewInit {
 
         let i = 0;
         while (i < innerElements.length && innerElements[i].textContent.length >= 0 && ((this.nav.nativeElement.scrollWidth - element.offsetLeft) < (element.scrollWidth + 50))) {
-            this.edgeOrIEIsOverflowing = true;
+            this.isOverflowing = true;
             if (innerElements[i].textContent.length === 0) {
                 innerElements[i].classList.add('hidden');
                 i++;
@@ -276,20 +271,6 @@ export class Breadcrumbs implements OnChanges, OnDestroy, AfterViewInit {
                 ev.stopImmediatePropagation();
             }
         }
-    }
-
-    /**
-     * Checks if the specified element is currently overflowing.
-     * @returns true if the element is currently overflowing, otherwise false.
-     */
-    private checkIfOverflowing(element: Element): boolean {
-        if (this.userAgent.isIE11 || this.userAgent.isEdge) {
-            return this.edgeOrIEIsOverflowing;
-        }
-
-        const fullWidth = element.scrollWidth;
-        const visibleWidth = element.clientWidth;
-        return fullWidth > visibleWidth;
     }
 
     /**

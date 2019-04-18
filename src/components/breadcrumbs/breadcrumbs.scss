@@ -70,9 +70,6 @@ gtx-breadcrumbs {
     .lastPart {
         overflow: hidden;
         white-space: nowrap;
-        text-overflow: ellipsis;
-        direction: rtl;
-        font-size: 0;
     }
 
     .without::before {
@@ -81,20 +78,6 @@ gtx-breadcrumbs {
 
     .hidden {
         display: none;
-    }
-
-    @media all and (-ms-high-contrast:none) {
-        .lastPart {
-            text-overflow: clip;
-            direction: ltr;
-        }
-    }
-
-    @supports (-ms-ime-align:auto) {
-        .lastPart {
-            text-overflow: clip;
-            direction: ltr;
-        }
     }
 
     .multilineExpanded .lastPart {
