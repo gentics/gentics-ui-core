@@ -1,11 +1,10 @@
-@import '~material-icons-font/sass/variables';
-@import '~material-icons-font/sass/mixins';
+$material-design-icons-font-path: '~material-design-icons-iconfont/dist/fonts/';
 
-$MaterialIcons_FontPath: "~material-icons-font/fonts";
-$MaterialIcons_DefaultFontClassName: "material-icons, icon";
+@import '~material-design-icons-iconfont/src/material-design-icons';
 
-@import '~material-icons-font/sass/main';
-@import '~material-icons-font/sass/Regular';
+icon {
+    @extend .material-icons;
+}
 
 icon[left] {
     float: left;
