@@ -13,7 +13,7 @@ gtx-breadcrumbs {
 
     .back_arrow {
         position: absolute;
-        padding: 11px 10px;
+        padding: 7px 10px;
         cursor: pointer;
     }
 
@@ -57,7 +57,7 @@ gtx-breadcrumbs {
     .multiline .ellipsis {
         pointer-events: auto;
         cursor: pointer;
-        margin-right: 7px;
+        margin-left: 5px;
     }
 
     .nav-wrapper:not(.multiline):not(.multilineExpanded) .inner-wrapper {

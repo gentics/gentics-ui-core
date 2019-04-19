@@ -54,6 +54,10 @@ export class Breadcrumbs implements OnChanges, OnDestroy, AfterViewInit {
      */
     @Input() links: IBreadcrumbLink[];
 
+    /**
+     * Number that we should add to JS implementation, should be different for different components in GCMS UI
+     */
+    @Input() magicNumber: number;
 
     /**
      * A list of RouterLinks to display
@@ -230,7 +234,7 @@ export class Breadcrumbs implements OnChanges, OnDestroy, AfterViewInit {
         }
 
         let i = 0;
-        while (i < innerElements.length && innerElements[i].textContent.length >= 0 && ((this.nav.nativeElement.scrollWidth - element.offsetLeft) < (element.scrollWidth + 75))) {
+        while (i < innerElements.length && innerElements[i].textContent.length >= 0 && ((this.nav.nativeElement.scrollWidth - element.offsetLeft) < (element.scrollWidth + this.magicNumber))) {
             this.isOverflowing = true;
             if (innerElements[i].textContent.length === 0) {
                 innerElements[i].classList.add('hidden');
