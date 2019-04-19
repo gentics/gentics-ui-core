@@ -26,12 +26,12 @@ gtx-breadcrumbs {
         font-size: 25px;
         vertical-align: top;
         -webkit-font-smoothing: antialiased;
-        margin: 0 0 0 12px;
+        margin: 0 10px 0 8px;
     }
 
     @media screen and (-ms-high-contrast: active), (-ms-high-contrast: none) {
         div a.breadcrumb:not(.last):nth-child(3)::after {
-            margin: 3px 0 0 12px
+            margin: 3px 10px 0 8px
         }
     }
 
@@ -57,7 +57,6 @@ gtx-breadcrumbs {
     .multiline .ellipsis {
         pointer-events: auto;
         cursor: pointer;
-        margin-left: 5px;
     }
 
     .nav-wrapper:not(.multiline):not(.multilineExpanded) .inner-wrapper {
