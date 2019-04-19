@@ -184,7 +184,7 @@ export class Breadcrumbs implements OnChanges, OnDestroy, AfterViewInit {
         let prevNavWidth = -1;
 
         const resizeSub = this.resizeEvents
-            .pipe(debounceTime(200))
+            .pipe(debounceTime(5))
             .subscribe(() => {
                 if (!this.lastPart || !this.nav) {
                     return;
