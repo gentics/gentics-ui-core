@@ -57,7 +57,7 @@ export class Breadcrumbs implements OnChanges, OnDestroy, AfterViewInit {
     /**
      * Number that we should add to JS implementation, should be different for different components in GCMS UI
      */
-    @Input() magicNumber: number;
+    @Input() truncateOffset: number;
 
     /**
      * A list of RouterLinks to display
@@ -234,7 +234,7 @@ export class Breadcrumbs implements OnChanges, OnDestroy, AfterViewInit {
         }
 
         let i = 0;
-        while (i < innerElements.length && innerElements[i].textContent.length >= 0 && ((this.nav.nativeElement.scrollWidth - element.offsetLeft) < (element.scrollWidth + this.magicNumber))) {
+        while (i < innerElements.length && innerElements[i].textContent.length >= 0 && ((this.nav.nativeElement.scrollWidth - element.offsetLeft) < (element.scrollWidth + this.truncateOffset))) {
             this.isOverflowing = true;
             if (innerElements[i].textContent.length === 0) {
                 innerElements[i].classList.add('hidden');
