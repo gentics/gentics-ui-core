@@ -9,7 +9,7 @@ import {coerceToBoolean} from '../../common/coerce-to-boolean';
  * Pure tabs will only change the active tab when the `activeId` property is updated.
  *
  * ##### Stateful Tabs
- * ```
+ * ```html
  * <gtx-tabs (tabChange)="goToTab($event)">
  *     <gtx-tab title="Details">Optional content here.</gtx-tab>
  *     <gtx-tab title="Orders"></gtx-tab>
@@ -18,7 +18,7 @@ import {coerceToBoolean} from '../../common/coerce-to-boolean';
  * ```
  *
  * ##### Pure Tabs
- * ```
+ * ```html
  * <gtx-tabs pure [activeId]="activeTab">
  *     <gtx-tab title="Details" id="1" (select)="activeTab = $event"></gtx-tab>
  *     <gtx-tab title="Orders" id="2" (select)="activeTab = $event"></gtx-tab>
@@ -28,7 +28,7 @@ import {coerceToBoolean} from '../../common/coerce-to-boolean';
  *
  * ##### With `routerLink`
  * A gtx-tab can take an optional `[routerLink]` binding which will set router links for the tabs.
- * ```
+ * ```html
  * <gtx-tabs pure [activeId]="activeTab">
  *     <gtx-tab title="Details" id="1" [routerLink]="['customer', 'details']"></gtx-tab>
  *     <gtx-tab title="Orders" id="2" [routerLink]="['customer', 'orders']"></gtx-tab>
@@ -37,7 +37,7 @@ import {coerceToBoolean} from '../../common/coerce-to-boolean';
  * ```
  *  * ##### Vertical Tabs
  * A gtx-tabs can take an optional `vertical` property which allows to display tabs vertically.
- * ```
+ * ```html
  * <gtx-tabs vertical>
  *        <gtx-tab title="Details"></gtx-tab>
  *        <gtx-tab title="Orders"></gtx-tab>

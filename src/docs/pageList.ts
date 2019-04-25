@@ -30,6 +30,7 @@ import {TabsDemo} from './pages/tabs-demo/tabs-demo';
 import {TextareaDemo} from './pages/textarea-demo/textarea-demo';
 import {TopBarDemo} from './pages/top-bar-demo/top-bar-demo';
 import {TypographyDemo} from './pages/typography-demo/typography-demo';
+import { GroupedTabsDemo } from './pages/grouped-tabs-demo/grouped-tabs-demo';
 
 export interface IPageInfo {
     path: string;
@@ -103,6 +104,11 @@ export const pages: IPageInfo[] = [
         path: 'grid',
         component: GridDemo,
         type: 'css'
+    },
+    {
+        path: 'grouped-tabs',
+        component: GroupedTabsDemo,
+        type: 'component'
     },
     {
         path: 'icons',

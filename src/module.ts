@@ -49,6 +49,11 @@ import {Textarea} from './components/textarea/textarea.component';
 import {Toast} from './components/notification/toast.component';
 import {TopBar} from './components/top-bar/top-bar.component';
 import {UserAgentRef} from './components/modal/user-agent-ref';
+import {GroupedTabs} from './components/grouped-tabs/grouped-tabs.component';
+import {TabPane} from './components/grouped-tabs/tab-pane.component';
+import {TabGroup} from './components/grouped-tabs/tab-group.component';
+import {GtxTabLabel} from './components/grouped-tabs/tab-label';
+import {GtxTabContent} from './components/grouped-tabs/tab-content';
 
 export const UI_CORE_COMPONENTS: any[] = [
     AutofocusDirective,
@@ -68,6 +73,7 @@ export const UI_CORE_COMPONENTS: any[] = [
     DynamicModalWrapper,
     FileDropArea,
     FilePicker,
+    GroupedTabs,
     Icon,
     InputField,
     MenuToggleButton,
@@ -91,9 +97,16 @@ export const UI_CORE_COMPONENTS: any[] = [
     SplitViewContainer,
     Tab,
     Tabs,
+    TabPane,
+    TabGroup,
     Textarea,
     TopBar,
     Toast
+];
+
+export const UI_CORE_DIRECTIVES: any[] = [
+    GtxTabLabel,
+    GtxTabContent
 ];
 
 export const UI_CORE_ENTRY_COMPONENTS: any[] = [
@@ -120,7 +133,7 @@ export const UI_CORE_PROVIDERS: any[] = [
     UserAgentRef
 ];
 
-export const declarations = [...UI_CORE_COMPONENTS, ...UI_CORE_PIPES];
+export const declarations = [...UI_CORE_COMPONENTS, ...UI_CORE_DIRECTIVES, ...UI_CORE_PIPES];
 export const routerModuleForChild: ModuleWithProviders = RouterModule.forChild([]);
 
 @NgModule({

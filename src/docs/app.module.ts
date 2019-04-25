@@ -21,6 +21,7 @@ import {DropdownListDemo} from './pages/dropdown-list-demo/dropdown-list-demo';
 import {FileDropAreaDemo} from './pages/file-drop-area-demo/file-drop-area-demo';
 import {FilePickerDemo} from './pages/file-picker-demo/file-picker-demo';
 import {GridDemo} from './pages/grid-demo/grid-demo';
+import {GroupedTabsDemo} from './pages/grouped-tabs-demo/grouped-tabs-demo';
 import {IconsDemo} from './pages/icons-demo/icons-demo';
 import {InputDemo} from './pages/input-demo/input-demo';
 import {Instructions} from './pages/instructions/instructions';
@@ -60,6 +61,7 @@ const DEMO_APP_PAGES: any[] = [
     FileDropAreaDemo,
     FilePickerDemo,
     GridDemo,
+    GroupedTabsDemo,
     IconsDemo,
     InputDemo,
     Instructions,
