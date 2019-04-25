@@ -49,6 +49,10 @@ gtx-breadcrumbs {
         }
     }
 
+    .ellipsis {
+        width: 13px;
+    }
+
     :not(.multiline) .ellipsis {
         pointer-events: none;
         cursor: auto;

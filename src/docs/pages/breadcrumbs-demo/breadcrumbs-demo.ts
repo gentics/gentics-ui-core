@@ -9,8 +9,6 @@ export class BreadcrumbsDemo {
 
     isChanged: boolean = false;
 
-    magicNumber: number = 50;
-
     multiline: boolean = true;
     multilineExpanded: boolean = false;
 }

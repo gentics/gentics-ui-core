@@ -35,6 +35,9 @@ export interface IBreadcrumbRouterLink {
     [key: string]: any;
 }
 
+/** The width configured in the .ellipsis CSS class. */
+const ELLIPSIS_WIDTH = 13;
+
 /**
  * A Breadcrumbs navigation component.
  *
@@ -53,11 +56,6 @@ export class Breadcrumbs implements OnChanges, OnDestroy, AfterViewInit {
      * A list of links to display
      */
     @Input() links: IBreadcrumbLink[];
-
-    /**
-     * Number that we should add to JS implementation, should be different for different components in GCMS UI
-     */
-    @Input() truncateOffset: number;
 
     /**
      * A list of RouterLinks to display
@@ -114,11 +112,11 @@ export class Breadcrumbs implements OnChanges, OnDestroy, AfterViewInit {
     backLink: IBreadcrumbLink | IBreadcrumbRouterLink;
     @ViewChildren(RouterLinkWithHref) routerLinkChildren: QueryList<RouterLinkWithHref>;
 
+    @ViewChild('navWrapper')
+    navWrapper: ElementRef;
+
     @ViewChild('lastPart')
     lastPart: ElementRef;
-
-    @ViewChild('nav')
-    nav: ElementRef;
 
     private subscriptions = new Subscription();
     private resizeEvents = new BehaviorSubject<void>(null);
@@ -186,11 +184,11 @@ export class Breadcrumbs implements OnChanges, OnDestroy, AfterViewInit {
         const resizeSub = this.resizeEvents
             .pipe(debounceTime(5))
             .subscribe(() => {
-                if (!this.lastPart || !this.nav) {
+                if (!this.lastPart || !this.navWrapper) {
                     return;
                 }
-                // If neither the links, nor isMultilineExpanded, nor the nav element's clientWidth has changed, we don't need to do anything.
-                const currNavWidth = this.nav.nativeElement.clientWidth;
+                // If neither the links, nor isMultilineExpanded, nor the navWrapper element's clientWidth has changed, we don't need to do anything.
+                const currNavWidth = this.navWrapper.nativeElement.clientWidth;
                 if (prevLinks === this.links && prevRouterLinks === this.routerLinks && prevIsExpanded === this.isMultilineExpanded && prevNavWidth === currNavWidth) {
                     return;
                 }
@@ -207,15 +205,17 @@ export class Breadcrumbs implements OnChanges, OnDestroy, AfterViewInit {
                 } else {
                     this.showArrow = false;
                 }
-                this.shortenTexts(this.lastPart.nativeElement);
+                this.shortenTexts();
                 this.changeDetector.markForCheck();
             });
 
         this.subscriptions.add(resizeSub);
     }
 
-    private shortenTexts(element: HTMLElement) {
-        const innerElements = element.querySelectorAll('a.breadcrumb');
+    private shortenTexts() {
+        const navWrapper = this.navWrapper.nativeElement as HTMLElement;
+        const lastPart = this.lastPart.nativeElement as HTMLElement;
+        const innerElements = lastPart.querySelectorAll('a.breadcrumb');
         const defaultElements = this.getCuttableBreadcrumbsTexts();
 
         this.isOverflowing = false;
@@ -233,17 +233,20 @@ export class Breadcrumbs implements OnChanges, OnDestroy, AfterViewInit {
             return;
         }
 
-        let i = 0;
-        while (i < innerElements.length && innerElements[i].textContent.length >= 0 && ((this.nav.nativeElement.scrollWidth - element.offsetLeft) < (element.scrollWidth + this.truncateOffset))) {
-            this.isOverflowing = true;
-            if (innerElements[i].textContent.length === 0) {
-                innerElements[i].classList.add('hidden');
-                i++;
-                if (innerElements[i]) {
-                    innerElements[i].classList.add('without');
+        for (let i = 0; i < innerElements.length; ++i) {
+            const innerElement = innerElements[i];
+            while (lastPart.offsetLeft + lastPart.scrollWidth + ELLIPSIS_WIDTH > navWrapper.clientWidth) {
+                this.isOverflowing = true;
+                if (innerElement.textContent.length === 0) {
+                    innerElement.classList.add('hidden');
+                    const nextInnerElement = innerElements[i + 1];
+                    if (nextInnerElement) {
+                        nextInnerElement.classList.add('without');
+                    }
+                    break;
+                } else {
+                    innerElement.textContent = innerElement.textContent.substring(1);
                 }
-            } else {
-                innerElements[i].textContent = innerElements[i].textContent.substring(1);
             }
         }
     }
