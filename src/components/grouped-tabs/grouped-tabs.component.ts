@@ -3,7 +3,7 @@ import {TabPane} from './tab-pane.component';
 import {TabGroup} from './tab-group.component';
 import { combineLatest } from 'rxjs';
 import { debounceTime } from 'rxjs/operators';
-import { coerceToBoolean } from 'src/common/coerce-to-boolean';
+import { coerceToBoolean } from '../../common/coerce-to-boolean';
 
 let uniqueGroupedTabsId = 0;
 

@@ -1,7 +1,7 @@
-import {Component, ContentChildren, QueryList, Input, ContentChild, TemplateRef} from '@angular/core';
+import {Component, ContentChildren, QueryList, Input, TemplateRef} from '@angular/core';
 import { TabPane } from './tab-pane.component';
 import { GtxTabLabel } from './tab-label';
-import { coerceToBoolean } from 'src/common/coerce-to-boolean';
+import { coerceToBoolean } from '../../common/coerce-to-boolean';
 
 // Counter for unique group ids.
 let uniqueTabGroupId = 0;
