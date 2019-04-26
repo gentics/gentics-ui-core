@@ -1,3 +1,12 @@
+@mixin breadcrumbs-gradient-overlay($color) {
+    background: linear-gradient(to right, $color 30%, rgba(255,255,255,0));
+    content: '';
+    height: 100%;
+    width: 65px;
+    position: absolute;
+    left: 90px;
+}
+
 gtx-breadcrumbs {
     display: flex;
     align-items: center;
@@ -81,21 +90,11 @@ gtx-breadcrumbs {
     }
 
     .disabled .is-overflowing .lastPart:before {
-        background: linear-gradient(to right, $gtx-breadcrumbs-disabled-background-color 30%, rgba(255,255,255,0));
-        content: '';
-        height: 100%;
-        width: 65px;
-        position: absolute;
-        left: 90px;
+        @include breadcrumbs-gradient-overlay($gtx-breadcrumbs-disabled-background-color);
     }
 
     :not(.disabled) .is-overflowing .lastPart:before {
-        background: linear-gradient(to right, $gtx-breadcrumbs-background-color 30%, rgba(255,255,255,0));
-        content: '';
-        height: 100%;
-        width: 65px;
-        position: absolute;
-        left: 90px;
+        @include breadcrumbs-gradient-overlay($gtx-breadcrumbs-background-color);
     }
 
     .without::before {
