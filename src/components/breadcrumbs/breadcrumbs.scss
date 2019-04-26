@@ -51,6 +51,8 @@ gtx-breadcrumbs {
 
     .ellipsis {
         width: 13px;
+        margin-right: 11px;
+        z-index: 10;
     }
 
     :not(.multiline) .ellipsis {
@@ -73,6 +75,27 @@ gtx-breadcrumbs {
     .lastPart {
         overflow: hidden;
         white-space: nowrap;
+        text-overflow: ellipsis;
+        direction: rtl;
+        font-size: 0;
+    }
+
+    .disabled .is-overflowing .lastPart:before {
+        background: linear-gradient(to right, $gtx-breadcrumbs-disabled-background-color 30%, rgba(255,255,255,0));
+        content: '';
+        height: 100%;
+        width: 50px;
+        position: absolute;
+        left: 90px;
+    }
+
+    :not(.disabled) .is-overflowing .lastPart:before {
+        background: linear-gradient(to right, $gtx-breadcrumbs-background-color 30%, rgba(255,255,255,0));
+        content: '';
+        height: 100%;
+        width: 50px;
+        position: absolute;
+        left: 90px;
     }
 
     .without::before {
