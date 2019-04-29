@@ -1,4 +1,4 @@
-import {Component, ContentChildren, QueryList, Input, TemplateRef} from '@angular/core';
+import { Component, ContentChildren, QueryList, Input, TemplateRef } from '@angular/core';
 import { TabPane } from './tab-pane.component';
 import { GtxTabLabel } from './tab-label';
 import { coerceToBoolean } from '../../common/coerce-to-boolean';
@@ -18,6 +18,9 @@ export class TabGroup {
   /** Unique id for the tab group. */
   uniqueId: string = `gtx-tag-group-${uniqueTabGroupId++}`;
 
+  /** Expand state for the group */
+  expand: boolean = false;
+
   /** Content for the tab label given by `<ng-template gtx-tab-label>`. */
   @ContentChildren(GtxTabLabel, { read: TemplateRef, descendants: false }) templateLabels: QueryList<GtxTabLabel>;
 
@@ -32,7 +35,11 @@ export class TabGroup {
     this.expand = coerceToBoolean(val);
   }
 
-  expand: boolean = false;
+  @Input() set id(val: string) {
+    this.uniqueId = val;
+  }
+
+  get id(): string { return this.uniqueId; }
 
   /** All of the defined tab panes. */
   @ContentChildren(TabPane, { descendants: false }) tabs: QueryList<TabPane>;

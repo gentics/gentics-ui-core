@@ -105,3 +105,40 @@
         '></gtx-highlighted-code>
     </div>
 </gtx-demo-block>
+
+<gtx-demo-block demoTitle="Async Tab Rendering with Pure Tabs">
+    <div class="demo-result">
+        <gtx-grouped-tabs pure [activeId]="activeTab">
+            <gtx-tab-pane id="first-tab" (select)="activeTab = $event">
+                <ng-template gtx-tab-label>
+                    <icon left>add</icon> Standalone Tab 1
+                </ng-template>
+                <icon left>web</icon>Standalone Tab 1 Content
+                <div><gtx-button (click)="addTabAsync()"><icon left>add</icon>Add new tabs in Async Group</gtx-button></div>
+            </gtx-tab-pane>
+            <gtx-tab-group id="mygroup" label="Async Group" expanded="true">
+                <gtx-tab-pane [label]="tabData.label" [id]="tabData.id" (select)="activeTab = $event" *ngFor="let tabData of asyncTabData$ | async">
+                    {{ tabData.content }}
+                </gtx-tab-pane>
+            </gtx-tab-group>
+        </gtx-grouped-tabs>
+    </div>
+    <div class="demo-code">
+        <gtx-highlighted-code ngNonBindable language="HTML" code='
+        <gtx-grouped-tabs pure [activeId]="activeTab">        
+            <gtx-tab-pane id="first-tab" (select)="activeTab = $event">
+                <ng-template gtx-tab-label>
+                    <icon left>add</icon> Standalone Tab 1
+                </ng-template>
+                <icon left>web</icon>Standalone Tab 1 Content
+                <div><gtx-button (click)="addTabAsync()"><icon left>add</icon>Add new tabs in Async Group</gtx-button></div>
+            </gtx-tab-pane>
+            <gtx-tab-group id="mygroup" label="Async Group" expanded="true">
+                <gtx-tab-pane [label]="tabData.label" [id]="tabData.id" (select)="activeTab = $event" *ngFor="let tabData of asyncTabData$ | async">
+                    {{ "{" }}{{ "{" }} tabData.content {{ "}" }}{{ "}" }}
+                </gtx-tab-pane>
+            </gtx-tab-group>
+        </gtx-grouped-tabs>
+        '></gtx-highlighted-code>
+    </div>
+</gtx-demo-block>    

@@ -1,11 +1,7 @@
 <div class="grouped-tabs">
-    <ul class="collapsible expandable" [class.wrap-tab-title]="tabsShouldWrap">
+    <ul class="collapsible expandable" [class.wrap-tab-title]="tabsShouldWrap" *ngIf="tabs.length > 0">
         <ng-container *ngFor="let tabItem of tabs">
-            <ng-template [ngIf]="!tabItem.tabs">
-                <ng-container *ngTemplateOutlet="tabItemTemplate;context:{tabItem: tabItem}">
-                </ng-container>
-            </ng-template>
-            <ng-template [ngIf]="tabItem.tabs">
+            <ng-template [ngIf]="isTabGroup(tabItem)" [ngIfElse]="standaloneTabItem">
                 <li class="tab-group" [id]="tabItem.uniqueId" [ngClass]="{
                     expanded: tabItem.expand,
                     'is-active': tabItem.hasActiveChild
@@ -14,13 +10,17 @@
                         <ng-container *ngTemplateOutlet="labelTemplate;context:{tabItem: tabItem}"></ng-container>
                     </div>
                     <div class="collapsible-body" [style.max-height.px]="tabsHeight(tabItem)">
-                        <ul class="tab-links">
+                        <ul class="tab-links" *ngIf="tabItem.tabs.length > 0">
                             <ng-container *ngFor="let tab of tabItem.tabs">
                                 <ng-container *ngTemplateOutlet="tabItemTemplate;context:{tabItem: tab}"></ng-container>
                             </ng-container>
                         </ul>
                     </div>
                 </li>
+            </ng-template>
+            <ng-template #standaloneTabItem>
+                <ng-container *ngTemplateOutlet="tabItemTemplate;context:{tabItem: tabItem}">
+                </ng-container>
             </ng-template>
         </ng-container>
     </ul>

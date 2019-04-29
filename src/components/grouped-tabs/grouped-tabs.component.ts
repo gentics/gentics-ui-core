@@ -1,8 +1,8 @@
-import {Component, ContentChildren, QueryList, AfterContentInit, Input, Output, EventEmitter, SimpleChanges, ElementRef} from '@angular/core';
-import {TabPane} from './tab-pane.component';
-import {TabGroup} from './tab-group.component';
-import { combineLatest } from 'rxjs';
-import { debounceTime } from 'rxjs/operators';
+import { Component, ContentChildren, QueryList, AfterContentInit, Input, Output, EventEmitter, SimpleChanges, ElementRef } from '@angular/core';
+import { TabPane } from './tab-pane.component';
+import { TabGroup } from './tab-group.component';
+import { combineLatest, Subscription } from 'rxjs';
+import { switchMap } from 'rxjs/operators';
 import { coerceToBoolean } from '../../common/coerce-to-boolean';
 
 let uniqueGroupedTabsId = 0;
@@ -93,6 +93,12 @@ export class GroupedTabs implements AfterContentInit {
      */
     @Input() activeId: string;
 
+    @Input() set id(val: string) {
+        this.uniqueId = val;
+    }
+
+    get id(): string { return this.uniqueId; }
+
     /**
      * When present, sets the tabs to pure (stateless) mode.
      */
@@ -112,14 +118,17 @@ export class GroupedTabs implements AfterContentInit {
 
     tabsShouldWrap: boolean = false;
     private isPure: boolean = false;
+    private subscriptions = new Subscription();
 
-    constructor(private elementRef: ElementRef) {} 
+    constructor(private elementRef: ElementRef) {}
+
+    isTabGroup(item) { return item.expand !== undefined; }
 
     collectTabs(): void {
         // Clear existing tabs
         this.tabs = [];
 
-        // Collect tabs by groups
+        // Collect all the available tabs and groups
         this.tabPanes.map(item => {
             const tabGroup = this.tabGroups.find(group => group.tabs.some(tab => tab === item));
             if (tabGroup !== undefined) {
@@ -130,17 +139,12 @@ export class GroupedTabs implements AfterContentInit {
                 this.tabs.push(item);
             }
         });
+
+        // Activates the first tab if there are no active currently
+        this.preActivateTab();
     }
 
-    ngAfterContentInit(): void {
-        const tabChanges = combineLatest([
-            this.tabPanes.changes,
-            this.tabGroups.changes
-        ]).pipe(debounceTime(50));
-
-        this.collectTabs();
-        tabChanges.subscribe(this.collectTabs);
-
+    preActivateTab(): void {
         if (this.isPure) {
             setTimeout(() => this.setActiveTab());
         } else {
@@ -153,8 +157,37 @@ export class GroupedTabs implements AfterContentInit {
         }
     }
 
+    ngAfterContentInit(): void {
+        const tabChanges = combineLatest(
+            this.tabPanes.changes,
+            this.tabGroups.changes
+        ).pipe(switchMap(([tabPaneChanges, tabGroupChanges]) => {
+            let allChanges = [tabPaneChanges, tabGroupChanges];
+
+            this.tabGroups.map((group) => {
+                group.tabs.notifyOnChanges();
+                allChanges.push(group.tabs.changes);
+            });
+
+            return combineLatest(allChanges);
+        }));
+
+        this.subscriptions.add(tabChanges.subscribe(() => {
+            this.collectTabs();
+        }));
+
+        this.tabPanes.notifyOnChanges();
+        this.tabGroups.notifyOnChanges();
+
+        this.collectTabs();
+    }
+
     ngOnChanges(changes: SimpleChanges): void {
         this.setActiveTab();
+    }
+
+    ngOnDestroy(): void {
+        this.subscriptions.unsubscribe();
     }
 
     /**
@@ -212,5 +245,4 @@ export class GroupedTabs implements AfterContentInit {
         });
         tab.active = true;
     }
-
 }

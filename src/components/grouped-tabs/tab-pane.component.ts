@@ -1,4 +1,4 @@
-import {Component, Input, ContentChild, TemplateRef, ViewChild, Output, EventEmitter, AfterViewInit} from '@angular/core';
+import { Component, Input, ContentChild, TemplateRef, ViewChild, Output, EventEmitter } from '@angular/core';
 import { GtxTabContent } from './tab-content';
 import { GtxTabLabel } from './tab-label';
 
@@ -29,6 +29,12 @@ export class TabPane  {
   /** Plain text label for the tab, used when there is no template label. */
   @Input('label') textLabel: string = '';
 
+  @Input() set id(val: string) {
+    this.uniqueId = val;
+  }
+
+  @Input() disabled: boolean;
+
   /**
    * Template provided in the tab content that will be used if present, used to enable lazy-loading
    */
@@ -36,8 +42,6 @@ export class TabPane  {
 
   /** Template inside the TabPane view that contains an `<ng-content>`. */
   @ViewChild(TemplateRef) _implicitContent: TemplateRef<any>;
-
-  @Input() disabled: boolean;
 
   /**
    * When the tab is clicked, this event is fired with the tab id.
