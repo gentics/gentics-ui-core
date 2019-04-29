@@ -23,6 +23,11 @@ import {MatchesMimeTypePipe} from './components/file-drop-area/matches-mime-type
 import {PageFileDragHandler} from './components/file-drop-area/page-file-drag-handler.service';
 import {PreventFileDrop} from './components/file-drop-area/prevent-file-drop.directive';
 import {FilePicker} from './components/file-picker/file-picker.component';
+import {GroupedTabs} from './components/grouped-tabs/grouped-tabs.component';
+import {GtxTabContent} from './components/grouped-tabs/tab-content';
+import {TabGroup} from './components/grouped-tabs/tab-group.component';
+import {GtxTabLabel} from './components/grouped-tabs/tab-label';
+import {TabPane} from './components/grouped-tabs/tab-pane.component';
 import {Icon} from './components/icon/icon.directive';
 import {InputField} from './components/input/input.component';
 import {MenuToggleButton} from './components/menu-toggle-button/menu-toggle-button.component';
@@ -70,6 +75,7 @@ export const UI_CORE_COMPONENTS: any[] = [
     DynamicModalWrapper,
     FileDropArea,
     FilePicker,
+    GroupedTabs,
     Icon,
     InputField,
     MenuToggleButton,
@@ -95,9 +101,16 @@ export const UI_CORE_COMPONENTS: any[] = [
     SplitViewContainer,
     Tab,
     Tabs,
+    TabPane,
+    TabGroup,
     Textarea,
     TopBar,
     Toast
+];
+
+export const UI_CORE_DIRECTIVES: any[] = [
+    GtxTabLabel,
+    GtxTabContent
 ];
 
 export const UI_CORE_ENTRY_COMPONENTS: any[] = [
@@ -124,7 +137,7 @@ export const UI_CORE_PROVIDERS: any[] = [
     UserAgentRef
 ];
 
-export const declarations = [...UI_CORE_COMPONENTS, ...UI_CORE_PIPES];
+export const declarations = [...UI_CORE_COMPONENTS, ...UI_CORE_DIRECTIVES, ...UI_CORE_PIPES];
 export const routerModuleForChild: ModuleWithProviders = RouterModule.forChild([]);
 
 @NgModule({

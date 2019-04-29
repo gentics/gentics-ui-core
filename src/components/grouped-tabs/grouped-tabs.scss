@@ -1,0 +1,165 @@
+@mixin is-active {
+    border-left: 2px solid $gtx-tabs-active-border-color;
+    border-right: 1px solid white;
+    margin-right: -1px;
+}
+
+@mixin inline-ellipsis-text {
+    overflow: hidden;
+    max-width: 100%;
+    display: block;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+gtx-grouped-tabs {
+    width: 100%;
+    display: block;
+
+    .grouped-tabs {
+        overflow: hidden;
+        width: 25%;
+        float: left;
+        margin-right: 15px;
+
+        gtx-tab-pane > .tab-content:not(.is-active) {
+            display: none;
+        }
+
+        .collapsible {
+            border: none;
+            border-right: 1px solid $gtx-color-light-gray;
+            box-shadow: none;
+            margin: 0;
+            background: white;
+
+            & > li {
+                background: white;
+                text-transform: uppercase;
+                border-top: 1px solid $gtx-color-light-gray;
+                margin-bottom: 0;
+                position: relative;
+                z-index: 1;
+
+                &:last-child {
+                    margin-bottom: 0;
+                    border-bottom: 1px solid $gtx-color-light-gray;
+                }
+            }
+
+            .tab-link {
+                @include noselect;
+                cursor: pointer;
+                text-transform: uppercase;
+                color: $gtx-color-dark-gray;
+                transition: border-left 0.3s, color 0.2s;
+                vertical-align: middle;
+    
+                > a {
+                    @include inline-ellipsis-text;
+    
+                    &, &:link, &:visited {
+                        color: inherit;
+                    }
+                }
+    
+                &.disabled > a {
+                    cursor: default;
+                }
+            }
+
+            & > li.tab-link {
+                cursor: pointer;
+                line-height: 1.5;
+                padding: 0.5rem;
+                padding-left: 1rem;
+                border-left: 0px solid transparent;
+    
+                &:hover {
+                    color: $gtx-color-off-black;
+                }
+    
+                &.is-active {
+                    @include is-active;
+                }
+            }
+
+            & > li.tab-group {
+                border-left: 2px solid transparent;
+    
+                .collapsible-header {
+                    border: none;
+                    padding: 0.5rem 1rem;
+                    color: $gtx-color-dark-gray;
+                    @include inline-ellipsis-text;
+                    @include noselect;
+
+                    &:hover {
+                        color: $gtx-color-off-black;
+                    }
+                }
+
+                .collapsible-body {
+                    display: block;
+                    visibility: hidden;
+                    opacity: 0;
+                    transition: visibility 0s ease 0.15s, opacity 0.10s ease-out 0.05s, max-height 0.15s ease-out;
+                    padding: 0;
+                    border: none;
+                    z-index: 0;
+                    position: relative;
+
+                    & > ul > li {
+                        padding: 0.5rem 1rem;
+                        padding-right: 0;
+                        margin: 0;
+                        margin-left: 1rem;
+                        border-left: 0px solid white;
+                        border-top: 1px solid $gtx-color-light-gray;
+                        cursor: pointer;
+
+                        &:hover {
+                            color: $gtx-color-off-black;
+                        }
+
+                        &.is-active {
+                            @include is-active;
+                        }
+                    }
+                }
+    
+                &.is-active {
+                    transition: border-left-color 0.2s;
+                    border-left-color: rgba(0, 150, 220, 0.3);
+                }
+    
+                &.expanded {
+                    .collapsible-body {
+                        visibility: visible;
+                        opacity: 1;
+                        transition: visibility 0s, opacity 0.15s ease-in 0.10s, max-height 0.25s ease-in;
+                    }
+                }
+            }
+
+            &.wrap-tab-title {
+                .tab-link {
+                    > a {
+                        white-space: normal;
+                    }
+                }
+
+                & > li.tab-group {            
+                    .collapsible-header {
+                        white-space: normal;
+                    }
+                }
+            }
+        }
+    }
+
+    .grouped-tab-content {
+        float: left;
+        max-width: calc(75% - 15px);
+    }
+}

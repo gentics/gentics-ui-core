@@ -1,0 +1,59 @@
+<div class="grouped-tabs">
+    <ul class="collapsible expandable" [class.wrap-tab-title]="tabsShouldWrap">
+        <ng-container *ngFor="let tabItem of tabs$ | async">
+            <ng-template [ngIf]="isTabGroup(tabItem)" [ngIfElse]="standaloneTabItem">
+                <li class="tab-group" [id]="tabItem.uniqueId" [ngClass]="{
+                    expanded: tabItem.expand,
+                    'is-active': tabItem.hasActiveChild
+                }">
+                    <div class="collapsible-header" (click)="toggleGroup(tabItem)">
+                        <ng-container *ngTemplateOutlet="labelTemplate;context:{tabItem: tabItem}"></ng-container>
+                    </div>
+                    <div class="collapsible-body" [style.max-height.px]="tabsHeight(tabItem)">
+                        <ul class="tab-links" *ngIf="tabItem.tabs.length > 0">
+                            <ng-container *ngFor="let tab of tabItem.tabs">
+                                <ng-container *ngTemplateOutlet="tabItemTemplate;context:{tabItem: tab}"></ng-container>
+                            </ng-container>
+                        </ul>
+                    </div>
+                </li>
+            </ng-template>
+            <ng-template #standaloneTabItem>
+                <ng-container *ngTemplateOutlet="tabItemTemplate;context:{tabItem: tabItem}">
+                </ng-container>
+            </ng-template>
+        </ng-container>
+    </ul>
+</div>
+<div class="grouped-tab-content">
+    <ng-container *ngTemplateOutlet="currentTab?.content"></ng-container>
+</div>
+<div class="clearfix"></div>
+
+<ng-template #labelTemplate let-tabItem="tabItem">
+    <ng-template [ngIf]="tabItem?.expand === true">
+        <icon left>keyboard_arrow_down</icon>
+    </ng-template>
+    <ng-template [ngIf]="tabItem?.expand === false">
+        <icon left>keyboard_arrow_right</icon>
+    </ng-template>
+    <!-- If there is a label template, use it. -->
+    <ng-template [ngIf]="tabItem.templateLabel">
+        <ng-container *ngTemplateOutlet="tabItem.templateLabel"></ng-container>
+    </ng-template>    
+    <!-- If there is not a label template, fall back to the text label. -->
+    <ng-template [ngIf]="!tabItem.templateLabel">{{ tabItem.textLabel }}</ng-template>
+</ng-template>
+
+<ng-template #tabItemTemplate let-tabItem="tabItem">
+    <li class="tab-link" role="presentation"
+        (click)="selectTab(tabItem)"
+        [ngClass]="{
+            disabled: tabItem.disabled,
+            'is-active': tabItem.active
+        }">
+        <a role="tab">
+            <ng-container *ngTemplateOutlet="labelTemplate;context:{tabItem: tabItem}"></ng-container>
+        </a>
+    </li>
+</ng-template>
