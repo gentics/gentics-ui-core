@@ -15,52 +15,52 @@ let uniqueGroupedTabsId = 0;
  * ##### Tabs with simple labels
  * ```html
  * <gtx-grouped-tabs>
- *      <gtx-tab-item label="First without Group">Content 1</gtx-tab-item>
+ *      <gtx-tab-pane label="First without Group">Content 1</gtx-tab-pane>
  *      <gtx-tab-group label="1st Group name" expand="true">
- *          <gtx-tab-item label="First">Content 2</gtx-tab-item>
- *          <gtx-tab-item label="Second">Content 3</gtx-tab-item>
+ *          <gtx-tab-pane label="First">Content 2</gtx-tab-pane>
+ *          <gtx-tab-pane label="Second">Content 3</gtx-tab-pane>
  *      </gtx-tab-group>
  *      <gtx-tab-group label="2nd Group name">
- *          <gtx-tab-item label="First">Content 4</gtx-tab-item>
- *          <gtx-tab-item label="Second">Content 5</gtx-tab-item>
+ *          <gtx-tab-pane label="First">Content 4</gtx-tab-pane>
+ *          <gtx-tab-pane label="Second">Content 5</gtx-tab-pane>
  *      </gtx-tab-group>
  * </gtx-grouped-tabs>
  * ```
- * 
+ *
  * ##### Tabs with template labels
  * ```html
  * <gtx-grouped-tabs>
- *      <gtx-tab-item>
+ *      <gtx-tab-pane>
  *          <ng-template gtx-tab-label>First without Group</ng-template>
  *          Implicit Content 1
- *      </gtx-tab-item>
+ *      </gtx-tab-pane>
  *      <gtx-tab-group expand="true">
  *          <ng-template gtx-tab-label>
  *              <icon>add</icon> 1st Group name
  *          </ng-template>
- *          <gtx-tab-item>
+ *          <gtx-tab-pane>
  *              <ng-template gtx-tab-label>First</ng-template>
  *              <ng-template gtx-tab-content>
  *                  Content 2
  *              </ng-template>
- *          </gtx-tab-item>
- *          <gtx-tab-item label="Second">Content 3</gtx-tab-item>
+ *          </gtx-tab-pane>
+ *          <gtx-tab-pane label="Second">Content 3</gtx-tab-pane>
  *      </gtx-tab-group>
  *      <gtx-tab-group label="2nd Group name">
- *          <gtx-tab-item label="First">Content 4</gtx-tab-item>
- *          <gtx-tab-item label="Second">Content 5</gtx-tab-item>
+ *          <gtx-tab-pane label="First">Content 4</gtx-tab-pane>
+ *          <gtx-tab-pane label="Second">Content 5</gtx-tab-pane>
  *      </gtx-tab-group>
  * </gtx-grouped-tabs>
  * ```
- * 
+ *
  * ##### Export components to use in templates
  * ```html
  * <gtx-grouped-tabs #groupedTabs="gtxGroupedTabs">
- *      <gtx-tab-item label="First" #tab1>First content</gtx-tab-item>
- *      <gtx-tab-item label="Second">
+ *      <gtx-tab-pane label="First" #tab1>First content</gtx-tab-pane>
+ *      <gtx-tab-pane label="Second">
  *          Seconds content
  *          <gtx-button (click)="groupedTabs.selectTab(tab1)">Switch to Tab 1</gtx-button>
- *      </gtx-tab-item>
+ *      </gtx-tab-pane>
  * </gtx-grouped-tabs>
  * ```
  *
