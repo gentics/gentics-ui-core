@@ -22,7 +22,7 @@ gtx-breadcrumbs {
 
     .back_arrow {
         position: absolute;
-        padding: 7px 10px;
+        padding: 11px 10px;
         cursor: pointer;
     }
 
@@ -35,13 +35,7 @@ gtx-breadcrumbs {
         font-size: 25px;
         vertical-align: top;
         -webkit-font-smoothing: antialiased;
-        margin: 0 10px 0 8px;
-    }
-
-    @media screen and (-ms-high-contrast: active), (-ms-high-contrast: none) {
-        div a.breadcrumb:not(.last):nth-child(3)::after {
-            margin: 3px 10px 0 8px
-        }
+        margin: 0 10px 0 12px;
     }
 
     @media (min-width: 320px) and (max-width: 480px) {
@@ -85,8 +79,32 @@ gtx-breadcrumbs {
         overflow: hidden;
         white-space: nowrap;
         text-overflow: ellipsis;
-        direction: rtl;
         font-size: 0;
+    }
+
+    @media screen and (-ms-high-contrast: active), (-ms-high-contrast: none) {
+        div a.breadcrumb:not(.last):nth-child(3)::after {
+            margin: 3px 10px 0 8px;
+        }
+        .back_arrow {
+            padding: 12px 10px;
+        }
+        .lastPart {
+            text-overflow: clip;
+            direction: ltr;
+            font-size: 0;
+        }
+    }
+
+    @supports (-ms-ime-align:auto) {
+        .back_arrow {
+            padding: 7px 10px;
+        }
+        .lastPart {
+            text-overflow: clip;
+            direction: ltr;
+            font-size: 15px;
+        }
     }
 
     .disabled .is-overflowing .lastPart:before {
