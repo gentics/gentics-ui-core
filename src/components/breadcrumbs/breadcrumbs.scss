@@ -35,7 +35,7 @@ gtx-breadcrumbs {
         font-size: 25px;
         vertical-align: top;
         -webkit-font-smoothing: antialiased;
-        margin: 0 10px 0 12px;
+        margin: 0 10px 0 8px;
     }
 
     @media (min-width: 320px) and (max-width: 480px) {
@@ -54,7 +54,6 @@ gtx-breadcrumbs {
 
     .ellipsis {
         width: 13px;
-        margin-right: 11px;
         z-index: 10;
     }
 
@@ -97,6 +96,9 @@ gtx-breadcrumbs {
     }
 
     @supports (-ms-ime-align:auto) {
+        div a.breadcrumb:not(.last):nth-child(3)::after {
+            margin: 0 10px 0 12px;
+        }
         .back_arrow {
             padding: 7px 10px;
         }
