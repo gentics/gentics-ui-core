@@ -1,15 +1,14 @@
 # Gentics UI Core Changelog
 
-## 7.2.0 (not yet released)
+## 7.2.0 (2019-04-29)
 
 ### Features
 
 * Improve styling of breadcrumbs
+* Add a [GroupedTabs](https://gentics.github.io/gentics-ui-core/#/grouped-tabs) component (GUIC-215)
 * Add a [SplitButton](https://gentics.github.io/gentics-ui-core/#/split-button) component (GUIC-216)
 * Add an option to disable single `gtx-dropdown-item` elements
 * Switch to [material-design-icons-iconfont](https://github.com/jossef/material-design-icons-iconfont) npm package (GUIC-217)
-
-### Fixes
 
 ## 7.1.1 (2019-04-02)
 

@@ -63,7 +63,8 @@ export class Breadcrumbs implements OnChanges, OnDestroy, AfterViewInit {
     @Input() routerLinks: IBreadcrumbRouterLink[];
 
     /**
-     * If true all the folder names that fit into one line are shown completely and one ellipsis is shown at the end
+     * If true the first folder and all the folder names from the end of the breadcrumbs, which fit into one line are shown
+     * and an ellipsis in between.
      */
     @Input() get multiline(): boolean {
         return this.isMultiline;

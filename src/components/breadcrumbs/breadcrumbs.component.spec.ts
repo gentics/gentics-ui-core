@@ -17,7 +17,7 @@ import {Breadcrumbs, IBreadcrumbLink, IBreadcrumbRouterLink} from './breadcrumbs
 function linkTexts(fixture: ComponentFixture<any>): string[] {
     return Array.prototype.map.call(
         fixture.nativeElement.querySelectorAll('a.breadcrumb'),
-        (a: HTMLAnchorElement) => a.innerText
+        (a: HTMLAnchorElement) => a.innerText.trim()
     );
 }
 
@@ -49,7 +49,7 @@ describe('Breadcrumbs:', () => {
 
     it('creates a breadcrumbs bar with the link texts provided',
         componentTest(() => TestComponent, `
-            <gtx-breadcrumbs [links]='[
+            <gtx-breadcrumbs multilineExpanded='true' [links]='[
                 { text: "A" },
                 { text: "B" }
             ]'></gtx-breadcrumbs>`,
@@ -94,17 +94,7 @@ describe('Breadcrumbs:', () => {
             tick(1000);
             expect(linkTexts(fixture)).toEqual(['A', 'B', 'C']);
 
-            // Change by value
-            links[0].text = 'AA';
-            links[1].text = 'BB';
-            links[2].text = 'CC';
-            fixture.detectChanges();
-            tick(1000);
-
-            expect(linkTexts(fixture)).toEqual(['AA', 'BB', 'CC'],
-                'text of breadcrumb links did not change by value');
-
-            // Change by reference
+            // Change by reference (changing values directly is no longer supported due to ChangeDetectionStrategy.OnPush)
             component.links = [
                 { text: 'AAA' },
                 { text: 'BBB' },
@@ -319,7 +309,7 @@ describe('Breadcrumbs:', () => {
 
         it('creates links with the text provided in "routerLinks"',
             componentTest(() => TestComponent, `
-                <gtx-breadcrumbs [routerLinks]="routerLinks">
+                <gtx-breadcrumbs multilineExpanded='true' [routerLinks]="routerLinks">
                 </gtx-breadcrumbs>`,
                 (fixture, instance) => {
                     instance.routerLinks = [
@@ -447,6 +437,7 @@ class MockUsageActions {
 @Component({
     template: `
         <gtx-breadcrumbs
+            multilineExpanded="true"
             [links]="links"
             (linkClick)="onLinkClick($event)">
         </gtx-breadcrumbs>`
