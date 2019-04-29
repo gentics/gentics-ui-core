@@ -1,21 +1,27 @@
 import {HttpClientModule} from '@angular/common/http';
-import {NgModule, ModuleWithProviders} from '@angular/core';
-import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
-import {BrowserModule} from '@angular/platform-browser';
-import {RouterModule} from '@angular/router';
+import {ModuleWithProviders, NgModule} from '@angular/core';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
+import {BrowserModule} from '@angular/platform-browser';
+import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
+import {RouterModule} from '@angular/router';
 import {AngularSvgIconModule} from 'angular-svg-icon';
 
 import {GenticsUICoreModule} from '../module';
 import {App} from './app.component';
 import {routes} from './app.routes';
+import {AutodocTable} from './components/autodocs/autodoc-table.component';
+import {Autodocs} from './components/autodocs/autodocs.component';
+import {DemoBlock} from './components/demo-block/demo-block.component';
+import {DocsSwitcher} from './components/docs-switcher/docs-switcher.component';
+import {HighlightedCode} from './components/highlighted-code/highlighted-code.component';
+import {TrustedHTMLPipe} from './components/trusted-html/trusted-html.pipe';
 import {BreadcrumbsDemo} from './pages/breadcrumbs-demo/breadcrumbs-demo';
 import {ButtonDemo} from './pages/button-demo/button-demo';
 import {CheckboxDemo} from './pages/checkbox-demo/checkbox-demo';
 import {ColorsDemo} from './pages/colors-demo/colors-demo';
 import {ContentsListItemDemo} from './pages/contents-list-item-demo/contents-list-item-demo';
-import {DateTimePickerDemo} from './pages/date-time-picker-demo/date-time-picker-demo';
 import {DateTimePickerControlsDemo} from './pages/date-time-picker-controls-demo/date-time-picker-controls-demo';
+import {DateTimePickerDemo} from './pages/date-time-picker-demo/date-time-picker-demo';
 import {DemoFormatProvider} from './pages/date-time-picker-demo/demo-format-provider';
 import {DropdownListDemo} from './pages/dropdown-list-demo/dropdown-list-demo';
 import {FileDropAreaDemo} from './pages/file-drop-area-demo/file-drop-area-demo';
@@ -36,17 +42,12 @@ import {SearchBarDemo} from './pages/search-bar-demo/search-bar-demo';
 import {SelectDemo} from './pages/select-demo/select-demo';
 import {SideMenuDemo} from './pages/side-menu-demo/side-menu-demo';
 import {SortableListDemo} from './pages/sortable-list-demo/sortable-list-demo';
+import {SplitButtonDemo} from './pages/split-button-demo/split-button-demo';
 import {SplitViewContainerDemo} from './pages/split-view-container-demo/split-view-container-demo';
 import {TabsDemo} from './pages/tabs-demo/tabs-demo';
 import {TextareaDemo} from './pages/textarea-demo/textarea-demo';
 import {TopBarDemo} from './pages/top-bar-demo/top-bar-demo';
 import {TypographyDemo} from './pages/typography-demo/typography-demo';
-import {Autodocs} from './components/autodocs/autodocs.component';
-import {AutodocTable} from './components/autodocs/autodoc-table.component';
-import {DemoBlock} from './components/demo-block/demo-block.component';
-import {HighlightedCode} from './components/highlighted-code/highlighted-code.component';
-import {TrustedHTMLPipe} from './components/trusted-html/trusted-html.pipe';
-import { DocsSwitcher } from './components/docs-switcher/docs-switcher.component';
 
 const DEMO_APP_PAGES: any[] = [
     BreadcrumbsDemo,
@@ -77,6 +78,7 @@ const DEMO_APP_PAGES: any[] = [
     SelectDemo,
     SideMenuDemo,
     SortableListDemo,
+    SplitButtonDemo,
     SplitViewContainerDemo,
     TabsDemo,
     TextareaDemo,

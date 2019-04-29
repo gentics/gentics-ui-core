@@ -1,5 +1,5 @@
-<nav #nav [class.disabled]="isDisabled" [class.multiline]="multiline">
-    <div class="nav-wrapper" [class.is-overflowing]="isOverflowing" [class.multilineExpanded]="multilineExpanded" [class.multiline]="multiline" (window:resize)="onResize($event)">
+<nav [class.disabled]="isDisabled" [class.multiline]="multiline">
+    <div #navWrapper class="nav-wrapper" [class.is-overflowing]="isOverflowing" [class.multilineExpanded]="multilineExpanded" [class.multiline]="multiline" (window:resize)="onResize($event)">
         <div class="inner-wrapper">
             <a class="back-button" *ngIf="backLink && backLink.route"
                 (click)="onLinkClicked(backLink, $event)"

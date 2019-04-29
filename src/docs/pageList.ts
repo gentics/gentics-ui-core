@@ -25,6 +25,7 @@ import {SearchBarDemo} from './pages/search-bar-demo/search-bar-demo';
 import {SelectDemo} from './pages/select-demo/select-demo';
 import {SideMenuDemo} from './pages/side-menu-demo/side-menu-demo';
 import {SortableListDemo} from './pages/sortable-list-demo/sortable-list-demo';
+import {SplitButtonDemo} from './pages/split-button-demo/split-button-demo';
 import {SplitViewContainerDemo} from './pages/split-view-container-demo/split-view-container-demo';
 import {TabsDemo} from './pages/tabs-demo/tabs-demo';
 import {TextareaDemo} from './pages/textarea-demo/textarea-demo';
@@ -182,6 +183,11 @@ export const pages: IPageInfo[] = [
         component: SortableListDemo,
         type: 'component',
         keywords: ['drag', 'drop']
+    },
+    {
+        path: 'split-button',
+        component: SplitButtonDemo,
+        type: 'component'
     },
     {
         path: 'split-view-container',
