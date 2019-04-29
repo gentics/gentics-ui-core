@@ -1,6 +1,6 @@
 <div class="grouped-tabs">
-    <ul class="collapsible expandable" [class.wrap-tab-title]="tabsShouldWrap" *ngIf="tabs.length > 0">
-        <ng-container *ngFor="let tabItem of tabs">
+    <ul class="collapsible expandable" [class.wrap-tab-title]="tabsShouldWrap">
+        <ng-container *ngFor="let tabItem of tabs$ | async">
             <ng-template [ngIf]="isTabGroup(tabItem)" [ngIfElse]="standaloneTabItem">
                 <li class="tab-group" [id]="tabItem.uniqueId" [ngClass]="{
                     expanded: tabItem.expand,

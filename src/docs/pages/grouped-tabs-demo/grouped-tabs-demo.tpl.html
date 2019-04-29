@@ -114,28 +114,40 @@
                     <icon left>add</icon> Standalone Tab 1
                 </ng-template>
                 <icon left>web</icon>Standalone Tab 1 Content
-                <div><gtx-button (click)="addTabAsync()"><icon left>add</icon>Add new tabs in Async Group</gtx-button></div>
+                <p><gtx-button (click)="addTabAsync()"><icon left>add</icon>Add new tabs in Async Group</gtx-button></p>
+                <p><gtx-button (click)="addGroupsAsync()"><icon left>add</icon>Add new async groups with tabs</gtx-button></p>
             </gtx-tab-pane>
             <gtx-tab-group id="mygroup" label="Async Group" expanded="true">
                 <gtx-tab-pane [label]="tabData.label" [id]="tabData.id" (select)="activeTab = $event" *ngFor="let tabData of asyncTabData$ | async">
                     {{ tabData.content }}
                 </gtx-tab-pane>
             </gtx-tab-group>
+            <gtx-tab-group [label]="tabData.label" expanded="true" *ngFor="let tabData of asyncTabGroupsData$ | async">
+                <gtx-tab-pane [label]="tabPane.label" (select)="activeTab = $event" *ngFor="let tabPane of tabData.tabs">
+                    {{ tabPane.content }}
+                </gtx-tab-pane>
+            </gtx-tab-group>
         </gtx-grouped-tabs>
     </div>
     <div class="demo-code">
-        <gtx-highlighted-code ngNonBindable language="HTML" code='
+        <gtx-highlighted-code language="HTML" code='
         <gtx-grouped-tabs pure [activeId]="activeTab">        
             <gtx-tab-pane id="first-tab" (select)="activeTab = $event">
                 <ng-template gtx-tab-label>
                     <icon left>add</icon> Standalone Tab 1
                 </ng-template>
                 <icon left>web</icon>Standalone Tab 1 Content
-                <div><gtx-button (click)="addTabAsync()"><icon left>add</icon>Add new tabs in Async Group</gtx-button></div>
+                <p><gtx-button (click)="addTabAsync()"><icon left>add</icon>Add new tabs in Async Group</gtx-button></p>
+                <p><gtx-button (click)="addGroupsAsync()"><icon left>add</icon>Add new async groups with tabs</gtx-button></p>
             </gtx-tab-pane>
             <gtx-tab-group id="mygroup" label="Async Group" expanded="true">
                 <gtx-tab-pane [label]="tabData.label" [id]="tabData.id" (select)="activeTab = $event" *ngFor="let tabData of asyncTabData$ | async">
                     {{ "{" }}{{ "{" }} tabData.content {{ "}" }}{{ "}" }}
+                </gtx-tab-pane>
+            </gtx-tab-group>
+            <gtx-tab-group [label]="tabData.label" expanded="true" *ngFor="let tabData of asyncTabGroupsData$ | async">
+                <gtx-tab-pane [label]="tabPane.label" (select)="activeTab = $event" *ngFor="let tabPane of tabData.tabs">
+                        {{ "{" }}{{ "{" }} tabPane.content {{ "}" }}{{ "}" }}
                 </gtx-tab-pane>
             </gtx-tab-group>
         </gtx-grouped-tabs>
