@@ -2,12 +2,17 @@ gtx-split-button {
 
     .split-button-wrapper {
         display: inline-flex;
+        line-height: 1;
 
         gtx-button.has-secondary-actions button {
             border-top-right-radius: 0;
             border-bottom-right-radius: 0;
             border-right-style: none;
             box-shadow: none;
+
+            &.small {
+                line-height: 1;
+            }
         }
 
         .spacer-line {

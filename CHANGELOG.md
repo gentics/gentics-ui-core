@@ -4,6 +4,8 @@
 
 ### Fixes
 
+* Fixed gtx-split-button CSS
+
 ## 7.2.0 (2019-04-29)
 
 ### Features
