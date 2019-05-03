@@ -1,14 +1,16 @@
 # Gentics UI Core Changelog
 
-## 7.2.2 (not yet released)
+## 7.2.2 (2019-05-03)
 
 ### Fixes
+
+* Fix GroupedTabs async change issues
 
 ## 7.2.1 (2019-04-30)
 
 ### Fixes
 
-* Fixed gtx-split-button CSS
+* Fix gtx-split-button CSS
 
 ## 7.2.0 (2019-04-29)
 
