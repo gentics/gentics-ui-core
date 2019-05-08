@@ -16,7 +16,7 @@ let uniqueGroupedTabsId = 0;
  * ```html
  * <gtx-grouped-tabs>
  *      <gtx-tab-pane label="First without Group">Content 1</gtx-tab-pane>
- *      <gtx-tab-group label="1st Group name" expand="true">
+ *      <gtx-tab-group label="1st Group name" expanded="true">
  *          <gtx-tab-pane label="First">Content 2</gtx-tab-pane>
  *          <gtx-tab-pane label="Second">Content 3</gtx-tab-pane>
  *      </gtx-tab-group>
@@ -34,7 +34,7 @@ let uniqueGroupedTabsId = 0;
  *          <ng-template gtx-tab-label>First without Group</ng-template>
  *          Implicit Content 1
  *      </gtx-tab-pane>
- *      <gtx-tab-group expand="true">
+ *      <gtx-tab-group expanded="true">
  *          <ng-template gtx-tab-label>
  *              <icon>add</icon> 1st Group name
  *          </ng-template>
@@ -181,7 +181,7 @@ export class GroupedTabs implements AfterContentInit {
             });
 
             return combineLatest(allChanges);
-        }), 
+        }),
         debounceTime(5));
 
         this.subscriptions.add(tabChanges.subscribe(() => {
@@ -194,7 +194,7 @@ export class GroupedTabs implements AfterContentInit {
     }
 
     ngOnChanges(changes: SimpleChanges): void {
-        this.setActiveTab(); 
+        this.setActiveTab();
     }
 
     ngOnDestroy(): void {
