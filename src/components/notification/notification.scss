@@ -23,11 +23,12 @@ gtx-toast {
         top: 10px;
         right: 10px;
         margin-left: 10px;
-        padding: 20px;
+        padding: 0.5rem 2rem;
         background-color: $gtx-color-off-black;
         color: $gtx-color-off-white;
         transition: transform 0.2s, opacity 0.2s;
         animation: fadeInRight 0.2s;
+        box-shadow: 0 8px 17px 2px rgba(0, 0, 0, 0.34), 0 3px 14px 2px rgba(0, 0, 0, 0.32), 0 5px 5px -3px rgba(0, 0, 0, 0.4);
 
         &.dismissing {
             opacity: 0;
@@ -85,6 +86,13 @@ gtx-toast {
                 background-color: white;
                 color: $gtx-color-warning;
             }
+        }
+
+        .gtx-toast-btn_close {
+            float: right;
+            height: 1rem;
+            margin-left: 2rem;
+            cursor: pointer;
         }
 
     }

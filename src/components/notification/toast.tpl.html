@@ -4,6 +4,9 @@
      [ngClass]="type"
      (click)="dismiss()"
 >
+    <span class="gtx-toast-btn_close">
+        <icon>close</icon>
+    </span>
     <span class="action" *ngIf="actionLabel">
         <button (click)="actionClick()">
             {{ actionLabel }}
