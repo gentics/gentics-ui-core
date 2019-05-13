@@ -1,6 +1,6 @@
 {
   "name": "gentics-ui-core",
-  "version": "7.3.0",
+  "version": "7.3.1",
   "license": "Apache-2.0",
   "dependencies": {
     "foundation-sites": "^6.5.3",
