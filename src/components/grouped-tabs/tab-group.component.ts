@@ -1,4 +1,4 @@
-import { Component, ContentChildren, QueryList, Input, TemplateRef } from '@angular/core';
+import { Component, ContentChildren, QueryList, Input, TemplateRef, Output, EventEmitter } from '@angular/core';
 import { TabPane } from './tab-pane.component';
 import { GtxTabLabel } from './tab-label';
 import { coerceToBoolean } from '../../common/coerce-to-boolean';
@@ -41,6 +41,11 @@ export class TabGroup {
 
   get id(): string { return this.uniqueId; }
 
+  /**
+   * Fires an event whenever the tab group is toggled. Argument is the id and state of the tab group.
+   */
+  @Output() tabGroupToggle = new EventEmitter<{id: string, expand: boolean}>();
+
   /** All of the defined tab panes. */
   @ContentChildren(TabPane, { descendants: false }) tabs: QueryList<TabPane>;
 
@@ -50,5 +55,6 @@ export class TabGroup {
   
   toggle(): void {
     this.expand = !this.expand;
+    this.tabGroupToggle.emit({ id: this.id, expand: this.expand });
   }
 }
