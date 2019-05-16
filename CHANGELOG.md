@@ -1,6 +1,10 @@
 # Gentics UI Core Changelog
 
-## 7.3.1 (not yet released)
+## 7.4.0 (not yet released)
+
+### Features
+
+* Add noswipe Input to SplitViewContainer component which disables swipe gestures on touch devices.
 
 ### Fixes
 
