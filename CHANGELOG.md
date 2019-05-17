@@ -8,6 +8,8 @@
 
 ### Fixes
 
+* Revise [toast notifications](https://gentics.github.io/gentics-ui-core/#/notification) (SUP-7663)
+
 ## 7.3.0 (2019-05-13)
 
 ### Features
