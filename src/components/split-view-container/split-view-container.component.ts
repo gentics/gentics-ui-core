@@ -123,6 +123,11 @@ export class SplitViewContainer implements AfterViewInit, OnChanges, OnDestroy {
      */
     @Input() set noswipe(val: any) {
         this.isSwipeable = !coerceToBoolean(val);
+
+        // Toggle Hammer gesture recognizers
+        if (this.hammerManager) {
+            this.hammerManager.set({ enable: this.isSwipeable });
+        }
     }
 
     /**
@@ -356,9 +361,9 @@ export class SplitViewContainer implements AfterViewInit, OnChanges, OnDestroy {
      */
     private initSwipeHandler(): void {
         // set up swipe gesture handler
-        this.hammerManager = new Hammer(this.ownElement.nativeElement);
+        this.hammerManager = new Hammer(this.ownElement.nativeElement, { enable: this.isSwipeable });
         this.hammerManager.on('swipe', (e: HammerInput) => {
-            if (e.pointerType === 'touch' && this.isSwipeable) {
+            if (e.pointerType === 'touch') {
                 // Hammerjs represents directions with an enum,
                 // 2 = left, 4 = right.
                 if (e.direction === 4) {
