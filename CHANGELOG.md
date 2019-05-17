@@ -1,14 +1,11 @@
 # Gentics UI Core Changelog
 
-## 7.4.0 (not yet released)
+## 7.4.0 (2019-05-17)
 
 ### Features
 
 * Add noswipe Input to SplitViewContainer component which disables swipe gestures on touch devices.
-
-### Fixes
-
-* Revise [toast notifications](https://gentics.github.io/gentics-ui-core/#/notification) (SUP-7663)
+* Add close button to [toast notifications](https://gentics.github.io/gentics-ui-core/#/notification) (SUP-7663)
 
 ## 7.3.0 (2019-05-13)
 
