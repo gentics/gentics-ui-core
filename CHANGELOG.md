@@ -1,9 +1,14 @@
 # Gentics UI Core Changelog
 
-## 7.4.1 (Not yet released)
+## 7.5.0 (Not yet released)
+
+### Features
+
+* Add configuration override property to forRoot()
 
 ### Fixes
 
+* Fix dropdown flowup behavior (SUP-7852)
 
 ## 7.4.0 (2019-05-17)
 
