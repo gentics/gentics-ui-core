@@ -3,6 +3,7 @@ import {ModuleWithProviders, NgModule} from '@angular/core';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {RouterModule} from '@angular/router';
 
+import {ConfigService, optionsConfig, PredefinedConfig, CustomConfig, defaultConfig, configFactory} from './module.config';
 import {Breadcrumbs} from './components/breadcrumbs/breadcrumbs.component';
 import {Button} from './components/button/button.component';
 import {Checkbox} from './components/checkbox/checkbox.component';
@@ -161,10 +162,25 @@ export class GenticsUICoreModule {
      * Therefore this method should be used only once in the app, at the level of the root module to ensure that only one
      * instance of each provider is instantiated.
      */
-    static forRoot(): ModuleWithProviders {
+    static forRoot(configValue?: optionsConfig | (() => optionsConfig)): ModuleWithProviders {
         return {
             ngModule: GenticsUICoreModule,
-            providers: UI_CORE_PROVIDERS
+            providers: [
+                {
+                    provide: CustomConfig,
+                    useValue: configValue,
+                },
+                {
+                    provide: PredefinedConfig,
+                    useValue: defaultConfig,
+                },
+                {
+                    provide: ConfigService,
+                    useFactory: configFactory,
+                    deps: [PredefinedConfig, CustomConfig],
+                },
+                ...UI_CORE_PROVIDERS
+            ]
         };
     }
 }

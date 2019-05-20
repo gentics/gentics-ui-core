@@ -15,6 +15,7 @@ import {ScrollMask} from './scroll-mask.component';
 import {DropdownContentWrapper} from './dropdown-content-wrapper.component';
 import {KeyCode} from '../../common/keycodes';
 import {crossBrowserInitKeyboardEvent, KeyboardEventConfig} from '../../testing/keyboard-event';
+import { ConfigService, defaultConfig } from '../../module.config';
 
 describe('DropdownList:', () => {
 
@@ -31,7 +32,10 @@ describe('DropdownList:', () => {
                 Button,
                 ScrollMask
             ],
-            providers: [OverlayHostService]
+            providers: [
+                OverlayHostService,
+                { provide: ConfigService, useValue: defaultConfig }
+            ]
         });
         TestBed.overrideModule(BrowserDynamicTestingModule, {
             set: {
