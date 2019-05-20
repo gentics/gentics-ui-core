@@ -17,6 +17,7 @@ import {OverlayHost} from '../overlay-host/overlay-host.component';
 import {OverlayHostService} from '../overlay-host/overlay-host.service';
 import {SplitButtonPrimaryAction} from './split-button-primary-action.component';
 import {SplitButton} from './split-button.component';
+import { ConfigService, defaultConfig } from '../../module.config';
 
 function assembleTemplate(additionalButtonTpl: string = ''): string {
     return `
@@ -48,7 +49,10 @@ describe('SplitButtonComponent', () => {
                 SplitButtonPrimaryAction,
                 TestComponent
             ],
-            providers: [ OverlayHostService ]
+            providers: [
+                OverlayHostService,
+                { provide: ConfigService, useValue: defaultConfig }
+            ]
         });
         TestBed.overrideModule(BrowserDynamicTestingModule, {
             set: {

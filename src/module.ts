@@ -146,7 +146,7 @@ export const routerModuleForChild: ModuleWithProviders = RouterModule.forChild([
         CommonModule,
         FormsModule,
         ReactiveFormsModule,
-        routerModuleForChild,
+        routerModuleForChild
     ],
     declarations,
     entryComponents: UI_CORE_ENTRY_COMPONENTS,
