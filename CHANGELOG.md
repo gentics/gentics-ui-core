@@ -1,5 +1,9 @@
 # Gentics UI Core Changelog
 
+## 7.5.1 (Not yet released)
+
+### Fixes
+
 ## 7.5.0 (2019-05-20)
 
 ### Features
