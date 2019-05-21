@@ -4,6 +4,8 @@
 
 ### Fixes
 
+* Revised toast notifications styling
+
 ## 7.5.0 (2019-05-20)
 
 ### Features
