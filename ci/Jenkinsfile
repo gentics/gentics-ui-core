@@ -22,7 +22,7 @@ spec:
         path: /opt/kubernetes/cache
   containers:
   - name: build
-    image: docker:18
+    image: """ + buildEnvironmentDockerImage("ci/Dockerfile.build") + """
     imagePullPolicy: Always
     command:
       - cat
@@ -30,12 +30,12 @@ spec:
     resources:
       requests:
         cpu: 2
-        memory: 4Gi
+        memory: 2Gi
     env:
       - name: DOCKER_HOST
         value: tcp://127.0.0.1:2375
     volumeMounts:
-      - mountPath: /root/.npm/_cacache
+      - mountPath: /home/jenkins/.npm/_cacache
         name: cache
         subPath: npm/_cacache
   - name: docker
@@ -57,16 +57,12 @@ spec:
 	}
 
 	options {
-		gitLabConnection('git.gentics.com')
-		gitlabBuilds(builds: ['Jenkins build'])
 		timestamps()
 		timeout(time: 1, unit: 'HOURS')
 		ansiColor('xterm')
 	}
 
 	parameters {
-		booleanParam(name: 'linting', defaultValue: false,  description: 'Whether to run linting')
-		booleanParam(name: 'testing', defaultValue: true,  description: 'Whether to run unit tests')
 		string(name: 'releaseVersion', defaultValue: '',  description: 'Version must comply with semver, a tag will be created, cannot be the same as in package.json')
 		booleanParam(name: 'release', defaultValue: false, description: "Whether to run the release steps")
 		booleanParam(name: 'releaseNext', defaultValue: false, description: "Whether release as an upcoming version")
@@ -77,7 +73,6 @@ spec:
 	stages {
 		stage('Clone Github Pages') {
 			when {
-            	beforeAgent true
             	expression {
                     return params.publishDocs
                 }
@@ -92,41 +87,84 @@ spec:
     		}
 		}
 
-		stage('Docker build') {
-			when {
-            	beforeAgent true
-            	expression {
-                    isValidVersion = params.releaseVersion.trim() =~ env.VERSION_CONSTRAINT || params.releaseVersion == ''
-                    return isValidVersion
-                }
-        	}
-
+		stage('Fetch dependencies') {
 			steps {
-				sh """docker build -f ci/Dockerfile \
-						--build-arg linting=${params.linting} \
-						--build-arg testing=${params.testing} \
-						--build-arg release=${params.release} \
-						--build-arg releaseNext=${params.releaseNext} \
-						--build-arg releaseVersion=${params.releaseVersion} \
-						--build-arg publishDocs=${params.publishDocs} \
-						--build-arg docsVersion=${params.docsVersion} \
-						--build-arg GIT_BRANCH=${env.GIT_BRANCH} \
-						--build-arg CACHEBUST=\$(date +%s) \
-						.
-				"""
+				sh 'npm set progress=false'
+				sh 'npm config set depth 0'
+				sh 'npm ci'
+        		stash includes: 'node_modules/', name: 'node_modules'
 			}
 		}
 
-		stage('Publish Docs to Github Pages') {
+		/*stage('Lint') {
+	      	steps {
+	        	unstash 'node_modules'
+	        	sh 'npm run lint'
+	      	}
+    	}*/
+
+    	/*stage('Unit Tests') {
+	      	steps {
+	        	unstash 'node_modules'
+	        	sh 'npm run test -- --watch=false --browsers=ChromeHeadlessCI --reporters=junit'
+	      	}
+
+	      	post {
+				always {
+					*///junit '.reports/*/*.xml'
+				/*}
+			}
+    	}*/
+
+		stage('Build') {
+			steps {
+				unstash 'node_modules'
+				sh "npm run build -- --progress=false"
+				stash includes: 'dist/', name: 'dist'
+			}
+		}
+
+		stage('Release') {
 			when {
-            	expression {
-                    return params.publishDocs
-                }
+				allOf {
+	            	expression {
+	                    return params.release
+	                }
+	                expression {
+	                    isValidVersion = params.releaseVersion.trim() =~ env.VERSION_CONSTRAINT || params.releaseVersion == ''
+	                    return isValidVersion
+	                }
+            	}
         	}
 
 			steps {
-				echo "Now it should publish..."
-    		}
+				unstash 'dist'
+				withCredentials([string(credentialsId: 'npm-token', variable: 'NPM_TOKEN')]) {
+					sh "echo //registry.npmjs.org/:_authToken=${env.NPM_TOKEN} > .npmrc"
+					sh "ci/release.sh " + params.releaseNext + ' "' + params.releaseVersion + '"'
+				}
+			}
+		}
+
+		stage('Update Documentation') {
+			when {
+				allOf {
+	            	expression {
+	                    return params.publishDocs
+	                }
+	                expression {
+	                    isValidVersion = params.releaseVersion.trim() =~ env.VERSION_CONSTRAINT || params.releaseVersion == ''
+	                    return isValidVersion
+	                }
+	            }
+        	}
+
+			steps {
+				unstash 'node_modules'
+				sshagent(["git"]) {
+					sh "ci/publishDocs.sh"
+				}
+			}
 		}
 	}
 
