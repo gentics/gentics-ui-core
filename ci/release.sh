@@ -7,8 +7,6 @@ releaseProjectName="gentics-ui-core"
 releaseNext=${1:-false}
 releaseVersion=$2
 
-npm whoami
-
 if [ ! -z "$releaseVersion" ]
 then
 	cd "projects/$releaseProjectName/"

@@ -104,5 +104,9 @@
             "check-type",
             "check-typecast"
         ]
-    }
+    },
+    "extends": [
+        "tslint:latest",
+        "tslint-config-prettier"
+    ]
 }
