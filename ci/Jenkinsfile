@@ -1,0 +1,177 @@
+// The GIT repository for this pipeline lib is defined in the global Jenkins setting
+@Library('jenkins-pipeline-library')
+import com.gentics.*
+
+// Make the helpers aware of this jobs environment
+JobContext.set(this)
+
+pipeline {
+	agent {
+		kubernetes {
+			label env.BUILD_TAG
+			defaultContainer 'build'
+			yaml """
+apiVersion: v1
+kind: Pod
+spec:
+  nodeSelector:
+    jenkins_worker: true
+  volumes:
+    - name: cache
+      hostPath:
+        path: /opt/kubernetes/cache
+  containers:
+  - name: build
+    image: """ + buildEnvironmentDockerImage("ci/Dockerfile.build") + """
+    imagePullPolicy: Always
+    command:
+      - cat
+    tty: true
+    resources:
+      requests:
+        cpu: 2
+        memory: 2Gi
+    env:
+      - name: DOCKER_HOST
+        value: tcp://127.0.0.1:2375
+    volumeMounts:
+      - mountPath: /home/jenkins/.npm/_cacache
+        name: cache
+        subPath: npm/_cacache
+  - name: docker
+    image: docker:18-dind
+    imagePullPolicy: Always
+    args:
+      - '--storage-driver=overlay2'
+    securityContext:
+      privileged: true
+    tty: true
+  imagePullSecrets:
+    - name: docker-jenkinsbuilds-apa-it
+"""
+		}
+	}
+
+	environment { 
+		VERSION_CONSTRAINT = /^((([0-9]+)\.([0-9]+)\.([0-9]+)(?:-([0-9a-zA-Z-]+(?:\.[0-9a-zA-Z-]+)*))?)(?:\+([0-9a-zA-Z-]+(?:\.[0-9a-zA-Z-]+)*))?)$/
+	}
+
+	options {
+		timestamps()
+		timeout(time: 1, unit: 'HOURS')
+		ansiColor('xterm')
+	}
+
+	parameters {
+		string(name: 'releaseVersion', defaultValue: '',  description: 'Version must comply with semver, a tag will be created, cannot be the same as in package.json')
+		booleanParam(name: 'release', defaultValue: false, description: "Whether to run the release steps")
+		booleanParam(name: 'releaseNext', defaultValue: false, description: "Whether release as an upcoming version")
+		booleanParam(name: 'publishDocs', defaultValue: false,  description: 'Build docs app and uploads to Github Pages')
+		string(name: 'docsVersion', defaultValue: '',  description: 'If empty, its auto-detected, otherwise version of the maintenance documentation')
+	}
+
+	stages {
+		stage('Clone Github Pages') {
+			when {
+            	expression {
+                    return params.publishDocs
+                }
+        	}
+
+			steps {
+				dir('docs') {
+	       			git branch: 'gh-pages',
+	       				credentialsId: 'git',
+	       				url: env.GIT_URL
+	    		}
+    		}
+		}
+
+		stage('Fetch dependencies') {
+			steps {
+				sh 'npm set progress=false'
+				sh 'npm config set depth 0'
+				sh 'npm ci'
+        		stash includes: 'node_modules/', name: 'node_modules'
+			}
+		}
+
+		/*stage('Lint') {
+	      	steps {
+	        	unstash 'node_modules'
+	        	sh 'npm run lint'
+	      	}
+    	}*/
+
+    	/*stage('Unit Tests') {
+	      	steps {
+	        	unstash 'node_modules'
+	        	sh 'npm run test -- --watch=false --browsers=ChromeHeadlessCI --reporters=junit'
+	      	}
+
+	      	post {
+				always {
+					*///junit '.reports/*/*.xml'
+				/*}
+			}
+    	}*/
+
+		stage('Build') {
+			steps {
+				unstash 'node_modules'
+				sh "npm run build -- --progress=false"
+				stash includes: 'dist/', name: 'dist'
+			}
+		}
+
+		stage('Release') {
+			when {
+				allOf {
+	            	expression {
+	                    return params.release
+	                }
+	                expression {
+	                    isValidVersion = params.releaseVersion.trim() =~ env.VERSION_CONSTRAINT || params.releaseVersion == ''
+	                    return isValidVersion
+	                }
+            	}
+        	}
+
+			steps {
+				unstash 'dist'
+				withCredentials([string(credentialsId: 'npm-token', variable: 'NPM_TOKEN')]) {
+					sh "echo //registry.npmjs.org/:_authToken=${env.NPM_TOKEN} > .npmrc"
+					sh "ci/release.sh " + params.releaseNext + ' "' + params.releaseVersion + '"'
+				}
+			}
+		}
+
+		stage('Update Documentation') {
+			when {
+				allOf {
+	            	expression {
+	                    return params.publishDocs
+	                }
+	                expression {
+	                    isValidVersion = params.releaseVersion.trim() =~ env.VERSION_CONSTRAINT || params.releaseVersion == ''
+	                    return isValidVersion
+	                }
+	            }
+        	}
+
+			steps {
+				unstash 'node_modules'
+				sshagent(["git"]) {
+					sh "ci/publishDocs.sh"
+				}
+			}
+		}
+	}
+
+  	post {
+		always {
+			//updateGitlabCommitCurrentBuildStatus name: 'Jenkins build'
+			notifyMattermostUsers()
+		}
+	}
+}

@@ -1,0 +1,22 @@
+FROM node:10-alpine
+
+LABEL maintainer="p.nyari@gentics.com"
+ARG BUILD_USER="jenkins"
+ENV CHROME_BIN /usr/bin/chromium-browser
+ENV PUPPETEER_SKIP_CHROMIUM_DOWNLOAD true
+
+# Installs latest Chromium package
+RUN echo @edge http://nl.alpinelinux.org/alpine/edge/community >> /etc/apk/repositories \
+    && echo @edge http://nl.alpinelinux.org/alpine/edge/main >> /etc/apk/repositories \
+    && apk add --no-cache \
+    chromium@edge \
+    harfbuzz@edge \
+    nss@edge \
+    freetype@edge \
+    ttf-freefont@edge \
+    git \
+    && rm -rf /var/cache/* \
+    && mkdir /var/cache/apk
+
+RUN addgroup -g 10000 ${BUILD_USER} && adduser -D -G ${BUILD_USER} -u 10000 ${BUILD_USER}
+USER ${BUILD_USER}

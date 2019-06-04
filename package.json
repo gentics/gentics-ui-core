@@ -106,6 +106,7 @@
     "karma-coverage-istanbul-reporter": "~2.0.1",
     "karma-jasmine": "~1.1.2",
     "karma-jasmine-html-reporter": "^0.2.2",
+    "karma-junit-reporter": "^1.2.0",
     "marked": "~0.6.0",
     "ng-packagr": "^4.7.1",
     "ngx-build-plus": "^7.7.6",
