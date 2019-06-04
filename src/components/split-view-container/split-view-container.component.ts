@@ -12,6 +12,7 @@ import {
     SimpleChanges,
     ViewChild
 } from '@angular/core';
+import { coerceToBoolean } from '../../common/coerce-to-boolean';
 
 // Hammerjs always creates a global Hammer, see https://github.com/hammerjs/hammer.js/issues/1027
 require('hammerjs');
@@ -118,6 +119,18 @@ export class SplitViewContainer implements AfterViewInit, OnChanges, OnDestroy {
     minPanelSizePixels: number = 20;
 
     /**
+     * Disable touch swipe gestures when used.
+     */
+    @Input() set noswipe(val: any) {
+        this.isSwipeable = !coerceToBoolean(val);
+
+        // Toggle Hammer gesture recognizers
+        if (this.hammerManager) {
+            this.hammerManager.set({ enable: this.isSwipeable });
+        }
+    }
+
+    /**
      * Triggers when the right panel is closed.
      */
     @Output()
@@ -196,6 +209,8 @@ export class SplitViewContainer implements AfterViewInit, OnChanges, OnDestroy {
      */
     private focusJustChanged = false;
     private focusJustChangedTimeout: number;
+
+    private isSwipeable = true;
 
     private resizeMouseOffset: number;
     private hammerManager: HammerManager;
@@ -346,7 +361,7 @@ export class SplitViewContainer implements AfterViewInit, OnChanges, OnDestroy {
      */
     private initSwipeHandler(): void {
         // set up swipe gesture handler
-        this.hammerManager = new Hammer(this.ownElement.nativeElement);
+        this.hammerManager = new Hammer(this.ownElement.nativeElement, { enable: this.isSwipeable });
         this.hammerManager.on('swipe', (e: HammerInput) => {
             if (e.pointerType === 'touch') {
                 // Hammerjs represents directions with an enum,

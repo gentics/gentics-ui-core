@@ -21,6 +21,7 @@ import {OverlayHostService} from '../overlay-host/overlay-host.service';
 import {OverlayHost} from '../overlay-host/overlay-host.component';
 import {crossBrowserInitKeyboardEvent, KeyboardEventConfig} from '../../testing/keyboard-event';
 import {KeyCode} from '../../common/keycodes';
+import {ConfigService, defaultConfig} from '../../module.config';
 
 describe('Select:', () => {
 
@@ -43,7 +44,10 @@ describe('Select:', () => {
                 ScrollMask,
                 OverlayHost
             ],
-            providers: [OverlayHostService]
+            providers: [
+                OverlayHostService,
+                { provide: ConfigService, useValue: defaultConfig }
+            ]
         });
         TestBed.overrideModule(BrowserDynamicTestingModule, {
             set: {

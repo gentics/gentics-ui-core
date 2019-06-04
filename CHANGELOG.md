@@ -1,8 +1,31 @@
 # Gentics UI Core Changelog
 
-## 7.2.3 (not yet released)
+## 7.5.1 (Not yet released)
 
 ### Fixes
+
+## 7.5.0 (2019-05-20)
+
+### Features
+
+* Add configuration override property to forRoot()
+
+### Fixes
+
+* Fix dropdown flowup behavior (SUP-7852)
+
+## 7.4.0 (2019-05-17)
+
+### Features
+
+* Add noswipe Input to SplitViewContainer component which disables swipe gestures on touch devices.
+* Add close button to [toast notifications](https://gentics.github.io/gentics-ui-core/#/notification) (SUP-7663)
+
+## 7.3.0 (2019-05-13)
+
+### Features
+
+* Add GroupedTabs TabGroup toggle output
 
 ## 7.2.2 (2019-05-03)
 

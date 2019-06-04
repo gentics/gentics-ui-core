@@ -7,6 +7,7 @@ import {OverlayHost} from '../overlay-host/overlay-host.component';
 import {OverlayHostService} from '../overlay-host/overlay-host.service';
 import {Notification} from './notification.service';
 import {Toast} from './toast.component';
+import {Icon} from '../../components/icon/icon.directive';
 
 let notificationService: Notification;
 
@@ -14,7 +15,12 @@ describe('Notification:', () => {
 
     beforeEach(() => {
         TestBed.configureTestingModule({
-            declarations: [OverlayHost, TestComponent, Toast],
+            declarations: [
+                Icon,
+                OverlayHost,
+                TestComponent,
+                Toast
+            ],
             providers: [
                 Notification,
                 OverlayHostService

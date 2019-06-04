@@ -5,13 +5,12 @@ import {
     ElementRef,
     ChangeDetectorRef,
     EventEmitter,
-    ChangeDetectionStrategy
+    ChangeDetectionStrategy,
+    Inject
 } from '@angular/core';
 import {KeyCode} from '../../common/keycodes';
 import {DropdownAlignment, DropdownWidth} from './dropdown-list.component';
-
-const PAGE_MARGIN = 50;
-const DROPDOWN_MAX_HEIGHT = 650;
+import {Config, ConfigService} from '../../module.config';
 
 @Component({
     selector: 'gtx-dropdown-content-wrapper',
@@ -23,6 +22,8 @@ const DROPDOWN_MAX_HEIGHT = 650;
     changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class DropdownContentWrapper {
+    pageMargin: Config['dropDownPageMargin'];
+    dropDownMaxHeight: Config['dropDownMaxHeight'];
     content: TemplateRef<any>;
     contentStyles: any = {
         position: 'absolute'
@@ -39,7 +40,11 @@ export class DropdownContentWrapper {
     private widthHasBeenAdjusted = false;
 
     constructor(private elementRef: ElementRef,
-                private cd: ChangeDetectorRef) {}
+                private cd: ChangeDetectorRef,
+                @Inject(ConfigService) private config: Config) {
+        this.pageMargin = this.config.dropDownPageMargin;
+        this.dropDownMaxHeight = this.config.dropDownMaxHeight;
+    }
 
     ngAfterViewInit(): void {
         this.setPositionAndSize(true);
@@ -123,11 +128,11 @@ export class DropdownContentWrapper {
     calculatePositionStyles(): { top: string, left: string, maxHeight: string, flowUpwards: boolean; } {
         const positionStyles: any = {
             flowUpwards: false,
-            maxHeight: DROPDOWN_MAX_HEIGHT + 'px'
+            maxHeight: this.dropDownMaxHeight + 'px'
         };
         const content = this.getDropdownContent();
         const fullHeightContent = content && content.querySelector('.scroller') as HTMLElement;
-        const contentHeight = this.innerHeight(fullHeightContent) + PAGE_MARGIN;
+        const contentHeight = this.innerHeight(fullHeightContent) + this.pageMargin;
 
         // Offscreen detection
         const windowHeight: number = window.innerHeight;
@@ -148,18 +153,19 @@ export class DropdownContentWrapper {
         if (verticalOffset + triggerTop + contentHeight > windowHeight) {
             let adjustedHeight = this.limitHeight(this.innerHeight(content));
             const contentLargerThanWindow = windowHeight <= adjustedHeight;
+
             // If content is greater than half of the window height, it should
             // flow upward if the trigger is below the half-way point
             if (contentLargerThanWindow) {
                 positionStyles.flowUpwards = windowHeight / 2 < triggerTop;
             } else {
-                positionStyles.flowUpwards = windowHeight <= triggerTop + adjustedHeight;
+                positionStyles.flowUpwards = (windowHeight <= triggerTop + adjustedHeight) && (windowHeight / 2 < triggerTop);
             }
 
             if (!positionStyles.flowUpwards) {
                 // If going upwards still goes offscreen, just crop height of dropdown.
                 if (triggerTop + triggerHeight - contentHeight < 0) {
-                    adjustedHeight = windowHeight - triggerTop - verticalOffset - PAGE_MARGIN;
+                    adjustedHeight = windowHeight - triggerTop - verticalOffset - this.pageMargin;
                 }
             } else {
                 if (!verticalOffset) {
@@ -169,8 +175,8 @@ export class DropdownContentWrapper {
                     verticalOffset -= triggerHeight;
                 }
 
-                if (triggerTop + triggerHeight - PAGE_MARGIN < adjustedHeight) {
-                    adjustedHeight = (triggerTop + triggerHeight) - PAGE_MARGIN;
+                if (triggerTop + triggerHeight - this.pageMargin < adjustedHeight) {
+                    adjustedHeight = (triggerTop + triggerHeight) - this.pageMargin;
                 }
                 adjustedHeight = this.limitHeight(adjustedHeight);
                 verticalOffset -= adjustedHeight;
@@ -225,11 +231,11 @@ export class DropdownContentWrapper {
 
     /**
      * Given a true height of an element, returns a new height which is limited by both
-     * the height of the window and the value of DROPDOWN_MAX_HEIGHT.
+     * the height of the window and the value of this.dropDownMaxHeight.
      */
     private limitHeight(trueHeight: number): number {
-        const windowHeight = window.innerHeight - PAGE_MARGIN * 2;
-        return Math.min(trueHeight, DROPDOWN_MAX_HEIGHT, windowHeight);
+        const windowHeight = window.innerHeight - this.pageMargin * 2;
+        return Math.min(trueHeight, this.dropDownMaxHeight, windowHeight);
     }
 
     private getDropdownContent(): HTMLElement | null {
