@@ -1,8 +1,10 @@
 # Gentics UI Core Changelog
 
-## 7.5.2 (not yet released)
+## 7.6.0 (2019-07-01)
 
-### Fixes
+### Features
+
+* Add status icons to GrouppedTabs
 
 ## 7.5.1 (2019-05-23)
 
