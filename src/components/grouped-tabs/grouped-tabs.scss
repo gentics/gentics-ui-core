@@ -101,10 +101,12 @@ gtx-grouped-tabs {
 
                 &.disabled {
                     background: $gtx-color-very-light-gray;
+                    color: $gtx-color-mid-gray;
                 }
 
                 &.readonly > a {
                     font-style: italic;
+                    color: $gtx-color-mid-gray;
                 }
 
                 &.statusIcon:before {
