@@ -50,7 +50,10 @@
         (click)="selectTab(tabItem)"
         [ngClass]="{
             disabled: tabItem.disabled,
-            'is-active': tabItem.active
+            'is-active': tabItem.active,
+            'readonly': tabItem.readonly,
+            'inactive': tabItem.inactive,
+            'statusIcon': !tabItem.disabled && displayStatusIcons
         }">
         <a role="tab">
             <ng-container *ngTemplateOutlet="labelTemplate;context:{tabItem: tabItem}"></ng-container>

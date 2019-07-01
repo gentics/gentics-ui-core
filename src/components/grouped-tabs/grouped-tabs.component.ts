@@ -114,9 +114,14 @@ export class GroupedTabs implements AfterContentInit {
         this.tabsShouldWrap = coerceToBoolean(val);
     }
 
+    @Input() set statusIcons(val: any) {
+        this.displayStatusIcons = coerceToBoolean(val);
+    }
+
     get currentTab(): TabPane { return this.tabPanes.filter(tab => tab.active === true)[0]; }
 
     tabsShouldWrap: boolean = false;
+    displayStatusIcons: boolean = false;
     private isPure: boolean = false;
     private subscriptions = new Subscription();
 

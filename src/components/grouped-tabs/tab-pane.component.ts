@@ -34,6 +34,8 @@ export class TabPane  {
   }
 
   @Input() disabled: boolean;
+  @Input() readonly: boolean;
+  @Input() inactive: boolean;
 
   /**
    * Template provided in the tab content that will be used if present, used to enable lazy-loading
