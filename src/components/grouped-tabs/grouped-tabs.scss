@@ -1,5 +1,6 @@
-$tab-active-icon: material-icons-content(map-get($material-icons-codepoints, 'adjust'));
-$tab-inactive-icon: material-icons-content(map-get($material-icons-codepoints, 'panorama_fish_eye'));
+$tab-active-icon: material-icons-content(map-get($material-icons-codepoints, 'radio_button_checked'));
+$tab-inactive-icon: material-icons-content(map-get($material-icons-codepoints, 'radio_button_unchecked'));
+$tab-readonly-icon: material-icons-content(map-get($material-icons-codepoints, 'not_interested'));
 
 @mixin is-active {
     border-left: 2px solid $gtx-tabs-active-border-color;
@@ -19,19 +20,19 @@ $tab-inactive-icon: material-icons-content(map-get($material-icons-codepoints, '
     content: $tab-active-icon;
     float: left;
     position: relative;
-    margin-left: -1.47rem;
-    margin-top: 0.3rem;
-    width: 14px;
-    height: 12px;
+    margin-left: -1.525rem;
+    margin-top: 0.325rem;
+    width: 13px;
+    height: 10px;
     font-family: 'Material Icons';
     font-weight: 400;
     font-style: normal;
     font-size: 13px;
     display: inline-block;
-    line-height: 1;
+    line-height: 0.8;
     background: white;
     border-radius: 50%;
-    color: $gtx-color-light-gray;
+    color: $gtx-color-mid-gray;
     transition: color 0.2s;
 }
 
@@ -121,13 +122,29 @@ gtx-grouped-tabs {
                     color: $gtx-tabs-active-border-color;
                 }
 
-                &.statusIcon.readonly:before {
-                    @include status-icon-cross($gtx-color-light-gray);
+                &.statusIcon.readonly:after {
+                    content: '';
+                    position: relative;
+                    border-top: 1.5px solid $gtx-color-mid-gray;
+                    width: 0.7rem;
+                    z-index: 1;
+                    float: left;
+                    transform: rotate(45deg);
+                    transition: border-color 0.2s;
                 }
 
-                &.statusIcon.readonly.is-active:before {
-                    @include status-icon-cross($gtx-tabs-active-border-color);
+                &.statusIcon.readonly.is-active:after {
+                    border-top-color: $gtx-tabs-active-border-color;
                 }
+
+                &.statusIcon.readonly.inactive:before {
+                    content: $tab-readonly-icon;
+                    background: white;
+                }
+
+                &.statusIcon.readonly.inactive:after {
+                    content: none;
+                } 
             }
 
             & > li.tab-link {
@@ -200,6 +217,12 @@ gtx-grouped-tabs {
                             float: none;
                         }
 
+                        &.statusIcon.readonly:after {
+                            float: left;
+                            margin-left: -1.44rem;
+                            margin-top: -0.8rem;
+                        }
+
                         &.statusIcon > a {
                             position: relative;
                             margin-top: -26px;
@@ -209,7 +232,7 @@ gtx-grouped-tabs {
     
                 &.is-active {
                     transition: border-left-color 0.2s;
-                    border-left-color: rgba(0, 150, 220, 0.3);
+                    border-left-color: rgba(0, 150, 220, 0.49);
                 }
 
                 &:hover {
@@ -227,6 +250,11 @@ gtx-grouped-tabs {
 
                         & > ul > li.statusIcon:before {
                             float: left;
+                        }
+
+                        & > ul > li.statusIcon.readonly:after {
+                            margin-left: -1.43rem;
+                            margin-top: -0.9rem;
                         }
 
                         & > ul > li.statusIcon > a {
