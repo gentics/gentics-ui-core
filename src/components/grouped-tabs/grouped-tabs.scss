@@ -18,32 +18,21 @@ $tab-readonly-icon: material-icons-content(map-get($material-icons-codepoints, '
 
 @mixin status-icon {
     content: $tab-active-icon;
-    float: left;
-    position: relative;
-    margin-left: -1.525rem;
-    margin-top: 0.325rem;
-    width: 13px;
-    height: 10px;
+    position: absolute;
+    left: -9px;
+    top: 13px;
+    width: 16px;
+    height: 13px;
     font-family: 'Material Icons';
     font-weight: 400;
     font-style: normal;
-    font-size: 13px;
-    display: inline-block;
+    font-size: 16px;
+    display: block;
     line-height: 0.8;
     background: white;
     border-radius: 50%;
     color: $gtx-color-mid-gray;
     transition: color 0.2s;
-}
-
-@mixin status-icon-cross($color) {
-    background: linear-gradient(to top right,
-                    rgba($color, 0) 0%,
-                    rgba($color, 0) calc(48% - 0.8px),
-                    rgba($color, 1) 48%,
-                    rgba($color, 0) calc(48% + 0.8px),
-                    rgba($color, 0) 100%
-                ), white;
 }
 
 gtx-grouped-tabs {
@@ -87,6 +76,7 @@ gtx-grouped-tabs {
                 transition: border-left 0.3s, color 0.2s;
                 border-right: 1px solid $gtx-color-light-gray;
                 vertical-align: middle;
+                position: relative;
     
                 > a {
                     @include inline-ellipsis-text;
@@ -107,7 +97,6 @@ gtx-grouped-tabs {
 
                 &.readonly > a {
                     font-style: italic;
-                    color: $gtx-color-mid-gray;
                 }
 
                 &.statusIcon:before {
@@ -124,11 +113,12 @@ gtx-grouped-tabs {
 
                 &.statusIcon.readonly:after {
                     content: '';
-                    position: relative;
-                    border-top: 1.5px solid $gtx-color-mid-gray;
-                    width: 0.7rem;
+                    position: absolute;
+                    width: 12px;
+                    top: 18px;
+                    left: -7px;
                     z-index: 1;
-                    float: left;
+                    border-top: 1.5px solid $gtx-color-mid-gray;
                     transform: rotate(45deg);
                     transition: border-color 0.2s;
                 }
@@ -212,21 +202,6 @@ gtx-grouped-tabs {
                         &.is-active {
                             @include is-active;
                         }
-
-                        &.statusIcon:before {
-                            float: none;
-                        }
-
-                        &.statusIcon.readonly:after {
-                            float: left;
-                            margin-left: -1.44rem;
-                            margin-top: -0.8rem;
-                        }
-
-                        &.statusIcon > a {
-                            position: relative;
-                            margin-top: -26px;
-                        }
                     }
                 }
     
@@ -247,20 +222,6 @@ gtx-grouped-tabs {
                         visibility: visible;
                         opacity: 1;
                         transition: visibility 0s, opacity 0.15s ease-in 0.10s, max-height 0.25s ease-in;
-
-                        & > ul > li.statusIcon:before {
-                            float: left;
-                        }
-
-                        & > ul > li.statusIcon.readonly:after {
-                            margin-left: -1.43rem;
-                            margin-top: -0.9rem;
-                        }
-
-                        & > ul > li.statusIcon > a {
-                            position: relative;
-                            margin-top: 0;
-                        }
                     }
                 }
             }

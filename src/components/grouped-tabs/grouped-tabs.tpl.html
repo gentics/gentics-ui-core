@@ -55,6 +55,7 @@
             'inactive': tabItem.inactive,
             'statusIcon': !tabItem.disabled && displayStatusIcons
         }">
+        <i *ngIf="!tabItem.disabled && displayStatusIcons" class="statusIcon"></i>
         <a role="tab">
             <ng-container *ngTemplateOutlet="labelTemplate;context:{tabItem: tabItem}"></ng-container>
         </a>
