@@ -1,6 +1,7 @@
 import { Component, Input, ContentChild, TemplateRef, ViewChild, Output, EventEmitter } from '@angular/core';
 import { GtxTabContent } from './tab-content';
 import { GtxTabLabel } from './tab-label';
+import { coerceToBoolean } from '../../common/coerce-to-boolean';
 
 /**
  * Tab Pane IDs need to be unique across components, so this counter exists outside of
@@ -33,9 +34,33 @@ export class TabPane  {
     this.uniqueId = val;
   }
 
-  @Input() disabled: boolean;
-  @Input() readonly: boolean;
-  @Input() inactive: boolean;
+  /**
+   * Hide status icon for this tab
+   */
+  @Input() set hideStatusIcon(val: any) {
+    this.displayStatusIcon = !coerceToBoolean(val);
+  }
+
+  /**
+   * Sets disabled state
+   */
+  @Input() set disabled(val: any) {
+    this.stateDisabled = coerceToBoolean(val);
+  }
+
+  /**
+   * Sets read-only state
+   */
+  @Input() set readonly(val: any) {
+    this.stateReadOnly = coerceToBoolean(val);
+  }
+
+  /**
+   * Sets inactive state
+   */
+  @Input() set inactive(val: any) {
+    this.stateInactive = coerceToBoolean(val);
+  }
 
   /**
    * Template provided in the tab content that will be used if present, used to enable lazy-loading
@@ -50,4 +75,8 @@ export class TabPane  {
    */
   @Output() select = new EventEmitter<string>();
   active: boolean = false;
+  stateDisabled: boolean = false;
+  stateReadOnly: boolean = false;
+  stateInactive: boolean = false;
+  displayStatusIcon: boolean = true;
 }

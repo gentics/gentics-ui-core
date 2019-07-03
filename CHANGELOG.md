@@ -1,5 +1,12 @@
 # Gentics UI Core Changelog
 
+## 7.6.1 (2019-07-03)
+
+### Fixes
+
+* Fix status icon styling in mobile aspect ratios
+* Fix disabling status icons on separate tabs
+
 ## 7.6.0 (2019-07-01)
 
 ### Features

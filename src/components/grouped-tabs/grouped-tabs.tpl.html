@@ -49,13 +49,13 @@
     <li class="tab-link" role="presentation"
         (click)="selectTab(tabItem)"
         [ngClass]="{
-            disabled: tabItem.disabled,
+            disabled: tabItem.stateDisabled,
             'is-active': tabItem.active,
-            'readonly': tabItem.readonly,
-            'inactive': tabItem.inactive,
-            'statusIcon': !tabItem.disabled && displayStatusIcons
+            'readonly': tabItem.stateReadOnly,
+            'inactive': tabItem.stateInactive,
+            'statusIcon': !tabItem.disabled && displayStatusIcons && tabItem.displayStatusIcon
         }">
-        <i *ngIf="!tabItem.disabled && displayStatusIcons" class="statusIcon"></i>
+        <i *ngIf="!tabItem.stateDisabled && displayStatusIcons && tabItem.displayStatusIcon" class="statusIcon"></i>
         <a role="tab">
             <ng-container *ngTemplateOutlet="labelTemplate;context:{tabItem: tabItem}"></ng-container>
         </a>
