@@ -222,7 +222,7 @@ export class GroupedTabs implements AfterContentInit {
      * Invoked when a tab link is clicked.
      */
     selectTab(tab: TabPane): void {
-        if (tab.disabled) {
+        if (tab.stateDisabled) {
             return;
         }
         if (!this.isPure) {

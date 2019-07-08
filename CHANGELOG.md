@@ -1,5 +1,11 @@
 # Gentics UI Core Changelog
 
+## 7.6.2 (2019-07-08)
+
+### Fixes
+
+* Fix disabled state on Grouped Tabs
+
 ## 7.6.1 (2019-07-03)
 
 ### Fixes
