@@ -22,6 +22,8 @@ import {
     trigger
 } from '@angular/animations';
 
+import {UserAgentRef} from '../modal/user-agent-ref';
+
 // must export and be a function (not arrow function expression) to prevent ngc errors
 export function animateCubicBezier(millis: number): any {
     return animate(`${millis}ms cubic-bezier(0.215, 0.61, 0.355, 1)`);
@@ -59,13 +61,19 @@ export function animateCubicBezier(millis: number): any {
     templateUrl: './side-menu.tpl.html',
     animations: [
         trigger('menuState', [
+            // There seems to be an open Angular bug with leaving animations on IE and Edge,
+            // so we only play that animation if we are not on IE or Edge.
+            // https://github.com/angular/angular/issues/29463
+            // https://jira.gentics.com/browse/SUP-8106
             state('void', style('*')),
             state('open', style('*')),
+            state('openIE', style('*')),
             transition('void => *', [
                 query('@contentState', [animateChild({ delay: 100 })]),
                 animateCubicBezier(300)
             ]),
-            transition('* => *', animateCubicBezier(300))
+            transition('void => *', animateCubicBezier(300)),
+            transition('open => *', animateCubicBezier(300)),
         ]),
         trigger('toggleState', [
             state('closed', style({ transform: '{{ transform }}' }), { params: { transform: 'translateX(0)' } }),
@@ -134,6 +142,15 @@ export class SideMenu {
         };
     }
 
+    get menuAnimationState(): any {
+        // There seems to be an open Angular bug with leaving animations on IE and Edge,
+        // so we only play that animation if we are not on IE or Edge.
+        // https://github.com/angular/angular/issues/29463
+        // https://jira.gentics.com/browse/SUP-8106
+        const openState = !this.userAgentRef.isEdge && !this.userAgentRef.isIE11 ? 'open' : 'openIE';
+        return this.opened ? openState : 'void';
+    }
+
     @ViewChild('toggleButton') toggleButton: ElementRef;
 
     /**
@@ -160,7 +177,11 @@ export class SideMenu {
         return this.opened ? 'open' : 'closed';
     }
 
-    constructor(private animationBuilder: AnimationBuilder, private elementRef: ElementRef) {}
+    constructor(
+        private animationBuilder: AnimationBuilder,
+        private elementRef: ElementRef,
+        private userAgentRef: UserAgentRef
+    ) {}
 
     /**
      * We need to know the width of the element in which the SideMenu is nested. Here we traverse the DOM tree
