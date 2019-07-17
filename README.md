@@ -91,7 +91,25 @@ export class MyLazilyLoadedModule {
 ng new my-example --prefix=me --routing=true --style=scss
 ```
 
-2. Uncomment (and if necessary, install) the polyfills required for your target browsers in `polyfills.ts` and add the following assignment in that file:
+2. Uncomment (and if necessary, install) the polyfills required for your target browsers in `polyfills.ts`.
+Note that the [SideMenu](https://gentics.github.io/gentics-ui-core/#/side-menu) requires the `web-animations-js` polyfill in IE, Edge, and Safari: 
+
+```TypeScript
+/***************************************************************************************************
+ * BROWSER POLYFILLS
+ */
+// Polyfills required by your target browsers.
+// ...
+
+/**
+ * Web Animations `@angular/platform-browser/animations`
+ * Only required if AnimationBuilder is used within the application and using IE/Edge or Safari.
+ * Standard animation support in Angular DOES NOT require any polyfills (as of Angular 6.0).
+ */
+import 'web-animations-js';  // Run `npm install --save web-animations-js`.
+```
+
+3. Add the following assignment to `polyfills.ts`:
 
 ```TypeScript
 /***************************************************************************************************
@@ -101,9 +119,9 @@ ng new my-example --prefix=me --routing=true --style=scss
 (window as any).global = window;
 ```
 
-3. Follow the steps from [Using ui-core in a project](#using-ui-core-in-a-project).
+4. Follow the steps from [Using ui-core in a project](#using-ui-core-in-a-project).
 
-4. Add the following imports to your global styles SCSS:
+5. Add the following imports to your global styles SCSS:
 
 ```SCSS
 // styles.scss
