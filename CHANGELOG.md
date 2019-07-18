@@ -1,5 +1,15 @@
 # Gentics UI Core Changelog
 
+## 7.6.3 (not yet released)
+
+### Important Documentation Update
+
+* Add [notice](https://github.com/gentics/gentics-ui-core/#using-ui-core-in-an-angular-cli-project) that [SideMenu](https://gentics.github.io/gentics-ui-core/#/side-menu) requires the `web-animations-js` polyfill in IE, Edge, and Safari.
+
+### Fixes
+
+* Fix the problem that the SideMenu could not be opened a second time on IE and Edge.
+
 ## 7.6.2 (2019-07-08)
 
 ### Fixes

@@ -4,14 +4,15 @@ import {By} from '@angular/platform-browser';
 import {NoopAnimationsModule} from '@angular/platform-browser/animations';
 
 import {componentTest} from '../../testing';
+import {UserAgentRef} from '../modal/user-agent-ref';
 import {SideMenu, SideMenuToggle} from './side-menu.component';
-
 
 describe('SideMenu', () => {
 
     beforeEach(() => TestBed.configureTestingModule({
         imports: [NoopAnimationsModule],
-        declarations: [SideMenu, TestComponent, SideMenuToggle]
+        declarations: [SideMenu, TestComponent, SideMenuToggle],
+        providers: [UserAgentRef]
     }));
 
     it('does not have the "opened" class when closed',
