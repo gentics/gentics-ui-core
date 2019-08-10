@@ -14,7 +14,8 @@ gtx-button {
       }
 }
 
-gtx-input {
+gtx-input,
+gtx-textarea {
     label {
         font-size: $label-font-size;
         color: $input-border-color;
