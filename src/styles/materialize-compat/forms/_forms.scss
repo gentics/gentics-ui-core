@@ -1,20 +1,24 @@
-// Remove Focus Boxes
-select:focus {
-  outline: $select-focus;
-}
-
-button:focus {
-  outline: none;
-  background-color: $button-background-focus;
-}
-
-label {
-  font-size: $label-font-size;
-  color: $input-border-color;
-}
-
 // wrap import so they won't apply globally
+
+gtx-select {
+    // Remove Focus Boxes
+    select:focus {
+        outline: $select-focus;
+      }
+}
+
+gtx-button {
+    button:focus {
+        outline: none;
+        background-color: $button-background-focus;
+      }
+}
+
 gtx-input {
+    label {
+        font-size: $label-font-size;
+        color: $input-border-color;
+    }
     @import 'input-fields';
 }
 gtx-radio-button {
