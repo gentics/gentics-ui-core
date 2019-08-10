@@ -13,10 +13,24 @@ label {
   color: $input-border-color;
 }
 
-@import 'input-fields';
-@import 'radio-buttons';
-@import 'checkboxes';
+// wrap import so they won't apply globally
+gtx-input {
+    @import 'input-fields';
+}
+gtx-radio-button {
+    @import 'radio-buttons';
+}
+gtx-checkboxe {
+    @import 'checkboxes';
+}
+gtx-select {
+    @import 'select';
+}
+gtx-file-drop-area,
+gtx-file-picker {
+    @import 'file-input';
+}
+gtx-range {
+    @import 'range';
+}
 @import 'switches';
-@import 'select';
-@import 'file-input';
-@import 'range';
