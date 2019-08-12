@@ -95,7 +95,7 @@ export class Tabs implements AfterContentInit, OnChanges, OnDestroy {
 
     ngAfterContentInit(): void {
         if (this.isPure) {
-            let tabsChangeSubscription = this.tabs.changes.subscribe(() => {
+            this.tabsChangeSubscription = this.tabs.changes.subscribe(() => {
                 setTimeout(() => this.setActiveTab());
             });
         } else {
