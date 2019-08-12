@@ -54,6 +54,7 @@ import { Subscription } from 'rxjs';
 export class Tabs implements AfterContentInit, OnChanges, OnDestroy {
 
     @ContentChildren(Tab) tabs: QueryList<Tab>;
+
     /**
      * Fires an event whenever the active tab changes. Argument is the id of the selected tab.
      */
@@ -106,6 +107,7 @@ export class Tabs implements AfterContentInit, OnChanges, OnDestroy {
                 this.tabs.first.active = true;
             }
         }
+        this.tabs.notifyOnChanges();
     }
 
     ngOnChanges(changes: SimpleChanges): void {
