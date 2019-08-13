@@ -8,7 +8,7 @@
 
 ### Fixes
 
-* Display active status correctly, if a <gtx-tab> is added to a <gtx-tabs> instance in pure mode after the tab's ID was set as the activeId (GUIC-226).
+* Display active status correctly, if a &lt;gtx-tab&gt; is added to a &lt;gtx-tabs&gt; instance in pure mode after the tab's ID was set as the activeId (GUIC-226).
 
 ## 7.6.3 (2019-07-18)
 
