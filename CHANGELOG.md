@@ -1,8 +1,20 @@
 # Gentics UI Core Changelog
 
-## 7.6.4 (not yet released)
+## 7.6.6 (not yet released)
 
 ### Fixes
+
+## 7.6.5 (2019-08-14)
+
+### Fixes
+
+* Fix error when destroying a non-pure Tabs component (GUIC-227).
+
+## 7.6.4 (2019-08-12)
+
+### Fixes
+
+* Display active status correctly, if a &lt;gtx-tab&gt; is added to a &lt;gtx-tabs&gt; instance in pure mode after the tab's ID was set as the activeId (GUIC-226).
 
 ## 7.6.3 (2019-07-18)
 

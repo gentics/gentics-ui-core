@@ -1,6 +1,7 @@
-import {Component, ContentChildren, QueryList, AfterContentInit, Input, Output, EventEmitter, SimpleChanges} from '@angular/core';
+import {Component, ContentChildren, QueryList, AfterContentInit, Input, Output, EventEmitter, SimpleChanges, OnChanges, OnDestroy} from '@angular/core';
 import {Tab} from './tab.component';
 import {coerceToBoolean} from '../../common/coerce-to-boolean';
+import { Subscription } from 'rxjs';
 
 /**
  * Tabs can be either pure or stateful. Stateful tabs will keep track of which one is active by keeping an internal
@@ -50,9 +51,10 @@ import {coerceToBoolean} from '../../common/coerce-to-boolean';
     selector: 'gtx-tabs',
     templateUrl: './tabs.tpl.html'
 })
-export class Tabs implements AfterContentInit {
+export class Tabs implements AfterContentInit, OnChanges, OnDestroy {
 
     @ContentChildren(Tab) tabs: QueryList<Tab>;
+
     /**
      * Fires an event whenever the active tab changes. Argument is the id of the selected tab.
      */
@@ -90,9 +92,13 @@ export class Tabs implements AfterContentInit {
     tabsShouldWrap: boolean = false;
     private isPure: boolean = false;
 
+    tabsChangeSubscription: Subscription;
+
     ngAfterContentInit(): void {
         if (this.isPure) {
-            setTimeout(() => this.setActiveTab());
+            this.tabsChangeSubscription = this.tabs.changes.subscribe(() => {
+                setTimeout(() => this.setActiveTab());
+            });
         } else {
             let activeTabs = this.tabs.filter(tab => tab.active);
 
@@ -101,10 +107,17 @@ export class Tabs implements AfterContentInit {
                 this.tabs.first.active = true;
             }
         }
+        this.tabs.notifyOnChanges();
     }
 
     ngOnChanges(changes: SimpleChanges): void {
         this.setActiveTab();
+    }
+
+    ngOnDestroy(): void {
+        if (this.tabsChangeSubscription) {
+            this.tabsChangeSubscription.unsubscribe();
+        }
     }
 
     /**
