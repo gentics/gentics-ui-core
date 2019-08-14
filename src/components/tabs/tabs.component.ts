@@ -115,7 +115,9 @@ export class Tabs implements AfterContentInit, OnChanges, OnDestroy {
     }
 
     ngOnDestroy(): void {
-        this.tabsChangeSubscription.unsubscribe();
+        if (this.tabsChangeSubscription) {
+            this.tabsChangeSubscription.unsubscribe();
+        }
     }
 
     /**

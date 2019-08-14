@@ -1,8 +1,10 @@
 # Gentics UI Core Changelog
 
-## 7.6.5 (not yet released)
+## 7.6.5 (2019-08-14)
 
 ### Fixes
+
+* Fix error when destroying a non-pure Tabs component (GUIC-227).
 
 ## 7.6.4 (2019-08-12)
 
