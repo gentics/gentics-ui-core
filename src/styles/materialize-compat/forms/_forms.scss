@@ -1,22 +1,41 @@
-// Remove Focus Boxes
-select:focus {
-  outline: $select-focus;
+// wrap import so they won't apply globally
+
+gtx-select {
+    // Remove Focus Boxes
+    select:focus {
+        outline: $select-focus;
+      }
 }
 
-button:focus {
-  outline: none;
-  background-color: $button-background-focus;
+gtx-button {
+    button:focus {
+        outline: none;
+        background-color: $button-background-focus;
+      }
 }
 
-label {
-  font-size: $label-font-size;
-  color: $input-border-color;
+gtx-input,
+gtx-textarea {
+    label {
+        font-size: $label-font-size;
+        color: $input-border-color;
+    }
+    @import 'input-fields';
 }
-
-@import 'input-fields';
-@import 'radio-buttons';
-@import 'checkboxes';
+gtx-radio-button {
+    @import 'radio-buttons';
+}
+gtx-checkbox {
+    @import 'checkboxes';
+}
+gtx-select {
+    @import 'select';
+}
+gtx-file-drop-area,
+gtx-file-picker {
+    @import 'file-input';
+}
+gtx-range {
+    @import 'range';
+}
 @import 'switches';
-@import 'select';
-@import 'file-input';
-@import 'range';
