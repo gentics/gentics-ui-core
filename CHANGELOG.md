@@ -1,8 +1,11 @@
 # Gentics UI Core Changelog
 
-## 7.6.6 (not yet released)
+## 7.7.0 (2019-08-23)
 
-### Fixes
+### Fixes (with possibly breaking style change)
+
+* Make sure that styles that apply to native HTML types are always scoped to the UI Core components they are used in.
+**Important:** This may break some styles in an app, if they relied on the global scope of these styles.
 
 ## 7.6.5 (2019-08-14)
 
