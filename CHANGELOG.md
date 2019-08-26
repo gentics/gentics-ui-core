@@ -1,8 +1,10 @@
 # Gentics UI Core Changelog
 
-## 7.7.1 (not yet released)
+## 7.7.1 (2019-08-26)
 
 ### Fixes
+
+* Export some missing component and directive classes, such that they are not only usable in templates, but also in TypeScript code (GUIC-229).
 
 ## 7.7.0 (2019-08-23)
 
