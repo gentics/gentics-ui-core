@@ -10,11 +10,11 @@
 </div>
 <div class="clear-button" *ngIf="!hideClearButton && query && query !== ''">
     <gtx-button icon type="secondary" (click)="clear.emit(true)">
-        <i class="material-icons">close</i>
+        <i class="material-icons">{{ clearIcon }}</i>
     </gtx-button>
 </div>
 <div class="submit-button">
     <gtx-button flat (click)="doSearch()">
-        <i class="material-icons">search</i>
+        <i class="material-icons">{{ submitIcon }}</i>
     </gtx-button>
 </div>

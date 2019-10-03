@@ -36,6 +36,15 @@ const GTX_SEARCH_BAR_VALUE_ACCESSOR = {
  *      <div class="chip">Tag 1<i class="material-icons">close</i></div>
  * </gtx-search-bar>
  * ```
+ *
+ * ##### Custom Icons
+ * Icons in the `<gtx-search-bar>` can be replaced with custom ones.
+ *
+ * ```html
+ * <gtx-search-bar submitIcon="filter_list"
+ *                 clearIcon="undo">
+ * </gtx-search-bar>
+ * ```
  */
 @Component({
     selector: 'gtx-search-bar',
@@ -52,6 +61,16 @@ export class SearchBar implements ControlValueAccessor {
      * Value that pre-fills the search input with a string value.
      */
     @Input() query: string = '';
+
+    /**
+     * Sets the icon displayed for the submit button
+     */
+    @Input() submitIcon: string = 'search';
+
+    /**
+     * Sets the icon displayed for the clear button
+     */
+    @Input() clearIcon: string = 'close';
 
     /**
      * Placeholder text which is shown when no text is entered.
