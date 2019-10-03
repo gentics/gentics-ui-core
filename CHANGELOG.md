@@ -1,8 +1,10 @@
 # Gentics UI Core Changelog
 
-## 7.7.2 (not yet released)
+## 7.8.0 (not yet released)
 
-### Fixes
+### Features
+
+* Add email, tel and url field types to input with predefined regex pattern (GUIC-123).
 
 ## 7.7.1 (2019-08-26)
 

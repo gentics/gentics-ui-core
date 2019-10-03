@@ -21,11 +21,33 @@ const GTX_INPUT_VALUE_ACCESSOR = {
     multi: true
 };
 
+/**
+ * E-mail validator regex from Angular 8
+ * @todo Implement with validators
+ * @see https://github.com/angular/angular/blob/8.2.9/packages/forms/src/validators.ts#L60
+ */
+const EMAIL_REGEXP =
+    "^(?=.{1,254}$)(?=.{1,64}@)[-!#$%&'*+/0-9=?A-Z^_`a-z{|}~]+(\\.[-!#$%&'*+/0-9=?A-Z^_`a-z{|}~]+)*@[A-Za-z0-9]([A-Za-z0-9-]{0,61}[A-Za-z0-9])?(\\.[A-Za-z0-9]([A-Za-z0-9-]{0,61}[A-Za-z0-9])?)*$";
+
+/**
+ * Telephone number validator regex
+ * @todo Implement with validators
+ * @see https://stackoverflow.com/a/26516985
+ */
+const TEL_REGEXP = "^([()\\- x+]*\d[()\\- x+]*){4,16}$";
+
+/**
+ * URL validator regex
+ * @todo Implement with validators
+ * @see https://stackoverflow.com/a/52017332
+ */
+const URL_REGEXP = "(^|\\s)((https?:\\/\\/)?[\\w-]+(\\.[\\w-]+)+\\.?(:\\d+)?(\\/\\S*)?)";
+
 const ACTIVE_CLASS = 'active';
 
 /**
  * The InputField wraps the native `<input>` form element but should only be used for
- * text, number or password types. Other types (date, range, file) should have dedicated components.
+ * text, number, password, tel, email or url types. Other types (date, range, file) should have dedicated components.
  *
  *
  * Note that the class is named `InputField` since `Input` is used by the Angular framework to denote
@@ -42,7 +64,7 @@ const ACTIVE_CLASS = 'active';
     templateUrl: './input.tpl.html',
     providers: [GTX_INPUT_VALUE_ACCESSOR]
 })
-export class InputField implements AfterViewInit, ControlValueAccessor, OnChanges {
+export class InputField implements AfterViewInit, ControlValueAccessor, OnInit, OnChanges {
     /**
      * Sets the input field to be auto-focused. Handled by `AutofocusDirective`.
      */
@@ -109,9 +131,9 @@ export class InputField implements AfterViewInit, ControlValueAccessor, OnChange
     @Input() step: number;
 
     /**
-     * Can be "text", "number" or "password".
+     * Can be "text", "number", "password", "tel", "email" or "url".
      */
-    @Input() type: 'text' | 'number' | 'password' = 'text';
+    @Input() type: 'text' | 'number' | 'password' | 'tel' | 'email' | 'url' = 'text';
 
     /**
      * Sets the value of the input.
@@ -140,6 +162,27 @@ export class InputField implements AfterViewInit, ControlValueAccessor, OnChange
 
     constructor(private renderer: Renderer2,
                 private changeDetector: ChangeDetectorRef) { }
+
+
+    ngOnInit(): void {
+        /**
+         * Set default regex patterns for specific field types if not set
+         */
+        if (!this.pattern) {
+            switch (this.type) {
+                case 'email':
+                    this.pattern = EMAIL_REGEXP;
+                    break;
+                case 'tel':
+                    this.pattern = TEL_REGEXP;
+                    break;
+                case 'url':
+                    this.pattern = URL_REGEXP;
+                    break;
+                default:
+            }
+        }
+    }
 
     /**
      * The Materialize input includes a dynamic label that changes position depending on the state of the input.
