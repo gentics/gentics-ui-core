@@ -4,6 +4,8 @@
 
 ### Fixes
 
+* Disabled checkbox now shows not allowed cursor on hover (GUIC-169).
+
 ## 7.7.1 (2019-08-26)
 
 ### Fixes
