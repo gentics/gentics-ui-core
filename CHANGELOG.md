@@ -1,8 +1,10 @@
 # Gentics UI Core Changelog
 
-## 7.7.2 (not yet released)
+## 7.8.0 (not yet released)
 
-### Fixes
+### Features
+
+* Add custom clear and submit icons possibility to search bar (GUIC-174)
 
 * Disabled checkbox now shows not allowed cursor on hover (GUIC-169).
 
