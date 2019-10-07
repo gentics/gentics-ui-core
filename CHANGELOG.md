@@ -5,6 +5,11 @@
 ### Features
 
 * Add email, tel and url field types to input with predefined regex pattern (GUIC-123).
+* Add custom clear and submit icons possibility to search bar (GUIC-174)
+
+### Fixes
+
+* Disabled checkbox now shows not allowed cursor on hover (GUIC-169).
 
 ## 7.7.1 (2019-08-26)
 
