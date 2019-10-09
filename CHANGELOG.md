@@ -6,6 +6,7 @@
 
 * Add email, tel and url field types to input with predefined regex pattern (GUIC-123).
 * Add custom clear and submit icons possibility to search bar (GUIC-174)
+* Add official support for Angular 8 (GUIC-232).
 
 ### Fixes
 
