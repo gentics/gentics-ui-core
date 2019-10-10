@@ -2,6 +2,8 @@
 
 This is the common core framework for the Gentics CMS and Mesh UI, and other Angular applications.
 
+Gentics UI Core 7.8.0 and up supports Angular 7 and 8.
+
 ## Using ui-core in a project
 
 1. Install via npm:
@@ -85,7 +87,7 @@ export class MyLazilyLoadedModule {
 
 ## Using ui-core in an [angular-cli](https://cli.angular.io/) project
 
-1. Create a new app using angular-cli (this guide assumes angular-cli version 7.x). The following command will create a new app with the name `my-example` in the folder `./my-example`, use `me` as the prefix for components, set up a routing module, and use SCSS for defining styles. Please note that while a custom prefix and the routing module are optional, SCSS must be used for the styles in order to be compatible with Gentics UI Core.
+1. Create a new app using angular-cli (this guide assumes angular-cli version 8.x). The following command will create a new app with the name `my-example` in the folder `./my-example`, use `me` as the prefix for components, set up a routing module, and use SCSS for defining styles. Please note that while a custom prefix and the routing module are optional, SCSS must be used for the styles in order to be compatible with Gentics UI Core.
 
 ```
 ng new my-example --prefix=me --routing=true --style=scss
