@@ -71,6 +71,13 @@ gtx-tabs {
                 &, &:link, &:visited {
                     color: inherit;
                 }
+
+                span {
+                    display: inline-block;
+                    &.animatedTitle {
+                        animation: slide-in-blurred-left 0.3s cubic-bezier(0.430, 1.000, 0.520, 1.000) both;
+                    }
+                }
             }
 
             &.is-active {
@@ -86,6 +93,7 @@ gtx-tabs {
                 font-size: 1.4285em;
                 margin-top: -2px;
                 vertical-align: middle;
+                transition: margin 0.2s cubic-bezier(0.430, 1.000, 0.520, 1.000);
             }
 
             &:not(.icon-only) icon {
@@ -96,5 +104,24 @@ gtx-tabs {
 
     gtx-tab > .tab-content:not(.is-active) {
         display: none;
+    }
+}
+
+
+@keyframes slide-in-blurred-left {
+    0% {
+        transform: translateX(-0.65em) scaleX(1.5) scaleY(0.8);
+        transform-origin: 100% 50%;
+        filter: blur(10px);
+        opacity: 0;
+    }
+    30% {
+        filter: blur(0);
+    }
+    100% {
+        transform: translateX(0) scaleY(1) scaleX(1);
+        transform-origin: 50% 50%;
+        filter: blur(0);
+        opacity: 1;
     }
 }
