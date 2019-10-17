@@ -7,12 +7,12 @@
                 disabled: tab.disabled,
                 'is-active': tab.active,
                 'has-icon': !!tab.icon,
-                'icon-only': tab.icon && !tab.title
+                'icon-only': shouldHideTitle && !tab.active || (tab.icon && !tab.title)
             }">
-        <a role="tab" *ngIf="tab.routerLink && !tab.disabled" [routerLink]="tab.routerLink"
-            ><icon *ngIf="tab.icon">{{tab.icon}}</icon>{{ tab.title }}</a>
-        <a role="tab" *ngIf="!tab.routerLink || tab.disabled"
-            ><icon *ngIf="tab.icon">{{tab.icon}}</icon>{{ tab.title }}</a>
+        <a role="tab" *ngIf="tab.routerLink && !tab.disabled" [routerLink]="tab.routerLink">
+            <icon *ngIf="tab.icon">{{tab.icon}}</icon><span [class.animatedTitle]="shouldHideTitle" *ngIf="!shouldHideTitle || tab.active || (!tab.active && !tab.icon)">{{ tab.title }}</span></a>
+        <a role="tab" *ngIf="!tab.routerLink || tab.disabled">
+            <icon *ngIf="tab.icon">{{tab.icon}}</icon><span [class.animatedTitle]="shouldHideTitle" *ngIf="!shouldHideTitle || tab.active || (!tab.active && !tab.icon)">{{ tab.title }}</span></a>
     </li>
 </ul>
 <ng-content></ng-content>

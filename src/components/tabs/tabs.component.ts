@@ -45,6 +45,14 @@ import { Subscription } from 'rxjs';
  *        <gtx-tab title="Notes"></gtx-tab>
  * </gtx-tabs>
  * ```
+ *  *  * ##### Active Tabs with Icons
+ * A gtx-tabs can take an optional `hideTitle` property which allows to hide the title for non-active tabs with icons.
+ * ```html
+ * <gtx-tabs hideTitle>
+ *           <gtx-tab icon="folder" title="Tab 1">Tab 1 Content</gtx-tab>
+ *           <gtx-tab icon="cloud" title="Tab 2">Tab 2 Content</gtx-tab>
+ * </gtx-tabs>
+ * ```
  *
  */
 @Component({
@@ -68,6 +76,14 @@ export class Tabs implements AfterContentInit, OnChanges, OnDestroy {
     }
 
     /**
+     * When present (or set to true), only active tabs with icons will show the title.
+     * Non-active tabs with icons will hide the title, show only icon.
+     */
+    @Input() set hideTitle(val: any) {
+        this.shouldHideTitle = coerceToBoolean(val);
+    }
+
+    /**
      * The id of the active tab. Should only be used in pure (stateless) mode.
      */
     @Input() activeId: string;
@@ -88,6 +104,7 @@ export class Tabs implements AfterContentInit, OnChanges, OnDestroy {
         this.tabsShouldWrap = coerceToBoolean(val);
     }
 
+    shouldHideTitle: boolean = false;
     verticalTabs: boolean = false;
     tabsShouldWrap: boolean = false;
     private isPure: boolean = false;
