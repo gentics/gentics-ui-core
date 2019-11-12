@@ -170,7 +170,7 @@ export class SortableList {
             // Attempt to drag a filtered element
             onFilter: (e: ISortableEvent): void => {},
             // Event when you move an item in the list or between lists
-            onMove: (e: ISortableMoveEvent): boolean => {
+            onMove: (e: ISortableMoveEvent): any => {
                 if (typeof this.onMove === 'function') {
                     return this.onMove(e);
                 }
