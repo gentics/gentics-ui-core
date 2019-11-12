@@ -66,6 +66,10 @@ const ACTIVE_CLASS = 'active';
 })
 export class InputField implements AfterViewInit, ControlValueAccessor, OnInit, OnChanges {
     /**
+     * Sets autocomplete attribute on the input field
+     */
+    @Input() autocomplete: string;
+    /**
      * Sets the input field to be auto-focused. Handled by `AutofocusDirective`.
      */
     @Input() autofocus: boolean = false;
