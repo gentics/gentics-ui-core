@@ -1,8 +1,10 @@
 # Gentics UI Core Changelog
 
-## 7.8.1 (not yet released)
+## 7.9.0 (not yet released)
 
-### Fixes
+### Features
+
+* Extend input to also support autocomplete property (GTXPE-694).
 
 ## 7.8.0 (2019-10-17)
 
