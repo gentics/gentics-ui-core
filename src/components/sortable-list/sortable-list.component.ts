@@ -130,8 +130,9 @@ export class SortableList {
      */
     @Output() removeItem = new EventEmitter<ISortableEvent>();
 
-    private sortable: Sortable;
     @HostBinding('class.gtx-dragging') dragging = false;
+    
+    private sortable: Sortable;
 
     constructor(private elementRef: ElementRef) {}
 
