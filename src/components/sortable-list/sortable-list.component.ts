@@ -131,6 +131,7 @@ export class SortableList {
     @Output() removeItem = new EventEmitter<ISortableEvent>();
 
     private sortable: Sortable;
+    private dragImageCanvasClassname: string = "dragimagecanvas";
 
     constructor(private elementRef: ElementRef) {}
 
@@ -153,6 +154,7 @@ export class SortableList {
             // dragging ended
             onEnd: (e: ISortableEvent): void => {
                 e.sort = this.sortFactory(e);
+                this.removeDragImageCanvas();
                 this.dragEnd.emit(e);
             },
             // Element is dropped into the list from another list
@@ -225,10 +227,28 @@ export class SortableList {
         // Current IE and Edge do not support .setDragImage()
         if (dataTransfer.setDragImage !== undefined) {
             let canvas: HTMLCanvasElement = <HTMLCanvasElement> document.createElement('canvas');
-            canvas.width = canvas.height = 0;
+            // add class so we can remove it later on  (see: removeDragImageCanvas() )
+            canvas.className += this.dragImageCanvasClassname;
+            // chrome apparently needs the canvas to have dimensions > 0
+            canvas.width = canvas.height = 1;
+            canvas.style.position = 'absolute';
+            // make sure canvas is not on screen
+            canvas.style.left = '-100%'; 
+            // chrome apparently needs the canvas to be addded to the DOM
+            document.body.append(canvas);
             dataTransfer.setData('text', 'Data to Drag');
             dataTransfer.setDragImage(canvas, 25, 25);
         }
+    }
+
+    /**
+     * make sure the canvas that was added in setInvisibleDragImage() gets removed so the DOM does not get cluttered
+     */
+    removeDragImageCanvas() {
+        var canvases = document.getElementsByClassName(this.dragImageCanvasClassname);
+        while(canvases[0]) {
+            canvases[0].parentNode.removeChild(canvases[0]);
+        }​
     }
 }
 
