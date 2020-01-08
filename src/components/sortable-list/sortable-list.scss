@@ -1,10 +1,23 @@
 gtx-sortable-list {
+    &.gtx-dragging{
+        cursor: ns-resize;
+        cursor: -webkit-grabbing;
+        cursor:    -moz-grabbing;
+        cursor:         grabbing;
+        
+        * {
+            cursor: ns-resize;
+            cursor: -webkit-grabbing;
+            cursor:    -moz-grabbing;
+            cursor:         grabbing;
+        }
+    }
     display: block;
 }
 
 gtx-sortable-item {
     display: block;
-
+    
     &.sortable-chosen {
         opacity: 0.7;
         background-color: $gtx-color-light-gray;
@@ -14,6 +27,8 @@ gtx-sortable-item {
         height: 32px;
         cursor: ns-resize;
         cursor: -webkit-grab;
+        cursor:    -moz-grab;
+        cursor:         grab; 
 
         > icon,
         > i {
