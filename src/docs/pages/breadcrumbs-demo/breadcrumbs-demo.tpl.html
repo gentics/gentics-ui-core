@@ -32,7 +32,7 @@
             To disable a breadcrumb bar, add the <code>active</code> attribute.
             Setting a value like <code>active="active"</code> is optional.
         </p>
-        <gtx-breadcrumbs [links]='[
+        <gtx-breadcrumbs [collapsedColor]="collapsedDisabledColor" [links]='[
             { href: "#", text: "Gentics UI Core" },
             { href: "#", text: "Components" },
             { href: "#/breadcrumbs", text: "Breadcrumbs" }
@@ -43,6 +43,7 @@
         <div class="row expanded small-collapse">
             <div class="columns small-12 large-9">
                 <gtx-breadcrumbs
+                    [collapsedColor]="collapsedDisabledColor"
                     [links]='[
                         { text: "Demo" },
                         { text: "Hardware" },
@@ -120,7 +121,7 @@
         <div class="demo-result">
             <div class="row expanded small-collapse">
                     <div class="columns small-8 large-8">
-                        <gtx-breadcrumbs [multiline]="multiline" [multilineExpanded]="multilineExpanded" [routerLinks]='[
+                        <gtx-breadcrumbs [collapsedColor]="collapsedEnabledColor" [multiline]="multiline" [multilineExpanded]="multilineExpanded" [routerLinks]='[
                             { text: "Index" },
                             { text: "Demo" },
                             { text: "Hardware" },
@@ -135,7 +136,7 @@
         </div>
         <div class="demo-code">
             <gtx-highlighted-code language="HTML" code='
-                <gtx-breadcrumbs [multiline]="multiline" [multilineExpanded]="multilineExpanded" [routerLinks]=&#39;[
+                <gtx-breadcrumbs [collapsedColor]="collapsedEnabledColor" [multiline]="multiline" [multilineExpanded]="multilineExpanded" [routerLinks]=&#39;[
                     { text: "Index" },
                     { text: "Demo" },
                     { text: "Hardware" },

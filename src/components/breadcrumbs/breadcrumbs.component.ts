@@ -63,6 +63,11 @@ export class Breadcrumbs implements OnChanges, OnDestroy, AfterViewInit {
     @Input() routerLinks: IBreadcrumbRouterLink[];
 
     /**
+     * A color that is used for collapsed state background.
+     */
+    @Input() collapsedColor: string;
+
+    /**
      * If true the first folder and all the folder names from the end of the breadcrumbs, which fit into one line are shown
      * and an ellipsis in between.
      */
@@ -131,6 +136,7 @@ export class Breadcrumbs implements OnChanges, OnDestroy, AfterViewInit {
         if (element) {
             // Listen in the "capture" phase to prevent routerLinks when disabled
             element.firstElementChild.addEventListener('click', this.preventClicksWhenDisabled, true);
+            element.style.setProperty('--collapsedColor', this.collapsedColor);
         }
 
         const timerSub = timer(500, 500)

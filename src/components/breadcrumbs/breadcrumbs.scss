@@ -1,5 +1,5 @@
-@mixin breadcrumbs-gradient-overlay($color) {
-    background: linear-gradient(to right, $color 30%, rgba(255,255,255,0));
+@mixin breadcrumbs-gradient-overlay() {
+    background: linear-gradient(to right, var(--collapsedColor) 30%, rgba(255,255,255,0));
     content: '';
     height: 100%;
     width: 65px;
@@ -110,11 +110,11 @@ gtx-breadcrumbs {
     }
 
     .disabled .is-overflowing .lastPart:before {
-        @include breadcrumbs-gradient-overlay($gtx-breadcrumbs-disabled-background-color);
+        @include breadcrumbs-gradient-overlay();
     }
 
     :not(.disabled) .is-overflowing .lastPart:before {
-        @include breadcrumbs-gradient-overlay($gtx-breadcrumbs-background-color);
+        @include breadcrumbs-gradient-overlay();
     }
 
     .without::before {
