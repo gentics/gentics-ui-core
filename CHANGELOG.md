@@ -1,6 +1,6 @@
 # Gentics UI Core Changelog
 
-## 7.10.0 (NOT YET RELEASED)
+## 7.10.0 (2020-03-03)
 
 ### Fixes
 * Show correct cursor and item preview when dragging in sortable-list (SUP-8790).
