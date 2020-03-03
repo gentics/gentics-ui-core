@@ -3,7 +3,8 @@
 ## 7.10.0 (NOT YET RELEASED)
 
 ### Fixes
-* Show correct cursor and item preview when dragging in sortable-list (SUP-8790). 
+* Show correct cursor and item preview when dragging in sortable-list (SUP-8790).
+* Add new input property for breadcrumbs that is used for collapsed state background (SUP-9200).
 
 ## 7.9.0 (2019-11-12)
 
