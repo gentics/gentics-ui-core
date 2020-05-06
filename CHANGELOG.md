@@ -25,6 +25,8 @@
 
 * Disabled checkbox now shows not allowed cursor on hover (GUIC-169).
 
+* Fix gtx-input normalization to return the correct null value for "number" type, when its null (GUIC-225).
+
 ## 7.7.1 (2019-08-26)
 
 ### Fixes

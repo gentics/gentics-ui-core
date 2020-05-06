@@ -260,7 +260,7 @@ export class InputField implements AfterViewInit, ControlValueAccessor, OnInit, 
 
     private normalizeValue(val: any): string|number {
         if (this.type === 'number') {
-            return val == null ? 0 : Number(val);
+            return val == null ? null : Number(val);
         } else {
             return val == null ? '' : String(val);
         }
