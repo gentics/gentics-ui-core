@@ -118,10 +118,10 @@ export class Breadcrumbs implements OnChanges, OnDestroy, AfterViewInit {
     backLink: IBreadcrumbLink | IBreadcrumbRouterLink;
     @ViewChildren(RouterLinkWithHref) routerLinkChildren: QueryList<RouterLinkWithHref>;
 
-    @ViewChild('navWrapper')
+    @ViewChild('navWrapper', { static: false })
     navWrapper: ElementRef;
 
-    @ViewChild('lastPart')
+    @ViewChild('lastPart', { static: false })
     lastPart: ElementRef;
 
     private subscriptions = new Subscription();

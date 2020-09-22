@@ -73,9 +73,9 @@ export class DropdownList {
         sticky: false,
         closeOnEscape: true
     };
-    @ViewChild(TemplateRef) contentsTemplate: TemplateRef<any>;
-    @ContentChild(DropdownTriggerDirective) trigger: DropdownTriggerDirective;
-    @ContentChild(DropdownContent) content: DropdownContent;
+    @ViewChild(TemplateRef, { static: true }) contentsTemplate: TemplateRef<any>;
+    @ContentChild(DropdownTriggerDirective, { static: true }) trigger: DropdownTriggerDirective;
+    @ContentChild(DropdownContent, { static: false }) content: DropdownContent;
 
     /**
      * Fired whenever the dropdown contents are opened.

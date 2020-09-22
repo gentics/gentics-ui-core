@@ -99,7 +99,7 @@ export class DropdownContentWrapper {
             this.contentStyles.transform = `translateZ(0)`;
             this.contentStyles.opacity = 1;
 
-            if (this.options.width === 'content') {
+            if (this.options.width === 'contents') {
                 this.contentStyles.whiteSpace = 'nowrap';
             }
             this.widthHasBeenAdjusted = true;
