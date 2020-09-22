@@ -233,7 +233,7 @@ function assertFlatState(fixture: ComponentFixture<TestComponent>, expectedState
 })
 class TestComponent {
 
-    @ViewChild('testButton')
+    @ViewChild('testButton', { static: true })
     splitButton: SplitButton;
 
     isDisabled: boolean;

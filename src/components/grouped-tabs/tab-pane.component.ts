@@ -25,7 +25,7 @@ export class TabPane  {
   get content(): GtxTabContent | TemplateRef<any> { return this._explicitContent || this._implicitContent }
 
   /** Content for the tab label given by `<ng-template gtx-tab-label>`. */
-  @ContentChild(GtxTabLabel, { read: TemplateRef }) templateLabel: GtxTabLabel;
+  @ContentChild(GtxTabLabel, { read: TemplateRef, static: true }) templateLabel: GtxTabLabel;
 
   /** Plain text label for the tab, used when there is no template label. */
   @Input('label') textLabel: string = '';
@@ -65,10 +65,10 @@ export class TabPane  {
   /**
    * Template provided in the tab content that will be used if present, used to enable lazy-loading
    */
-  @ContentChild(GtxTabContent, { read: TemplateRef }) _explicitContent: GtxTabContent;
+  @ContentChild(GtxTabContent, { read: TemplateRef, static: true }) _explicitContent: GtxTabContent;
 
   /** Template inside the TabPane view that contains an `<ng-content>`. */
-  @ViewChild(TemplateRef) _implicitContent: TemplateRef<any>;
+  @ViewChild(TemplateRef, { static: true }) _implicitContent: TemplateRef<any>;
 
   /**
    * When the tab is clicked, this event is fired with the tab id.

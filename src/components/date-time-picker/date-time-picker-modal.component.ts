@@ -38,7 +38,7 @@ export class DateTimePickerModal implements IModalDialog {
 
     selectYear: boolean;
 
-    @ViewChild('calendarContainer')
+    @ViewChild('calendarContainer', { static: false })
     calendarContainer: ElementRef;
 
     valueTimestamp: number;

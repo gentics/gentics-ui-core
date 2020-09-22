@@ -84,7 +84,7 @@ export class SplitButton implements AfterViewInit, OnDestroy {
         this.isDisabled = coerceToBoolean(value);
     }
 
-    @ContentChild(SplitButtonPrimaryAction, { read: ElementRef })
+    @ContentChild(SplitButtonPrimaryAction, { read: ElementRef, static: true })
     primaryAction: ElementRef;
 
     @ContentChildren(DropdownItem)

@@ -555,7 +555,7 @@ class TestComponent {
     testForm: FormGroup = new FormGroup({
         test: new FormControl(TEST_TIMESTAMP)
     });
-    @ViewChild(DateTimePicker) pickerInstance: DateTimePicker;
+    @ViewChild(DateTimePicker, { static: true }) pickerInstance: DateTimePicker;
     onChange = jasmine.createSpy('onChange');
     onClear = jasmine.createSpy('onClear');
 }

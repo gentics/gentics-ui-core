@@ -182,11 +182,11 @@ export class SplitViewContainer implements AfterViewInit, OnChanges, OnDestroy {
     /** @internal The Element to which cursor styles are applied. */
     globalCursorStyleTarget: any = window.document && window.document.body;
 
-    @ViewChild('resizeContainer') resizeContainer: ElementRef;
-    @ViewChild('leftPanel') leftPanel: ElementRef;
-    @ViewChild('rightPanel') rightPanel: ElementRef;
-    @ViewChild('resizer') resizer: ElementRef;
-    @ViewChild('visibleResizer') visibleResizer: ElementRef;
+    @ViewChild('resizeContainer', { static: true }) resizeContainer: ElementRef;
+    @ViewChild('leftPanel', { static: true }) leftPanel: ElementRef;
+    @ViewChild('rightPanel', { static: true }) rightPanel: ElementRef;
+    @ViewChild('resizer', { static: true }) resizer: ElementRef;
+    @ViewChild('visibleResizer', { static: true }) visibleResizer: ElementRef;
 
     resizing: boolean = false;
 

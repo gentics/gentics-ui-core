@@ -233,7 +233,7 @@ describe('SearchBar', () => {
 class TestComponent {
     query: string = '';
     subject = new BehaviorSubject<string>('initial value of subject');
-    @ViewChild(SearchBar) searchBar: SearchBar;
+    @ViewChild(SearchBar, { static: true }) searchBar: SearchBar;
     onSearch(): void {}
     onChange(): void {}
     onClear(): void {}
