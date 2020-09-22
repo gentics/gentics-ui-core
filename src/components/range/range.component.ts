@@ -104,7 +104,7 @@ export class Range implements ControlValueAccessor {
     private showThumbLabel: boolean = true;
 
 
-    @ViewChild('input') private inputElement: ElementRef;
+    @ViewChild('input', { static: true }) private inputElement: ElementRef;
 
     private get canModify(): boolean {
         return !this.disabled;

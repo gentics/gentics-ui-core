@@ -27,7 +27,7 @@ export class Toast {
     dismissFn: Function;
     dismissOnClick: boolean = true;
     dismissing: boolean = false;
-    @ViewChild('toast') toastRef: ElementRef;
+    @ViewChild('toast', { static: true }) toastRef: ElementRef;
 
     private hammerManager: HammerManager;
 

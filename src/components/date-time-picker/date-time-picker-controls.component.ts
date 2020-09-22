@@ -113,7 +113,7 @@ export class DateTimePickerControls implements OnDestroy {
      */
     @Output() change = new EventEmitter<number>();
 
-    @ViewChild('calendarContainer')
+    @ViewChild('calendarContainer', { static: true })
     calendarContainer: ElementRef;
 
     dateOrder: 'dmy' | 'ymd' | 'mdy' = 'mdy';

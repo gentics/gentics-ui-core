@@ -517,7 +517,7 @@ describe('File Drop Area:', () => {
         </div>`
 })
 class TestComponent {
-    @ViewChild(FileDropArea) directive: FileDropArea;
+    @ViewChild(FileDropArea, { static: true }) directive: FileDropArea;
     @ViewChildren(FileDropArea) directives: QueryList<FileDropArea>;
 
     onFileDragEnter = jasmine.createSpy('onFileDragEnter');

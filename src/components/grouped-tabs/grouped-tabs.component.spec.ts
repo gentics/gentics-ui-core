@@ -97,7 +97,7 @@ describe('Grouped Tabs:', () => {
                 // Switch to the third tab in first group
                 tabId = 2;
                 groupId = 1;
-                
+
                 expect((collectedTabs.value[groupId] as TabGroup).hasActiveChild).toBeFalsy();
 
                 fixture.componentInstance.groupedTabs.selectTab(tabs[tabId]);
@@ -283,7 +283,7 @@ describe('Grouped Tabs:', () => {
         </gtx-grouped-tabs>`
 })
 class TestComponent {
-    @ViewChild(GroupedTabs) groupedTabs: GroupedTabs;
+    @ViewChild(GroupedTabs, { static: true }) groupedTabs: GroupedTabs;
     asyncTabs$ = new Subject<Array<any>>();
 }
 
