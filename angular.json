@@ -13,7 +13,7 @@
           "builder": "@angular-devkit/build-ng-packagr:build",
           "options": {
             "tsConfig": "projects/gentics-ui-core/tsconfig.lib.json",
-            "project": "projects/gentics-ui-core/ng-package.json"
+            "project": "projects/gentics-ui-core/ng-package.json",
           }
         },
         "test": {

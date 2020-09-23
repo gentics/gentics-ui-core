@@ -139,7 +139,7 @@ export const UI_CORE_PROVIDERS: any[] = [
 ];
 
 export const declarations = [...UI_CORE_COMPONENTS, ...UI_CORE_DIRECTIVES, ...UI_CORE_PIPES];
-export const routerModuleForChild: ModuleWithProviders = RouterModule.forChild([]);
+export const routerModuleForChild: ModuleWithProviders<GenticsUICoreModule> = RouterModule.forChild([]);
 
 @NgModule({
     imports: [
