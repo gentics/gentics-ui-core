@@ -864,9 +864,9 @@ class TestComponent {
         test: new FormControl('Bar')
     });
 
-    onBlur(): void {}
-    onFocus(): void {}
-    onChange(): void {}
+    onBlur(...args: any[]): void {}
+    onFocus(...args: any[]): void {}
+    onChange(...args: any[]): void {}
 }
 
 

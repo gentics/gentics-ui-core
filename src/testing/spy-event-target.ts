@@ -61,9 +61,9 @@ export class SpyEventTarget implements EventTarget {
     }
 
     constructor(public name: string = '') {
-        spyOn(this, 'addEventListener').and.callThrough();
-        spyOn(this, 'dispatchEvent').and.callThrough();
-        spyOn(this, 'removeEventListener').and.callThrough();
+        spyOn(this as EventTarget, 'addEventListener').and.callThrough();
+        spyOn(this as EventTarget, 'dispatchEvent').and.callThrough();
+        spyOn(this as EventTarget, 'removeEventListener').and.callThrough();
     }
 
     addEventListener(type: string, listener?: any, useCapture: boolean = false): void {

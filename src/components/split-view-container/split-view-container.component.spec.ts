@@ -313,5 +313,5 @@ describe('SplitViewContainer', () => {
 class TestComponent {
     hasRight: boolean = false;
     focusedSide: string = '';
-    testHandler(): void {}
+    testHandler(...args: any[]): void {}
 }

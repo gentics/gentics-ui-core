@@ -418,7 +418,7 @@ class MockRouter {
     createUrlTree(commands: string[], options: any): any {
         return commands;
     }
-    navigateByUrl(urlTree: any): void {}
+    navigateByUrl(...args: any[]): void {}
     serializeUrl(urlTree: string[]): string {
         return urlTree.join('/');
     }

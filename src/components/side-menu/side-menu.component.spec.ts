@@ -101,7 +101,7 @@ describe('SideMenu', () => {
 })
 class TestComponent {
     menuVisible: boolean = false;
-    menuChanged(): void {}
+    menuChanged(...args: any[]): void {}
 }
 
 // Helper functions

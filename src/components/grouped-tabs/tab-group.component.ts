@@ -19,7 +19,7 @@ export class TabGroup {
   uniqueId: string = `gtx-tag-group-${uniqueTabGroupId++}`;
 
   /** Expand state for the group */
-  expand: boolean = false;
+  public expand: boolean = false;
 
   /** Content for the tab label given by `<ng-template gtx-tab-label>`. */
   @ContentChildren(GtxTabLabel, { read: TemplateRef, descendants: false }) templateLabels: QueryList<GtxTabLabel>;
@@ -52,7 +52,7 @@ export class TabGroup {
   get hasActiveChild(): boolean {
     return this.tabs.some(tab => tab.active)
   }
-  
+
   toggle(): void {
     this.expand = !this.expand;
     this.tabGroupToggle.emit({ id: this.id, expand: this.expand });
