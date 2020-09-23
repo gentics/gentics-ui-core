@@ -132,7 +132,7 @@ export class ModalService {
     /**
      * Returns an array of ComponentRefs for each currently-opened modal.
      */
-    public get openModals(): Array<ComponentRef<IModalDialog>> {
+    public get openModals(): ComponentRef<IModalDialog>[] {
         return this._parentModalService ? this._parentModalService.openModals : this.openModalComponents;
     }
 
