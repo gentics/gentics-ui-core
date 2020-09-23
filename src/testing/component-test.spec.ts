@@ -1,4 +1,4 @@
-import {Component, Injectable} from '@angular/core';
+import {Component, Injectable, OnDestroy} from '@angular/core';
 import {tick, TestBed} from '@angular/core/testing';
 
 import {mustFail} from './must-fail';
@@ -179,7 +179,7 @@ class ComponentThatThrowsInConstructor {
 @Component({
     template: 'This will be destroyed'
 })
-class ComponentWithOnDestroy {
+class ComponentWithOnDestroy implements OnDestroy {
     ngOnDestroy(): void { }
 }
 

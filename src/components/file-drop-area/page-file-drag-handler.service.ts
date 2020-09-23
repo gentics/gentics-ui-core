@@ -1,4 +1,4 @@
-import {EventEmitter, Inject, Injectable, InjectionToken, Optional, Output} from '@angular/core';
+import { EventEmitter, Inject, Injectable, InjectionToken, Optional, Output, Directive } from '@angular/core';
 import {Observable, Subscription} from 'rxjs';
 import {filter, mapTo} from 'rxjs/operators';
 
