@@ -8,6 +8,7 @@ export class GroupedTabsDemo {
     componentSource: string = require('!!raw-loader!../../../components/grouped-tabs/grouped-tabs.component.ts');
     activeTab: string = 'tab1';
     wrap: boolean = false;
+    wrapWS: boolean = false;
     asyncTabData$ = new Subject<Array<any>>();
     asyncTabGroupsData$ = new Subject<Array<any>>();
 

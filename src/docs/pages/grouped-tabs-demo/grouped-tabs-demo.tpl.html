@@ -115,8 +115,8 @@
 
 <gtx-demo-block demoTitle="Grouped Tabs with Status icons">
     <div class="demo-result">
-        <gtx-grouped-tabs [wrap]="wrap" statusIcons="true" #groupedTabs="gtxGroupedTabs">
-            <gtx-tab-pane #tab1>
+        <gtx-grouped-tabs [wrap]="wrapWS" statusIcons="true" #groupedTabsWS="gtxGroupedTabs">
+            <gtx-tab-pane #tabWS1>
                 <ng-template gtx-tab-label>
                     <icon left>add</icon> Standalone Tab 1
                 </ng-template>
@@ -131,13 +131,13 @@
                     </ng-template>
                     Tab contents are dynamic and it is using templates via implicity mode.
                     <div>
-                        <gtx-button (click)="groupedTabs.selectTab(tab1)">Switch to Tab 1</gtx-button>
-                        <gtx-button (click)="groupedTabs.toggleGroup(group2)">Toggle Group 2</gtx-button>
+                        <gtx-button (click)="groupedTabsWS.selectTab(tabWS1)">Switch to Tab 1</gtx-button>
+                        <gtx-button (click)="groupedTabsWS.toggleGroup(groupWS2)">Toggle Group 2</gtx-button>
                     </div>
                     <div>
                         <p>Change wrap mode:</p>
-                        <gtx-radio-button [(ngModel)]="wrap" [value]="true" label="Wrap"></gtx-radio-button>
-                        <gtx-radio-button [(ngModel)]="wrap" [value]="false" label="No Wrap"></gtx-radio-button>
+                        <gtx-radio-button [(ngModel)]="wrapWS" [value]="true" label="Wrap"></gtx-radio-button>
+                        <gtx-radio-button [(ngModel)]="wrapWS" [value]="false" label="No Wrap"></gtx-radio-button>
                     </div>
                 </gtx-tab-pane>
                 <gtx-tab-pane disabled="true">
@@ -165,7 +165,7 @@
                     This tab is read-only and inactive
                 </gtx-tab-pane>
             </gtx-tab-group>
-            <gtx-tab-group #group2>
+            <gtx-tab-group #groupWS2>
                 <ng-template gtx-tab-label>
                     Second Group
                 </ng-template>
@@ -182,8 +182,8 @@
     </div>
     <div class="demo-code">
         <gtx-highlighted-code language="HTML" code='
-        <gtx-grouped-tabs [wrap]="wrap" statusIcons="true" #groupedTabs="gtxGroupedTabs">
-            <gtx-tab-pane #tab1>
+        <gtx-grouped-tabs [wrap]="wrapWS" statusIcons="true" #groupedTabsWS="gtxGroupedTabs">
+            <gtx-tab-pane #tabWS1>
                 <ng-template gtx-tab-label>
                     <icon left>add</icon> Standalone Tab 1
                 </ng-template>
@@ -198,8 +198,8 @@
                     </ng-template>
                     Tab contents are dynamic and it is using templates via implicity mode.
                     <div>
-                        <gtx-button (click)="groupedTabs.selectTab(tab1)">Switch to Tab 1</gtx-button>
-                        <gtx-button (click)="groupedTabs.toggleGroup(group2)">Toggle Group 2</gtx-button>
+                        <gtx-button (click)="groupedTabsWS.selectTab(tabWS1)">Switch to Tab 1</gtx-button>
+                        <gtx-button (click)="groupedTabsWS.toggleGroup(groupWS2)">Toggle Group 2</gtx-button>
                     </div>
                     <div>
                         <p>Change wrap mode:</p>
@@ -232,7 +232,7 @@
                     This tab is read-only and inactive
                 </gtx-tab-pane>
             </gtx-tab-group>
-            <gtx-tab-group #group2>
+            <gtx-tab-group #groupWS2>
                 <ng-template gtx-tab-label>
                     Second Group
                 </ng-template>
@@ -276,7 +276,7 @@
     </div>
     <div class="demo-code">
         <gtx-highlighted-code language="HTML" code='
-        <gtx-grouped-tabs pure [activeId]="activeTab">        
+        <gtx-grouped-tabs pure [activeId]="activeTab">
             <gtx-tab-pane id="first-tab" (select)="activeTab = $event">
                 <ng-template gtx-tab-label>
                     <icon left>add</icon> Standalone Tab 1
@@ -298,4 +298,4 @@
         </gtx-grouped-tabs>
         '></gtx-highlighted-code>
     </div>
-</gtx-demo-block>    
+</gtx-demo-block>
