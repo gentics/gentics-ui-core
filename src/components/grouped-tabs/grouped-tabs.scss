@@ -56,7 +56,7 @@ gtx-grouped-tabs {
 
             & > li {
                 background: white;
-                text-transform: uppercase;
+                // text-transform: uppercase;
                 border-top: 1px solid $gtx-color-light-gray;
                 margin-bottom: 0;
                 position: relative;
@@ -66,12 +66,17 @@ gtx-grouped-tabs {
                     margin-bottom: 0;
                     border-bottom: 1px solid $gtx-color-light-gray;
                 }
+
+                icon[left] {
+                    float: left;
+                    margin-right: 8px;
+                }
             }
 
             .tab-link {
                 @include noselect;
                 cursor: pointer;
-                text-transform: uppercase;
+                // text-transform: uppercase;
                 color: $gtx-color-dark-gray;
                 transition: border-left 0.3s, color 0.2s;
                 border-right: 1px solid $gtx-color-light-gray;
