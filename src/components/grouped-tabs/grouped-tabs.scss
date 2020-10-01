@@ -167,6 +167,7 @@ gtx-grouped-tabs {
                     padding: 0.5rem 1rem;
                     color: $gtx-color-dark-gray;
                     border-right: 1px solid $gtx-color-light-gray;
+                    font-size: $gtx-font-size-small;
                     @include inline-ellipsis-text;
                     @include noselect;
 
