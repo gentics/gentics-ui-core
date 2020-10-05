@@ -44,7 +44,7 @@ export const CURSOR_STYLE_CLASS = 'gtx-split-view-container-resizing';
  * </gtx-split-view-container>
  * ```
  *
- * ##### Setting Scroll Positions
+ * ## Setting Scroll Positions
  *
  * The SplitViewContainer instance exposes two public methods which can be used to manually set the `scrollTop`
  * property of either the right or left panels: `.scrollLeftPanelTo()` and `.scrollRightPanelTo()`.

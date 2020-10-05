@@ -9,7 +9,7 @@ import { Subscription } from 'rxjs';
  *
  * Pure tabs will only change the active tab when the `activeId` property is updated.
  *
- * ##### Stateful Tabs
+ * ## Stateful Tabs
  * ```html
  * <gtx-tabs (tabChange)="goToTab($event)">
  *     <gtx-tab title="Details">Optional content here.</gtx-tab>
@@ -18,7 +18,7 @@ import { Subscription } from 'rxjs';
  * </gtx-tabs>
  * ```
  *
- * ##### Pure Tabs
+ * ## Pure Tabs
  * ```html
  * <gtx-tabs pure [activeId]="activeTab">
  *     <gtx-tab title="Details" id="1" (select)="activeTab = $event"></gtx-tab>
@@ -27,7 +27,7 @@ import { Subscription } from 'rxjs';
  * </gtx-tabs>
  * ```
  *
- * ##### With `routerLink`
+ * ## With `routerLink`
  * A gtx-tab can take an optional `[routerLink]` binding which will set router links for the tabs.
  * ```html
  * <gtx-tabs pure [activeId]="activeTab">

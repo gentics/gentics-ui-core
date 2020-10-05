@@ -51,7 +51,7 @@ export type DropdownWidth = 'contents' | 'trigger' | 'expand' | number;
  * </gtx-dropdown-list>
  * ```
  *
- * ##### Programmatic Use
+ * ## Programmatic Use
  * When used programmatically (e.g. by getting a reference to the component via `@ContentChild(DropdownList)`, the
  * following extended API is available:
  *

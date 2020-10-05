@@ -18,7 +18,7 @@ import {IModalInstance, IDialogConfig, IModalDialog, IModalOptions} from './moda
  * A promise-based service for creating modal windows and dialogs.
  * Depends on the [`<gtx-overlay-host>`](#/overlay-host) being present in the app.
  *
- * ##### Return Values
+ * ## Return Values
  * All the public methods return the `IModalInstance` object:
  *
  * ```
@@ -31,7 +31,7 @@ import {IModalInstance, IDialogConfig, IModalDialog, IModalOptions} from './moda
  * Calling the `open()` method returns a promise which will be resolved when the modal is closed
  * or rejected when a button is set to `shouldReject` or the modal calls the passed error handler.
  *
- * ##### `.dialog()`
+ * ## `.dialog()`
  * To create a basic dialog modal, use the `.dialog()` method. This accepts an `IDialogConfig` object:
  *
  * ```TypeScript
@@ -65,7 +65,7 @@ import {IModalInstance, IDialogConfig, IModalDialog, IModalOptions} from './moda
  *   .catch(() => console.log('cancelled');
  * ```
  *
- * ##### `.fromComponent()`
+ * ## `.fromComponent()`
  * For more complex modals, a component can be passed to the `.fromComponent()` method which will then be
  * placed inside a modal window. The component must implement the IModalDialog interface, which allows the
  * ModalService to hook into a `closeFn` & `cancelFn` so it knows to close the modal and resolve the promise.
@@ -108,7 +108,7 @@ import {IModalInstance, IDialogConfig, IModalDialog, IModalOptions} from './moda
  *   .then(result => console.log(result));
  * ```
  *
- * ##### Modal Options
+ * ## Modal Options
  * All public methods take an optional options parameter to describe the behavior and appearance of the modal window
  * itself:
  * ```TypeScript

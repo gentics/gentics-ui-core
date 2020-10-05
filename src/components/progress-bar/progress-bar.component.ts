@@ -27,7 +27,7 @@ function noop(): void {}
  * <gtx-progress-bar [for]="backgroundProgress$"></gtx-progress-bar>
  * ```
  *
- * ##### Using the progress bar with observables
+ * ## Using the progress bar with observables
  *
  * When an observable is assigned to the ProgressBar with "for", the observable should emit numbers
  * in the range [0..1] for a determinate progress bar or boolean values for indeterminate progress.
@@ -44,7 +44,7 @@ function noop(): void {}
  * }
  * ```
  *
- * ##### Using the progress bar programmatically inside another component
+ * ## Using the progress bar programmatically inside another component
  *
  * The ProgressBar instance exposes two public methods, `start()`, `complete()` which can be used
  * to manually control the progress bar visibility and progress in a parent component.

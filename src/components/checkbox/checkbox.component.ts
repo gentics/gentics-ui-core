@@ -28,7 +28,7 @@ const GTX_CHECKBOX_VALUE_ACCESSOR = {
  * <gtx-checkbox [(ngModel)]="checkStates.B" value="B" label="B"></gtx-checkbox>
  * ```
  *
- * ##### Stateless Mode
+ * ## Stateless Mode
  * By default, the Checkbox keeps track of its own internal checked state. This makes sense
  * for most use cases, such as when used in a form bound to NgControl.
  *
