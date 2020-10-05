@@ -20,7 +20,9 @@ $tab-readonly-icon: material-icons-content(map-get($material-icons-codepoints, '
     content: $tab-active-icon;
     position: absolute;
     left: -9px;
-    top: 13px;
+    top: 0;
+    bottom: 0;
+    margin: auto;
     width: 16px;
     height: 13px;
     font-family: 'Material Icons';
@@ -70,6 +72,7 @@ gtx-grouped-tabs {
                 icon[left] {
                     float: left;
                     margin-right: 8px;
+                    font-size: $gtx-font-size-regular;
                 }
             }
 
@@ -85,6 +88,8 @@ gtx-grouped-tabs {
     
                 > a {
                     @include inline-ellipsis-text;
+                    display: flex;
+                    align-items: center;
     
                     &, &:link, &:visited {
                         color: inherit;
@@ -145,7 +150,7 @@ gtx-grouped-tabs {
             & > li.tab-link {
                 cursor: pointer;
                 line-height: 1.5;
-                padding: 0.5rem;
+                padding: 0.3rem;
                 padding-left: 1rem;
                 border-left: 2px solid $gtx-color-light-gray;
     
@@ -164,7 +169,7 @@ gtx-grouped-tabs {
     
                 .collapsible-header {
                     border: none;
-                    padding: 0.5rem 1rem;
+                    padding: 0.3rem 1rem;
                     color: $gtx-color-dark-gray;
                     border-right: 1px solid $gtx-color-light-gray;
                     font-size: $gtx-font-size-small;
@@ -188,7 +193,7 @@ gtx-grouped-tabs {
                     overflow: hidden;
 
                     & > ul > li {
-                        padding: 0.5rem 1rem;
+                        padding: 0.3rem 1rem;
                         padding-right: 0;
                         margin: 0;
                         margin-left: 1rem;
@@ -207,6 +212,11 @@ gtx-grouped-tabs {
 
                         &.is-active {
                             @include is-active;
+                        }
+
+                        a span {
+                            display: flex;
+                            align-items: center;
                         }
                     }
                 }
