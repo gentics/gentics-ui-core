@@ -10,11 +10,15 @@ import { Subject } from 'rxjs';
 import { GtxTabLabel } from './tab-label';
 import { GtxTabContent } from './tab-content';
 
+export class MockElementRef extends ElementRef {
+    constructor() { super(null); }
+}
+
 describe('Grouped Tabs:', () => {
 
     beforeEach(() => TestBed.configureTestingModule({
         providers: [
-            { provide: ElementRef }
+            { provide: ElementRef, useClass: MockElementRef }
         ],
         declarations: [
             Icon,
