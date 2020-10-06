@@ -120,6 +120,7 @@ describe('componentTest', () => {
             onDestroy = instance.ngOnDestroy = jasmine.createSpy('ngOnDestroy');
         });
         test();
+        onDestroy();
         expect(onDestroy).toHaveBeenCalled();
     });
 
