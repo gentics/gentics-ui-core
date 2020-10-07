@@ -115,13 +115,12 @@ describe('componentTest', () => {
     );
 
     it('destroys the component it creates, calling their ngOnDestroy method', () => {
-        let onDestroy: jasmine.Spy;
+        let componentWithOnDestroyInstance: ComponentWithOnDestroy;
         let test = componentTest(() => ComponentWithOnDestroy, (fixture, instance) => {
-            onDestroy = instance.ngOnDestroy = jasmine.createSpy('ngOnDestroy');
+            componentWithOnDestroyInstance = instance;
         });
         test();
-        onDestroy();
-        expect(onDestroy).toHaveBeenCalled();
+        expect(componentWithOnDestroyInstance.wasDestroyed).toEqual(true);
     });
 
     describe('dependency handling', () => {
@@ -180,8 +179,11 @@ class ComponentThatThrowsInConstructor {
 @Component({
     template: 'This will be destroyed'
 })
-class ComponentWithOnDestroy implements OnDestroy {
-    ngOnDestroy(): void { }
+class ComponentWithOnDestroy {
+    public wasDestroyed: boolean = false;
+    ngOnDestroy(): void {
+        this.wasDestroyed = true;
+    }
 }
 
 

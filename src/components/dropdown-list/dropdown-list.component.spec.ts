@@ -273,9 +273,9 @@ describe('DropdownList:', () => {
                 tick();
                 expect(fixture.nativeElement.querySelectorAll('.dropdown-content-wrapper').length).toBe(3);
 
+                fixture.detectChanges(false);
                 fixture.destroy();
-                fixture.detectChanges();
-                tick(1000);
+                tick();
 
                 expect(fixture.nativeElement.querySelectorAll('.dropdown-content-wrapper').length).toBe(0);
 
