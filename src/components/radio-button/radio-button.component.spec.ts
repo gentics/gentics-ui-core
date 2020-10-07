@@ -654,9 +654,9 @@ class TestComponent {
         { b: 2 }
     ];
 
-    @ViewChild(RadioButton) radioButtonComponent: RadioButton;
+    @ViewChild(RadioButton, { static: true }) radioButtonComponent: RadioButton;
 
-    onBlur(): void {}
-    onFocus(): void {}
-    onChange(): void {}
+    onBlur(...args: any[]): void {}
+    onFocus(...args: any[]): void {}
+    onChange(...args: any[]): void {}
 }

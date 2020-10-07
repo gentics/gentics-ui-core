@@ -139,7 +139,7 @@ export const UI_CORE_PROVIDERS: any[] = [
 ];
 
 export const declarations = [...UI_CORE_COMPONENTS, ...UI_CORE_DIRECTIVES, ...UI_CORE_PIPES];
-export const routerModuleForChild: ModuleWithProviders = RouterModule.forChild([]);
+export const routerModuleForChild: ModuleWithProviders<GenticsUICoreModule> = RouterModule.forChild([]);
 
 @NgModule({
     imports: [
@@ -162,7 +162,7 @@ export class GenticsUICoreModule {
      * Therefore this method should be used only once in the app, at the level of the root module to ensure that only one
      * instance of each provider is instantiated.
      */
-    static forRoot(configValue?: optionsConfig | (() => optionsConfig)): ModuleWithProviders {
+    static forRoot(configValue?: optionsConfig | (() => optionsConfig)): ModuleWithProviders<GenticsUICoreModule> {
         return {
             ngModule: GenticsUICoreModule,
             providers: [

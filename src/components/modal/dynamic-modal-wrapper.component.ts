@@ -34,7 +34,7 @@ const defaultOptions: IModalOptions = {
 })
 export class DynamicModalWrapper implements OnInit, OnDestroy, AfterViewChecked {
 
-    @ViewChild('portal', {read: ViewContainerRef}) portal: ViewContainerRef;
+    @ViewChild('portal', { read: ViewContainerRef, static: true }) portal: ViewContainerRef;
 
     isIE11: boolean;
     dismissFn: Function;
@@ -68,6 +68,9 @@ export class DynamicModalWrapper implements OnInit, OnDestroy, AfterViewChecked 
     ngOnDestroy(): void {
         this.subscriptions.unsubscribe();
         clearTimeout(this.openTimer);
+        if(this.cmpRef && this.cmpRef.destroy) {
+            this.cmpRef.destroy();
+        }
     }
 
     setOptions(options: IModalOptions): void {

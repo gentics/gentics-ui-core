@@ -524,7 +524,7 @@ function fakeRequestAnimationFrameWhenTabInBackground(): { discardPending(): voi
     template: `<gtx-progress-bar></gtx-progress-bar>`
 })
 class TestComponent {
-    @ViewChild(ProgressBar) progressBar: ProgressBar;
+    @ViewChild(ProgressBar, { static: true }) progressBar: ProgressBar;
     promise: Promise<any>;
     observable: Observable<number> | Observable<boolean>;
     loadingSomething: boolean = false;

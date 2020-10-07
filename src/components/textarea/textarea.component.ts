@@ -121,7 +121,7 @@ export class Textarea implements ControlValueAccessor, OnChanges {
 
     valueIsValid: boolean = true;
 
-    @ViewChild('textarea') private nativeTextarea: ElementRef;
+    @ViewChild('textarea', { static: true }) private nativeTextarea: ElementRef;
     private _maxlength: number;
     private currentValue: string;
 

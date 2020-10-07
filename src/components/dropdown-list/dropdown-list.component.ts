@@ -8,6 +8,7 @@ import {
     EventEmitter,
     HostListener,
     Input,
+    OnDestroy,
     Output,
     TemplateRef,
     ViewChild,
@@ -65,7 +66,7 @@ export type DropdownWidth = 'contents' | 'trigger' | 'expand' | number;
     templateUrl: './dropdown-list.tpl.html',
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class DropdownList {
+export class DropdownList implements OnDestroy {
     options = {
         alignment: 'left' as DropdownAlignment,
         width: 'contents' as DropdownWidth,
@@ -73,8 +74,8 @@ export class DropdownList {
         sticky: false,
         closeOnEscape: true
     };
-    @ViewChild(TemplateRef) contentsTemplate: TemplateRef<any>;
-    @ContentChild(DropdownTriggerDirective) trigger: DropdownTriggerDirective;
+    @ViewChild(TemplateRef, { static: true }) contentsTemplate: TemplateRef<any>;
+    @ContentChild(DropdownTriggerDirective, { static: true }) trigger: DropdownTriggerDirective;
     @ContentChild(DropdownContent) content: DropdownContent;
 
     /**

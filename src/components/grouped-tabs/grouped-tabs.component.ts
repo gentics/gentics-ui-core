@@ -246,10 +246,12 @@ export class GroupedTabs implements AfterContentInit {
     tabsHeight(group: TabGroup): number {
         if (group.expand) {
             let body = this.elementRef.nativeElement.querySelector(`li#${group.uniqueId} div.collapsible-body > ul`);
-            return body.getBoundingClientRect().height + 30;
-        } else {
-            return 0;
+            if (body) {
+                return body.getBoundingClientRect().height + 30;
+            }
         }
+
+        return 0;
     }
 
     private setAsActive(tab: TabPane): void {

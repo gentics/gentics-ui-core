@@ -151,8 +151,8 @@ export class ProgressBar implements OnDestroy {
         }
     }
 
-    @ViewChild('progressBarWrapper') progressBarWrapper: ElementRef;
-    @ViewChild('progressIndicator') progressIndicator: ElementRef;
+    @ViewChild('progressBarWrapper', { static: true }) progressBarWrapper: ElementRef;
+    @ViewChild('progressIndicator', { static: true }) progressIndicator: ElementRef;
 
     private isActive: boolean = false;
     private progressPercentage: number = 0;

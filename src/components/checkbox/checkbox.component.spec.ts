@@ -430,9 +430,9 @@ class TestComponent {
     testForm: FormGroup = new FormGroup({
         testControl: new FormControl(true)
     });
-    @ViewChild(Checkbox) checkboxComponent: Checkbox;
+    @ViewChild(Checkbox, { static: true }) checkboxComponent: Checkbox;
 
-    onBlur(): void {}
-    onFocus(): void {}
-    onChange(): void {}
+    onBlur(...args: any[]): void {}
+    onFocus(...args: any[]): void {}
+    onChange(...args: any[]): void {}
 }
