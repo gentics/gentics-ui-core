@@ -3,7 +3,7 @@
   "version": "10.0.0-beta.1",
   "license": "Apache-2.0",
   "dependencies": {
-    "foundation-sites": "^6.5.3",
+    "foundation-sites": "~6.5.3",
     "hammerjs": "~2.0.8",
     "material-design-icons-iconfont": "^4.0.5",
     "roboto-fontface-woff": "^0.8.0",

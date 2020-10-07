@@ -68,6 +68,9 @@ export class DynamicModalWrapper implements OnInit, OnDestroy, AfterViewChecked 
     ngOnDestroy(): void {
         this.subscriptions.unsubscribe();
         clearTimeout(this.openTimer);
+        if(this.cmpRef && this.cmpRef.destroy) {
+            this.cmpRef.destroy();
+        }
     }
 
     setOptions(options: IModalOptions): void {

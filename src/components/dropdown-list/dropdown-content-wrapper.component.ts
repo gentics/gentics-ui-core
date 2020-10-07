@@ -6,7 +6,7 @@ import {
     ChangeDetectorRef,
     EventEmitter,
     ChangeDetectionStrategy,
-    Inject
+    Inject, OnDestroy, AfterViewInit
 } from '@angular/core';
 import {KeyCode} from '../../common/keycodes';
 import {DropdownAlignment, DropdownWidth} from './dropdown-list.component';
@@ -21,7 +21,7 @@ import {Config, ConfigService} from '../../module.config';
                </div>`,
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class DropdownContentWrapper {
+export class DropdownContentWrapper implements AfterViewInit, OnDestroy {
     pageMargin: Config['dropDownPageMargin'];
     dropDownMaxHeight: Config['dropDownMaxHeight'];
     content: TemplateRef<any>;

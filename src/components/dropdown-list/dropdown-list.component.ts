@@ -8,6 +8,7 @@ import {
     EventEmitter,
     HostListener,
     Input,
+    OnDestroy,
     Output,
     TemplateRef,
     ViewChild,
@@ -65,7 +66,7 @@ export type DropdownWidth = 'contents' | 'trigger' | 'expand' | number;
     templateUrl: './dropdown-list.tpl.html',
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class DropdownList {
+export class DropdownList implements OnDestroy {
     options = {
         alignment: 'left' as DropdownAlignment,
         width: 'contents' as DropdownWidth,

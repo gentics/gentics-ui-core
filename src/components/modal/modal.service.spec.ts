@@ -36,8 +36,8 @@ describe('ModalService:', () => {
     describe('order of initialization', () => {
 
         it('use of the hostViewContainer should be deferred until one is available', fakeAsync(() => {
-            const overlayHostService: OverlayHostService = TestBed.get(OverlayHostService);
-            const modalService: ModalService = TestBed.get(ModalService);
+            const overlayHostService: OverlayHostService = TestBed.inject(OverlayHostService);
+            const modalService: ModalService = TestBed.inject(ModalService);
             const dialogConfig = { title: 'Test', buttons: [{label: 'okay'}]};
 
             let promise: Promise<any>;
@@ -78,7 +78,7 @@ describe('ModalService:', () => {
     describe('dialog():', () => {
 
         beforeEach(() => {
-            modalService = TestBed.get(ModalService);
+            modalService = TestBed.inject(ModalService);
         });
 
         it('returns a promise',
@@ -223,7 +223,7 @@ describe('ModalService:', () => {
     describe('modal options:', () => {
 
         beforeEach(() => {
-            modalService = TestBed.get(ModalService);
+            modalService = TestBed.inject(ModalService);
         });
 
         const testDialogConfig: IDialogConfig = {
@@ -395,7 +395,7 @@ describe('ModalService:', () => {
                 }
             });
 
-            modalService = TestBed.get(ModalService);
+            modalService = TestBed.inject(ModalService);
         });
 
         it('throws if the passed component does not implement IModalDialog',
@@ -535,7 +535,7 @@ describe('ModalService:', () => {
     describe('openModals', () => {
 
         beforeEach(() => {
-            modalService = TestBed.get(ModalService);
+            modalService = TestBed.inject(ModalService);
         });
 
         it('is initially empty', () => {
