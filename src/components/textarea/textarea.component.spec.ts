@@ -2,6 +2,7 @@ import {Component} from '@angular/core';
 import {TestBed, tick} from '@angular/core/testing';
 import {FormsModule, ReactiveFormsModule, FormGroup, FormControl} from '@angular/forms';
 import {By} from '@angular/platform-browser';
+import { AutosizeModule } from 'ngx-autosize';
 
 import {componentTest} from '../../testing';
 import {Textarea} from './textarea.component';
@@ -10,7 +11,7 @@ import {Textarea} from './textarea.component';
 describe('Textarea', () => {
 
     beforeEach(() => TestBed.configureTestingModule({
-        imports: [FormsModule, ReactiveFormsModule],
+        imports: [FormsModule, ReactiveFormsModule, AutosizeModule],
         declarations: [Textarea, TestComponent]
     }));
 

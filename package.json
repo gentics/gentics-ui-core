@@ -32,7 +32,8 @@
     },
     {
       "name": "Dominik Decker",
-      "email": "d.decker@gentics.com"
+      "email": "d.decker@gentics.com",
+      "url": "https://github.com/deckdom"
     },
     {
       "name": "Oleksii Iepikhin",
@@ -73,6 +74,7 @@
     "material-design-icons-iconfont": "^4.0.5",
     "materialize-css": "~1.0.0",
     "moment": "~2.24.0",
+    "ngx-autosize": "^1.8.0",
     "roboto-fontface-woff": "^0.8.0",
     "rome": "~2.1.22",
     "rxjs": "~6.3.3",

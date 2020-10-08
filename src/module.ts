@@ -2,6 +2,7 @@ import {CommonModule} from '@angular/common';
 import {ModuleWithProviders, NgModule} from '@angular/core';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {RouterModule} from '@angular/router';
+import { AutosizeModule } from 'ngx-autosize';
 
 import {ConfigService, optionsConfig, PredefinedConfig, CustomConfig, defaultConfig, configFactory} from './module.config';
 import {Breadcrumbs} from './components/breadcrumbs/breadcrumbs.component';
@@ -146,7 +147,8 @@ export const routerModuleForChild: ModuleWithProviders = RouterModule.forChild([
         CommonModule,
         FormsModule,
         ReactiveFormsModule,
-        routerModuleForChild
+        routerModuleForChild,
+        AutosizeModule,
     ],
     declarations,
     entryComponents: UI_CORE_ENTRY_COMPONENTS,
