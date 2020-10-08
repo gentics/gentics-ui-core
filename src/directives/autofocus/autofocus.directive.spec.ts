@@ -26,13 +26,14 @@ import {Icon} from '../../components/icon/icon.directive';
 import {DropdownContentWrapper} from '../../components/dropdown-list/dropdown-content-wrapper.component';
 import {ScrollMask} from '../../components/dropdown-list/scroll-mask.component';
 import {UserAgentRef} from '../../components/modal/user-agent-ref';
+import { AutosizeModule } from 'ngx-autosize';
 
 
 describe('AutofocusDirective', () => {
 
     beforeEach(() => {
         TestBed.configureTestingModule({
-            imports: [FormsModule, ReactiveFormsModule],
+            imports: [FormsModule, ReactiveFormsModule, AutosizeModule],
             declarations: [
                 AutofocusDirective,
                 Button,
