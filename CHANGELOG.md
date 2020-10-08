@@ -1,5 +1,10 @@
 # Gentics UI Core Changelog
 
+## 7.10.1 (2020-10-08)
+
+### Fixes
+* The Textarea isn't jumping around while editing the text inside of it (SUP-10295).
+
 ## 7.10.0 (2020-03-03)
 
 ### Fixes

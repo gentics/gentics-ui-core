@@ -124,10 +124,13 @@ export class Textarea implements ControlValueAccessor, OnChanges {
     @ViewChild('textarea') private nativeTextarea: ElementRef;
     private _maxlength: number;
     private currentValue: string;
+    private previousHeight: number;
 
-    constructor(private renderer: Renderer2,
-                private changeDetector: ChangeDetectorRef,
-                private elementRef: ElementRef) { }
+    constructor(
+        private renderer: Renderer2,
+        private changeDetector: ChangeDetectorRef,
+        private elementRef: ElementRef
+    ) { }
 
     ngOnChanges(changes: SimpleChanges): void {
         const valueChange = changes['value'];
@@ -154,7 +157,6 @@ export class Textarea implements ControlValueAccessor, OnChanges {
 
     onInput(e: Event): void {
         const value = this.currentValue = (e.target as HTMLTextAreaElement).value;
-        this.setHeight(value);
         this.onChange(value);
         this.change.emit(value);
         this.onTouched();
@@ -169,7 +171,6 @@ export class Textarea implements ControlValueAccessor, OnChanges {
         const value = this.normalizeValue(valueToWrite);
         if (value !== this.currentValue) {
             this.renderer.setProperty(this.nativeTextarea.nativeElement, 'value', this.currentValue = value);
-            this.setHeight(value);
         }
     }
 
@@ -191,36 +192,5 @@ export class Textarea implements ControlValueAccessor, OnChanges {
 
     private normalizeValue(value: any): string {
         return (value == null ? '' : String(value)).replace(/\r\n?/g, '\n');
-    }
-
-    private setHeight(text: string): void {
-        let lines = 1;
-        for (let index = text.length - 1; index >= 0; --index) {
-            if (text[index] === '\n') {
-                lines++;
-            }
-        }
-
-        // Height is approximately 1em padding plus 1.5em per line
-        const newHeight = (1 + lines * 1.5) + 'em';
-
-        const nativeElement: HTMLTextAreaElement = this.nativeTextarea.nativeElement;
-        this.renderer.setStyle(nativeElement, 'height', newHeight);
-
-        // Perform the check delayed, as angular has to perform the dom-change and the rendering has
-        // to happen before accessing it again. Otherwise the scollHeight is going to be completly
-        // off, resulting in unexpected and unreasonable height calculations.
-        setTimeout(() => {
-            // When text overflows the textarea, it wraps to the next line. When that happens,
-            // we calculate the amount of extra lines needed and set a suitable height.
-            const { offsetHeight, scrollHeight } = nativeElement;
-            if (scrollHeight > offsetHeight) {
-                // Calculate preferred height as "lines x 1.5em", set height css in em.
-                const emHeight = offsetHeight / (1 + lines * 1.5);
-                const newLineCount = Math.round((scrollHeight / emHeight - 1) / 1.5);
-                const newHeight = (1 + newLineCount * 1.5) + 'em';
-                this.renderer.setStyle(nativeElement, 'height', newHeight);
-            }
-        });
     }
 }
