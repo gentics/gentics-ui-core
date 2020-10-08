@@ -1,4 +1,4 @@
-import {ComponentFixture, fakeAsync, TestBed, getTestBed} from '@angular/core/testing';
+import {ComponentFixture, fakeAsync, TestBed, getTestBed, flush} from '@angular/core/testing';
 
 /**
  * Use to test a component in one consistent way. The passed callback
@@ -62,6 +62,7 @@ export function componentTest<T>(componentFn: () => ComponentType<T>, second: an
 
             Promise.resolve()
                 .then(() => testFn(fixture, fixture ? fixture.componentInstance : null))
+                .then(() => flush())
                 .then(
                     () => fixture.destroy(),
                     (reason: any) => {
