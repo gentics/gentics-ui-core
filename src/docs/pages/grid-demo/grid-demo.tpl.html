@@ -1,4 +1,4 @@
-<h3>Grid</h3>
+<h1>Grid</h1>
 <p>The Gentics UI Core uses the
     <a href="http://foundation.zurb.com/sites/docs/grid.html" target="_blank">Foundation for Sites</a>
     grid.
@@ -6,7 +6,7 @@
 
 <hr>
 
-<h4>Basics</h4>
+<h2>Basics</h2>
 <p>
     Start by adding an element with a class of <code>.row</code>. This will create a horizontal block
     to contain vertical columns. Then add elements with a <code>.column</code> class within that row.
@@ -55,7 +55,7 @@
 
 <hr>
 
-<h5>Advanced Sizing</h5>
+<h3>Advanced Sizing</h3>
 <p>If no sizing class is added to the column, it will simply expand to fill the leftover space.</p>
 <gtx-highlighted-code language="HTML" [code]="example2.innerHTML"></gtx-highlighted-code>
 <div class="grid-demo" #example2>
@@ -67,7 +67,7 @@
 
 <hr>
 
-<h5>Small Grids</h5>
+<h3>Small Grids</h3>
 <p>
     Small grids expand to large screens easier than large grids cram into small screens.
 </p>
@@ -85,7 +85,7 @@
 
 <hr>
 
-<h5>Medium Grids</h5>
+<h3>Medium Grids</h3>
 <p>
     Medium sized screens will inherit styles from small, unless you
     specify a different layout using the <code>.medium-#</code> grid classes.
@@ -104,8 +104,8 @@
 
 <hr>
 
-<h4>Advanced</h4>
-<h5>Combined Column/Row</h5>
+<h2>Advanced</h2>
+<h3>Combined Column/Row</h3>
 <p>
     If you need a full-width column to use as a container,
     put the <code>.column</code> and <code>.row</code> classes on the same element.
@@ -124,7 +124,7 @@
 
 <hr>
 
-<h5>Fluid Row</h5>
+<h3>Fluid Row</h3>
 <p>
     Normally, a row is always 1200 pixels wide. Make a row
     completely fluid by adding the <code>.expanded</code> class.
@@ -138,7 +138,7 @@
 
 <hr>
 
-<h5>Nesting</h5>
+<h3>Nesting</h3>
 <p>
     You can nest the grids indefinitely, though at a certain point it will get absurd.
 </p>
@@ -162,7 +162,7 @@
 
 <hr>
 
-<h5>Offsets</h5>
+<h3>Offsets</h3>
 <p>
     Move blocks up to 11 columns to the right by using classes like
     <code>.large-offset-1</code> and <code>.small-offset-3</code>.
@@ -189,7 +189,7 @@
 
 <hr>
 
-<h5>Gutters</h5>
+<h3>Gutters</h3>
 <p>
     The grid gutter — the space between two columns in a row, and the space between the edge
     of a grid and the edge of the page — is responsive, and becomes wider on larger screens.
@@ -212,7 +212,7 @@
 
 <hr>
 
-<h5>Collapse/Uncollapse Rows</h5>
+<h3>Collapse/Uncollapse Rows</h3>
 <p>
     The <code>.collapse</code> class lets you remove column gutters (padding).
 </p>
@@ -239,7 +239,7 @@
 
 <hr>
 
-<h5>Centered Columns</h5>
+<h3>Centered Columns</h3>
 <p>
     Center your columns by adding a class of <code>.small-centered</code> to your column.
     Large will inherit small centering by default, but you can also center solely on large
@@ -264,7 +264,7 @@
 
 <hr>
 
-<h5>Source Ordering</h5>
+<h3>Source Ordering</h3>
 <p>
     Using these source ordering classes, you can shift columns around between our breakpoints.
     This means if you place sub-navigation below main content on small displays, you have the option
@@ -299,7 +299,7 @@
 
 <hr>
 
-<h5>Block Grids</h5>
+<h3>Block Grids</h3>
 <p>
     Add a class of the format <code>[size]-up-[n]</code> to change the size of all columns
     within the row. By default, the max number of columns you can use with block grid are 8.
@@ -330,12 +330,12 @@
 
 <hr>
 
-<h4>Semantic Grid with SASS Mixins</h4>
+<h2>Semantic Grid with SASS Mixins</h2>
 <p>
     You can <code>@include</code> grid mixins in your applications SASS to build a semantic grid.
 </p>
 
-<h5>Rows</h5>
+<h3>Rows</h3>
 <p>
     Use the <code>flex-grid-row()</code> mixin to create a row.
 </p>
@@ -354,7 +354,7 @@
 
 <hr>
 
-<h5>Columns</h5>
+<h3>Columns</h3>
 <p>
     Use the <code>flex-grid-column()</code> mixin to create a column.
     There are a number of ways to define the width of the column.
@@ -394,7 +394,7 @@
 
 <hr>
 
-<h5>Multiple Grids</h5>
+<h3>Multiple Grids</h3>
 <p>
     By default, all grids use the number of columns set by the <code>$grid-column-count</code>
     variable. However, this can be selectively overridden within an instance of a row.
@@ -449,7 +449,7 @@
 
 <hr>
 
-<h5>Example</h5>
+<h3>Example</h3>
 <gtx-highlighted-code language="SASS" code='
     .people { @include flex-grid-row() };
     .vcard {
@@ -499,7 +499,7 @@
 
 <hr>
 
-<h4>SASS Reference</h4>
+<h2>SASS Reference</h2>
 <p>
     For the full reference of variables and mixins the grid offers, refer to the
     <a href="//foundation.zurb.com/sites/docs/flex-grid.html#sass-reference">Foundation documentation</a>.

@@ -51,7 +51,7 @@ export type SortableGroup = string | ISortableGroupOptions;
  * }
  * ```
  *
- * ##### `ISortableEvent`
+ * ## `ISortableEvent`
  *
  * The `dragEnd` event emits an `ISortableEvent` object. For a full listing of its properties, see the source. Below
  * are the more important properties:
@@ -62,7 +62,7 @@ export type SortableGroup = string | ISortableGroupOptions;
  * | **newIndex**   | `number`     | The index in the list that the item was dropped |
  * | **sort()**     | `Function`   | A pre-configured sort function - see below |
  *
- * ##### `ISortableEvent.sort()`
+ * ## `ISortableEvent.sort()`
  *
  * When the `dragEnd` event is fired, the event object exposes a `sort(array, byReference)` method. This is a convenience method for
  * sorting an array, so that the consumer of this component does not have to re-implement array sorting

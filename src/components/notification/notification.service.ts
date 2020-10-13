@@ -49,7 +49,7 @@ interface IOpenToast {
  * dismiss();
  * ```
  *
- * ##### `INotificationOptions`
+ * ## `INotificationOptions`
  *
  * The `show()` method takes an `INotificationOptions` object as its argument:
  *

@@ -18,7 +18,7 @@ const GTX_SEARCH_BAR_VALUE_ACCESSOR = {
  * </gtx-search-bar>
  * ```
  *
- * ##### Use With NgModel
+ * ## Use With NgModel
  * The search query can be bound with `NgModel`, which can be useful for implementing a reset function:
  *
  * ```html
@@ -27,7 +27,7 @@ const GTX_SEARCH_BAR_VALUE_ACCESSOR = {
  * </gtx-search-bar>
  * ```
  *
- * ##### Content Projection
+ * ## Content Projection
  * Content inside the `<gtx-search-bar>` tags will be projected inside the component, to the left of the
  * search bar. This can be used, for example, to display current filters being applied to the search.
  *
@@ -37,7 +37,7 @@ const GTX_SEARCH_BAR_VALUE_ACCESSOR = {
  * </gtx-search-bar>
  * ```
  *
- * ##### Custom Icons
+ * ## Custom Icons
  * Icons in the `<gtx-search-bar>` can be replaced with custom ones.
  *
  * ```html

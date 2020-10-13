@@ -12,7 +12,7 @@ let uniqueGroupedTabsId = 0;
  *
  * Pure tabs will only change the active tab when the `activeId` property is updated.
  *
- * ##### Tabs with simple labels
+ * ## Tabs with simple labels
  * ```html
  * <gtx-grouped-tabs>
  *      <gtx-tab-pane label="First without Group">Content 1</gtx-tab-pane>
@@ -27,7 +27,7 @@ let uniqueGroupedTabsId = 0;
  * </gtx-grouped-tabs>
  * ```
  *
- * ##### Tabs with template labels
+ * ## Tabs with template labels
  * ```html
  * <gtx-grouped-tabs>
  *      <gtx-tab-pane>
@@ -53,7 +53,7 @@ let uniqueGroupedTabsId = 0;
  * </gtx-grouped-tabs>
  * ```
  *
- * ##### Export components to use in templates
+ * ## Export components to use in templates
  * ```html
  * <gtx-grouped-tabs #groupedTabs="gtxGroupedTabs">
  *      <gtx-tab-pane label="First" #tab1>First content</gtx-tab-pane>

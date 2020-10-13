@@ -109,7 +109,7 @@ export class RadioGroup implements ControlValueAccessor {
  * <gtx-radio-button [(ngModel)]="val" value="C" label="C"></gtx-radio-button>
  * ```
  *
- * ##### Stateless Mode
+ * ## Stateless Mode
  * By default, the RadioButton keeps track of its own internal checked state. This makes sense
  * for most use cases, such as when used in a form bound to ngModel.
  *
