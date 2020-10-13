@@ -1,13 +1,15 @@
 # Gentics UI Core Changelog
 
-## 7.10.1 (2020-10-08)
+## 7.10.1 (2020-10-13)
 
 ### Fixes
-* The Textarea isn't jumping around while editing the text inside of it (SUP-10295).
+
+* The Textarea is not jumping around while editing the text inside of it (SUP-10295).
 
 ## 7.10.0 (2020-03-03)
 
 ### Fixes
+
 * Show correct cursor and item preview when dragging in sortable-list (SUP-8790).
 * Add new input property for breadcrumbs that is used for collapsed state background (SUP-9200).
 
