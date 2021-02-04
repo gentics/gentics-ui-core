@@ -1,6 +1,6 @@
 # Gentics UI Core Changelog
 
-## 7.10.2 (2021-02-04)
+## 7.10.3 (2021-02-04)
 
 ### Fixes
 
