@@ -5,6 +5,7 @@ import {
     ElementRef,
     EventEmitter,
     forwardRef,
+    HostListener,
     Input,
     OnChanges,
     OnInit,
@@ -218,6 +219,18 @@ export class InputField implements AfterViewInit, ControlValueAccessor, OnInit, 
         }
     }
 
+    @HostListener('keydown', ['$event'])
+    public onKeyDown(event) {
+        if (this.type === 'number') {
+            const keyboardEvent = event as KeyboardEvent;
+            if ((keyboardEvent.key === '-' && event.target.value) || keyboardEvent.key === '+') {
+                keyboardEvent.preventDefault();
+            } else if (keyboardEvent.key === '-' && !event.target.value) {
+                event.target.value = '-';
+            }
+        }
+    }
+
     onBlur(e: Event): void {
         e.stopPropagation();
         const target = e.target as HTMLInputElement;
@@ -232,6 +245,7 @@ export class InputField implements AfterViewInit, ControlValueAccessor, OnInit, 
 
     onInput(e: Event): void {
         const target = e.target as HTMLInputElement;
+        this.updateValue(target);
         const value = this.currentValue = this.normalizeValue(target.value);
         this.onChange(value);
         this.change.emit(value);
@@ -263,6 +277,16 @@ export class InputField implements AfterViewInit, ControlValueAccessor, OnInit, 
             return val == null ? 0 : Number(val);
         } else {
             return val == null ? '' : String(val);
+        }
+    }
+
+    private updateValue(target: HTMLInputElement): void {
+        if (this.type === 'number') {
+            if (this.max && Number(target.value) > this.max) {
+                target.value = '100';
+            } else if (this.min && Number(target.value) < this.min) {
+                target.value = '0';
+            }
         }
     }
 }
