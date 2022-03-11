@@ -1,6 +1,6 @@
 {
-  "name": "gentics-ui-core",
-  "version": "0.0.0",
+  "name": "@bewatec-berlin/gentics-ui-core",
+  "version": "8.0.5",
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
@@ -12,41 +12,17 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+ssh://git@github.com:gentics/gentics-ui-core.git"
+    "url": "git://github.com/BEWATEC-Berlin/gentics-ui-core.git"
   },
-  "homepage": "https://gentics.github.io/gentics-ui-core/",
+  "publishConfig": {
+    "registry": "https://npm.pkg.github.com/BEWATEC-Berlin"
+  },
+  "homepage": "https://github.com/BEWATEC-Berlin/gentics-ui-core",
   "bugs": {
-    "url": "https://github.com/gentics/gentics-ui-core/issues"
+    "url": "https://github.com/BEWATEC-Berlin/gentics-ui-core/issues"
   },
-  "author": "Gentics PSC",
+  "author": "BEWATEC",
   "contributors": [
-    {
-      "name": "Leon Adler",
-      "email": "l.adler@gentics.com",
-      "url": "https://github.com/leonadler"
-    },
-    {
-      "name": "Michael Bromley",
-      "email": "m.bromley@gentics.com",
-      "url": "https://github.com/michaelbromley"
-    },
-    {
-      "name": "Dominik Decker",
-      "email": "d.decker@gentics.com",
-      "url": "https://github.com/deckdom"
-    },
-    {
-      "name": "Oleksii Iepikhin",
-      "email": "o.iepikhin@gentics.com"
-    },
-    {
-      "name": "Péter Nyári",
-      "email": "p.nyari@gentics.com"
-    },
-    {
-      "name": "Thomas Pusztai",
-      "email": "t.pusztai@gentics.com"
-    }
   ],
   "license": "Apache-2.0",
   "engines": {
