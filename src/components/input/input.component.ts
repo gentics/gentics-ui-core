@@ -283,9 +283,9 @@ export class InputField implements AfterViewInit, ControlValueAccessor, OnInit, 
     private updateValue(target: HTMLInputElement): void {
         if (this.type === 'number') {
             if (this.max && Number(target.value) > this.max) {
-                target.value = '100';
+                target.value = String(this.max);
             } else if (this.min && Number(target.value) < this.min) {
-                target.value = '0';
+                target.value = String(this.min);
             }
         }
     }
