@@ -1,3 +1,5 @@
+@use 'sass:math';
+
 gtx-select {
     display:  flex;
     position: relative;
@@ -75,7 +77,7 @@ gtx-dropdown-content {
             text-transform: uppercase;
 
             &:first-child {
-                padding-top: (($dropdown-item-height - 22) / 2);
+                padding-top: math.div(($dropdown-item-height - 22), 2);
             }
         }
 
@@ -90,7 +92,7 @@ gtx-dropdown-content {
             text-transform: none;
             color: $gtx-color-primary;
             font-size: 16px;
-            padding: (($dropdown-item-height - 22) / 2) 16px;
+            padding: math.div(($dropdown-item-height - 22), 2) 16px;
             user-select: none;
 
             > * {

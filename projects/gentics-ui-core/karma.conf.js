@@ -24,6 +24,9 @@ module.exports = function (config) {
       reports: ['html', 'lcovonly'],
       fixWebpackSourcePaths: true
     },
+    files: [
+      require('path').join(__dirname, '../../src/testing/global-variables.js'),
+    ],
     reporters: ['progress', 'kjhtml'],
     port: 9876,
     colors: true,

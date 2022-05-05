@@ -1,3 +1,5 @@
+@use 'sass:math';
+
 gtx-dropdown-list {
     display: inline-block;
 }
@@ -46,7 +48,7 @@ gtx-dropdown-content {
         text-transform: none;
         color: $gtx-color-primary;
         font-size: 16px;
-        padding: (($dropdown-item-height - 22) / 2) 16px;
+        padding: math.div(($dropdown-item-height - 22), 2) 16px;
         white-space: nowrap;
 
         &:hover {

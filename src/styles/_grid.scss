@@ -1,3 +1,5 @@
+@use 'sass:math';
+
 /* Foundation grid with materialize breakpoints */
 $breakpoints: (
     small: 0,
@@ -34,12 +36,12 @@ $global-width: rem-calc(1200) !default;
         @for $i from 0 through $grid-column-count {
             .row .columns.#{$size}-push-#{$i} {
                 position: relative;
-                left: ($i / $grid-column-count) * 100%;
+                left: math.div($i, $grid-column-count) * 100%;
             }
 
             .row .columns.#{$size}-pull-#{$i} {
                 position: relative;
-                left: -($i / $grid-column-count) * 100%;
+                left: - math.div($i, $grid-column-count) * 100%;
             }
         }
     }
