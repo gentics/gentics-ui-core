@@ -115,16 +115,6 @@ export const UI_CORE_DIRECTIVES: any[] = [
     GtxTabContent
 ];
 
-export const UI_CORE_ENTRY_COMPONENTS: any[] = [
-    BlankModal,
-    DateTimePickerModal,
-    DropdownContentWrapper,
-    DynamicModalWrapper,
-    ScrollMask,
-    Toast,
-    ModalDialog
-];
-
 export const UI_CORE_PIPES: any[] = [
     MatchesMimeTypePipe
 ];
@@ -151,7 +141,6 @@ export const routerModuleForChild: ModuleWithProviders<GenticsUICoreModule> = Ro
         AutosizeModule,
     ],
     declarations,
-    entryComponents: UI_CORE_ENTRY_COMPONENTS,
     exports: declarations
 })
 export class GenticsUICoreModule {

@@ -4,5 +4,14 @@
   "lib": {
     "entryFile": "../../src/index.ts"
   },
-  "whitelistedNonPeerDependencies": ["."]
+  "allowedNonPeerDependencies": [
+    "foundation-sites",
+    "hammerjs",
+    "material-design-icons-iconfont",
+    "roboto-fontface-woff",
+    "materialize-css",
+    "moment",
+    "rome",
+    "sortablejs"
+  ]
 }
