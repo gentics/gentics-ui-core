@@ -111,7 +111,6 @@ export const routerModuleForRoot: ModuleWithProviders<GenticsUICoreModule> = Rou
         HttpClientModule
     ],
     declarations,
-    entryComponents: [MyModal],
     bootstrap: [App]
 })
 export class DocsModule {}

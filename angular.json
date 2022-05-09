@@ -16,7 +16,7 @@
           "builder": "@angular-devkit/build-ng-packagr:build",
           "options": {
             "tsConfig": "projects/gentics-ui-core/tsconfig.lib.json",
-            "project": "projects/gentics-ui-core/ng-package.json",
+            "project": "projects/gentics-ui-core/ng-package.json"
           }
         },
         "test": {
@@ -25,18 +25,6 @@
             "main": "src/test.ts",
             "tsConfig": "projects/gentics-ui-core/tsconfig.spec.json",
             "karmaConfig": "projects/gentics-ui-core/karma.conf.js"
-          }
-        },
-        "lint": {
-          "builder": "@angular-devkit/build-angular:tslint",
-          "options": {
-            "tsConfig": [
-              "projects/gentics-ui-core/tsconfig.lib.json",
-              "projects/gentics-ui-core/tsconfig.spec.json"
-            ],
-            "exclude": [
-              "**/node_modules/**"
-            ]
           }
         }
       }
@@ -48,7 +36,7 @@
       "prefix": "app",
       "schematics": {
         "@schematics/angular:component": {
-          "styleext": "scss"
+          "style": "scss"
         }
       },
       "architect": {
@@ -137,18 +125,6 @@
             "scripts": [],
             "assets": [
               "src/docs/assets"
-            ]
-          }
-        },
-        "lint": {
-          "builder": "@angular-devkit/build-angular:tslint",
-          "options": {
-            "tsConfig": [
-              "projects/docs/tsconfig.app.json",
-              "projects/docs/tsconfig.spec.json"
-            ],
-            "exclude": [
-              "**/node_modules/**"
             ]
           }
         }
