@@ -6,9 +6,8 @@ const del = require('del');
 const filter = require('gulp-filter');
 const gutil = require('gulp-util');
 const path = require('path');
-const sass = require('gulp-sass');
+const sass = require('gulp-sass')(require('sass'));
 const tildeImporter = require('node-sass-tilde-importer');
-const npmArgs = JSON.parse(process.env.npm_config_argv);
 
 const paths = {
     src: {
@@ -43,22 +42,16 @@ gulp.task('assets', gulp.series(
 
 // Run only when gentics-ui-core is building
 function buildDocsTasks() {
-    if(npmArgs.remain.indexOf('gentics-ui-core') === -1) {
-        return new Promise(gulp.series(
-            cleanDocsFolder,
-            copyDocsFiles,
-            copyJekyllConfig
-        ));
-    }
-    return resolvePromiseDummy();
+    return new Promise(gulp.series(
+        cleanDocsFolder,
+        copyDocsFiles,
+        copyJekyllConfig
+    ));
 }
 
 // Run only when gentics-ui-core is not building
 function buildUiCoreTasks() {
-    if(npmArgs.remain.indexOf('gentics-ui-core') !== -1) {
-        return new Promise(gulp.series(compileDistStyles, copyDistReadme));
-    }
-    return resolvePromiseDummy();
+    return new Promise(gulp.series(compileDistStyles, copyDistReadme));
 }
 
 function cleanDocsFolder() {
