@@ -28,7 +28,7 @@
     "fullTemplateTypeCheck": true,
     "strictInjectionParameters": true,
     "enableResourceInlining": true,
-    "enableIvy": true
+    "enableIvy": false
   },
   "include": [
     "../../src/**/*"
