@@ -15,20 +15,21 @@ describe('Notification:', () => {
 
     beforeEach(() => {
         TestBed.configureTestingModule({
-            declarations: [
-                Icon,
-                OverlayHost,
-                TestComponent,
-                Toast
-            ],
-            providers: [
-                Notification,
-                OverlayHostService
-            ]
-        });
+    declarations: [
+        Icon,
+        OverlayHost,
+        TestComponent,
+        Toast
+    ],
+    providers: [
+        Notification,
+        OverlayHostService
+    ],
+    teardown: { destroyAfterEach: false }
+});
         TestBed.overrideModule(BrowserDynamicTestingModule, {
             set: {
-                entryComponents: [Toast]
+                declarations: [Toast]
             }
         });
 

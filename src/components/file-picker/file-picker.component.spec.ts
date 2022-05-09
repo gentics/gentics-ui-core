@@ -10,11 +10,12 @@ import {Button} from '../button/button.component';
 describe('File Picker:', () => {
 
     beforeEach(() => TestBed.configureTestingModule({
-        providers: [
-            { provide: FileDropArea, useClass: MockFileDropArea }
-        ],
-        declarations: [FilePicker, FileDropArea, TestComponent, Button]
-    }));
+    providers: [
+        { provide: FileDropArea, useClass: MockFileDropArea }
+    ],
+    declarations: [FilePicker, FileDropArea, TestComponent, Button],
+    teardown: { destroyAfterEach: false }
+}));
 
     it('is created ok',
         componentTest(() => TestComponent, fixture => {

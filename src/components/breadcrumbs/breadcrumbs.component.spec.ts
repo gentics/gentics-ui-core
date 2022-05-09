@@ -36,15 +36,16 @@ describe('Breadcrumbs:', () => {
 
     beforeEach(() => {
         TestBed.configureTestingModule({
-            imports: [RouterModule.forChild([])],
-            providers: [
-                UserAgentRef,
-                { provide: Router, useClass: MockRouter },
-                { provide: ActivatedRoute, useClass: MockActivatedRoute },
-                { provide: LocationStrategy, useClass: MockLocationStrategy }
-            ],
-            declarations: [Breadcrumbs, Button, Icon, TestComponent]
-        });
+    imports: [RouterModule.forChild([])],
+    providers: [
+        UserAgentRef,
+        { provide: Router, useClass: MockRouter },
+        { provide: ActivatedRoute, useClass: MockActivatedRoute },
+        { provide: LocationStrategy, useClass: MockLocationStrategy }
+    ],
+    declarations: [Breadcrumbs, Button, Icon, TestComponent],
+    teardown: { destroyAfterEach: false }
+});
     });
 
     it('creates a breadcrumbs bar with the link texts provided',

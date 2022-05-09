@@ -9,17 +9,18 @@ describe('componentTest', () => {
 
     beforeEach(() => {
         TestBed.configureTestingModule({
-            declarations: [
-                SimpleComponent,
-                ComponentThatThrowsInConstructor,
-                ComponentThatNeedsAnExistingService,
-                ComponentThatNeedsAServiceThatIsNotAddedAsProvider,
-                ComponentWithOnDestroy
-            ],
-            providers: [
-                PieService
-            ]
-        });
+    declarations: [
+        SimpleComponent,
+        ComponentThatThrowsInConstructor,
+        ComponentThatNeedsAnExistingService,
+        ComponentThatNeedsAServiceThatIsNotAddedAsProvider,
+        ComponentWithOnDestroy
+    ],
+    providers: [
+        PieService
+    ],
+    teardown: { destroyAfterEach: false }
+});
     });
 
     it('mark a test as passed when its expectations succeed',

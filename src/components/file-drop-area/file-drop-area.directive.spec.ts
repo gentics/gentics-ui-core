@@ -1,4 +1,4 @@
-import {Component, QueryList, ViewChild, ViewChildren, WrappedValue} from '@angular/core';
+import {Component, QueryList, ViewChild, ViewChildren} from '@angular/core';
 import {AsyncPipe} from '@angular/common';
 import {TestBed, inject} from '@angular/core/testing';
 
@@ -19,14 +19,15 @@ describe('File Drop Area:', () => {
         fakeElement = new SpyEventTarget();
 
         TestBed.configureTestingModule({
-            providers: [
-                { provide: PAGE_FILE_DRAG_EVENT_TARGET, useValue: fakePageElement },
-                { provide: FILE_DROPAREA_DRAG_EVENT_TARGET, useValue: fakeElement },
-                PageFileDragHandler,
-                DragStateTrackerFactory
-            ],
-            declarations: [FileDropArea, TestComponent]
-        });
+    providers: [
+        { provide: PAGE_FILE_DRAG_EVENT_TARGET, useValue: fakePageElement },
+        { provide: FILE_DROPAREA_DRAG_EVENT_TARGET, useValue: fakeElement },
+        PageFileDragHandler,
+        DragStateTrackerFactory
+    ],
+    declarations: [FileDropArea, TestComponent],
+    teardown: { destroyAfterEach: false }
+});
     });
 
     afterEach(inject([PageFileDragHandler], (pageDrag: PageFileDragHandler) => {
@@ -290,7 +291,7 @@ describe('File Drop Area:', () => {
                     try {
                         const callPipeTransform = () => {
                             let res = pipe.transform(dropArea.draggedFiles$);
-                            return res instanceof WrappedValue ? res.wrapped : res;
+                            return res;
                         };
 
                         expect(callPipeTransform()).toBeNull();
@@ -454,12 +455,12 @@ describe('File Drop Area:', () => {
 
                     triggerEventsWithFiles('drop', ['text/plain', 'image/gif']);
 
-                    expect(instance.onFileDrop).toHaveBeenCalled() &&
+                    expect(instance.onFileDrop).toHaveBeenCalled();
                     expect(instance.onFileDrop.calls.mostRecent().args[0])
                         .toEqual([jasmine.objectContaining({ type: 'image/gif' })],
                         'image file should be accepted but is not');
 
-                    expect(instance.onFileDropRejected).toHaveBeenCalled() &&
+                    expect(instance.onFileDropRejected).toHaveBeenCalled();
                     expect(instance.onFileDropRejected.calls.mostRecent().args[0])
                         .toEqual([jasmine.objectContaining({ type: 'text/plain' })],
                         'text file should be rejected but is not');

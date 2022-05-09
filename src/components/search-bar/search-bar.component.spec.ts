@@ -11,17 +11,18 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 describe('SearchBar', () => {
 
     beforeEach(() => TestBed.configureTestingModule({
-        imports: [
-            FormsModule,
-            ReactiveFormsModule
-        ],
-        declarations: [
-            Button,
-            InputField,
-            SearchBar,
-            TestComponent
-        ]
-    }));
+    imports: [
+        FormsModule,
+        ReactiveFormsModule
+    ],
+    declarations: [
+        Button,
+        InputField,
+        SearchBar,
+        TestComponent
+    ],
+    teardown: { destroyAfterEach: false }
+}));
 
     it('binds the value of its native input the the "query" property',
         componentTest(() => TestComponent, fixture => {

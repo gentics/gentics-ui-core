@@ -10,9 +10,10 @@ import {Checkbox} from './checkbox.component';
 describe('Checkbox', () => {
 
     beforeEach(() => TestBed.configureTestingModule({
-        imports: [FormsModule, ReactiveFormsModule],
-        declarations: [TestComponent, Checkbox]
-    }));
+    imports: [FormsModule, ReactiveFormsModule],
+    declarations: [TestComponent, Checkbox],
+    teardown: { destroyAfterEach: false }
+}));
 
     it('should bind the label',
         componentTest(() => TestComponent, `

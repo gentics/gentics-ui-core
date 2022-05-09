@@ -5,3 +5,5 @@ const process = {
     listeners: () => {},
     removeAllListeners: () => {},
 };
+
+window.global = window;

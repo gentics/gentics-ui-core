@@ -9,8 +9,9 @@ import {ProgressBar} from './progress-bar.component';
 describe('ProgressBar', () => {
 
     beforeEach(() => TestBed.configureTestingModule({
-        declarations: [ProgressBar, TestComponent]
-    }));
+    declarations: [ProgressBar, TestComponent],
+    teardown: { destroyAfterEach: false }
+}));
 
     it('starts out as "not active"',
         componentTest(() => TestComponent, (fixture, instance) => {

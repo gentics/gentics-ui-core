@@ -45,7 +45,7 @@ export class DynamicModalWrapper implements OnInit, OnDestroy, AfterViewChecked 
 
     private subscriptions = new Subscription();
     private cmpRef: ComponentRef<IModalDialog>;
-    private openTimer: number;
+    private openTimer: any;
     private modalHeightEvents$: Subject<void> = new Subject();
 
     constructor(

@@ -42,7 +42,7 @@ export function subscribeSpyObserver(subject: any, observableOrName?: any): SpyO
 
     let spy = new SpyObserver(name);
     let subscription = subscribable.subscribe(spy);
-    jasmine.getEnv().afterAll(() => { subscription.unsubscribe(); });
+    // jasmine.getEnv().afterAll(() => { subscription.unsubscribe(); });
 
     return spy;
 }

@@ -18,19 +18,20 @@ describe('DateTimePickerControls', () => {
 
     beforeEach(() => {
         TestBed.configureTestingModule({
-            imports: [FormsModule],
-            declarations: [
-                TestComponent,
-                InputField,
-                Button,
-                DateTimePickerControls,
-                MockSelect,
-                MockSelectOption
-            ],
-            providers: [
-                { provide: DateTimePickerFormatProvider, useFactory: (): any => formatProviderToUse }
-            ]
-        });
+    imports: [FormsModule],
+    declarations: [
+        TestComponent,
+        InputField,
+        Button,
+        DateTimePickerControls,
+        MockSelect,
+        MockSelectOption
+    ],
+    providers: [
+        { provide: DateTimePickerFormatProvider, useFactory: (): any => formatProviderToUse }
+    ],
+    teardown: { destroyAfterEach: false }
+});
     });
 
     it('does not emit a change event when the timestamp is externally changed', componentTest(() => TestComponent,
