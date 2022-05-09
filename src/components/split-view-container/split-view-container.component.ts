@@ -208,7 +208,7 @@ export class SplitViewContainer implements AfterViewInit, OnChanges, OnDestroy {
      *  3. focus would be set to the left panel again, but should be ignored
      */
     private focusJustChanged = false;
-    private focusJustChangedTimeout: number;
+    private focusJustChangedTimeout: any;
 
     private isSwipeable = true;
 

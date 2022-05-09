@@ -10,9 +10,10 @@ import {RadioButton, RadioGroup} from './radio-button.component';
 describe('RadioButton', () => {
 
     beforeEach(() => TestBed.configureTestingModule({
-        imports: [FormsModule, ReactiveFormsModule],
-        declarations: [RadioButton, RadioGroup, TestComponent]
-    }));
+    imports: [FormsModule, ReactiveFormsModule],
+    declarations: [RadioButton, RadioGroup, TestComponent],
+    teardown: { destroyAfterEach: false }
+}));
 
     it('binds the label text to the "label" input',
         componentTest(() => TestComponent, `
@@ -461,9 +462,10 @@ describe('RadioButton', () => {
 describe('RadioGroup', () => {
 
     beforeEach(() => TestBed.configureTestingModule({
-        imports: [FormsModule, ReactiveFormsModule],
-        declarations: [RadioButton, RadioGroup, TestComponent]
-    }));
+    imports: [FormsModule, ReactiveFormsModule],
+    declarations: [RadioButton, RadioGroup, TestComponent],
+    teardown: { destroyAfterEach: false }
+}));
 
     it('binds the check state of RadioButton children with ngModel (inbound)',
         componentTest(() => TestComponent, `

@@ -17,19 +17,20 @@ export class MockElementRef extends ElementRef {
 describe('Grouped Tabs:', () => {
 
     beforeEach(() => TestBed.configureTestingModule({
-        providers: [
-            { provide: ElementRef, useClass: MockElementRef }
-        ],
-        declarations: [
-            Icon,
-            GroupedTabs,
-            TabGroup,
-            TabPane,
-            GtxTabLabel,
-            GtxTabContent,
-            TestComponent
-        ]
-    }));
+    providers: [
+        { provide: ElementRef, useClass: MockElementRef }
+    ],
+    declarations: [
+        Icon,
+        GroupedTabs,
+        TabGroup,
+        TabPane,
+        GtxTabLabel,
+        GtxTabContent,
+        TestComponent
+    ],
+    teardown: { destroyAfterEach: false }
+}));
 
     it('is created ok',
         componentTest(() => TestComponent, fixture => {

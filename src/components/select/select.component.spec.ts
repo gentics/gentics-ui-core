@@ -27,31 +27,32 @@ describe('Select:', () => {
 
     beforeEach(() => {
         TestBed.configureTestingModule({
-            imports: [FormsModule, ReactiveFormsModule],
-            declarations: [
-                Select,
-                SelectOption,
-                SelectOptionGroup,
-                Icon,
-                Button,
-                TestComponent,
-                InputField,
-                Checkbox,
-                DropdownList,
-                DropdownContent,
-                DropdownContentWrapper,
-                DropdownTriggerDirective,
-                ScrollMask,
-                OverlayHost
-            ],
-            providers: [
-                OverlayHostService,
-                { provide: ConfigService, useValue: defaultConfig }
-            ]
-        });
+    imports: [FormsModule, ReactiveFormsModule],
+    declarations: [
+        Select,
+        SelectOption,
+        SelectOptionGroup,
+        Icon,
+        Button,
+        TestComponent,
+        InputField,
+        Checkbox,
+        DropdownList,
+        DropdownContent,
+        DropdownContentWrapper,
+        DropdownTriggerDirective,
+        ScrollMask,
+        OverlayHost
+    ],
+    providers: [
+        OverlayHostService,
+        { provide: ConfigService, useValue: defaultConfig }
+    ],
+    teardown: { destroyAfterEach: false }
+});
         TestBed.overrideModule(BrowserDynamicTestingModule, {
             set: {
-                entryComponents: [DropdownContentWrapper, ScrollMask]
+                declarations: [DropdownContentWrapper, ScrollMask]
             }
         });
     });

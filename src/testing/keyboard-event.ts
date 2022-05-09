@@ -67,7 +67,9 @@ let global = window
                 ) || 9 // FireFox|w3c
                 ;
         }
-        catch ( __e__ ) { _initKeyboardEvent_type = 0 }
+        catch ( __e__ ) {
+            return 0;
+        }
     })( document.createEvent( "KeyboardEvent" ) )
 
     , _keyboardEvent_properties_dictionary = {

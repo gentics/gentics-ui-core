@@ -32,7 +32,7 @@ const defaultOptions: INotificationOptions = {
 
 interface IOpenToast {
     toast: Toast;
-    dismissTimer: number;
+    dismissTimer: any;
 }
 
 /**
@@ -113,7 +113,7 @@ export class Notification {
         let toast: Toast = componentRef.instance;
         let index = this.getToastIndex(toast);
         if (-1 < index) {
-            let timer: number = this.openToasts[index].dismissTimer;
+            let timer: any = this.openToasts[index].dismissTimer;
             if (timer) {
                 clearTimeout(timer);
             }
@@ -135,7 +135,7 @@ export class Notification {
         let ref = this.hostViewContainer.createComponent(toastFactory);
         let toast: Toast = ref.instance;
 
-        let dismissTimer: number;
+        let dismissTimer: any;
         toast.message = options.message;
         toast.type = options.type;
         toast.dismissOnClick = options.dismissOnClick;

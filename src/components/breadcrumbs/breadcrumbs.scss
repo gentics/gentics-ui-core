@@ -195,9 +195,9 @@ gtx-breadcrumbs {
                 line-height: inherit;
             }
 
-            .other-content + *::before {
-                display: none;
-            }
+            // .other-content + *::before {
+            //     display: none;
+            // }
 
             a.breadcrumb {
                 &, &::before {

@@ -12,9 +12,10 @@ import {AutofocusDirective} from '../../directives/autofocus/autofocus.directive
 describe('InputField', () => {
 
     beforeEach(() => TestBed.configureTestingModule({
-        imports: [FormsModule, ReactiveFormsModule],
-        declarations: [AutofocusDirective, InputField, TestComponent]
-    }));
+    imports: [FormsModule, ReactiveFormsModule],
+    declarations: [AutofocusDirective, InputField, TestComponent],
+    teardown: { destroyAfterEach: false }
+}));
 
     it('binds the label text to the "label" input',
         componentTest(() => TestComponent, `

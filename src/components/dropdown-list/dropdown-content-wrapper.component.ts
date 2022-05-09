@@ -9,7 +9,7 @@ import {
     Inject, OnDestroy, AfterViewInit
 } from '@angular/core';
 import {KeyCode} from '../../common/keycodes';
-import {DropdownAlignment, DropdownWidth} from './dropdown-list.component';
+import {DropdownAlignment, DropdownWidth} from './dropdown.model';
 import {Config, ConfigService} from '../../module.config';
 
 @Component({

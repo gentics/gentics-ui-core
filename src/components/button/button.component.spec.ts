@@ -9,9 +9,10 @@ import {Button} from './button.component';
 describe('Button:', () => {
 
     beforeEach(() => TestBed.configureTestingModule({
-        imports: [FormsModule, ReactiveFormsModule],
-        declarations: [TestComponent, Button]
-    }));
+    imports: [FormsModule, ReactiveFormsModule],
+    declarations: [TestComponent, Button],
+    teardown: { destroyAfterEach: false }
+}));
 
     it('is enabled by default',
         componentTest(() => TestComponent, fixture => {

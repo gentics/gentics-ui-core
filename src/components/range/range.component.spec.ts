@@ -9,9 +9,10 @@ import {Range} from './range.component';
 describe('Range:', () => {
 
     beforeEach(() => TestBed.configureTestingModule({
-        imports: [FormsModule, ReactiveFormsModule],
-        declarations: [Range, TestComponent]
-    }));
+    imports: [FormsModule, ReactiveFormsModule],
+    declarations: [Range, TestComponent],
+    teardown: { destroyAfterEach: false }
+}));
 
     it('uses defaults for undefined attributes which have a default',
     componentTest(() => TestComponent, fixture => {

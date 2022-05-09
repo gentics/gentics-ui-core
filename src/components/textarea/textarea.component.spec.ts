@@ -11,9 +11,10 @@ import {Textarea} from './textarea.component';
 describe('Textarea', () => {
 
     beforeEach(() => TestBed.configureTestingModule({
-        imports: [FormsModule, ReactiveFormsModule, AutosizeModule],
-        declarations: [Textarea, TestComponent]
-    }));
+    imports: [FormsModule, ReactiveFormsModule, AutosizeModule],
+    declarations: [Textarea, TestComponent],
+    teardown: { destroyAfterEach: false }
+}));
 
     it('binds the label',
         componentTest(() => TestComponent, `
