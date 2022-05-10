@@ -102,7 +102,7 @@
     "@types/sortablejs": "~1.10.6",
     "@types/webpack-env": "~1.15.3",
     "codelyzer": "^6.0.0",
-    "gulp": "~4.0.0",
+    "gulp": "^4.0.0",
     "gulp-filter": "~6.0.0",
     "gulp-rename": "^2.0.0",
     "gulp-sass": "^5.1.0",

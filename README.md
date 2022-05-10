@@ -127,9 +127,9 @@ import 'web-animations-js';  // Run `npm install --save web-animations-js`.
 
 ```SCSS
 // styles.scss
-@import "~gentics-ui-core/styles/variables";
-@import "~gentics-ui-core/styles/mixins";
-@import "~gentics-ui-core/styles/core";
+@import "node_modules/gentics-ui-core/styles/variables";
+@import "node_modules/gentics-ui-core/styles/mixins";
+@import "node_modules/gentics-ui-core/styles/core";
 
 // ...
 ```
