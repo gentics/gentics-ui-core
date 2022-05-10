@@ -47,6 +47,11 @@
     {
       "name": "Thomas Pusztai",
       "email": "t.pusztai@gentics.com"
+    },
+    {
+      "name": "Philip Viktor Schulz-Klingauf",
+      "url": "https://github.com/pschulzk",
+      "email": "P.Schulz-Klingauf@gentics.com"
     }
   ],
   "license": "Apache-2.0",
