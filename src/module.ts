@@ -1,3 +1,4 @@
+import 'hammerjs';
 import {CommonModule} from '@angular/common';
 import {ModuleWithProviders, NgModule} from '@angular/core';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
@@ -58,6 +59,7 @@ import {Tabs} from './components/tabs/tabs.component';
 import {Textarea} from './components/textarea/textarea.component';
 import {TopBar} from './components/top-bar/top-bar.component';
 import {AutofocusDirective} from './directives/autofocus/autofocus.directive';
+import { HammerModule } from '@angular/platform-browser';
 
 export const UI_CORE_COMPONENTS: any[] = [
     AutofocusDirective,
@@ -135,6 +137,7 @@ export const routerModuleForChild: ModuleWithProviders<GenticsUICoreModule> = Ro
 @NgModule({
     imports: [
         CommonModule,
+        HammerModule,
         FormsModule,
         ReactiveFormsModule,
         routerModuleForChild,

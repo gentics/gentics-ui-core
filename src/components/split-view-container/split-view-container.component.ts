@@ -14,9 +14,6 @@ import {
 } from '@angular/core';
 import { coerceToBoolean } from '../../common/coerce-to-boolean';
 
-// Hammerjs always creates a global Hammer, see https://github.com/hammerjs/hammer.js/issues/1027
-require('hammerjs');
-
 export type FocusType = 'left' | 'right';
 
 export const CURSOR_STYLE_CLASS = 'gtx-split-view-container-resizing';

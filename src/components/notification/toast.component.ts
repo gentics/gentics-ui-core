@@ -1,9 +1,6 @@
 
 import {Component, ElementRef, ViewChild} from '@angular/core';
 
-// Hammerjs always creates a global Hammer, see https://github.com/hammerjs/hammer.js/issues/1027
-import 'hammerjs';
-
 export type ToastType = 'default' | 'error' | 'success' | 'warning';
 
 /**
