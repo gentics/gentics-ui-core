@@ -16,6 +16,6 @@
     "@angular/common": "^13.3.3",
     "@angular/core": "^13.3.3",
     "core-js": "^3.6.5",
-    "foundation-sites": "~6.5.3"
+    "foundation-sites": "6.5.3"
   }
 }
