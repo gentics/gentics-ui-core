@@ -76,7 +76,7 @@
     "@angular/router": "~13.3.3",
     "angular-svg-icon": "~11.0.0",
     "core-js": "^3.6.5",
-    "foundation-sites": "~6.5.3",
+    "foundation-sites": "6.5.3",
     "hammerjs": "^2.0.8",
     "material-design-icons-iconfont": "^4.0.5",
     "materialize-css": "~1.0.0",
