@@ -56,8 +56,8 @@
   ],
   "license": "Apache-2.0",
   "engines": {
-    "npm": "~8.1.2",
-    "node": "~16.13.2"
+    "npm": "~8.5",
+    "node": "~16.4"
   },
   "keywords": [
     "gentics",
