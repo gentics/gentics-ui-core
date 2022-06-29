@@ -91,7 +91,7 @@ describe('ModalService:', () => {
             })
         );
 
-        xit('displays a title and body',
+        it('displays a title and body',
             componentTest(() => TestComponent, fixture => {
                 fixture.detectChanges();
                 modalService.dialog({ title: 'Test', body: 'This is a modal', buttons: []});
