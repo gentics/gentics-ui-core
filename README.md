@@ -2,7 +2,7 @@
 
 This is the common core framework for the Gentics CMS and Mesh UI, and other Angular applications.
 
-Gentics UI Core 7.8.0 and up supports Angular 7 and 8.
+Gentics UI Core 13.0.2 and up supports Angular 13.
 
 ## Using ui-core in a project
 
