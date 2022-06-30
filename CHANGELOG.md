@@ -1,8 +1,9 @@
 # Gentics UI Core Changelog
 
-## 13.0.0 (2022-05-09)
+## 13.0.2 (2022-06-30)
 
 ### Features
+
 * Add official support for Angular 13
 
 ## 7.10.3 (2021-02-04)
