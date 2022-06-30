@@ -1,4 +1,4 @@
-import {Component, Injectable} from '@angular/core';
+import {Component, Injectable, OnDestroy} from '@angular/core';
 import {tick, TestBed} from '@angular/core/testing';
 
 import {mustFail} from './must-fail';
@@ -9,17 +9,18 @@ describe('componentTest', () => {
 
     beforeEach(() => {
         TestBed.configureTestingModule({
-            declarations: [
-                SimpleComponent,
-                ComponentThatThrowsInConstructor,
-                ComponentThatNeedsAnExistingService,
-                ComponentThatNeedsAServiceThatIsNotAddedAsProvider,
-                ComponentWithOnDestroy
-            ],
-            providers: [
-                PieService
-            ]
-        });
+    declarations: [
+        SimpleComponent,
+        ComponentThatThrowsInConstructor,
+        ComponentThatNeedsAnExistingService,
+        ComponentThatNeedsAServiceThatIsNotAddedAsProvider,
+        ComponentWithOnDestroy
+    ],
+    providers: [
+        PieService
+    ],
+    teardown: { destroyAfterEach: false }
+});
     });
 
     it('mark a test as passed when its expectations succeed',
@@ -115,12 +116,12 @@ describe('componentTest', () => {
     );
 
     it('destroys the component it creates, calling their ngOnDestroy method', () => {
-        let onDestroy: jasmine.Spy;
+        let componentWithOnDestroyInstance: ComponentWithOnDestroy;
         let test = componentTest(() => ComponentWithOnDestroy, (fixture, instance) => {
-            onDestroy = instance.ngOnDestroy = jasmine.createSpy('ngOnDestroy');
+            componentWithOnDestroyInstance = instance;
         });
         test();
-        expect(onDestroy).toHaveBeenCalled();
+        expect(componentWithOnDestroyInstance.wasDestroyed).toEqual(true);
     });
 
     describe('dependency handling', () => {
@@ -180,7 +181,10 @@ class ComponentThatThrowsInConstructor {
     template: 'This will be destroyed'
 })
 class ComponentWithOnDestroy {
-    ngOnDestroy(): void { }
+    public wasDestroyed: boolean = false;
+    ngOnDestroy(): void {
+        this.wasDestroyed = true;
+    }
 }
 
 

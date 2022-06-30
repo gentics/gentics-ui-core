@@ -1,10 +1,13 @@
 {
   "$schema": "./node_modules/@angular/cli/lib/config/schema.json",
+  "cli": {
+    "analytics": "cf0654bf-8cab-499a-9d12-97a0bb50a155"
+  },
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
     "gentics-ui-core": {
-      "root": "",
+      "root": "projects/gentics-ui-core",
       "sourceRoot": "src",
       "projectType": "library",
       "prefix": "gtx",
@@ -23,18 +26,6 @@
             "tsConfig": "projects/gentics-ui-core/tsconfig.spec.json",
             "karmaConfig": "projects/gentics-ui-core/karma.conf.js"
           }
-        },
-        "lint": {
-          "builder": "@angular-devkit/build-angular:tslint",
-          "options": {
-            "tsConfig": [
-              "projects/gentics-ui-core/tsconfig.lib.json",
-              "projects/gentics-ui-core/tsconfig.spec.json"
-            ],
-            "exclude": [
-              "**/node_modules/**"
-            ]
-          }
         }
       }
     },
@@ -45,23 +36,23 @@
       "prefix": "app",
       "schematics": {
         "@schematics/angular:component": {
-          "styleext": "scss"
+          "style": "scss"
         }
       },
       "architect": {
         "build": {
-          "builder": "ngx-build-plus:build",
+          "builder": "ngx-build-plus:browser",
           "options": {
             "outputPath": "dist/docs",
             "index": "src/docs/index.html",
             "main": "src/docs/main.ts",
             "polyfills": "src/docs/polyfills.ts",
             "tsConfig": "projects/docs/tsconfig.app.json",
-            "extraWebpackConfig": "webpack.partial.js",
+            "extraWebpackConfig": "projects/docs/webpack.partial.js",
             "assets": [
               "src/docs/assets",
               { "glob": "**/*", "input": "../../node_modules/roboto-fontface-woff/fonts/roboto", "output": "./assets/fonts" },
-              { "glob": "**/*", "input": "../../node_modules/material-icons-font/fonts", "output": "./assets/fonts" },
+              { "glob": "**/*", "input": "../../node_modules/material-icons-font/fonts", "output": "./assets/fonts" }
             ],
             "styles": [
               "src/docs/app.scss",
@@ -106,7 +97,7 @@
           "builder": "ngx-build-plus:dev-server",
           "options": {
             "browserTarget": "docs:build",
-            "extraWebpackConfig": "webpack.partial.js"
+            "extraWebpackConfig": "projects/docs/webpack.partial.js"
           },
           "configurations": {
             "production": {
@@ -134,18 +125,6 @@
             "scripts": [],
             "assets": [
               "src/docs/assets"
-            ]
-          }
-        },
-        "lint": {
-          "builder": "@angular-devkit/build-angular:tslint",
-          "options": {
-            "tsConfig": [
-              "projects/docs/tsconfig.app.json",
-              "projects/docs/tsconfig.spec.json"
-            ],
-            "exclude": [
-              "**/node_modules/**"
             ]
           }
         }

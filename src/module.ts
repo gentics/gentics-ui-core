@@ -1,3 +1,4 @@
+import 'hammerjs';
 import {CommonModule} from '@angular/common';
 import {ModuleWithProviders, NgModule} from '@angular/core';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
@@ -58,6 +59,7 @@ import {Tabs} from './components/tabs/tabs.component';
 import {Textarea} from './components/textarea/textarea.component';
 import {TopBar} from './components/top-bar/top-bar.component';
 import {AutofocusDirective} from './directives/autofocus/autofocus.directive';
+import { HammerModule } from '@angular/platform-browser';
 
 export const UI_CORE_COMPONENTS: any[] = [
     AutofocusDirective,
@@ -115,16 +117,6 @@ export const UI_CORE_DIRECTIVES: any[] = [
     GtxTabContent
 ];
 
-export const UI_CORE_ENTRY_COMPONENTS: any[] = [
-    BlankModal,
-    DateTimePickerModal,
-    DropdownContentWrapper,
-    DynamicModalWrapper,
-    ScrollMask,
-    Toast,
-    ModalDialog
-];
-
 export const UI_CORE_PIPES: any[] = [
     MatchesMimeTypePipe
 ];
@@ -140,18 +132,18 @@ export const UI_CORE_PROVIDERS: any[] = [
 ];
 
 export const declarations = [...UI_CORE_COMPONENTS, ...UI_CORE_DIRECTIVES, ...UI_CORE_PIPES];
-export const routerModuleForChild: ModuleWithProviders = RouterModule.forChild([]);
+export const routerModuleForChild: ModuleWithProviders<GenticsUICoreModule> = RouterModule.forChild([]);
 
 @NgModule({
     imports: [
         CommonModule,
+        HammerModule,
         FormsModule,
         ReactiveFormsModule,
         routerModuleForChild,
         AutosizeModule,
     ],
     declarations,
-    entryComponents: UI_CORE_ENTRY_COMPONENTS,
     exports: declarations
 })
 export class GenticsUICoreModule {
@@ -164,7 +156,7 @@ export class GenticsUICoreModule {
      * Therefore this method should be used only once in the app, at the level of the root module to ensure that only one
      * instance of each provider is instantiated.
      */
-    static forRoot(configValue?: optionsConfig | (() => optionsConfig)): ModuleWithProviders {
+    static forRoot(configValue?: optionsConfig | (() => optionsConfig)): ModuleWithProviders<GenticsUICoreModule> {
         return {
             ngModule: GenticsUICoreModule,
             providers: [

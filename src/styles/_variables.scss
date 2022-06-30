@@ -1,3 +1,5 @@
+@use 'sass:math';
+
 /* Typography */
 $gtx-font-stack: Roboto, sans-serif;
 $gtx-font-size-lead: 18px !default;
@@ -48,7 +50,7 @@ $gtx-breadcrumbs-disabled-inactive-color: transparentize($gtx-color-light-gray, 
 $gtx-progress-bar-animation-duration: $gtx-animation-duration !default;
 $gtx-progress-bar-background-color: transparent !default;
 $gtx-progress-bar-color: $gtx-color-primary !default;
-$gtx-progress-bar-fade-duration: ($gtx-animation-duration / 2) !default;
+$gtx-progress-bar-fade-duration: math.div($gtx-animation-duration, 2) !default;
 $gtx-progress-bar-height: 3px !default;
 
 $gtx-split-view-container-animation-duration: $gtx-animation-duration !default;

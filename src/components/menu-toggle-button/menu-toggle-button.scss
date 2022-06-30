@@ -1,3 +1,5 @@
+@use 'sass:math';
+
 gtx-menu-toggle-button {
     cursor: pointer;
     $width: 40px;
@@ -16,10 +18,10 @@ gtx-menu-toggle-button {
     .bar {
         @extend .z-depth-1;
         display: block;
-        height: $width / 10;
+        height: math.div($width, 10);
         width: $width;
         background: $gtx-color-very-light-gray;
-        margin: $width / 5 auto;
+        margin: math.div($width, 5) auto;
         transition: all .3s ease;
     }
 
@@ -29,10 +31,10 @@ gtx-menu-toggle-button {
             background: $gtx-color-primary;
         }
         .top {
-            transform: translateY($width / 3.33) rotateZ(45deg);
+            transform: translateY(math.div($width, 3.33)) rotateZ(45deg);
         }
         .bottom {
-            transform: translateY(-$width / 3.33) rotateZ(-45deg);
+            transform: translateY(- math.div($width, 3.33)) rotateZ(-45deg);
         }
         .middle {
             width: 0;

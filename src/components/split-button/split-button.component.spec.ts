@@ -34,29 +34,30 @@ describe('SplitButtonComponent', () => {
 
     beforeEach(() => {
         TestBed.configureTestingModule({
-            imports: [FormsModule, ReactiveFormsModule],
-            declarations: [
-                Button,
-                DropdownContent,
-                DropdownContentWrapper,
-                DropdownItem,
-                DropdownList,
-                DropdownTriggerDirective,
-                Icon,
-                OverlayHost,
-                ScrollMask,
-                SplitButton,
-                SplitButtonPrimaryAction,
-                TestComponent
-            ],
-            providers: [
-                OverlayHostService,
-                { provide: ConfigService, useValue: defaultConfig }
-            ]
-        });
+    imports: [FormsModule, ReactiveFormsModule],
+    declarations: [
+        Button,
+        DropdownContent,
+        DropdownContentWrapper,
+        DropdownItem,
+        DropdownList,
+        DropdownTriggerDirective,
+        Icon,
+        OverlayHost,
+        ScrollMask,
+        SplitButton,
+        SplitButtonPrimaryAction,
+        TestComponent
+    ],
+    providers: [
+        OverlayHostService,
+        { provide: ConfigService, useValue: defaultConfig }
+    ],
+    teardown: { destroyAfterEach: false }
+});
         TestBed.overrideModule(BrowserDynamicTestingModule, {
             set: {
-                entryComponents: [DropdownContentWrapper, ScrollMask]
+                declarations: [DropdownContentWrapper, ScrollMask]
             }
         });
     });
@@ -233,7 +234,7 @@ function assertFlatState(fixture: ComponentFixture<TestComponent>, expectedState
 })
 class TestComponent {
 
-    @ViewChild('testButton')
+    @ViewChild('testButton', { static: true })
     splitButton: SplitButton;
 
     isDisabled: boolean;

@@ -133,8 +133,8 @@ export class Select implements ControlValueAccessor {
     _clearable: boolean = false;
     _disabled: boolean = false;
     private preventDeselect: boolean = false;
-    @ViewChild(DropdownList) private dropdownList: DropdownList;
-    @ViewChild(DropdownContent) private dropdownContent: DropdownContent;
+    @ViewChild(DropdownList, { static: true }) private dropdownList: DropdownList;
+    @ViewChild(DropdownContent, { static: true }) private dropdownContent: DropdownContent;
     @ContentChildren(SelectOption, { descendants: false }) private _selectOptions: QueryList<SelectOption>;
     @ContentChildren(SelectOptionGroup, { descendants: false }) private _selectOptionGroups: QueryList<SelectOptionGroup>;
 

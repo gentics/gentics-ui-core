@@ -10,10 +10,11 @@ import {SideMenu, SideMenuToggle} from './side-menu.component';
 describe('SideMenu', () => {
 
     beforeEach(() => TestBed.configureTestingModule({
-        imports: [NoopAnimationsModule],
-        declarations: [SideMenu, TestComponent, SideMenuToggle],
-        providers: [UserAgentRef]
-    }));
+    imports: [NoopAnimationsModule],
+    declarations: [SideMenu, TestComponent, SideMenuToggle],
+    providers: [UserAgentRef],
+    teardown: { destroyAfterEach: false }
+}));
 
     it('does not have the "opened" class when closed',
         componentTest(() => TestComponent, fixture => {
@@ -101,7 +102,7 @@ describe('SideMenu', () => {
 })
 class TestComponent {
     menuVisible: boolean = false;
-    menuChanged(): void {}
+    menuChanged(...args: any[]): void {}
 }
 
 // Helper functions

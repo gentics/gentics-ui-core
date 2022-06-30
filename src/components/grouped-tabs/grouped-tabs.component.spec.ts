@@ -10,22 +10,27 @@ import { Subject } from 'rxjs';
 import { GtxTabLabel } from './tab-label';
 import { GtxTabContent } from './tab-content';
 
+export class MockElementRef extends ElementRef {
+    constructor() { super(null); }
+}
+
 describe('Grouped Tabs:', () => {
 
     beforeEach(() => TestBed.configureTestingModule({
-        providers: [
-            { provide: ElementRef }
-        ],
-        declarations: [
-            Icon,
-            GroupedTabs,
-            TabGroup,
-            TabPane,
-            GtxTabLabel,
-            GtxTabContent,
-            TestComponent
-        ]
-    }));
+    providers: [
+        { provide: ElementRef, useClass: MockElementRef }
+    ],
+    declarations: [
+        Icon,
+        GroupedTabs,
+        TabGroup,
+        TabPane,
+        GtxTabLabel,
+        GtxTabContent,
+        TestComponent
+    ],
+    teardown: { destroyAfterEach: false }
+}));
 
     it('is created ok',
         componentTest(() => TestComponent, fixture => {
@@ -97,7 +102,7 @@ describe('Grouped Tabs:', () => {
                 // Switch to the third tab in first group
                 tabId = 2;
                 groupId = 1;
-                
+
                 expect((collectedTabs.value[groupId] as TabGroup).hasActiveChild).toBeFalsy();
 
                 fixture.componentInstance.groupedTabs.selectTab(tabs[tabId]);
@@ -283,7 +288,7 @@ describe('Grouped Tabs:', () => {
         </gtx-grouped-tabs>`
 })
 class TestComponent {
-    @ViewChild(GroupedTabs) groupedTabs: GroupedTabs;
+    @ViewChild(GroupedTabs, { static: true }) groupedTabs: GroupedTabs;
     asyncTabs$ = new Subject<Array<any>>();
 }
 

@@ -17,20 +17,10 @@ import {coerceToBoolean} from '../../common/coerce-to-boolean';
 import {defaultStrings} from './date-time-picker-default-strings';
 import {DateTimePickerFormatProvider} from './date-time-picker-format-provider.service';
 import {DateTimePickerStrings} from './date-time-picker-strings';
-import {momentjs, Moment} from './momentjs-workaround';
+import { momentjs } from './momentjs-workaround';
+import { Moment } from 'moment';
 
-/*
- * Rome is a date picker widget: https://github.com/bevacqua/rome
- *
- * Note that Rome comes with its own (outdated) version of Moment.js, which we do not want to use.
- * Therefore we use the "standalone" distribution of Rome. However, this comes with the caveat that it
- * expects a global "moment" object to be defined (https://github.com/bevacqua/rome/issues/31)
- * So we define it, instantiate Rome, and then delete the global.
- */
-(window as any).moment = momentjs;
-const rome: any = require('rome/src/rome.standalone');
-rome.use(momentjs);
-delete (window as any).moment;
+import * as rome from 'rome/src/rome.moment';
 
 // http://ecma-international.org/ecma-262/5.1/#sec-15.9.1.1
 const MAX_DATE_MILLISECONDS = 8640000000000000;
@@ -113,7 +103,7 @@ export class DateTimePickerControls implements OnDestroy {
      */
     @Output() change = new EventEmitter<number>();
 
-    @ViewChild('calendarContainer')
+    @ViewChild('calendarContainer', { static: true })
     calendarContainer: ElementRef;
 
     dateOrder: 'dmy' | 'ymd' | 'mdy' = 'mdy';

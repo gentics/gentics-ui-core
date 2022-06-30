@@ -6,10 +6,10 @@ import {
     ChangeDetectorRef,
     EventEmitter,
     ChangeDetectionStrategy,
-    Inject
+    Inject, OnDestroy, AfterViewInit
 } from '@angular/core';
 import {KeyCode} from '../../common/keycodes';
-import {DropdownAlignment, DropdownWidth} from './dropdown-list.component';
+import {DropdownAlignment, DropdownWidth} from './dropdown.model';
 import {Config, ConfigService} from '../../module.config';
 
 @Component({
@@ -21,7 +21,7 @@ import {Config, ConfigService} from '../../module.config';
                </div>`,
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class DropdownContentWrapper {
+export class DropdownContentWrapper implements AfterViewInit, OnDestroy {
     pageMargin: Config['dropDownPageMargin'];
     dropDownMaxHeight: Config['dropDownMaxHeight'];
     content: TemplateRef<any>;
@@ -99,7 +99,7 @@ export class DropdownContentWrapper {
             this.contentStyles.transform = `translateZ(0)`;
             this.contentStyles.opacity = 1;
 
-            if (this.options.width === 'content') {
+            if (this.options.width === 'contents') {
                 this.contentStyles.whiteSpace = 'nowrap';
             }
             this.widthHasBeenAdjusted = true;

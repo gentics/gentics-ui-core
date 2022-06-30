@@ -8,8 +8,9 @@ import {SortableList, ISortableEvent} from './sortable-list.component';
 describe('SortableList:', () => {
 
     beforeEach(() => TestBed.configureTestingModule({
-        declarations: [SortableList, TestComponent]
-    }));
+    declarations: [SortableList, TestComponent],
+    teardown: { destroyAfterEach: false }
+}));
 
     describe('sort() method', () => {
 
@@ -136,5 +137,5 @@ describe('SortableList:', () => {
 })
 class TestComponent {
     disabled: boolean = false;
-    @ViewChild(SortableList) listInstance: SortableList;
+    @ViewChild(SortableList, { static: true }) listInstance: SortableList;
 }

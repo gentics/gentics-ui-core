@@ -9,9 +9,10 @@ import {Range} from './range.component';
 describe('Range:', () => {
 
     beforeEach(() => TestBed.configureTestingModule({
-        imports: [FormsModule, ReactiveFormsModule],
-        declarations: [Range, TestComponent]
-    }));
+    imports: [FormsModule, ReactiveFormsModule],
+    declarations: [Range, TestComponent],
+    teardown: { destroyAfterEach: false }
+}));
 
     it('uses defaults for undefined attributes which have a default',
     componentTest(() => TestComponent, fixture => {
@@ -322,7 +323,7 @@ function createFocusEvent(type: 'focus' | 'blur'): FocusEvent {
     let event: FocusEvent;
     try {
         event = document.createEvent('FocusEvent');
-        event.initFocusEvent(type, true, true, window, 0, null);
+        (event as any).initFocusEvent(type, true, true, window, 0, null);
     } catch (firefox) {
         event = new FocusEvent(type, {
             bubbles: true,
@@ -347,9 +348,9 @@ class TestComponent {
         test: new FormControl(75)
     });
 
-    onBlur(): void {}
-    onFocus(): void {}
-    onChange(): void {}
+    onBlur(...args: any[]): void {}
+    onFocus(...args: any[]): void {}
+    onChange(...args: any[]): void {}
 }
 
 /**

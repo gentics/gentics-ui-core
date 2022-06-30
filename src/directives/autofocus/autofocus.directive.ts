@@ -26,7 +26,7 @@ export class AutofocusDirective implements AfterViewInit, OnChanges, OnDestroy {
 
     private _autofocus: boolean = false;
     private inputElement: HTMLButtonElement | HTMLInputElement | HTMLDivElement | HTMLTextAreaElement;
-    private timeout: number;
+    private timeout: any;
 
 
     constructor(private element: ElementRef) { }

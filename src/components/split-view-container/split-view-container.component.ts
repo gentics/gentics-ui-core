@@ -14,9 +14,6 @@ import {
 } from '@angular/core';
 import { coerceToBoolean } from '../../common/coerce-to-boolean';
 
-// Hammerjs always creates a global Hammer, see https://github.com/hammerjs/hammer.js/issues/1027
-require('hammerjs');
-
 export type FocusType = 'left' | 'right';
 
 export const CURSOR_STYLE_CLASS = 'gtx-split-view-container-resizing';
@@ -182,11 +179,11 @@ export class SplitViewContainer implements AfterViewInit, OnChanges, OnDestroy {
     /** @internal The Element to which cursor styles are applied. */
     globalCursorStyleTarget: any = window.document && window.document.body;
 
-    @ViewChild('resizeContainer') resizeContainer: ElementRef;
-    @ViewChild('leftPanel') leftPanel: ElementRef;
-    @ViewChild('rightPanel') rightPanel: ElementRef;
-    @ViewChild('resizer') resizer: ElementRef;
-    @ViewChild('visibleResizer') visibleResizer: ElementRef;
+    @ViewChild('resizeContainer', { static: true }) resizeContainer: ElementRef;
+    @ViewChild('leftPanel', { static: true }) leftPanel: ElementRef;
+    @ViewChild('rightPanel', { static: true }) rightPanel: ElementRef;
+    @ViewChild('resizer', { static: true }) resizer: ElementRef;
+    @ViewChild('visibleResizer', { static: true }) visibleResizer: ElementRef;
 
     resizing: boolean = false;
 
@@ -208,7 +205,7 @@ export class SplitViewContainer implements AfterViewInit, OnChanges, OnDestroy {
      *  3. focus would be set to the left panel again, but should be ignored
      */
     private focusJustChanged = false;
-    private focusJustChangedTimeout: number;
+    private focusJustChangedTimeout: any;
 
     private isSwipeable = true;
 

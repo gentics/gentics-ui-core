@@ -1,13 +1,12 @@
 import {
     ChangeDetectionStrategy,
     Component,
-    ComponentFactory,
-    ComponentFactoryResolver,
     ComponentRef,
     ContentChild,
     EventEmitter,
     HostListener,
     Input,
+    OnDestroy,
     Output,
     TemplateRef,
     ViewChild,
@@ -21,10 +20,8 @@ import {OverlayHostService} from '../overlay-host/overlay-host.service';
 import {DropdownContentWrapper} from './dropdown-content-wrapper.component';
 import {DropdownContent} from './dropdown-content.component';
 import {DropdownTriggerDirective} from './dropdown-trigger.directive';
+import {DropdownAlignment, DropdownWidth} from './dropdown.model';
 import {ScrollMask} from './scroll-mask.component';
-
-export type DropdownAlignment = 'left' | 'right';
-export type DropdownWidth = 'contents' | 'trigger' | 'expand' | number;
 
 /**
  * A Dropdown component. Depends on the [`<gtx-overlay-host>`](#/overlay-host) being present in the app.
@@ -65,7 +62,7 @@ export type DropdownWidth = 'contents' | 'trigger' | 'expand' | number;
     templateUrl: './dropdown-list.tpl.html',
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class DropdownList {
+export class DropdownList implements OnDestroy {
     options = {
         alignment: 'left' as DropdownAlignment,
         width: 'contents' as DropdownWidth,
@@ -73,8 +70,8 @@ export class DropdownList {
         sticky: false,
         closeOnEscape: true
     };
-    @ViewChild(TemplateRef) contentsTemplate: TemplateRef<any>;
-    @ContentChild(DropdownTriggerDirective) trigger: DropdownTriggerDirective;
+    @ViewChild(TemplateRef, { static: true }) contentsTemplate: TemplateRef<any>;
+    @ContentChild(DropdownTriggerDirective, { static: true }) trigger: DropdownTriggerDirective;
     @ContentChild(DropdownContent) content: DropdownContent;
 
     /**
@@ -89,9 +86,9 @@ export class DropdownList {
 
     private _disabled: boolean = false;
     private overlayHostView: ViewContainerRef;
-    private scrollMaskFactory: ComponentFactory<ScrollMask>;
+    private scrollMaskFactory: ScrollMask;
     private scrollMaskRef: ComponentRef<ScrollMask>;
-    private contentComponentFactory: ComponentFactory<DropdownContentWrapper>;
+    private contentComponentFactory: DropdownContentWrapper;
     private contentComponentRef: ComponentRef<DropdownContentWrapper>;
 
     /**
@@ -171,11 +168,7 @@ export class DropdownList {
         return !!this.contentComponentRef;
     }
 
-    constructor(private componentFactoryResolver: ComponentFactoryResolver,
-                overlayHostService: OverlayHostService) {
-
-        this.contentComponentFactory = this.componentFactoryResolver.resolveComponentFactory(DropdownContentWrapper);
-        this.scrollMaskFactory = this.componentFactoryResolver.resolveComponentFactory(ScrollMask);
+    constructor(overlayHostService: OverlayHostService) {
         overlayHostService.getHostView().then(view => this.overlayHostView = view);
     }
 
@@ -227,7 +220,7 @@ export class DropdownList {
         if (this._disabled) {
             return;
         }
-        this.contentComponentRef = this.overlayHostView.createComponent(this.contentComponentFactory, null);
+        this.contentComponentRef = this.overlayHostView.createComponent(DropdownContentWrapper, null);
         const contentInstance = this.contentComponentRef.instance;
         contentInstance.content = this.contentsTemplate;
         contentInstance.trigger = this.trigger.elementRef.nativeElement;
@@ -249,7 +242,7 @@ export class DropdownList {
             this.trigger.focus();
         });
 
-        this.scrollMaskRef = this.overlayHostView.createComponent(this.scrollMaskFactory, null);
+        this.scrollMaskRef = this.overlayHostView.createComponent(ScrollMask, null);
         this.scrollMaskRef.instance.clicked.pipe(take(1)).subscribe(() => this.closeDropdown());
         this.open.emit();
     }

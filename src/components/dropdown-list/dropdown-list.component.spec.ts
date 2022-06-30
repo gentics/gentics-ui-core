@@ -21,25 +21,26 @@ describe('DropdownList:', () => {
 
     beforeEach(() => {
         TestBed.configureTestingModule({
-            declarations: [
-                DropdownList,
-                DropdownContent,
-                DropdownItem,
-                DropdownTriggerDirective,
-                DropdownContentWrapper,
-                OverlayHost,
-                TestComponent,
-                Button,
-                ScrollMask
-            ],
-            providers: [
-                OverlayHostService,
-                { provide: ConfigService, useValue: defaultConfig }
-            ]
-        });
+    declarations: [
+        DropdownList,
+        DropdownContent,
+        DropdownItem,
+        DropdownTriggerDirective,
+        DropdownContentWrapper,
+        OverlayHost,
+        TestComponent,
+        Button,
+        ScrollMask
+    ],
+    providers: [
+        OverlayHostService,
+        { provide: ConfigService, useValue: defaultConfig }
+    ],
+    teardown: { destroyAfterEach: false }
+});
         TestBed.overrideModule(BrowserDynamicTestingModule, {
             set: {
-                entryComponents: [DropdownContentWrapper, ScrollMask]
+                declarations: [DropdownContentWrapper, ScrollMask]
             }
         });
     });
@@ -273,6 +274,7 @@ describe('DropdownList:', () => {
                 tick();
                 expect(fixture.nativeElement.querySelectorAll('.dropdown-content-wrapper').length).toBe(3);
 
+                fixture.detectChanges(false);
                 fixture.destroy();
                 tick();
 

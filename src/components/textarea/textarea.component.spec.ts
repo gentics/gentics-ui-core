@@ -11,9 +11,10 @@ import {Textarea} from './textarea.component';
 describe('Textarea', () => {
 
     beforeEach(() => TestBed.configureTestingModule({
-        imports: [FormsModule, ReactiveFormsModule, AutosizeModule],
-        declarations: [Textarea, TestComponent]
-    }));
+    imports: [FormsModule, ReactiveFormsModule, AutosizeModule],
+    declarations: [Textarea, TestComponent],
+    teardown: { destroyAfterEach: false }
+}));
 
     it('binds the label',
         componentTest(() => TestComponent, `
@@ -624,9 +625,9 @@ class TestComponent {
         test: new FormControl('controlValue')
     });
 
-    onBlur(): void {}
-    onFocus(): void {}
-    onChangeEvent(): void {}
+    onBlur(...args: any[]): void {}
+    onFocus(...args: any[]): void {}
+    onChangeEvent(...args: any[]): void {}
 }
 
 /**

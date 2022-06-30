@@ -11,17 +11,18 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 describe('SearchBar', () => {
 
     beforeEach(() => TestBed.configureTestingModule({
-        imports: [
-            FormsModule,
-            ReactiveFormsModule
-        ],
-        declarations: [
-            Button,
-            InputField,
-            SearchBar,
-            TestComponent
-        ]
-    }));
+    imports: [
+        FormsModule,
+        ReactiveFormsModule
+    ],
+    declarations: [
+        Button,
+        InputField,
+        SearchBar,
+        TestComponent
+    ],
+    teardown: { destroyAfterEach: false }
+}));
 
     it('binds the value of its native input the the "query" property',
         componentTest(() => TestComponent, fixture => {
@@ -233,8 +234,8 @@ describe('SearchBar', () => {
 class TestComponent {
     query: string = '';
     subject = new BehaviorSubject<string>('initial value of subject');
-    @ViewChild(SearchBar) searchBar: SearchBar;
-    onSearch(): void {}
-    onChange(): void {}
-    onClear(): void {}
+    @ViewChild(SearchBar, { static: true }) searchBar: SearchBar;
+    onSearch(...args: any[]): void {}
+    onChange(...args: any[]): void {}
+    onClear(...args: any[]): void {}
 }

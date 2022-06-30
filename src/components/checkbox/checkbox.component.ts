@@ -127,7 +127,7 @@ export class Checkbox implements ControlValueAccessor {
     checkState: CheckState = false;
     tabbedFocus: boolean = false;
 
-    @ViewChild('labelElement') labelElement: ElementRef;
+    @ViewChild('labelElement', { static: true }) labelElement: ElementRef;
 
     /**
      * See note above on stateless mode.

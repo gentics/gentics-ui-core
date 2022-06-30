@@ -36,15 +36,16 @@ describe('Breadcrumbs:', () => {
 
     beforeEach(() => {
         TestBed.configureTestingModule({
-            imports: [RouterModule.forChild([])],
-            providers: [
-                UserAgentRef,
-                { provide: Router, useClass: MockRouter },
-                { provide: ActivatedRoute, useClass: MockActivatedRoute },
-                { provide: LocationStrategy, useClass: MockLocationStrategy }
-            ],
-            declarations: [Breadcrumbs, Button, Icon, TestComponent]
-        });
+    imports: [RouterModule.forChild([])],
+    providers: [
+        UserAgentRef,
+        { provide: Router, useClass: MockRouter },
+        { provide: ActivatedRoute, useClass: MockActivatedRoute },
+        { provide: LocationStrategy, useClass: MockLocationStrategy }
+    ],
+    declarations: [Breadcrumbs, Button, Icon, TestComponent],
+    teardown: { destroyAfterEach: false }
+});
     });
 
     it('creates a breadcrumbs bar with the link texts provided',
@@ -418,7 +419,7 @@ class MockRouter {
     createUrlTree(commands: string[], options: any): any {
         return commands;
     }
-    navigateByUrl(urlTree: any): void {}
+    navigateByUrl(...args: any[]): void {}
     serializeUrl(urlTree: string[]): string {
         return urlTree.join('/');
     }

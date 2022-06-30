@@ -9,8 +9,9 @@ import { By } from '@angular/platform-browser';
 describe('SplitViewContainer', () => {
 
     beforeEach(() => TestBed.configureTestingModule({
-        declarations: [SplitViewContainer, TestComponent]
-    }));
+    declarations: [SplitViewContainer, TestComponent],
+    teardown: { destroyAfterEach: false }
+}));
 
     it('sets classes depending on the "rightPanelVisible" property',
         componentTest(() => TestComponent, `
@@ -313,5 +314,5 @@ describe('SplitViewContainer', () => {
 class TestComponent {
     hasRight: boolean = false;
     focusedSide: string = '';
-    testHandler(): void {}
+    testHandler(...args: any[]): void {}
 }
