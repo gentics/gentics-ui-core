@@ -4,7 +4,7 @@
 
 ### Features
 
-* Add official support for Angular 13
+* Added official support for Angular 13
 
 ## 7.10.3 (2021-02-04)
 
