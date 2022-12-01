@@ -1,5 +1,11 @@
 # Gentics UI Core Changelog
 
+## 7.10.3 (2021-02-04)
+
+### Fixes
+
+* Fix font-sizes of heading tags (SUP-10898).
+
 ## 7.10.1 (2020-10-13)
 
 ### Fixes
