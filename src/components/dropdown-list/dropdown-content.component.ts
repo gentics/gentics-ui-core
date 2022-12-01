@@ -1,4 +1,4 @@
-import {Component, ContentChildren, HostListener, EventEmitter, forwardRef, QueryList, ElementRef} from '@angular/core';
+import {Component, ContentChildren, HostListener, EventEmitter, forwardRef, QueryList, ElementRef, AfterContentInit} from '@angular/core';
 import {DropdownItem} from './dropdown-item.component';
 import {KeyCode} from '../../common/keycodes';
 import {FOCUSABLE_SELECTOR} from './dropdown-trigger.directive';
@@ -10,7 +10,7 @@ import {FOCUSABLE_SELECTOR} from './dropdown-trigger.directive';
     selector: 'gtx-dropdown-content',
     template: `<div class="scroller"><ng-content></ng-content></div>`
 })
-export class DropdownContent {
+export class DropdownContent implements AfterContentInit {
     focusLost = new EventEmitter<boolean>();
     focusableItems: HTMLElement[] = [];
 

@@ -63,7 +63,7 @@ platformBrowserDynamic().bootstrapModule(AppModule,
 
 ## View Encapsulation
 
-Do not use any ViewEncapsulation other than `ViewEncapsulation.None` (which is the default), because some UI Core components use the CSS `/deep/` selector.
+Do not use any ViewEncapsulation other than `ViewEncapsulation.None` (which is the default), because some UI Core components use the CSS `::ng-deep` selector.
 
 ## Lazy Loading of Routes
 

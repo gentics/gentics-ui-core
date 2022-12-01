@@ -4,7 +4,7 @@
   "newProjectRoot": "projects",
   "projects": {
     "gentics-ui-core": {
-      "root": "",
+      "root": "projects/gentics-ui-core",
       "sourceRoot": "src",
       "projectType": "library",
       "prefix": "gtx",
@@ -13,7 +13,7 @@
           "builder": "@angular-devkit/build-ng-packagr:build",
           "options": {
             "tsConfig": "projects/gentics-ui-core/tsconfig.lib.json",
-            "project": "projects/gentics-ui-core/ng-package.json"
+            "project": "projects/gentics-ui-core/ng-package.json",
           }
         },
         "test": {
@@ -50,18 +50,18 @@
       },
       "architect": {
         "build": {
-          "builder": "ngx-build-plus:build",
+          "builder": "ngx-build-plus:browser",
           "options": {
             "outputPath": "dist/docs",
             "index": "src/docs/index.html",
             "main": "src/docs/main.ts",
             "polyfills": "src/docs/polyfills.ts",
             "tsConfig": "projects/docs/tsconfig.app.json",
-            "extraWebpackConfig": "webpack.partial.js",
+            "extraWebpackConfig": "projects/docs/webpack.partial.js",
             "assets": [
               "src/docs/assets",
               { "glob": "**/*", "input": "../../node_modules/roboto-fontface-woff/fonts/roboto", "output": "./assets/fonts" },
-              { "glob": "**/*", "input": "../../node_modules/material-icons-font/fonts", "output": "./assets/fonts" },
+              { "glob": "**/*", "input": "../../node_modules/material-icons-font/fonts", "output": "./assets/fonts" }
             ],
             "styles": [
               "src/docs/app.scss",
@@ -106,7 +106,7 @@
           "builder": "ngx-build-plus:dev-server",
           "options": {
             "browserTarget": "docs:build",
-            "extraWebpackConfig": "webpack.partial.js"
+            "extraWebpackConfig": "projects/docs/webpack.partial.js"
           },
           "configurations": {
             "production": {

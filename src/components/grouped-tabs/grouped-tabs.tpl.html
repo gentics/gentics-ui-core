@@ -2,7 +2,7 @@
     <ul class="collapsible expandable" [class.wrap-tab-title]="tabsShouldWrap">
         <ng-container *ngFor="let tabItem of tabs$ | async">
             <ng-template [ngIf]="isTabGroup(tabItem)" [ngIfElse]="standaloneTabItem">
-                <li class="tab-group" [id]="tabItem.uniqueId" [ngClass]="{
+                <li class="tab-group" [id]="tabItem.id" [ngClass]="{
                     expanded: tabItem.expand,
                     'is-active': tabItem.hasActiveChild
                 }">
@@ -40,7 +40,7 @@
     <!-- If there is a label template, use it. -->
     <ng-template [ngIf]="tabItem.templateLabel">
         <ng-container *ngTemplateOutlet="tabItem.templateLabel"></ng-container>
-    </ng-template>    
+    </ng-template>
     <!-- If there is not a label template, fall back to the text label. -->
     <ng-template [ngIf]="!tabItem.templateLabel">{{ tabItem.textLabel }}</ng-template>
 </ng-template>

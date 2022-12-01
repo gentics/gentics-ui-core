@@ -136,5 +136,5 @@ describe('SortableList:', () => {
 })
 class TestComponent {
     disabled: boolean = false;
-    @ViewChild(SortableList) listInstance: SortableList;
+    @ViewChild(SortableList, { static: true }) listInstance: SortableList;
 }

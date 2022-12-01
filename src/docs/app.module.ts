@@ -97,7 +97,7 @@ const DEMO_APP_DECLARATIONS: any[] = [
 ];
 
 export const declarations = [...DEMO_APP_PAGES, ...DEMO_APP_DECLARATIONS];
-export const routerModuleForRoot: ModuleWithProviders = RouterModule.forRoot(routes, { useHash: true });
+export const routerModuleForRoot: ModuleWithProviders<GenticsUICoreModule> = RouterModule.forRoot(routes, { useHash: true, relativeLinkResolution: 'legacy' });
 
 @NgModule({
     imports: [
@@ -107,7 +107,7 @@ export const routerModuleForRoot: ModuleWithProviders = RouterModule.forRoot(rou
         ReactiveFormsModule,
         routerModuleForRoot,
         GenticsUICoreModule.forRoot(),
-        AngularSvgIconModule,
+        AngularSvgIconModule.forRoot(),
         HttpClientModule
     ],
     declarations,

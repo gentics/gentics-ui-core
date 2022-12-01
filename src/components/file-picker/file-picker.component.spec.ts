@@ -164,7 +164,7 @@ class TestComponent {
     size = 'regular';
     icon = false;
 
-    @ViewChild(FileDropArea) dropArea: MockFileDropArea;
+    @ViewChild(FileDropArea, { static: true }) dropArea: MockFileDropArea;
 
     onFileSelect = jasmine.createSpy('onFileSelect');
     onFileSelectReject = jasmine.createSpy('onFileSelectReject');

@@ -32,7 +32,7 @@ describe('Notification:', () => {
             }
         });
 
-        notificationService = TestBed.get(Notification);
+        notificationService = TestBed.inject(Notification);
     });
 
     describe('show():', () => {

@@ -17,7 +17,7 @@ declare var LATESTBRANCH: boolean;
     templateUrl: './app.tpl.html'
 })
 export class App {
-    @ViewChild(SplitViewContainer) splitViewContainer: SplitViewContainer;
+    @ViewChild(SplitViewContainer, { static: true }) splitViewContainer: SplitViewContainer;
     version: string;
     latestBranch: boolean;
     changelogBranch = 'master';

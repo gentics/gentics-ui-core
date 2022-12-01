@@ -151,7 +151,7 @@ export class SideMenu {
         return this.opened ? openState : 'void';
     }
 
-    @ViewChild('toggleButton') toggleButton: ElementRef;
+    @ViewChild('toggleButton', { static: true }) toggleButton: ElementRef;
 
     /**
      * Fired when the toggle button is clicked. The value is equal to

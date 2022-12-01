@@ -160,8 +160,8 @@ export class InputField implements AfterViewInit, ControlValueAccessor, OnInit, 
      */
     @Output() change = new EventEmitter<string|number>();
 
-    @ViewChild('inputElement') private inputElement: ElementRef;
-    @ViewChild('labelElement') private labelElement: ElementRef;
+    @ViewChild('inputElement', { static: true }) private inputElement: ElementRef;
+    @ViewChild('labelElement', { static: true }) private labelElement: ElementRef;
 
     private currentValue: string | number;
 

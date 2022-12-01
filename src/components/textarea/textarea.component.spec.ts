@@ -624,9 +624,9 @@ class TestComponent {
         test: new FormControl('controlValue')
     });
 
-    onBlur(): void {}
-    onFocus(): void {}
-    onChangeEvent(): void {}
+    onBlur(...args: any[]): void {}
+    onFocus(...args: any[]): void {}
+    onChangeEvent(...args: any[]): void {}
 }
 
 /**
