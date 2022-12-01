@@ -4,7 +4,8 @@
      [ngClass]="type"
      (click)="dismiss()"
 >
-    <span class="gtx-toast-btn_close">
+    <span class="gtx-toast-btn_close"
+        [hidden]="!dismissOnClick">
         <icon>close</icon>
     </span>
     <span class="action" *ngIf="actionLabel">
