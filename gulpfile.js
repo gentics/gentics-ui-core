@@ -6,7 +6,7 @@ const del = require('del');
 const filter = require('gulp-filter');
 const gutil = require('gulp-util');
 const path = require('path');
-const sass = require('gulp-sass');
+const sass = require('gulp-sass')(require('sass'));
 const tildeImporter = require('node-sass-tilde-importer');
 const npmArgs = JSON.parse(process.env.npm_config_argv);
 
