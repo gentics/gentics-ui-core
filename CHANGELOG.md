@@ -1,5 +1,12 @@
 # Gentics UI Core Changelog
 
+## 11.0.0-beta.2 (2022-12-01)
+
+### Fixes
+
+* Hide close UI element on toast when dismissOnClick is disabled (SUP-14476)
+* Fixed min/max value behavior on number input (SUP-12404)
+
 ## 7.10.3 (2021-02-04)
 
 ### Fixes
