@@ -1,8 +1,5 @@
 {
   "$schema": "./node_modules/@angular/cli/lib/config/schema.json",
-  "cli": {
-    "analytics": "cf0654bf-8cab-499a-9d12-97a0bb50a155"
-  },
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
@@ -13,14 +10,14 @@
       "prefix": "gtx",
       "architect": {
         "build": {
-          "builder": "@angular-devkit/build-ng-packagr:build",
+          "builder": "@angular-devkit/build-angular:ng-packagr",
           "options": {
             "tsConfig": "projects/gentics-ui-core/tsconfig.lib.json",
             "project": "projects/gentics-ui-core/ng-package.json"
           }
         },
         "test": {
-          "builder": "ngx-build-plus:karma",
+          "builder": "@angular-devkit/build-angular:karma",
           "options": {
             "main": "src/test.ts",
             "tsConfig": "projects/gentics-ui-core/tsconfig.spec.json",
@@ -41,14 +38,17 @@
       },
       "architect": {
         "build": {
-          "builder": "ngx-build-plus:browser",
+          "builder": "@angular-builders/custom-webpack:browser",
           "options": {
             "outputPath": "dist/docs",
             "index": "src/docs/index.html",
             "main": "src/docs/main.ts",
             "polyfills": "src/docs/polyfills.ts",
             "tsConfig": "projects/docs/tsconfig.app.json",
-            "extraWebpackConfig": "projects/docs/webpack.partial.js",
+            "customWebpackConfig": {
+              "path": "projects/docs/webpack.partial.js",
+              "replaceDuplicatePlugins": true
+            },
             "assets": [
               "src/docs/assets",
               { "glob": "**/*", "input": "../../node_modules/roboto-fontface-woff/fonts/roboto", "output": "./assets/fonts" },
@@ -90,20 +90,31 @@
                   "maximumError": "5mb"
                 }
               ]
+            },
+            "development": {
+              "buildOptimizer": false,
+              "optimization": false,
+              "vendorChunk": true,
+              "extractLicenses": false,
+              "sourceMap": true,
+              "namedChunks": true
             }
           }
         },
         "serve": {
-          "builder": "ngx-build-plus:dev-server",
+          "builder": "@angular-builders/custom-webpack:dev-server",
           "options": {
-            "browserTarget": "docs:build",
-            "extraWebpackConfig": "projects/docs/webpack.partial.js"
+            "browserTarget": "docs:build"
           },
           "configurations": {
             "production": {
               "browserTarget": "docs:build:production"
+            },
+            "development": {
+              "browserTarget": "docs:build:development"
             }
-          }
+          },
+          "defaultConfiguration": "development"
         },
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
@@ -112,7 +123,7 @@
           }
         },
         "test": {
-          "builder": "ngx-build-plus:karma",
+          "builder": "@angular-devkit/build-angular:karma",
           "options": {
             "main": "src/docs/test.ts",
             "polyfills": "src/docs/polyfills.ts",

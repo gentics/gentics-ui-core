@@ -19,7 +19,7 @@ import {ModalService} from '../modal/modal.service';
 import {DateTimePickerFormatProvider} from './date-time-picker-format-provider.service';
 import {DateTimePickerModal} from './date-time-picker-modal.component';
 import {DateTimePickerStrings} from './date-time-picker-strings';
-import {momentjs, Moment} from './momentjs-workaround';
+import {momentjs, Moment} from '../../common/momentjs.import';
 
 export {DateTimePickerStrings};
 

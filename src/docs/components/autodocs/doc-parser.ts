@@ -38,13 +38,17 @@ export interface IDocumentation {
     methods: DocBlock[];
 }
 
+export interface ISource {
+    default: string;
+}
+
 /**
  * Parse a source file and return HTML documentation to be
  * displayed directly in the page.
  */
-export function parseDocs(src: string, type: 'component' | 'service' = 'component'): IDocumentation {
+export function parseDocs(src: ISource, type: 'component' | 'service' = 'component'): IDocumentation {
     if (type === 'component') {
-        let blocks = parseComponentSource(src);
+        let blocks = parseComponentSource(src.default);
         let mainBlock = blocks.filter((d: DocBlock) => d.decorator === 'Component')[0];
         return {
             type,
@@ -55,7 +59,7 @@ export function parseDocs(src: string, type: 'component' | 'service' = 'componen
             methods: []
         };
     } else if (type === 'service') {
-        let blocks = parseServiceSource(src);
+        let blocks = parseServiceSource(src.default);
         let mainBlock = blocks.filter((d: DocBlock) => d.accessModifier as any === '@Injectable')[0];
         let publicBlocks = blocks.filter((d: DocBlock) => d.accessModifier === 'public');
         return {

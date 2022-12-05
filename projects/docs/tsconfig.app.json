@@ -11,7 +11,8 @@
     "preserveWhitespaces": true
   },
   "include": [
-    "../../src"
+    "../../src",
+    "../../src/docs/**/*.d.ts"
   ],
   "exclude": [
     "../../src/test.ts",

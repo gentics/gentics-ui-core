@@ -1,5 +1,16 @@
 # Gentics UI Core Changelog
 
+## 13.1.0 (2022-12-05)
+
+### Fixes
+
+* Hide close UI element on toast when dismissOnClick is disabled (SUP-14476)
+* Fixed min/max value behavior on number input (SUP-12404)
+* Fixed `DateTimePicker` and `DateTimePickerControls` rome dependency import which prevented the Date Picker controls to render (SUP-14476)
+### Changes
+
+* Upgraded drifting dependencies - especially Webpack 4 to Webpack 5
+
 ## 13.0.2 (2022-06-30)
 
 ### Features

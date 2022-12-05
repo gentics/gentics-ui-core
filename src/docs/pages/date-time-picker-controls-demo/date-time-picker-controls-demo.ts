@@ -9,7 +9,7 @@ const TWO_WEEKS_HENCE = Date.now() + TWO_WEEKS;
 })
 export class DateTimePickerControlsDemo {
     componentSource: string = require('!!raw-loader!../../../components/date-time-picker/date-time-picker-controls.component.ts');
-    demoProviderSource = (require('!!raw-loader!../date-time-picker-demo/demo-format-provider.ts') as string).split('\n').slice(3).join('\n');
+    demoProviderSource = (require('!!raw-loader!../date-time-picker-demo/demo-format-provider.ts')).default.split('\n').slice(3).join('\n');
     timestamp: number = Math.round(Date.now() / 1000);
     min = new Date(TWO_WEEKS_AGO);
     max = new Date(TWO_WEEKS_HENCE);

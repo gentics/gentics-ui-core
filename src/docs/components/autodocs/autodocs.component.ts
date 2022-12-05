@@ -1,5 +1,5 @@
 import {Component, Input, ElementRef} from '@angular/core';
-import {parseDocs, IDocumentation} from './doc-parser';
+import {parseDocs, IDocumentation, ISource} from './doc-parser';
 
 /**
  * Accepts a string of the component's source code, parses it and renders the
@@ -11,7 +11,7 @@ import {parseDocs, IDocumentation} from './doc-parser';
 })
 export class Autodocs {
 
-    @Input() source: string;
+    @Input() source: ISource;
     @Input() type: 'component' | 'service' = 'component';
 
     docs: IDocumentation;

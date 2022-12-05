@@ -11,5 +11,13 @@ module.exports = {
             VERSION: JSON.stringify(require('./../gentics-ui-core/package.json').version),
             LATESTBRANCH: latestBranch
         })
-    ]
+    ],
+    module: {
+        rules: [
+            {
+                test: /\.(ts)$/,
+                use: 'raw-loader',
+            }
+        ]
+    }
 }

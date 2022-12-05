@@ -17,10 +17,8 @@ import {coerceToBoolean} from '../../common/coerce-to-boolean';
 import {defaultStrings} from './date-time-picker-default-strings';
 import {DateTimePickerFormatProvider} from './date-time-picker-format-provider.service';
 import {DateTimePickerStrings} from './date-time-picker-strings';
-import { momentjs } from './momentjs-workaround';
-import { Moment } from 'moment';
-
-import * as rome from 'rome/src/rome.moment';
+import {momentjs, Moment} from '../../common/momentjs.import';
+import {rome} from '../../common/rome.import'; 
 
 // http://ecma-international.org/ecma-262/5.1/#sec-15.9.1.1
 const MAX_DATE_MILLISECONDS = 8640000000000000;
