@@ -124,7 +124,7 @@
     "karma-coverage-istanbul-reporter": "~3.0.3",
     "karma-jasmine": "^4.0.1",
     "karma-jasmine-html-reporter": "^1.5.4",
-    "marked": "^1.1.1",
+    "marked": "^4.0.10",
     "ng-packagr": "13.3.1",
     "node-sass-tilde-importer": "^1.0.2",
     "npm": "^8.11.0",
