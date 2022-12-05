@@ -1,6 +1,6 @@
 {
   "name": "gentics-ui-core",
-  "version": "13.0.2",
+  "version": "13.1.0",
   "license": "Apache-2.0",
   "dependencies": {
     "hammerjs": "~2.0.8",
