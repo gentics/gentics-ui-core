@@ -4,6 +4,7 @@ import {
     Component,
     EventEmitter,
     forwardRef,
+    HostListener,
     Input,
     OnDestroy,
     OnInit,
@@ -100,6 +101,11 @@ export class DateTimePicker implements ControlValueAccessor, OnInit, OnDestroy {
         this._displaySeconds = coerceToBoolean(val);
     }
 
+    /** Set to `true` to change mode of the date picker to `readOnly`. */
+    @Input() set readonly(val: any) {
+        this._readonly = coerceToBoolean(val);
+    }
+
     /** Fires when the "okay" button is clicked to close the picker. */
     @Output() change = new EventEmitter<number|null>();
 
@@ -109,7 +115,9 @@ export class DateTimePicker implements ControlValueAccessor, OnInit, OnDestroy {
     _clearable: boolean = false;
     _selectYear: boolean = false;
     _disabled: boolean = false;
+    _readonly: boolean = false;
     displayValue: string = '';
+    isReadOnly: boolean = false;
     /** @internal */
     private value: Moment;
 
@@ -209,6 +217,11 @@ export class DateTimePicker implements ControlValueAccessor, OnInit, OnDestroy {
         this.changeDetector.markForCheck();
     }
 
+    setReadOnlyState(readonly: boolean): void {
+        this.readonly = readonly;
+        this.changeDetector.markForCheck();
+    }
+
     /** Format date to a human-readable string for displaying in the component's input field. */
     updateDisplayValue(): void {
         if (!this.value) {
@@ -235,4 +248,14 @@ export class DateTimePicker implements ControlValueAccessor, OnInit, OnDestroy {
         this.changeDetector.markForCheck();
     }
 
+    // In some browsers, disabled elements don't fire mouse events, but bubble them up the DOM tree.
+    // To not trigger actions when the button is disabled, we need to prevent them manually.
+    @HostListener('click', ['$event'])
+    preventReadonlyClick(event: Event): void {
+        if (event &&  this.readonly) {
+            event.preventDefault();
+            event.stopImmediatePropagation();
+            event.stopPropagation();
+        }
+    }
 }

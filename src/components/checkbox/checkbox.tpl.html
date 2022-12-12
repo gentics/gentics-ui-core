@@ -4,7 +4,8 @@
            [attr.name]="name"
            [checked]="checkState === true"
            [indeterminate]="checkState === 'indeterminate'"
-           [disabled]="disabled"
+           [disabled]="disabled || readonly"
+           [readonly]="readonly"
            [required]="required"
            [value]="value"
 

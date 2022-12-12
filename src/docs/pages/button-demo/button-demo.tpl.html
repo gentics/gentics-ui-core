@@ -182,3 +182,17 @@
            '></gtx-highlighted-code>
     </div>
 </gtx-demo-block>
+
+<gtx-demo-block demoTitle="Readonly Check">
+    <div class="demo-result">
+        <gtx-checkbox [(ngModel)]="readonly" label="Button is readonly"></gtx-checkbox>
+        <p><gtx-button [readonly]="readonly">Button</gtx-button></p>
+        
+    </div>
+    <div class="demo-code">
+        <gtx-highlighted-code language="HTML" code='
+            <gtx-checkbox [(ngModel)]="readonly" label="Bottom checkbox is readonly"></gtx-checkbox>
+            <gtx-checkbox [(ngModel)]="booleanVariable" label="Example" [readonly]="readonly"></gtx-checkbox>
+           '></gtx-highlighted-code>
+    </div>
+</gtx-demo-block>

@@ -110,6 +110,10 @@ export class Checkbox implements ControlValueAccessor {
      * The value of the checkbox
      */
     @Input() value: any = '';
+    /**
+     * Sets the readonly state of the checkbox
+     */ 
+    @Input() readonly: boolean = false;
 
     /**
      * Blur event
@@ -195,6 +199,10 @@ export class Checkbox implements ControlValueAccessor {
     registerOnTouched(fn: Function): void { this.onTouched = fn; }
     setDisabledState(disabled: boolean): void {
         this.disabled = disabled;
+        this.changeDetector.markForCheck();
+    }
+    setReadOnlyState(readonly: boolean): void {
+        this.readonly = readonly;
         this.changeDetector.markForCheck();
     }
 
