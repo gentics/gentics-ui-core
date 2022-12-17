@@ -247,15 +247,4 @@ export class DateTimePicker implements ControlValueAccessor, OnInit, OnDestroy {
 
         this.changeDetector.markForCheck();
     }
-
-    // In some browsers, disabled elements don't fire mouse events, but bubble them up the DOM tree.
-    // To not trigger actions when the button is disabled, we need to prevent them manually.
-    @HostListener('click', ['$event'])
-    preventReadonlyClick(event: Event): void {
-        if (event &&  this.readonly) {
-            event.preventDefault();
-            event.stopImmediatePropagation();
-            event.stopPropagation();
-        }
-    }
 }
