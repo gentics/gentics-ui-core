@@ -229,7 +229,7 @@ export class DropdownList implements OnDestroy {
      * Open the dropdown contents in the correct position.
      */
     openDropdown(): void {
-        if (this._disabled) {
+        if (this._disabled || this._readonly) {
             return;
         }
         this.contentComponentRef = this.overlayHostView.createComponent(DropdownContentWrapper, null);

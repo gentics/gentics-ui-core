@@ -30,6 +30,8 @@ import {OverlayHostService} from '../overlay-host/overlay-host.service';
 import {DateTimePickerFormatProvider} from './date-time-picker-format-provider.service';
 import {DateTimePickerModal} from './date-time-picker-modal.component';
 import {DateTimePicker} from './date-time-picker.component';
+import { crossBrowserInitKeyboardEvent, KeyboardEventConfig } from '../../testing/keyboard-event';
+import { KeyCode } from '../../common/keycodes';
 
 const TEST_TIMESTAMP: number = 1457971763;
 
@@ -161,6 +163,12 @@ describe('DateTimePicker:', () => {
 
     describe('input display:', () => {
 
+        function dispatchKeyboardEvent(keyCode: number, element: HTMLElement, options?: KeyboardEventConfig): void {
+            let mergedOptions = Object.assign({ keyCode, bubbles: true }, options);
+            let event  = crossBrowserInitKeyboardEvent('keypress', mergedOptions);
+            element.dispatchEvent(event);
+        }
+
         function inputValue(fixture: ComponentFixture<TestComponent>): string {
             fixture.detectChanges();
             return fixture.nativeElement.querySelector('input').value.trim();
@@ -273,6 +281,35 @@ describe('DateTimePicker:', () => {
                     fixture.detectChanges();
 
                     expect(testComponent.onClear).toHaveBeenCalled();
+                }
+            )
+        );
+
+        it('does not emit "clear" and "change" when the date picker is readonly',
+            componentTest(() => TestComponent, `
+                <gtx-date-time-picker clearable [readonly]="true" (clear)="onClear($event)" (change)="onChange($event)" timestamp="${TEST_TIMESTAMP}">
+                </gtx-date-time-picker>`,
+                (fixture, testComponent) => {
+                    fixture.detectChanges();
+                    tick();
+
+                    expect(testComponent.onClear).not.toHaveBeenCalled();
+
+                    const clearButton = fixture.debugElement.query(By.css('gtx-button'));
+                    clearButton.triggerEventHandler('click', document.createEvent('Event'));
+                    fixture.detectChanges();
+
+                    expect(testComponent.onClear).toHaveBeenCalledTimes(0);
+
+                    const input = fixture.debugElement.query(By.css('gtx-input'));
+                    input.triggerEventHandler('click', document.createEvent('Event'));
+                    fixture.detectChanges();
+
+                    expect(testComponent.onChange).toHaveBeenCalledTimes(0);
+
+                    dispatchKeyboardEvent(KeyCode.Enter, input.nativeElement)
+
+                    expect(testComponent.onChange).toHaveBeenCalledTimes(0);
                 }
             )
         );

@@ -11,6 +11,7 @@ import {
 } from '@angular/core';
 import {ControlValueAccessor, NG_VALUE_ACCESSOR} from '@angular/forms';
 import {KeyCode} from '../../common/keycodes';
+import { coerceToBoolean } from '../../common/coerce-to-boolean';
 
 export type CheckState = boolean | 'indeterminate';
 
@@ -86,6 +87,14 @@ export class Checkbox implements ControlValueAccessor {
         }
     }
 
+    @Input()
+    get readonly(): boolean {
+        return this._readonly;
+    }
+    set readonly(value: boolean) {
+        this._readonly = coerceToBoolean(value);
+    }
+
     /**
      * Set the checkbox to its disabled state.
      */
@@ -110,10 +119,6 @@ export class Checkbox implements ControlValueAccessor {
      * The value of the checkbox
      */
     @Input() value: any = '';
-    /**
-     * Sets the readonly state of the checkbox
-     */ 
-    @Input() readonly: boolean = false;
 
     /**
      * Blur event
@@ -127,6 +132,8 @@ export class Checkbox implements ControlValueAccessor {
      * Change event
      */
     @Output() change = new EventEmitter<CheckState>();
+
+    _readonly: boolean = false;
 
     checkState: CheckState = false;
     tabbedFocus: boolean = false;
@@ -173,6 +180,10 @@ export class Checkbox implements ControlValueAccessor {
 
     ngAfterViewInit(): void {
         this.fixInitialAnimation();
+    }
+
+    onClick(): boolean {
+        return !this.readonly;
     }
 
     onInputChanged(e: Event, input: HTMLInputElement): boolean {

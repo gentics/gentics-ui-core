@@ -158,7 +158,7 @@ export class DateTimePicker implements ControlValueAccessor, OnInit, OnDestroy {
     }
 
     handleEnterKey(event: KeyboardEvent): void {
-        if (event.keyCode === 13 && !this._disabled) {
+        if (event.keyCode === 13 && !this._disabled && !this._readonly) {
             this.showModal();
         }
     }

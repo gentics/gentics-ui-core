@@ -4,15 +4,14 @@
            [attr.name]="name"
            [checked]="checkState === true"
            [indeterminate]="checkState === 'indeterminate'"
-           [disabled]="disabled || readonly"
-           [readonly]="readonly"
+           [disabled]="disabled"
            [required]="required"
            [value]="value"
 
            (blur)="onBlur()"
            (focus)="onFocus()"
            (change)="onInputChanged($event, input)"
-
+           (click)="onClick()"
            [class.tabbed]="tabbedFocus"
 
            #input

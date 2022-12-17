@@ -114,13 +114,16 @@
 
 <gtx-demo-block demoTitle="Read Only">
     <div class="demo-result">
-        <gtx-date-time-picker [timestamp]="timestamp" readonly="true" format="Do MMM YY @ h:mm a"></gtx-date-time-picker>
+        <gtx-checkbox [(ngModel)]="readonly" label="DateTimePicker is readonly"></gtx-checkbox>
+    </div>
+    <div class="demo-result">
+        <gtx-date-time-picker [timestamp]="timestamp" [readonly]="readonly" format="Do MMM YY @ h:mm a"></gtx-date-time-picker>
     </div>
     <div class="demo-code">
         <gtx-highlighted-code language="HTML" code='
                 <gtx-date-time-picker
                     [timestamp]="timestamp"
-                    readonly="true"
+                    readonly="readonly"
                     format="Do MMM YY @ h:mm a">
                 </gtx-date-time-picker>
         '></gtx-highlighted-code>
