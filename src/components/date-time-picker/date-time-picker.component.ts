@@ -4,7 +4,6 @@ import {
     Component,
     EventEmitter,
     forwardRef,
-    HostListener,
     Input,
     OnDestroy,
     OnInit,
@@ -247,4 +246,5 @@ export class DateTimePicker implements ControlValueAccessor, OnInit, OnDestroy {
 
         this.changeDetector.markForCheck();
     }
+
 }
