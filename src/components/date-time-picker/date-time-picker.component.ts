@@ -100,6 +100,11 @@ export class DateTimePicker implements ControlValueAccessor, OnInit, OnDestroy {
         this._displaySeconds = coerceToBoolean(val);
     }
 
+    /** Set to `true` to change mode of the date picker to `readOnly`. */
+    @Input() set readonly(val: any) {
+        this._readonly = coerceToBoolean(val);
+    }
+
     /** Fires when the "okay" button is clicked to close the picker. */
     @Output() change = new EventEmitter<number|null>();
 
@@ -109,6 +114,7 @@ export class DateTimePicker implements ControlValueAccessor, OnInit, OnDestroy {
     _clearable: boolean = false;
     _selectYear: boolean = false;
     _disabled: boolean = false;
+    _readonly: boolean = false;
     displayValue: string = '';
     /** @internal */
     private value: Moment;
@@ -150,7 +156,7 @@ export class DateTimePicker implements ControlValueAccessor, OnInit, OnDestroy {
     }
 
     handleEnterKey(event: KeyboardEvent): void {
-        if (event.keyCode === 13 && !this._disabled) {
+        if (event.keyCode === 13 && !this._disabled && !this._readonly) {
             this.showModal();
         }
     }
@@ -206,6 +212,11 @@ export class DateTimePicker implements ControlValueAccessor, OnInit, OnDestroy {
 
     setDisabledState(disabled: boolean): void {
         this.disabled = disabled;
+        this.changeDetector.markForCheck();
+    }
+
+    setReadOnlyState(readonly: boolean): void {
+        this.readonly = readonly;
         this.changeDetector.markForCheck();
     }
 

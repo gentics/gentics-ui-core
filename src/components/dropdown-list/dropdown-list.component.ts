@@ -85,6 +85,7 @@ export class DropdownList implements OnDestroy {
     @Output() close = new EventEmitter<void>();
 
     private _disabled: boolean = false;
+    private _readonly: boolean = false;
     private overlayHostView: ViewContainerRef;
     private scrollMaskFactory: ScrollMask;
     private scrollMaskRef: ComponentRef<ScrollMask>;
@@ -164,6 +165,17 @@ export class DropdownList implements OnDestroy {
         this._disabled = coerceToBoolean(val);
     }
 
+    /**
+     * If true, the dropdown will be in readonly mode.
+     */
+    @Input()
+    get readonly(): boolean {
+        return this._readonly;
+    }
+    set readonly(value: any) {
+        this._readonly = coerceToBoolean(value);
+    }
+
     get isOpen(): boolean {
         return !!this.contentComponentRef;
     }
@@ -217,7 +229,7 @@ export class DropdownList implements OnDestroy {
      * Open the dropdown contents in the correct position.
      */
     openDropdown(): void {
-        if (this._disabled) {
+        if (this._disabled || this._readonly) {
             return;
         }
         this.contentComponentRef = this.overlayHostView.createComponent(DropdownContentWrapper, null);

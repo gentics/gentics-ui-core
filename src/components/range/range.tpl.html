@@ -6,21 +6,21 @@
            [attr.name]="name"
            [required]="required"
            [attr.step]="step"
-
            [attr.id]="id"
 
            (blur)="onBlur($event)"
            (change)="onChangeEvent($event)"
            (focus)="onFocus($event)"
            (input)="onInput($event)"
-           (mousedown)="onMousedown($event)"
-           (mouseup)="onMouseup()"
+           (mousedown)="!readonly && onMousedown($event)"
+           (mouseup)="!readonly && onMouseup()"
            (mousemove)="onMousemove($event)"
 
            #input
     >
     <span class="thumb"
           [class.hidden]="!thumbLabel"
+          [class.readonly]="readonly"
           [class.active]="active"
           [style.left]="thumbLeft">
         <span class="value">{{ currentValue }}</span>

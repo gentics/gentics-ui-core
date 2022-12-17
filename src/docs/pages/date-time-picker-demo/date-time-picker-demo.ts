@@ -10,4 +10,5 @@ export class DateTimePickerDemo {
     demoProviderSource = (require('!!raw-loader!./demo-format-provider.ts')).default.split('\n').slice(3).join('\n');
 
     timestamp: number = 1457971763;
+    readonly: boolean = false;
 }

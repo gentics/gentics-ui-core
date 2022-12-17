@@ -72,6 +72,17 @@ export class Range implements ControlValueAccessor {
     @Input() id: string;
 
     /**
+    * Sets the readonly state.
+    */
+    @Input()
+    get readonly(): boolean {
+        return this._readonly;
+    }
+    set readonly(value: any) {
+        this._readonly = coerceToBoolean(value);
+    }
+
+    /**
      * Set to false to not show the thumb label. Defaults to true.
      */
     @Input()
@@ -102,12 +113,13 @@ export class Range implements ControlValueAccessor {
     thumbLeft: string = '';
     currentValue: number;
     private showThumbLabel: boolean = true;
+    private _readonly: boolean = false;
 
 
     @ViewChild('input', { static: true }) private inputElement: ElementRef;
 
     private get canModify(): boolean {
-        return !this.disabled;
+        return !this.disabled && !this.readonly;
     }
 
     // ValueAccessor members
@@ -194,6 +206,11 @@ export class Range implements ControlValueAccessor {
 
     setDisabledState(disabled: boolean): void {
         this.disabled = disabled;
+        this.changeDetector.markForCheck();
+    }
+
+    setReadonlyState(readonly: boolean): void {
+        this.readonly = readonly;
         this.changeDetector.markForCheck();
     }
 

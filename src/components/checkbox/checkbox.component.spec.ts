@@ -128,6 +128,26 @@ describe('Checkbox', () => {
         )
     );
 
+    it('should not emit a single "change" when the checkbox is readonly',
+        componentTest(() => TestComponent, `
+            <gtx-checkbox readonly="true" (change)="onChange($event)">
+            </gtx-checkbox>`,
+            fixture => {
+                const nativeInput: HTMLInputElement = fixture.nativeElement.querySelector('input');
+                const instance: TestComponent = fixture.componentInstance;
+                fixture.detectChanges();
+                const spy = instance.onChange = jasmine.createSpy('onChange');
+
+                nativeInput.click();
+                tick();
+                fixture.detectChanges();
+
+                expect(instance.onChange).toHaveBeenCalledTimes(0);
+                expect(spy.calls.count()).toBe(0);
+            }
+        )
+    );
+
     it('should emit "blur" with current check state when the native input blurs',
         componentTest(() => TestComponent, `
             <gtx-checkbox

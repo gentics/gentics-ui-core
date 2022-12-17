@@ -79,6 +79,17 @@ export class Select implements ControlValueAccessor {
     }
 
     /**
+     * Sets the readonly state.
+     */
+    @Input()
+    get readonly(): boolean {
+        return this._readonly;
+    }
+    set readonly(value: any) {
+        this._readonly = coerceToBoolean(value);
+    }
+
+    /**
      * When set to true, allows multiple options to be selected. In this case, the input value should be
      * an array of strings; events will emit an array of strings.
      */
@@ -132,6 +143,7 @@ export class Select implements ControlValueAccessor {
 
     _clearable: boolean = false;
     _disabled: boolean = false;
+    _readonly: boolean = false;
     private preventDeselect: boolean = false;
     @ViewChild(DropdownList, { static: true }) private dropdownList: DropdownList;
     @ViewChild(DropdownContent, { static: true }) private dropdownContent: DropdownContent;
@@ -296,6 +308,11 @@ export class Select implements ControlValueAccessor {
 
     setDisabledState(isDisabled: boolean): void {
         this._disabled = isDisabled;
+        this.changeDetector.markForCheck();
+    }
+
+    setReadOnlyState(isReadOnly: boolean): void {
+        this._readonly = isReadOnly;
         this.changeDetector.markForCheck();
     }
 

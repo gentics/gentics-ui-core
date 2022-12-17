@@ -392,6 +392,23 @@ describe('Select:', () => {
             })
         );
 
+        it('does not open the dropdown when the it is readonly',
+            componentTest(() => TestComponent, `
+                <gtx-select readonly multiple="true" [value]="[value]" (change)="onChange($event)">
+                    <gtx-option *ngFor="let option of options" [value]="option">{{ option }}</gtx-option>
+                </gtx-select>
+                <gtx-overlay-host></gtx-overlay-host>`,
+                (fixture, instance) => {
+                    fixture.detectChanges();
+                    tick();
+                    clickSelectAndOpen(fixture);
+                    const listItems = getListItems(fixture);
+                    expect(listItems).toHaveSize(0);
+                    tick(1000);
+                }
+            )
+        );
+
         it('should open when space is pressed',
             componentTest(() => TestComponent, fixture => {
                 fixture.detectChanges();
