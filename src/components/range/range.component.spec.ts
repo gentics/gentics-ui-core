@@ -80,10 +80,10 @@ describe('Range:', () => {
                 tick();
                 expect(instance.onChange).toHaveBeenCalledTimes(0);
 
-                instance.onChange = jasmine.createSpy('onInput');
+                instance.onInput = jasmine.createSpy('onInput');
                 triggerInputEvent(nativeInput);
                 tick();
-                expect(instance.onChange).toHaveBeenCalledTimes(0);
+                expect(instance.onInput).toHaveBeenCalledTimes(0);
             }
         )
     );
@@ -371,6 +371,7 @@ class TestComponent {
     onBlur(...args: any[]): void {}
     onFocus(...args: any[]): void {}
     onChange(...args: any[]): void {}
+    onInput(...args: any[]): void {}
 }
 
 /**

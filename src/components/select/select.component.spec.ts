@@ -394,7 +394,7 @@ describe('Select:', () => {
 
         it('does not open the dropdown when the it is readonly',
             componentTest(() => TestComponent, `
-                <gtx-select multiple="true" [value]="[value]" (change)="onChange($event)" readonly="true">
+                <gtx-select readonly multiple="true" [value]="[value]" (change)="onChange($event)">
                     <gtx-option *ngFor="let option of options" [value]="option">{{ option }}</gtx-option>
                 </gtx-select>
                 <gtx-overlay-host></gtx-overlay-host>`,

@@ -87,11 +87,12 @@ export class Checkbox implements ControlValueAccessor {
         }
     }
 
+    /** Set to `true` to change mode of the checkbox to `readOnly`. */
     @Input()
     get readonly(): boolean {
         return this._readonly;
     }
-    set readonly(value: boolean) {
+    set readonly(value: any) {
         this._readonly = coerceToBoolean(value);
     }
 

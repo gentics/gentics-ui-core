@@ -116,7 +116,6 @@ export class DateTimePicker implements ControlValueAccessor, OnInit, OnDestroy {
     _disabled: boolean = false;
     _readonly: boolean = false;
     displayValue: string = '';
-    isReadOnly: boolean = false;
     /** @internal */
     private value: Moment;
 

@@ -85,7 +85,7 @@ export class Select implements ControlValueAccessor {
     get readonly(): boolean {
         return this._readonly;
     }
-    set readonly(value: boolean) {
+    set readonly(value: any) {
         this._readonly = coerceToBoolean(value);
     }
 
