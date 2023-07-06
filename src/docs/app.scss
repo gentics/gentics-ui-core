@@ -205,3 +205,24 @@ code, kbd, pre, samp {
         padding: 0 20px 50px 20px;
     }
 }
+
+.depreaction-notice {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    padding: 0.5rem;
+    background-color: lighten($gtx-color-warning, 30%);
+
+    .deprecation-badge {
+        width: 1.5rem;
+        padding: 0.75rem 1rem;
+        margin-bottom: auto;
+        flex: 0 0;
+        box-sizing: content-box;
+        display: block;
+    }
+
+    .deprecation-text {
+        flex: 1 1 auto;
+    }
+}
