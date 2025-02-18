@@ -1,5 +1,11 @@
 # Gentics UI Core
 
+> This Project has been moved to a [new Location](https://github.com/gentics/cms-oss/tree/dev/cms-ui/libs/ui-core) and isn't actively worked on in this Repository.
+>
+> This Repository is here for compatibility and for reference purposes for new projects already based on this Version.
+> 
+> It is highly encouraged to transition to the new Version, as this project is now read-only.
+
 This is the common core framework for the Gentics CMS and Mesh UI, and other Angular applications.
 
 Gentics UI Core 13.0.2 and up supports Angular 13.
