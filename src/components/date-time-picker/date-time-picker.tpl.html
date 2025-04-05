@@ -1,17 +1,17 @@
 <gtx-input [value]="displayValue"
            [label]="label"
-           (click)="!_disabled && showModal()"
+           (click)="!_disabled && !_readonly && showModal()"
            (keydown)="handleEnterKey($event)"
            (blur)="onTouched()"
            [disabled]="_disabled"
-           readonly="true"
+           [readonly]="true"
            [class.clearable]="_clearable"></gtx-input>
 <gtx-button icon
     class="clear-button"
     *ngIf="_clearable"
     type="secondary"
     [disabled]="_disabled"
-    (click)="!_disabled && clearDateTime()">
+    (click)="!_disabled && !_readonly && clearDateTime()">
     <icon>clear</icon>
 </gtx-button>
 

@@ -68,6 +68,26 @@ describe('Range:', () => {
         )
     );
 
+    it('does not update the value when readonly attribute is true',
+        componentTest (() => TestComponent, `
+            <gtx-range readonly="true" value="35" (change)="onChange($event)"
+            ></gtx-range>`,
+            (fixture, instance) => {
+                let nativeInput: HTMLInputElement = fixture.nativeElement.querySelector('input');
+                fixture.detectChanges();
+                instance.onChange = jasmine.createSpy('onChange');
+                triggerInputEvent(nativeInput);
+                tick();
+                expect(instance.onChange).toHaveBeenCalledTimes(0);
+
+                instance.onInput = jasmine.createSpy('onInput');
+                triggerInputEvent(nativeInput);
+                tick();
+                expect(instance.onInput).toHaveBeenCalledTimes(0);
+            }
+        )
+    );
+
     it('emits "blur" with the current value when its native input blurs',
         componentTest(() => TestComponent, `
             <gtx-range
@@ -351,6 +371,7 @@ class TestComponent {
     onBlur(...args: any[]): void {}
     onFocus(...args: any[]): void {}
     onChange(...args: any[]): void {}
+    onInput(...args: any[]): void {}
 }
 
 /**

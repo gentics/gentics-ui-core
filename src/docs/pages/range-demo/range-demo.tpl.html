@@ -69,3 +69,16 @@
     </div>
 </gtx-demo-block>
 
+<gtx-demo-block demoTitle="Read Only">
+    <div class="demo-result">
+        <gtx-checkbox [(ngModel)]="readonly" label="Bottom range is readonly"></gtx-checkbox>
+        <gtx-range [readonly]="readonly"></gtx-range>
+    </div>
+    <div class="demo-code">
+        <gtx-highlighted-code language="HTML" code='
+                <gtx-checkbox [(ngModel)]="readonly" label="Bottom range is readonly"></gtx-checkbox>
+                <gtx-range [readonly]="readonly"></gtx-range>
+        '></gtx-highlighted-code>
+    </div>
+</gtx-demo-block>
+
